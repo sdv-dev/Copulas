@@ -256,8 +256,11 @@ class Distribution(object):
 
         if self.name == 'categorical' or len(set(column)) == 1:
             self.name = 'categorical'
-
             self._set_categorical(column)
+        if self.name == 'kde':
+            self.name = 'kde'
+            self._set_kde(column)
+            print(self.args)
         else:
             self._find_and_set(column)
 
@@ -310,6 +313,8 @@ class Distribution(object):
 
         elif self.name == 'uniform':
             return (lower, upper-lower)
+        elif self.name == 'kde':
+            return stats.gaussian_kde(data)
 
     def fix_args(self, args):
         '''Fixes the args so that they are valid for the distribution this
@@ -346,9 +351,9 @@ class Distribution(object):
                 args[1] = self.args[1]
         # kernel density estimation has kernel type args[0] and bandwidth args[1]
         # which means that args[1] must be greater than 0
-        elif self.name == 'kernel':
-            if args[1] <= 0:
-                args[1] = self.args[1]
+        elif self.name == 'kde':
+            if args[0] is None:
+                args[0] = self.args[0]
 
         else:
             raise Exception('Unsupported distribution: ' + str(self.name))
@@ -409,10 +414,10 @@ class Distribution(object):
         elif self.name == 'kde':
             #fix this
             low_bounds = -10000
+            kde = args[0]
             # h = args[0]
             # kernel = args[1]
             def cdf(x,care=True):
-                kde = stats.gaussian_kde(x)
                 return kde.integrate_box(low_bounds, x)
             return cdf
 
@@ -504,6 +509,9 @@ class Distribution(object):
 
         self.cdf = self.get_cdf(self.args)
         self.ppf = self.get_ppf(self.args)
+
+    def _set_kde(self, column):
+        self.args = stats.gaussian_kde(column)
 
     def _find_and_set(self, column):
         p_val = -1
