@@ -5,7 +5,7 @@ def main(d):
     pass
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description ='Copula Model')
+    parser = argparse.ArgumentParser(description ='Copula Vine Model')
     parser.add_argument('data', help ='name of the casual dataset')
     parser.add_argument('-utype', action ='store',default ='kde',help='utype')
     parser.add_argument('-ctype', action ='store',default = 'gaussian',help='ctype')
