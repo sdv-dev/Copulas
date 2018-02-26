@@ -16,10 +16,10 @@ class CopulaException(Exception):
 class Copula(object):
     def __init__(self,U,V,theta=None,cname=None,dev=False):
         """Instantiates an instance of the copula object from a pandas dataframe
-        
+
         :param data: the data matrix X
         :param utype: the distribution for the univariate, can be 'kde','norm'
-        :param cname: the choice of copulas, can be 'clayton','gumbel','frank','gaussian'  
+        :param cname: the choice of copulas, can be 'clayton','gumbel','frank','gaussian'
 
         """
         self.U = U
@@ -29,6 +29,7 @@ class Copula(object):
         self.tau = scipy.stats.kendalltau(self.U, self.V)[0]
         if cname:
             self._get_parameter()
+            self.pdf = self._get_pdf()
             self.cdf = self._get_cdf()
         if dev:
             self.derivative=self._get_du()
@@ -47,17 +48,17 @@ class Copula(object):
 
     def _get_parameter(self):
         """ estimate the parameter (theta) of copula given tau
-        """        
-        
+        """
+
         if self.cname == 'clayton':
             if self.tau == 1:
                 self.theta = 10000
             else:
                 self.theta = 2*self.tau/(1-self.tau)
-            
+
         elif self.cname == 'frank':
             self.theta = -fmin(self._frank_help, -5, disp=False)[0]
-            
+
         elif self.cname == 'gumbel':
             if self.tau == 1:
                 self.theta = 10000
@@ -75,9 +76,57 @@ class Copula(object):
         diff = (1-self.tau)/4.0  - (debye(-alpha)-1)/alpha
         return np.power(diff,2)
 
+    def _get_pdf(self):
+        """compute density function for given copula family
+        """
+        if self.cname == 'clayton':
+            def pdf(U,V,theta):
+                if theta < 0:
+                    raise ValueError("Theta cannot be than 0 for clayton")
+                elif theta == 0:
+                    return np.multiply(U,V)
+                else:
+                    a = (theta+1)*np.power(np.multiply(U,V),-(theta+1))
+                    b = np.power(U,-theta)+np.power(V,-theta)-1
+                    c = -(2*theta+1)/theta
+                    density = a*np.power(b,c)
+                    return density
+            return pdf
+
+        elif self.cname =='frank':
+            def pdf(U,V,theta):
+                if theta < 0:
+                    raise ValueError("Theta cannot be less than 0 for Frank")
+                elif theta == 0:
+                    return np.multiply(U,V)
+                else:
+                    num = theta*(1-np.exp(-theta))*np.exp(-theta*(U+V))
+                    den = np.power((1.0-np.exp(-theta))-(1.0-np.exp(-theta*U)*(1.0-np.exp(-theta*V))),2)
+                    return num/den
+            return pdf
+
+        elif self.cname == 'gumbel':
+            def pdf(U,V,theta):
+                if theta < 1:
+                    raise ValueError("Theta cannot be less than 1 for Gumbel")
+                elif theta == 1:
+                    return np.multiply(U,V)
+                else:
+                    cdf = Copula(U,V,theta=theta,cname = 'gumbel').cdf(U,V,theta)
+                    a = np.power(np.multiply(U,V),-1)
+                    tmp = np.power(-np.log(U),theta)+np.power(-np.log(V),theta)
+                    b = np.power(tmp,-2+2.0/theta)
+                    c = np.power(np.multiply(np.log(U),np.log(V)),theta-1)
+                    d = 1+(theta-1)*np.power(tmp,-1.0/theta)
+                    return cdf*a*b*c*d
+            return pdf
+
+        else:
+            raise Exception('Unsupported distribution: ' + str(self.cname))
+
 
     def _get_cdf(self):
-        """Compute copula cdf
+        """Compute cdf function for given copula family
         """
         if self.cname == 'clayton':
             def cdf(U,V,theta):
@@ -122,7 +171,20 @@ class Copula(object):
 
         else:
             raise Exception('Unsupported distribution: ' + str(self.cname))
-            
+
+    def _get_ppf(self):
+        """compute the inverse of CDF for each copula function
+        """
+        if self.cname == 'clayton':
+            def ppf(u,v,theta):
+                return ppf
+        elif self.cname == 'frank':
+            def ppf(u,v,theta):
+                return ppf
+        elif self.cname == 'gumbel':
+            def ppf(u,v,theta):
+                return ppf
+
 
 
     def _get_du(self):
@@ -165,12 +227,12 @@ class Copula(object):
             return du
         else:
             raise Exception('Unsupported distribution: ' + str(self.cname))
-            
 
-    
+
+
     @staticmethod
     def compute_empirical(u,v):
-        """compute empirical distribution 
+        """compute empirical distribution
         """
         z_left,z_right=[],[]
         L,R=[],[]
@@ -217,14 +279,14 @@ class Copula(object):
         paramC = theta_c[bestC]
         return bestC,paramC
 
-       
+
 
 
 if __name__ == '__main__':
     #quick test
     c0 = Copula([0.1,0.2,0.3,0.4],[0.5,0.6,0.5,0.8],cname='clayton')
     # print(c0.cdf([0,0.1,0.2],[0,0.1,0.8],c0.theta))
-    
+
     c1 = Copula([0.1,0.2,0.3,0.4],[0.5,0.6,0.5,0.8],cname='frank')
     # print(c1.cdf([0,0.1,0.2],[0,0.1,0.2],c1.theta))
 
@@ -237,7 +299,7 @@ if __name__ == '__main__':
 
 
 
-                
+
 
 
 
