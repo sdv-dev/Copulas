@@ -9,8 +9,8 @@ class BVCopula:
 		""" Fits a model to the data and updates the parameters """
 		raise NotImplementedError
 
-	def infer(self, value):
-		""" Uses the model to infer the """
+	def infer(self, values):
+		""" Takes in subset of values and predicts the rest """
 		raise NotImplementedError
 
 	def get_pdf(self):
