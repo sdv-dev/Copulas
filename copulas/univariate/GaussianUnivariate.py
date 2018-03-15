@@ -1,14 +1,15 @@
-import UnivariateModel
 import numpy as np
 from scipy.stats import norm
+from univariate.UnivariateModel import UnivariateModel
 
-class GaussianUnivariate:
+class GaussianUnivariate(UnivariateModel):
 	""" Gaussian univariate model """
 
 	def __init__(self, column):
-		super(GaussianUnivariate, self).__init__()
+		super(GaussianUnivariate, self).__init__(column)
 		self.mean = 0
 		self.std = 1
+		self.fit()
 
 	def fit(self):
 		self.mean = np.mean(self.column)

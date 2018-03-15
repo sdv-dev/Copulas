@@ -1,13 +1,11 @@
 class MVCopula:
 	""" Abstract class for a multi-variate copula object """
 
-	def __init__(self, data):
+	def __init__(self):
 		""" initialize copula object """
-		self.data = data
-		self.pdf = None
-		self.cdf = None
+		pass
 
-	def fit(self):
+	def fit(self, data):
 		""" Fits a model to the data and updates the parameters """
 		raise NotImplementedError
 
