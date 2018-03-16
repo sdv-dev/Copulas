@@ -15,12 +15,12 @@ class MVCopula:
 
 	def get_pdf(self):
 		""" returns pdf of model """
-		return self.pdf
+		raise NotImplementedError
 
 	def get_cdf(self):
 		""" returns cdf of model """
-		return self.cdf
+		raise NotImplementedError
 
-	def sample(self):
+	def sample(self, num_rows=1):
 		""" returns a new data point generated from model """
 		raise NotImplementedError

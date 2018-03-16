@@ -12,13 +12,18 @@ class GaussianCopula(MVCopula):
 		self.distribs = {}
 		self.cov_matrix = None
 		self.data = None
+		self.means = None
+		self.pdf = None
+		self.cdf = None
+		self.ppf = None
 
 	def fit(self, data):
 		self.data = data
 		keys = data.keys()
 		for key in keys:
 			self.distribs[key] = GaussianUnivariate(data[key].as_matrix())
-		self.cov_matrix = self._get_covariance_matrix()
+		self.cov_matrix, self.means = self._get_covariance_matrix()
+		self.pdf = st.multivariate_normal.pdf
 
 	def _get_covariance_matrix(self):
 		res = self.data.copy()
@@ -27,14 +32,17 @@ class GaussianCopula(MVCopula):
 				x = self.data.loc[row,col]
 				distrib = self.distribs[col]
 				cdf = distrib.get_cdf(x)
-				res.loc[row, col] = distrib.inverse_cdf(cdf)
-		return np.cov(res.as_matrix())
+				res.loc[row, col] = distrib.inverse_cdf(cdf) # TODO: this should be self.ppf
+		means = [np.mean(res.iloc[:,i].as_matrix()) for i in range(res.shape[1])]
+		return (np.cov(res.as_matrix()), means)
+
+	def get_pdf(self, X):
+		return self.pdf(X, self.means, self.cov_matrix)
 
 	def sample(self, num_rows=1):
 		res = {}
-		means = [self.distribs[self.data.iloc[:,i].name].mean for i in range(self.data.shape[1])]
-		samples = np.random.multivariate_normal(means, self.cov_matrix, size=(num_rows,))
-		print(means)
+		# means = [self.distribs[self.data.iloc[:,i].name].mean for i in range(self.data.shape[1])]
+		samples = np.random.multivariate_normal(self.means, self.cov_matrix, size=(num_rows,))
 		print(samples)
 		# run through cdf and inverse cdf
 		for i in range(self.data.shape[1]):
