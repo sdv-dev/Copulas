@@ -5,6 +5,7 @@ import scipy
 import numpy as np
 from scipy.integrate import quad
 from scipy.optimize import fmin
+import scipy.optimize as optimize
 
 import utils
 
@@ -26,25 +27,17 @@ class Copula(object):
         self.V = V
         self.theta = theta
         self.cname = cname
-        self.tau = scipy.stats.kendalltau(self.U, self.V)[0]
         if cname:
-            self._get_parameter()
+            if not theta:
+                self.tau = scipy.stats.kendalltau(self.U, self.V)[0]
+                self._get_parameter()
             self.pdf = self._get_pdf()
             self.cdf = self._get_cdf()
+            self.ppf = self._get_ppf()
         if dev:
             self.derivative=self._get_du()
 
 
-
-    def density_gaussian(self,u):
-        """Compute density of gaussian copula
-        """
-        R = cholesky(self.param)
-        x = norm.ppf(u)
-        z = solve(R,x.T)
-        log_sqrt_det_rho = np.sum(np.log(np.diag(R)))
-        y = np.exp(-0.5 * np.sum( np.power(z.T,2) - np.power(x,2) , axis=1 ) - log_sqrt_det_rho)
-        return y
 
     def _get_parameter(self):
         """ estimate the parameter (theta) of copula given tau
@@ -66,16 +59,6 @@ class Copula(object):
                 self.theta = 1/(1-self.tau)
 
 
-
-    def _frank_help(self,alpha):
-        """compute first order debye function to estimate theta
-        """
-
-        debye = lambda t: t/(np.exp(t)-1)
-        debye_value = quad(debye, sys.float_info.epsilon, alpha)[0]/alpha
-        diff = (1-self.tau)/4.0  - (debye(-alpha)-1)/alpha
-        return np.power(diff,2)
-
     def _get_pdf(self):
         """compute density function for given copula family
         """
@@ -86,7 +69,7 @@ class Copula(object):
                 elif theta == 0:
                     return np.multiply(U,V)
                 else:
-                    a = (theta+1)*np.power(np.multiply(U,V),-(theta+1))
+                    a = (theta+1)*npx.power(np.multiply(U,V),-(theta+1))
                     b = np.power(U,-theta)+np.power(V,-theta)-1
                     c = -(2*theta+1)/theta
                     density = a*np.power(b,c)
@@ -135,8 +118,8 @@ class Copula(object):
                 elif theta == 0:
                     return np.multiply(U,V)
                 else:
-                    cdf=[np.power(np.power(U[i],-theta)+np.power(V[i],-theta)-1,-1.0/theta) if U[i]>0 else 0 for i in range(len(U))]
-                    return [max(x,0) for x in cdf]
+                    cdfs=[np.power(np.power(U[i],-theta)+np.power(V[i],-theta)-1,-1.0/theta) if U[i]>0 else 0 for i in range(len(U))]
+                    return [max(x,0) for x in cdfs]
             return cdf
 
         elif self.cname =='frank':
@@ -158,37 +141,59 @@ class Copula(object):
                 elif theta == 1:
                     return np.multiply(U,V)
                 else:
-                    cdfs=[]
-                    for i in range(len(U)):
-                        if U[i] == 0:
-                            cdfs.append(0)
-                        else:
-                            h = np.power(-np.log(U[i]),theta)+np.power(-np.log(V[i]),theta)
-                            h = -np.power(h,1.0/theta)
-                            cdfs.append(np.exp(h))
+                    h = np.power(-np.log(U),theta)+np.power(-np.log(V),theta)
+                    h = -np.power(h,1.0/theta)
+                    cdfs = np.exp(h)
                     return cdfs
             return cdf
 
         else:
             raise Exception('Unsupported distribution: ' + str(self.cname))
 
+
+
     def _get_ppf(self):
-        """compute the inverse of CDF for each copula function
+        """compute the inverse of conditional CDF C(u|v)^-1
+        Args:
+            y: value of C(u|v)
+            v : given value of v
         """
         if self.cname == 'clayton':
-            def ppf(u,v,theta):
-                return ppf
+            def ppf(y,v,theta):
+                if theta < 0:
+                    return v
+                else:
+                    a = np.power(y,theta/(-1-theta))
+                    b = np.power(v,theta)
+                    u = np.power((a+b-1)/b,-1/theta)
+                    return u
+            return ppf
         elif self.cname == 'frank':
-            def ppf(u,v,theta):
-                return ppf
+            def ppf(y,v,theta):
+                if theta < 0:
+                    return v
+                else:
+                    cop = Copula(1,1,theta,'frank',dev=True).derivative
+                    u = optimize.brentq(cop,0.0,1.0,args=(v,theta,y))
+                    return u
+            return ppf
         elif self.cname == 'gumbel':
-            def ppf(u,v,theta):
-                return ppf
+            def ppf(y,v,theta):
+                if theta == 1:
+                    return y
+                else:
+                    cop = Copula(1,1,theta,'gumbel',dev=True).derivative
+                    u = optimize.brentq(cop,0.0,1.0,args=(v,theta,y))
+                    return u
+            return ppf
+        else:
+            raise Exception('Unsupported distribution: ' + str(self.cname))
+
 
 
 
     def _get_du(self):
-        """Compute partial derivative of each copula function
+        """Compute partial derivative of each copula cdf function
         :param theta: single parameter of the Archimedean copula
         :param cname: name of the copula function
         """
@@ -197,33 +202,41 @@ class Copula(object):
                 if theta == 0:
                     return v
                 else:
-                    A = pow(u,theta)
-                    B = pow(u,-theta)-1
+                    A = np.power(u,theta)
+                    B = np.power(v,-theta)-1
                     h = 1+np.multiply(A,B)
-                    h = pow(h,(-1-theta)/theta)
+                    h = np.power(h,(-1-theta)/theta)
                     return h
             return du
 
         elif self.cname =='frank':
-            def du(u,v,theta):
+            def du(u,v,theta,y=None):
                 if theta == 0:
                     return v
                 else:
                     g = lambda theta,z:-1+np.exp(-np.dot(theta,z))
                     num = np.multiply(g(u,theta),g(v,theta))+g(v,theta)
                     den = np.multiply(g(u,theta),g(v,theta))+g(1,theta)
-                    return num/den
+                    result = num/den
+                    if y:
+                        result = result -y
+                    return result
             return du
 
         elif self.cname == 'gumbel':
-            def du(u,v,theta):
+            def du(u,v,theta,y=None):
                 if theta == 1:
                     return v
                 else:
-                    p1 = Copula(u,v,theta,'gumbel').cdf(u,v,theta)
-                    p2 = np.power(np.power(-np.log(u),theta)+np.power(-np.log(v),theta),-1+1.0/theta)
+                    t1 = np.power(-np.log(u),theta)
+                    t2 = np.power(-np.log(v),theta)
+                    p1 = np.exp(-np.power((t1+t2),1.0/theta))
+                    p2 = np.power(t1+t2,-1+1.0/theta)
                     p3 = np.power(-np.log(u),theta-1)
-                    return np.divide(np.multiply(np.multiply(p1,p2),p3),u)
+                    result = np.divide(np.multiply(np.multiply(p1,p2),p3),u)
+                    if y:
+                        result = result-y
+                    return result
             return du
         else:
             raise Exception('Unsupported distribution: ' + str(self.cname))
@@ -259,7 +272,7 @@ class Copula(object):
         gumbel_c = Copula(U,V,cname ='gumbel')
         theta_c = [clayton_c.theta,frank_c.theta,gumbel_c.theta]
         if clayton_c.tau <= 0:
-            bestC = 2
+            bestC = 1
             paramC = frank_c.theta
             return bestC,paramC
         z_left,L,z_right,R = Copula.compute_empirical(U,V)
@@ -274,10 +287,30 @@ class Copula(object):
         #compute L2 distance from empirical distribution
         cost_L =  [np.sum((L-l)**2) for l in left_dependence]
         cost_R =  [np.sum((R-r)**2) for r in right_dependence]
-        cost_LR =  cost_L+cost_R
+        cost_LR =  np.add(cost_L,cost_R)
         bestC = np.argmax(cost_LR)
         paramC = theta_c[bestC]
         return bestC,paramC
+
+
+    def density_gaussian(self,u):
+        """Compute density of gaussian copula
+        """
+        R = cholesky(self.param)
+        x = norm.ppf(u)
+        z = solve(R,x.T)
+        log_sqrt_det_rho = np.sum(np.log(np.diag(R)))
+        y = np.exp(-0.5 * np.sum( np.power(z.T,2) - np.power(x,2) , axis=1 ) - log_sqrt_det_rho)
+        return y
+
+    def _frank_help(self,alpha):
+        """compute first order debye function to estimate theta
+        """
+        debye = lambda t: t/(np.exp(t)-1)
+        debye_value = quad(debye, sys.float_info.epsilon, alpha)[0]/alpha
+        diff = (1-self.tau)/4.0  - (debye(-alpha)-1)/alpha
+        return np.power(diff,2)
+
 
 
 

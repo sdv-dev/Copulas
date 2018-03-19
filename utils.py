@@ -4,7 +4,7 @@ import time
 
 import numpy as np
 import scipy.stats as stats
-from sklearn.neighbors.kde import KernelDensity
+import scipy.optimize as optimize
 
 
 ARGS_SEP = '@'
@@ -19,7 +19,7 @@ class SDVException(Exception):
 def add_noise(cov):
     '''Add noise to the covariance matrix by dividing all of
        the off-diagonal elements by 2.0. This means that
-       they are less dependent of each other 
+       they are less dependent of each other
 
     :param cov: the covariance matrix
     :type cov: array
@@ -210,6 +210,9 @@ class Distribution(object):
         if summary is None and column is not None:
             self._infer_distribution(column)
         elif summary is not None:
+            if summary['values'] is None:
+                self.name = 'kde'
+                summary['values'] = self.estimate_args(column)
             self._recover_distribution(summary)
         else:
             raise Exception('Distribution expects either column or summary')
@@ -228,7 +231,6 @@ class Distribution(object):
 
         if summary['name'] == 'categorical':
             self.cats = summary['cats']
-
         self.args = summary['values']
         self.cdf = self.get_cdf(self.args)
         self.ppf = self.get_ppf(self.args)
@@ -258,9 +260,7 @@ class Distribution(object):
             self.name = 'categorical'
             self._set_categorical(column)
         if self.name == 'kde':
-            self.name = 'kde'
             self._set_kde(column)
-            print(self.args)
         else:
             self._find_and_set(column)
 
@@ -414,11 +414,11 @@ class Distribution(object):
         elif self.name == 'kde':
             #fix this
             low_bounds = -10000
-            kde = args[0]
+            kde = self.args
             # h = args[0]
             # kernel = args[1]
-            def cdf(x,care=True):
-                return kde.integrate_box(low_bounds, x)
+            def cdf(x,u=0,care=True):
+                return kde.integrate_box(low_bounds, x)-u
             return cdf
 
 
@@ -468,7 +468,11 @@ class Distribution(object):
             def ppf(u):
                 return stats.uniform.ppf(u, *args)
             return ppf
-
+        elif self.name == 'kde':
+            def ppf(u):
+                x = optimize.brentq(self.cdf,-100.0,100.0,args=(u))
+                return x
+            return ppf
         else:
             running_tot = np.cumsum(args)
 

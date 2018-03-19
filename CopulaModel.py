@@ -5,6 +5,12 @@ import scipy
 
 import utils
 import copula
+import warnings
+import scipy.optimize as optimize
+
+import matplotlib.pyplot as plt
+
+warnings.filterwarnings("ignore")
 
 class CopulaModel(object):
 	"""This class instantiates a Copula Model from a dataset.
@@ -26,7 +32,7 @@ class CopulaModel(object):
 	def __init__(self,data_path,utype,ctype,y_ind=None,meta_path=None):
 		self.data_path = data_path
 		self.meta_path = meta_path
-		self.model_data = pd.read_csv(data_path, sep=',', index_col=False,
+		self.model_data = pd.read_csv(data_path,sep=',', index_col=False,
 			na_values=['NaN', 'nan', 'NULL', 'null'], low_memory=False)
 		self.u_type = utype
 		self.c_type = ctype
@@ -37,11 +43,12 @@ class CopulaModel(object):
 		print 'number of variables: %d'%(self.n_var)
 
 		#transform copulas into its univariate
-		self.cdfs,self.ppfs,self.u_matrix= self._preprocessing(self.model_data)
+		self.cdfs,self.u_matrix,self.ppfs= self._preprocessing(self.model_data)
 		self.V = self.u_matrix[:,self.y_ind]
 		self.U = np.delete(self.u_matrix, self.y_ind, axis=1)
 		#information about the copula model
 		self.tau_mat = self.model_data.corr(method='kendall').as_matrix()
+		print(self.tau_mat)
 		self.model = None
 		self.param = None
 		self._fit_model()
@@ -63,15 +70,17 @@ class CopulaModel(object):
 		unis = np.empty([data.shape[0],data.shape[1]])
 		count = 0
 		for col in data:
-			dist = utils.Distribution(column=data[col].values)
-			dist.name=self.u_type
+			# noise = np.random.normal(0,0.01,self.n_sample)
+			# data[col]=data[col].astype('float32')
+			# perturbed = noise+data[col].values
+			dist = utils.Distribution(column=data[col],summary={'name':'kde','values':None})
+			# dist.name=self.u_type
 			cdf = dist.cdf
 			ppf = dist.ppf
 			cdfs.append(cdf)
-			ppfs.append(ppf)
 			unis[:,count]=[cdf(x) for x in list(data[col].values)]
 			count+=1
-		return cdfs,ppfs,unis
+		return cdfs,unis,ppfs
 
 
 	def _fit_model(self):
@@ -86,18 +95,18 @@ class CopulaModel(object):
 				cop = Copula(self.V,self.U,cname=self.c_type)
 				self.param = cop.theta
 		elif self.c_type == 'cvine':
-			vine = Vine(self.c_type,self.u_matrix,self.tau_mat,self.y_ind)
+			vine = Vine(self.c_type,self.u_matrix,self.tau_mat,self.ppfs,self.y_ind)
 			self.model = vine
 			self.param = vine.vine_model
 		elif self.c_type == 'dvine':
-			vine = Vine(self.c_type,self.u_matrix,self.tau_mat,self.y_ind)
+			vine = Vine(self.c_type,self.u_matrix,self.tau_mat,self.ppfs,self.y_ind)
 			self.model = vine
 			self.param = vine.vine_model
 		else:
 			raise Exception('Unsupported model type: ' + str(self.c_type))
 
 
-	def predict(self,test_path):
+	def infer(self,test_path):
 		"""predict with the copula model
 		Args:
 			test_data:path for the test_data file
@@ -109,6 +118,21 @@ class CopulaModel(object):
 		if 'vine' in self.c_type:
 			vhat = self.model._max_likelihood(u_test)
 			print(vhat)
+		return vhat
+
+
+	def sampling(self,n,plot=False):
+		sampled = np.zeros([n,self.n_var])
+		if 'vine' in self.c_type:
+			for i in range(n):
+				sampled[i,:]=self.model._sampling(n)
+		if plot:
+			plt.scatter(sampled[:,0],sampled[:,1],c='red')
+			print(sampled)
+			plt.scatter(self.model_data.ix[:, 0],self.model_data.ix[:, 1],c='green')
+			plt.show()
+
+
 
 
 
@@ -133,7 +157,7 @@ class Vine(object):
 		vine_model: array [level of tree] -> [tree]
 	"""
 
-	def __init__(self,c_type,u_mat,tau_mat,y_ind):
+	def __init__(self,c_type,u_mat,tau_mat,ppf,y_ind):
 
 		self.c_type = c_type
 		self.u_matrix= u_mat
@@ -146,6 +170,7 @@ class Vine(object):
 		self.c_map = {0:'clayton', 1:'frank', 2:'gumbel'}
 
 		self.vine_model=[]
+		self.ppfs = ppf
 		self.train_vine()
 
 
@@ -232,12 +257,6 @@ class Vine(object):
 
 
 
-
-
-
-
-
-
 	def _get_adjacent_matrix(self):
 		"""Build adjacency matrix from the first tree
 		"""
@@ -252,10 +271,11 @@ class Vine(object):
 
 
 
-	def sampling(self):
+	def _sampling(self,n):
 		first_tree = self.vine_model[0].tree_data
 		"""generating samples from vine model"""
 		unis = np.random.uniform(0,1,self.n_var)
+		print(first_tree)
 		#randomly select a node to start with
 		first_ind = randint(0,self.n_var-1)
 		adj = self._get_adjacent_matrix()
@@ -263,19 +283,38 @@ class Vine(object):
 		explore = []
 		explore.insert(0,first_ind)
 		itr = 0
+		sampled = []
 		while explore:
-			print("new iter with index")
 			current = explore.pop(0)
+			print 'processing variable : %d'%(current)
 			neighbors = np.where(adj[current,:]==1)[0].tolist()
 
-			x = self.ppfs[current](unis[current])
+			# print(x)
+			# ppfs = self.ppfs[current]
+			new_x = self.ppfs[current](unis[current])
 			for i in range(itr):
+				# print 'inside loop number: %d'%(i)
 				u_mat = self.vine_model[i].new_U
 				last = visited[:i+1]
 				#get index of edge to retrieve
-				copula_type = self.vine_model[i].tree_data[:,4]
-				copula_para =  self.vine_model[i].tree_data[:,5]
-				x = x*u_mat[current,visited[0]]
+				current_ind = np.where(self.vine_model[i].tree_data[:,1]==current or self.vine_model[i].tree_data[:,2])[0].tolist()[0]
+				copula_type = self.vine_model[i].tree_data[current_ind,4]
+				copula_para =  self.vine_model[i].tree_data[current_ind,5]
+				print(copula_type)
+				print(copula_para)
+				cop = copula.Copula(1,1,theta=-1.1362,cname=self.c_map[copula_type],dev=True)
+				tmp = optimize.brentq(cop.derivative,-1000.0,1000.0,args=(sampled[-1],-1.1362,unis[current]))
+				print(tmp)
+				# new_x = cop.ppf(unis[itr],u_mat[current,last[-1]],copula_para)
+				# tmp = cop.ppf(unis[current],sampled[-1],copula_para)
+				# tmp = cop.ppf(unis[current],unis[visited[0]],copula_para)
+				new_x = self.ppfs[current](tmp)
+				# ppfs = ppfs*cop.ppf
+				# print(new_x)
+				# x = x*new_x
+			# x = ppfs(u[current])
+			# x = self.ppfs[current](new_x)
+			sampled.append(new_x)
 			for s in neighbors:
 				if s in visited:
 					continue
@@ -283,8 +322,7 @@ class Vine(object):
 					explore.insert(0,s)
 			itr+=1
 			visited.insert(0,current)
-
-
+		return sampled
 
 
 
@@ -393,6 +431,7 @@ class Tree():
 				self.tree_data[k,0]=k
 				self.tree_data[k,1],self.tree_data[k,2]=T1[k],T1[k+1]
 				self.tree_data[k,3]=tau_T1[k]
+				# print(self.vine.u_matrix)
 				'''Select copula function based on upper and lower tail functions'''
 				# print(Copula.select_copula(self.u_matrix[:,T1[k]],self.u_matrix[:,T1[k+1]]))
 				cop = copula.Copula(self.vine.u_matrix[:,T1[k]],self.vine.u_matrix[:,T1[k+1]])
@@ -523,8 +562,8 @@ class Tree():
 			first.append(str(int(tree_1[-1,2])))
 			s=''
 			if self.level == 1:
-				s =''.join(first)
-				s = '---'.join(s)
+				# s =''.join(first)
+				s = '---'.join(first)
 			elif self.level == 2:
 				for k in range(self.tree_data.shape[0]+1):
 					s+=first[k]+','+first[k+self.level-1]+'---'
@@ -545,8 +584,10 @@ class Tree():
 
 
 if __name__ == '__main__':
-	model = CopulaModel('test_1.csv','kde','dvine')
-	model.predict('test_2.csv')
+	model = CopulaModel('test_2.csv','kde','dvine')
+	print(model.model.vine_model[0].tree_data)
+	# model.sampling(200,plot=True)
+	# model.predict('test_2.csv')
 
 
 
