@@ -27,12 +27,20 @@ class GaussianCopula(MVCopula):
 
 	def _get_covariance_matrix(self):
 		res = self.data.copy()
-		for row in range(self.data.shape[0]):
-			for col in self.data.keys():
-				x = self.data.loc[row,col]
-				distrib = self.distribs[col]
-				cdf = distrib.get_cdf(x)
-				res.loc[row, col] = distrib.inverse_cdf(cdf) # TODO: this should be self.ppf
+		# loops through columns and applies transformation
+		for col in self.data.keys():
+			X = self.data.loc[:,col]
+			distrib = self.distribs[col]
+			# get original distrib's cdf of the column
+			cdf = distrib.get_cdf(X)
+			# get inverse cdf using standard normal
+			res.loc[:,col] = st.norm.ppf(cdf)
+		# for row in range(self.data.shape[0]):
+		# 	for col in self.data.keys():
+		# 		x = self.data.loc[row,col]
+		# 		distrib = self.distribs[col]
+		# 		cdf = distrib.get_cdf(x)
+		# 		res.loc[row, col] = distrib.inverse_cdf(cdf) # TODO: this should be self.ppf
 		means = [np.mean(res.iloc[:,i].as_matrix()) for i in range(res.shape[1])]
 		return (np.cov(res.as_matrix()), means)
 
@@ -42,13 +50,15 @@ class GaussianCopula(MVCopula):
 	def sample(self, num_rows=1):
 		res = {}
 		# means = [self.distribs[self.data.iloc[:,i].name].mean for i in range(self.data.shape[1])]
+		means = [0.0]*len(self.cov_matrix)
 		samples = np.random.multivariate_normal(self.means, self.cov_matrix, size=(num_rows,))
-		print(samples)
 		# run through cdf and inverse cdf
 		for i in range(self.data.shape[1]):
 			label = self.data.iloc[:,i].name
 			distrib = self.distribs[label]
-			res[label] = distrib.get_cdf(samples[:,i])
+			# use standard normal's cdf
+			res[label] = st.norm.cdf(samples[:,i])
+			# use original distributions inverse cdf
 			res[label] = distrib.inverse_cdf(res[label])
 		return pd.DataFrame(data=res)
 
@@ -69,5 +79,5 @@ if __name__ == '__main__':
 	data = pd.read_csv('example.csv')
 	gc = GaussianCopula()
 	gc.fit(data)
-	print(gc.sample(num_rows = 2))
+	print(gc.sample(num_rows = 1))
 	print(gc.cov_matrix)
