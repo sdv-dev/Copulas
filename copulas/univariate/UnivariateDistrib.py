@@ -1,8 +1,8 @@
-class UnivariateModel:
-	""" Abstract class for representing univariate models """
+class UnivariateDistrib:
+	""" Abstract class for representing univariate distributions """
 
-	def __init__(self, column):
-		self.column = column
+	def __init__(self):
+		pass
 
 	def fit(self):
 		""" fits a univariate model and updates parameters """

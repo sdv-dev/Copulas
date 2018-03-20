@@ -1,19 +1,24 @@
 import numpy as np
 from scipy.stats import norm
-from univariate.UnivariateModel import UnivariateModel
+from copulas.univariate.UnivariateDistrib import UnivariateDistrib
 
-class GaussianUnivariate(UnivariateModel):
+class GaussianUnivariate(UnivariateDistrib):
 	""" Gaussian univariate model """
 
-	def __init__(self, column):
-		super(GaussianUnivariate, self).__init__(column)
+	def __init__(self):
+		super(GaussianUnivariate, self).__init__()
+		self.column = None
 		self.mean = 0
 		self.std = 1
-		self.fit()
+		self.min = -np.inf
+		self.max = np.inf
 
-	def fit(self):
-		self.mean = np.mean(self.column)
-		self.std = np.std(self.column)
+	def fit(self, column):
+		self.column = column
+		self.mean = np.mean(column)
+		self.std = np.std(column)
+		self.max = max(column)
+		self.min = min(column)
 
 	def get_pdf(self, x):
 		return norm.pdf(x, loc=self.mean, scale=self.std)
