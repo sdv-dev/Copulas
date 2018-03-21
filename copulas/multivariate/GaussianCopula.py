@@ -64,10 +64,8 @@ class GaussianCopula(MVCopula):
 
     def sample(self, num_rows=1):
         res = {}
-        n = self.data.shape[1]
-        d = self.distribs
-        means = [d[self.data.iloc[:, i].name].mean for i in range(n)]
-        # means = [0.0]*len(self.cov_matrix)
+        cov = self.cov_matrix
+        means = [np.mean(cov[:, i]) for i in range(len(cov))]
         s = (num_rows,)
         samples = np.random.multivariate_normal(means, self.cov_matrix, size=s)
         print(samples)
