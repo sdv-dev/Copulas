@@ -1,12 +1,18 @@
-from copulas.multivariate.GaussianCopula import GaussianCopula
-import pandas as pd
-import numpy as np
+import argparse
+
+
+def main(d):
+    pass
 
 if __name__ == '__main__':
-	data = pd.read_csv('data/iris.data.csv')
-	gc = GaussianCopula()
-	gc.fit(data)
-	print(gc.sample(num_rows = 1))
-	print(gc.cov_matrix)
-	# print(gc.get_pdf(np.array([1,5,9])))
-	# print(gc.get_cdf([2, 5, 8]))
+    parser = argparse.ArgumentParser(description ='Copula Vine Model')
+    parser.add_argument('data', help ='name of the casual dataset')
+    parser.add_argument('-utype', action ='store',default ='kde',help='utype')
+    parser.add_argument('-ctype', action ='store',default = 'gaussian',help='ctype')
+    # parser.add_argument('-cname', action ='store',default = 'clayton',help ='cname')
+
+    args = parser.parse_args()
+
+    d = Copula(args.data,args.utype,args.ctype)
+    
+
