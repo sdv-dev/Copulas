@@ -1,0 +1,3 @@
+[console_scripts]
+copulas = copulas.cli:main
+

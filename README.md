@@ -1,5 +1,13 @@
 # Copula Library
 A python library for building different types of copulas and using them for sampling.
+
+- Free software: MIT license
+- Documentation: https://DAI-Lab.github.io/copulas
+
+[travis-img]: https://travis-ci.org/DAI-Lab/copulas.svg?branch=master
+[travis-url]: https://travis-ci.org/DAI-Lab/copulas
+[pypi-img]: https://img.shields.io/pypi/v/copulas.svg
+[pypi-url]: https://pypi.python.org/pypi/copulas
 ## Installation
 You can create a virtual environment and install the dependencies using the following commands.
 ```bash
@@ -8,7 +16,7 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 ## Usage
-In this library you can model univariatee distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
+In this library you can model univariate distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
 ###Creating Univariate Distribution
 First we will retrieve the data from the data folder and create a univariate distribution. For this example, we will create a normal distribution. First type the following commands into a python terminal.
 ```bash
