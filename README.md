@@ -1,3 +1,5 @@
+
+
 # Copula Library
 A python library for building different types of copulas and using them for sampling.
 
@@ -17,7 +19,7 @@ $ pip install -r requirements.txt
 ```
 ## Usage
 In this library you can model univariate distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
-###Creating Univariate Distribution
+### Creating Univariate Distribution
 First we will retrieve the data from the data folder and create a univariate distribution. For this example, we will create a normal distribution. First type the following commands into a python terminal.
 ```bash
 >>> from copulas.univariate.GaussianUnivariate import GaussianUnivariate
@@ -58,7 +60,7 @@ Once you fit the distribution, you can get the pdf or cdf of data points and you
 >>> gu.sample(1)
 array([ 6.14745446])
 ```
-###Creating a Gaussian Copula
+### Creating a Gaussian Copula
 When you have a numeric data table, you can also create a copula and use it to sample from the multivariate distribution. In this example, we will use a Gaussian Copula.
 ```bash
 >>> from copulas.multivariate.GaussianCopula import GaussianCopula
