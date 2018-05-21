@@ -2,11 +2,6 @@
 Credits
 =======
 
-Development Lead
-----------------
-
-* MIT Data To AI Lab <dailabmit@gmail.com>
-
 Contributors
 ------------
 
