@@ -1,5 +1,6 @@
-flake8==3.5.0
-numpy==1.13.1
-pandas==0.22.0
-pytest==3.5.1
-scipy==0.19.1
+numpy>=1.13.1
+pandas>=0.22.0
+scipy>=0.19.1
+Click>=6.0
+exrex>=0.10.5
+matplotlib>=2.2.2
