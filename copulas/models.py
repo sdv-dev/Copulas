@@ -1,16 +1,20 @@
+from __future__ import absolute_import
 from random import randint
 import numpy as np
 import pandas as pd
 import scipy
 
-import utils
-import copula
+
 import warnings
 import scipy.optimize as optimize
+
+from copulas import copulas
+from copulas import utils
 
 import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
+
 
 class CopulaModel(object):
 	"""This class instantiates a Copula Model from a dataset.
@@ -133,12 +137,6 @@ class CopulaModel(object):
 			plt.show()
 
 
-
-
-
-
-
-
 class Vine(object):
 	"""This class constructs a vine model consisting multiple levels of trees
 	Attributes:
@@ -173,7 +171,6 @@ class Vine(object):
 		self.ppfs = ppf
 		self.train_vine()
 
-
 	def train_vine(self):
 		"""Train a vine model
 		output: trees are stored in self.vine_model
@@ -197,9 +194,6 @@ class Vine(object):
 			tree_k.print_tree()
 
 			self.u_matrix = tree_k.new_U
-
-
-
 
 	def _get_constraints(self,tree):
 		"""Get constraints for next tree, where constraints for each node storing its neighboring nodes
@@ -231,7 +225,6 @@ class Vine(object):
 				tau[i,links[j]],pvalue = scipy.stats.kendalltau(self.u_matrix[ed1,ing],self.u_matrix[ed2,ing])
 		return tau
 
-
 	def _get_likelihood(self,V,U):
 		"""Compute total likelihood of the vine model
 		"""
@@ -245,8 +238,6 @@ class Vine(object):
 		likelihood = -1.0*np.sum(values)
 		return likelihood
 
-
-
 	def _max_likelihood(self,u_matrix):
 		print('Maximize likelihood')
 		vhat = np.empty([1,u_matrix.shape[0]])
@@ -254,8 +245,6 @@ class Vine(object):
 		for k in range(u_matrix.shape[0]):
 			vhat[0,k]=scipy.optimize.fminbound(self._get_likelihood,0,1,args=(u_matrix[k,:],),xtol=1e-3)
 		return vhat
-
-
 
 	def _get_adjacent_matrix(self):
 		"""Build adjacency matrix from the first tree
@@ -267,9 +256,6 @@ class Vine(object):
 			adj[int(first_tree[k,1]),int(first_tree[k,2])]=1
 			adj[int(first_tree[k,2]),int(first_tree[k,1])]=1
 		return adj
-
-
-
 
 	def _sampling(self,n):
 		first_tree = self.vine_model[0].tree_data
@@ -302,7 +288,7 @@ class Vine(object):
 				copula_para =  self.vine_model[i].tree_data[current_ind,5]
 				print(copula_type)
 				print(copula_para)
-				cop = copula.Copula(1,1,theta=-1.1362,cname=self.c_map[copula_type],dev=True)
+				cop = copulas.Copula(1,1,theta=-1.1362,cname=self.c_map[copula_type],dev=True)
 				tmp = optimize.brentq(cop.derivative,-1000.0,1000.0,args=(sampled[-1],-1.1362,unis[current]))
 				print(tmp)
 				# new_x = cop.ppf(unis[itr],u_mat[current,last[-1]],copula_para)
@@ -325,8 +311,6 @@ class Vine(object):
 		return sampled
 
 
-
-
 class Tree():
 	"""instantiate a single tree in the vine model
 	:param k: level of tree
@@ -339,7 +323,6 @@ class Tree():
 		# super(Tree,self).__init__(copula, y_ind)
 		self.level = k+1
 		self.vine = vine
-
 
 		'''For each node, tree stores position k, node index at k, node index at k+1,tau at k,tau_mat at k, tau_mat at k+1'''
 		if self.level ==1 :
@@ -357,7 +340,6 @@ class Tree():
 		# self.print_tree()
 		self.new_U = self._data4next_T(self.tree_data)
 
-
 	def identify_eds_ing(self,e1,e2):
 		"""find nodes connecting adjacent edges
 		:param e1: pair of nodes representing edge1
@@ -374,9 +356,6 @@ class Tree():
 		elif e1[1]==e2[1]:
 			ing,n1,n2 = e1[1],e1[0],e2[0]
 		return int(n1),int(n2),int(ing)
-
-
-
 
 	def _build_first_tree(self):
 		"""build the first tree with n-1 variable
@@ -400,7 +379,7 @@ class Tree():
 			self.tree_data[:,2] = np.delete(tau_sorted[:,0],-1,0)
 			self.tree_data[:,3] = np.delete(tau_sorted[:,1],-1,0)
 			for k in xrange(self.n_nodes-1):
-				cop = copula.Copula(self.vine.u_matrix[:,self.vine.y_ind],self.vine.u_matrix[:,int(self.tree_data[k,2])],self.tree_data[k,3])
+				cop = copulas.Copula(self.vine.u_matrix[:,self.vine.y_ind],self.vine.u_matrix[:,int(self.tree_data[k,2])],self.tree_data[k,3])
 				self.tree_data[k,4],self.tree_data[k,5]=cop.select_copula(cop.U,cop.V)
 
 		if self.vine.c_type == 'dvine':
@@ -434,10 +413,8 @@ class Tree():
 				# print(self.vine.u_matrix)
 				'''Select copula function based on upper and lower tail functions'''
 				# print(Copula.select_copula(self.u_matrix[:,T1[k]],self.u_matrix[:,T1[k+1]]))
-				cop = copula.Copula(self.vine.u_matrix[:,T1[k]],self.vine.u_matrix[:,T1[k+1]])
+				cop = copulas.Copula(self.vine.u_matrix[:,T1[k]],self.vine.u_matrix[:,T1[k+1]])
 				self.tree_data[k,4],self.tree_data[k,5]=cop.select_copula(cop.U,cop.V)
-
-
 
 	def _build_kth_tree(self):
 		"""build tree for level k
@@ -473,11 +450,10 @@ class Tree():
 				[ed1,ed2,ing] = self.identify_eds_ing(self.prev_T.tree_data[k,1:3],self.prev_T.tree_data[k+1,1:3])
 				U1 = self.vine.u_matrix[ed1,ing]
 				U2 = self.vine.u_matrix[ed2,ing]
-				cop = copula.Copula(U1,U2,self.tree_data[k,3])
+				cop = copulas.Copula(U1,U2,self.tree_data[k,3])
 				self.tree_data[k,4],self.tree_data[k,5] = cop.select_copula(cop.U,cop.V)
 				self.tree_data[k,6],self.tree_data[k,7] = ed1, ed2
 				self.tree_data[k,8] = ing
-
 
 	def _data4next_T(self,tree):
 		"""
@@ -498,7 +474,7 @@ class Tree():
 			U1=[x for x in U1 if x is not None]
 			U2=[x for x in U2 if x is not None]
 
-			c1= copula.Copula(U2,U1,theta=copula_para,cname=copula_name,dev=True)
+			c1= copulas.Copula(U2,U1,theta=copula_para,cname=copula_name,dev=True)
 			U1givenU2 = c1.derivative(U2,U1,copula_para)
 			U2givenU1 = c1.derivative(U1,U2,copula_para)
 
@@ -509,7 +485,6 @@ class Tree():
 			U[int(tree[k,1]),int(tree[k,2])]=U1givenU2
 			U[int(tree[k,2]),int(tree[k,1])]=U2givenU1
 		return U
-
 
 	def _likehood_T(self,U):
 		"""Compute likelihood of the tree given an U matrix
@@ -525,7 +500,7 @@ class Tree():
 			if self.level == 1:
 				U_arr = np.array([U[v1]])
 				V_arr = np.array([U[v2]])
-				cop = copula.Copula(U_arr,V_arr,theta=copula_para,cname=cname,dev=True)
+				cop = copulas.Copula(U_arr,V_arr,theta=copula_para,cname=cname,dev=True)
 				values[0,i]=cop.pdf(U_arr,V_arr,copula_para)
 				U1givenU2 = cop.derivative(V_arr,U_arr,copula_para)
 				U2givenU1 = cop.derivative(U_arr,V_arr,copula_para)
@@ -535,7 +510,7 @@ class Tree():
 				joint = int(tree[i,8])
 				U1 = np.array([U[v1,joint]])
 				U2 = np.array([U[v2,joint]])
-				cop = copula.Copula(U1,U2,theta=copula_para,cname=cname,dev=True)
+				cop = copulas.Copula(U1,U2,theta=copula_para,cname=cname,dev=True)
 				values[0,i] = cop.pdf(U1,U2,theta=copula_para)
 				U1givenU2 = cop.derivative(U2,U1,copula_para)
 				U2givenU1 = cop.derivative(U1,U2,copula_para)
@@ -544,11 +519,6 @@ class Tree():
 		# print(values)
 		value = np.sum(np.log(values))
 		return newU,value
-
-
-
-
-
 
 	def print_tree(self):
 		"""
@@ -588,9 +558,3 @@ if __name__ == '__main__':
 	print(model.model.vine_model[0].tree_data)
 	# model.sampling(200,plot=True)
 	# model.predict('test_2.csv')
-
-
-
-
-
-

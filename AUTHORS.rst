@@ -2,12 +2,10 @@
 Credits
 =======
 
-Development Lead
-----------------
-
-* Andrew Montanez <amontane@mit.edu>
-
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Andrew Montanez <amontane@mit.edu>
+* (Alicia)Yi  Sun <yis@mit.edu>
+* Kalyan Veeramachaneni <kalyan@csail.mit.edu>
+* Manuel Alvarez <manuel@pythiac.com>
