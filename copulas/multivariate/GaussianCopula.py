@@ -1,7 +1,8 @@
-import scipy.stats as st
-import scipy.integrate as integrate
-import pandas as pd
 import numpy as np
+import pandas as pd
+import scipy.integrate as integrate
+import scipy.stats as st
+
 from copulas.multivariate.MVCopula import MVCopula
 from copulas.univariate.GaussianUnivariate import GaussianUnivariate
 

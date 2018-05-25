@@ -3,7 +3,6 @@ class MVCopula:
 
     def __init__(self):
         """ initialize copula object """
-        pass
 
     def fit(self, data):
         """ Fits a model to the data and updates the parameters """

@@ -1,11 +1,11 @@
 import bisect
-import exrex
 import time
 
 import numpy as np
-import scipy.stats as stats
 import scipy.optimize as optimize
+import scipy.stats as stats
 
+import exrex
 
 ARGS_SEP = '@'
 COV_SEP = '*'
@@ -13,8 +13,10 @@ RAW_EXT = '.raw.csv'
 SYNTH_EXT = '.synth.csv'
 TRANS_EXT = '.trans.csv'
 
+
 class SDVException(Exception):
     pass
+
 
 def add_noise(cov):
     '''Add noise to the covariance matrix by dividing all of
@@ -30,6 +32,7 @@ def add_noise(cov):
     cov = np.divide(cov, 2.0)
     np.fill_diagonal(cov, diagonal)
     return cov
+
 
 def get_date_converter(col, missing, meta):
     '''Returns a converter that takes in an integer representing ms
@@ -50,10 +53,11 @@ def get_date_converter(col, missing, meta):
             return np.nan
 
         t = x[col]
-        tmp = time.gmtime(float(t)/1e9)
+        tmp = time.gmtime(float(t) / 1e9)
         return time.strftime(meta, tmp)
 
     return safe_date
+
 
 def get_number_converter(col, missing, meta):
     '''Returns a converter that takes in a value and turns it into an
@@ -78,6 +82,7 @@ def get_number_converter(col, missing, meta):
 
     return safe_round
 
+
 def get_many(ct, regex, unique_set=None):
     '''Synthesizing many new values based on the regex
 
@@ -99,6 +104,7 @@ def get_many(ct, regex, unique_set=None):
 
     return out
 
+
 def get_ll(X, covariance, cdfs, check):
     '''Given a vector X, covariance matrix, and cdfs for each element,
        return the log likelihood of X in that distribution
@@ -117,7 +123,7 @@ def get_ll(X, covariance, cdfs, check):
     try:
         X_cop = [get_normalize_fn(cdf, c)(x) for cdf, x, c
                  in zip(cdfs, X, check)]
-    except Exception as e:
+    except Exception:
         return 0
 
     # if any elment is + or - infinity, it means that it is out of bounds for
@@ -127,12 +133,13 @@ def get_ll(X, covariance, cdfs, check):
         return 0.0
 
     try:
-        return -stats.multivariate_normal.logpdf(X_cop, mean=[0]*len(covariance),
-                                             cov=covariance)
-    except ValueError as e:
+        return -stats.multivariate_normal.logpdf(
+            X_cop, mean=[0] * len(covariance), cov=covariance)
+    except ValueError:
         return -1.0
     except np.linalg.LinAlgError:
         return -1.0
+
 
 def get_normalize_fn(cdf, check=False):
     '''Normalizing should be: \Phi^-1(F(x)) but because F(x) is sometimes 0 or 1,
@@ -160,6 +167,7 @@ def get_normalize_fn(cdf, check=False):
 
     return normalize
 
+
 def make_covariance_matrix(dim, triu_vals):
     '''Make a symmetric covariance matrix of shape (dim x dim)
        given an array of values that belong to the upper triangle.
@@ -180,6 +188,7 @@ def make_covariance_matrix(dim, triu_vals):
     covar = np.zeros((dim, dim))
     covar[np.triu_indices(dim)] = np.array(triu_vals)
     return covar + covar.T - np.diag(covar.diagonal())
+
 
 class Distribution(object):
 
@@ -240,7 +249,7 @@ class Distribution(object):
 
         try:
             isnan = np.isnan(np.array(column)).all()
-        except Exception as e:
+        except Exception:
             isnan = False
 
         if isnan:
@@ -276,9 +285,9 @@ class Distribution(object):
     def get_summary(self):
         '''Returns all the data necessary to recreate this object later.'''
         obj = {
-                'name': self.name,
-                'values': self.args,
-              }
+            'name': self.name,
+            'values': self.args,
+        }
         if self.name == 'categorical':
             obj['cats'] = self.cats
 
@@ -290,7 +299,7 @@ class Distribution(object):
 
             for category in self.cats:
                 p = len([True for i in data if i == category
-                         or str(i) == category])/float(len(data))
+                         or str(i) == category]) / float(len(data))
                 args.append(p)
             return args
 
@@ -309,10 +318,10 @@ class Distribution(object):
         sigma = np.var(data)**0.5
 
         if self.name == 'norm':
-            return ((lower-mu) / sigma, (upper-mu) / sigma, mu, sigma)
+            return ((lower - mu) / sigma, (upper - mu) / sigma, mu, sigma)
 
         elif self.name == 'uniform':
-            return (lower, upper-lower)
+            return (lower, upper - lower)
         elif self.name == 'kde':
             return stats.gaussian_kde(data)
 
@@ -336,7 +345,7 @@ class Distribution(object):
 
             # normalize
             sum_args = sum(args)
-            args = [arg/sum_args for arg in args]
+            args = [arg / sum_args for arg in args]
 
         # uniform distribution is between args[0] and args[0]+args[1]
         # which means that args[1] must be greater than or equal to 0
@@ -370,11 +379,11 @@ class Distribution(object):
         if self.name == 'norm':
             mu = args[2]
             sigma = args[3]
-            low = (args[0]*sigma) + mu
-            high = (args[1]*sigma) + mu
+            low = (args[0] * sigma) + mu
+            high = (args[1] * sigma) + mu
 
             # FIXME is there a better way to fix for noise?
-            tolerance = (high-low)/1000.0
+            tolerance = (high - low) / 1000.0
 
             def cdf(x, care=True):
                 if (x < low - tolerance or x > high + tolerance) and care:
@@ -393,7 +402,7 @@ class Distribution(object):
             high = low + args[1]
 
             # FIXME better way to fix for noise?
-            tolerance = (high-low)/1000.0
+            tolerance = (high - low) / 1000.0
 
             def cdf(x, care=True):
                 if (x < low - tolerance or x > high + tolerance) and care:
@@ -412,17 +421,15 @@ class Distribution(object):
                 return v
             return cdf
         elif self.name == 'kde':
-            #fix this
+            # fix this
             low_bounds = -10000
             kde = self.args
             # h = args[0]
             # kernel = args[1]
-            def cdf(x,u=0,care=True):
-                return kde.integrate_box(low_bounds, x)-u
+
+            def cdf(x, u=0, care=True):
+                return kde.integrate_box(low_bounds, x) - u
             return cdf
-
-
-
 
         else:
             running_tot = np.cumsum(args)
@@ -440,15 +447,15 @@ class Distribution(object):
                 if i == 0:
                     low = 0
                 else:
-                    low = running_tot[i-1]
+                    low = running_tot[i - 1]
 
                 if high == low:
                     return np.random.rand(1)[0]
 
-                mu = (high+low)/2.0
-                sigma = (high-low)/6.0
-                a = (low - mu)/sigma + np.finfo(float).eps
-                b = (high - mu)/sigma - np.finfo(float).eps
+                mu = (high + low) / 2.0
+                sigma = (high - low) / 6.0
+                a = (low - mu) / sigma + np.finfo(float).eps
+                b = (high - mu) / sigma - np.finfo(float).eps
                 return stats.truncnorm.rvs(a, b, mu, sigma)
 
             return cdf
@@ -470,7 +477,7 @@ class Distribution(object):
             return ppf
         elif self.name == 'kde':
             def ppf(u):
-                x = optimize.brentq(self.cdf,-100.0,100.0,args=(u))
+                x = optimize.brentq(self.cdf, -100.0, 100.0, args=(u))
                 return x
             return ppf
         else:
@@ -496,20 +503,18 @@ class Distribution(object):
         freq_dict = {}
 
         for val in unique:
-            freq = len([True for i in column if i == val])/orig_length
+            freq = len([True for i in column if i == val]) / orig_length
             if freq > 0.0:
                 freq_dict[val] = freq
 
         if num_nan > 0:
-            freq_dict['nan'] = num_nan/orig_length
+            freq_dict['nan'] = num_nan / orig_length
 
         freqs = freq_dict.items()
         freqs = sorted(freqs, key=lambda i: i[1])
 
         self.cats = [i for (i, j) in freqs]
         self.args = [j for (i, j) in freqs]
-
-        running_tot = np.cumsum(self.args)
 
         self.cdf = self.get_cdf(self.args)
         self.ppf = self.get_ppf(self.args)
@@ -518,8 +523,6 @@ class Distribution(object):
         self.args = stats.gaussian_kde(column)
 
     def _find_and_set(self, column):
-        p_val = -1
-        distrib = None
 
         column = np.array(column)
         column = column[~np.isnan(column)]
@@ -529,10 +532,10 @@ class Distribution(object):
         mu = np.mean(column)
         sigma = np.var(column)**0.5
 
-        args_truncnorm = ((lower-mu) / sigma, (upper-mu) / sigma, mu, sigma)
+        args_truncnorm = ((lower - mu) / sigma, (upper - mu) / sigma, mu, sigma)
         _, p_truncnorm = stats.kstest(column, 'truncnorm', args_truncnorm)
 
-        args_uniform = (lower, upper-lower)
+        args_uniform = (lower, upper - lower)
         _, p_uniform = stats.kstest(column, 'uniform', args_uniform)
 
         if p_truncnorm > p_uniform:
@@ -541,6 +544,7 @@ class Distribution(object):
         else:
             self.name = 'uniform'
             self.args = args_uniform
+
 
 def generate_samples(covariance, ppfs, N, means=None):
     '''Use a Gaussian Copula along with the given quantile functions to generate
@@ -551,13 +555,16 @@ def generate_samples(covariance, ppfs, N, means=None):
         return [[] for i in range(N)]
 
     if means is None:
-        means = [0.0]*len(covariance)
+        means = [0.0] * len(covariance)
 
     samples = np.random.multivariate_normal(means, covariance, N)
     samples = stats.norm.cdf(samples)
 
-    fn = lambda vector: [ppf(v) for v, ppf in zip(vector, ppfs)]
-    return [fn(i) for i in samples]
+    def fn(vector, ppfs):
+        return [ppf(v) for v, ppf in zip(vector, ppfs)]
+
+    return [fn(i, ppfs) for i in samples]
+
 
 def update(obs, obs_indices, covariance, cdfs, obs_care):
     '''Perform inference to update the covariance and the means based on the
@@ -591,7 +598,7 @@ def update(obs, obs_indices, covariance, cdfs, obs_care):
     obs_cdfs = [cdfs[i] for i in range(len(cdfs)) if i in obs_indices]
     # cdf of each
     converted_obs = [cdf(o, care=c) for o, cdf, c in zip(obs, obs_cdfs, obs_care)]
-    converted_obs = stats.norm.ppf(converted_obs) # inverse normal of that
+    converted_obs = stats.norm.ppf(converted_obs)  # inverse normal of that
 
     new_means = np.dot(np.dot(sigma_12, np.linalg.inv(sigma_22)),
                        converted_obs)
@@ -623,7 +630,7 @@ class NonVariable(object):
 
         if self.unique is not None:
             while newone in self.unique:
-                newone = exres.getone(self.regex)
+                newone = exrex.getone(self.regex)
 
         try:
             data = self.conv(newone)
@@ -680,4 +687,3 @@ if __name__ == '__main__':
     d5 = Distribution(column=np.array(['a', 'b', np.nan, 'a', 'b', np.nan]),
                       categorical=True)
     print sum(d5.args)
-

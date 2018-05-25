@@ -2,6 +2,7 @@
 
 """Console script for copulas."""
 import sys
+
 import click
 
 
