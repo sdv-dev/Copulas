@@ -180,7 +180,7 @@ class Vine(object):
         self.vine_model.append(tree_1)
 
         LOGGER.debug('finish building tree : 0')
-        tree_1.print_tree()
+        LOGGER.debug(str(tree))
         self.u_matrix = tree_1.new_U
 
         for k in range(1, self.depth):
@@ -192,7 +192,7 @@ class Vine(object):
             self.vine_model.append(tree_k)
 
             LOGGER.debug('finish building tree: %d', k)
-            tree_k.print_tree()
+            LOGGER.debug(str(tree_k))
 
             self.u_matrix = tree_k.new_U
 
@@ -347,8 +347,41 @@ class Tree():
             self.tree_data = np.empty([self.n_nodes - 1, 9])
             self._build_kth_tree()
 
-        # self.print_tree()
+        # LOGGER.debug(str(self))
         self.new_U = self._data4next_T(self.tree_data)
+
+
+    def __str__(self):
+        """
+        print a instance of tree
+        """
+        if self.vine.c_type == "dvine":
+            first = []
+            tree_1 = self.vine.vine_model[0].tree_data
+            for k in range(tree_1.shape[0]):
+                first.append(str(int(tree_1[k, 1])))
+            first.append(str(int(tree_1[-1, 2])))
+            s = ''
+            if self.level == 1:
+                # s =''.join(first)
+                s = '---'.join(first)
+            elif self.level == 2:
+                for k in range(self.tree_data.shape[0] + 1):
+                    s += first[k] + ',' + first[k + self.level - 1] + '---'
+                s = s[:-3]
+
+            else:
+                for k in range(self.tree_data.shape[0] + 1):
+                    s += first[k] + ',' + first[k + self.level - 1] + '|'
+                    for i in range(self.level - 2):
+                        s += first[k + i + 1]
+                    s += '---'
+                s = s[:-3]
+        elif self.vine.c_type == "cvine":
+            LOGGER.debug('anchor node is :%d', int(self.vine.y_ind))
+            s = ''
+        return s
+
 
     def identify_eds_ing(self, e1, e2):
         """find nodes connecting adjacent edges
@@ -538,36 +571,7 @@ class Tree():
         value = np.sum(np.log(values))
         return newU, value
 
-    def print_tree(self):
-        """
-        print a instance of tree
-        """
-        if self.vine.c_type == "dvine":
-            first = []
-            tree_1 = self.vine.vine_model[0].tree_data
-            for k in range(tree_1.shape[0]):
-                first.append(str(int(tree_1[k, 1])))
-            first.append(str(int(tree_1[-1, 2])))
-            s = ''
-            if self.level == 1:
-                # s =''.join(first)
-                s = '---'.join(first)
-            elif self.level == 2:
-                for k in range(self.tree_data.shape[0] + 1):
-                    s += first[k] + ',' + first[k + self.level - 1] + '---'
-                s = s[:-3]
 
-            else:
-                for k in range(self.tree_data.shape[0] + 1):
-                    s += first[k] + ',' + first[k + self.level - 1] + '|'
-                    for i in range(self.level - 2):
-                        s += first[k + i + 1]
-                    s += '---'
-                s = s[:-3]
-        elif self.vine.c_type == "cvine":
-            LOGGER.debug('anchor node is :%d', int(self.vine.y_ind))
-            s = ''
-        LOGGER.debug(s)
 
 
 if __name__ == '__main__':
