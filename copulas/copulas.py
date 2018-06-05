@@ -6,12 +6,264 @@ from scipy.optimize import brentq, fmin
 
 LOGGER = logging.getLogger(__name__)
 
+FRANK = 'frank'
+CLAYTON = 'clayton'
+GUMBEL = 'gumbel'
+
 
 class CopulaException(Exception):
     pass
 
 
+class ArchimedianCopula(object):
+
+    @staticmethod
+    def probability_function(U, V, theta):
+        raise NotImplementedError
+
+    @staticmethod
+    def cumulative_distribution(U, V, theta):
+        raise NotImplementedError
+
+    @staticmethod
+    def percent_point(y, V, theta):
+        raise NotImplementedError
+
+    @staticmethod
+    def get_theta(tau):
+        raise NotImplementedError
+
+    @staticmethod
+    def du(U, V, theta, y=None):
+        raise NotImplementedError
+
+    @classmethod
+    def get_functions(cls):
+        return (
+            cls.probability_function,
+            cls.cumulative_distribution,
+            cls.percent_point,
+            cls.get_theta,
+            cls.du)
+
+
+class FrankCopula(ArchimedianCopula):
+
+    @staticmethod
+    def probability_function(U, V, theta):
+        if theta < 0:
+            raise ValueError("Theta cannot be less than 0 for Frank")
+
+        elif theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            num = theta * (1 - np.exp(-theta)) * np.exp(-theta * (U + V))
+            den = np.power(
+                (1.0 - np.exp(-theta)) -
+                (1.0 - np.exp(-theta * U) * (1.0 - np.exp(-theta * V))), 2)
+            return num / den
+
+    @staticmethod
+    def cumulative_distribution(U, V, theta):
+        if theta < 0:
+            raise ValueError("Theta cannot be less than 0 for Frank")
+
+        elif theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            num = np.multiply(
+                np.exp(np.multiply(-theta, U)) - 1,
+                np.exp(np.multiply(-theta, V)) - 1
+            )
+            den = np.exp(-theta) - 1
+            return -1.0 / theta * np.log(1 + num / den)
+
+    @staticmethod
+    def percent_point(y, V, theta):
+        if theta < 0:
+            return V
+
+        else:
+            cop = Copula(1, 1, theta, 'frank', dev=True).derivative
+            u = brentq(cop, 0.0, 1.0, args=(V, theta, y))
+            return u
+
+    @classmethod
+    def get_theta(cls, tau):
+        return -fmin(cls.frank_help(tau), -5, disp=False)[0]
+
+    @staticmethod
+    def du(U, V, theta, y=None):
+        if theta == 0:
+            return V
+
+        def g(theta, z):
+            return -1 + np.exp(-np.dot(theta, z))
+
+        num = np.multiply(g(U, theta), g(V, theta)) + g(V, theta)
+        den = np.multiply(g(U, theta), g(V, theta)) + g(1, theta)
+        result = num / den
+
+        if y:
+            result = result - y
+
+        return result
+
+    @staticmethod
+    def debye(t):
+        return t / (np.exp(t) - 1)
+
+    @classmethod
+    def frank_help(cls, tau):
+        def f(alpha):
+            """compute first order debye function to estimate theta
+            """
+
+            diff = (1 - tau) / 4.0 - (cls.debye(-alpha) - 1) / alpha
+            return np.power(diff, 2)
+        return f
+
+
+class ClaytonCopula(ArchimedianCopula):
+
+    @staticmethod
+    def probability_function(U, V, theta):
+
+        if theta < 0:
+            raise ValueError("Theta cannot be than 0 for clayton")
+
+        elif theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            a = (theta + 1) * np.power(np.multiply(U, V), -(theta + 1))
+            b = np.power(U, -theta) + np.power(V, -theta) - 1
+            c = -(2 * theta + 1) / theta
+            density = a * np.power(b, c)
+            return density
+
+    @staticmethod
+    def cumulative_distribution(U, V, theta):
+
+        if theta < 0:
+            raise ValueError("Theta cannot be than 0 for clayton")
+
+        elif theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            cdfs = [
+                np.power(np.power(U[i], -theta) + np.power(V[i], -theta) - 1, -1.0 / theta)
+                if U[i] > 0 else 0 for i in range(len(U))
+            ]
+            return [max(x, 0) for x in cdfs]
+
+    @staticmethod
+    def percent_point(y, V, theta):
+        if theta < 0:
+            return V
+
+        else:
+            a = np.power(y, theta / (-1 - theta))
+            b = np.power(V, theta)
+            u = np.power((a + b - 1) / b, -1 / theta)
+            return u
+
+    @staticmethod
+    def get_theta(tau):
+        if tau == 1:
+            return  10000
+
+        else:
+            return 2 * tau / (1 - tau)
+
+    @staticmethod
+    def du(U, V, theta, y=None):
+        if theta == 0:
+            return V
+        else:
+            A = np.power(U, theta)
+            B = np.power(V, -theta) - 1
+            h = 1 + np.multiply(A, B)
+            h = np.power(h, (-1 - theta) / theta)
+            return h
+
+
+class GumbelCopula(ArchimedianCopula):
+
+    @staticmethod
+    def probability_function(U, V, theta):
+        if theta < 1:
+            raise ValueError("Theta cannot be less than 1 for Gumbel")
+        elif theta == 1:
+            return np.multiply(U, V)
+        else:
+            cdf = Copula(U, V, theta=theta, cname='gumbel').cdf(U, V, theta)
+            a = np.power(np.multiply(U, V), -1)
+            tmp = np.power(-np.log(U), theta) + np.power(-np.log(V), theta)
+            b = np.power(tmp, -2 + 2.0 / theta)
+            c = np.power(np.multiply(np.log(U), np.log(V)), theta - 1)
+            d = 1 + (theta - 1) * np.power(tmp, -1.0 / theta)
+            return cdf * a * b * c * d
+
+    @staticmethod
+    def cumulative_distribution(U, V, theta):
+        if theta < 1:
+            raise ValueError("Theta cannot be less than 1 for Gumbel")
+        elif theta == 1:
+            return np.multiply(U, V)
+        else:
+            h = np.power(-np.log(U), theta) + np.power(-np.log(V), theta)
+            h = -np.power(h, 1.0 / theta)
+            cdfs = np.exp(h)
+            return cdfs
+
+    @staticmethod
+    def percent_point(y, V, theta):
+        if theta == 1:
+            return y
+
+        else:
+            cop = Copula(1, 1, theta, 'gumbel', dev=True).derivative
+            u = brentq(cop, 0.0, 1.0, args=(V, theta, y))
+            return u
+
+    @staticmethod
+    def get_theta(tau):
+        if tau == 1:
+            return 10000
+
+        else:
+            return 1 / (1 - tau)
+
+    @staticmethod
+    def du(U, V, theta, y=None):
+        if theta == 1:
+            return V
+
+        t1 = np.power(-np.log(U), theta)
+        t2 = np.power(-np.log(V), theta)
+        p1 = np.exp(-np.power((t1 + t2), 1.0 / theta))
+        p2 = np.power(t1 + t2, -1 + 1.0 / theta)
+        p3 = np.power(-np.log(U), theta - 1)
+        result = np.divide(np.multiply(np.multiply(p1, p2), p3), U)
+
+        if y:
+            result = result - y
+
+        return result
+
+
 class Copula(object):
+
+    COPULAS_MODELS = {
+        FRANK : FrankCopula,
+        CLAYTON: ClaytonCopula,
+        GUMBEL: GumbelCopula
+    }
+
     def __init__(self, U, V, theta=None, cname=None, dev=False):
         """Instantiates an instance of the copula object from a pandas dataframe
 
@@ -22,17 +274,38 @@ class Copula(object):
         """
         self.U = U
         self.V = V
-        self.theta = theta
         self.cname = cname
-        if cname:
-            if not theta:
-                self.tau = scipy.stats.kendalltau(self.U, self.V)[0]
-                self._get_parameter()
-            self.pdf = self._get_pdf()
-            self.cdf = self._get_cdf()
-            self.ppf = self._get_ppf()
+
         if dev:
             self.derivative = self._get_du()
+
+        if not cname:
+            return
+
+        pdf, cdf, ppf, get_theta, du = self.COPULAS_MODELS[cname].get_functions()
+
+        self.pdf = pdf
+        self.cdf = cdf
+        self.ppf = ppf
+        self.get_theta = get_theta
+        self.du = du
+
+        if not theta:
+            tau, theta = self.get_parameters()
+
+        else:
+            tau = self.get_tau()
+
+        self.theta = theta
+        self.tau = tau
+
+    def get_tau(self):
+        return scipy.stats.kendalltau(self.U, self.V)[0]
+
+    def get_parameters(self):
+        tau = self.get_tau()
+        theta = self.get_theta(tau)
+        return tau, theta
 
     def _get_parameter(self):
         """ estimate the parameter (theta) of copula given tau
@@ -301,17 +574,6 @@ class Copula(object):
         # y = np.exp(-0.5 * np.sum(np.power(z.T, 2) - np.power(x, 2), axis=1) - log_sqrt_det_rho)
         # return y
 
-    def _frank_help(self, alpha):
-        """compute first order debye function to estimate theta
-        """
-
-        def debye(t):
-            return t / (np.exp(t) - 1)
-
-        # debye_value = quad(debye, sys.float_info.epsilon, alpha)[0] / alpha
-        diff = (1 - self.tau) / 4.0 - (debye(-alpha) - 1) / alpha
-        return np.power(diff, 2)
-
 
 if __name__ == '__main__':
     # quick test
@@ -319,12 +581,12 @@ if __name__ == '__main__':
     V = [0.5, 0.6, 0.5, 0.8]
 
     c0 = Copula(U, V, cname='clayton')
-    # LOGGER.debug(c0.cdf([0,0.1,0.2],[0,0.1,0.8],c0.theta))
+    LOGGER.debug(c0.cdf([0,0.1,0.2],[0,0.1,0.8],c0.theta))
 
     c1 = Copula(U, V, cname='frank')
-    # LOGGER.debug(c1.cdf([0,0.1,0.2],[0,0.1,0.2],c1.theta))
+    LOGGER.debug(c1.cdf([0,0.1,0.2],[0,0.1,0.2],c1.theta))
 
     c2 = Copula(U, V, cname='gumbel')
-    # LOGGER.debug(c2.cdf([0,0.1,0.2],[0,0.1,0.8],c2.theta))
+    LOGGER.debug(c2.cdf([0,0.1,0.2],[0,0.1,0.8],c2.theta))
 
-    # LOGGER.debug(Copula.select_copula(U,V))
+    LOGGER.debug(Copula.select_copula(U,V))
