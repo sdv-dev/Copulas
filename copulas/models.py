@@ -12,9 +12,11 @@ import scipy.optimize as optimize
 
 from copulas import copulas, utils
 
+
 warnings.filterwarnings("ignore")
 
 LOGGER = logging.getLogger(__name__)
+
 
 class CopulaModel(object):
     """This class instantiates a Copula Model from a dataset.
@@ -279,7 +281,7 @@ class Vine(object):
         sampled = []
         while explore:
             current = explore.pop(0)
-            LOGGER.debug('processing variable : %d', current))
+            LOGGER.debug('processing variable : %d', current)
             neighbors = np.where(adj[current, :] == 1)[0].tolist()
 
             # LOGGER.debug(x)
@@ -570,12 +572,3 @@ class Tree():
         # LOGGER.debug(values)
         value = np.sum(np.log(values))
         return newU, value
-
-
-
-
-if __name__ == '__main__':
-    model = CopulaModel('test_2.csv', 'kde', 'dvine')
-    LOGGER.debug(model.model.vine_model[0].tree_data)
-    # model.sampling(200,plot=True)
-    # model.predict('test_2.csv')

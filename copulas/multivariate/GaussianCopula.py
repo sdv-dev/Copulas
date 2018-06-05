@@ -54,8 +54,8 @@ class GaussianCopula(MVCopula):
             # get inverse cdf using standard normal
             res.loc[:, col] = st.norm.ppf(cdf)
         n = res.shape[1]
-        means = [np.mean(res.iloc[:, i].as_matrix()) for i in range(n)]
-        return (np.cov(res.as_matrix()), means, res)
+        means = [np.mean(res.iloc[:, i].values) for i in range(n)]
+        return (np.cov(res.values), means, res)
 
     def get_pdf(self, X):
         # make cov positive semi-definite

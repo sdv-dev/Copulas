@@ -3,6 +3,7 @@ import logging
 import time
 
 import numpy as np
+import pandas as pd
 import scipy.optimize as optimize
 import scipy.stats as stats
 
@@ -272,7 +273,7 @@ class Distribution(object):
         if self.name == 'categorical' or len(set(column)) == 1:
             self.name = 'categorical'
             self._set_categorical(column)
-        if self.name == 'kde':
+        elif self.name == 'kde':
             self._set_kde(column)
         else:
             self._find_and_set(column)
@@ -527,9 +528,8 @@ class Distribution(object):
         self.args = stats.gaussian_kde(column)
 
     def _find_and_set(self, column):
-
         column = np.array(column)
-        column = column[~np.isnan(column)]
+        column = column[~pd.isnull(column)]
 
         lower = np.min(column)
         upper = np.max(column)
@@ -553,6 +553,7 @@ class Distribution(object):
 def generate_samples(covariance, ppfs, N, means=None):
     '''Use a Gaussian Copula along with the given quantile functions to generate
     N samples whose elements are appropriately correlated'''
+
 
     # http://stackoverflow.com/questions/27727762/scipy-generate-random-variables-with-correlations
     if len(covariance) == 0 and len(ppfs) == 0:
@@ -674,7 +675,7 @@ if __name__ == '__main__':
     categorical_str = np.array(['a', 'b', np.nan, 'a', np.nan, 'b'],
                                dtype='object')
 
-    LOGGER.debug('\nTesting NaN value logic'
+    LOGGER.debug('\nTesting NaN value logic')
     d3 = Distribution(column=categorical_num, categorical=True)
     d4 = Distribution(column=categorical_str, categorical=True)
 
