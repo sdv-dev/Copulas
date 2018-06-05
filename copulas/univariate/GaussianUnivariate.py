@@ -1,9 +1,9 @@
 import logging
+
 import numpy as np
 from scipy.stats import norm
 
 from copulas.univariate.UnivariateDistrib import UnivariateDistrib
-
 
 LOGGER = logging.getLogger(__name__)
 

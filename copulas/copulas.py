@@ -4,7 +4,6 @@ import numpy as np
 import scipy.stats
 from scipy.optimize import brentq, fmin
 
-
 LOGGER = logging.getLogger(__name__)
 
 
@@ -80,8 +79,8 @@ class Copula(object):
                 else:
                     num = theta * (1 - np.exp(-theta)) * np.exp(-theta * (U + V))
                     den = np.power(
-                        (1.0 - np.exp(-theta))
-                        - (1.0 - np.exp(-theta * U) * (1.0 - np.exp(-theta * V))), 2)
+                        (1.0 - np.exp(-theta)) -
+                        (1.0 - np.exp(-theta * U) * (1.0 - np.exp(-theta * V))), 2)
                     return num / den
             return pdf
 

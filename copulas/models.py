@@ -12,7 +12,6 @@ import scipy.optimize as optimize
 
 from copulas import copulas, utils
 
-
 warnings.filterwarnings("ignore")
 
 LOGGER = logging.getLogger(__name__)
@@ -182,7 +181,7 @@ class Vine(object):
         self.vine_model.append(tree_1)
 
         LOGGER.debug('finish building tree : 0')
-        LOGGER.debug(str(tree))
+        LOGGER.debug(str(tree_1))
         self.u_matrix = tree_1.new_U
 
         for k in range(1, self.depth):
@@ -352,7 +351,6 @@ class Tree():
         # LOGGER.debug(str(self))
         self.new_U = self._data4next_T(self.tree_data)
 
-
     def __str__(self):
         """
         print a instance of tree
@@ -383,7 +381,6 @@ class Tree():
             LOGGER.debug('anchor node is :%d', int(self.vine.y_ind))
             s = ''
         return s
-
 
     def identify_eds_ing(self, e1, e2):
         """find nodes connecting adjacent edges
@@ -423,7 +420,7 @@ class Tree():
             # remove the last row as it is not necessary
             self.tree_data[:, 2] = np.delete(tau_sorted[:, 0], -1, 0)
             self.tree_data[:, 3] = np.delete(tau_sorted[:, 1], -1, 0)
-            for k in xrange(self.n_nodes - 1):
+            for k in range(self.n_nodes - 1):
                 cop = copulas.Copula(
                     self.vine.u_matrix[:, self.vine.y_ind],
                     self.vine.u_matrix[:, int(self.tree_data[k, 2])],
@@ -442,7 +439,7 @@ class Tree():
             tau_mat[:, [T1]] = -10
 
             # greedily build the rest of the first tree
-            for k in xrange(2, self.n_nodes - 1):
+            for k in range(2, self.n_nodes - 1):
                 valL, left = np.max(tau_mat[T1[0], :]), np.argmax(tau_mat[T1[0], :])
                 valR, right = np.max(tau_mat[T1[-1], :]), np.argmax(tau_mat[T1[-1], :])
                 if valL > valR:
@@ -455,7 +452,7 @@ class Tree():
                     T1 = np.append(T1, int(right))
                     tau_T1 = np.append(tau_T1, valR)
                     tau_mat[:, right] = -10
-            for k in xrange(self.n_nodes - 1):
+            for k in range(self.n_nodes - 1):
                 self.tree_data[k, 0] = k
                 self.tree_data[k, 1], self.tree_data[k, 2] = T1[k], T1[k + 1]
                 self.tree_data[k, 3] = tau_T1[k]
@@ -490,13 +487,13 @@ class Tree():
             self.tree_data[:, 3] = np.delete(tau_sorted[:, 1], -1, 0)
 
         if self.vine.c_type == 'dvine':
-            for k in xrange(self.n_nodes - 1):
+            for k in range(self.n_nodes - 1):
                 self.tree_data[k, 0] = k
                 self.tree_data[k, 1], self.tree_data[k, 2] = int(k), int(k + 1)
                 self.tree_data[k, 3] = self.vine.tau_mat[k, k + 1]
 
         """select copula function"""
-        for k in xrange(self.n_nodes - 1):
+        for k in range(self.n_nodes - 1):
             [ed1, ed2, ing] = self.identify_eds_ing(
                 self.prev_T.tree_data[k, 1:3], self.prev_T.tree_data[k + 1, 1:3])
             U1 = self.vine.u_matrix[ed1, ing]
@@ -514,7 +511,7 @@ class Tree():
         n = self.vine.n_var
         U = np.empty([n, n], dtype=object)
         # U = self.vine.u_matrix
-        for k in xrange(tree.shape[0]):
+        for k in range(tree.shape[0]):
             copula_name = self.vine.c_map[int(tree[k, 4])]
             copula_para = tree[k, 5]
             if self.level == 1:

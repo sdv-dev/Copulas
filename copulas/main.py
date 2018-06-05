@@ -3,7 +3,6 @@ import logging
 
 from copulas.models import CopulaModel, Vine
 
-
 LOGGER = logging.getLogger(__name__)
 
 if __name__ == '__main__':

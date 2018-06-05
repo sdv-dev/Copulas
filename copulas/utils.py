@@ -9,7 +9,6 @@ import scipy.stats as stats
 
 import exrex
 
-
 LOGGER = logging.getLogger(__name__)
 
 ARGS_SEP = '@'
@@ -303,8 +302,8 @@ class Distribution(object):
             args = []
 
             for category in self.cats:
-                p = len([True for i in data if i == category
-                         or str(i) == category]) / float(len(data))
+                p = len([True for i in data if i == category or
+                         str(i) == category]) / float(len(data))
                 args.append(p)
             return args
 
@@ -392,8 +391,8 @@ class Distribution(object):
 
             def cdf(x, care=True):
                 if (x < low - tolerance or x > high + tolerance) and care:
-                    raise Exception('Input ' + str(x) + ' is not in bounds: '
-                                    + str(low) + ' to ' + str(high))
+                    raise Exception('Input ' + str(x) + ' is not in bounds: ' +
+                                    str(low) + ' to ' + str(high))
                 v = stats.truncnorm.cdf(x, *args)
                 if v == 0.0:
                     return np.finfo(type(v)).eps
@@ -411,8 +410,8 @@ class Distribution(object):
 
             def cdf(x, care=True):
                 if (x < low - tolerance or x > high + tolerance) and care:
-                    raise Exception('Input ' + str(x) + ' is not in bounds: '
-                                    + str(low) + ' to ' + str(high))
+                    raise Exception('Input ' + str(x) + ' is not in bounds: ' +
+                                    str(low) + ' to ' + str(high))
 
                 if high == low:
                     return np.random.rand(1)[0]
@@ -553,7 +552,6 @@ class Distribution(object):
 def generate_samples(covariance, ppfs, N, means=None):
     '''Use a Gaussian Copula along with the given quantile functions to generate
     N samples whose elements are appropriately correlated'''
-
 
     # http://stackoverflow.com/questions/27727762/scipy-generate-random-variables-with-correlations
     if len(covariance) == 0 and len(ppfs) == 0:

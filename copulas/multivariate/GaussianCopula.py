@@ -1,4 +1,5 @@
 import logging
+
 import numpy as np
 import pandas as pd
 import scipy.integrate as integrate
@@ -8,6 +9,7 @@ from copulas.multivariate.MVCopula import MVCopula
 from copulas.univariate.GaussianUnivariate import GaussianUnivariate
 
 LOGGER = logging.getLogger(__name__)
+
 
 class GaussianCopula(MVCopula):
     """ Class for a gaussian copula model """
