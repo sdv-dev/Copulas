@@ -1,4 +1,5 @@
 import bisect
+import logging
 import time
 
 import numpy as np
@@ -6,6 +7,9 @@ import scipy.optimize as optimize
 import scipy.stats as stats
 
 import exrex
+
+
+LOGGER = logging.getLogger(__name__)
 
 ARGS_SEP = '@'
 COV_SEP = '*'
@@ -129,7 +133,7 @@ def get_ll(X, covariance, cdfs, check):
     # if any elment is + or - infinity, it means that it is out of bounds for
     # the truncated distribution, so the log likelihood is 0
     if not np.isfinite(X_cop).all():
-        print 'INFINITE VALUE ENCOUNTERED ', X_cop
+        LOGGER.warning('Infinite value found', X_cop)
         return 0.0
 
     try:
@@ -156,7 +160,7 @@ def get_normalize_fn(cdf, check=False):
             return 0
 
         if stat == float('Inf') or stat == float('-Inf'):
-            print 'INF', x, cdf(x), stats.norm.ppf(cdf(x, check))
+            LOGGER.debug('INF', x, cdf(x), stats.norm.ppf(cdf(x, check)))
 
         # FIXME this is probably unnecessary now
         if stat == float('Inf') and round:
@@ -645,45 +649,45 @@ class NonVariable(object):
 if __name__ == '__main__':
     # Quick tests
     d0 = Distribution(column=np.linspace(-15, 15))
-    print d0.name
-    print [d0.ppf(i) for i in [0.01, 0.5, 0.99]]
+    LOGGER.debug(d0.name)
+    LOGGER.debug([d0.ppf(i) for i in [0.01, 0.5, 0.99]])
 
     d1 = Distribution(['A', 'A', 'A', 'B', 'B', 'C', 'C', 'C', 'C', 'C'],
                       categorical=True)
-    print d1.name
-    print d1.cats
-    print d1.estimate_args(['B', 'B', 'B', 'A', 'C'])
+    LOGGER.debug(d1.name)
+    LOGGER.debug(d1.cats)
+    LOGGER.debug(d1.estimate_args(['B', 'B', 'B', 'A', 'C']))
 
     d2 = Distribution(column=['T', 'T', 'T', 'H', 'H', 'H', 'H', 'H', 'H', 'H'],
                       categorical=True)
 
     cov = np.array([[1, 0.2, 0.3], [0.2, 1, 0.5], [0.3, 0.5, 1]])
-    print '\nGenerated Samples:'
-    print generate_samples(cov, [d0.ppf, d1.ppf, d2.ppf], 2)
+    LOGGER.debug('\nGenerated Samples:')
+    LOGGER.debug(generate_samples(cov, [d0.ppf, d1.ppf, d2.ppf], 2))
 
     # Test the np.nan values stuff
     numerical = np.array([1.0, 2.1, 3.4, np.nan, 3.4, 5.6, np.nan])
     d2 = Distribution(column=np.array(numerical))
-    print d2.name, d2.args
+    LOGGER.debug(d2.name, d2.args)
 
     categorical_num = np.array([1, 2, 1, 1, 2, 1, 1, np.nan, 2, np.nan, 1])
     categorical_str = np.array(['a', 'b', np.nan, 'a', np.nan, 'b'],
                                dtype='object')
 
-    print '\nTesting NaN value logic'
+    LOGGER.debug('\nTesting NaN value logic'
     d3 = Distribution(column=categorical_num, categorical=True)
     d4 = Distribution(column=categorical_str, categorical=True)
 
     assert sum(d3.args) == 1.0
     assert sum(d4.args) == 1.0
 
-    print zip(d3.cats, d3.args)
-    print zip(d4.cats, d4.args)
+    LOGGER.debug(zip(d3.cats, d3.args))
+    LOGGER.debug(zip(d4.cats, d4.args))
 
-    print d2.estimate_args(np.array([np.nan, np.nan, np.nan]))
-    print d3.estimate_args(np.array([np.nan, np.nan, np.nan]))
-    print d4.estimate_args(np.array([np.nan, np.nan, np.nan], dtype='object'))
+    LOGGER.debug(d2.estimate_args(np.array([np.nan, np.nan, np.nan])))
+    LOGGER.debug(d3.estimate_args(np.array([np.nan, np.nan, np.nan])))
+    LOGGER.debug(d4.estimate_args(np.array([np.nan, np.nan, np.nan], dtype='object')))
 
     d5 = Distribution(column=np.array(['a', 'b', np.nan, 'a', 'b', np.nan]),
                       categorical=True)
-    print sum(d5.args)
+    LOGGER.debug(sum(d5.args))

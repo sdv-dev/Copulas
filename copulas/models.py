@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import logging
 import warnings
 from random import randint
 
@@ -13,6 +14,7 @@ from copulas import copulas, utils
 
 warnings.filterwarnings("ignore")
 
+LOGGER = logging.getLogger(__name__)
 
 class CopulaModel(object):
     """This class instantiates a Copula Model from a dataset.
@@ -45,7 +47,7 @@ class CopulaModel(object):
         self.n_var = self.model_data.shape[1]
         self.y_ind = y_ind if y_ind else self.n_var - 1
         self.families = ['frank', 'clayton', 'gumbel', 'gaussian', 'cvine', 'dvine']
-        print('number of variables: %d' % (self.n_var))
+        LOGGER.debug('number of variables: %d', self.n_var)
 
         # transform copulas into its univariate
         self.cdfs, self.u_matrix, self.ppfs = self._preprocessing(self.model_data)
@@ -53,7 +55,7 @@ class CopulaModel(object):
         self.U = np.delete(self.u_matrix, self.y_ind, axis=1)
         # information about the copula model
         self.tau_mat = self.model_data.corr(method='kendall').as_matrix()
-        print(self.tau_mat)
+        LOGGER.debug(self.tau_mat)
         self.model = None
         self.param = None
         self._fit_model()
@@ -121,7 +123,7 @@ class CopulaModel(object):
         cdfs, ppfs, u_test = self._preprocessing(test_data)
         if 'vine' in self.c_type:
             vhat = self.model._max_likelihood(u_test)
-            print(vhat)
+            LOGGER.debug(vhat)
         return vhat
 
     def sampling(self, n, plot=False):
@@ -131,7 +133,7 @@ class CopulaModel(object):
                 sampled[i, :] = self.model._sampling(n)
         if plot:
             plt.scatter(sampled[:, 0], sampled[:, 1], c='red')
-            print(sampled)
+            LOGGER.debug(sampled)
             plt.scatter(self.model_data.ix[:, 0], self.model_data.ix[:, 1], c='green')
             plt.show()
 
@@ -177,7 +179,7 @@ class Vine(object):
         tree_1 = Tree(0, self)
         self.vine_model.append(tree_1)
 
-        print('finish building tree : 0')
+        LOGGER.debug('finish building tree : 0')
         tree_1.print_tree()
         self.u_matrix = tree_1.new_U
 
@@ -189,7 +191,7 @@ class Vine(object):
             tree_k = Tree(k, self)
             self.vine_model.append(tree_k)
 
-            print('finish building tree: %d' % (k))
+            LOGGER.debug('finish building tree: %d', k)
             tree_k.print_tree()
 
             self.u_matrix = tree_k.new_U
@@ -244,7 +246,7 @@ class Vine(object):
         return likelihood
 
     def _max_likelihood(self, u_matrix):
-        print('Maximize likelihood')
+        LOGGER.debug('Maximize likelihood')
         vhat = np.empty([1, u_matrix.shape[0]])
         for k in range(u_matrix.shape[0]):
             vhat[0, k] = scipy.optimize.fminbound(
@@ -266,7 +268,7 @@ class Vine(object):
         first_tree = self.vine_model[0].tree_data
         """generating samples from vine model"""
         unis = np.random.uniform(0, 1, self.n_var)
-        print(first_tree)
+        LOGGER.debug(first_tree)
         # randomly select a node to start with
         first_ind = randint(0, self.n_var - 1)
         adj = self._get_adjacent_matrix()
@@ -277,10 +279,10 @@ class Vine(object):
         sampled = []
         while explore:
             current = explore.pop(0)
-            print('processing variable : %d' % (current))
+            LOGGER.debug('processing variable : %d', current))
             neighbors = np.where(adj[current, :] == 1)[0].tolist()
 
-            # print(x)
+            # LOGGER.debug(x)
             # ppfs = self.ppfs[current]
             new_x = self.ppfs[current](unis[current])
             for i in range(itr):
@@ -289,21 +291,21 @@ class Vine(object):
                 current_ind = np.where(self.vine_model[i].tree_data[:, 1] == index)[0].tolist()[0]
                 copula_type = self.vine_model[i].tree_data[current_ind, 4]
                 copula_para = self.vine_model[i].tree_data[current_ind, 5]
-                print(copula_type)
-                print(copula_para)
+                LOGGER.debug(copula_type)
+                LOGGER.debug(copula_para)
                 cop = copulas.Copula(1, 1, theta=-1.1362, cname=self.c_map[copula_type], dev=True)
                 tmp = optimize.brentq(
                     cop.derivative,
                     -1000.0,
                     1000.0,
                     args=(sampled[-1], -1.1362, unis[current]))
-                print(tmp)
+                LOGGER.debug(tmp)
                 # new_x = cop.ppf(unis[itr],u_mat[current,last[-1]],copula_para)
                 # tmp = cop.ppf(unis[current],sampled[-1],copula_para)
                 # tmp = cop.ppf(unis[current],unis[visited[0]],copula_para)
                 new_x = self.ppfs[current](tmp)
                 # ppfs = ppfs*cop.ppf
-                # print(new_x)
+                # LOGGER.debug(new_x)
                 # x = x*new_x
             # x = ppfs(u[current])
             # x = self.ppfs[current](new_x)
@@ -532,7 +534,7 @@ class Tree():
                 U2givenU1 = cop.derivative(U1, U2, copula_para)
             newU[v1, v2] = U1givenU2
             newU[v2, v1] = U2givenU1
-        # print(values)
+        # LOGGER.debug(values)
         value = np.sum(np.log(values))
         return newU, value
 
@@ -563,13 +565,13 @@ class Tree():
                     s += '---'
                 s = s[:-3]
         elif self.vine.c_type == "cvine":
-            print"anchor node is :%d" % (int(self.vine.y_ind))
+            LOGGER.debug('anchor node is :%d', int(self.vine.y_ind))
             s = ''
-        print(s)
+        LOGGER.debug(s)
 
 
 if __name__ == '__main__':
     model = CopulaModel('test_2.csv', 'kde', 'dvine')
-    print(model.model.vine_model[0].tree_data)
+    LOGGER.debug(model.model.vine_model[0].tree_data)
     # model.sampling(200,plot=True)
     # model.predict('test_2.csv')

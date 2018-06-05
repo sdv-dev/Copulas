@@ -1,6 +1,11 @@
+import logging
+
 import numpy as np
 import scipy
 from scipy.optimize import brentq, fmin
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 class CopulaException(Exception):
@@ -315,12 +320,12 @@ if __name__ == '__main__':
     V = [0.5, 0.6, 0.5, 0.8]
 
     c0 = Copula(U, V, cname='clayton')
-    # print(c0.cdf([0,0.1,0.2],[0,0.1,0.8],c0.theta))
+    # LOGGER.debug(c0.cdf([0,0.1,0.2],[0,0.1,0.8],c0.theta))
 
     c1 = Copula(U, V, cname='frank')
-    # print(c1.cdf([0,0.1,0.2],[0,0.1,0.2],c1.theta))
+    # LOGGER.debug(c1.cdf([0,0.1,0.2],[0,0.1,0.2],c1.theta))
 
     c2 = Copula(U, V, cname='gumbel')
-    # print(c2.cdf([0,0.1,0.2],[0,0.1,0.8],c2.theta))
+    # LOGGER.debug(c2.cdf([0,0.1,0.2],[0,0.1,0.8],c2.theta))
 
-    # print(Copula.select_copula(U,V))
+    # LOGGER.debug(Copula.select_copula(U,V))

@@ -1,6 +1,10 @@
 import argparse
+import logging
 
 from copulas.models import CopulaModel, Vine
+
+
+LOGGER = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Copula Vine Model')
@@ -13,4 +17,4 @@ if __name__ == '__main__':
     data = CopulaModel(args.data, args.utype, args.ctype)
     dvine = Vine(data, 11)
     dvine.train_vine()
-    print(dvine.vine_model[-1].tree_data)
+    LOGGER.debug(dvine.vine_model[-1].tree_data)
