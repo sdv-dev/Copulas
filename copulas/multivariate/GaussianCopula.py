@@ -52,10 +52,8 @@ class GaussianCopula(MVCopula):
             res.loc[:, col] = st.norm.ppf(cdf)
         n = res.shape[1]
         means = [np.mean(res.iloc[:, i].as_matrix()) for i in range(n)]
-        np_matrix = res.as_matrix()
-        masked_matrix = np.ma.array(np_matrix, mask=np.isnan(np_matrix))
-        cov = np.ma.cov(res.as_matrix(), rowvar=False, allow_masked=True)
-        return (cov.filled(), means, res)
+        cov = res.cov()
+        return (cov.as_matrix(), means, res)
 
     def get_pdf(self, X):
         # make cov positive semi-definite
