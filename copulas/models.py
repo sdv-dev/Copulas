@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 import scipy
 import scipy.optimize as optimize
-
 from copulas import copulas, utils
 
 warnings.filterwarnings("ignore")
