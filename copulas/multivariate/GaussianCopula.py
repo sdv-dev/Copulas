@@ -23,6 +23,17 @@ class GaussianCopula(MVCopula):
         self.cdf = None
         self.ppf = None
 
+    def __str__(self):
+        distribs = [
+            '\n{}\n==============\n{}'.format(key, value) for key, value in self.distribs.items()]
+
+        details = (
+            '\n\nCopula Distribution:\n{}'
+            '\n\nCovariance matrix:\n{}'
+            '\n\nMeans:\n{}'.format(self.distribution, self.cov_matrix, self.means)
+        )
+        return '\n'.join(distribs) + details
+
     def fit(self, data, distrib_map=None):
         LOGGER.debug('Fitting Gaussian Copula')
         self.data = data
@@ -36,12 +47,7 @@ class GaussianCopula(MVCopula):
             for key in keys:
                 self.distribs[key] = GaussianUnivariate()
                 self.distribs[key].fit(data[key])
-        params = self._get_parameters()
-        self.cov_matrix, self.means, self.distribution = params
-        LOGGER.debug('Copula Distribution:')
-        LOGGER.debug(self.distribution)
-        LOGGER.debug('Covariance matrix: ', self.cov_matrix)
-        LOGGER.debug('Means: ', self.means)
+        self.cov_matrix, self.means, self.distribution = self._get_parameters()
         self.pdf = st.multivariate_normal.pdf
 
     def _get_parameters(self):

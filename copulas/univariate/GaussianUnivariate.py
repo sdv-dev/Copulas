@@ -18,18 +18,23 @@ class GaussianUnivariate(UnivariateDistrib):
         self.min = -np.inf
         self.max = np.inf
 
+    def __str__(self):
+        details = [self.column.name, self.mean, self.std, self.max, self.min]
+        return (
+            'Distribution Type: Gaussian\n'
+            'Variable name: {}\n'
+            'Mean: {}\n'
+            'Standard deviation: {}\n'
+            'Max: {}\n'
+            'Min: {}'.format(*details)
+        )
+
     def fit(self, column):
-        LOGGER.debug('Distribution Type: Gaussian')
         self.column = column
-        LOGGER.debug('Variable name: ', self.column.name)
         self.mean = np.mean(column)
-        LOGGER.debug('mean = ', self.mean)
         self.std = np.std(column)
-        LOGGER.debug('standard deviation = ', self.std)
         self.max = max(column)
-        LOGGER.debug('max = ', self.max)
         self.min = min(column)
-        LOGGER.debug('min = ', self.min)
 
     def get_pdf(self, x):
         return norm.pdf(x, loc=self.mean, scale=self.std)
