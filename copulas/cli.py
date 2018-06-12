@@ -5,14 +5,18 @@ import sys
 
 import click
 
+from copulas.multivariate.models import CopulaModel
+
 
 @click.command()
-def main(args=None):
-    """Console script for copulas."""
-    click.echo("Replace this message by putting your code into "
-               "copulas.cli.main")
-    click.echo("See click documentation at http://click.pocoo.org/")
-    return 0
+@click.argument('data')
+@click.argument('utype', default='kde')
+@click.argument('ctype', default='dvine')
+def main(data, utype, ctype):
+    """Create a Vine from the data, utype and ctype"""
+    copula = CopulaModel(data, utype, ctype)
+    click.echo(copula.sampling(1, plot=True))
+    click.echo(copula.model.vine_model[-1].tree_data)
 
 
 if __name__ == "__main__":
