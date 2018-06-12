@@ -4,7 +4,6 @@
 import sys
 
 import click
-
 from copulas.multivariate.models import CopulaModel
 
 
