@@ -21,7 +21,7 @@ $ pip install -r requirements.txt
 In this library you can model univariate distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
 ### Creating Univariate Distribution
 First we will retrieve the data from the data folder and create a univariate distribution. For this example, we will create a normal distribution. First type the following commands into a python terminal.
-```bash
+```python
 >>> from copulas.univariate.GaussianUnivariate import GaussianUnivariate
 >>> import numpy as np
 >>> import pandas as pd
@@ -41,10 +41,11 @@ First we will retrieve the data from the data folder and create a univariate dis
 ...
 ```
 Once we have the data, we can pass it into the GaussianUnivariate class.
-```bash
+```python
 >>> feature1 = data['feature_01']
 >>> gu = GaussianUnivariate()
 >>> gu.fit(feature1)
+>>> print(gu)
 Distribution Type: Gaussian
 mean =  5.843333333333335
 standard deviation =  0.8253012917851409
@@ -52,7 +53,7 @@ max =  7.9
 min =  4.3
 ```
 Once you fit the distribution, you can get the pdf or cdf of data points and you can sample from the distribution.
-```bash
+```python
 >>> gu.get_pdf(5)
 0.28678585054723732
 >>> gu.get_cdf(5)
@@ -62,35 +63,47 @@ array([ 6.14745446])
 ```
 ### Creating a Gaussian Copula
 When you have a numeric data table, you can also create a copula and use it to sample from the multivariate distribution. In this example, we will use a Gaussian Copula.
-```bash
+```python
 >>> from copulas.multivariate.GaussianCopula import GaussianCopula
 >>> gc = GaussianCopula()
 >>> gc.fit(data)
-Fitting Gaussian Copula
+>>> print(gc)
+feature_01
+===============
 Distribution Type: Gaussian
-Variable name:  feature_01
-mean =  5.843333333333335
-standard deviation =  0.8253012917851409
-max =  7.9
-min =  4.3
+Variable name: feature_01
+Mean: 5.843333333333334
+Standard deviation: 0.8253012917851409
+Max: 7.9
+Min: 4.3
+
+feature_02
+===============
 Distribution Type: Gaussian
-Variable name:  feature_02
-mean =  3.0540000000000007
-standard deviation =  0.4321465800705435
-max =  4.4
-min =  2.0
+Variable name: feature_02
+Mean: 3.0540000000000003
+Standard deviation: 0.4321465800705435
+Max: 4.4
+Min: 2.0
+
+feature_03
+===============
 Distribution Type: Gaussian
-Variable name:  feature_03
-mean =  3.7586666666666693
-standard deviation =  1.7585291834055201
-max =  6.9
-min =  1.0
+Variable name: feature_03
+Mean: 3.758666666666666
+Standard deviation: 1.7585291834055212
+Max: 6.9
+Min: 1.0
+
+feature_04
+===============
 Distribution Type: Gaussian
-Variable name:  feature_04
-mean =  1.1986666666666672
-standard deviation =  0.760612618588172
-max =  2.5
-min =  0.1
+Variable name: feature_04
+Mean: 1.1986666666666668
+Standard deviation: 0.7606126185881716
+Max: 2.5
+Min: 0.1
+
 Copula Distribution:
      feature_01  feature_02  feature_03  feature_04
 0     -0.900681    1.032057   -1.341272   -1.312977
@@ -99,20 +112,32 @@ Copula Distribution:
 3     -1.506521    0.106445   -1.284407   -1.312977
 4     -1.021849    1.263460   -1.341272   -1.312977
 5     -0.537178    1.957669   -1.170675   -1.050031
-6     -1.506521    0.800654   -1.341272   -1.181504
-7     -1.021849    0.800654   -1.284407   -1.312977
-8     -1.748856   -0.356361   -1.341272   -1.312977
-9     -1.143017    0.106445   -1.284407   -1.444450
 ...
-Covariance matrix:  [[ 1.00671141 -0.11010327  0.87760486  0.82344326]
- [-0.11010327  1.00671141 -0.42333835 -0.358937  ]
- [ 0.87760486 -0.42333835  1.00671141  0.96921855]
- [ 0.82344326 -0.358937    0.96921855  1.00671141]]
-Means:  [-3.315866100213801e-16, -7.8159700933611021e-16, 2.8421709430404008e-16, -2.3684757858670006e-16]
+
+[150 rows x 4 columns]
+
+Covariance matrix:
+[[ 1.26935536  0.64987728  0.94166734 ... -0.57458312 -0.14548004
+  -0.43589371]
+ [ 0.64987728  0.33302068  0.4849735  ... -0.29401609 -0.06772633
+  -0.21867228]
+ [ 0.94166734  0.4849735   0.72674568 ... -0.42778472 -0.04608618
+  -0.27836438]
+ ...
+ [-0.57458312 -0.29401609 -0.42778472 ...  0.2708685   0.0786054
+   0.19208669]
+ [-0.14548004 -0.06772633 -0.04608618 ...  0.0786054   0.17668562
+   0.14455133]
+ [-0.43589371 -0.21867228 -0.27836438 ...  0.19208669  0.14455133
+   0.22229033]]
+
+Means:
+[-3.315866100213801e-16, -7.815970093361102e-16, 2.842170943040401e-16, -2.3684757858670006e-16]
+
 ```
 
 Once you have fit the copula, you can sample from it. 
-```bash
+```python
 gc.sample(5)
    feature_01  feature_02  feature_03  feature_04
 0    5.529610    2.966947    3.162891    0.974260

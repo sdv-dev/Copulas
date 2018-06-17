@@ -1,9 +1,13 @@
-import scipy.stats as st
-import scipy.integrate as integrate
-import pandas as pd
+import logging
+
 import numpy as np
+import pandas as pd
+import scipy.integrate as integrate
+import scipy.stats as st
 from copulas.multivariate.MVCopula import MVCopula
 from copulas.univariate.GaussianUnivariate import GaussianUnivariate
+
+LOGGER = logging.getLogger(__name__)
 
 
 class GaussianCopula(MVCopula):
@@ -19,8 +23,19 @@ class GaussianCopula(MVCopula):
         self.cdf = None
         self.ppf = None
 
+    def __str__(self):
+        distribs = [
+            '\n{}\n==============\n{}'.format(key, value) for key, value in self.distribs.items()]
+
+        details = (
+            '\n\nCopula Distribution:\n{}'
+            '\n\nCovariance matrix:\n{}'
+            '\n\nMeans:\n{}'.format(self.distribution, self.cov_matrix, self.means)
+        )
+        return '\n'.join(distribs) + details
+
     def fit(self, data, distrib_map=None):
-        print('Fitting Gaussian Copula')
+        LOGGER.debug('Fitting Gaussian Copula')
         self.data = data
         keys = data.keys()
         # create distributions based on user input
@@ -32,12 +47,7 @@ class GaussianCopula(MVCopula):
             for key in keys:
                 self.distribs[key] = GaussianUnivariate()
                 self.distribs[key].fit(data[key])
-        params = self._get_parameters()
-        self.cov_matrix, self.means, self.distribution = params
-        print('Copula Distribution:')
-        print(self.distribution)
-        print('Covariance matrix: ', self.cov_matrix)
-        print('Means: ', self.means)
+        self.cov_matrix, self.means, self.distribution = self._get_parameters()
         self.pdf = st.multivariate_normal.pdf
 
     def _get_parameters(self):

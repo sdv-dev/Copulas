@@ -1,6 +1,10 @@
+import logging
+
 import numpy as np
-from scipy.stats import norm
 from copulas.univariate.UnivariateDistrib import UnivariateDistrib
+from scipy.stats import norm
+
+LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(UnivariateDistrib):
@@ -14,18 +18,23 @@ class GaussianUnivariate(UnivariateDistrib):
         self.min = -np.inf
         self.max = np.inf
 
+    def __str__(self):
+        details = [self.column.name, self.mean, self.std, self.max, self.min]
+        return (
+            'Distribution Type: Gaussian\n'
+            'Variable name: {}\n'
+            'Mean: {}\n'
+            'Standard deviation: {}\n'
+            'Max: {}\n'
+            'Min: {}'.format(*details)
+        )
+
     def fit(self, column):
-        print('Distribution Type: Gaussian')
         self.column = column
-        print('Variable name: ', self.column.name)
         self.mean = np.mean(column)
-        print('mean = ', self.mean)
         self.std = np.std(column)
-        print('standard deviation = ', self.std)
         self.max = max(column)
-        print('max = ', self.max)
         self.min = min(column)
-        print('min = ', self.min)
 
     def get_pdf(self, x):
         return norm.pdf(x, loc=self.mean, scale=self.std)
