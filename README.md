@@ -1,6 +1,12 @@
+<p align="center"> 
+<img width=15% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“Copulas” />
+</p>
 
+<p align="center"> 
+<i>An open source project from Data to AI Lab at MIT.</i>
+</p>
 
-# Copula Library
+# Copulas
 A python library for building different types of copulas and using them for sampling.
 
 - Free software: MIT license
