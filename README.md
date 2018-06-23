@@ -1,28 +1,71 @@
-<p align="left"> 
+<p align="left">
 <img width=15% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“Copulas” />
 <i>An open source project from Data to AI Lab at MIT.</i>
 </p>
 
 # Copulas
-A python library for building different types of copulas and using them for sampling.
-
-- Free software: MIT license
-- Documentation: https://DAI-Lab.github.io/copulas
 
 [travis-img]: https://travis-ci.org/DAI-Lab/copulas.svg?branch=master
 [travis-url]: https://travis-ci.org/DAI-Lab/copulas
 [pypi-img]: https://img.shields.io/pypi/v/copulas.svg
 [pypi-url]: https://pypi.python.org/pypi/copulas
+
+## Overview
+
+A python library for building different types of [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
+
+- Free software: MIT license
+- Documentation: https://DAI-Lab.github.io/copulas
+
+## Supported Copulas
+
+### Bivariate
+
+- Clayton
+- Frank
+- Gumbel
+
+Accesible from `copulas.bivariate.copulas.Copula`
+
+### Multivariate
+- Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
+
+Accesible from `copulas.multivariate.models.CopulaModel`
+
+
 ## Installation
-You can create a virtual environment and install the dependencies using the following commands.
-```bash
-$ virtualenv venv --no-site-packages
-$ source venv/bin/activate
-$ pip install -r requirements.txt
+
+### Install with pip
+
+The easiest way to install Copulas is using `pip`
+
 ```
+pip install copulas
+```
+
+### Install from sources
+
+You can also clone the repository and install it from sources
+
+```
+git clone git@github.com:DAI-Lab/Copulas.git
+cd Copulas
+python setup.py install
+```
+
+## Data Requirements
+
+This package works under the assumption that the data is perfectly clean, that means that:
+
+- There are no missing values.
+- All values are numerical
+
 ## Usage
+
 In this library you can model univariate distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
+
 ### Creating Univariate Distribution
+
 First we will retrieve the data from the data folder and create a univariate distribution. For this example, we will create a normal distribution. First type the following commands into a python terminal.
 ```python
 >>> from copulas.univariate.GaussianUnivariate import GaussianUnivariate
@@ -139,7 +182,7 @@ Means:
 
 ```
 
-Once you have fit the copula, you can sample from it. 
+Once you have fit the copula, you can sample from it.
 ```python
 gc.sample(5)
    feature_01  feature_02  feature_03  feature_04
@@ -149,3 +192,33 @@ gc.sample(5)
 3    5.952688    3.086259    4.088219    1.382523
 4    5.360256    2.920929    2.844729    0.826919
 ```
+
+Release Workflow
+----------------
+
+The process of releasing a new version involves several steps combining both ``git`` and
+``bumpversion`` which, briefly:
+
+1. Merge what is in ``master`` branch into ``stable`` branch.
+2. Update the version in ``setup.cfg``, ``copulas/__init__.py`` and ``HISTORY.md`` files.
+3. Create a new TAG pointing at the correspoding commit in ``stable`` branch.
+4. Merge the new commit from ``stable`` into ``master``.
+5. Update the version in ``setup.cfg`` and ``copulas/__init__.py`` to open the next
+   development interation.
+
+**Note:** Before starting the process, make sure that ``HISTORY.md`` has a section titled
+**Unreleased** with the list of changes that will be included in the new version, and that
+these changes are committed and available in ``master`` branch.
+Normally this is just a list of the Pull Requests that have been merged since the latest version.
+
+Once this is done, just run the following commands::
+
+    git checkout stable
+    git merge --no-ff master    # This creates a merge commit
+    bumpversion release   # This creates a new commit and a TAG
+    git push --tags origin stable
+    make release
+    git checkout master
+    git merge stable
+    bumpversion --no-tag patch
+    git push
