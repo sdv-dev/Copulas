@@ -2,6 +2,7 @@ import logging
 from unittest import TestCase
 
 import numpy as np
+
 from copulas import utils
 
 LOGGER = logging.getLogger(__name__)

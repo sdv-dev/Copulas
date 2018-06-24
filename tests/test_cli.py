@@ -6,6 +6,7 @@
 import unittest
 
 from click.testing import CliRunner
+
 from copulas import cli
 
 

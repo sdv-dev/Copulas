@@ -6,6 +6,7 @@
 from unittest import TestCase
 
 import numpy as np
+
 from copulas.bivariate.copulas import Copula
 
 
