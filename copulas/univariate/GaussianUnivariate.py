@@ -32,7 +32,12 @@ class GaussianUnivariate(UnivariateDistrib):
     def fit(self, column):
         self.column = column
         self.mean = np.mean(column)
-        self.std = np.std(column)
+        std = np.std(column)
+        # check for column with all the same vals
+        if std == 0:
+            self.std = 0.001
+        else:
+            self.std = std
         self.max = max(column)
         self.min = min(column)
 
