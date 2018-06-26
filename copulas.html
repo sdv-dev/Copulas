@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas package &mdash; Copulas 0.1.1-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="copulas.bivariate package" href="copulas.bivariate.html" />
+    <link rel="prev" title="copulas" href="modules.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Copulas
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">copulas</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">copulas package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-copulas.utils">copulas.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-copulas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">copulas</a> &raquo;</li>
+        
+      <li>copulas package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/copulas/blob/master/docs/copulas.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="copulas-package">
+<h1>copulas package<a class="headerlink" href="#copulas-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate.BVCopula">copulas.bivariate.BVCopula module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate.copulas">copulas.bivariate.copulas module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate.GaussianCopula">copulas.multivariate.GaussianCopula module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate.MVCopula">copulas.multivariate.MVCopula module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate.VineCopula">copulas.multivariate.VineCopula module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate.GaussianUnivariate">copulas.univariate.GaussianUnivariate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate.UnivariateDistrib">copulas.univariate.UnivariateDistrib module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-copulas.utils">
+<span id="copulas-utils-module"></span><h2>copulas.utils module<a class="headerlink" href="#module-copulas.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.utils.Distribution">
+<em class="property">class </em><code class="descclassname">copulas.utils.</code><code class="descname">Distribution</code><span class="sig-paren">(</span><em>column=None</em>, <em>summary=None</em>, <em>categorical=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="copulas.utils.Distribution.estimate_args">
+<code class="descname">estimate_args</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.estimate_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.estimate_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.utils.Distribution.fix_args">
+<code class="descname">fix_args</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.fix_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.fix_args" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Fixes the args so that they are valid for the distribution this</dt>
+<dd>is supposed to represent.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">Exception – Unsupported distribution:</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.utils.Distribution.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.utils.Distribution.get_ppf">
+<code class="descname">get_ppf</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.get_ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.get_ppf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.utils.Distribution.get_summary">
+<code class="descname">get_summary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.get_summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.get_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the data necessary to recreate this object later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.utils.Distribution.set_args">
+<code class="descname">set_args</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#Distribution.set_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.Distribution.set_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.utils.NonVariable">
+<em class="property">class </em><code class="descclassname">copulas.utils.</code><code class="descname">NonVariable</code><span class="sig-paren">(</span><em>column</em>, <em>is_key=False</em>, <em>regex=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#NonVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.NonVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="copulas.utils.NonVariable.generate_new">
+<code class="descname">generate_new</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#NonVariable.generate_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.NonVariable.generate_new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new value that could belong in the column using the regex.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="copulas.utils.SDVException">
+<em class="property">exception </em><code class="descclassname">copulas.utils.</code><code class="descname">SDVException</code><a class="reference internal" href="_modules/copulas/utils.html#SDVException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.SDVException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.add_noise">
+<code class="descclassname">copulas.utils.</code><code class="descname">add_noise</code><span class="sig-paren">(</span><em>cov</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#add_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.add_noise" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Add noise to the covariance matrix by dividing all of</dt>
+<dd>the off-diagonal elements by 2.0. This means that
+they are less dependent of each other</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cov</strong> (<em>array</em>) – the covariance matrix</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.generate_samples">
+<code class="descclassname">copulas.utils.</code><code class="descname">generate_samples</code><span class="sig-paren">(</span><em>covariance</em>, <em>ppfs</em>, <em>N</em>, <em>means=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#generate_samples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.generate_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a Gaussian Copula along with the given quantile functions to generate
+N samples whose elements are appropriately correlated</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_date_converter">
+<code class="descclassname">copulas.utils.</code><code class="descname">get_date_converter</code><span class="sig-paren">(</span><em>col</em>, <em>missing</em>, <em>meta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#get_date_converter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_date_converter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a converter that takes in an integer representing ms</dt>
+<dd>and turns it into a string date</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>col</strong> (<em>str</em>) – name of column</li>
+<li><strong>missing</strong> (<em>bool</em>) – true if column has NULL values</li>
+<li><strong>meta</strong> (<em>str</em>) – type of column values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">function</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_ll">
+<code class="descclassname">copulas.utils.</code><code class="descname">get_ll</code><span class="sig-paren">(</span><em>X</em>, <em>covariance</em>, <em>cdfs</em>, <em>check</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#get_ll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_ll" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Given a vector X, covariance matrix, and cdfs for each element,</dt>
+<dd>return the log likelihood of X in that distribution</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>X</strong> (<em>ndarray</em>) – a vector</li>
+<li><strong>covariance</strong> – a covariance matrix</li>
+<li><strong>cdfs</strong> (<em>list&lt;Distribution&gt;</em>) – cdfs</li>
+<li><strong>check</strong> (<em>list&lt;bool&gt;</em>) – each check var represents whether or not to check for noise</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_many">
+<code class="descclassname">copulas.utils.</code><code class="descname">get_many</code><span class="sig-paren">(</span><em>ct</em>, <em>regex</em>, <em>unique_set=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#get_many"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_many" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesizing many new values based on the regex</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ct</strong> (<em>int</em>) – length of the dataframe</li>
+<li><strong>regex</strong> (<em>str</em>) – type of column values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_normalize_fn">
+<code class="descclassname">copulas.utils.</code><code class="descname">get_normalize_fn</code><span class="sig-paren">(</span><em>cdf</em>, <em>check=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#get_normalize_fn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_normalize_fn" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Normalizing should be: Phi^-1(F(x)) but because F(x) is sometimes 0 or 1,</dt>
+<dd>we fudge the extremeties a little.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cdf</strong> (<em>bool</em>) – cdf</li>
+<li><strong>check</strong> – whether or not to check for noise</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_number_converter">
+<code class="descclassname">copulas.utils.</code><code class="descname">get_number_converter</code><span class="sig-paren">(</span><em>col</em>, <em>missing</em>, <em>meta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#get_number_converter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_number_converter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a converter that takes in a value and turns it into an</dt>
+<dd>integer, if necessary</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>col</strong> (<em>str</em>) – name of column</li>
+<li><strong>missing</strong> (<em>bool</em>) – true if column has NULL values</li>
+<li><strong>meta</strong> (<em>str</em>) – type of column values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">function</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.make_covariance_matrix">
+<code class="descclassname">copulas.utils.</code><code class="descname">make_covariance_matrix</code><span class="sig-paren">(</span><em>dim</em>, <em>triu_vals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#make_covariance_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.make_covariance_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Make a symmetric covariance matrix of shape (dim x dim)</dt>
+<dd><p class="first">given an array of values that belong to the upper triangle.
+For example, if dim=3 and triu_vals=[1, 2, 3, 4, 5, 6] then
+the covariance is:</p>
+<dl class="last docutils">
+<dt>[[1, 2, 3]</dt>
+<dd>[2, 4, 5]
+[3, 5, 6]]</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> (<em>int</em>) – matrix has shape (dim x dim)</li>
+<li><strong>triu_vals</strong> (<em>list&lt;int&gt;</em>) – list of vals to make the covariance matrix from (see summary)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ndarray – symmetric covariance matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.update">
+<code class="descclassname">copulas.utils.</code><code class="descname">update</code><span class="sig-paren">(</span><em>obs</em>, <em>obs_indices</em>, <em>covariance</em>, <em>cdfs</em>, <em>obs_care</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/utils.html#update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform inference to update the covariance and the means based on the
+observed values. Returns the updated (normalized) mean and covariance matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>obs</strong> (<em>list</em>) – the observations made on original table</li>
+<li><strong>obs_indices</strong> – the indices of those observations (column indices)</li>
+<li><strong>covariance</strong> (<em>ndarray</em>) – the full covariance matrix of table</li>
+<li><strong>cdfs</strong> (<em>list&lt;Distribution&gt;</em>) – list of all the cdfs for each column in the table</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas" title="Permalink to this headline">¶</a></h2>
+<p>Top-level package for Copulas.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.bivariate.html" class="btn btn-neutral float-right" title="copulas.bivariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral" title="copulas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Andrew Montanez.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.1-dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

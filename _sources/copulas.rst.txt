@@ -1,0 +1,31 @@
+copulas package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    copulas.bivariate
+    copulas.multivariate
+    copulas.univariate
+
+Submodules
+----------
+
+copulas.utils module
+--------------------
+
+.. automodule:: copulas.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: copulas
+    :members:
+    :undoc-members:
+    :show-inheritance:

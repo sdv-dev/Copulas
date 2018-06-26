@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.multivariate package &mdash; Copulas 0.1.1-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="copulas.univariate package" href="copulas.univariate.html" />
+    <link rel="prev" title="copulas.bivariate package" href="copulas.bivariate.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Copulas
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">copulas</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.html">copulas package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">copulas.multivariate package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas.utils">copulas.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">copulas</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+      <li>copulas.multivariate package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/copulas/blob/master/docs/copulas.multivariate.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="copulas-multivariate-package">
+<h1>copulas.multivariate package<a class="headerlink" href="#copulas-multivariate-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-copulas.multivariate.GaussianCopula">
+<span id="copulas-multivariate-gaussiancopula-module"></span><h2>copulas.multivariate.GaussianCopula module<a class="headerlink" href="#module-copulas.multivariate.GaussianCopula" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.GaussianCopula.GaussianCopula">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.GaussianCopula.</code><code class="descname">GaussianCopula</code><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.MVCopula.MVCopula" title="copulas.multivariate.MVCopula.MVCopula"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.MVCopula.MVCopula</span></code></a></p>
+<p>Class for a gaussian copula model</p>
+<dl class="method">
+<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>distrib_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the data and updates the parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns cdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns pdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new data point generated from model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.multivariate.MVCopula">
+<span id="copulas-multivariate-mvcopula-module"></span><h2>copulas.multivariate.MVCopula module<a class="headerlink" href="#module-copulas.multivariate.MVCopula" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.MVCopula.MVCopula">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.MVCopula.</code><code class="descname">MVCopula</code><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for a multi-variate copula object</p>
+<dl class="method">
+<dt id="copulas.multivariate.MVCopula.MVCopula.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the data and updates the parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.MVCopula.MVCopula.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns cdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.MVCopula.MVCopula.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns pdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.MVCopula.MVCopula.infer">
+<code class="descname">infer</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.infer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in subset of values and predicts the rest</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.MVCopula.MVCopula.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new data point generated from model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.multivariate.VineCopula">
+<span id="copulas-multivariate-vinecopula-module"></span><h2>copulas.multivariate.VineCopula module<a class="headerlink" href="#module-copulas.multivariate.VineCopula" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.VineCopula.CopulaModel">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">CopulaModel</code><span class="sig-paren">(</span><em>data_path</em>, <em>utype</em>, <em>ctype</em>, <em>y_ind=None</em>, <em>meta_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class instantiates a Copula Model from a dataset.
+.. attribute:: data_path</p>
+<blockquote>
+<div>A string indicating the directory of the training dataset</div></blockquote>
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.meta_path">
+<code class="descname">meta_path</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.meta_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>A meta file specifies information for each column</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.model_data">
+<code class="descname">model_data</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.model_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dataframe storing training data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.u_type">
+<code class="descname">u_type</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.u_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>methods for estimating density, can be ‘kde’ or ‘gaussian’</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.c_type">
+<code class="descname">c_type</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.c_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string indicating the type of copula models, can be</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">'gaussian','frank','clayton','gumbel','cvine','dvine','t','PCA'</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.y_ind">
+<code class="descname">y_ind</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.y_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>index of the variable that will be used as y variable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.n_var">
+<code class="descname">n_var</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.n_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of variables</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.param">
+<code class="descname">param</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.param" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of parameters fitted to the data for each variable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.cdfs">
+<code class="descname">cdfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.cdfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of cdf function fitted to the data for each variable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.ppfs">
+<code class="descname">ppfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.ppfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of inverse cdf function fitting to the data for each variable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.u_matrix">
+<code class="descname">u_matrix</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.u_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>A matrix represents the univariate distribution of size m*n,
+where m is the number of data points, and n is number of variables</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.infer">
+<code class="descname">infer</code><span class="sig-paren">(</span><em>test_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.infer" title="Permalink to this definition">¶</a></dt>
+<dd><p>predict with the copula model
+:param test_data: path for the test_data file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.CopulaModel.sampling">
+<code class="descname">sampling</code><span class="sig-paren">(</span><em>n</em>, <em>plot=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel.sampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.sampling" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.VineCopula.Tree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>k</em>, <em>vine</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>instantiate a single tree in the vine model
+:param k: level of tree
+:param prev_T: tree model of previous level
+:param tree_data: current tree model
+:param new_U: conditional cdfs for next level tree</p>
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.Tree.identify_eds_ing">
+<code class="descname">identify_eds_ing</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Tree.identify_eds_ing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Tree.identify_eds_ing" title="Permalink to this definition">¶</a></dt>
+<dd><p>find nodes connecting adjacent edges
+:param e1: pair of nodes representing edge1
+:param e2: pair of nodes representing edge2
+:output ing: nodes connecting e1 and e2
+:output n1,n2: the other node of e1 and e2 respectively</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.VineCopula.Vine">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">Vine</code><span class="sig-paren">(</span><em>c_type</em>, <em>u_mat</em>, <em>tau_mat</em>, <em>ppf</em>, <em>y_ind</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class constructs a vine model consisting multiple levels of trees
+.. attribute:: c_type</p>
+<blockquote>
+<div>a string indicating the type of the vine model,can be ‘cvine’ or ‘dvine’</div></blockquote>
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.u_matrix">
+<code class="descname">u_matrix</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.u_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>matrix represents the univariate distribution of size m*n,
+where m is the number of data points, and n is number of variables</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.tau_mat">
+<code class="descname">tau_mat</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.tau_mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>matrix represents kendall tau matrix</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.y_ind">
+<code class="descname">y_ind</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.y_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>index of the variable that will be used as y variable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.n_sample">
+<code class="descname">n_sample</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.n_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of samples in the dataset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.n_var">
+<code class="descname">n_var</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.n_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of variables</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.depth">
+<code class="descname">depth</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>depth of the vine model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">#TO DO</code></dt>
+<dd><p>add pruning ?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.VineCopula.Vine.vine_model">
+<code class="descname">vine_model</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.vine_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>array [level of tree] -&gt; [tree]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.Vine.train_vine">
+<code class="descname">train_vine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Vine.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.train_vine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a vine model
+output: trees are stored in self.vine_model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.multivariate">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.multivariate" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.univariate.html" class="btn btn-neutral float-right" title="copulas.univariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.bivariate.html" class="btn btn-neutral" title="copulas.bivariate package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Andrew Montanez.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.1-dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

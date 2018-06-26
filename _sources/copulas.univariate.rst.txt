@@ -1,0 +1,30 @@
+copulas.univariate package
+==========================
+
+Submodules
+----------
+
+copulas.univariate.GaussianUnivariate module
+--------------------------------------------
+
+.. automodule:: copulas.univariate.GaussianUnivariate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.univariate.UnivariateDistrib module
+-------------------------------------------
+
+.. automodule:: copulas.univariate.UnivariateDistrib
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: copulas.univariate
+    :members:
+    :undoc-members:
+    :show-inheritance:

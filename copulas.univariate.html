@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.univariate package &mdash; Copulas 0.1.1-dev documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="copulas.multivariate package" href="copulas.multivariate.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Copulas
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">copulas</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.html">copulas package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">copulas.univariate package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas.utils">copulas.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">copulas</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+      <li>copulas.univariate package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/copulas/blob/master/docs/copulas.univariate.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="copulas-univariate-package">
+<h1>copulas.univariate package<a class="headerlink" href="#copulas-univariate-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-copulas.univariate.GaussianUnivariate">
+<span id="copulas-univariate-gaussianunivariate-module"></span><h2>copulas.univariate.GaussianUnivariate module<a class="headerlink" href="#module-copulas.univariate.GaussianUnivariate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate">
+<em class="property">class </em><code class="descclassname">copulas.univariate.GaussianUnivariate.</code><code class="descname">GaussianUnivariate</code><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib" title="copulas.univariate.UnivariateDistrib.UnivariateDistrib"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.UnivariateDistrib.UnivariateDistrib</span></code></a></p>
+<p>Gaussian univariate model</p>
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fits a univariate model and updates parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a value returns corresponding cdf value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a value, returns corresponding pdf value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate.inverse_cdf">
+<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate.inverse_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a cdf value, returns a value in original space</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.GaussianUnivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/GaussianUnivariate.html#GaussianUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.GaussianUnivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns new data point based on model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.univariate.UnivariateDistrib">
+<span id="copulas-univariate-univariatedistrib-module"></span><h2>copulas.univariate.UnivariateDistrib module<a class="headerlink" href="#module-copulas.univariate.UnivariateDistrib" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib">
+<em class="property">class </em><code class="descclassname">copulas.univariate.UnivariateDistrib.</code><code class="descname">UnivariateDistrib</code><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for representing univariate distributions</p>
+<dl class="method">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fits a univariate model and updates parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a value returns corresponding cdf value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a value, returns corresponding pdf value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib.inverse_cdf">
+<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib.inverse_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>given a cdf value, returns a value in original space</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.UnivariateDistrib.UnivariateDistrib.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/UnivariateDistrib.html#UnivariateDistrib.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UnivariateDistrib.UnivariateDistrib.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns new data point based on model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.univariate">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.univariate" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.multivariate.html" class="btn btn-neutral" title="copulas.multivariate package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Andrew Montanez.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.1-dev',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

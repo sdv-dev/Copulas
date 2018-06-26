@@ -1,0 +1,38 @@
+copulas.multivariate package
+============================
+
+Submodules
+----------
+
+copulas.multivariate.GaussianCopula module
+------------------------------------------
+
+.. automodule:: copulas.multivariate.GaussianCopula
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.multivariate.MVCopula module
+------------------------------------
+
+.. automodule:: copulas.multivariate.MVCopula
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.multivariate.VineCopula module
+--------------------------------------
+
+.. automodule:: copulas.multivariate.VineCopula
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: copulas.multivariate
+    :members:
+    :undoc-members:
+    :show-inheritance:
