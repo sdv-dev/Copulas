@@ -82,7 +82,9 @@ class GaussianCopula(MVCopula):
         cov = self.cov_matrix
         means = [np.mean(cov[:, i]) for i in range(len(cov))]
         s = (num_rows,)
-        samples = np.random.multivariate_normal(means, self.cov_matrix, size=s)
+        # clean up cavariance matrix
+        clean_cov = np.nan_to_num(self.cov_matrix)
+        samples = np.random.multivariate_normal(means, clean_cov, size=s)
         # run through cdf and inverse cdf
         for i in range(self.data.shape[1]):
             label = self.data.iloc[:, i].name
