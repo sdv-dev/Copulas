@@ -2,7 +2,6 @@
 
 """Console script for copulas."""
 import argparse
-import sys
 
 from copulas.multivariate.VineCopula import CopulaModel
 
