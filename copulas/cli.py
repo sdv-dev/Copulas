@@ -5,7 +5,7 @@ import sys
 
 import click
 
-from copulas.multivariate.models import CopulaModel
+from copulas.multivariate.VineCopula import CopulaModel
 
 
 @click.command()
