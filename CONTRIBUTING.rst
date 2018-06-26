@@ -116,12 +116,29 @@ To run a subset of tests::
 Deploying
 ---------
 
-A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
+The process of releasing a new version involves several steps combining both ``git`` and
+``bumpversion`` which, briefly:
 
-$ bumpversion patch # possible: major / minor / patch
-$ git push
-$ git push --tags
+1. Merge what is in ``master`` branch into ``stable`` branch.
+2. Update the version in ``setup.cfg``, ``copulas/__init__.py`` and ``HISTORY.md`` files.
+3. Create a new TAG pointing at the correspoding commit in ``stable`` branch.
+4. Merge the new commit from ``stable`` into ``master``.
+5. Update the version in ``setup.cfg`` and ``copulas/__init__.py`` to open the next
+   development interation.
 
-Travis will then deploy to PyPI if tests pass.
+**Note:** Before starting the process, make sure that ``HISTORY.md`` has a section titled
+**Unreleased** with the list of changes that will be included in the new version, and that
+these changes are committed and available in ``master`` branch.
+Normally this is just a list of the Pull Requests that have been merged since the latest version.
+
+Once this is done, just run the following commands::
+
+    git checkout stable
+    git merge --no-ff master    # This creates a merge commit
+    bumpversion release   # This creates a new commit and a TAG
+    git push --tags origin stable
+    make release
+    git checkout master
+    git merge stable
+    bumpversion --no-tag patch
+    git push
