@@ -32,7 +32,12 @@ class GaussianUnivariate(UnivariateDistrib):
     def fit(self, column):
         self.column = column
         self.mean = np.mean(column)
-        self.std = np.std(column)
+        std = np.std(column)
+        # check for column with all the same vals
+        if std == 0:
+            self.std = 0.001
+        else:
+            self.std = std
         self.max = max(column)
         self.min = min(column)
 
@@ -40,17 +45,10 @@ class GaussianUnivariate(UnivariateDistrib):
         return norm.pdf(x, loc=self.mean, scale=self.std)
 
     def get_cdf(self, x):
+        # check to make sure dtype is not object
+        if x.dtype == 'object':
+            x = x.astype('float64')
         return norm.cdf(x, loc=self.mean, scale=self.std)
-
-    # def _calculate_cdf(self):
-    #   def cdf(data):
-    #       u = []
-    #       for y in data:
-    #           ui = self.pdf.integrate_box_1d(-np.inf, y)
-    #           u.append(ui)
-    #       u = np.asarray(u)
-    #       return u
-    #   return cdf
 
     def inverse_cdf(self, u):
         """ given a cdf value, returns a value in original space """
