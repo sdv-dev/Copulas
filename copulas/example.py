@@ -1,6 +1,7 @@
 import logging
 
 import pandas as pd
+
 from copulas.multivariate.GaussianCopula import GaussianCopula
 
 LOGGER = logging.getLogger(__name__)

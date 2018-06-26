@@ -293,13 +293,12 @@ class Copula(object):
     def density_gaussian(self, u):
         """Compute density of gaussian copula
         """
-        # FIXME imports are missing and self.param doesn't exist
-        # R = cholesky(self.param)
-        # x = norm.ppf(u)
-        # z = solve(R, x.T)
-        # log_sqrt_det_rho = np.sum(np.log(np.diag(R)))
-        # y = np.exp(-0.5 * np.sum(np.power(z.T, 2) - np.power(x, 2), axis=1) - log_sqrt_det_rho)
-        # return y
+        R = np.linalg.cholesky(self.param)
+        x = scipy.stats.norm.ppf(u)
+        z = np.linalg.solve(R, x.T)
+        log_sqrt_det_rho = np.sum(np.log(np.diag(R)))
+        y = np.exp(-0.5 * np.sum(np.power(z.T, 2) - np.power(x, 2), axis=1) - log_sqrt_det_rho)
+        return y
 
     def _frank_help(self, alpha):
         """compute first order debye function to estimate theta
