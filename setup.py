@@ -12,7 +12,6 @@ with open('HISTORY.md') as history_file:
     history = history_file.read()
 
 install_requires = [
-    'Click>=6.0',
     'numpy>=1.13.1',
     'pandas>=0.22.0',
     'scipy>=0.19.1',

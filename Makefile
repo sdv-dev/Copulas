@@ -54,8 +54,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8 and isort
-	flake8 copulas tests
-	isort -c --recursive copulas tests
+	flake8 copulas tests examples
+	isort -c --recursive copulas tests examples
 
 fixlint: ## fix lint issues using autoflake, autopep8, and isort
 	find copulas -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
@@ -65,6 +65,10 @@ fixlint: ## fix lint issues using autoflake, autopep8, and isort
 	find tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
 	autopep8 --in-place --recursive --aggressive tests
 	isort --apply --atomic --recursive tests
+
+	find examples -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
+	autopep8 --in-place --recursive --aggressive examples
+	isort --apply --atomic --recursive examples
 
 test: ## run tests quickly with the default Python
 	pytest
