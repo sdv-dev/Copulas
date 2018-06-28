@@ -48,7 +48,8 @@ setup(
         ],
     },
     extras_require={
-        'test': tests_require
+        'test': tests_require,
+        'aws': ['boto3>=1.7.47']
     },
     install_requires=install_requires,
     license="MIT license",
