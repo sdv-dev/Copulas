@@ -80,7 +80,6 @@ class GaussianCopula(MVCopula):
 
     def sample(self, num_rows=1):
         res = {}
-        cov = self.cov_matrix
         # clean up means
         clean_mean = np.nan_to_num(self.means)
         s = (num_rows,)
