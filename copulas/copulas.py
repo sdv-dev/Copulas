@@ -364,8 +364,6 @@ class Copula(object):
 
 
 
-
-
 if __name__ == '__main__':
     #quick test
     c0 = Copula(cname='clayton')
@@ -387,5 +385,3 @@ if __name__ == '__main__':
     sampled = Copula.sampling('gumbel',0.2,n_sample)
     plt.scatter(sampled[:,0],sampled[:,1],c='red')
     plt.show()
-
-    # print(Copula.select_copula(U,V))

@@ -19,5 +19,3 @@ if __name__ == '__main__':
     dvine = Vine(data,11)
     dvine.train_vine()
     print(dvine.vine_model[-1].tree_data)
-    
-
