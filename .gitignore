@@ -64,6 +64,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/copulas.rst
+docs/copulas.*.rst
+docs/modules.rst
 
 # PyBuilder
 target/
@@ -100,3 +103,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# other
+.DS_Store
+
+# Vim
+.*.swp
