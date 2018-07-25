@@ -21,6 +21,7 @@ install_requires = [
 
 tests_require = [
     'pytest>=3.4.2',
+    'boto3>=1.7.47'
 ]
 
 setup_requires = [
