@@ -1,13 +1,6 @@
-import logging
-
-import numpy as np
+import scipy
 
 from copulas.univariate.UnivariateDistrib import UnivariateDistrib
-from scipy.stats import gaussian_kde
-import scipy.optimize as optimize
-
-
-LOGGER = logging.getLogger(__name__)
 
 
 class KDEUnivariate(UnivariateDistrib):
@@ -31,10 +24,10 @@ class KDEUnivariate(UnivariateDistrib):
         and store it as a class attribute.
         """
 
-        self.model = gaussian_kde(column)
+        self.model = scipy.stats.gaussian_kde(column)
 
     def get_pdf(self, x):
-         """Evaluate the estimated pdf on a point.
+        """Evaluate the estimated pdf on a point.
 
         Args:
             :param x: a datapoint.
@@ -69,7 +62,7 @@ class KDEUnivariate(UnivariateDistrib):
         Returns:
             x: int or float with the value in original space
         """
-        return optimize.brentq(self.get_cdf, -1000.0, 1000.0, args=(u))
+        return scipy.optimize.brentq(self.get_cdf, -1000.0, 1000.0, args=(u))
 
     def sample(self, num_samples=1):
         """ Samples new data point based on model
