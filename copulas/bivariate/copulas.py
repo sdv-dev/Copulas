@@ -1,12 +1,13 @@
 import logging
 
 import numpy as np
-import scipy.stats
-from scipy.optimize import fmin, brentq, fminbound
+from scipy import stats
+from scipy.optimize import fmin, fminbound
 
 LOGGER = logging.getLogger(__name__)
 
 eps = np.finfo(np.float32).eps
+
 
 class CopulaException(Exception):
     pass
@@ -19,37 +20,36 @@ class Copula(object):
         """
         self.cname = cname
 
-    def fit(self,U,V):
+    def fit(self, U, V):
         """ Fit a copula object.
         """
         self.U = U
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
-        self.theta = Copula.tau_to_theta(self.cname,self.tau)
-
+        self.theta = Copula.tau_to_theta(self.cname, self.tau)
 
     def get_params(self):
-        return {'tau':self.tau,'theta':self.theta}
+        return {'tau': self.tau, 'theta': self.theta}
 
-    def set_params(self,**kwargs):
-        for key,value in kwargs.items():
-            setattr(self,key,value)
+    def set_params(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
     def get_generator(self):
         """Return the generator function.
         """
         if self.cname == 'clayton':
             def generator(theta, t):
-                return 1.0/theta*(np.power(t,-theta)-1)
+                return 1.0 / theta * (np.power(t, -theta) - 1)
             return generator
         elif self.cname == 'frank':
             def generator(theta, t):
-                a = (np.exp(-theta*t)-1)/(np.exp(-theta)-1)
+                a = (np.exp(-theta * t) - 1) / (np.exp(-theta) - 1)
                 return -np.log(a)
             return generator
-        elif self.cname == 'gumebl':
+        elif self.cname == 'gumbel':
             def generator(theta, t):
-                return np.power(-np.log(t),theta)
+                return np.power(-np.log(t), theta)
             return generator
 
     def get_pdf(self):
@@ -91,7 +91,7 @@ class Copula(object):
                     return np.multiply(U, V)
                 else:
                     cop = Copula('gumbel').fit(U, V)
-                    cdf=cop.get_cdf()
+                    cdf = cop.get_cdf()
                     a = np.power(np.multiply(U, V), -1)
                     tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
                     b = np.power(tmp, -2 + 2.0 / self.theta)
@@ -114,7 +114,10 @@ class Copula(object):
                     return np.multiply(U, V)
                 else:
                     cdfs = [
-                        np.power(np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1, -1.0 / self.theta)
+                        np.power(
+                            np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
+                            -1.0 / self.theta
+                        )
                         if U[i] > 0 else 0 for i in range(len(U))
                     ]
                     return [max(x, 0) for x in cdfs]
@@ -128,7 +131,8 @@ class Copula(object):
                     return np.multiply(U, V)
                 else:
                     num = np.multiply(
-                        np.exp(np.multiply(-self.theta, U)) - 1, np.exp(np.multiply(-self.theta, V)) - 1)
+                        np.exp(np.multiply(-self.theta, U)) - 1,
+                        np.exp(np.multiply(-self.theta, V)) - 1)
                     den = np.exp(-self.theta) - 1
                     return -1.0 / self.theta * np.log(1 + num / den)
             return cdf
@@ -171,7 +175,7 @@ class Copula(object):
                     return v
                 else:
                     dev = Copula('frank').get_h_function()
-                    u= fminbound(dev,eps,1.0,args=(v,theta,y))
+                    u = fminbound(dev, eps, 1.0, args=(v, theta, y))
                     return u
             return ppf
         elif self.cname == 'gumbel':
@@ -180,7 +184,7 @@ class Copula(object):
                     return y
                 else:
                     dev = Copula('gumbel').get_h_function()
-                    u = fminbound(dev,eps,1.0,args=(v,theta,y))
+                    u = fminbound(dev, eps, 1.0, args=(v, theta, y))
                     return u
             return ppf
         else:
@@ -200,7 +204,7 @@ class Copula(object):
                     B = np.power(v, -theta) - 1
                     h = 1 + np.multiply(A, B)
                     h = np.power(h, (-1 - theta) / theta)
-                    h = h-y
+                    h = h - y
                     return h
             return du
 
@@ -243,7 +247,7 @@ class Copula(object):
             if tau == 1:
                 theta = 10000
             else:
-                theta = 2*tau/(1-tau)
+                theta = 2 * tau / (1 - tau)
 
         elif cname == 'frank':
             theta = -fmin(Copula._frank_help, -5, args=(tau,), disp=False)[0]
@@ -252,38 +256,37 @@ class Copula(object):
             if tau == 1:
                 theta = 10000
             else:
-                theta = 1/(1-tau)
+                theta = 1 / (1 - tau)
         return theta
 
     @staticmethod
-    def sampling(cname,tau,n_sample):
+    def sampling(cname, tau, n_sample):
         """sampling from bivariate copula given tau
         v~U[0,1],v~C^-1(u|v)
         """
-        eps = np.finfo(np.float32).eps
-        if tau>1 or tau<-1:
+        if tau > 1 or tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
-        v = np.random.uniform(0,1,n_sample)
-        c = np.random.uniform(0,1,n_sample)
+        v = np.random.uniform(0, 1, n_sample)
+        c = np.random.uniform(0, 1, n_sample)
         cop = Copula(cname)
-        theta = Copula.tau_to_theta(cname,tau)
+        theta = Copula.tau_to_theta(cname, tau)
         print(theta)
         ppf = cop.get_ppf()
         if cname == 'clayton':
-            u = ppf(c,v,theta)
+            u = ppf(c, v, theta)
         elif cname == 'frank':
-            u = np.empty([1,n_sample])
+            u = np.empty([1, n_sample])
             for i in range(len(v)):
-                u[0,i] = ppf(c[i],v[i],theta)
+                u[0, i] = ppf(c[i], v[i], theta)
             print(u)
         elif cname == 'gumbel':
-            u = np.empty([1,n_sample])
+            u = np.empty([1, n_sample])
             for i in range(len(v)):
-                u[0,i] = ppf(c[i],v[i],theta)
+                u[0, i] = ppf(c[i], v[i], theta)
             print(u)
         else:
-            u = np.random.uniform(0,1,n_sample)
-        U = np.column_stack((u.flatten(),v))
+            u = np.random.uniform(0, 1, n_sample)
+        U = np.column_stack((u.flatten(), v))
         return U
 
     @staticmethod
@@ -304,7 +307,6 @@ class Copula(object):
                 z_right.append(base[k])
                 R.append(right / (1 - z_right[k])**2)
         return z_left, L, z_right, R
-
 
     @staticmethod
     def select_copula(U, V):
@@ -358,5 +360,5 @@ class Copula(object):
             return t / (np.exp(t) - 1)
 
         # debye_value = quad(debye, sys.float_info.epsilon, alpha)[0] / alpha
-        diff = (1 - self.tau) / 4.0 - (debye(-alpha) - 1) / alpha
+        diff = (1 - tau) / 4.0 - (debye(-alpha) - 1) / alpha
         return np.power(diff, 2)
