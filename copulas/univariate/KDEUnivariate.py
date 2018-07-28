@@ -23,7 +23,8 @@ class KDEUnivariate(UnivariateDistrib):
         This function will fit a gaussian_kde model to a list of datapoints
         and store it as a class attribute.
         """
-
+        if column is None:
+            raise ValueError("data cannot be empty")
         self.model = scipy.stats.gaussian_kde(column)
 
     def get_pdf(self, x):
@@ -51,7 +52,7 @@ class KDEUnivariate(UnivariateDistrib):
             cdf: int or float with the value of estimated cdf.
         """
         low_bounds = -10000
-        return self.param.integrate_box_1d(low_bounds, x) - u
+        return self.model.integrate_box_1d(low_bounds, x) - u
 
     def get_ppf(self, u):
         """ Given a cdf value, returns a value in original space
@@ -73,4 +74,4 @@ class KDEUnivariate(UnivariateDistrib):
         Returns:
             samples: a list of datapoints sampled from the model
         """
-        return self.param.resample(num_samples)
+        return self.model.resample(num_samples)

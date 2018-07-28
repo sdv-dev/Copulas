@@ -31,7 +31,7 @@ class TestKDEUnivariate(TestCase):
     def test_fit_empty_data(self):
         """If fitting kde model with empty data it will raise ValueError"""
         self.kde = KDEUnivariate()
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(ValueError):
             self.kde.fit([])
 
     def test_get_pdf(self):
