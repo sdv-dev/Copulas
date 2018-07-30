@@ -6,7 +6,6 @@
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import norm
 
 from copulas.univariate.KDEUnivariate import KDEUnivariate
 
@@ -15,7 +14,10 @@ class TestKDEUnivariate(TestCase):
     def setup_norm(self):
         """set up the model to fit standard norm data"""
         self.kde = KDEUnivariate()
-        self.kde.fit(np.random.normal(0, 1, 1000))
+        # use 42 as a fixed random seed
+        np.random.seed(42)
+        column = np.random.normal(0, 1, 1000)
+        self.kde.fit(column)
 
     def test___init__(self):
         """On init, model are set to None."""
@@ -38,7 +40,8 @@ class TestKDEUnivariate(TestCase):
         """get_pdf evaluates with the model"""
         self.setup_norm()
         x = self.kde.get_pdf(0.5)
-        assert abs(x - norm.pdf(0.5, loc=0, scale=1)) <= 0.05
+        expected = 0.35206532676429952
+        self.assertAlmostEquals(x, expected, places=1)
 
     def test_get_pdf_invalid_value(self):
         """Evaluating an invalid value will crash"""
@@ -47,10 +50,12 @@ class TestKDEUnivariate(TestCase):
         """get_pdf evaluates with the model"""
         self.setup_norm()
         x = self.kde.get_cdf(0.5)
-        assert abs(x - norm.cdf(0.5, loc=0, scale=1)) <= 0.05
+        expected = 0.69146246127401312
+        self.assertAlmostEquals(x, expected, places=1)
 
     def test_get_ppf(self):
         """get_ppf evaluates with the model"""
         self.setup_norm()
         x = self.kde.get_ppf(0.5)
-        assert abs(x - norm.ppf(0.5, loc=0, scale=1)) <= 0.05
+        expected = 0.0
+        self.assertAlmostEquals(x, expected, places=1)

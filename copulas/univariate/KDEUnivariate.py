@@ -37,7 +37,9 @@ class KDEUnivariate(UnivariateDistrib):
         Returns:
             pdf: int or float with the value of estimated pdf
         """
-        return self.model.evaluate(x)
+        if type(x) not in (int, float):
+            raise ValueError('x must be int or float')
+        return self.model.evaluate(x)[0]
 
     def get_cdf(self, x, u=0):
         """Computes the integral of a 1D pdf between two bounds
