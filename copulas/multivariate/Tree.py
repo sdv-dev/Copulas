@@ -1,9 +1,18 @@
-class Tree():
+import numpy as np
+import scipy
+
+from copulas.bivariate.copulas import Copula
+
+c_map = {0: 'clayton', 1: 'frank', 2: 'gumbel'}
+eps = np.finfo(np.float32).eps
+
+
+class Tree(object):
     """Helper class to instantiate a single tree in the vine model
     """
 
     def __init__(self, k, n, tau_mat, prev_T):
-        self.level = k+1
+        self.level = k + 1
         self.prev_T = prev_T
         self.n_nodes = n
         self.edge_set = []
@@ -39,7 +48,7 @@ class Tree():
         full_node = set([e1.L, e1.R, e2.L, e2.R])
         full_node.update(e1.D)
         full_node.update(e2.D)
-        return (len(full_node) == (self.level+1))
+        return (len(full_node) == (self.level + 1))
 
     def _get_constraints(self):
         """get neighboring edges
@@ -47,9 +56,9 @@ class Tree():
         for k in range(len(self.edge_set)):
             for i in range(len(self.edge_set)):
                 # add to constriants if i shared an edge with k
-                if k != i and
-                self._check_adjacency(self.edge_set[k], self.edge_set[i]):
-                    self.edge_set[k].neighbors.append(i)
+                if k != i:
+                    if self._check_adjacency(self.edge_set[k], self.edge_set[i]):
+                        self.edge_set[k].neighbors.append(i)
 
     def _get_tau(self):
         """Get tau matrix for adjacent pairs
@@ -67,7 +76,7 @@ class Tree():
                 else:
                     U1, U2 = self.prev_T.edge_set[l_p].U,
                     self.prev_T.edge_set[r_p].U
-                tau[i, j], pvalue = scipy.stats.kendalltau(U1,  U2)
+                tau[i, j], pvalue = scipy.stats.kendalltau(U1, U2)
         return tau
 
     def _data4next_T(self):
@@ -90,14 +99,14 @@ class Tree():
             # compute conditional cdfs C(i|j) = dC(i,j)/duj and dC(i,j)/dui'''
             U1 = [x for x in U1 if x is not None]
             U2 = [x for x in U2 if x is not None]
-            c1 = copula.Copula(cname=copula_name)
+            c1 = Copula(cname=copula_name)
             c1.fit(U1, U2)
             derivative = c1.get_h_function()
             U1givenU2 = derivative(U2, U1, copula_para)
             U2givenU1 = derivative(U1, U2, copula_para)
             # correction of 0 or 1'''
             U1givenU2[U1givenU2 == 0], U2givenU1[U2givenU1 == 0] = eps, eps
-            U1givenU2[U1givenU2 == 1], U2givenU1[U2givenU1 == 1] = 1-eps, 1-eps
+            U1givenU2[U1givenU2 == 1], U2givenU1[U2givenU1 == 1] = 1 - eps, 1 - eps
             edge.U = U1givenU2
 
     def _likehood_T(self, U):
@@ -120,13 +129,13 @@ class Tree():
                 l_p = edge.parent[0]
                 r_p = edge.parent[1]
                 U1, U2 = prev_T[l_p].U, prev_T[r_p].U
-            cop = copula.Copula(cname=cname)
-            cop.fit(U_arr, V_arr)
+            cop = Copula(cname=cname)
+            cop.fit(U1, U2)
             pdf = cop.get_pdf()
             derivative = cop.get_h_function()
             values[0, i] = pdf(U1, U2)
             U1givenU2 = derivative(U2, U1, copula_para)
-            U2givenU1 = derivative(U1, U2, copula_para)
+            # U2givenU1 = derivative(U1, U2, copula_para)
             edge.U = U1givenU2
             value = np.sum(np.log(values))
         return newU, value
@@ -145,7 +154,6 @@ class CTree(Tree):
         tau_mat = self.tau_mat
         np.fill_diagonal(tau_mat, np.NaN)
         tau_y = tau_mat[:, 0]
-        N = len(tau_y)
         temp = np.empty([self.n_nodes, 3])
         temp[:, 0] = np.arange(self.n_nodes)
         temp[:, 1] = tau_y
@@ -154,8 +162,8 @@ class CTree(Tree):
         tau_sorted = temp[temp[:, 2].argsort()[::-1]]
         for itr in range(1, self.n_nodes):
             ind = tau_sorted[itr, 0]
-            name, param = copula.select_copula(U[:, all0], U[:, ind])
-            cop = copula.Copula(cname=name)
+            name, param = Copula.select_copula(self.u_matrix[:, 0],
+                                               self.u_matrix[:, ind])
             new_edge = Edge(itr, 0, ind, tau_mat[0, ind], name, param)
             new_edge.parent.append(0)
             new_edge.parent.append(ind)
@@ -174,16 +182,16 @@ class CTree(Tree):
         aux[:, 0] = np.arange(self.n_nodes, dtype=int)
         aux[:, 1] = self.tau_mat[:, anchor]
         aux[:, 2] = abs(self.tau_mat[:, anchor])
-        aux[anchor, anchor2] = -10
+        aux[anchor, 2] = -10
         aux_sorted = aux[aux[:, 2].argsort()[::-1]]
-        for itr in range(self.n_nodes-1):
-            right = tau_sorted[itr, 0]
+        for itr in range(self.n_nodes - 1):
+            right = aux_sorted[itr, 0]
             U1, U2 = self.prev_T.edge_set[anchor].U,
             self.prev_T.edge_set[right].U
-            name, param = copula.select_copula(U1, U2)
-            [ed1, ed2, ing] =
-            self.identify_eds_ing(self.prev_T.edge_set[anchor],
-                                  self.prev_T.edge_set[right])
+            name, param = Copula.select_copula(U1, U2)
+            [ed1, ed2, ing] =\
+                self.identify_eds_ing(self.prev_T.edge_set[anchor],
+                                      self.prev_T.edge_set[right])
             new_edge = Edge(itr, ed1, ed2, tau_sorted[itr, 1], name, param)
             new_edge.parent.append(anchor)
             new_edge.parent.append(right)
@@ -198,12 +206,12 @@ class DTree(Tree):
 
     def _build_first_tree(self):
         # find the pair of maximum tau
+        self.u_matrix = prev_T
         tau_mat = self.tau_mat
         np.fill_diagonal(tau_mat, np.NaN)
         tau_y = tau_mat[:, 0]
-        N = len(tau_y)
         temp = np.empty([self.n_nodes, 3])
-        temp[:, all0] = np.arange(self.n_nodes)
+        temp[:, 0] = np.arange(self.n_nodes)
         temp[:, 1] = tau_y
         temp[:, 2] = abs(tau_y)
         temp[np.isnan(temp)] = -10
@@ -214,7 +222,7 @@ class DTree(Tree):
         tau_T1 = tau_sorted[:2, 1]
         # replace tau matrix of the selected variables as a negative number
         tau_mat[:, [T1]] = -10
-        for k in range(2, self.n_nodes-1):
+        for k in range(2, self.n_nodes - 1):
             valL, left = np.max(tau_mat[T1[0], :]),
             np.argmax(tau_mat[T1[0], :])
             valR, right = np.max(tau_mat[T1[-1], :]),
@@ -229,23 +237,21 @@ class DTree(Tree):
                 T1 = np.append(T1, int(right))
                 tau_T1 = np.append(tau_T1, valR)
                 tau_mat[:, right] = -10
-        for k in range(self.n_nodes-1):
-            name, param = copula.select_copula(self.u_matrix[:, T1[k]],
-                                               self.u_matrix[:, T1[k+1]])
-            cop = copula.Copula(cname=name)
-            new_edge = Edge(k, T1[k], T1[k+1], tau_T1[k], name, param)
+        for k in range(self.n_nodes - 1):
+            name, param = Copula.select_copula(self.u_matrix[:, T1[k]],
+                                               self.u_matrix[:, T1[k + 1]])
+            new_edge = Edge(k, T1[k], T1[k + 1], tau_T1[k], name, param)
             new_edge.parent.append(T1[k])
-            new_edge.parent.append(T1[k+1])
+            new_edge.parent.append(T1[k + 1])
             self.edge_set.append(new_edge)
 
-    def _build_kth_tree():
-        for k in range(self.n_nodes-1):
+    def _build_kth_tree(self):
+        for k in range(self.n_nodes - 1):
             l_p = self.prev_T.edge_set[k]
-            r_p = self.prev_T.edge_set[k+1]
-            name, param = copula.select_copula(l_p.U, r_p.U)
+            r_p = self.prev_T.edge_set[k + 1]
+            name, param = Copula.select_copula(l_p.U, r_p.U)
             [ed1, ed2, ing] = self.identify_eds_ing(l_p, r_p)
-            cop = copula.Copula(cname=name)
-            new_edge = Edge(k, ed1, ed2, self.tau_mat[k, k+1], name, param)
+            new_edge = Edge(k, ed1, ed2, self.tau_mat[k, k + 1], name, param)
             self.edge_set.append(new_edge)
 
 
@@ -256,9 +262,10 @@ class RTree(Tree):
     def _build_first_tree(self):
         """build the first t ree with n-1 variable
         """
+        print(self.u_matrix)
         tau_mat = self.tau_mat
         # Prim's algorithm
-        neg_tau = -1.0*abs(tau_mat)
+        neg_tau = -1.0 * abs(tau_mat)
         X = set()
         X.add(0)
         itr = 0
@@ -270,7 +277,7 @@ class RTree(Tree):
                         adj_set.add((x, k))
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            name, param = copula.select_copula(self.u_matrix[:, edge[0]],
+            name, param = Copula.select_copula(self.u_matrix[:, edge[0]],
                                                self.u_matrix[:, edge[1]])
             new_edge = Edge(itr, edge[0], edge[1], tau_mat[edge[0], edge[1]],
                             name, param)
@@ -286,6 +293,7 @@ class RTree(Tree):
         neg_tau = -abs(self.tau_mat)
         visited = set()
         visited.add(0)
+        unvisited = set(range(self.n_nodes))
         itr = 0
         while len(visited) != self.n_nodes:
             adj_set = set()
@@ -302,15 +310,15 @@ class RTree(Tree):
                 visited.add(list(unvisited)[0])
                 continue
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            [ed1, ed2, ing] =
-            self.identify_eds_ing(self.prev_T.edge_set[edge[0]],
-                                  self.prev_T.edge_set[edge[1]])
+            [ed1, ed2, ing] =\
+                self.identify_eds_ing(self.prev_T.edge_set[edge[0]],
+                                      self.prev_T.edge_set[edge[1]])
             # U1 = self.u_matrix[ed1,ing]
             # U2 = self.u_matrix[ed2,ing]
             l_p = edge[0]
             r_p = edge[1]
             U1, U2 = self.prev_T.edge_set[l_p].U, self.prev_T.edge_set[r_p].U
-            name, param = cop.select_copula(U1, U2)
+            name, param = Copula.select_copula(U1, U2)
             new_edge = Edge(itr, ed1, ed2, self.tau_mat[edge[0], edge[1]],
                             name, param)
             new_edge.D = ing
@@ -341,12 +349,12 @@ class Edge(object):
         self.likelihood = None
         self.neighbors = []
 
-    def get_likehood(U):
+    def get_likehood(self, U):
         """Compute likelihood given a U matrix
         """
         if self.level == 1:
             name, param = Copula.select_copula(U[:, self.L], U[:, self.R])
-            cop = copula.Copula(cname=name)
+            cop = Copula(cname=name)
             cop.fit(U[:, self.L], U[:, self.R])
             pdf = cop.get_pdf()
             self.likelihood = pdf(U[:, self.L], U[:, self.R])
@@ -354,8 +362,8 @@ class Edge(object):
             l_p = self.parents[0]
             r_p = self.parents[1]
             U1, U2 = l_p.U, r_p.U
-            name, param = cop.select_copula(U1, U2)
-            cop = copula.Copula(cname=name)
+            name, param = Copula.select_copula(U1, U2)
+            cop = Copula(cname=name)
             cop.fit(U1, U2)
             pdf = cop.get_pdf()
             self.likelihood = pdf(U1, U2)
