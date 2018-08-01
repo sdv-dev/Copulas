@@ -312,9 +312,12 @@ class Copula(object):
     def select_copula(U, V):
         """Select best copula function based on likelihood
         """
-        clayton_c = Copula(U, V, cname='clayton')
-        frank_c = Copula(U, V, cname='frank')
-        gumbel_c = Copula(U, V, cname='gumbel')
+        clayton_c = Copula('clayton')
+        clayton_c.fit(U, V)
+        frank_c = Copula('frank')
+        frank_c.fit(U, V)
+        gumbel_c = Copula('gumbel')
+        gumbel_c.fit(U, V)
         theta_c = [clayton_c.theta, frank_c.theta, gumbel_c.theta]
         if clayton_c.tau <= 0:
             bestC = 1
@@ -323,8 +326,8 @@ class Copula(object):
         z_left, L, z_right, R = Copula.compute_empirical(U, V)
         left_dependence, right_dependence = [], []
         left_dependence.append(
-            clayton_c.cdf(z_left, z_left, clayton_c.theta) / np.power(z_left, 2))
-        left_dependence.append(frank_c.cdf(z_left, z_left, frank_c.theta) / np.power(z_left, 2))
+            clayton_c.get_cdf()(z_left, z_left, clayton_c.theta) / np.power(z_left, 2))
+        left_dependence.append(frank_c.get_cdf()(z_left, z_left, frank_c.theta) / np.power(z_left, 2))
         left_dependence.append(gumbel_c.cdf(z_left, z_left, gumbel_c.theta) / np.power(z_left, 2))
 
         def g(c, z):
