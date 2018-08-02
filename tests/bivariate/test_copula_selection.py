@@ -20,6 +20,7 @@ class TestCopulas(TestCase):
         c0 = Copula('clayton')
         c0.fit(U, V)
         result = c0.get_cdf()([0, 0.1, 0.2], [0, 0.1, 0.8])
+        print(result)
         expected_result = [0, 0.07517146687679954, 0.19881186077542212]
         assert result == expected_result
 
@@ -39,3 +40,15 @@ class TestCopulas(TestCase):
         assert (result == expected_result).all()
 
         # LOGGER.debug(Copula.select_copula(U,V))
+
+    def test_select_copula_negative_tau(self):
+        U = [0.1, 0.2, 0.3, 0.4]
+        V = [0.8, 0.7, 0.6, 0.5]
+        name, param = Copula.select_copula(U, V)
+        assert name == 1
+
+    def test_select_copula(self):
+        U = [0.1, 0.2, 0.3, 0.4]
+        V = [0.2, 0.3, 0.4, 0.5]
+        name, param = Copula.select_copula(U, V)
+        assert name == 1

@@ -11,6 +11,7 @@ class KDEUnivariate(UnivariateDistrib):
 
     def __init__(self):
         super(KDEUnivariate, self).__init__()
+        self.data = None
         self.model = None
 
     def fit(self, column):
@@ -18,13 +19,14 @@ class KDEUnivariate(UnivariateDistrib):
 
         Args:
             :param column: list of datapoints to be estimated from.
-            :type column: 1-D array
+            :type column: 1-D np.ndarray or pd.Series or list
 
         This function will fit a gaussian_kde model to a list of datapoints
         and store it as a class attribute.
         """
         if column is None:
             raise ValueError("data cannot be empty")
+        self.data = column
         self.model = scipy.stats.gaussian_kde(column)
 
     def get_pdf(self, x):
@@ -42,7 +44,7 @@ class KDEUnivariate(UnivariateDistrib):
         return self.model.evaluate(x)[0]
 
     def get_cdf(self, x, u=0):
-        """Computes the integral of a 1D pdf between two bounds
+        """Computes the integral of a 1-D pdf between two bounds
 
         Args:
             :param x: a datapoint.
@@ -65,6 +67,8 @@ class KDEUnivariate(UnivariateDistrib):
         Returns:
             x: int or float with the value in original space
         """
+        if u <= 0 or u >= 1:
+            raise ValueError('cdf value must be in [0,1]')
         return scipy.optimize.brentq(self.get_cdf, -1000.0, 1000.0, args=(u))
 
     def sample(self, num_samples=1):
