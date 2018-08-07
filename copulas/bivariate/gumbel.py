@@ -3,10 +3,10 @@ import sys
 import numpy as np
 from scipy.optimize import fminbound
 
-import copulas.bivariate.bv_copula as bv
+from copulas.bivariate import Bivariate
 
 
-class Gumbel(bv.BVCopula):
+class Gumbel(Bivariate):
     """ Class for clayton copula model """
 
     def __init__(self):
@@ -61,7 +61,7 @@ class Gumbel(bv.BVCopula):
             if theta == 1:
                 return y
             else:
-                dev = bv.BVCopula('gumbel').get_h_function()
+                dev = self.get_h_function()
                 u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, theta, y))
                 return u
         return ppf
@@ -85,9 +85,9 @@ class Gumbel(bv.BVCopula):
                 return result
         return du
 
-    def tau_to_theta(cname, tau):
-        if tau == 1:
+    def tau_to_theta(self):
+        if self.tau == 1:
             theta = 10000
         else:
-            theta = 1 / (1 - tau)
+            theta = 1 / (1 - self.tau)
         return theta

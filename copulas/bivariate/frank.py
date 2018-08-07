@@ -4,10 +4,10 @@ import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import fminbound, fsolve
 
-import copulas.bivariate.bv_copula as bv
+from copulas.bivariate import Bivariate
 
 
-class Frank(bv.BVCopula):
+class Frank(Bivariate):
     """ Class for clayton copula model """
 
     def __init__(self):
@@ -61,7 +61,7 @@ class Frank(bv.BVCopula):
             if theta < 0:
                 return v
             else:
-                dev = bv.BVCopula('frank').get_h_function()
+                dev = self.get_h_function()
                 u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, theta, y))
                 return u
         return ppf
@@ -86,8 +86,8 @@ class Frank(bv.BVCopula):
                 return result
         return du
 
-    def tau_to_theta(cname, tau):
-        theta = fsolve(Frank._frank_help, 1, args=(tau))[0]
+    def tau_to_theta(self):
+        theta = fsolve(Frank._frank_help, 1, args=(self.tau))[0]
         return theta
 
     @staticmethod

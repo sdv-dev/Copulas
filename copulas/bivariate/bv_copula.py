@@ -1,9 +1,9 @@
 import numpy as np
 from scipy import stats
 
-import copulas.bivariate.clayton as clayton
-import copulas.bivariate.frank as frank
-import copulas.bivariate.gumbel as gumbel
+from copulas.bivariate import clayton
+from copulas.bivariate import frank
+from copulas.bivariate import gumbel
 
 
 class BVCopula(object):
@@ -16,7 +16,7 @@ class BVCopula(object):
             self.copula = clayton.Clayton()
         elif self.name == 'Frank':
             self.copula = frank.Frank()
-        elif self.copula == 'Gumbel':
+        elif self.name == 'Gumbel':
             self.copula = gumbel.Gumbel()
         else:
             raise Exception('Unsupported distribution: ' + str(self.name))
@@ -25,10 +25,11 @@ class BVCopula(object):
         """ Fits a model to the data and updates the parameters """
         """ Fit a copula object.
         """
+        self.copula.fit(U, V)
         self.U = U
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
-        self.theta = self.copula.tau_to_theta(self.name, self.tau)
+        self.theta = self.copula.tau_to_theta()
 
     def get_params(self):
         return {'tau': self.tau, 'theta': self.theta}

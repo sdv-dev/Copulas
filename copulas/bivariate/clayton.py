@@ -1,9 +1,9 @@
 import numpy as np
 
-from copulas.bivariate.bv_copula import bv_copula
+from copulas.bivariate import Bivariate
 
 
-class Clayton(bv_copula.BVCopula):
+class Clayton(Bivariate):
     """ Class for clayton copula model """
 
     def __init__(self):
@@ -91,9 +91,9 @@ class Clayton(bv_copula.BVCopula):
                 return h
         return du
 
-    def tau_to_theta(cname, tau):
-        if tau == 1:
+    def tau_to_theta(self):
+        if self.tau == 1:
             theta = 10000
         else:
-            theta = 2 * tau / (1 - tau)
+            theta = 2 * self.tau / (1 - self.tau)
         return theta
