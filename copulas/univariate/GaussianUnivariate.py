@@ -19,34 +19,37 @@ class GaussianUnivariate(UnivariateDistrib):
         self.min = -np.inf
         self.max = np.inf
 
+    def __str__(self):
+        details = [self.column.name, self.mean, self.std, self.max, self.min]
+        return (
+            'Distribution Type: Gaussian\n'
+            'Variable name: {}\n'
+            'Mean: {}\n'
+            'Standard deviation: {}\n'
+            'Max: {}\n'
+            'Min: {}'.format(*details)
+        )
+
     def fit(self, column):
-        LOGGER.debug('Distribution Type: Gaussian')
         self.column = column
-        LOGGER.debug('Variable name: ', self.column.name)
         self.mean = np.mean(column)
-        LOGGER.debug('mean = ', self.mean)
-        self.std = np.std(column)
-        LOGGER.debug('standard deviation = ', self.std)
+        std = np.std(column)
+        # check for column with all the same vals
+        if std == 0:
+            self.std = 0.001
+        else:
+            self.std = std
         self.max = max(column)
-        LOGGER.debug('max = ', self.max)
         self.min = min(column)
-        LOGGER.debug('min = ', self.min)
 
     def get_pdf(self, x):
         return norm.pdf(x, loc=self.mean, scale=self.std)
 
     def get_cdf(self, x):
+        # check to make sure dtype is not object
+        if x.dtype == 'object':
+            x = x.astype('float64')
         return norm.cdf(x, loc=self.mean, scale=self.std)
-
-    # def _calculate_cdf(self):
-    #   def cdf(data):
-    #       u = []
-    #       for y in data:
-    #           ui = self.pdf.integrate_box_1d(-np.inf, y)
-    #           u.append(ui)
-    #       u = np.asarray(u)
-    #       return u
-    #   return cdf
 
     def inverse_cdf(self, u):
         """ given a cdf value, returns a value in original space """

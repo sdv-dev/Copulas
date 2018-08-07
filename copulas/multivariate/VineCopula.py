@@ -10,7 +10,8 @@ import pandas as pd
 import scipy
 import scipy.optimize as optimize
 
-from copulas import copulas, utils
+from copulas import utils
+from copulas.bivariate import copulas
 
 warnings.filterwarnings("ignore")
 

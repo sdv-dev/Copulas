@@ -1,11 +1,14 @@
 import bisect
 import logging
 import time
+from io import BytesIO
 
+import boto3
 import numpy as np
 import pandas as pd
-import scipy.optimize as optimize
-import scipy.stats as stats
+from botocore import UNSIGNED
+from botocore.client import Config
+from scipy import optimize, stats
 
 import exrex
 
@@ -16,6 +19,70 @@ COV_SEP = '*'
 RAW_EXT = '.raw.csv'
 SYNTH_EXT = '.synth.csv'
 TRANS_EXT = '.trans.csv'
+
+
+BUCKET = 'copulas-data-store'
+
+DATASETS = [
+    'Australian_1_train.csv',
+    'Australian_1_test.csv',
+    'CostaMadre1_1_train.csv',
+    'CostaMadre1_1_test.csv',
+    'analcatdata_germangss_1_train.csv',
+    'analcatdata_germangss_1_test.csv',
+    'analcatdata_gviolence_1_train.csv',
+    'analcatdata_gviolence_1_test.csv',
+    'ar5_1_train.csv',
+    'ar5_1_test.csv',
+    'bank-marketing_2_train.csv',
+    'bank-marketing_2_test.csv',
+    'boston_1_train.csv',
+    'boston_1_test.csv',
+    'chscase_census4_1_train.csv',
+    'chscase_census4_1_test.csv',
+    'climate-model-simulation-crashes_1_train.csv',
+    'climate-model-simulation-crashes_1_test.csv',
+    'cpu_act_1_train.csv',
+    'cpu_act_1_test.csv',
+    'fri_c1_1000_5_1_train.csv',
+    'fri_c1_1000_5_1_test.csv',
+    'grub-damage_1_train.csv',
+    'grub-damage_1_test.csv',
+    'glass_1_train.csv',
+    'glass_1_test.csv',
+    'house_8L_1_train.csv',
+    'house_8L_1_test.csv',
+    'kidney_1_train.csv',
+    'kidney_1_test.csv',
+    'leukemia_1_train.csv',
+    'leukemia_1_test.csv',
+    'machine_cpu_1_train.csv',
+    'machine_cpu_1_test.csv',
+    'meta_batchincremental.arff_1_train.csv',
+    'meta_batchincremental.arff_1_test.csv',
+    'musk_1_train.csv',
+    'musk_1_test.csv',
+    'newton_hema_1_train.csv',
+    'newton_hema_1_test.csv',
+    'oil_spill_1_train.csv',
+    'oil_spill_1_test.csv',
+    'pollen_1_train.csv',
+    'pollen_1_test.csv',
+    'pollution_1_train.csv',
+    'pollution_1_test.csv',
+    'quake_2_train.csv',
+    'quake_2_test.csv',
+    'strikes_1_train.csv',
+    'strikes_1_test.csv',
+    'transplant_1_train.csv',
+    'transplant_1_test.csv',
+    'vehicle_1_train.csv',
+    'vehicle_1_test.csv',
+    'vineyard_1_train.csv',
+    'vineyard_1_test.csv',
+    'waveform-5000_1_train.csv',
+    'waveform-5000_1_test.csv'
+]
 
 
 class SDVException(Exception):
@@ -645,48 +712,66 @@ class NonVariable(object):
         return newone
 
 
-if __name__ == '__main__':
-    # Quick tests
-    d0 = Distribution(column=np.linspace(-15, 15))
-    LOGGER.debug(d0.name)
-    LOGGER.debug([d0.ppf(i) for i in [0.01, 0.5, 0.99]])
+def get_resources():
+    return boto3.resource('s3', region_name='us-east-1', config=Config(signature_version=UNSIGNED))
 
-    d1 = Distribution(['A', 'A', 'A', 'B', 'B', 'C', 'C', 'C', 'C', 'C'],
-                      categorical=True)
-    LOGGER.debug(d1.name)
-    LOGGER.debug(d1.cats)
-    LOGGER.debug(d1.estimate_args(['B', 'B', 'B', 'A', 'C']))
 
-    d2 = Distribution(column=['T', 'T', 'T', 'H', 'H', 'H', 'H', 'H', 'H', 'H'],
-                      categorical=True)
+def clean_dataset(data):
+    numerical_col = []
 
-    cov = np.array([[1, 0.2, 0.3], [0.2, 1, 0.5], [0.3, 0.5, 1]])
-    LOGGER.debug('\nGenerated Samples:')
-    LOGGER.debug(generate_samples(cov, [d0.ppf, d1.ppf, d2.ppf], 2))
+    for column in data.columns:
+        if (data[column].astype(int) == data[column]).all():
+            numerical_col.append(column)
 
-    # Test the np.nan values stuff
-    numerical = np.array([1.0, 2.1, 3.4, np.nan, 3.4, 5.6, np.nan])
-    d2 = Distribution(column=np.array(numerical))
-    LOGGER.debug(d2.name, d2.args)
+    data.drop(data.columns[numerical_col], axis=1, inplace=True)
+    data.columns = range(data.shape[1])
 
-    categorical_num = np.array([1, 2, 1, 1, 2, 1, 1, np.nan, 2, np.nan, 1])
-    categorical_str = np.array(['a', 'b', np.nan, 'a', np.nan, 'b'],
-                               dtype='object')
+    return data
 
-    LOGGER.debug('\nTesting NaN value logic')
-    d3 = Distribution(column=categorical_num, categorical=True)
-    d4 = Distribution(column=categorical_str, categorical=True)
 
-    assert sum(d3.args) == 1.0
-    assert sum(d4.args) == 1.0
+def get_dataset(file_name):
+    resources = get_resources()
+    bucket = resources.Bucket(BUCKET)
 
-    LOGGER.debug(zip(d3.cats, d3.args))
-    LOGGER.debug(zip(d4.cats, d4.args))
+    key_data = file_name
+    obj = bucket.Object(key=key_data)
 
-    LOGGER.debug(d2.estimate_args(np.array([np.nan, np.nan, np.nan])))
-    LOGGER.debug(d3.estimate_args(np.array([np.nan, np.nan, np.nan])))
-    LOGGER.debug(d4.estimate_args(np.array([np.nan, np.nan, np.nan], dtype='object')))
+    stream = BytesIO(obj.get()['Body'].read())
+    data = pd.read_csv(stream, header=None)
+    data = clean_dataset(data)
 
-    d5 = Distribution(column=np.array(['a', 'b', np.nan, 'a', 'b', np.nan]),
-                      categorical=True)
-    LOGGER.debug(sum(d5.args))
+    return data
+
+
+def run_dataset(copula_class, file_name):
+    try:
+        data = get_dataset(file_name)
+
+    except Exception as e:
+        return {file_name: None}
+
+    try:
+        copula = copula_class()
+        copula.fit(data)
+        copula.sample(10)
+        return {file_name: True}
+
+    except Exception as e:
+        return {file_name: False}
+
+
+def datasets_test(copula_class):
+    """Fits and samples instances of a copula with datasets from amazon bucket.
+
+    Returns a dict with the name of the dataset as the key and the following values:
+    None: Problem getting the dataset ready.
+    False: Problem fitting or sampling.
+    True: Everything ok.
+    """
+    result = {}
+
+    for dataset in DATASETS:
+        output = run_dataset(copula_class, dataset)
+        result.update(output)
+
+    return result

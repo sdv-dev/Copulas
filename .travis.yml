@@ -1,0 +1,46 @@
+# Config file for automatic testing at travis-ci.org
+language: python
+python:
+  - 3.6
+  - 3.5
+  - 2.7
+
+# Command to install dependencies
+install: pip install -U tox-travis
+
+# Command to run tests
+script: tox
+
+deploy:
+
+  # Automatically deploy releases to PyPI for each tagged commit
+  # Assuming you have installed the travis-ci CLI tool, after you
+  # create the Github repo and add it to Travis, run the
+  # following command to finish PyPI deployment setup:
+  # $ travis encrypt MY_PYPI_PASSWORD
+  # and then copy the (really long) encrypted password as shown.
+  # - provider: pypi
+  #   distributions: sdist bdist_wheel
+  #   user: dai_lab_mit
+  #   password:
+  #     secure: "TnqNnauWBoQXaq+S0i2sBxSyKWfn9I2+b2p5le8Y19AkZ5JI+1dHBrZU+SoI7DwLXqfudgVLke2bLStVS+T1b5UOpdABaHEkVKzYwlQRD8AXh/844HCJ3SwZpqmRidcu1f7mlEtvzq9Q3x8lNuXpY1qTHaEq7BKs/ZsInLfqvSWz7RmzYrv/VW27ELwWmQq8d9U/Uw0Ww/FyjxGiep4qf0pkTuZWWn1Og6RJMZ9uB/slfrdzlLuAdTc2Evml3nrNCm3gzpSe8/9jchHbqq+3XRnOamkBF984vROasEGv2rxM5W1xII6N4jA8MNz0PQu0yAiXcl8M58d9oFXSDaX2hfCeYUQPGMCi0upxyIYsOgW9gz5H/fe45dgjsMg9FxJsUBcGNAJHkT0z2rRWKtauGQnhWZFGannc54OzbY1BfMF7Af4jFaz7i6OoNUjKgJdRnShfwCpxAb76HPd4myK/yLG9n/vMFRdF0fnrPVRRFDdsEpjoYUFSdnnTnAasWNaJ8Xt4yYk1M3LeBgo55MajDMyKP9ENHBEEZbgvpjIsHczeZLXUCDqUcED1PHmqA+z4oX08ntUuWK9FD7G3AbbvllsGqJK7IYfuX8PL77OfioDZYYwNqlGaiTdLEK1j7IkiCSkpmODVJznUAYgnJu2u2rSvQ1xfWkrzykmYQ0GYcLw="
+  #   on:
+  #     tags: true
+  #     branch: stable
+  #     repo: DAI-Lab/Copulas
+  #     python: 3.6
+
+  # Automatically build and deploy documentation to GitHub Pages after every
+  # commit
+  # Follow the instructions at https://docs.travis-ci.com/user/deployment/pages/
+  # to setup a personal deployment token and then provide it as a secure
+  # environment variable at https://travis-ci.org/DAI-Lab/Copulas/settings
+  - provider: pages
+    skip-cleanup: true
+    github-token: "$GITHUB_TOKEN"
+    keep-history: true
+    local-dir: docs/_build/html
+    target-branch: gh-pages
+    on:
+      branch: stable
+      python: 3.6

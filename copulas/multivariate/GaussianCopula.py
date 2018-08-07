@@ -24,6 +24,17 @@ class GaussianCopula(MVCopula):
         self.cdf = None
         self.ppf = None
 
+    def __str__(self):
+        distribs = [
+            '\n{}\n==============\n{}'.format(key, value) for key, value in self.distribs.items()]
+
+        details = (
+            '\n\nCopula Distribution:\n{}'
+            '\n\nCovariance matrix:\n{}'
+            '\n\nMeans:\n{}'.format(self.distribution, self.cov_matrix, self.means)
+        )
+        return '\n'.join(distribs) + details
+
     def fit(self, data, distrib_map=None):
         LOGGER.debug('Fitting Gaussian Copula')
         self.data = data
@@ -37,12 +48,7 @@ class GaussianCopula(MVCopula):
             for key in keys:
                 self.distribs[key] = GaussianUnivariate()
                 self.distribs[key].fit(data[key])
-        params = self._get_parameters()
-        self.cov_matrix, self.means, self.distribution = params
-        LOGGER.debug('Copula Distribution:')
-        LOGGER.debug(self.distribution)
-        LOGGER.debug('Covariance matrix: ', self.cov_matrix)
-        LOGGER.debug('Means: ', self.means)
+        self.cov_matrix, self.means, self.distribution = self._get_parameters()
         self.pdf = st.multivariate_normal.pdf
 
     def _get_parameters(self):
@@ -56,8 +62,9 @@ class GaussianCopula(MVCopula):
             # get inverse cdf using standard normal
             res.loc[:, col] = st.norm.ppf(cdf)
         n = res.shape[1]
-        means = [np.mean(res.iloc[:, i].values) for i in range(n)]
-        return (np.cov(res.values), means, res)
+        means = [np.mean(res.iloc[:, i].as_matrix()) for i in range(n)]
+        cov = res.cov()
+        return (cov.as_matrix(), means, res)
 
     def get_pdf(self, X):
         # make cov positive semi-definite
@@ -73,10 +80,12 @@ class GaussianCopula(MVCopula):
 
     def sample(self, num_rows=1):
         res = {}
-        cov = self.cov_matrix
-        means = [np.mean(cov[:, i]) for i in range(len(cov))]
+        # clean up means
+        clean_mean = np.nan_to_num(self.means)
         s = (num_rows,)
-        samples = np.random.multivariate_normal(means, self.cov_matrix, size=s)
+        # clean up cavariance matrix
+        clean_cov = np.nan_to_num(self.cov_matrix)
+        samples = np.random.multivariate_normal(clean_mean, clean_cov, size=s)
         # run through cdf and inverse cdf
         for i in range(self.data.shape[1]):
             label = self.data.iloc[:, i].name

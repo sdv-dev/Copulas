@@ -11,8 +11,7 @@ with open('README.md') as readme_file:
 with open('HISTORY.md') as history_file:
     history = history_file.read()
 
-requirements = [
-    'Click>=6.0',
+install_requires = [
     'numpy>=1.13.1',
     'pandas>=0.22.0',
     'scipy>=0.19.1',
@@ -20,9 +19,14 @@ requirements = [
     'matplotlib>=2.2.2'
 ]
 
-setup_requirements = ['pytest-runner', ]
+tests_require = [
+    'pytest>=3.4.2',
+    'boto3>=1.7.47'
+]
 
-test_requirements = ['pytest', ]
+setup_requires = [
+    'pytest-runner>=2.11.1',
+]
 
 setup(
     author="MIT Data To AI Lab",
@@ -32,8 +36,9 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
@@ -43,7 +48,11 @@ setup(
             'copulas=copulas.cli:main',
         ],
     },
-    install_requires=requirements,
+    extras_require={
+        'test': tests_require,
+        'aws': ['boto3>=1.7.47']
+    },
+    install_requires=install_requires,
     license="MIT license",
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
@@ -51,11 +60,10 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.4',
-    setup_requires=setup_requirements,
+    setup_requires=setup_requires,
     test_suite='tests',
-    tests_require=test_requirements,
-    url='https://github.com/DAI-Lab/copulas',
-    version='0.1.0',
+    tests_require=tests_require,
+    url='https://github.com/DAI-Lab/Copulas',
+    version='0.1.1-dev',
     zip_safe=False,
 )
