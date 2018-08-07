@@ -28,15 +28,12 @@ class Gumbel(bv.BVCopula):
             elif self.theta == 1:
                 return np.multiply(U, V)
             else:
-                cop = bv.BVCopula('gumbel')
-                cop.fit(U, V)
                 a = np.power(np.multiply(U, V), -1)
                 tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
                 b = np.power(tmp, -2 + 2.0 / self.theta)
                 c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
                 d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
-                print(cop.get_cdf()(U, V))
-                return cop.get_cdf()(U, V) * a * b * c * d
+                return self.get_cdf()(U, V) * a * b * c * d
         return pdf
 
     def get_cdf(self):
