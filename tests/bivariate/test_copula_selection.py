@@ -20,7 +20,6 @@ class TestCopulas(TestCase):
         c0 = Copula('clayton')
         c0.fit(U, V)
         result = c0.get_cdf()([0, 0.1, 0.2], [0, 0.1, 0.8])
-        print(result)
         expected_result = [0, 0.07517146687679954, 0.19881186077542212]
         assert result == expected_result
 
