@@ -3,14 +3,14 @@ import logging
 import time
 from io import BytesIO
 
-import boto3
 import numpy as np
 import pandas as pd
-from botocore import UNSIGNED
-from botocore.client import Config
 from scipy import optimize, stats
 
+import boto3
 import exrex
+from botocore import UNSIGNED
+from botocore.client import Config
 
 LOGGER = logging.getLogger(__name__)
 
