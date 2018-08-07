@@ -341,7 +341,7 @@ class Copula(object):
         bestC = np.argmax(cost_LR)
         paramC = theta_c[bestC]
         return bestC, paramC
-        
+
     # def density_gaussian(self, u):
     #     """Compute density of gaussian copula
     #     """
