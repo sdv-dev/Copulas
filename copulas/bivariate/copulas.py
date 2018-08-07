@@ -309,7 +309,6 @@ class Copula(object):
         return z_left, L, z_right, R
 
     @staticmethod
-    @staticmethod
     def select_copula(U, V):
         """Select best copula function based on likelihood
         """
