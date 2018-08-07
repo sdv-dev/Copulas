@@ -1,31 +1,34 @@
-import logging
-
 import numpy as np
 from scipy import stats
 
-LOGGER = logging.getLogger(__name__)
+import copulas.bivariate.clayton as clayton
+import copulas.bivariate.frank as frank
+import copulas.bivariate.gumbel as gumbel
 
 
-class CopulaException(Exception):
-    pass
+class BVCopula(object):
+    """ Abstract class for a bivariate copula object """
 
-
-class Copula(object):
-    def __init__(self, cname):
-        """Instantiates an instance of the copula object from a pandas dataframe
-        :param cname: the choice of copulas, can be 'clayton','gumbel','frank'
-        """
-        self.cname = cname
+    def __init__(self, name):
+        """ initialize copula object """
+        self.name = name
+        if self.name == 'Clayton':
+            self.copula = clayton.Clayton()
+        elif self.name == 'Frank':
+            self.copula = frank.Frank()
+        elif self.copula == 'Gumbel':
+            self.copula = gumbel.Gumbel()
+        else:
+            raise Exception('Unsupported distribution: ' + str(self.name))
 
     def fit(self, U, V):
+        """ Fits a model to the data and updates the parameters """
         """ Fit a copula object.
         """
         self.U = U
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
-
-        self.theta = Copula.tau_to_theta(self.cname, self.tau)
-        raise Exception('Unsupported distribution: ' + str(self.cname))
+        self.theta = self.copula.tau_to_theta(self.name, self.tau)
 
     def get_params(self):
         return {'tau': self.tau, 'theta': self.theta}
@@ -34,18 +37,41 @@ class Copula(object):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
+    def infer(self, values):
+        """ Takes in subset of values and predicts the rest """
+        raise NotImplementedError
+
+    def get_generator(self, theta, t):
+        """ return the generator function """
+        return self.copula.get_generator()(theta, t)
+
+    def get_pdf(self, U, V):
+        """ returns pdf of model """
+        return self.copula.get_pdf()(U, V)
+
+    def get_cdf(self, U, V):
+        """ returns cdf of model """
+        return self.copula.get_cdf()(U, V)
+
+    def get_ppf(self, y, v, theta):
+        """ returns ppf of model """
+        return self.copula.get_ppf()(y, v, theta)
+
+    def get_h_function(self, u, v, theta, y=0):
+        """ returns h function value of model """
+        return self.copula.get_h_function()(u, v, theta, y)
+
     @staticmethod
-    def sampling(cname, tau, n_sample):
-        """sampling from bivariate copula given tau
+    def sample(cname, tau, n_sample):
+        """ returns a new data point generated from model
         v~U[0,1],v~C^-1(u|v)
         """
         if tau > 1 or tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
         v = np.random.uniform(0, 1, n_sample)
         c = np.random.uniform(0, 1, n_sample)
-        cop = Copula(cname)
-        theta = Copula.tau_to_theta(cname, tau)
-        print(theta)
+        cop = BVCopula(cname)
+        theta = cop.tau_to_theta(cname, tau)
         ppf = cop.get_ppf()
         if cname == 'clayton':
             u = ppf(c, v, theta)
@@ -53,12 +79,10 @@ class Copula(object):
             u = np.empty([1, n_sample])
             for i in range(len(v)):
                 u[0, i] = ppf(c[i], v[i], theta)
-            print(u)
         elif cname == 'gumbel':
             u = np.empty([1, n_sample])
             for i in range(len(v)):
                 u[0, i] = ppf(c[i], v[i], theta)
-            print(u)
         else:
             u = np.random.uniform(0, 1, n_sample)
         U = np.column_stack((u.flatten(), v))
@@ -87,18 +111,18 @@ class Copula(object):
     def select_copula(U, V):
         """Select best copula function based on likelihood
         """
-        clayton_c = Copula('clayton')
+        clayton_c = BVCopula('clayton')
         clayton_c.fit(U, V)
-        frank_c = Copula('frank')
+        frank_c = BVCopula('frank')
         frank_c.fit(U, V)
-        gumbel_c = Copula('gumbel')
+        gumbel_c = BVCopula('gumbel')
         gumbel_c.fit(U, V)
         theta_c = [clayton_c.theta, frank_c.theta, gumbel_c.theta]
         if clayton_c.tau <= 0:
             bestC = 1
             paramC = frank_c.theta
             return bestC, paramC
-        z_left, L, z_right, R = Copula.compute_empirical(U, V)
+        z_left, L, z_right, R = BVCopula.compute_empirical(U, V)
         left_dependence, right_dependence = [], []
         left_dependence.append(
             clayton_c.get_cdf()(z_left, z_left) / np.power(z_left, 2))
@@ -122,13 +146,3 @@ class Copula(object):
         bestC = np.argmax(cost_LR)
         paramC = theta_c[bestC]
         return bestC, paramC
-
-    # def density_gaussian(self, u):
-    #     """Compute density of gaussian copula
-    #     """
-    #     R = np.linalg.cholesky(self.param)
-    #     x = scipy.stats.norm.ppf(u)
-    #     z = np.linalg.solve(R, x.T)
-    #     log_sqrt_det_rho = np.sum(np.log(np.diag(R)))
-    #     y = np.exp(-0.5 * np.sum(np.power(z.T, 2) - np.power(x, 2), axis=1) - log_sqrt_det_rho)
-    #     return y
