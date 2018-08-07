@@ -1,10 +1,9 @@
 import numpy as np
 
-from copulas.bivariate import bv_copula
-from bv_copula import BVCopula
+from copulas.bivariate.bv_copula import bv_copula
 
 
-class Clayton(BVCopula):
+class Clayton(bv_copula.BVCopula):
     """ Class for clayton copula model """
 
     def __init__(self):
