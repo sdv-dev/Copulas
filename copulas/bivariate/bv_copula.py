@@ -1,9 +1,7 @@
 import numpy as np
 from scipy import stats
 
-from copulas.bivariate import clayton
-from copulas.bivariate import frank
-from copulas.bivariate import gumbel
+from copulas.bivariate import clayton, frank, gumbel
 
 
 class BVCopula(object):

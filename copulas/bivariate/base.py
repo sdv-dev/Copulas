@@ -6,7 +6,6 @@ class Bivariate(object):
 
     def __init__(self, *args, **kwargs):
         """ initialize copula object """
-        pass
 
     def fit(self, U, V):
         """ Fits a model to the data and updates the parameters """
