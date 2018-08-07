@@ -327,7 +327,8 @@ class Copula(object):
         left_dependence, right_dependence = [], []
         left_dependence.append(
             clayton_c.get_cdf()(z_left, z_left, clayton_c.theta) / np.power(z_left, 2))
-        left_dependence.append(frank_c.get_cdf()(z_left, z_left, frank_c.theta) / np.power(z_left, 2))
+        left_dependence.append(
+            frank_c.get_cdf()(z_left, z_left, frank_c.theta) / np.power(z_left, 2))
         left_dependence.append(gumbel_c.cdf(z_left, z_left, gumbel_c.theta) / np.power(z_left, 2))
 
         def g(c, z):

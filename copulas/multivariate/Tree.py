@@ -206,7 +206,6 @@ class DTree(Tree):
 
     def _build_first_tree(self):
         # find the pair of maximum tau
-        self.u_matrix = prev_T
         tau_mat = self.tau_mat
         np.fill_diagonal(tau_mat, np.NaN)
         tau_y = tau_mat[:, 0]
@@ -262,7 +261,6 @@ class RTree(Tree):
     def _build_first_tree(self):
         """build the first t ree with n-1 variable
         """
-        print(self.u_matrix)
         tau_mat = self.tau_mat
         # Prim's algorithm
         neg_tau = -1.0 * abs(tau_mat)
