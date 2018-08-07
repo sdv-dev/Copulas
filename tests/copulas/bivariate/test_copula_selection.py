@@ -93,6 +93,19 @@ class TestCopulas(TestCase):
         expected_result = 0.1119
         self.assertAlmostEquals(result, expected_result, places=3)
 
+    def test_sample(self):
+        result = self.c0.sample(10)
+        assert result.shape[0] == 10
+
+        result = self.c1.sample(10)
+        assert result.shape[0] == 10
+
+        result = self.c2.sample(10)
+        assert result.shape[0] == 10
+        raise ValueError
+
+
+
     # def test_copula_selction_negative_tau(self):
     #     """If tau is negative, should choose frank copula."""
     #     U = [0.1, 0.2, 0.3, 0.4]
