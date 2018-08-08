@@ -5,17 +5,17 @@ import pandas as pd
 import scipy.integrate as integrate
 import scipy.stats as st
 
-from copulas.multivariate.MVCopula import MVCopula
-from copulas.univariate.GaussianUnivariate import GaussianUnivariate
+from copulas.multivariate.base import Multivariate
+from copulas.univariate.gaussian import GaussianUnivariate
 
 LOGGER = logging.getLogger(__name__)
 
 
-class GaussianCopula(MVCopula):
+class GaussianMultivariate(Multivariate):
     """ Class for a gaussian copula model """
 
     def __init__(self):
-        super(GaussianCopula, self).__init__()
+        super(GaussianMultivariate, self).__init__()
         self.distribs = {}
         self.cov_matrix = None
         self.data = None
