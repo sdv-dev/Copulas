@@ -3,14 +3,13 @@ import sys
 import numpy as np
 from scipy.optimize import fminbound
 
-from copulas.bivariate import Bivariate
+from copulas.bivariate.base import Bivariate, CopulaTypes
 
 
 class Gumbel(Bivariate):
     """ Class for clayton copula model """
 
-    def __init__(self):
-        super(Gumbel, self).__init__()
+    copula_type = CopulaTypes.GUMBEL
 
     def get_generator(self):
         """Return the generator function.

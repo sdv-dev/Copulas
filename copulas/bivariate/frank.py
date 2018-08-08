@@ -4,14 +4,13 @@ import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import fminbound, fsolve
 
-from copulas.bivariate import Bivariate
+from copulas.bivariate.base import Bivariate, CopulaTypes
 
 
 class Frank(Bivariate):
     """ Class for clayton copula model """
 
-    def __init__(self):
-        super(Frank, self).__init__()
+    copula_type = CopulaTypes.FRANK
 
     def get_generator(self):
         """Return the generator function.

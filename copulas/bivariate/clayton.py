@@ -1,13 +1,12 @@
 import numpy as np
 
-from copulas.bivariate import Bivariate
+from copulas.bivariate.base import Bivariate, CopulaTypes
 
 
 class Clayton(Bivariate):
     """ Class for clayton copula model """
 
-    def __init__(self):
-        super(Clayton, self).__init__()
+    copula_type = CopulaTypes.CLAYTON
 
     def get_generator(self):
         """Return the generator function.

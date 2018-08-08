@@ -1,11 +1,50 @@
+from enum import Enum
+
 import numpy as np
 from scipy import stats
+
+
+class CopulaTypes(Enum):
+    CLAYTON = 0
+    FRANK = 1
+    GUMBEL = 2
 
 
 class Bivariate(object):
     """Base class for all bivariate copulas."""
 
-    def __init__(self, *args, **kwargs):
+    copula_type = None
+
+    _subclasses = []
+
+    @classmethod
+    def _get_subclasses(cls):
+        subclasses = []
+        for subclass in cls.__subclasses__():
+            subclasses.append(subclass)
+            subclasses.extend(subclass._get_subclasses())
+
+        return subclasses
+
+    @classmethod
+    def subclasses(cls):
+        if not cls._subclasses:
+            cls._subclasses = cls._get_subclasses()
+
+        return cls._subclasses
+
+    def __new__(cls, copula_type=None):
+        if not isinstance(copula_type, CopulaTypes):
+            if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
+                copula_type = CopulaTypes[copula_type.upper()]
+            else:
+                raise ValueError('Invalid copula type {}'.format(copula_type))
+
+        for subclass in cls.subclasses():
+            if subclass.copula_type is copula_type:
+                return super(Bivariate, cls).__new__(subclass)
+
+    def __init__(self, copula_type=None):
         """ initialize copula object """
 
     def fit(self, U, V):
