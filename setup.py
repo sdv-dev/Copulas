@@ -16,12 +16,12 @@ install_requires = [
     'pandas>=0.22.0',
     'scipy>=0.19.1',
     'exrex>=0.10.5',
-    'matplotlib>=2.2.2'
+    'matplotlib>=2.2.2',
+    'boto3>=1.7.47'
 ]
 
 tests_require = [
     'pytest>=3.4.2',
-    'boto3>=1.7.47'
 ]
 
 setup_requires = [
@@ -50,7 +50,6 @@ setup(
     },
     extras_require={
         'test': tests_require,
-        'aws': ['boto3>=1.7.47']
     },
     install_requires=install_requires,
     license="MIT license",
@@ -60,6 +59,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
+    python_requires='>=3.4',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
