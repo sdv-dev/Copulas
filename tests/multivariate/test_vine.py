@@ -1,17 +1,28 @@
 from unittest import TestCase
 
-import numpy as np
-import scipy
+import pandas as pd
 
 from copulas.multivariate.VineCopula import VineCopula
 
 
-class TestVine(TestCase):
+class TestVineCopula(TestCase):
 
     def setUp(self):
-        data = '../../data/iris.data.csv'
-        dvine = VineCopula('dvine')
-        dvine.fit(data)
+        data = pd.read_csv('data/iris.data.csv')
+        self.dvine = VineCopula('dvine')
+        self.dvine.fit(data)
 
-    def test_fit(self):
-        
+        self.cvine = VineCopula('rvine')
+        self.cvine.fit(data)
+
+        self.rvine = VineCopula('rvine')
+        self.rvine.fit(data)
+
+    def test_sample(self):
+        sample_r = self.rvine.sample()
+        sample_d = self.dvine.sample()
+        sample_c = self.cvine.sample()
+
+        self.assertEquals(len(sample_r), 4)
+        self.assertEquals(len(sample_d), 4)
+        self.assertEquals(len(sample_c), 4)

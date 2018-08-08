@@ -1,13 +1,19 @@
+import logging
+import sys
 from random import randint
 
 import numpy as np
-import pandas as pd
 from scipy import optimize
 
 from copulas.bivariate.copulas import Copula
 from copulas.multivariate.MVCopula import MVCopula
 from copulas.multivariate.Tree import CTree, DTree, RTree
 from copulas.univariate.KDEUnivariate import KDEUnivariate
+
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+ch = logging.StreamHandler(sys.stdout)
+LOGGER.addHandler(ch)
 
 c_map = {0: 'clayton', 1: 'frank', 2: 'gumbel'}
 eps = np.finfo(np.float32).eps
@@ -36,13 +42,14 @@ class VineCopula(MVCopula):
         self.n_var = self.data.shape[1]
         self.tau_mat = self.data.corr(method='kendall').as_matrix()
         self.u_matrix = np.empty([self.n_sample, self.n_var])
-        self.unis = []
+        self.unis, self.ppfs = [], []
         count = 0
         for col in data:
             uni = KDEUnivariate()
             uni.fit(data[col])
             self.u_matrix[:, count] = [uni.get_cdf(x) for x in data[col]]
             self.unis.append(uni)
+            self.ppfs.append(uni.get_ppf)
             count += 1
         self.truncated = truncated
         self.depth = self.n_var - 1
@@ -50,7 +57,6 @@ class VineCopula(MVCopula):
         if self.type == 'cvine':
             self.train_vine(CTree)
         elif self.type == 'dvine':
-            # model = DVine(self.u_mat, self.tau_mat, self.truncated)
             self.train_vine(DTree)
         elif self.type == 'rvine':
             self.train_vine(RTree)
@@ -58,19 +64,19 @@ class VineCopula(MVCopula):
             raise Exception('Unsupported vine copula type: ' + str(self.cname))
 
     def train_vine(self, tree):
-        print('start building tree : 0')
+        LOGGER.debug('start building tree : 0')
         tree_1 = tree(0, self.n_var, self.tau_mat, self.u_matrix)
         self.vine_model.append(tree_1)
-        print('finish building tree : 0')
+        LOGGER.debug('finish building tree : 0')
         tree_1.print_tree()
         for k in range(1, min(self.n_var - 1, self.truncated)):
             # get constraints from previous tree'''
             self.vine_model[k - 1]._get_constraints()
             tau = self.vine_model[k - 1]._get_tau()
-            print('start building tree: {0}'.format(k))
+            LOGGER.debug('start building tree: {0}'.format(k))
             tree_k = tree(k, self.n_var - k, tau, self.vine_model[k - 1])
             self.vine_model.append(tree_k)
-            print('finish building tree: {0}'.format(k))
+            LOGGER.debug('finish building tree: {0}'.format(k))
             tree_k.print_tree()
 
     def sample(self, num_rows=1):
@@ -85,7 +91,6 @@ class VineCopula(MVCopula):
         itr = 0
         while explore:
             current = explore.pop(0)
-            # print('processing variable : {0}'.format(current))
             neighbors = np.where(adj[current, :] == 1)[0].tolist()
             if itr == 0:
                 new_x = self.ppfs[current](unis[current])
@@ -95,7 +100,6 @@ class VineCopula(MVCopula):
                     if i >= self.truncated:
                         continue
                     current_tree = self.vine_model[i].edge_set
-                    # print('inside loop number: {0}'.format(i))
                     # get index of edge to retrieve
                     for edge in current_tree:
                         if i == 0:
@@ -130,7 +134,6 @@ class VineCopula(MVCopula):
                                                            copula_para, tmp))
                         tmp = min(max(tmp, eps), 0.99)
                 new_x = self.ppfs[current](tmp)
-            # print(new_x)
             sampled[current] = new_x
             for s in neighbors:
                 if s in visited:
@@ -151,12 +154,3 @@ class VineCopula(MVCopula):
             adj[first_tree[k].L, first_tree[k].R] = 1
             adj[first_tree[k].R, first_tree[k].L] = 1
         return adj
-
-
-if __name__ == '__main__':
-    print('start building')
-    data = pd.read_csv('../../data/iris.data.csv')
-    model = VineCopula('rvine')
-    model.fit(data)
-    print(model)
-    # sample=model.sampling(400,plot=False,out_dir='../experiments/cancer_ri_synthetic.csv')

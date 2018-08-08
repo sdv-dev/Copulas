@@ -1,10 +1,20 @@
+import logging
+import sys
+
 import numpy as np
 import scipy
 
 from copulas.bivariate.copulas import Copula
 
+LOGGER = logging.getLogger(__name__)
+
 c_map = {0: 'clayton', 1: 'frank', 2: 'gumbel'}
 eps = np.finfo(np.float32).eps
+
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+ch = logging.StreamHandler(sys.stdout)
+LOGGER.addHandler(ch)
 
 
 class Tree(object):
@@ -22,7 +32,7 @@ class Tree(object):
             self._build_first_tree()
         else:
             self._build_kth_tree()
-            self._data4next_T()
+        self._data4next_T()
 
     def _identify_eds_ing(self, e1, e2):
         """find nodes connecting adjacent edges
@@ -74,8 +84,8 @@ class Tree(object):
                 if self.level == 1:
                     U1, U2 = self.u_matrix[:, l_p], self.u_matrix[:, r_p]
                 else:
-                    U1, U2 = self.prev_T.edge_set[l_p].U,
-                    self.prev_T.edge_set[r_p].U
+                    U1, U2 = self.prev_T.edge_set[l_p].U,\
+                        self.prev_T.edge_set[r_p].U
                 tau[i, j], pvalue = scipy.stats.kendalltau(U1, U2)
         return tau
 
@@ -142,7 +152,8 @@ class Tree(object):
 
     def print_tree(self):
         for e in self.edge_set:
-            print(e.L, e.R, e.D, e.parent)
+            msg = "L:{} R:{} D:{} parent:{}".format(e.L, e.R, e.D, e.parent)
+            LOGGER.info(msg)
 
 
 class CTree(Tree):
@@ -190,8 +201,8 @@ class CTree(Tree):
             self.prev_T.edge_set[right].U
             name, param = Copula.select_copula(U1, U2)
             [ed1, ed2, ing] =\
-                self.identify_eds_ing(self.prev_T.edge_set[anchor],
-                                      self.prev_T.edge_set[right])
+                self._identify_eds_ing(self.prev_T.edge_set[anchor],
+                                       self.prev_T.edge_set[right])
             new_edge = Edge(itr, ed1, ed2, tau_sorted[itr, 1], name, param)
             new_edge.parent.append(anchor)
             new_edge.parent.append(right)
@@ -222,10 +233,10 @@ class DTree(Tree):
         # replace tau matrix of the selected variables as a negative number
         tau_mat[:, [T1]] = -10
         for k in range(2, self.n_nodes - 1):
-            valL, left = np.max(tau_mat[T1[0], :]),
-            np.argmax(tau_mat[T1[0], :])
-            valR, right = np.max(tau_mat[T1[-1], :]),
-            np.argmax(tau_mat[T1[-1], :])
+            valL, left = np.max(tau_mat[T1[0], :]),\
+                np.argmax(tau_mat[T1[0], :])
+            valR, right = np.max(tau_mat[T1[-1], :]),\
+                np.argmax(tau_mat[T1[-1], :])
             if valL > valR:
                 # add nodes to the left'''
                 T1 = np.append(int(left), T1)
@@ -249,8 +260,10 @@ class DTree(Tree):
             l_p = self.prev_T.edge_set[k]
             r_p = self.prev_T.edge_set[k + 1]
             name, param = Copula.select_copula(l_p.U, r_p.U)
-            [ed1, ed2, ing] = self.identify_eds_ing(l_p, r_p)
+            [ed1, ed2, ing] = self._identify_eds_ing(l_p, r_p)
             new_edge = Edge(k, ed1, ed2, self.tau_mat[k, k + 1], name, param)
+            new_edge.parent.append(k)
+            new_edge.parent.append(k + 1)
             self.edge_set.append(new_edge)
 
 
@@ -299,18 +312,17 @@ class RTree(Tree):
                 for k in range(self.n_nodes):
                     if k not in visited and k != x:
                         # check if (x,k) is a valid edge in the vine
-                        if self.check_contraint(self.prev_T.edge_set[x],
-                                                self.prev_T.edge_set[k]):
+                        if self._check_contraint(self.prev_T.edge_set[x],
+                                                 self.prev_T.edge_set[k]):
                             adj_set.add((x, k))
             # find edge with maximum tau
-            # print('processing edge:{0}'.format(x))
             if len(list(adj_set)) == 0:
                 visited.add(list(unvisited)[0])
                 continue
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
             [ed1, ed2, ing] =\
-                self.identify_eds_ing(self.prev_T.edge_set[edge[0]],
-                                      self.prev_T.edge_set[edge[1]])
+                self._identify_eds_ing(self.prev_T.edge_set[edge[0]],
+                                       self.prev_T.edge_set[edge[1]])
             # U1 = self.u_matrix[ed1,ing]
             # U2 = self.u_matrix[ed2,ing]
             l_p = edge[0]

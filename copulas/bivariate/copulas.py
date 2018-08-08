@@ -90,8 +90,7 @@ class Copula(object):
                 elif self.theta == 1:
                     return np.multiply(U, V)
                 else:
-                    cop = Copula('gumbel').fit(U, V)
-                    cdf = cop.get_cdf()
+                    cdf = self.get_cdf()
                     a = np.power(np.multiply(U, V), -1)
                     tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
                     b = np.power(tmp, -2 + 2.0 / self.theta)
@@ -326,17 +325,18 @@ class Copula(object):
         z_left, L, z_right, R = Copula.compute_empirical(U, V)
         left_dependence, right_dependence = [], []
         left_dependence.append(
-            clayton_c.get_cdf()(z_left, z_left, clayton_c.theta) / np.power(z_left, 2))
+            clayton_c.get_cdf()(z_left, z_left) / np.power(z_left, 2))
         left_dependence.append(
-            frank_c.get_cdf()(z_left, z_left, frank_c.theta) / np.power(z_left, 2))
-        left_dependence.append(gumbel_c.cdf(z_left, z_left, gumbel_c.theta) / np.power(z_left, 2))
+            frank_c.get_cdf()(z_left, z_left) / np.power(z_left, 2))
+        left_dependence.append(
+            gumbel_c.get_cdf()(z_left, z_left) / np.power(z_left, 2))
 
         def g(c, z):
             return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
-        right_dependence.append(g(clayton_c.cdf(z_right, z_right, clayton_c.theta), z_right))
-        right_dependence.append(g(frank_c.cdf(z_right, z_right, frank_c.theta), z_right))
-        right_dependence.append(g(gumbel_c.cdf(z_right, z_right, gumbel_c.theta), z_right))
+        right_dependence.append(g(clayton_c.get_cdf()(z_right, z_right), z_right))
+        right_dependence.append(g(frank_c.get_cdf()(z_right, z_right), z_right))
+        right_dependence.append(g(gumbel_c.get_cdf()(z_right, z_right), z_right))
         # compute L2 distance from empirical distribution
         cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
         cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
