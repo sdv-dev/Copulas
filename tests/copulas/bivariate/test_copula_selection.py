@@ -102,9 +102,6 @@ class TestCopulas(TestCase):
 
         result = self.c2.sample(10)
         assert result.shape[0] == 10
-        raise ValueError
-
-
 
     # def test_copula_selction_negative_tau(self):
     #     """If tau is negative, should choose frank copula."""

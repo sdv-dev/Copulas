@@ -97,3 +97,6 @@ class Clayton(Bivariate):
         else:
             theta = 2 * self.tau / (1 - self.tau)
         return theta
+
+    def copula_sample(self, v, c, amount):
+        return self.get_ppf()(c, v, self.theta)

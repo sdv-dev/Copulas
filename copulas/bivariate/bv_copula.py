@@ -60,32 +60,11 @@ class BVCopula(object):
         """ returns h function value of model """
         return self.copula.get_h_function()(u, v, theta, y)
 
-    @staticmethod
-    def sample(cname, tau, n_sample):
+    def sample(self, n_samples):
         """ returns a new data point generated from model
         v~U[0,1],v~C^-1(u|v)
         """
-        if tau > 1 or tau < -1:
-            raise ValueError("The range for correlation measure is [-1,1].")
-        v = np.random.uniform(0, 1, n_sample)
-        c = np.random.uniform(0, 1, n_sample)
-        cop = BVCopula(cname)
-        theta = cop.tau_to_theta(cname, tau)
-        ppf = cop.get_ppf()
-        if cname == 'clayton':
-            u = ppf(c, v, theta)
-        elif cname == 'frank':
-            u = np.empty([1, n_sample])
-            for i in range(len(v)):
-                u[0, i] = ppf(c[i], v[i], theta)
-        elif cname == 'gumbel':
-            u = np.empty([1, n_sample])
-            for i in range(len(v)):
-                u[0, i] = ppf(c[i], v[i], theta)
-        else:
-            u = np.random.uniform(0, 1, n_sample)
-        U = np.column_stack((u.flatten(), v))
-        return U
+        return self.copula.sample(n_samples)
 
     @staticmethod
     def compute_empirical(u, v):

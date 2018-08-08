@@ -1,3 +1,4 @@
+import numpy as np
 from scipy import stats
 
 
@@ -26,9 +27,22 @@ class Bivariate(object):
         """ returns cdf of model """
         raise NotImplementedError
 
-    def sample(self):
-        """ returns a new data point generated from model """
+    def copula_sample(self, v, c, amount):
         raise NotImplementedError
+
+    def sample(self, amount):
+        """ returns a new data point generated from model
+        v~U[0,1],v~C^-1(u|v)
+        """
+        if self.tau > 1 or self.tau < -1:
+            raise ValueError("The range for correlation measure is [-1,1].")
+
+        v = np.random.uniform(0, 1, amount)
+        c = np.random.uniform(0, 1, amount)
+
+        u = self.copula_sample(v, c, amount)
+        U = np.column_stack((u.flatten(), v))
+        return U
 
     def tau_to_theta(self):
         """returns theta parameter."""

@@ -91,3 +91,12 @@ class Gumbel(Bivariate):
         else:
             theta = 1 / (1 - self.tau)
         return theta
+
+    def copula_sample(self, v, c, amount):
+        u = np.empty([1, amount])
+        ppf = self.get_ppf()
+
+        for i in range(len(v)):
+            u[0, i] = ppf(c[i], v[i], self.theta)
+
+        return u

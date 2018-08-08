@@ -100,3 +100,12 @@ class Frank(Bivariate):
 
         debye_value = integrate.quad(debye, sys.float_info.epsilon, alpha)[0] / alpha
         return 4 * (debye_value - 1) / alpha + 1 - tau
+
+    def copula_sample(self, v, c, amount):
+        u = np.empty([1, amount])
+        ppf = self.get_ppf()
+
+        for i in range(len(v)):
+            u[0, i] = ppf(c[i], v[i], self.theta)
+
+        return u
