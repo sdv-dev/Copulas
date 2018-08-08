@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from copulas.bivariate import Frank
-from copulas.bivariate.base import CopulaTypes, Bivariate
+from copulas.bivariate.base import Bivariate, CopulaTypes
 
 
 class TestFrank(TestCase):

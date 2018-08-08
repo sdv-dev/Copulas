@@ -14,7 +14,6 @@ class Bivariate(object):
     """Base class for all bivariate copulas."""
 
     copula_type = None
-
     _subclasses = []
 
     @classmethod
