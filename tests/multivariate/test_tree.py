@@ -3,7 +3,7 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.Tree import DTree, Edge
+from copulas.multivariate.Tree import DirectTree, Edge
 from copulas.univariate.KDEUnivariate import KDEUnivariate
 
 
@@ -18,7 +18,9 @@ class TestTree(TestCase):
             uni.fit(self.data[col])
             self.u_matrix[:, count] = [uni.get_cdf(x) for x in self.data[col]]
             count += 1
-        self.dtree = DTree(0, 3, self.tau_mat, self.u_matrix)
+        self.dtree = DirectTree(0, 3, self.tau_mat, self.u_matrix)
+        self.rtree = DirectTree(0, 3, self.tau_mat, self.u_matrix)
+        self.ctree = DirectTree(0, 3, self.tau_mat, self.u_matrix)
 
     def test_identify_eds(self):
         e1 = Edge(0, 1, 5, 0.3, 'clayton', 1.5)
@@ -26,7 +28,7 @@ class TestTree(TestCase):
         e2 = Edge(0, 2, 5, 0.3, 'clayton', 1.5)
         e2.D = [3, 4]
 
-        left, right, D = self.dtree._identify_eds_ing(e1, e2)
+        left, right, D = Edge._identify_eds_ing(e1, e2)
 
         expected = [3, 4, 5]
         self.assertEquals(left, 1)
@@ -39,4 +41,4 @@ class TestTree(TestCase):
         #     self.assertEquals(0, edge.L)
 
         self.dtree._build_first_tree()
-        self.assertEquals(self.dtree.edge_set[0].L, 2)
+        self.assertEquals(self.dtree.edges[0].L, 2)

@@ -7,7 +7,7 @@ from scipy import optimize
 
 from copulas.bivariate.copulas import Copula
 from copulas.multivariate.MVCopula import MVCopula
-from copulas.multivariate.Tree import CTree, DTree, RTree
+from copulas.multivariate.Tree import CenterTree, DirectTree, RegularTree
 from copulas.univariate.KDEUnivariate import KDEUnivariate
 
 LOGGER = logging.getLogger(__name__)
@@ -20,10 +20,14 @@ eps = np.finfo(np.float32).eps
 
 
 class VineCopula(MVCopula):
-    """ Class for a vine copula model """
-
     def __init__(self, type):
         super(VineCopula, self).__init__()
+        """Instantiate a vine copula class
+
+        Args:
+            :param type: type of the vine copula, could be 'cvine','dvine','rvine'
+            :type type: string
+        """
         self.type = type
         self.u_matrix = None
 
@@ -35,7 +39,12 @@ class VineCopula(MVCopula):
 
     def fit(self, data, truncated=3):
         """Fit a vine model to the data
-        Returns:
+
+        Args:
+            :param data: data to be fitted
+            :param truncated: only construct the vine up to level (truncated)
+            :type data: pandas DataFrame
+            :type truncated: int
         """
         self.data = data
         self.n_sample = self.data.shape[0]
@@ -55,11 +64,11 @@ class VineCopula(MVCopula):
         self.depth = self.n_var - 1
         self.vine_model = []
         if self.type == 'cvine':
-            self.train_vine(CTree)
+            self.train_vine(CenterTree)
         elif self.type == 'dvine':
-            self.train_vine(DTree)
+            self.train_vine(DirectTree)
         elif self.type == 'rvine':
-            self.train_vine(RTree)
+            self.train_vine(RegularTree)
         else:
             raise Exception('Unsupported vine copula type: ' + str(self.cname))
 
@@ -68,23 +77,23 @@ class VineCopula(MVCopula):
         tree_1 = tree(0, self.n_var, self.tau_mat, self.u_matrix)
         self.vine_model.append(tree_1)
         LOGGER.debug('finish building tree : 0')
-        tree_1.print_tree()
+        print(tree_1)
         for k in range(1, min(self.n_var - 1, self.truncated)):
             # get constraints from previous tree'''
             self.vine_model[k - 1]._get_constraints()
-            tau = self.vine_model[k - 1]._get_tau()
+            tau = self.vine_model[k - 1].get_tau_matrix()
             LOGGER.debug('start building tree: {0}'.format(k))
             tree_k = tree(k, self.n_var - k, tau, self.vine_model[k - 1])
             self.vine_model.append(tree_k)
             LOGGER.debug('finish building tree: {0}'.format(k))
-            tree_k.print_tree()
+            print(tree_k)
 
     def sample(self, num_rows=1):
         """generating samples from vine model"""
         unis = np.random.uniform(0, 1, self.n_var)
         # randomly select a node to start with
         first_ind = randint(0, self.n_var - 1)
-        adj = self._get_adjacent_matrix()
+        adj = self.vine_model[0].get_adjacent_matrix()
         visited, explore = [], []
         explore.insert(0, first_ind)
         sampled = [0] * self.n_var
@@ -99,7 +108,7 @@ class VineCopula(MVCopula):
                     current_ind = -1
                     if i >= self.truncated:
                         continue
-                    current_tree = self.vine_model[i].edge_set
+                    current_tree = self.vine_model[i].edges
                     # get index of edge to retrieve
                     for edge in current_tree:
                         if i == 0:
@@ -143,14 +152,3 @@ class VineCopula(MVCopula):
             itr += 1
             visited.insert(0, current)
             return sampled
-
-    def _get_adjacent_matrix(self):
-        """Build adjacency matrix from the first tree
-        """
-        first_tree = self.vine_model[0].edge_set
-        n = len(first_tree) + 1
-        adj = np.zeros([n, n])
-        for k in range(len(first_tree)):
-            adj[first_tree[k].L, first_tree[k].R] = 1
-            adj[first_tree[k].R, first_tree[k].L] = 1
-        return adj
