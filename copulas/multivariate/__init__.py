@@ -1,5 +1,14 @@
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.gaussian import GaussianMultivariate
-from copulas.multivariate.vine import Tree, Vine
+from copulas.multivariate.tree import CenterTree, DirectTree, RegularTree, Tree
+from copulas.multivariate.vine import VineCopula
 
-__all__ = ('Multivariate', 'GaussianMultivariate', 'Vine', 'Tree')
+__all__ = (
+    'Multivariate',
+    'GaussianMultivariate',
+    'VineCopula',
+    'Tree',
+    'CenterTree',
+    'DirectTree',
+    'RegularTree'
+)

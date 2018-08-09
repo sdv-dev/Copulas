@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pandas as pd
 
-from copulas.multivariate.VineCopula import VineCopula
+from copulas.multivariate.vine import VineCopula
 
 
 class TestVineCopula(TestCase):
