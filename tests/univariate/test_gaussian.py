@@ -3,7 +3,7 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
-from copulas.univariate.GaussianUnivariate import GaussianUnivariate
+from copulas.univariate.gaussian import GaussianUnivariate
 
 
 class TestGaussianUnivariate(TestCase):
@@ -161,9 +161,9 @@ class TestGaussianUnivariate(TestCase):
         copula.fit(column)
 
         # Run
-        result = copula.sample(100000)
+        result = copula.sample(1_000_000)
 
         # Check
-        assert len(result) == 100000
-        assert (np.mean(result) - copula.mean) < 10E-4
-        assert (np.std(result) - copula.std) < 10E-4
+        assert len(result) == 1_000_000
+        assert (np.mean(result) - copula.mean) < 10E-3
+        assert (np.std(result) - copula.std) < 10E-3

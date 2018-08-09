@@ -45,7 +45,7 @@ class VineCopula(Multivariate):
         self.data = data
         self.n_sample = self.data.shape[0]
         self.n_var = self.data.shape[1]
-        self.tau_mat = self.data.corr(method='kendall').as_matrix()
+        self.tau_mat = self.data.corr(method='kendall').values
         self.u_matrix = np.empty([self.n_sample, self.n_var])
         self.unis, self.ppfs = [], []
         count = 0
