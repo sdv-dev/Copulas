@@ -1,5 +1,4 @@
 import logging
-import sys
 
 import numpy as np
 import scipy
@@ -51,7 +50,9 @@ class Tree(object):
         Returns:
             Boolean True if the two edges satisfy vine constraints
         """
-        full_node = set([edge1.L, edge1.R, edge2.L, edge2.R, *edge1.D, *edge2.D])
+        full_node = set([edge1.L, edge1.R, edge2.L, edge2.R])
+        full_node.update(edge1.D)
+        full_node.update(edge2.D)
         return len(full_node) == (self.level + 1)
 
     def _get_constraints(self):
@@ -140,7 +141,6 @@ class Tree(object):
             param value: likelihood value of the current tree
             type value: float or int
         """
-        newU = np.empty([self.vine.n_var, self.vine.n_var])
         edges = self.edges
         values = np.zeros([1, len(edges)])
         for i in range(len(edges)):
@@ -195,7 +195,7 @@ class CenterTree(Tree):
 
     def _build_kth_tree(self):
         """build k-th level tree"""
-        anchor = self.get_anchor()
+        anchor, tau_sorted = self.get_anchor()
         self.tau_matrix[anchor, :] = np.NaN
         # sort the rest of variables based on dependence with anchor variable
         aux = np.empty([self.n_nodes, 3])
@@ -225,7 +225,7 @@ class CenterTree(Tree):
         temp[:, 1] = np.sum(abs(self.tau_matrix), 1)
         tau_sorted = temp[temp[:, 1].argsort()[::-1]]
         anchor = int(temp[0, 0])
-        return anchor
+        return anchor, tau_sorted
 
 
 class DirectTree(Tree):
@@ -249,7 +249,7 @@ class DirectTree(Tree):
         tau_matrix[:, [T1]] = -10
         for k in range(2, self.n_nodes - 1):
             valL, left = np.max(tau_matrix[T1[0], :]),\
-                         np.argmax(tau_matrix[T1[0], :])
+                np.argmax(tau_matrix[T1[0], :])
             valR, right = np.max(tau_matrix[T1[-1], :]),\
                 np.argmax(tau_matrix[T1[-1], :])
             if valL > valR:
@@ -275,7 +275,7 @@ class DirectTree(Tree):
         for k in range(self.n_nodes - 1):
             left_parent = edges[k]
             right_parent = edges[k + 1]
-            name, theta = Copula.select_copula(left_parent.U, right_parent.U)
+            name, theta = Copula.select_copula(left_parent.U[0], right_parent.U[0])
             [ed1, ed2, ing] = Edge._identify_eds_ing(left_parent, right_parent)
             new_edge = Edge(k, ed1, ed2, self.tau_matrix[k, k + 1], name, theta)
             new_edge.parent.append(k)
@@ -394,8 +394,10 @@ class Edge(object):
             :type left, right: int
             :type D: list
         """
-        A = set([edge1.L, edge1.R, *edge1.D])
-        B = set([edge2.L, edge2.R, *edge2.D])
+        A = set([edge1.L, edge1.R])
+        A.update(edge1.D)
+        B = set([edge2.L, edge2.R])
+        B.update(edge2.D)
         D = list(A & B)
         left = list(A ^ B)[0]
         right = list(A ^ B)[1]
@@ -410,12 +412,11 @@ class Edge(object):
 
         This function will return true if the two edges are adjacent
         """
-        return (self.L == another_edge.L or self.L == another_edge.R
-                or self.R == another_edge.L or self.R == another_edge.R)
+        return (self.L == another_edge.L or self.L == another_edge.R or
+                self.R == another_edge.L or self.R == another_edge.R)
 
     def get_likelihood(self, U):
-        """Compute likelihood given a U matrix
-        """
+        """ Compute likelihood given a U matrix """
         if self.level == 1:
             name, theta = Copula.select_copula(U[:, self.L], U[:, self.R])
             cop = Copula(name)
