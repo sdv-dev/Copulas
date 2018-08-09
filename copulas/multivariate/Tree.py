@@ -212,6 +212,7 @@ class CenterTree(Tree):
             [ed1, ed2, ing] =\
                 Edge._identify_eds_ing(edges[anchor], edges[right])
             new_edge = Edge(itr, ed1, ed2, tau_sorted[itr, 1], name, theta)
+            new_edge.D = ing
             new_edge.parents.append(edges[anchor])
             new_edge.parents.append(edges[right])
             new_edge.parent.append(anchor)
@@ -278,6 +279,7 @@ class DirectTree(Tree):
             name, theta = Copula.select_copula(left_parent.U[0], right_parent.U[0])
             [ed1, ed2, ing] = Edge._identify_eds_ing(left_parent, right_parent)
             new_edge = Edge(k, ed1, ed2, self.tau_matrix[k, k + 1], name, theta)
+            new_edge.D = ing
             new_edge.parent.append(k)
             new_edge.parent.append(k + 1)
             self.edges.append(new_edge)
@@ -399,8 +401,7 @@ class Edge(object):
         B = set([edge2.L, edge2.R])
         B.update(edge2.D)
         D = list(A & B)
-        left = list(A ^ B)[0]
-        right = list(A ^ B)[1]
+        left, right = list(A ^ B)
         return left, right, D
 
     def is_adjacent(self, another_edge):
