@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
-from copulas.univariate.UnivariateDistrib import UnivariateDistrib
+from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
 
 
-class GaussianUnivariate(UnivariateDistrib):
+class GaussianUnivariate(Univariate):
     """ Gaussian univariate model """
 
     def __init__(self):
