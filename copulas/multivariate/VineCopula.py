@@ -62,7 +62,7 @@ class VineCopula(MVCopula):
             count += 1
         self.truncated = truncated
         self.depth = self.n_var - 1
-        self.vine_model = []
+        self.trees = []
         if self.type == 'cvine':
             self.train_vine(CenterTree)
         elif self.type == 'dvine':
@@ -75,25 +75,35 @@ class VineCopula(MVCopula):
     def train_vine(self, tree):
         LOGGER.debug('start building tree : 0')
         tree_1 = tree(0, self.n_var, self.tau_mat, self.u_matrix)
-        self.vine_model.append(tree_1)
+        self.trees.append(tree_1)
         LOGGER.debug('finish building tree : 0')
         print(tree_1)
         for k in range(1, min(self.n_var - 1, self.truncated)):
             # get constraints from previous tree'''
-            self.vine_model[k - 1]._get_constraints()
-            tau = self.vine_model[k - 1].get_tau_matrix()
+            self.trees[k - 1]._get_constraints()
+            tau = self.trees[k - 1].get_tau_matrix()
             LOGGER.debug('start building tree: {0}'.format(k))
-            tree_k = tree(k, self.n_var - k, tau, self.vine_model[k - 1])
-            self.vine_model.append(tree_k)
+            tree_k = tree(k, self.n_var - k, tau, self.trees[k - 1])
+            self.trees.append(tree_k)
             LOGGER.debug('finish building tree: {0}'.format(k))
             print(tree_k)
+
+    def get_likelihood(self, uni_matrix):
+        """Compute likelihood of the vine"""
+        num_tree = len(self.trees)
+        values = np.empty([1, num_tree])
+        for i in range(num_tree):
+            value, new_uni_matrix = self.trees[i].get_likelihood(uni_matrix)
+            uni_matrix = new_uni_matrix
+            values[0, i] = value
+        return np.sum(values)
 
     def sample(self, num_rows=1):
         """generating samples from vine model"""
         unis = np.random.uniform(0, 1, self.n_var)
         # randomly select a node to start with
         first_ind = randint(0, self.n_var - 1)
-        adj = self.vine_model[0].get_adjacent_matrix()
+        adj = self.trees[0].get_adjacent_matrix()
         visited, explore = [], []
         explore.insert(0, first_ind)
         sampled = [0] * self.n_var
@@ -108,7 +118,7 @@ class VineCopula(MVCopula):
                     current_ind = -1
                     if i >= self.truncated:
                         continue
-                    current_tree = self.vine_model[i].edges
+                    current_tree = self.trees[i].edges
                     # get index of edge to retrieve
                     for edge in current_tree:
                         if i == 0:

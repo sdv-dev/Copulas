@@ -14,6 +14,7 @@ eps = np.finfo(np.float32).eps
 class Tree(object):
     """Helper class to instantiate a single tree in the vine model
     """
+
     def __init__(self, index, n_nodes, tau_matrix, previous_tree):
         """Initialize tree object
 
@@ -139,13 +140,21 @@ class Tree(object):
 
         Returns:
             param value: likelihood value of the current tree
+            param new_uni_matrix: next level onditional univariate matrix
             type value: float or int
+            type new_uni_matrix: np.ndarray
         """
+        uni_dim = uni_matrix.shape[1]
         num_edge = len(self.edges)
         values = np.zeros([1, num_edge])
+        new_uni_matrix = np.empty([uni_dim, uni_dim])
         for i in range(num_edge):
-            values[0, i] = np.log(self.edges[i].get_likelihood(uni_matrix))
-        return np.sum(values)
+            edge = self.edges[i]
+            values[0, i], left_u, right_u =\
+                np.log(edge.get_likelihood(uni_matrix))
+            new_uni_matrix[edge.L, edge.R] = left_u
+            new_uni_matrix[edge.R, edge.L] = right_u
+        return np.sum(values), new_uni_matrix
 
     def __str__(self):
         template = 'L:{} R:{} D:{}'
@@ -155,6 +164,7 @@ class Tree(object):
 
 class CenterTree(Tree):
     """Helper Class for instantiate a Center Vine"""
+
     def _build_first_tree(self):
         """build first level tree"""
         # first column is the variable of interest
@@ -211,6 +221,7 @@ class CenterTree(Tree):
 
 class DirectTree(Tree):
     """Helper Class for instantiate a Direct Vine"""
+
     def _build_first_tree(self):
         # find the pair of maximum tau
         tau_matrix = self.tau_matrix
@@ -255,7 +266,7 @@ class DirectTree(Tree):
     def _build_kth_tree(self):
         edges = self.previous_tree.edges
         for k in range(self.n_nodes - 1):
-            left_parent, right_parent = Edge.sort_edge(edges[k], edges[k+1])
+            left_parent, right_parent = Edge.sort_edge(edges[k], edges[k + 1])
             left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
             name, theta = Copula.select_copula(left_u, right_u)
             [ed1, ed2, ing] = Edge._identify_eds_ing(left_parent, right_parent)
@@ -268,6 +279,7 @@ class DirectTree(Tree):
 
 class RegularTree(Tree):
     """ Helper class for instantiate Regular Vine"""
+
     def _build_first_tree(self):
         """build the first tree with n-1 variable"""
         # Prim's algorithm
@@ -395,21 +407,21 @@ class Edge(object):
 
     def get_likelihood(self, uni_matrix):
         """ Compute likelihood given a U matrix """
-        cname = c_map[self.name]
-        copula_theta = self.theta
         if self.level == 1:
             left_u = uni_matrix[:, self.L]
             right_u = uni_matrix[:, self.R]
         else:
-            left_parent, right_parent = self.parents
-            left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
-        cop = Copula(cname)
-        cop.set_params(theta=copula_theta)
-        value = cop.get_pdf()(left_u, right_u)
-        left_given_right = cop.get_h_function()(left_u, right_u, copula_theta)
-        right_given_left = cop.get_h_function()(right_u, left_u, copula_theta)
-        self.U = [left_given_right, right_given_left]
-        return value
+            left_u = uni_matrix[self.L, self.R]
+            right_u = uni_matrix[self.R, self.L]
+        print(left_u, right_u)
+        cop = Copula(c_map[self.name])
+        cop.set_params(theta=self.theta)
+        value = np.sum(cop.get_pdf()(left_u, right_u))
+        print(c_map[self.name])
+        print(value)
+        left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
+        right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
+        return value, left_given_right, right_given_left
 
     @staticmethod
     def sort_edge(edge1, edge2):
@@ -425,6 +437,7 @@ class Edge(object):
 
     @staticmethod
     def get_conditional_uni(left_parent, right_parent):
+        """ Identify pair univariate value from parents"""
         left, right, D = Edge._identify_eds_ing(left_parent, right_parent)
         if left_parent.L == left:
             left_u = left_parent.U[0]
