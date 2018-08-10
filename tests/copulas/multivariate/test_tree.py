@@ -10,7 +10,7 @@ from copulas.univariate.kde import KDEUnivariate
 class TestTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/example.csv')
-        self.tau_mat = self.data.corr(method='kendall').as_matrix()
+        self.tau_mat = self.data.corr(method='kendall').values
         self.u_matrix = np.empty([self.data.shape[0], self.data.shape[1]])
         count = 0
         for col in self.data:
