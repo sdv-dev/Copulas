@@ -8,7 +8,7 @@ from unittest import TestCase
 import numpy as np
 import scipy
 
-from copulas.univariate.KDEUnivariate import KDEUnivariate
+from copulas.univariate.kde import KDEUnivariate
 
 
 class TestKDEUnivariate(TestCase):
