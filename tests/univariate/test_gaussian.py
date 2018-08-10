@@ -161,9 +161,9 @@ class TestGaussianUnivariate(TestCase):
         copula.fit(column)
 
         # Run
-        result = copula.sample(1_000_000)
+        result = copula.sample(1000000)
 
         # Check
-        assert len(result) == 1_000_000
+        assert len(result) == 1000000
         assert (np.mean(result) - copula.mean) < 10E-3
         assert (np.std(result) - copula.std) < 10E-3
