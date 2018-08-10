@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pandas as pd
 
-from copulas.multivariate.GaussianCopula import GaussianCopula
+from copulas.multivariate.gaussian import GaussianMultivariate
 
 
 class TestGaussianCopula(TestCase):
@@ -11,7 +11,7 @@ class TestGaussianCopula(TestCase):
     def test_deprecation_warnings(self):
         """After fitting, Gaussian copula can produce new samples warningless."""
         # Setup
-        copula = GaussianCopula()
+        copula = GaussianMultivariate()
         data = pd.read_csv('data/iris.data.csv')
 
         # Run

@@ -1,4 +1,4 @@
-class UnivariateDistrib(object):
+class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
     def __init__(self):

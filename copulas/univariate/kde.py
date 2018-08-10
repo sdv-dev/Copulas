@@ -1,9 +1,9 @@
 import scipy
 
-from copulas.univariate.UnivariateDistrib import UnivariateDistrib
+from copulas.univariate.base import Univariate
 
 
-class KDEUnivariate(UnivariateDistrib):
+class KDEUnivariate(Univariate):
     """ A wrapper for gaussian Kernel density estimation implemented
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
