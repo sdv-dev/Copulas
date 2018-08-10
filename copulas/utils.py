@@ -19,6 +19,7 @@ COV_SEP = '*'
 RAW_EXT = '.raw.csv'
 SYNTH_EXT = '.synth.csv'
 TRANS_EXT = '.trans.csv'
+EPSILON = np.finfo(np.float32).eps
 
 
 BUCKET = 'copulas-data-store'

@@ -85,3 +85,75 @@ class Bivariate(object):
     def tau_to_theta(self):
         """returns theta parameter."""
         raise NotImplementedError
+
+    @staticmethod
+    def g(c, z):
+        return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
+
+    @classmethod
+    def get_dependences(cls, copulas, z_left, z_right):
+        left = right = []
+
+        for copula in copulas:
+            left.append(copula.get_cdf()(z_left, z_left) / np.power(z_left, 2))
+
+        for copula in copulas:
+            right.append(cls.g(copula.get_cdf()(z_right, z_right), z_right))
+
+        return left, right
+
+    @classmethod
+    def select_copula(cls, U, V):
+        """Select best copula function based on likelihood.
+        :param: U An 1d array
+        :param: V: An 1d array
+        """
+        clayton = Bivariate(CopulaTypes.CLAYTON)
+        clayton.fit(U, V)
+
+        if clayton.tau <= 0:
+            frank = Bivariate(CopulaTypes.FRANK)
+            frank.fit(U, V)
+            selected_theta = frank.theta
+            selected_copula = frank.copula_type
+
+            return selected_copula, selected_theta
+
+        frank = Bivariate(CopulaTypes.FRANK)
+        frank.fit(U, V)
+        gumbel = Bivariate(CopulaTypes.GUMBEL)
+        gumbel.fit(U, V)
+        candidate_copulas = [clayton, frank, gumbel]
+        theta_candidates = [clayton.theta, frank.theta, gumbel.theta]
+
+        z_left, L, z_right, R = cls.compute_empirical(U, V)
+        left_dependence, right_dependence = cls.get_dependences(candidate_copulas, z_left, z_right)
+
+        # compute L2 distance from empirical distribution
+        cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
+        cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
+        cost_LR = np.add(cost_L, cost_R)
+        selected_copula = np.argmax(cost_LR)
+        selected_theta = theta_candidates[selected_copula]
+        return selected_copula, selected_theta
+
+    @staticmethod
+    def compute_empirical(u, v):
+        """compute empirical distribution"""
+        z_left = z_right = []
+        L = R = []
+        N = len(u)
+        base = np.linspace(0.0, 1.0, 50)
+        for k in range(len(base)):
+            left = sum(np.logical_and(u <= base[k], v <= base[k])) / N
+            right = sum(np.logical_and(u >= base[k], v >= base[k])) / N
+
+            if left > 0:
+                z_left.append(base[k])
+                L.append(left / base[k]**2)
+
+            if right > 0:
+                z_right.append(base[k])
+                R.append(right / (1 - z_right[k])**2)
+
+        return z_left, L, z_right, R
