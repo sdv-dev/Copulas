@@ -1,25 +1,21 @@
 import logging
-import sys
 from random import randint
 
 import numpy as np
 from scipy import optimize
 
 from copulas.bivariate.copulas import Copula
-from copulas.multivariate.MVCopula import MVCopula
-from copulas.multivariate.Tree import CenterTree, DirectTree, RegularTree
-from copulas.univariate.KDEUnivariate import KDEUnivariate
+from copulas.multivariate.base import Multivariate
+from copulas.multivariate.tree import CenterTree, DirectTree, RegularTree
+from copulas.univariate.kde import KDEUnivariate
 
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
-ch = logging.StreamHandler(sys.stdout)
-LOGGER.addHandler(ch)
 
 c_map = {0: 'clayton', 1: 'frank', 2: 'gumbel'}
 eps = np.finfo(np.float32).eps
 
 
-class VineCopula(MVCopula):
+class VineCopula(Multivariate):
     def __init__(self, type):
         super(VineCopula, self).__init__()
         """Instantiate a vine copula class

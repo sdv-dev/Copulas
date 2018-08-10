@@ -4,8 +4,8 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.Tree import DirectTree, Edge, RegularTree
-from copulas.univariate.KDEUnivariate import KDEUnivariate
+from copulas.multivariate.tree import DirectTree, Edge
+from copulas.univariate.kde import KDEUnivariate
 
 LOGGER = logging.getLogger(__name__)
 

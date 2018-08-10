@@ -5,17 +5,17 @@ import pandas as pd
 import scipy.integrate as integrate
 import scipy.stats as st
 
-from copulas.multivariate.MVCopula import MVCopula
-from copulas.univariate.GaussianUnivariate import GaussianUnivariate
+from copulas.multivariate.base import Multivariate
+from copulas.univariate.gaussian import GaussianUnivariate
 
 LOGGER = logging.getLogger(__name__)
 
 
-class GaussianCopula(MVCopula):
+class GaussianMultivariate(Multivariate):
     """ Class for a gaussian copula model """
 
     def __init__(self):
-        super(GaussianCopula, self).__init__()
+        super(GaussianMultivariate, self).__init__()
         self.distribs = {}
         self.cov_matrix = None
         self.data = None
@@ -62,9 +62,9 @@ class GaussianCopula(MVCopula):
             # get inverse cdf using standard normal
             res.loc[:, col] = st.norm.ppf(cdf)
         n = res.shape[1]
-        means = [np.mean(res.iloc[:, i].as_matrix()) for i in range(n)]
+        means = [np.mean(res.iloc[:, i].values) for i in range(n)]
         cov = res.cov()
-        return (cov.as_matrix(), means, res)
+        return (cov.values, means, res)
 
     def get_pdf(self, X):
         # make cov positive semi-definite
