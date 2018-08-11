@@ -4,14 +4,14 @@ from random import randint
 import numpy as np
 from scipy import optimize
 
-from copulas.bivariate.copulas import Copula
+from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import CenterTree, DirectTree, RegularTree
 from copulas.univariate.kde import KDEUnivariate
+from copulas.utils import EPSILON
 
 LOGGER = logging.getLogger(__name__)
 
-c_map = {0: 'clayton', 1: 'frank', 2: 'gumbel'}
 eps = np.finfo(np.float32).eps
 
 
@@ -125,19 +125,19 @@ class VineCopula(Multivariate):
                         # the node is not indepedent contional on visited node
                         copula_type = current_tree[current_ind].name
                         copula_para = current_tree[current_ind].param
-                        cop = Copula(c_map[copula_type])
+                        cop = Bivariate(CopulaTypes(copula_type))
                         derivative = cop.get_h_function()
                         # start with last level
                         if i == itr - 1:
-                            tmp = optimize.fminbound(derivative, eps, 1.0,
+                            tmp = optimize.fminbound(derivative, EPSILON, 1.0,
                                                      args=(unis[visited[0]],
                                                            copula_para,
                                                            unis[current]))
                         else:
-                            tmp = optimize.fminbound(derivative, eps, 1.0,
+                            tmp = optimize.fminbound(derivative, EPSILON, 1.0,
                                                      args=(unis[visited[0]],
                                                            copula_para, tmp))
-                        tmp = min(max(tmp, eps), 0.99)
+                        tmp = min(max(tmp, EPSILON), 0.99)
                 new_x = self.ppfs[current](tmp)
             sampled[current] = new_x
             for s in neighbors:
