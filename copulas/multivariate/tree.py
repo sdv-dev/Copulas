@@ -212,7 +212,6 @@ class CenterTree(Tree):
         temp = np.empty([self.n_nodes, 2])
         temp[:, 0] = np.arange(self.n_nodes, dtype=int)
         temp[:, 1] = np.sum(abs(self.tau_matrix), 1)
-        tau_sorted = temp[temp[:, 1].argsort()[::-1]]
         anchor = int(temp[0, 0])
         return anchor
 

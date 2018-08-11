@@ -5,6 +5,7 @@ from copulas.multivariate.tree import Edge
 
 LOGGER = logging.getLogger(__name__)
 
+
 class TestEdge(TestCase):
     def setUp(self):
         self.e1 = Edge(2, 5, 'clayton', 1.5)
