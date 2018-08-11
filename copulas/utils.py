@@ -3,14 +3,14 @@ import logging
 import time
 from io import BytesIO
 
+import boto3
 import numpy as np
 import pandas as pd
-from scipy import optimize, stats
-
-import boto3
-import exrex
 from botocore import UNSIGNED
 from botocore.client import Config
+from scipy import optimize, stats
+
+import exrex
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,6 +19,7 @@ COV_SEP = '*'
 RAW_EXT = '.raw.csv'
 SYNTH_EXT = '.synth.csv'
 TRANS_EXT = '.trans.csv'
+EPSILON = np.finfo(np.float32).eps
 
 
 BUCKET = 'copulas-data-store'
