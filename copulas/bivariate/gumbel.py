@@ -99,10 +99,10 @@ class Gumbel(Bivariate):
         return theta
 
     def _sample(self, v, c):
-        u = np.empty([1,0])
+        u = np.empty([1, 0])
         ppf = self.get_ppf()
 
-        for v_, c_ in zip(v,c):
+        for v_, c_ in zip(v, c):
             u = np.append(u, ppf(v_, c_, self.theta))
 
         return u

@@ -3,7 +3,6 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
-
 COMPUTE_EMPIRICAL_STEPS = 50
 
 

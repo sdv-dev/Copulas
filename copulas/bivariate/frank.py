@@ -102,7 +102,7 @@ class Frank(Bivariate):
         u = np.empty([1, 0])
         ppf = self.get_ppf()
 
-        for v_, c_ in zip(v,c):
+        for v_, c_ in zip(v, c):
             u = np.append(u, ppf(v_, c_, self.theta))
 
         return u
