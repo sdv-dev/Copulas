@@ -4,7 +4,11 @@ import numpy as np
 from scipy import stats
 
 
+COMPUTE_EMPIRICAL_STEPS = 50
+
+
 class CopulaTypes(Enum):
+    """Available copulas  """
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
@@ -44,46 +48,71 @@ class Bivariate(object):
                 return super(Bivariate, cls).__new__(subclass)
 
     def __init__(self, copula_type=None):
-        """ initialize copula object """
+        """
+        Creates a new instance of any of their subclasses.
+
+        Args:
+            copula_type: `CopulaType` or `str` to be compared against CopulaType.
+
+        >>> Bivariate(CopulaTypes.FRANK).__class__
+        copulas.bivariate.frank.Frank
+
+        >>> Bivariate('frank').__class__
+        copulas.bivariate.frank.Frank
+        """
 
     def fit(self, U, V):
-        """ Fits a model to the data and updates the parameters """
+        """
+        Fits a model to the data updating the parameters.
+
+        Args:
+            U: 1-d `np.ndarray` for first variable to train the copula.
+            V: 1-d `np.ndarray` for second variable to train the copula.
+
+        Return:
+            `None`
+        """
         self.U = U
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
         self.theta = self.tau_to_theta()
 
     def infer(self, values):
-        """ Takes in subset of values and predicts the rest """
+        """Takes in subset of values and predicts the rest."""
         raise NotImplementedError
 
     def get_pdf(self):
-        """ returns pdf of model """
+        """Returns pdf of model."""
         raise NotImplementedError
 
     def get_cdf(self):
-        """ returns cdf of model """
+        """Returns cdf of model."""
         raise NotImplementedError
 
-    def copula_sample(self, v, c, amount):
+    def _sample(self, v, c):
         raise NotImplementedError
 
-    def sample(self, amount):
-        """ returns a new data point generated from model
-        v~U[0,1],v~C^-1(u|v)
+    def sample(self, n_samples):
+        """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
+
+        Args:
+            n_samples: `int`, amount of samples to create.
+
+        Returns:
+            np.ndarray with generated samples.
         """
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
 
-        v = np.random.uniform(0, 1, amount)
-        c = np.random.uniform(0, 1, amount)
+        v = np.random.uniform(0, 1, n_samples)
+        c = np.random.uniform(0, 1, n_samples)
 
-        u = self.copula_sample(v, c, amount)
+        u = self._sample(v, c)
         U = np.column_stack((u.flatten(), v))
         return U
 
     def tau_to_theta(self):
-        """returns theta parameter."""
+        """Compute theta parameter."""
         raise NotImplementedError
 
     @staticmethod
@@ -105,8 +134,14 @@ class Bivariate(object):
     @classmethod
     def select_copula(cls, U, V):
         """Select best copula function based on likelihood.
-        :param: U An 1d array
-        :param: V: An 1d array
+
+        Args:
+            U: 1-dimensional `np.ndarray`
+            V: 1-dimensional `np.ndarray`
+
+        Returns:
+            selected_copula: `CopulaType` that best  Best fit.
+            selected_theta: `float` computed for input data.
         """
         clayton = Bivariate(CopulaTypes.CLAYTON)
         clayton.fit(U, V)
@@ -139,12 +174,13 @@ class Bivariate(object):
 
     @staticmethod
     def compute_empirical(u, v):
-        """compute empirical distribution"""
+        """Compute empirical distribution."""
         z_left = z_right = []
         L = R = []
         N = len(u)
-        base = np.linspace(0.0, 1.0, 50)
-        for k in range(len(base)):
+        base = np.linspace(0.0, 1.0, COMPUTE_EMPIRICAL_STEPS)
+
+        for k in range(COMPUTE_EMPIRICAL_STEPS):
             left = sum(np.logical_and(u <= base[k], v <= base[k])) / N
             right = sum(np.logical_and(u >= base[k], v >= base[k])) / N
 
