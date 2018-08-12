@@ -8,11 +8,10 @@ from unittest import TestCase
 import numpy as np
 import scipy
 
-from copulas.univariate import KDEUnivariate
+from copulas.univariate.kde import KDEUnivariate
 
 
 class TestKDEUnivariate(TestCase):
-
     def setup_norm(self):
         """set up the model to fit standard norm data"""
         self.kde = KDEUnivariate()
