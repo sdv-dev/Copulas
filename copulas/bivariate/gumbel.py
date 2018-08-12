@@ -84,7 +84,7 @@ class Gumbel(Bivariate):
                 p1 = self.get_cdf()(u, v)
                 p2 = np.power(t1 + t2, -1 + 1.0 / theta)
                 p3 = np.power(-np.log(v), theta - 1)
-                result = np.divide(np.multiply(np.multiply(p1, p2), p3), theta)
+                result = np.divide(np.multiply(np.multiply(p1, p2), p3), v)
                 result = result - y
                 return result
 

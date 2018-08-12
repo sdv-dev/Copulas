@@ -50,4 +50,4 @@ class TestCenterTree(TestCase):
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
         first_value, new_u = self.trees[0].get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
-        self.assertAlmostEquals(second_value, 2.4927, places=3)
+        self.assertAlmostEquals(second_value, 2.1247, places=3)

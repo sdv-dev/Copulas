@@ -30,10 +30,10 @@ class TestVine(TestCase):
         # self.assertAlmostEquals(rvalue, 12.8889, places=3)
 
         cvalue = self.cvine.get_likelihood(uni_matrix)
-        self.assertAlmostEquals(cvalue, -3.0428, places=3)
+        self.assertAlmostEquals(cvalue, -3.4420, places=3)
 
         dvalue = self.dvine.get_likelihood(uni_matrix)
-        self.assertAlmostEquals(dvalue, -3.8156, places=3)
+        self.assertAlmostEquals(dvalue, -5.18387, places=3)
 
     # def test_sample(self):
     #     sample_r = self.rvine.sample()

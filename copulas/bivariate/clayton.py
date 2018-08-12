@@ -89,7 +89,7 @@ class Clayton(Bivariate):
                 return v
             else:
                 A = np.power(v, -theta - 1)
-                B = np.power(v, -theta) + np.power(u, -theta) + 1
+                B = np.power(v, -theta) + np.power(u, -theta) - 1
                 h = np.power(B, (-1 - theta) / theta)
                 h = np.multiply(A, h)
                 h = h - y
