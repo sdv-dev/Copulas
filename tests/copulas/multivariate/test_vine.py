@@ -1,8 +1,8 @@
 import logging
 from unittest import TestCase
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from copulas.multivariate.vine import VineCopula
 
@@ -26,11 +26,11 @@ class TestVine(TestCase):
     def test_get_likelihood(self):
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 
-        rvalue = self.rvine.get_likelihood(uni_matrix)
+        self.rvine.get_likelihood(uni_matrix)
         # self.assertAlmostEquals(rvalue, 12.8889, places=3)
 
         cvalue = self.cvine.get_likelihood(uni_matrix)
-        self.assertAlmostEquals(cvalue,  -3.0428, places=3)
+        self.assertAlmostEquals(cvalue, -3.0428, places=3)
 
         dvalue = self.dvine.get_likelihood(uni_matrix)
         self.assertAlmostEquals(dvalue, -3.8156, places=3)

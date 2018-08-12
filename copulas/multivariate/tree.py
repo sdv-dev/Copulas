@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import scipy
 
-from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.base import Bivariate
 from copulas.utils import EPSILON
 
 LOGGER = logging.getLogger(__name__)
@@ -277,7 +277,7 @@ class RegularTree(Tree):
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
             name, theta = Bivariate.select_copula(self.u_matrix[:, edge[0]],
-                                               self.u_matrix[:, edge[1]])
+                                                  self.u_matrix[:, edge[1]])
             left = min(edge[0], edge[1])
             right = max(edge[0], edge[1])
             new_edge = Edge(left, right, name, theta)
