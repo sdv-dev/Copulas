@@ -165,5 +165,5 @@ class TestGaussianUnivariate(TestCase):
 
         # Check
         assert len(result) == 1000000
-        assert (np.mean(result) - copula.mean) < 10E-3
-        assert (np.std(result) - copula.std) < 10E-3
+        assert abs(np.mean(result) - copula.mean) < 10E-3
+        assert abs(np.std(result) - copula.std) < 10E-3
