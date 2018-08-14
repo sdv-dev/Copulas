@@ -8,13 +8,11 @@ class Clayton(Bivariate):
 
     copula_type = CopulaTypes.CLAYTON
 
-    def get_generator(self):
+    def generator(self, t):
         """Return the generator function."""
+        self.check_fit()
 
-        def generator(theta, t):
-            return 1.0 / theta * (np.power(t, -theta) - 1)
-
-        return generator
+        return 1.0 / self.theta * (np.power(t, -self.theta) - 1)
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""

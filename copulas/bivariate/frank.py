@@ -12,13 +12,10 @@ class Frank(Bivariate):
 
     copula_type = CopulaTypes.FRANK
 
-    def get_generator(self):
+    def generator(self, t):
         """Return the generator function."""
-        def generator(theta, t):
-            a = (np.exp(-theta * t) - 1) / (np.exp(-theta) - 1)
-            return -np.log(a)
-
-        return generator
+        a = (np.exp(-self.theta * t) - 1) / (np.exp(-self.theta) - 1)
+        return -np.log(a)
 
     def g(self, z):
         return np.exp(np.multiply(-self.theta, z)) - 1

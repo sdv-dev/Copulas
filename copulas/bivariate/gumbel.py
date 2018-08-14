@@ -11,12 +11,9 @@ class Gumbel(Bivariate):
 
     copula_type = CopulaTypes.GUMBEL
 
-    def get_generator(self):
+    def get_generator(self, t):
         """Return the generator function."""
-        def generator(theta, t):
-            return np.power(-np.log(t), theta)
-
-        return generator
+        return np.power(-np.log(t), theta)
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""

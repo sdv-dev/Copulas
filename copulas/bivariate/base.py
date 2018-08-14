@@ -90,6 +90,9 @@ class Bivariate(object):
         """Takes in subset of values and predicts the rest."""
         raise NotImplementedError
 
+    def generator(self, t):
+        raise NotImplementedError
+
     def probability_density(self, U, V):
         """Compute probability density function for given copula family.
 
@@ -99,7 +102,6 @@ class Bivariate(object):
 
         Returns:
             np.array: Probability density for the input values.
-
         """
         raise NotImplementedError
 
