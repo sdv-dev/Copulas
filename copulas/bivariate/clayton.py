@@ -18,6 +18,8 @@ class Clayton(Bivariate):
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""
+        self.check_fit()
+
         if self.theta < 0:
             raise ValueError("Theta cannot be less or equal than 0 for Clayton")
 
@@ -41,6 +43,8 @@ class Clayton(Bivariate):
             np.array: cumulative probability
 
         """
+        self.check_fit()
+
         if self.theta < 0:
             raise ValueError("Theta cannot be less or equal than 0 for clayton")
 
@@ -75,6 +79,7 @@ class Clayton(Bivariate):
             y: `np.ndarray` value of :math:`C(u|v)`.
             v: `np.ndarray` given value of v.
         """
+        self.check_fit()
 
         if self.theta < 0:
             return V
@@ -96,6 +101,8 @@ class Clayton(Bivariate):
         Returns:
             np.ndarray: Derivatives
         """
+        self.check_fit()
+
         if self.theta == 0:
             return V
 

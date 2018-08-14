@@ -20,6 +20,8 @@ class Gumbel(Bivariate):
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""
+        self.check_fit()
+
         if self.theta < 1:
             raise ValueError("Theta cannot be less than 1 for Gumbel")
 
@@ -44,6 +46,8 @@ class Gumbel(Bivariate):
         Returns:
             np.array: cumulative probability
         """
+        self.check_fit()
+
         if self.theta < 1:
             raise ValueError("Theta cannot be less than 1 for Gumbel")
 
@@ -63,6 +67,8 @@ class Gumbel(Bivariate):
             y: `np.ndarray` value of :math:`C(u|v)`.
             v: `np.ndarray` given value of v.
         """
+
+        self.check_fit()
 
         if self.theta == 1:
             return y
@@ -87,6 +93,8 @@ class Gumbel(Bivariate):
         Returns:
 
         """
+        self.check_fit()
+
         if self.theta == 1:
             return V
 

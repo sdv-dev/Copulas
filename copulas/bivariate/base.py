@@ -13,6 +13,10 @@ class CopulaTypes(Enum):
     GUMBEL = 2
 
 
+class NotFittedError(Exception):
+    pass
+
+
 class Bivariate(object):
     """Base class for all bivariate copulas.
 
@@ -63,6 +67,8 @@ class Bivariate(object):
         Args:
             copula_type: `CopulaType` or `str` to be compared against CopulaType.
         """
+        self.theta = None
+        self.tau = None
 
     def fit(self, U, V):
         """
@@ -158,6 +164,10 @@ class Bivariate(object):
     def get_theta(self):
         """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
+
+    def check_fit(self):
+        if not self.theta:
+            raise NotFittedError("This model is not fitted.")
 
     @staticmethod
     def g(c, z):

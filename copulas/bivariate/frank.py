@@ -25,6 +25,8 @@ class Frank(Bivariate):
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""
+        self.check_fit()
+
         if self.theta == 0:
             return np.multiply(U, V)
 
@@ -44,6 +46,8 @@ class Frank(Bivariate):
         Returns:
             np.array: cumulative probability
         """
+        self.check_fit()
+
         if self.theta == 0:
             return np.multiply(U, V)
 
@@ -61,6 +65,8 @@ class Frank(Bivariate):
             y: `np.ndarray` value of :math:`C(u|v)`.
             v: `np.ndarray` given value of v.
         """
+        self.check_fit()
+
         if self.theta < 0:
             return V
 
@@ -83,6 +89,8 @@ class Frank(Bivariate):
         Returns:
 
         """
+        self.check_fit()
+
         if self.theta == 0:
             return V
 
