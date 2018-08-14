@@ -16,20 +16,19 @@ class Clayton(Bivariate):
 
         return generator
 
-    def get_pdf(self):
+    def probability_density(self, U, V):
         """Compute density function for given copula family."""
-        def pdf(U, V):
-            if self.theta < 0:
-                raise ValueError("Theta cannot be less or equal than 0 for clayton")
-            elif self.theta == 0:
-                return np.multiply(U, V)
-            else:
-                a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
-                b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
-                c = -(2 * self.theta + 1) / self.theta
-                return a * np.power(b, c)
+        if self.theta < 0:
+            raise ValueError("Theta cannot be less or equal than 0 for Clayton")
 
-        return pdf
+        elif self.theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
+            b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
+            c = -(2 * self.theta + 1) / self.theta
+            return a * np.power(b, c)
 
     def get_cdf(self):
         """Compute cdf function for given copula family."""
@@ -100,7 +99,9 @@ class Clayton(Bivariate):
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
 
-        On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with :math:`θ ∈ (0, ∞)`.
+        On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with
+        :math:`θ ∈ (0, ∞)`.
+
         On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
         """
         if self.tau == 1:

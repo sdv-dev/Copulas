@@ -18,24 +18,21 @@ class Gumbel(Bivariate):
 
         return generator
 
-    def get_pdf(self):
+    def probability_density(self, U, V):
         """Compute density function for given copula family."""
-        def pdf(U, V):
-            if self.theta < 1:
-                raise ValueError("Theta cannot be less than 1 for Gumbel")
+        if self.theta < 1:
+            raise ValueError("Theta cannot be less than 1 for Gumbel")
 
-            elif self.theta == 1:
-                return np.multiply(U, V)
+        elif self.theta == 1:
+            return np.multiply(U, V)
 
-            else:
-                a = np.power(np.multiply(U, V), -1)
-                tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
-                b = np.power(tmp, -2 + 2.0 / self.theta)
-                c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
-                d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
-                return self.get_cdf()(U, V) * a * b * c * d
-
-        return pdf
+        else:
+            a = np.power(np.multiply(U, V), -1)
+            tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
+            b = np.power(tmp, -2 + 2.0 / self.theta)
+            c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
+            d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
+            return self.get_cdf()(U, V) * a * b * c * d
 
     def get_cdf(self):
         """Compute cdf function for given copula family."""
@@ -93,7 +90,8 @@ class Gumbel(Bivariate):
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
 
-        For Gumbel copula we have :math:`τ = \\frac{θ−1}{θ}` that we solve as :math:`θ = \\frac{1}{1-τ}`
+        For Gumbel copula we have :math:`τ = \\frac{θ−1}{θ}` that we solve as
+         :math:`θ = \\frac{1}{1-τ}`
         """
         if self.tau == 1:
             theta = 1000

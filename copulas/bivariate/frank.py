@@ -20,22 +20,23 @@ class Frank(Bivariate):
 
         return generator
 
-    def get_pdf(self):
+    @staticmethod
+    def g(z, theta):
+        return np.exp(np.multiply(-theta, z)) - 1
+
+    def probability_density(self, U, V):
         """Compute density function for given copula family."""
-        def pdf(U, V):
-            if self.theta == 0:
-                return np.multiply(U, V)
+        if self.theta == 0:
+            return np.multiply(U, V)
 
-            else:
-                def g(z, theta):
-                    return np.exp(np.multiply(-theta, z)) - 1
-                num = np.multiply(np.multiply(-self.theta, g(1, self.theta)),
-                                  1 + g(np.add(U, V), self.theta))
-                den = np.power(np.multiply(g(U, self.theta), g(V, self.theta)) +
-                               g(1, self.theta), 2)
-                return num / den
-
-        return pdf
+        else:
+            num = np.multiply(
+                np.multiply(-self.theta, self.g(1, self.theta)),
+                1 + self.g(np.add(U, V), self.theta)
+            )
+            aux = np.multiply(self.g(U, self.theta), self.g(V, self.theta)) + self.g(1, self.theta)
+            den = np.power(aux, 2)
+            return num / den
 
     def get_cdf(self):
         """Compute cdf function for given copula family."""

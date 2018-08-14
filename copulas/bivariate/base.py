@@ -16,7 +16,8 @@ class CopulaTypes(Enum):
 class Bivariate(object):
     """Base class for all bivariate copulas.
 
-    This class allows to instantiate all its subclasses and serves as a unique entry point for all the bivariate copulas classes.
+    This class allows to instantiate all its subclasses and serves as a unique entry point for
+    all the bivariate copulas classes.
 
     >>> Bivariate(CopulaTypes.FRANK).__class__
     copulas.bivariate.frank.Frank
@@ -83,7 +84,7 @@ class Bivariate(object):
         """Takes in subset of values and predicts the rest."""
         raise NotImplementedError
 
-    def get_pdf(self):
+    def probability_density(self, U, V):
         """Returns pdf of model."""
         raise NotImplementedError
 
