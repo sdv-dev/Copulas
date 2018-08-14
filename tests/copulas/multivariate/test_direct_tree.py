@@ -1,4 +1,3 @@
-import logging
 from unittest import TestCase
 
 import numpy as np
@@ -6,8 +5,6 @@ import pandas as pd
 
 from copulas.multivariate.tree import DirectTree
 from copulas.univariate.kde import KDEUnivariate
-
-LOGGER = logging.getLogger(__name__)
 
 
 class TestDirectTree(TestCase):

@@ -6,8 +6,6 @@ import pandas as pd
 
 from copulas.multivariate.vine import VineCopula
 
-LOGGER = logging.getLogger(__name__)
-
 
 class TestVine(TestCase):
 

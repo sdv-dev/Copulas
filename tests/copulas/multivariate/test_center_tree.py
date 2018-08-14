@@ -1,4 +1,3 @@
-import logging
 from unittest import TestCase
 
 import numpy as np
@@ -6,8 +5,6 @@ import pandas as pd
 
 from copulas.multivariate.tree import CenterTree
 from copulas.univariate.kde import KDEUnivariate
-
-LOGGER = logging.getLogger(__name__)
 
 
 class TestCenterTree(TestCase):
@@ -28,7 +25,6 @@ class TestCenterTree(TestCase):
         self.assertEquals(self.trees[0].edges[0].L, 0)
 
     def test_first_tree_likelihood(self):
-        print(self.trees[0])
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
         value, new_u = self.trees[0].get_likelihood(uni_matrix)
         self.assertAlmostEquals(value, -5.5411, places=3)
