@@ -17,7 +17,7 @@ class Frank(Bivariate):
         a = (np.exp(-self.theta * t) - 1) / (np.exp(-self.theta) - 1)
         return -np.log(a)
 
-    def _frank_g(self, z):
+    def _g(self, z):
         """Helper function to solve Frank copula.
 
         This functions encapsulates :math:`g_z = e^{-\\theta z} - 1` used on Frank copulas.
@@ -38,11 +38,8 @@ class Frank(Bivariate):
             return np.multiply(U, V)
 
         else:
-            num = np.multiply(
-                np.multiply(-self.theta, self._frank_g(1)),
-                1 + self._frank_g(np.add(U, V))
-            )
-            aux = np.multiply(self._frank_g(U), self._frank_g(V)) + self._frank_g(1)
+            num = np.multiply(np.multiply(-self.theta, self._g(1)), 1 + self._g(np.add(U, V)))
+            aux = np.multiply(self._g(U), self._g(V)) + self._g(1)
             den = np.power(aux, 2)
             return num / den
 
@@ -82,7 +79,7 @@ class Frank(Bivariate):
 
         else:
             return fminbound(
-                self.partial_derivative_cumulative_density,
+                self.partial_derivative,
                 sys.float_info.epsilon,
                 1.0,
                 args=(V, y)
@@ -105,8 +102,8 @@ class Frank(Bivariate):
             return V
 
         else:
-            num = np.multiply(self._frank_g(U), self._frank_g(V)) + self._frank_g(V)
-            den = np.multiply(self._frank_g(U), self._frank_g(V)) + self._frank_g(1)
+            num = np.multiply(self._g(U), self._g(V)) + self._g(V)
+            den = np.multiply(self._g(U), self._g(V)) + self._g(1)
             return (num / den) - y
 
     def get_theta(self):

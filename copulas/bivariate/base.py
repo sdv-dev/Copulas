@@ -180,11 +180,10 @@ class Bivariate(object):
         left = right = []
 
         for copula in copulas:
-            left.append(copula.copula_cumulative_density(z_left, z_left) / np.power(z_left, 2))
+            left.append(copula.cumulative_density(z_left, z_left) / np.power(z_left, 2))
 
         for copula in copulas:
-            right.append(cls.compute_tail(
-                copula.copula_cumulative_density(z_right, z_right), z_right))
+            right.append(cls.compute_tail(copula.cumulative_density(z_right, z_right), z_right))
 
         return left, right
 

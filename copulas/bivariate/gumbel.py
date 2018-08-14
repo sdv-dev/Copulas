@@ -31,7 +31,7 @@ class Gumbel(Bivariate):
             b = np.power(tmp, -2 + 2.0 / self.theta)
             c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
-            return self.copula_cumulative_density(U, V) * a * b * c * d
+            return self.cumulative_density(U, V) * a * b * c * d
 
     def cumulative_density(self, U, V):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
@@ -72,7 +72,7 @@ class Gumbel(Bivariate):
 
         else:
             u = fminbound(
-                self.partial_derivative_cumulative_density,
+                self.partial_derivative,
                 sys.float_info.epsilon,
                 1.0,
                 args=(V, y)
