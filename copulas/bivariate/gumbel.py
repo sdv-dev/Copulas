@@ -67,7 +67,7 @@ class Gumbel(Bivariate):
 
             else:
                 dev = self.get_h_function()
-                u = fminbound(dev, EPSILON, 1.0, args=(v, y, theta))
+                u = fminbound(dev, EPSILON, 1.0, args=(v, theta, y))
                 return u
 
         return ppf
