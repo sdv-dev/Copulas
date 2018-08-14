@@ -68,33 +68,41 @@ class Gumbel(Bivariate):
             return y
 
         else:
-            dev = self.get_h_function()
-            u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(V, self.theta, y))
+            u = fminbound(
+                self.partial_derivative_cumulative_density,
+                sys.float_info.epsilon,
+                1.0,
+                args=(V, y)
+            )
             return u
 
-    def get_h_function(self):
-        """Compute partial derivative C(u|v) of each copula cdf function."""
-        def du(u, v, theta, y=0):
-            if theta == 1:
-                return v
+    def partial_derivative_cumulative_density(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
-            else:
-                t1 = np.power(-np.log(u), theta)
-                t2 = np.power(-np.log(v), theta)
-                p1 = np.exp(-np.power((t1 + t2), 1.0 / theta))
-                p2 = np.power(t1 + t2, -1 + 1.0 / theta)
-                p3 = np.power(-np.log(u), theta - 1)
-                result = np.divide(np.multiply(np.multiply(p1, p2), p3), u)
-                result = result - y
-                return result
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+            y: `float`
 
-        return du
+        Returns:
+
+        """
+        if self.theta == 1:
+            return V
+
+        else:
+            t1 = np.power(-np.log(U), self.theta)
+            t2 = np.power(-np.log(V), self.theta)
+            p1 = np.exp(-np.power((t1 + t2), 1.0 / self.theta))
+            p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
+            p3 = np.power(-np.log(U), self.theta - 1)
+            return np.divide(np.multiply(np.multiply(p1, p2), p3), U) - y
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
 
-        For Gumbel copula we have :math:`τ = \\frac{θ−1}{θ}` that we solve as
-         :math:`θ = \\frac{1}{1-τ}`
+        On Gumbel copula :math:\\tau is defined as :math:`τ = \\frac{θ−1}{θ}`
+        that we solve as :math:`θ = \\frac{1}{1-τ}`
         """
         if self.tau == 1:
             theta = 1000

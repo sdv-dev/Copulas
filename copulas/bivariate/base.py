@@ -120,6 +120,19 @@ class Bivariate(object):
 
         raise NotImplementedError
 
+    def partial_derivative_cumulative_density(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density.
+
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+            y: `float`
+
+        Returns:
+
+        """
+        raise NotImplementedError
+
     def _sample(self, v, c):
         raise NotImplementedError
 

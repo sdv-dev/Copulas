@@ -30,13 +30,13 @@ class TestCopulas(TestCase):
 
         c0 = Bivariate('Clayton')
         c0.fit(U, V)
-        result = c0.get_cdf()([0, 0.1, 0.2], [0, 0.1, 0.8])
+        result = c0.copula_cumulative_density([0, 0.1, 0.2], [0, 0.1, 0.8])
         expected_result = [0, 0.07517146687679954, 0.19881186077542212]
-        assert result == expected_result
+        assert (result == expected_result).all()
 
         c2 = Bivariate('Gumbel')
         c2.fit(U, V)
-        result = c2.get_cdf()([0, 0.1, 0.2], [0, 0.1, 0.8])
+        result = c2.copula_cumulative_density([0, 0.1, 0.2], [0, 0.1, 0.8])
         expected_result = np.array([0.0, 0.042835279521916785, 0.19817042125347709])
         for i in range(3):
             assert result[i] == expected_result[i]
@@ -61,35 +61,35 @@ class TestCopulas(TestCase):
 
     def test_pdf(self):
 
-        result = self.c0.get_pdf()(0.1, 0.5)
+        result = self.c0.probability_density(0.1, 0.5)
         expected_result = 0.6355
         self.assertAlmostEquals(result, expected_result, places=3)
 
-        result = self.c1.get_pdf()(0.1, 0.5)
+        result = self.c1.probability_density(0.1, 0.5)
         expected_result = 0.830
         self.assertAlmostEquals(result, expected_result, places=3)
 
-        result = self.c2.get_pdf()(0.1, 0.5)
+        result = self.c2.probability_density(0.1, 0.5)
         expected_result = 0.9395
         self.assertAlmostEquals(result, expected_result, places=3)
 
     def test_cdf(self):
 
-        result = self.c0.get_cdf()(0.1, 0.5)
+        result = self.c0.copula_cumulative_density(0.1, 0.5)
         expected_result = 0.0896
         self.assertAlmostEquals(result, expected_result, places=3)
 
-        result = self.c1.get_cdf()(0.1, 0.5)
+        result = self.c1.copula_cumulative_density(0.1, 0.5)
         expected_result = 0.0801
         self.assertAlmostEquals(result, expected_result, places=3)
 
-        result = self.c2.get_cdf()(0.1, 0.5)
+        result = self.c2.copula_cumulative_density(0.1, 0.5)
         expected_result = 0.0767
         self.assertAlmostEquals(result, expected_result, places=3)
 
     def test_frank_cdf_invalid_value(self):
 
-        result = self.c1.get_cdf()(0.2, 0.3)
+        result = self.c1.copula_cumulative_density(0.2, 0.3)
         expected_result = 0.1119
         self.assertAlmostEquals(result, expected_result, places=3)
 
@@ -107,17 +107,17 @@ class TestCopulas(TestCase):
         """If tau is negative, should choose frank copula."""
         U = [0.1, 0.2, 0.3, 0.4]
         V = [0.6, 0.5, 0.4, 0.3]
-    
+
         name, param = Bivariate.select_copula(U, V)
         expected = CopulaTypes.FRANK
-    
+
         assert name == expected
-    
+
     def test_copula_selction(self):
         U = [0.1, 0.2, 0.3, 0.4]
         V = [1, 2, 3, 4]
-    
+
         name, param = Bivariate.select_copula(U, V)
         expected = CopulaTypes.CLAYTON.value
-    
+
         assert name == expected

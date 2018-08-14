@@ -20,9 +20,8 @@ class Frank(Bivariate):
 
         return generator
 
-    @staticmethod
-    def g(z, theta):
-        return np.exp(np.multiply(-theta, z)) - 1
+    def g(self, z):
+        return np.exp(np.multiply(-self.theta, z)) - 1
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""
@@ -30,11 +29,8 @@ class Frank(Bivariate):
             return np.multiply(U, V)
 
         else:
-            num = np.multiply(
-                np.multiply(-self.theta, self.g(1, self.theta)),
-                1 + self.g(np.add(U, V), self.theta)
-            )
-            aux = np.multiply(self.g(U, self.theta), self.g(V, self.theta)) + self.g(1, self.theta)
+            num = np.multiply(np.multiply(-self.theta, self.g(1)), 1 + self.g(np.add(U, V)))
+            aux = np.multiply(self.g(U), self.g(V)) + self.g(1)
             den = np.power(aux, 2)
             return num / den
 
@@ -69,25 +65,31 @@ class Frank(Bivariate):
             return V
 
         else:
-            dev = self.get_h_function()
-            return fminbound(dev, sys.float_info.epsilon, 1.0, args=(V, self.theta, y))
+            return fminbound(
+                self.partial_derivative_cumulative_density,
+                sys.float_info.epsilon,
+                1.0,
+                args=(V, y)
+            )
 
-    def get_h_function(self):
-        """Compute partial derivative C(u|v) of cdf function."""
-        def du(u, v, theta, y=0):
-            if theta == 0:
-                return v
+    def partial_derivative_cumulative_density(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
-            else:
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+            y: `float`
 
-                def g(z, theta):
-                    return -1 + np.exp(-np.dot(theta, z))
+        Returns:
 
-                num = np.multiply(g(u, theta), g(v, theta)) + g(v, theta)
-                den = np.multiply(g(u, theta), g(v, theta)) + g(1, theta)
-                return (num / den) - y
+        """
+        if self.theta == 0:
+            return V
 
-        return du
+        else:
+            num = np.multiply(self.g(U), self.g(V)) + self.g(V)
+            den = np.multiply(self.g(U), self.g(V)) + self.g(1)
+            return (num / den) - y
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.

@@ -120,9 +120,8 @@ class Tree(object):
             U2 = [x for x in U2 if x is not None]
             c1 = Bivariate(copula_name)
             c1.fit(U1, U2)
-            derivative = c1.get_h_function()
-            U1_given_U2 = derivative(U2, U1, copula_theta)
-            U2_given_U1 = derivative(U1, U2, copula_theta)
+            U1_given_U2 = c1.partial_derivative_cumulative_density(U2, U1, copula_theta)
+            U2_given_U1 = c1.partial_derivative_cumulative_density(U1, U2, copula_theta)
             # correction of 0 or 1
             U1_given_U2[U1_given_U2 == 0] = U2_given_U1[U2_given_U1 == 0] = EPSILON
             U1_given_U2[U1_given_U2 == 1] = U2_given_U1[U2_given_U1 == 1] = 1 - EPSILON

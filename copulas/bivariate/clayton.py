@@ -85,20 +85,27 @@ class Clayton(Bivariate):
             u = np.power((a + b - 1) / b, -1 / self.theta)
             return u
 
-    def get_h_function(self):
-        """Compute partial derivative C(u|v) of each copula cdf function."""
-        def du(u, v, theta, y=0):
-            if theta == 0:
-                return v
-            else:
-                A = np.power(u, theta)
-                B = np.power(v, -theta) - 1
-                h = 1 + np.multiply(A, B)
-                h = np.power(h, (-1 - theta) / theta)
-                h = h - y
-                return h
+    def partial_derivative_cumulative_density(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
-        return du
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+            y: `float`
+
+        Returns:
+            np.ndarray: Derivatives
+        """
+        if self.theta == 0:
+            return V
+
+        else:
+            A = np.power(U, self.theta)
+            B = np.power(V, -self.theta) - 1
+            h = 1 + np.multiply(A, B)
+            h = np.power(h, (-1 - self.theta) / self.theta)
+            h = h - y
+            return h
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
