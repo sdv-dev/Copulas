@@ -90,7 +90,11 @@ class Gumbel(Bivariate):
 
         return du
 
-    def tau_to_theta(self):
+    def get_theta(self):
+        """Compute theta parameter using Kendall's tau.
+
+        For Gumbel copula we have :math:`τ = \\frac{θ−1}{θ}` that we solve as :math:`θ = \\frac{1}{1-τ}`
+        """
         if self.tau == 1:
             theta = 1000
         else:

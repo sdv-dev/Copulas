@@ -85,8 +85,13 @@ class Frank(Bivariate):
 
         return du
 
-    def tau_to_theta(self):
-        return fsolve(Frank._frank_help, 1, args=(self.tau))[0]
+    def get_theta(self):
+        """Compute theta parameter using Kendall's tau.
+
+        On Frank copula, this is
+        :math:`τ = 1 − \\frac{4}{θ} + \\frac{4}{θ^2}\int_0^θ \! \\frac{t}{e^t -1} \, \mathrm{d}t.`.
+        """
+        return fsolve(self._frank_help, 1, args=(self.tau))[0]
 
     @staticmethod
     def _frank_help(alpha, tau):

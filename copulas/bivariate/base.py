@@ -14,7 +14,16 @@ class CopulaTypes(Enum):
 
 
 class Bivariate(object):
-    """Base class for all bivariate copulas."""
+    """Base class for all bivariate copulas.
+
+    This class allows to instantiate all its subclasses and serves as a unique entry point for all the bivariate copulas classes.
+
+    >>> Bivariate(CopulaTypes.FRANK).__class__
+    copulas.bivariate.frank.Frank
+
+    >>> Bivariate('frank').__class__
+    copulas.bivariate.frank.Frank
+    """
 
     copula_type = None
     _subclasses = []
@@ -52,12 +61,6 @@ class Bivariate(object):
 
         Args:
             copula_type: `CopulaType` or `str` to be compared against CopulaType.
-
-        >>> Bivariate(CopulaTypes.FRANK).__class__
-        copulas.bivariate.frank.Frank
-
-        >>> Bivariate('frank').__class__
-        copulas.bivariate.frank.Frank
         """
 
     def fit(self, U, V):
@@ -69,12 +72,12 @@ class Bivariate(object):
             V: 1-d `np.ndarray` for second variable to train the copula.
 
         Return:
-            `None`
+            None
         """
         self.U = U
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
-        self.theta = self.tau_to_theta()
+        self.theta = self.get_theta()
 
     def infer(self, values):
         """Takes in subset of values and predicts the rest."""
@@ -98,7 +101,7 @@ class Bivariate(object):
             n_samples: `int`, amount of samples to create.
 
         Returns:
-            np.ndarray with generated samples.
+            np.ndarray: Array of length `n_samples` with generated data from the model.
         """
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
@@ -110,8 +113,8 @@ class Bivariate(object):
         U = np.column_stack((u.flatten(), v))
         return U
 
-    def tau_to_theta(self):
-        """Compute theta parameter."""
+    def get_theta(self):
+        """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
 
     @staticmethod
@@ -139,8 +142,7 @@ class Bivariate(object):
             V: 1-dimensional `np.ndarray`
 
         Returns:
-            selected_copula: `CopulaType` that best  Best fit.
-            selected_theta: `float` computed for input data.
+            tuple: `tuple(CopulaType, float)` best fit and model param.
         """
         clayton = Bivariate(CopulaTypes.CLAYTON)
         clayton.fit(U, V)

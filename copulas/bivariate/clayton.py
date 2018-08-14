@@ -97,7 +97,12 @@ class Clayton(Bivariate):
 
         return du
 
-    def tau_to_theta(self):
+    def get_theta(self):
+        """Compute theta parameter using Kendall's tau.
+
+        On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with :math:`θ ∈ (0, ∞)`.
+        On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
+        """
         if self.tau == 1:
             theta = 10000
 
