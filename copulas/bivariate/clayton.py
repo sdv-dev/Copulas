@@ -30,7 +30,7 @@ class Clayton(Bivariate):
             c = -(2 * self.theta + 1) / self.theta
             return a * np.power(b, c)
 
-    def copula_cumulative_density(self, U, V):
+    def cumulative_density(self, U, V):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
@@ -88,7 +88,7 @@ class Clayton(Bivariate):
             u = np.power((a + b - 1) / b, -1 / self.theta)
             return u
 
-    def partial_derivative_cumulative_density(self, U, V, y=0):
+    def partial_derivative(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:

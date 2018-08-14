@@ -13,7 +13,7 @@ class Gumbel(Bivariate):
 
     def get_generator(self, t):
         """Return the generator function."""
-        return np.power(-np.log(t), theta)
+        return np.power(-np.log(t), self.theta)
 
     def probability_density(self, U, V):
         """Compute density function for given copula family."""
@@ -33,7 +33,7 @@ class Gumbel(Bivariate):
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
             return self.copula_cumulative_density(U, V) * a * b * c * d
 
-    def copula_cumulative_density(self, U, V):
+    def cumulative_density(self, U, V):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
@@ -79,7 +79,7 @@ class Gumbel(Bivariate):
             )
             return u
 
-    def partial_derivative_cumulative_density(self, U, V, y=0):
+    def partial_derivative(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:

@@ -105,7 +105,7 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
-    def copula_cumulative_density(self, U, V):
+    def cumulative_density(self, U, V):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
@@ -128,7 +128,7 @@ class Bivariate(object):
 
         raise NotImplementedError
 
-    def partial_derivative_cumulative_density(self, U, V, y=0):
+    def partial_derivative(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:
@@ -172,7 +172,7 @@ class Bivariate(object):
             raise NotFittedError("This model is not fitted.")
 
     @staticmethod
-    def g(c, z):
+    def compute_tail(c, z):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
@@ -183,7 +183,8 @@ class Bivariate(object):
             left.append(copula.copula_cumulative_density(z_left, z_left) / np.power(z_left, 2))
 
         for copula in copulas:
-            right.append(cls.g(copula.copula_cumulative_density(z_right, z_right), z_right))
+            right.append(cls.compute_tail(
+                copula.copula_cumulative_density(z_right, z_right), z_right))
 
         return left, right
 
