@@ -110,6 +110,16 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
+
+        Args:
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
+        """
+
+        raise NotImplementedError
+
     def _sample(self, v, c):
         raise NotImplementedError
 

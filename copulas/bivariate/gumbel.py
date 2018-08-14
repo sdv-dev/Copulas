@@ -56,23 +56,21 @@ class Gumbel(Bivariate):
             cdfs = np.exp(h)
             return cdfs
 
-    def get_ppf(self):
-        """Compute the inverse of conditional CDF C(u|v)^-1.
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
 
         Args:
-            v : given value of v
-            y: value of C(u|v)
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
         """
-        def ppf(v, y, theta):
-            if theta == 1:
-                return y
 
-            else:
-                dev = self.get_h_function()
-                u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, y, theta))
-                return u
+        if self.theta == 1:
+            return y
 
-        return ppf
+        else:
+            dev = self.get_h_function()
+            u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(V, self.theta, y))
+            return u
 
     def get_h_function(self):
         """Compute partial derivative C(u|v) of each copula cdf function."""
@@ -107,9 +105,8 @@ class Gumbel(Bivariate):
 
     def _sample(self, v, c):
         u = np.empty([1, 0])
-        ppf = self.get_ppf()
 
         for v_, c_ in zip(v, c):
-            u = np.append(u, ppf(v_, c_, self.theta))
+            u = np.append(u, self.percent_point(v_, c_))
 
         return u

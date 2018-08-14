@@ -68,24 +68,22 @@ class Clayton(Bivariate):
 
             return np.array([max(x, 0) for x in cdfs])
 
-    def get_ppf(self):
-        """Compute the inverse of conditional CDF C(u|v)^-1.
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
 
         Args:
-            y: value of C(u|v)
-            v : given value of v
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
         """
-        def ppf(y, v, theta):
-            if theta < 0:
-                return v
 
-            else:
-                a = np.power(y, theta / (-1 - theta))
-                b = np.power(v, theta)
-                u = np.power((a + b - 1) / b, -1 / theta)
-                return u
+        if self.theta < 0:
+            return V
 
-        return ppf
+        else:
+            a = np.power(y, self.theta / (-1 - self.theta))
+            b = np.power(V, self.theta)
+            u = np.power((a + b - 1) / b, -1 / self.theta)
+            return u
 
     def get_h_function(self):
         """Compute partial derivative C(u|v) of each copula cdf function."""
@@ -119,4 +117,4 @@ class Clayton(Bivariate):
         return theta
 
     def _sample(self, v, c):
-        return self.get_ppf()(c, v, self.theta)
+        return self.percent_point(c, v)

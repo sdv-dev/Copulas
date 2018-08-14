@@ -58,21 +58,19 @@ class Frank(Bivariate):
             den = np.exp(-self.theta) - 1
             return -1.0 / self.theta * np.log(1 + num / den)
 
-    def get_ppf(self):
-        """Compute the inverse of conditional CDF C(u|v)^-1.
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
 
         Args:
-            y: value of C(u|v)
-            v : given value of v
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
         """
-        def ppf(y, v, theta):
-            if theta < 0:
-                return v
-            else:
-                dev = self.get_h_function()
-                return fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, theta, y))
+        if self.theta < 0:
+            return V
 
-        return ppf
+        else:
+            dev = self.get_h_function()
+            return fminbound(dev, sys.float_info.epsilon, 1.0, args=(V, self.theta, y))
 
     def get_h_function(self):
         """Compute partial derivative C(u|v) of cdf function."""
@@ -111,9 +109,8 @@ class Frank(Bivariate):
 
     def _sample(self, v, c):
         u = np.empty([1, 0])
-        ppf = self.get_ppf()
 
         for v_, c_ in zip(v, c):
-            u = np.append(u, ppf(v_, c_, self.theta))
+            u = np.append(u, self.percent_point(v_, c_))
 
         return u
