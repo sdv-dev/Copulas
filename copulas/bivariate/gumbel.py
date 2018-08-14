@@ -32,24 +32,29 @@ class Gumbel(Bivariate):
             b = np.power(tmp, -2 + 2.0 / self.theta)
             c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
-            return self.get_cdf()(U, V) * a * b * c * d
+            return self.copula_cumulative_density(U, V) * a * b * c * d
 
-    def get_cdf(self):
-        """Compute cdf function for given copula family."""
-        def cdf(U, V):
-            if self.theta < 1:
-                raise ValueError("Theta cannot be less than 1 for Gumbel")
+    def copula_cumulative_density(self, U, V):
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
-            elif self.theta == 1:
-                return np.multiply(U, V)
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
 
-            else:
-                h = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
-                h = -np.power(h, 1.0 / self.theta)
-                cdfs = np.exp(h)
-                return cdfs
+        Returns:
+            np.array: cumulative probability
+        """
+        if self.theta < 1:
+            raise ValueError("Theta cannot be less than 1 for Gumbel")
 
-        return cdf
+        elif self.theta == 1:
+            return np.multiply(U, V)
+
+        else:
+            h = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
+            h = -np.power(h, 1.0 / self.theta)
+            cdfs = np.exp(h)
+            return cdfs
 
     def get_ppf(self):
         """Compute the inverse of conditional CDF C(u|v)^-1.

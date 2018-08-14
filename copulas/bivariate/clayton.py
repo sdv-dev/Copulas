@@ -30,37 +30,43 @@ class Clayton(Bivariate):
             c = -(2 * self.theta + 1) / self.theta
             return a * np.power(b, c)
 
-    def get_cdf(self):
-        """Compute cdf function for given copula family."""
-        def cdf(U, V):
-            if self.theta < 0:
-                raise ValueError("Theta cannot be less or equal than 0 for clayton")
+    def copula_cumulative_density(self, U, V):
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
-            elif self.theta == 0:
-                return np.multiply(U, V)
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
 
-            elif U == 0 or V == 0:
-                return 0
+        Returns:
+            np.array: cumulative probability
 
-            elif type(U) in (int, float):
-                value = np.power(
-                    np.power(U, -self.theta) + np.power(V, -self.theta) - 1,
-                    -1.0 / self.theta)
+        """
+        if self.theta < 0:
+            raise ValueError("Theta cannot be less or equal than 0 for clayton")
 
-                return value
+        elif self.theta == 0:
+            return np.multiply(U, V)
 
-            else:
-                cdfs = [
-                    np.power(
-                        np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
-                        -1.0 / self.theta
-                    )
-                    if U[i] > 0 else 0 for i in range(len(U))
-                ]
+        elif U == 0 or V == 0:
+            return 0
 
-                return [max(x, 0) for x in cdfs]
+        elif type(U) in (int, float):
+            value = np.power(
+                np.power(U, -self.theta) + np.power(V, -self.theta) - 1,
+                -1.0 / self.theta)
 
-        return cdf
+            return value
+
+        else:
+            cdfs = [
+                np.power(
+                    np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
+                    -1.0 / self.theta
+                )
+                if U[i] > 0 else 0 for i in range(len(U))
+            ]
+
+            return np.array([max(x, 0) for x in cdfs])
 
     def get_ppf(self):
         """Compute the inverse of conditional CDF C(u|v)^-1.

@@ -38,20 +38,25 @@ class Frank(Bivariate):
             den = np.power(aux, 2)
             return num / den
 
-    def get_cdf(self):
-        """Compute cdf function for given copula family."""
-        def cdf(U, V):
-            if self.theta == 0:
-                return np.multiply(U, V)
+    def copula_cumulative_density(self, U, V):
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
-            else:
-                num = np.multiply(
-                    np.exp(np.multiply(-self.theta, U)) - 1,
-                    np.exp(np.multiply(-self.theta, V)) - 1)
-                den = np.exp(-self.theta) - 1
-                return -1.0 / self.theta * np.log(1 + num / den)
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
 
-        return cdf
+        Returns:
+            np.array: cumulative probability
+        """
+        if self.theta == 0:
+            return np.multiply(U, V)
+
+        else:
+            num = np.multiply(
+                np.exp(np.multiply(-self.theta, U)) - 1,
+                np.exp(np.multiply(-self.theta, V)) - 1)
+            den = np.exp(-self.theta) - 1
+            return -1.0 / self.theta * np.log(1 + num / den)
 
     def get_ppf(self):
         """Compute the inverse of conditional CDF C(u|v)^-1.

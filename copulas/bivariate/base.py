@@ -85,11 +85,29 @@ class Bivariate(object):
         raise NotImplementedError
 
     def probability_density(self, U, V):
-        """Returns pdf of model."""
+        """Compute probability density function for given copula family.
+
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+
+        Returns:
+            np.array: Probability density for the input values.
+
+        """
         raise NotImplementedError
 
-    def get_cdf(self):
-        """Returns cdf of model."""
+    def copula_cumulative_density(self, U, V):
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+
+        Args:
+            U: `np.ndarray`
+            V: `np.ndarray`
+
+        Returns:
+            np.array: cumulative probability
+
+        """
         raise NotImplementedError
 
     def _sample(self, v, c):
@@ -127,10 +145,10 @@ class Bivariate(object):
         left = right = []
 
         for copula in copulas:
-            left.append(copula.get_cdf()(z_left, z_left) / np.power(z_left, 2))
+            left.append(copula.copula_cumulative_density(z_left, z_left) / np.power(z_left, 2))
 
         for copula in copulas:
-            right.append(cls.g(copula.get_cdf()(z_right, z_right), z_right))
+            right.append(cls.g(copula.copula_cumulative_density(z_right, z_right), z_right))
 
         return left, right
 
