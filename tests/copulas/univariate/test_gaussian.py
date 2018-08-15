@@ -15,11 +15,9 @@ class TestGaussianUnivariate(TestCase):
         copula = GaussianUnivariate()
 
         # Check
-        assert not copula.column
+        assert not copula.name
         assert copula.mean == 0
         assert copula.std == 1
-        assert copula.min == -np.inf
-        assert copula.max == np.inf
 
     def test___str__(self):
         """str returns details about the model."""
@@ -30,9 +28,7 @@ class TestGaussianUnivariate(TestCase):
             'Distribution Type: Gaussian',
             'Variable name: None',
             'Mean: 0',
-            'Standard deviation: 1',
-            'Max: inf',
-            'Min: -inf'
+            'Standard deviation: 1'
         ])
 
         # Run
@@ -46,28 +42,25 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [0, 1, 2, 3, 4, 5]
+        column = pd.Series([0, 1, 2, 3, 4, 5], name='column')
         mean = 2.5
         std = 1.707825127659933
-        max_value = 5
-        min_value = 0
+        name = 'column'
 
         # Run
         copula.fit(column)
 
         # Check
-        assert copula.column == column
         assert copula.mean == mean
         assert copula.std == std
-        assert copula.min == min_value
-        assert copula.max == max_value
+        assert copula.name == name
 
     def test_fit_empty_data(self):
         """On fit, if column is empty an error is raised."""
 
         # Setup
         copula = GaussianUnivariate()
-        column = []
+        column = pd.Series([])
 
         # Run
         with self.assertRaises(ValueError):
@@ -86,11 +79,9 @@ class TestGaussianUnivariate(TestCase):
         # Check
         assert copula.mean == 1
         assert copula.std == 0.001
-        assert copula.max == 1
-        assert copula.min == 1
 
-    def test_get_pdf(self):
-        """get_pdf returns the normal probability distribution value for the given values."""
+    def test_get_probability_density(self):
+        """Probability_density returns the normal probability distribution for the given values."""
 
         # Setup
         copula = GaussianUnivariate()
@@ -99,13 +90,13 @@ class TestGaussianUnivariate(TestCase):
         expected_result = 0.48860251190292
 
         # Run
-        result = copula.get_pdf(0)
+        result = copula.probability_density(0)
 
         # Check
         assert result == expected_result
 
-    def test_get_cdf(self):
-        """get_cdf returns the cumulative distribution function value for a point."""
+    def test_cumulative_density(self):
+        """Cumulative_density returns the cumulative distribution function value for a point."""
 
         # Setup
         copula = GaussianUnivariate()
@@ -115,13 +106,13 @@ class TestGaussianUnivariate(TestCase):
         expected_result = [0.5]
 
         # Run
-        result = copula.get_cdf(x)
+        result = copula.cumulative_density(x)
 
         # Check
         assert (result == expected_result).all()
 
-    def test_inverse_cdf(self):
-        """inverse_cdf returns the original point from the cumulative probability value """
+    def test_percent_point(self):
+        """Percent_point returns the original point from the cumulative probability value """
 
         # Setup
         copula = GaussianUnivariate()
@@ -131,13 +122,13 @@ class TestGaussianUnivariate(TestCase):
         expected_result = 0
 
         # Run
-        result = copula.inverse_cdf(x)
+        result = copula.percent_point(x)
 
         # Check
         assert (result == expected_result).all()
 
-    def test_inverse_cdf_reverse_get_cdf(self):
-        """Combined get_cdf and inverse_cdf is the identity function."""
+    def test_percent_point_reverse_cumulative_density(self):
+        """Combined cumulative_density and percent_point is the identity function."""
 
         # Setup
         copula = GaussianUnivariate()
@@ -146,8 +137,8 @@ class TestGaussianUnivariate(TestCase):
         initial_value = pd.Series([0])
 
         # Run
-        result_a = copula.inverse_cdf(copula.get_cdf(initial_value))
-        result_b = copula.get_cdf(copula.inverse_cdf(initial_value))
+        result_a = copula.percent_point(copula.cumulative_density(initial_value))
+        result_b = copula.cumulative_density(copula.percent_point(initial_value))
 
         # Check
         assert (initial_value == result_a).all()

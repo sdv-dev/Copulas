@@ -58,7 +58,7 @@ class GaussianMultivariate(Multivariate):
             X = self.data.loc[:, col]
             distrib = self.distribs[col]
             # get original distrib's cdf of the column
-            cdf = distrib.get_cdf(X)
+            cdf = distrib.cumulative_density(X)
             # get inverse cdf using standard normal
             res.loc[:, col] = st.norm.ppf(cdf)
         n = res.shape[1]
@@ -93,5 +93,5 @@ class GaussianMultivariate(Multivariate):
             # use standard normal's cdf
             res[label] = st.norm.cdf(samples[:, i])
             # use original distributions inverse cdf
-            res[label] = distrib.inverse_cdf(res[label])
+            res[label] = distrib.percent_point(res[label])
         return pd.DataFrame(data=res)

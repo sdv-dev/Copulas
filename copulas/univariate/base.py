@@ -4,22 +4,36 @@ class Univariate(object):
     def __init__(self):
         pass
 
-    def fit(self):
-        """ fits a univariate model and updates parameters """
+    def fit(self, X):
+        """Fits a univariate model and updates parameters.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1) data.
+
+        Returns:
+            None
+        """
         raise NotImplementedError
 
-    def get_pdf(self, value):
-        """ given a value, returns corresponding pdf value """
+    def probability_density(self, X):
+        """given a value, returns corresponding pdf value."""
         raise NotImplementedError
 
-    def get_cdf(self, value):
-        """ given a value returns corresponding cdf value """
+    def cumulative_density(self, X):
+        """Given a value returns corresponding cdf value."""
         raise NotImplementedError
 
-    def inverse_cdf(self, value):
-        """ given a cdf value, returns a value in original space """
+    def percent_point(self, X):
+        """Given a cdf value, returns a value in original space."""
         raise NotImplementedError
 
-    def sample(self):
-        """ returns new data point based on model """
+    def sample(self, n_samples=1):
+        """Returns new data point based on model.
+
+        Argument:
+            n_samples: `int`
+
+        Returns:
+            np.ndarray: Generated samples
+        """
         raise NotImplementedError

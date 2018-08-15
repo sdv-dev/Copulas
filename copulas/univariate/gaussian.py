@@ -14,31 +14,26 @@ class GaussianUnivariate(Univariate):
 
     def __init__(self):
         super(GaussianUnivariate, self).__init__()
-        self.column = None
+        self.name = None
         self.mean = 0
         self.std = 1
-        self.min = -np.inf
-        self.max = np.inf
 
     def __str__(self):
-        column_name = self.column.name if isinstance(self.column, pd.Series) else None
-        details = [column_name, self.mean, self.std, self.max, self.min]
+        details = [self.name, self.mean, self.std]
         return (
             'Distribution Type: Gaussian\n'
             'Variable name: {}\n'
             'Mean: {}\n'
-            'Standard deviation: {}\n'
-            'Max: {}\n'
-            'Min: {}'.format(*details)
+            'Standard deviation: {}'.format(*details)
         )
 
-    def fit(self, column):
-        if not len(column):
+    def fit(self, X):
+        if not len(X):
             raise ValueError("Can't fit with an empty dataset.")
 
-        self.column = column
-        self.mean = np.mean(column)
-        std = np.std(column)
+        self.name = X.name if isinstance(X, pd.Series) else None
+        self.mean = np.mean(X)
+        std = np.std(X)
 
         # check for column with all the same vals
         if std == 0:
@@ -47,22 +42,27 @@ class GaussianUnivariate(Univariate):
         else:
             self.std = std
 
-        self.max = max(column)
-        self.min = min(column)
+    def probability_density(self, X):
+        return norm.pdf(X, loc=self.mean, scale=self.std)
 
-    def get_pdf(self, x):
-        return norm.pdf(x, loc=self.mean, scale=self.std)
-
-    def get_cdf(self, x):
+    def cumulative_density(self, X):
+        """Cumulative density function for gaussian distribution."""
         # check to make sure dtype is not object
-        if x.dtype == 'object':
-            x = x.astype('float64')
-        return norm.cdf(x, loc=self.mean, scale=self.std)
+        if X.dtype == 'object':
+            X = X.astype('float64')
+        return norm.cdf(X, loc=self.mean, scale=self.std)
 
-    def inverse_cdf(self, u):
-        """ given a cdf value, returns a value in original space """
+    def percent_point(self, u):
+        """Returns a value in original space given a cdf."""
         return norm.ppf(u, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):
-        """ returns new data point based on model """
+        """Returns new data point based on model.
+
+        Argument:
+            n_samples: `int`
+
+        Returns:
+            np.ndarray: Generated samples
+        """
         return np.random.normal(self.mean, self.std, num_samples)
