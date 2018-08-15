@@ -1,10 +1,10 @@
-import sys
 
 import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import fminbound, fsolve
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.utils import EPSILON
 
 
 class Frank(Bivariate):
@@ -78,12 +78,7 @@ class Frank(Bivariate):
             return V
 
         else:
-            return fminbound(
-                self.partial_derivative,
-                sys.float_info.epsilon,
-                1.0,
-                args=(V, y)
-            )
+            return fminbound(self.partial_derivative, EPSILON, 1.0, args=(y, V))
 
     def partial_derivative(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
@@ -102,7 +97,7 @@ class Frank(Bivariate):
             return V
 
         else:
-            num = np.multiply(self._g(U), self._g(V)) + self._g(V)
+            num = np.multiply(self._g(U), self._g(V)) + self._g(U)
             den = np.multiply(self._g(U), self._g(V)) + self._g(1)
             return (num / den) - y
 
@@ -121,7 +116,7 @@ class Frank(Bivariate):
         def debye(t):
             return t / (np.exp(t) - 1)
 
-        debye_value = integrate.quad(debye, sys.float_info.epsilon, alpha)[0] / alpha
+        debye_value = integrate.quad(debye, EPSILON, alpha)[0] / alpha
         return 4 * (debye_value - 1) / alpha + 1 - tau
 
     def _sample(self, v, c):

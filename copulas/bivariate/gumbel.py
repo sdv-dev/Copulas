@@ -1,9 +1,9 @@
-import sys
 
 import numpy as np
 from scipy.optimize import fminbound
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.utils import EPSILON
 
 
 class Gumbel(Bivariate):
@@ -71,13 +71,7 @@ class Gumbel(Bivariate):
             return y
 
         else:
-            u = fminbound(
-                self.partial_derivative,
-                sys.float_info.epsilon,
-                1.0,
-                args=(V, y)
-            )
-            return u
+            return fminbound(self.partial_derivative, EPSILON, 1.0, args=(y, V))
 
     def partial_derivative(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
@@ -98,10 +92,10 @@ class Gumbel(Bivariate):
         else:
             t1 = np.power(-np.log(U), self.theta)
             t2 = np.power(-np.log(V), self.theta)
-            p1 = np.exp(-np.power((t1 + t2), 1.0 / self.theta))
+            p1 = p1 = self.cumulative_density(U, V)
             p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
-            p3 = np.power(-np.log(U), self.theta - 1)
-            return np.divide(np.multiply(np.multiply(p1, p2), p3), U) - y
+            p3 = np.power(-np.log(V), self.theta - 1)
+            return np.divide(np.multiply(np.multiply(p1, p2), p3), V) - y
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
@@ -110,7 +104,7 @@ class Gumbel(Bivariate):
         that we solve as :math:`θ = \\frac{1}{1-τ}`
         """
         if self.tau == 1:
-            theta = 1000
+            theta = 10000
         else:
             theta = 1 / (1 - self.tau)
 

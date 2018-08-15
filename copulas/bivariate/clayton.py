@@ -105,12 +105,10 @@ class Clayton(Bivariate):
             return V
 
         else:
-            A = np.power(U, self.theta)
-            B = np.power(V, -self.theta) - 1
-            h = 1 + np.multiply(A, B)
-            h = np.power(h, (-1 - self.theta) / self.theta)
-            h = h - y
-            return h
+            A = np.power(V, -self.theta - 1)
+            B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
+            h = np.power(B, (-1 - self.theta) / self.theta)
+            return np.multiply(A, h) - y
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
