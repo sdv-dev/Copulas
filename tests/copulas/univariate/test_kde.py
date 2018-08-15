@@ -41,7 +41,7 @@ class TestKDEUnivariate(TestCase):
 
         self.kde.fit(data)
 
-        assert self.kde.data == data
+        assert self.kde.model
 
     def test_fit_empty_data(self):
         """If fitting kde model with empty data it will raise ValueError"""
@@ -50,36 +50,36 @@ class TestKDEUnivariate(TestCase):
         with self.assertRaises(ValueError):
             self.kde.fit([])
 
-    def test_get_pdf(self):
-        """get_pdf evaluates with the model"""
+    def test_probability_density(self):
+        """probability_density evaluates with the model"""
         self.setup_norm()
 
-        x = self.kde.get_pdf(0.5)
+        x = self.kde.probability_density(0.5)
 
         expected = 0.35206532676429952
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_cdf(self):
-        """get_pdf evaluates with the model"""
+    def test_cumulative_density(self):
+        """cumulative_density evaluates with the model"""
         self.setup_norm()
 
-        x = self.kde.get_cdf(0.5)
+        x = self.kde.cumulative_density(0.5)
 
         expected = 0.69146246127401312
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_ppf(self):
-        """get_ppf evaluates with the model"""
+    def test_percent_point(self):
+        """percent_point evaluates with the model"""
         self.setup_norm()
 
-        x = self.kde.get_ppf(0.5)
+        x = self.kde.percent_point(0.5)
 
         expected = 0.0
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_ppf_invalid_value(self):
+    def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError"""
         self.setup_norm()
 
         with self.assertRaises(ValueError):
-            self.kde.get_ppf(2)
+            self.kde.percent_point(2)

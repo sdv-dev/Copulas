@@ -16,7 +16,7 @@ class TestDirectTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.get_cdf(x) for x in self.data[col]]
+            self.u_matrix[:, count] = [uni.cumulative_density(x) for x in self.data[col]]
             count += 1
         self.tree = DirectTree(0, 4, self.tau_mat, self.u_matrix)
 

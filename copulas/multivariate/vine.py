@@ -52,9 +52,9 @@ class VineCopula(Multivariate):
         for col in data:
             uni = KDEUnivariate()
             uni.fit(data[col])
-            self.u_matrix[:, count] = [uni.get_cdf(x) for x in data[col]]
+            self.u_matrix[:, count] = [uni.cumulative_density(x) for x in data[col]]
             self.unis.append(uni)
-            self.ppfs.append(uni.get_ppf)
+            self.ppfs.append(uni.percent_point)
             count += 1
         self.truncated = truncated
         self.depth = self.n_var - 1
