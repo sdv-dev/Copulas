@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import scipy
 
-from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.base import Bivariate
 from copulas.utils import EPSILON
 
 LOGGER = logging.getLogger(__name__)
@@ -12,6 +12,7 @@ LOGGER = logging.getLogger(__name__)
 class Tree(object):
     """Helper class to instantiate a single tree in the vine model
     """
+
     def __init__(self, index, n_nodes, tau_matrix, previous_tree):
         """Initialize tree object
 
@@ -63,6 +64,24 @@ class Tree(object):
                     if self.edges[k].is_adjacent(self.edges[i]):
                         self.edges[k].neighbors.append(i)
 
+    def _sort_tau_by_y(self, y):
+        """Sort tau matrix by dependece with variable y
+
+        Args:
+            :param y: index of variable of intrest
+            :type y: int
+        """
+        # first column is the variable of interest
+        tau_y = self.tau_matrix[:, y]
+        tau_y[y] = np.NaN
+        temp = np.empty([self.n_nodes, 3])
+        temp[:, 0] = np.arange(self.n_nodes)
+        temp[:, 1] = tau_y
+        temp[:, 2] = abs(tau_y)
+        temp[np.isnan(temp)] = -10
+        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
+        return tau_sorted
+
     def get_tau_matrix(self):
         """Get tau matrix for adjacent pairs
 
@@ -73,15 +92,15 @@ class Tree(object):
         num_edges = len(self.edges)
         tau = np.empty([num_edges, num_edges])
         for i in range(num_edges):
-            for j in self.edges[i].neighbors:
-                left_parent, right_parent = self.edges[i].parent
+            edge = self.edges[i]
+            for j in edge.neighbors:
                 if self.level == 1:
-                    U1 = self.u_matrix[:, left_parent]
-                    U2 = self.u_matrix[:, right_parent]
+                    left_u = self.u_matrix[:, edge.L]
+                    right_u = self.u_matrix[:, edge.R]
                 else:
-                    U1 = self.previous_tree.edges[left_parent].U[0]
-                    U2 = self.previous_tree.edges[right_parent].U[0]
-                tau[i, j], pvalue = scipy.stats.kendalltau(U1, U2)
+                    left_parent, right_parent = edge.parents
+                    left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
+                tau[i, j], pvalue = scipy.stats.kendalltau(left_u, right_u)
         return tau
 
     def get_adjacent_matrix(self):
@@ -105,28 +124,27 @@ class Tree(object):
         num_edges = len(self.edges)
         for k in range(num_edges):
             edge = self.edges[k]
-            copula_name = CopulaTypes(edge.name)
             copula_theta = edge.theta
             if self.level == 1:
-                U1 = self.u_matrix[:, edge.L]
-                U2 = self.u_matrix[:, edge.R]
+                left_u = self.u_matrix[:, edge.L]
+                right_u = self.u_matrix[:, edge.R]
             else:
-                previous_tree = self.previous_tree.edges
-                left_parent, right_parent = edge.parent
-                U1 = previous_tree[left_parent].U[0]
-                U2 = previous_tree[right_parent].U[0]
+                left_parent, right_parent = edge.parents
+                left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
             # compute conditional cdfs C(i|j) = dC(i,j)/duj and dC(i,j)/du
-            U1 = [x for x in U1 if x is not None]
-            U2 = [x for x in U2 if x is not None]
-            c1 = Bivariate(copula_name)
-            c1.fit(U1, U2)
-            derivative = c1.get_h_function()
-            U1_given_U2 = derivative(U2, U1, copula_theta)
-            U2_given_U1 = derivative(U1, U2, copula_theta)
+            left_u = [x for x in left_u if x is not None]
+            right_u = [x for x in right_u if x is not None]
+            cop = Bivariate(edge.name)
+            cop.fit(left_u, right_u)
+            derivative = cop.get_h_function()
+            left_given_right = derivative(left_u, right_u, copula_theta)
+            right_given_left = derivative(right_u, left_u, copula_theta)
             # correction of 0 or 1
-            U1_given_U2[U1_given_U2 == 0] = U2_given_U1[U2_given_U1 == 0] = EPSILON
-            U1_given_U2[U1_given_U2 == 1] = U2_given_U1[U2_given_U1 == 1] = 1 - EPSILON
-            edge.U = [U1_given_U2, U2_given_U1]
+            left_given_right[left_given_right == 0] = EPSILON
+            right_given_left[right_given_left == 0] = EPSILON
+            left_given_right[left_given_right == 1] = 1 - EPSILON
+            right_given_left[right_given_left == 1] = 1 - EPSILON
+            edge.U = [left_given_right, right_given_left]
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the tree given an U matrix
@@ -137,82 +155,52 @@ class Tree(object):
 
         Returns:
             param value: likelihood value of the current tree
+            param new_uni_matrix: next level onditional univariate matrix
             type value: float or int
+            type new_uni_matrix: np.ndarray
         """
-        edges = self.edges
-        values = np.zeros([1, len(edges)])
-        for i in range(len(edges)):
-            edge = edges[i]
-            cname = CopulaTypes(edge.name)
-            v1, v2 = edge.L, edge.R
-            copula_theta = edge.theta
-            if self.level == 1:
-                U1 = np.array([uni_matrix[v1]])
-                U2 = np.array([uni_matrix[v2]])
-            else:
-                previous_tree = self.previous_tree.edges
-                left_parent, right_parent = edge.parent
-                U1 = previous_tree[left_parent].U[0]
-                U2 = previous_tree[right_parent].U[0]
-            cop = Bivariate(cname)
-            cop.fit(U1, U2)
-            values[0, i] = cop.pdf()(U1, U2)
-            U1_given_U2 = cop.get_h_function()(U2, U1, copula_theta)
-            # U2givenU1 = derivative(U1, U2, copula_theta)
-            edge.U = U1_given_U2
-            value = np.sum(np.log(values))
-        return value
+        uni_dim = uni_matrix.shape[1]
+        num_edge = len(self.edges)
+        values = np.zeros([1, num_edge])
+        new_uni_matrix = np.empty([uni_dim, uni_dim])
+        for i in range(num_edge):
+            edge = self.edges[i]
+            value, left_u, right_u = edge.get_likelihood(uni_matrix)
+            new_uni_matrix[edge.L, edge.R] = left_u
+            new_uni_matrix[edge.R, edge.L] = right_u
+            values[0, i] = np.log(value)
+        return np.sum(values), new_uni_matrix
 
     def __str__(self):
-        template = 'L:{} R:{} D:{} parent:{}'
-        return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.parent)
+        template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
+        return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
                           for edge in self.edges])
 
 
 class CenterTree(Tree):
     """Helper Class for instantiate a Center Vine"""
+
     def _build_first_tree(self):
         """build first level tree"""
-        # first column is the variable of interest
-        np.fill_diagonal(self.tau_matrix, np.NaN)
-        tau_y = self.tau_matrix[:, 0]
-        temp = np.empty([self.n_nodes, 3])
-        temp[:, 0] = np.arange(self.n_nodes)
-        temp[:, 1] = tau_y
-        temp[:, 2] = abs(tau_y)
-        temp[np.isnan(temp)] = -10
-        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
-        for itr in range(1, self.n_nodes):
-            ind = tau_sorted[itr, 0]
-            name, theta = Bivariate.select_copula(self.u_matrix[:, 0], self.u_matrix[:, ind])
-            new_edge = Edge(itr, 0, ind, self.tau_matrix[0, ind], name, theta)
-            new_edge.parent.append(0)
-            new_edge.parent.append(ind)
+        tau_sorted = self._sort_tau_by_y(0)
+        for itr in range(self.n_nodes - 1):
+            ind = int(tau_sorted[itr, 0])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, 0],
+                                                  self.u_matrix[:, ind])
+            new_edge = Edge(0, ind, name, theta)
+            new_edge.tau = self.tau_matrix[0, ind]
             self.edges.append(new_edge)
 
     def _build_kth_tree(self):
         """build k-th level tree"""
-        anchor, tau_sorted = self.get_anchor()
-        self.tau_matrix[anchor, :] = np.NaN
-        # sort the rest of variables based on dependence with anchor variable
-        aux = np.empty([self.n_nodes, 3])
-        aux[:, 0] = np.arange(self.n_nodes, dtype=int)
-        aux[:, 1] = self.tau_matrix[:, anchor]
-        aux[:, 2] = abs(self.tau_matrix[:, anchor])
-        aux[anchor, 2] = -10
-        aux_sorted = aux[aux[:, 2].argsort()[::-1]]
+        anchor = self.get_anchor()
+        aux_sorted = self._sort_tau_by_y(anchor)
         edges = self.previous_tree.edges
         for itr in range(self.n_nodes - 1):
-            right = aux_sorted[itr, 0]
-            U1, U2 = edges[anchor].U[0], edges[right].U[0]
-            name, theta = Bivariate.select_copula(U1, U2)
-            [ed1, ed2, ing] = Edge._identify_eds_ing(edges[anchor], edges[right])
-            new_edge = Edge(itr, ed1, ed2, tau_sorted[itr, 1], name, theta)
-            new_edge.D = ing
-            new_edge.parents.append(edges[anchor])
-            new_edge.parents.append(edges[right])
-            new_edge.parent.append(anchor)
-            new_edge.parent.append(right)
+            right = int(aux_sorted[itr, 0])
+            left_parent, right_parent = Edge.sort_edge([edges[anchor], edges[right]])
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
+            new_edge.tau = aux_sorted[itr, 1]
             self.edges.append(new_edge)
 
     def get_anchor(self):
@@ -220,24 +208,17 @@ class CenterTree(Tree):
         temp = np.empty([self.n_nodes, 2])
         temp[:, 0] = np.arange(self.n_nodes, dtype=int)
         temp[:, 1] = np.sum(abs(self.tau_matrix), 1)
-        tau_sorted = temp[temp[:, 1].argsort()[::-1]]
         anchor = int(temp[0, 0])
-        return anchor, tau_sorted
+        return anchor
 
 
 class DirectTree(Tree):
     """Helper Class for instantiate a Direct Vine"""
+
     def _build_first_tree(self):
         # find the pair of maximum tau
         tau_matrix = self.tau_matrix
-        np.fill_diagonal(tau_matrix, np.NaN)
-        tau_y = tau_matrix[:, 0]
-        temp = np.empty([self.n_nodes, 3])
-        temp[:, 0] = np.arange(self.n_nodes)
-        temp[:, 1] = tau_y
-        temp[:, 2] = abs(tau_y)
-        temp[np.isnan(temp)] = -10
-        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
+        tau_sorted = self._sort_tau_by_y(0)
         left_ind = tau_sorted[0, 0]
         right_ind = tau_sorted[1, 0]
         T1 = np.array([left_ind, 0, right_ind]).astype(int)
@@ -260,30 +241,25 @@ class DirectTree(Tree):
                 tau_T1 = np.append(tau_T1, valR)
                 tau_matrix[:, right] = -10
         for k in range(self.n_nodes - 1):
-            name, theta = Bivariate.select_copula(
-                self.u_matrix[:, T1[k]], self.u_matrix[:, T1[k + 1]])
-
-            new_edge = Edge(k, T1[k], T1[k + 1], tau_T1[k], name, theta)
-            new_edge.parent.append(T1[k])
-            new_edge.parent.append(T1[k + 1])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, T1[k]],
+                                                  self.u_matrix[:, T1[k + 1]])
+            left, right = sorted([T1[k], T1[k + 1]])
+            new_edge = Edge(left, right, name, theta)
+            new_edge.tau = tau_T1[k]
             self.edges.append(new_edge)
 
     def _build_kth_tree(self):
         edges = self.previous_tree.edges
         for k in range(self.n_nodes - 1):
-            left_parent = edges[k]
-            right_parent = edges[k + 1]
-            name, theta = Bivariate.select_copula(left_parent.U[0], right_parent.U[0])
-            [ed1, ed2, ing] = Edge._identify_eds_ing(left_parent, right_parent)
-            new_edge = Edge(k, ed1, ed2, self.tau_matrix[k, k + 1], name, theta)
-            new_edge.D = ing
-            new_edge.parent.append(k)
-            new_edge.parent.append(k + 1)
+            left_parent, right_parent = Edge.sort_edge([edges[k], edges[k + 1]])
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
+            new_edge.tau = self.tau_matrix[k, k + 1]
             self.edges.append(new_edge)
 
 
 class RegularTree(Tree):
     """ Helper class for instantiate Regular Vine"""
+
     def _build_first_tree(self):
         """build the first tree with n-1 variable"""
         # Prim's algorithm
@@ -299,13 +275,11 @@ class RegularTree(Tree):
                         adj_set.add((x, k))
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            name, theta = Bivariate.select_copula(
-                self.u_matrix[:, edge[0]], self.u_matrix[:, edge[1]])
-
-            tau_matrix = self.tau_matrix[edge[0], edge[1]]
-            new_edge = Edge(itr, edge[0], edge[1], tau_matrix, name, theta)
-            new_edge.parent.append(edge[0])
-            new_edge.parent.append(edge[1])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, edge[0]],
+                                                  self.u_matrix[:, edge[1]])
+            left, right = sorted([edge[0], edge[1]])
+            new_edge = Edge(left, right, name, theta)
+            new_edge.tau = self.tau_matrix[edge[0], edge[1]]
             self.edges.append(new_edge)
             X.add(edge[1])
             itr += 1
@@ -315,8 +289,7 @@ class RegularTree(Tree):
         """
         neg_tau = -1.0 * abs(self.tau_matrix)
         edges = self.previous_tree.edges
-        visited = set()
-        visited.add(0)
+        visited = set([0])
         unvisited = set(range(self.n_nodes))
         itr = 0
         while len(visited) != self.n_nodes:
@@ -331,52 +304,36 @@ class RegularTree(Tree):
             if len(list(adj_set)) == 0:
                 visited.add(list(unvisited)[0])
                 continue
-            edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            [ed1, ed2, ing] =\
-                Edge._identify_eds_ing(edges[edge[0]], edges[edge[1]])
-            left_parent, right_parent = edge
-            U1, U2 = edges[left_parent].U[0], edges[right_parent].U[0]
-            name, theta = Bivariate.select_copula(U1, U2)
-            new_edge = Edge(itr, ed1, ed2, self.tau_matrix[edge[0], edge[1]],
-                            name, theta)
-            new_edge.D = ing
-            new_edge.parent.append(edge[0])
-            new_edge.parent.append(edge[1])
-            new_edge.parents.append(edges[edge[0]])
-            new_edge.parents.append(edges[edge[1]])
-            # new_edge.likelihood = np.log(cop.pdf(U1,U2,theta))
+            pairs = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
+            left_parent, right_parent = Edge.sort_edge([edges[pairs[0]], edges[pairs[1]]])
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
+            new_edge.tau = self.tau_matrix[pairs[0], pairs[1]]
             self.edges.append(new_edge)
-            visited.add(edge[1])
-            unvisited.remove(edge[1])
+            visited.add(pairs[1])
+            unvisited.remove(pairs[1])
             itr += 1
 
 
 class Edge(object):
-    def __init__(self, index, left, right, tau, copula_name, copula_theta):
+    def __init__(self, left, right, copula_name, copula_theta):
         """Initialize an Edge object
 
         Args:
-            :param index: index of the edge in the current tree
-            :param left: left_node index
-            :param right: right_node index
-            :param tau: tau value of the edge
+            :param left: left_node index (smaller)
+            :param right: right_node index (larger)
             :param copula_name: name of the fitted copula class
             :param copula_theta: parameters of the fitted copula class
 
         """
-        self.index = index
-        self.level = None   # in which level of tree
-
         self.L = left
         self.R = right
-        self.D = []  # dependence_set
-        self.parent = []  # indices of parent edges in the previous tree
-        self.parents = []
+        self.D = set()  # dependence_set
+        self.parents = None
         self.neighbors = []
 
-        self.tau = tau
         self.name = copula_name
         self.theta = copula_theta
+        self.tau = None
         self.U = None
         self.likelihood = None
 
@@ -390,17 +347,17 @@ class Edge(object):
             :type edge1: Edge object
             :type edge2: Edge object
             :return left,right: end node indices of the new edge
-            :return D: dependence_set of the new edge
-            :type left, right: int
-            :type D: list
+            :return depend_set: new dependence set
+            :type left, right, ing: int
+            :type depend_set: set
         """
         A = set([edge1.L, edge1.R])
         A.update(edge1.D)
         B = set([edge2.L, edge2.R])
         B.update(edge2.D)
-        D = list(A & B)
-        left, right = list(A ^ B)
-        return left, right, D
+        depend_set = A & B
+        left, right = sorted(list(A ^ B))
+        return left, right, depend_set
 
     def is_adjacent(self, another_edge):
         """Check if two edges are adjacent
@@ -414,19 +371,56 @@ class Edge(object):
         return (self.L == another_edge.L or self.L == another_edge.R or
                 self.R == another_edge.L or self.R == another_edge.R)
 
-    def get_likelihood(self, U):
-        """ Compute likelihood given a U matrix """
-        if self.level == 1:
-            name, theta = Bivariate.select_copula(U[:, self.L], U[:, self.R])
-            cop = Bivariate(name)
-            cop.fit(U[:, self.L], U[:, self.R])
-            pdf = cop.get_pdf()
-            self.likelihood = pdf(U[:, self.L], U[:, self.R])
+    @staticmethod
+    def sort_edge(edges):
+        """ sort edge object first by left node indices then right
+
+        Args:
+            :param edges: list of edges need to be sorted
+            :type edges: list
+        """
+        sorted_edges = sorted(edges, key=lambda x: (x.L, x.R))
+        return sorted_edges
+
+    @staticmethod
+    def get_conditional_uni(left_parent, right_parent):
+        """ Identify pair univariate value from parents"""
+        left, right, depend_set =\
+            Edge._identify_eds_ing(left_parent, right_parent)
+        if left_parent.L == left:
+            left_u = left_parent.U[0]
         else:
-            left_parent, right_parent = self.parents
-            U1, U2 = left_parent.U[0], right_parent.U[0]
-            name, theta = Bivariate.select_copula(U1, U2)
-            cop = Bivariate(name)
-            cop.fit(U1, U2)
-            pdf = cop.get_pdf()
-            self.likelihood = pdf(U1, U2)
+            left_u = left_parent.U[1]
+        if right_parent.L == right:
+            right_u = right_parent.U[0]
+        else:
+            right_u = right_parent.U[1]
+        return left_u, right_u
+
+    def get_child_edge(left_parent, right_parent):
+        """ Construct a child edge from two parent edges """
+        [ed1, ed2, depend_set] =\
+            Edge._identify_eds_ing(left_parent, right_parent)
+        left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
+        name, theta = Bivariate.select_copula(left_u, right_u)
+        new_edge = Edge(ed1, ed2, name, theta)
+        new_edge.D = depend_set
+        new_edge.parents = [left_parent, right_parent]
+        return new_edge
+
+    def get_likelihood(self, uni_matrix):
+        """ Compute likelihood given a U matrix """
+        if self.parents is None:
+            left_u = uni_matrix[:, self.L]
+            right_u = uni_matrix[:, self.R]
+        else:
+            left_ing = list(self.D - self.parents[0].D)[0]
+            right_ing = list(self.D - self.parents[1].D)[0]
+            left_u = uni_matrix[self.L, left_ing]
+            right_u = uni_matrix[self.R, right_ing]
+        cop = Bivariate(self.name)
+        cop.set_params(theta=self.theta)
+        value = np.sum(cop.get_pdf()(left_u, right_u))
+        left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
+        right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
+        return value, left_given_right, right_given_left

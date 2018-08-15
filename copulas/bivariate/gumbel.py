@@ -1,9 +1,9 @@
-import sys
 
 import numpy as np
 from scipy.optimize import fminbound
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.utils import EPSILON
 
 
 class Gumbel(Bivariate):
@@ -67,7 +67,7 @@ class Gumbel(Bivariate):
 
             else:
                 dev = self.get_h_function()
-                u = fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, y, theta))
+                u = fminbound(dev, EPSILON, 1.0, args=(v, theta, y))
                 return u
 
         return ppf
@@ -81,10 +81,10 @@ class Gumbel(Bivariate):
             else:
                 t1 = np.power(-np.log(u), theta)
                 t2 = np.power(-np.log(v), theta)
-                p1 = np.exp(-np.power((t1 + t2), 1.0 / theta))
+                p1 = self.get_cdf()(u, v)
                 p2 = np.power(t1 + t2, -1 + 1.0 / theta)
-                p3 = np.power(-np.log(u), theta - 1)
-                result = np.divide(np.multiply(np.multiply(p1, p2), p3), u)
+                p3 = np.power(-np.log(v), theta - 1)
+                result = np.divide(np.multiply(np.multiply(p1, p2), p3), v)
                 result = result - y
                 return result
 
@@ -92,7 +92,7 @@ class Gumbel(Bivariate):
 
     def tau_to_theta(self):
         if self.tau == 1:
-            theta = 1000
+            theta = 10000
         else:
             theta = 1 / (1 - self.tau)
 

@@ -199,10 +199,10 @@ class Copula(object):
                 if theta == 0:
                     return v
                 else:
-                    A = np.power(u, theta)
-                    B = np.power(v, -theta) - 1
-                    h = 1 + np.multiply(A, B)
-                    h = np.power(h, (-1 - theta) / theta)
+                    A = np.power(v, -theta - 1)
+                    B = np.power(v, -theta) + np.power(u, -theta) + 1
+                    h = np.power(B, (-1 - theta) / theta)
+                    h = np.multiply(A, h)
                     h = h - y
                     return h
             return du
@@ -216,7 +216,7 @@ class Copula(object):
                     def g(theta, z):
                         return -1 + np.exp(-np.dot(theta, z))
 
-                    num = np.multiply(g(u, theta), g(v, theta)) + g(v, theta)
+                    num = np.multiply(g(u, theta), g(v, theta)) + g(u, theta)
                     den = np.multiply(g(u, theta), g(v, theta)) + g(1, theta)
                     result = num / den
                     result = result - y
@@ -230,10 +230,10 @@ class Copula(object):
                 else:
                     t1 = np.power(-np.log(u), theta)
                     t2 = np.power(-np.log(v), theta)
-                    p1 = np.exp(-np.power((t1 + t2), 1.0 / theta))
+                    p1 = self.get_cdf()(u, v)
                     p2 = np.power(t1 + t2, -1 + 1.0 / theta)
-                    p3 = np.power(-np.log(u), theta - 1)
-                    result = np.divide(np.multiply(np.multiply(p1, p2), p3), u)
+                    p3 = np.power(-np.log(v), theta - 1)
+                    result = np.divide(np.multiply(np.multiply(p1, p2), p3), theta)
                     result = result - y
                     return result
             return du

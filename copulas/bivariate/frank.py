@@ -1,10 +1,10 @@
-import sys
 
 import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import fminbound, fsolve
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.utils import EPSILON
 
 
 class Frank(Bivariate):
@@ -40,7 +40,9 @@ class Frank(Bivariate):
     def get_cdf(self):
         """Compute cdf function for given copula family."""
         def cdf(U, V):
-            if self.theta == 0:
+            if self.theta < 0:
+                raise ValueError("Theta cannot be less than 0 for Frank")
+            elif self.theta == 0:
                 return np.multiply(U, V)
 
             else:
@@ -64,7 +66,7 @@ class Frank(Bivariate):
                 return v
             else:
                 dev = self.get_h_function()
-                return fminbound(dev, sys.float_info.epsilon, 1.0, args=(v, theta, y))
+                return fminbound(dev, EPSILON, 1.0, args=(v, theta, y))
 
         return ppf
 
@@ -77,9 +79,9 @@ class Frank(Bivariate):
             else:
 
                 def g(z, theta):
-                    return -1 + np.exp(-np.dot(theta, z))
+                    return -1 + np.exp(-np.multiply(theta, z))
 
-                num = np.multiply(g(u, theta), g(v, theta)) + g(v, theta)
+                num = np.multiply(g(u, theta), g(v, theta)) + g(u, theta)
                 den = np.multiply(g(u, theta), g(v, theta)) + g(1, theta)
                 return (num / den) - y
 
@@ -95,7 +97,7 @@ class Frank(Bivariate):
         def debye(t):
             return t / (np.exp(t) - 1)
 
-        debye_value = integrate.quad(debye, sys.float_info.epsilon, alpha)[0] / alpha
+        debye_value = integrate.quad(debye, EPSILON, alpha)[0] / alpha
         return 4 * (debye_value - 1) / alpha + 1 - tau
 
     def _sample(self, v, c):

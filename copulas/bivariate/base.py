@@ -76,6 +76,13 @@ class Bivariate(object):
         self.tau = stats.kendalltau(self.U, self.V)[0]
         self.theta = self.tau_to_theta()
 
+    def get_params(self):
+        return {'tau': self.tau, 'theta': self.theta}
+
+    def set_params(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
     def infer(self, values):
         """Takes in subset of values and predicts the rest."""
         raise NotImplementedError
@@ -149,7 +156,7 @@ class Bivariate(object):
             frank = Bivariate(CopulaTypes.FRANK)
             frank.fit(U, V)
             selected_theta = frank.theta
-            selected_copula = frank.copula_type
+            selected_copula = CopulaTypes.FRANK
 
             return selected_copula, selected_theta
 
@@ -169,7 +176,7 @@ class Bivariate(object):
         cost_LR = np.add(cost_L, cost_R)
         selected_copula = np.argmax(cost_LR)
         selected_theta = theta_candidates[selected_copula]
-        return selected_copula, selected_theta
+        return CopulaTypes(selected_copula), selected_theta
 
     @staticmethod
     def compute_empirical(u, v):

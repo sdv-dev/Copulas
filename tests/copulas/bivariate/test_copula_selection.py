@@ -6,6 +6,7 @@
 from unittest import TestCase
 
 import numpy as np
+import scipy.stats as stats
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
 
@@ -103,16 +104,18 @@ class TestCopulas(TestCase):
         result = self.c2.sample(10)
         assert result.shape[0] == 10
 
-    # def test_copula_selction_negative_tau(self):
-    #     """If tau is negative, should choose frank copula."""
-    #     U = [0.1, 0.2, 0.3, 0.4]
-    #     V = [0.6, 0.5, 0.4, 0.3]
-    #
-    #     name, param = BVCopula.select_copula(U, V)
-    #     expected = 1
-    #
-    #     assert name == expected
-    #
+    def test_copula_selction_negative_tau(self):
+        """If tau is negative, should choose frank copula."""
+        U = [0.1, 0.2, 0.3, 0.4]
+        V = [0.6, 0.5, 0.4, 0.3]
+
+        assert stats.kendalltau(U, V)[0] < 0
+
+        name, param = Bivariate.select_copula(U, V)
+        expected = CopulaTypes.FRANK
+
+        assert name == expected
+
     # def test_copula_selction(self):
     #     U = [0.1, 0.2, 0.3, 0.4]
     #     V = [1, 2, 3, 4]
