@@ -15,7 +15,11 @@ class TestEdge(TestCase):
 
     def test_identify_eds(self):
         left, right, depend_set = Edge._identify_eds_ing(self.e1, self.e2)
-        self.assertEquals(left, 2)
-        self.assertEquals(right, 4)
+        assert left == 2
+        assert right == 4
         expected_result = set([1, 3, 5])
-        self.assertEquals(depend_set, expected_result)
+        assert depend_set == expected_result
+
+    def test_sort_edge(self):
+        sorted_edges = Edge.sort_edge([self.e2, self.e1])
+        assert sorted_edges[0].L == 2

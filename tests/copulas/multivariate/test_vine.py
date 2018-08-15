@@ -23,14 +23,18 @@ class TestVine(TestCase):
     def test_get_likelihood(self):
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 
-        self.rvine.get_likelihood(uni_matrix)
-        # self.assertAlmostEquals(rvalue, 12.8889, places=3)
+        # FIX ME: there is some randomness in rvine, will do another test
+        rvalue = self.rvine.get_likelihood(uni_matrix)
+        expected = 0
+        assert abs(rvalue - expected) < 10
 
         cvalue = self.cvine.get_likelihood(uni_matrix)
-        self.assertAlmostEquals(cvalue, -3.4420, places=3)
+        expected = -3.4420
+        assert abs(cvalue - expected) < 10E-3
 
         dvalue = self.dvine.get_likelihood(uni_matrix)
-        self.assertAlmostEquals(dvalue, -5.18387, places=3)
+        expected = -5.1838
+        assert abs(dvalue - expected) < 10E-3
 
     # def test_sample(self):
     #     sample_r = self.rvine.sample()

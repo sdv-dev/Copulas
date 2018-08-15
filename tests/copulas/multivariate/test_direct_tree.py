@@ -11,39 +11,53 @@ class TestDirectTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
         self.tau_mat = self.data.corr(method='kendall').values
-        self.u_matrix = np.empty([self.data.shape[0], self.data.shape[1]])
+        self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
             self.u_matrix[:, count] = [uni.get_cdf(x) for x in self.data[col]]
             count += 1
-        self.trees = []
-        self.trees.append(DirectTree(0, 4, self.tau_mat, self.u_matrix))
+        self.tree = DirectTree(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
-        self.assertEquals(self.trees[0].edges[0].L, 0)
+        """ Assert 0 is the center node"""
+        assert self.tree.edges[0].L == 0
 
     def test_first_tree_likelihood(self):
+        """ Assert first tree likehood is correct"""
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
-        value, new_u = self.trees[0].get_likelihood(uni_matrix)
-        self.assertAlmostEquals(value, -5.4620, places=3)
+
+        value, new_u = self.tree.get_likelihood(uni_matrix)
+
+        expected = -5.4620
+        assert abs(value - expected) < 10E-3
 
     def test_get_constraints(self):
-        first_tree = self.trees[0]
-        first_tree._get_constraints()
-        self.assertEquals(first_tree.edges[0].neighbors, [1])
-        self.assertEquals(first_tree.edges[1].neighbors, [0, 2])
+        """ Assert get constraint gets correct neighbor nodes"""
+        self.tree._get_constraints()
+
+        assert self.tree.edges[0].neighbors == [1]
+        assert self.tree.edges[1].neighbors == [0, 2]
 
     def test_get_tau_matrix(self):
-        self.tau = self.trees[0].get_tau_matrix()
+        """ Assert none of get tau matrix is NaN """
+        self.tau = self.tree.get_tau_matrix()
+
         test = np.isnan(self.tau)
+
         self.assertFalse(test.all())
 
     def test_second_tree_likelihood(self):
-        tau = self.trees[0].get_tau_matrix()
-        second_tree = DirectTree(1, 3, tau, self.trees[0])
+        """ Assert second tree likelihood is correct """
+        tau = self.tree.get_tau_matrix()
+
+        second_tree = DirectTree(1, 3, tau, self.tree)
+
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
-        first_value, new_u = self.trees[0].get_likelihood(uni_matrix)
+
+        first_value, new_u = self.tree.get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
-        self.assertAlmostEquals(second_value, 0.7819, places=3)
+
+        expected = 0.7819
+        assert abs(second_value - expected) < 10E-3

@@ -72,8 +72,8 @@ class Tree(object):
             :type y: int
         """
         # first column is the variable of interest
-        np.fill_diagonal(self.tau_matrix, np.NaN)
         tau_y = self.tau_matrix[:, y]
+        tau_y[y] = np.NaN
         temp = np.empty([self.n_nodes, 3])
         temp[:, 0] = np.arange(self.n_nodes)
         temp[:, 1] = tau_y
@@ -140,10 +140,10 @@ class Tree(object):
             left_given_right = derivative(left_u, right_u, copula_theta)
             right_given_left = derivative(right_u, left_u, copula_theta)
             # correction of 0 or 1
-            left_given_right[left_given_right == 0] =\
-                right_given_left[right_given_left == 0] = EPSILON
-            left_given_right[left_given_right == 1] =\
-                right_given_left[right_given_left == 1] = 1 - EPSILON
+            left_given_right[left_given_right == 0] = EPSILON
+            right_given_left[right_given_left == 0] = EPSILON
+            left_given_right[left_given_right == 1] = 1 - EPSILON
+            right_given_left[right_given_left == 1] = 1 - EPSILON
             edge.U = [left_given_right, right_given_left]
 
     def get_likelihood(self, uni_matrix):
@@ -165,8 +165,7 @@ class Tree(object):
         new_uni_matrix = np.empty([uni_dim, uni_dim])
         for i in range(num_edge):
             edge = self.edges[i]
-            value, left_u, right_u =\
-                edge.get_likelihood(uni_matrix)
+            value, left_u, right_u = edge.get_likelihood(uni_matrix)
             new_uni_matrix[edge.L, edge.R] = left_u
             new_uni_matrix[edge.R, edge.L] = right_u
             values[0, i] = np.log(value)
@@ -199,7 +198,7 @@ class CenterTree(Tree):
         edges = self.previous_tree.edges
         for itr in range(self.n_nodes - 1):
             right = int(aux_sorted[itr, 0])
-            left_parent, right_parent = Edge.sort_edge(edges[anchor], edges[right])
+            left_parent, right_parent = Edge.sort_edge([edges[anchor], edges[right]])
             new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = aux_sorted[itr, 1]
             self.edges.append(new_edge)
@@ -252,7 +251,7 @@ class DirectTree(Tree):
     def _build_kth_tree(self):
         edges = self.previous_tree.edges
         for k in range(self.n_nodes - 1):
-            left_parent, right_parent = Edge.sort_edge(edges[k], edges[k + 1])
+            left_parent, right_parent = Edge.sort_edge([edges[k], edges[k + 1]])
             new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = self.tau_matrix[k, k + 1]
             self.edges.append(new_edge)
@@ -306,7 +305,7 @@ class RegularTree(Tree):
                 visited.add(list(unvisited)[0])
                 continue
             pairs = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            left_parent, right_parent = Edge.sort_edge(edges[pairs[0]], edges[pairs[1]])
+            left_parent, right_parent = Edge.sort_edge([edges[pairs[0]], edges[pairs[1]]])
             new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = self.tau_matrix[pairs[0], pairs[1]]
             self.edges.append(new_edge)
@@ -373,16 +372,15 @@ class Edge(object):
                 self.R == another_edge.L or self.R == another_edge.R)
 
     @staticmethod
-    def sort_edge(edge1, edge2):
-        """ sort edge object by end node indices"""
-        if edge1.L < edge2.L:
-            return edge1, edge2
-        elif edge2.L < edge1.L:
-            return edge2, edge1
-        elif edge1.R < edge2.R:
-            return edge1, edge2
-        elif edge2.R < edge1.R:
-            return edge2, edge1
+    def sort_edge(edges):
+        """ sort edge object first by left node indices then right
+
+        Args:
+            :param edges: list of edges need to be sorted
+            :type edges: list
+        """
+        sorted_edges = sorted(edges, key=lambda x: (x.L, x.R))
+        return sorted_edges
 
     @staticmethod
     def get_conditional_uni(left_parent, right_parent):
