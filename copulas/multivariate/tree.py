@@ -417,9 +417,9 @@ class Edge(object):
             right_ing = list(self.D - self.parents[1].D)[0]
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
-        cop = Bivariate(self.name)
-        cop.set_params(theta=self.theta)
-        value = np.sum(cop.get_pdf()(left_u, right_u))
-        left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
-        right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
+        copula = Bivariate(self.name)
+        copula.set_params(theta=self.theta)
+        value = np.sum(copula.probability_density(left_u, right_u))
+        left_given_right = copula.partial_derivative(left_u, right_u)
+        right_given_left = copula.partial_derivative(right_u, left_u)
         return value, left_given_right, right_given_left
