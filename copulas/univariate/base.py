@@ -5,10 +5,10 @@ class Univariate(object):
         pass
 
     def fit(self, X):
-        """Fits a univariate model and updates parameters.
+        """Fits the model.
 
         Arguments:
-            X: `np.ndarray` of shape (n, 1) data.
+            X: `np.ndarray` of shape (n, 1).
 
         Returns:
             None
@@ -16,15 +16,36 @@ class Univariate(object):
         raise NotImplementedError
 
     def probability_density(self, X):
-        """given a value, returns corresponding pdf value."""
+        """Computes probability density.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray
+        """
         raise NotImplementedError
 
     def cumulative_density(self, X):
-        """Given a value returns corresponding cdf value."""
+        """Computes cumulative density.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray: Cumulative density for X.
+        """
         raise NotImplementedError
 
-    def percent_point(self, X):
-        """Given a cdf value, returns a value in original space."""
+    def percent_point(self, U):
+        """Given a cumulated density, returns a value in original space.
+
+        Arguments:
+            U: `np.ndarray` of shape (n, 1) and values in [0,1]
+
+        Returns:
+            `np.ndarray`: Estimated values in original space.
+        """
         raise NotImplementedError
 
     def sample(self, n_samples=1):

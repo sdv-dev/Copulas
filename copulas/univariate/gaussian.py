@@ -28,38 +28,63 @@ class GaussianUnivariate(Univariate):
         )
 
     def fit(self, X):
+        """Fits the model.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            None
+        """
+
         if not len(X):
             raise ValueError("Can't fit with an empty dataset.")
 
         self.name = X.name if isinstance(X, pd.Series) else None
         self.mean = np.mean(X)
-        std = np.std(X)
-
-        # check for column with all the same vals
-        if std == 0:
-            self.std = 0.001
-
-        else:
-            self.std = std
+        self.std = np.std(X) or 0.001
 
     def probability_density(self, X):
+        """Computes probability density.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray
+        """
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
     def cumulative_density(self, X):
-        """Cumulative density function for gaussian distribution."""
+        """Cumulative density function for gaussian distribution.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray: Cumulative density for X.
+        """
         # check to make sure dtype is not object
         if X.dtype == 'object':
             X = X.astype('float64')
+
         return norm.cdf(X, loc=self.mean, scale=self.std)
 
-    def percent_point(self, u):
-        """Returns a value in original space given a cdf."""
-        return norm.ppf(u, loc=self.mean, scale=self.std)
+    def percent_point(self, U):
+        """Given a cumulated density, returns a value in original space.
+
+        Arguments:
+            U: `np.ndarray` of shape (n, 1) and values in [0,1]
+
+        Returns:
+            `np.ndarray`: Estimated values in original space.
+        """
+        return norm.ppf(U, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):
         """Returns new data point based on model.
 
-        Argument:
+        Arguments:
             n_samples: `int`
 
         Returns:
