@@ -1,6 +1,7 @@
 import warnings
 from unittest import TestCase
 
+import numpy as np
 import pandas as pd
 
 from copulas.multivariate.gaussian import GaussianMultivariate
@@ -22,3 +23,19 @@ class TestGaussianCopula(TestCase):
             # Check
             assert len(warns) == 0
             assert len(result) == 10
+
+    def test_sample(self):
+        copula = GaussianMultivariate()
+        data = pd.DataFrame([[-1, 0, 1], [1, -1, 0], [0, 1, -1]])
+        copula.fit(data)
+
+        # Run
+        result = copula.sample(1000000)
+
+        # Check
+        assert len(result) == 1000000
+        for i in range(result.shape[1]):
+            data_mean = np.mean(data.loc[:, i])
+            result_mean = np.mean(result.loc[:, i])
+            assert abs(data_mean - result_mean) < 10E-3
+            assert abs(data_mean - result_mean) < 10E-3
