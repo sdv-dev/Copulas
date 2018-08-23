@@ -1,4 +1,4 @@
-class MVCopula:
+class Multivariate(object):
     """ Abstract class for a multi-variate copula object """
 
     def __init__(self):

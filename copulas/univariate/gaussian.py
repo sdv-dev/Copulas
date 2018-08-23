@@ -1,18 +1,19 @@
 import logging
 
 import numpy as np
+import pandas as pd
 from scipy.stats import norm
 
-from copulas.univariate.UnivariateDistrib import UnivariateDistrib
+from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
 
 
-class GaussianUnivariate(UnivariateDistrib):
+class GaussianUnivariate(Univariate):
     """ Gaussian univariate model """
 
     def __init__(self):
-        super(GaussianUnivariate, self).__init__()
+        super().__init__()
         self.column = None
         self.mean = 0
         self.std = 1
@@ -20,7 +21,8 @@ class GaussianUnivariate(UnivariateDistrib):
         self.max = np.inf
 
     def __str__(self):
-        details = [self.column.name, self.mean, self.std, self.max, self.min]
+        column_name = self.column.name if isinstance(self.column, pd.Series) else None
+        details = [column_name, self.mean, self.std, self.max, self.min]
         return (
             'Distribution Type: Gaussian\n'
             'Variable name: {}\n'
@@ -31,14 +33,20 @@ class GaussianUnivariate(UnivariateDistrib):
         )
 
     def fit(self, column):
+        if not len(column):
+            raise ValueError("Can't fit with an empty dataset.")
+
         self.column = column
         self.mean = np.mean(column)
         std = np.std(column)
+
         # check for column with all the same vals
         if std == 0:
             self.std = 0.001
+
         else:
             self.std = std
+
         self.max = max(column)
         self.min = min(column)
 
@@ -46,9 +54,6 @@ class GaussianUnivariate(UnivariateDistrib):
         return norm.pdf(x, loc=self.mean, scale=self.std)
 
     def get_cdf(self, x):
-        # check to make sure dtype is not object
-        if x.dtype == 'object':
-            x = x.astype('float64')
         return norm.cdf(x, loc=self.mean, scale=self.std)
 
     def inverse_cdf(self, u):

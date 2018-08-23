@@ -18,7 +18,7 @@
 A python library for building different types of [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
 
 - Free software: MIT license
-- Documentation: https://DAI-Lab.github.io/copulas
+- Documentation: https://DAI-Lab.github.io/Copulas
 
 ## Supported Copulas
 
@@ -65,31 +65,30 @@ This package works under the assumption that the data is perfectly clean, that m
 
 ## Usage
 
-In this library you can model univariate distributions and create copulas from a numeric dataset. For this example, we will use the iris dataset in the data folder.
+In this library you can model univariate distributions and create copulas from a numeric dataset.
+For this example, we will use the iris dataset in the data folder.
 
 ### Creating Univariate Distribution
 
-First we will retrieve the data from the data folder and create a univariate distribution. For this example, we will create a normal distribution. First type the following commands into a python terminal.
+First we will retrieve the data from the data folder and create a univariate distribution.
+For this example, we will create a normal distribution. First type the following commands on
+a python terminal.
+
 ```python
->>> from copulas.univariate.GaussianUnivariate import GaussianUnivariate
->>> import numpy as np
+>>> from copulas.univariate.gaussian import GaussianUnivariate
 >>> import pandas as pd
 >>> data = pd.read_csv('data/iris.data.csv')
->>> data
-     feature_01  feature_02  feature_03  feature_04
-0           5.1         3.5         1.4         0.2
-1           4.9         3.0         1.4         0.2
-2           4.7         3.2         1.3         0.2
-3           4.6         3.1         1.5         0.2
-4           5.0         3.6         1.4         0.2
-5           5.4         3.9         1.7         0.4
-6           4.6         3.4         1.4         0.3
-7           5.0         3.4         1.5         0.2
-8           4.4         2.9         1.4         0.2
-9           4.9         3.1         1.5         0.1
-...
+>>> data.head()
+   feature_01  feature_02  feature_03  feature_04
+   0         5.1         3.5         1.4         0.2
+   1         4.9         3.0         1.4         0.2
+   2         4.7         3.2         1.3         0.2
+   3         4.6         3.1         1.5         0.2
+   4         5.0         3.6         1.4         0.2
 ```
+
 Once we have the data, we can pass it into the GaussianUnivariate class.
+
 ```python
 >>> feature1 = data['feature_01']
 >>> gu = GaussianUnivariate()
@@ -101,7 +100,10 @@ standard deviation =  0.8253012917851409
 max =  7.9
 min =  4.3
 ```
-Once you fit the distribution, you can get the pdf or cdf of data points and you can sample from the distribution.
+
+Once you fit the distribution, you can get the pdf or cdf of data points and you can sample
+from the distribution.
+
 ```python
 >>> gu.get_pdf(5)
 0.28678585054723732
@@ -110,11 +112,15 @@ Once you fit the distribution, you can get the pdf or cdf of data points and you
 >>> gu.sample(1)
 array([ 6.14745446])
 ```
+
 ### Creating a Gaussian Copula
-When you have a numeric data table, you can also create a copula and use it to sample from the multivariate distribution. In this example, we will use a Gaussian Copula.
+
+When you have a numeric data table, you can also create a copula and use it to sample from
+the multivariate distribution. In this example, we will use a Gaussian Copula.
+
 ```python
->>> from copulas.multivariate.GaussianCopula import GaussianCopula
->>> gc = GaussianCopula()
+>>> from copulas.multivariate.gaussian import GaussianMultivariate
+>>> gc = GaussianMultivariate()
 >>> gc.fit(data)
 >>> print(gc)
 feature_01
@@ -186,6 +192,7 @@ Means:
 ```
 
 Once you have fit the copula, you can sample from it.
+
 ```python
 gc.sample(5)
    feature_01  feature_02  feature_03  feature_04
@@ -195,33 +202,3 @@ gc.sample(5)
 3    5.952688    3.086259    4.088219    1.382523
 4    5.360256    2.920929    2.844729    0.826919
 ```
-
-Release Workflow
-----------------
-
-The process of releasing a new version involves several steps combining both ``git`` and
-``bumpversion`` which, briefly:
-
-1. Merge what is in ``master`` branch into ``stable`` branch.
-2. Update the version in ``setup.cfg``, ``copulas/__init__.py`` and ``HISTORY.md`` files.
-3. Create a new TAG pointing at the correspoding commit in ``stable`` branch.
-4. Merge the new commit from ``stable`` into ``master``.
-5. Update the version in ``setup.cfg`` and ``copulas/__init__.py`` to open the next
-   development interation.
-
-**Note:** Before starting the process, make sure that ``HISTORY.md`` has a section titled
-**Unreleased** with the list of changes that will be included in the new version, and that
-these changes are committed and available in ``master`` branch.
-Normally this is just a list of the Pull Requests that have been merged since the latest version.
-
-Once this is done, just run the following commands::
-
-    git checkout stable
-    git merge --no-ff master    # This creates a merge commit
-    bumpversion release   # This creates a new commit and a TAG
-    git push --tags origin stable
-    make release
-    git checkout master
-    git merge stable
-    bumpversion --no-tag patch
-    git push
