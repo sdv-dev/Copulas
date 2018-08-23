@@ -80,12 +80,11 @@ class GaussianMultivariate(Multivariate):
 
     def sample(self, num_rows=1):
         res = {}
-        # clean up means
-        clean_mean = np.nan_to_num(self.means)
+        means = [0] * len(self.means)
         s = (num_rows,)
         # clean up cavariance matrix
         clean_cov = np.nan_to_num(self.cov_matrix)
-        samples = np.random.multivariate_normal(clean_mean, clean_cov, size=s)
+        samples = np.random.multivariate_normal(means, clean_cov, size=s)
         # run through cdf and inverse cdf
         for i in range(self.data.shape[1]):
             label = self.data.iloc[:, i].name
