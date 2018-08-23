@@ -83,3 +83,95 @@ class TestKDEUnivariate(TestCase):
 
         with self.assertRaises(ValueError):
             self.kde.get_ppf(2)
+
+    def test_from_dict(self):
+        """From_dict sets the values of a dictionary as attributes of the instance."""
+        # Setup
+        distribution = KDEUnivariate()
+        column = np.random.normal(0, 1, 1000)
+        distribution.fit(column)
+        parameters = {
+            'd': 1,
+            'n': 10,
+            'dataset': [[
+                0.4967141530112327,
+                -0.13826430117118466,
+                0.6476885381006925,
+                1.5230298564080254,
+                -0.23415337472333597,
+                -0.23413695694918055,
+                1.5792128155073915,
+                0.7674347291529088,
+                -0.4694743859349521,
+                0.5425600435859647
+            ]],
+            'covariance': [[0.2081069604419522]],
+            'factor': 0.6309573444801932,
+            'inv_cov': [[4.805221304834407]]
+        }
+
+        # Run
+        distribution.from_dict(**parameters)
+
+        # Check
+        assert distribution.model.d == 1
+        assert distribution.model.n == 10
+        assert distribution.model.covariance == np.array([[0.2081069604419522]])
+        assert distribution.model.factor == 0.6309573444801932
+        assert distribution.model.inv_cov == np.array([[4.805221304834407]])
+        assert (distribution.model.dataset == np.array([[
+            0.4967141530112327,
+            -0.13826430117118466,
+            0.6476885381006925,
+            1.5230298564080254,
+            -0.23415337472333597,
+            -0.23413695694918055,
+            1.5792128155073915,
+            0.7674347291529088,
+            -0.4694743859349521,
+            0.5425600435859647
+        ]])).all()
+
+    def test_to_dict(self):
+        """To_dict returns the defining parameters of a distribution in a dict."""
+        # Setup
+        distribution = KDEUnivariate()
+        column = np.array([[
+            0.4967141530112327,
+            -0.13826430117118466,
+            0.6476885381006925,
+            1.5230298564080254,
+            -0.23415337472333597,
+            -0.23413695694918055,
+            1.5792128155073915,
+            0.7674347291529088,
+            -0.4694743859349521,
+            0.5425600435859647
+        ]])
+        distribution.fit(column)
+
+        expected_result = {
+            'd': 1,
+            'n': 10,
+            'dataset': [[
+                0.4967141530112327,
+                -0.13826430117118466,
+                0.6476885381006925,
+                1.5230298564080254,
+                -0.23415337472333597,
+                -0.23413695694918055,
+                1.5792128155073915,
+                0.7674347291529088,
+                -0.4694743859349521,
+                0.5425600435859647
+            ]],
+            'covariance': [[0.2081069604419522]],
+            'factor': 0.6309573444801932,
+            'inv_cov': [[4.805221304834407]]
+        }
+
+        # Run
+        result = distribution.to_dict()
+
+        # Check
+        assert result == expected_result

@@ -1,3 +1,4 @@
+import numpy as np
 import scipy
 
 from copulas.univariate.base import Univariate
@@ -81,3 +82,23 @@ class KDEUnivariate(Univariate):
             samples: a list of datapoints sampled from the model
         """
         return self.model.resample(num_samples)
+
+    def from_dict(self, **kwargs):
+        """Set attributes with provided values."""
+        self.model = self.model or scipy.stats.gaussian_kde([0, 0, 0])
+
+        for key in ['dataset', 'covariance', 'inv_cov']:
+            kwargs[key] = np.array(kwargs[key])
+
+        for key, value in kwargs.items():
+            setattr(self.model, key, value)
+
+    def to_dict(self):
+        return {
+            'd': self.model.d,
+            'n': self.model.n,
+            'dataset': self.model.dataset.tolist(),
+            'covariance': self.model.covariance.tolist(),
+            'factor': self.model.factor,
+            'inv_cov': self.model.inv_cov.tolist()
+        }

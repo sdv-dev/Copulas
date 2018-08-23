@@ -66,3 +66,9 @@ class GaussianUnivariate(Univariate):
     def sample(self, num_samples=1):
         """ returns new data point based on model """
         return np.random.normal(self.mean, self.std, num_samples)
+
+    def to_dict(self):
+        return {
+            'mean': self.mean,
+            'std': self.std
+        }

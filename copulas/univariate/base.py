@@ -23,3 +23,12 @@ class Univariate(object):
     def sample(self):
         """ returns new data point based on model """
         raise NotImplementedError
+
+    def to_dict(self):
+        """Returns parameters to replicate the distribution."""
+        raise NotImplementedError
+
+    def from_dict(self, **kwargs):
+        """Set attributes with provided values."""
+        for key, value in kwargs.items():
+            setattr(self, key, value)
