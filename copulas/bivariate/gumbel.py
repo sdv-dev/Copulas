@@ -2,8 +2,8 @@
 import numpy as np
 from scipy.optimize import fminbound
 
+from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
-from copulas.utils import EPSILON
 
 
 class Gumbel(Bivariate):
