@@ -3,8 +3,8 @@ import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import fminbound, fsolve
 
+from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
-from copulas.utils import EPSILON
 
 
 class Frank(Bivariate):
