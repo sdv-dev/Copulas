@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.BVCopula &mdash; Copulas 0.1.1-dev documentation</title>
+  <title>copulas.univariate.base &mdash; Copulas 0.1.1 documentation</title>
   
 
   
@@ -89,8 +89,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../copulas.univariate.html">copulas.univariate package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas.utils">copulas.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas">Module contents</a></li>
 </ul>
 </li>
@@ -163,7 +161,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>copulas.bivariate.BVCopula</li>
+      <li>copulas.univariate.base</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -178,32 +176,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for copulas.bivariate.BVCopula</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="BVCopula"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula">[docs]</a><span></span><span class="k">class</span> <span class="nc">BVCopula</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Abstract class for a bivariate copula object &quot;&quot;&quot;</span>
+  <h1>Source code for copulas.univariate.base</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Univariate"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate">[docs]</a><span></span><span class="k">class</span> <span class="nc">Univariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Abstract class for representing univariate distributions &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; initialize copula object &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="BVCopula.fit"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fits a model to the data and updates the parameters &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.fit"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; fits a univariate model and updates parameters &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BVCopula.infer"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula.infer">[docs]</a>    <span class="k">def</span> <span class="nf">infer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Takes in subset of values and predicts the rest &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.get_pdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; given a value, returns corresponding pdf value &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BVCopula.get_pdf"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns pdf of model &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.get_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; given a value returns corresponding cdf value &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BVCopula.get_cdf"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns cdf of model &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.inverse_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.inverse_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; given a cdf value, returns a value in original space &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BVCopula.sample"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.BVCopula.BVCopula.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns a new data point generated from model &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.sample"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns new data point based on model &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 </pre></div>
 
@@ -239,7 +236,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1-dev',
+            VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

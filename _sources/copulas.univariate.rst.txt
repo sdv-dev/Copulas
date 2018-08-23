@@ -4,18 +4,26 @@ copulas.univariate package
 Submodules
 ----------
 
-copulas.univariate.GaussianUnivariate module
---------------------------------------------
+copulas.univariate.base module
+------------------------------
 
-.. automodule:: copulas.univariate.GaussianUnivariate
+.. automodule:: copulas.univariate.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-copulas.univariate.UnivariateDistrib module
--------------------------------------------
+copulas.univariate.gaussian module
+----------------------------------
 
-.. automodule:: copulas.univariate.UnivariateDistrib
+.. automodule:: copulas.univariate.gaussian
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.univariate.kde module
+-----------------------------
+
+.. automodule:: copulas.univariate.kde
     :members:
     :undoc-members:
     :show-inheritance:

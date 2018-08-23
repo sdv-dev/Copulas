@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.GaussianUnivariate &mdash; Copulas 0.1.1-dev documentation</title>
+  <title>copulas.univariate.gaussian &mdash; Copulas 0.1.1 documentation</title>
   
 
   
@@ -89,8 +89,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../copulas.univariate.html">copulas.univariate package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas.utils">copulas.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas">Module contents</a></li>
 </ul>
 </li>
@@ -163,7 +161,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>copulas.univariate.GaussianUnivariate</li>
+      <li>copulas.univariate.gaussian</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -178,22 +176,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for copulas.univariate.GaussianUnivariate</h1><div class="highlight"><pre>
+  <h1>Source code for copulas.univariate.gaussian</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
 
-<span class="kn">from</span> <span class="nn">copulas.univariate.UnivariateDistrib</span> <span class="k">import</span> <span class="n">UnivariateDistrib</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="k">import</span> <span class="n">Univariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="GaussianUnivariate"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate">[docs]</a><span class="k">class</span> <span class="nc">GaussianUnivariate</span><span class="p">(</span><span class="n">UnivariateDistrib</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianUnivariate"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate">[docs]</a><span class="k">class</span> <span class="nc">GaussianUnivariate</span><span class="p">(</span><span class="n">Univariate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Gaussian univariate model &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="mi">1</span>
@@ -201,7 +200,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">]</span>
+        <span class="n">column_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="n">column_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s1">&#39;Distribution Type: Gaussian</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="s1">&#39;Variable name: </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -211,32 +211,35 @@
             <span class="s1">&#39;Min: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">details</span><span class="p">)</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="GaussianUnivariate.fit"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianUnivariate.fit"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t fit with an empty dataset.&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
         <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
         <span class="c1"># check for column with all the same vals</span>
         <span class="k">if</span> <span class="n">std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="mf">0.001</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="n">std</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">column</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianUnivariate.get_pdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianUnivariate.get_pdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianUnivariate.get_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># check to make sure dtype is not object</span>
-        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="GaussianUnivariate.get_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianUnivariate.inverse_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate.inverse_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianUnivariate.inverse_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate.inverse_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; given a cdf value, returns a value in original space &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianUnivariate.sample"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.GaussianUnivariate.GaussianUnivariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianUnivariate.sample"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.gaussian.GaussianUnivariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns new data point based on model &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span></div></div>
 </pre></div>
@@ -273,7 +276,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1-dev',
+            VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

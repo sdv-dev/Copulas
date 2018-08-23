@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate package &mdash; Copulas 0.1.1-dev documentation</title>
+  <title>copulas.multivariate package &mdash; Copulas 0.1.1 documentation</title>
   
 
   
@@ -91,8 +91,6 @@
 <li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas.utils">copulas.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
 </ul>
 </li>
@@ -193,260 +191,445 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-copulas.multivariate.GaussianCopula">
-<span id="copulas-multivariate-gaussiancopula-module"></span><h2>copulas.multivariate.GaussianCopula module<a class="headerlink" href="#module-copulas.multivariate.GaussianCopula" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-copulas.multivariate.base">
+<span id="copulas-multivariate-base-module"></span><h2>copulas.multivariate.base module<a class="headerlink" href="#module-copulas.multivariate.base" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="copulas.multivariate.GaussianCopula.GaussianCopula">
-<em class="property">class </em><code class="descclassname">copulas.multivariate.GaussianCopula.</code><code class="descname">GaussianCopula</code><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.MVCopula.MVCopula" title="copulas.multivariate.MVCopula.MVCopula"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.MVCopula.MVCopula</span></code></a></p>
-<p>Class for a gaussian copula model</p>
-<dl class="method">
-<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>distrib_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fits a model to the data and updates the parameters</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.get_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns cdf of model</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.get_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns pdf of model</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianCopula.GaussianCopula.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/GaussianCopula.html#GaussianCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianCopula.GaussianCopula.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns a new data point generated from model</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-copulas.multivariate.MVCopula">
-<span id="copulas-multivariate-mvcopula-module"></span><h2>copulas.multivariate.MVCopula module<a class="headerlink" href="#module-copulas.multivariate.MVCopula" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="copulas.multivariate.MVCopula.MVCopula">
-<em class="property">class </em><code class="descclassname">copulas.multivariate.MVCopula.</code><code class="descname">MVCopula</code><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.base.</code><code class="descname">Multivariate</code><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract class for a multi-variate copula object</p>
 <dl class="method">
-<dt id="copulas.multivariate.MVCopula.MVCopula.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fits a model to the data and updates the parameters</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.MVCopula.MVCopula.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns cdf of model</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.MVCopula.MVCopula.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns pdf of model</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.MVCopula.MVCopula.infer">
-<code class="descname">infer</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.infer" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate.infer">
+<code class="descname">infer</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.infer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes in subset of values and predicts the rest</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.MVCopula.MVCopula.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/MVCopula.html#MVCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.MVCopula.MVCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.base.Multivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns a new data point generated from model</p>
 </dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-copulas.multivariate.VineCopula">
-<span id="copulas-multivariate-vinecopula-module"></span><h2>copulas.multivariate.VineCopula module<a class="headerlink" href="#module-copulas.multivariate.VineCopula" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-copulas.multivariate.gaussian">
+<span id="copulas-multivariate-gaussian-module"></span><h2>copulas.multivariate.gaussian module<a class="headerlink" href="#module-copulas.multivariate.gaussian" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="copulas.multivariate.VineCopula.CopulaModel">
-<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">CopulaModel</code><span class="sig-paren">(</span><em>data_path</em>, <em>utype</em>, <em>ctype</em>, <em>y_ind=None</em>, <em>meta_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.multivariate.gaussian.GaussianMultivariate">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.gaussian.</code><code class="descname">GaussianMultivariate</code><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
+<p>Class for a gaussian copula model</p>
+<dl class="method">
+<dt id="copulas.multivariate.gaussian.GaussianMultivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>distrib_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the data and updates the parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.gaussian.GaussianMultivariate.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns cdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.gaussian.GaussianMultivariate.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns pdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.gaussian.GaussianMultivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new data point generated from model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.multivariate.tree">
+<span id="copulas-multivariate-tree-module"></span><h2>copulas.multivariate.tree module<a class="headerlink" href="#module-copulas.multivariate.tree" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.tree.CenterTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.tree.</code><code class="descname">CenterTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#CenterTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.CenterTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Center Vine</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.CenterTree.get_anchor">
+<code class="descname">get_anchor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#CenterTree.get_anchor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.CenterTree.get_anchor" title="Permalink to this definition">¶</a></dt>
+<dd><p>find anchor variable with highest sum of dependence with the rest</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.DirectTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.tree.</code><code class="descname">DirectTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#DirectTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.DirectTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Direct Vine</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.Edge">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.tree.</code><code class="descname">Edge</code><span class="sig-paren">(</span><em>left</em>, <em>right</em>, <em>copula_name</em>, <em>copula_theta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class instantiates a Copula Model from a dataset.
-.. attribute:: data_path</p>
-<blockquote>
-<div>A string indicating the directory of the training dataset</div></blockquote>
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.meta_path">
-<code class="descname">meta_path</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.meta_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>A meta file specifies information for each column</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.get_child_edge">
+<code class="descname">get_child_edge</code><span class="sig-paren">(</span><em>right_parent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge.get_child_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_child_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a child edge from two parent edges</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.model_data">
-<code class="descname">model_data</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.model_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dataframe storing training data</p>
+<dl class="staticmethod">
+<dt id="copulas.multivariate.tree.Edge.get_conditional_uni">
+<em class="property">static </em><code class="descname">get_conditional_uni</code><span class="sig-paren">(</span><em>left_parent</em>, <em>right_parent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge.get_conditional_uni"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_conditional_uni" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify pair univariate value from parents</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.u_type">
-<code class="descname">u_type</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.u_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>methods for estimating density, can be ‘kde’ or ‘gaussian’</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.get_likelihood">
+<code class="descname">get_likelihood</code><span class="sig-paren">(</span><em>uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood given a U matrix</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.c_type">
-<code class="descname">c_type</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.c_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>A string indicating the type of copula models, can be</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.is_adjacent">
+<code class="descname">is_adjacent</code><span class="sig-paren">(</span><em>another_edge</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge.is_adjacent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.is_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if two edges are adjacent</p>
+<p>:param : param another_edge: edge object of another edge
+:param : type another_edge: edge object</p>
+<p>This function will return true if the two edges are adjacent</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="descname">'gaussian','frank','clayton','gumbel','cvine','dvine','t','PCA'</code></dt>
+<dl class="staticmethod">
+<dt id="copulas.multivariate.tree.Edge.sort_edge">
+<em class="property">static </em><code class="descname">sort_edge</code><span class="sig-paren">(</span><em>edges</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Edge.sort_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.sort_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>sort edge object first by left node indices then right</p>
+<p>:param : param edges: list of edges need to be sorted
+:param : type edges: list</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.RegularTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.tree.</code><code class="descname">RegularTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#RegularTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.RegularTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper class for instantiate Regular Vine</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.Tree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.tree.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Helper class to instantiate a single tree in the vine model</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_adjacent_matrix">
+<code class="descname">get_adjacent_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_adjacent_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_adjacent_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get adjacency matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">param adj: adjacency matrix
+:type adj: np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_likelihood">
+<code class="descname">get_likelihood</code><span class="sig-paren">(</span><em>uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood of the tree given an U matrix</p>
+<p>:param : param uni_matrix: univariate matrix to evaluate likelihood on
+:param : type uni_matrix: a np.ndarray</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">likelihood value of the current tree
+param new_uni_matrix: next level onditional univariate matrix
+type value: float or int
+type new_uni_matrix: np.ndarray</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">param value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_tau_matrix">
+<code class="descname">get_tau_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_tau_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_tau_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tau matrix for adjacent pairs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">param tau: tau matrix for the current tree
+:type tau: np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.prepare_next_tree">
+<code class="descname">prepare_next_tree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.prepare_next_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.prepare_next_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare conditional U matrix for next tree</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-copulas.multivariate.vine">
+<span id="copulas-multivariate-vine-module"></span><h2>copulas.multivariate.vine module<a class="headerlink" href="#module-copulas.multivariate.vine" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.vine.VineCopula">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.vine.</code><code class="descname">VineCopula</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
+<dl class="method">
+<dt id="copulas.multivariate.vine.VineCopula.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>truncated=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a vine model to the data</p>
+<p>:param : param data: data to be fitted
+:param : param truncated: only construct the vine up to level (truncated)
+:param : type data: pandas DataFrame
+:param : type truncated: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.vine.VineCopula.get_likelihood">
+<code class="descname">get_likelihood</code><span class="sig-paren">(</span><em>uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood of the vine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.vine.VineCopula.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>generating samples from vine model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.vine.VineCopula.train_vine">
+<code class="descname">train_vine</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.train_vine" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.y_ind">
-<code class="descname">y_ind</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.y_ind" title="Permalink to this definition">¶</a></dt>
-<dd><p>index of the variable that will be used as y variable</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.n_var">
-<code class="descname">n_var</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.n_var" title="Permalink to this definition">¶</a></dt>
-<dd><p>number of variables</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.param">
-<code class="descname">param</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.param" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of parameters fitted to the data for each variable</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.cdfs">
-<code class="descname">cdfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.cdfs" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of cdf function fitted to the data for each variable</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.ppfs">
-<code class="descname">ppfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.ppfs" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of inverse cdf function fitting to the data for each variable</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.u_matrix">
-<code class="descname">u_matrix</code><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.u_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>A matrix represents the univariate distribution of size m*n,
-where m is the number of data points, and n is number of variables</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.infer">
-<code class="descname">infer</code><span class="sig-paren">(</span><em>test_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.infer" title="Permalink to this definition">¶</a></dt>
-<dd><p>predict with the copula model
-:param test_data: path for the test_data file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.VineCopula.CopulaModel.sampling">
-<code class="descname">sampling</code><span class="sig-paren">(</span><em>n</em>, <em>plot=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#CopulaModel.sampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.CopulaModel.sampling" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.multivariate.VineCopula.Tree">
-<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>k</em>, <em>vine</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Tree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>instantiate a single tree in the vine model
-:param k: level of tree
-:param prev_T: tree model of previous level
-:param tree_data: current tree model
-:param new_U: conditional cdfs for next level tree</p>
-<dl class="method">
-<dt id="copulas.multivariate.VineCopula.Tree.identify_eds_ing">
-<code class="descname">identify_eds_ing</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Tree.identify_eds_ing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Tree.identify_eds_ing" title="Permalink to this definition">¶</a></dt>
-<dd><p>find nodes connecting adjacent edges
-:param e1: pair of nodes representing edge1
-:param e2: pair of nodes representing edge2
-:output ing: nodes connecting e1 and e2
-:output n1,n2: the other node of e1 and e2 respectively</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.multivariate.VineCopula.Vine">
-<em class="property">class </em><code class="descclassname">copulas.multivariate.VineCopula.</code><code class="descname">Vine</code><span class="sig-paren">(</span><em>c_type</em>, <em>u_mat</em>, <em>tau_mat</em>, <em>ppf</em>, <em>y_ind</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class constructs a vine model consisting multiple levels of trees
-.. attribute:: c_type</p>
-<blockquote>
-<div>a string indicating the type of the vine model,can be ‘cvine’ or ‘dvine’</div></blockquote>
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.u_matrix">
-<code class="descname">u_matrix</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.u_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>matrix represents the univariate distribution of size m*n,
-where m is the number of data points, and n is number of variables</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.tau_mat">
-<code class="descname">tau_mat</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.tau_mat" title="Permalink to this definition">¶</a></dt>
-<dd><p>matrix represents kendall tau matrix</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.y_ind">
-<code class="descname">y_ind</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.y_ind" title="Permalink to this definition">¶</a></dt>
-<dd><p>index of the variable that will be used as y variable</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.n_sample">
-<code class="descname">n_sample</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.n_sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>number of samples in the dataset</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.n_var">
-<code class="descname">n_var</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.n_var" title="Permalink to this definition">¶</a></dt>
-<dd><p>number of variables</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.depth">
-<code class="descname">depth</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.depth" title="Permalink to this definition">¶</a></dt>
-<dd><p>depth of the vine model</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">#TO DO</code></dt>
-<dd><p>add pruning ?</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.Vine.vine_model">
-<code class="descname">vine_model</code><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.vine_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>array [level of tree] -&gt; [tree]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.VineCopula.Vine.train_vine">
-<code class="descname">train_vine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/VineCopula.html#Vine.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.Vine.train_vine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Train a vine model
-output: trees are stored in self.vine_model</p>
-</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-copulas.multivariate">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.multivariate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.multivariate.Multivariate">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">Multivariate</code><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for a multi-variate copula object</p>
+<dl class="method">
+<dt id="copulas.multivariate.Multivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the data and updates the parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Multivariate.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns cdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Multivariate.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns pdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Multivariate.infer">
+<code class="descname">infer</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.infer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in subset of values and predicts the rest</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Multivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/base.html#Multivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new data point generated from model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.GaussianMultivariate">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">GaussianMultivariate</code><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
+<p>Class for a gaussian copula model</p>
+<dl class="method">
+<dt id="copulas.multivariate.GaussianMultivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>distrib_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the data and updates the parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianMultivariate.get_cdf">
+<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns cdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianMultivariate.get_pdf">
+<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns pdf of model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.GaussianMultivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new data point generated from model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.VineCopula">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">VineCopula</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em>, <em>truncated=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a vine model to the data</p>
+<p>:param : param data: data to be fitted
+:param : param truncated: only construct the vine up to level (truncated)
+:param : type data: pandas DataFrame
+:param : type truncated: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.get_likelihood">
+<code class="descname">get_likelihood</code><span class="sig-paren">(</span><em>uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood of the vine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>generating samples from vine model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.VineCopula.train_vine">
+<code class="descname">train_vine</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/vine.html#VineCopula.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.train_vine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.Tree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Helper class to instantiate a single tree in the vine model</p>
+<dl class="method">
+<dt id="copulas.multivariate.Tree.get_adjacent_matrix">
+<code class="descname">get_adjacent_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_adjacent_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.get_adjacent_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get adjacency matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">param adj: adjacency matrix
+:type adj: np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Tree.get_likelihood">
+<code class="descname">get_likelihood</code><span class="sig-paren">(</span><em>uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood of the tree given an U matrix</p>
+<p>:param : param uni_matrix: univariate matrix to evaluate likelihood on
+:param : type uni_matrix: a np.ndarray</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">likelihood value of the current tree
+param new_uni_matrix: next level onditional univariate matrix
+type value: float or int
+type new_uni_matrix: np.ndarray</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">param value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Tree.get_tau_matrix">
+<code class="descname">get_tau_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.get_tau_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.get_tau_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tau matrix for adjacent pairs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">param tau: tau matrix for the current tree
+:type tau: np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.Tree.prepare_next_tree">
+<code class="descname">prepare_next_tree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#Tree.prepare_next_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.prepare_next_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare conditional U matrix for next tree</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.CenterTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">CenterTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#CenterTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.CenterTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Center Vine</p>
+<dl class="method">
+<dt id="copulas.multivariate.CenterTree.get_anchor">
+<code class="descname">get_anchor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#CenterTree.get_anchor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.CenterTree.get_anchor" title="Permalink to this definition">¶</a></dt>
+<dd><p>find anchor variable with highest sum of dependence with the rest</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.DirectTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">DirectTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#DirectTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.DirectTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Direct Vine</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.RegularTree">
+<em class="property">class </em><code class="descclassname">copulas.multivariate.</code><code class="descname">RegularTree</code><span class="sig-paren">(</span><em>index</em>, <em>n_nodes</em>, <em>tau_matrix</em>, <em>previous_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/multivariate/tree.html#RegularTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.RegularTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper class for instantiate Regular Vine</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -492,7 +675,7 @@ output: trees are stored in self.vine_model</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.1-dev',
+            VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

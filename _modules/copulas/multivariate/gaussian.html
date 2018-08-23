@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.GaussianCopula &mdash; Copulas 0.1.1-dev documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.1.1 documentation</title>
   
 
   
@@ -89,8 +89,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../copulas.univariate.html">copulas.univariate package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas.utils">copulas.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas">Module contents</a></li>
 </ul>
 </li>
@@ -163,7 +161,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>copulas.multivariate.GaussianCopula</li>
+      <li>copulas.multivariate.gaussian</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -178,7 +176,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for copulas.multivariate.GaussianCopula</h1><div class="highlight"><pre>
+  <h1>Source code for copulas.multivariate.gaussian</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -186,17 +184,17 @@
 <span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">st</span>
 
-<span class="kn">from</span> <span class="nn">copulas.multivariate.MVCopula</span> <span class="k">import</span> <span class="n">MVCopula</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.GaussianUnivariate</span> <span class="k">import</span> <span class="n">GaussianUnivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="k">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian</span> <span class="k">import</span> <span class="n">GaussianUnivariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="GaussianCopula"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.GaussianCopula.GaussianCopula">[docs]</a><span class="k">class</span> <span class="nc">GaussianCopula</span><span class="p">(</span><span class="n">MVCopula</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.gaussian.GaussianMultivariate">[docs]</a><span class="k">class</span> <span class="nc">GaussianMultivariate</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Class for a gaussian copula model &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GaussianCopula</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
@@ -207,7 +205,9 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">distribs</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s1">==============</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s1">==============</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">]</span>
 
         <span class="n">details</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Copula Distribution:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span>
@@ -216,63 +216,82 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">distribs</span><span class="p">)</span> <span class="o">+</span> <span class="n">details</span>
 
-<div class="viewcode-block" id="GaussianCopula.fit"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.GaussianCopula.GaussianCopula.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">distrib_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+            <span class="n">distrib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+
+            <span class="c1"># get original distrib&#39;s cdf of the column</span>
+            <span class="n">cdf</span> <span class="o">=</span> <span class="n">distrib</span><span class="o">.</span><span class="n">get_cdf</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+            <span class="c1"># get inverse cdf using standard normal</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
+
+        <span class="c1"># remove any rows that have infinite values</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+        <span class="n">means</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GaussianMultivariate.fit"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.gaussian.GaussianMultivariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">distrib_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting Gaussian Copula&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
         <span class="c1"># create distributions based on user input</span>
         <span class="k">if</span> <span class="n">distrib_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">distrib_map</span><span class="p">:</span>
                 <span class="c1"># this isn&#39;t fully working yet</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">distrib_map</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">GaussianUnivariate</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_parameters</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pdf</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="c1"># loops through columns and applies transformation</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span>
-            <span class="n">distrib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-            <span class="c1"># get original distrib&#39;s cdf of the column</span>
-            <span class="n">cdf</span> <span class="o">=</span> <span class="n">distrib</span><span class="o">.</span><span class="n">get_cdf</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="c1"># get inverse cdf using standard normal</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">means</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">cov</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="n">means</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
-
-<div class="viewcode-block" id="GaussianCopula.get_pdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.GaussianCopula.GaussianCopula.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate.get_pdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.gaussian.GaussianMultivariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="c1"># make cov positive semi-definite</span>
         <span class="n">cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianCopula.get_cdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.GaussianCopula.GaussianCopula.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate.get_cdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.gaussian.GaussianMultivariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pdf</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">))])</span>
+
         <span class="c1"># TODO: fix lower bounds</span>
         <span class="n">ranges</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="n">val</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
+
         <span class="k">return</span> <span class="n">integrate</span><span class="o">.</span><span class="n">nquad</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">ranges</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GaussianCopula.sample"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.GaussianCopula.GaussianCopula.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate.sample"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.gaussian.GaussianMultivariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span>
-        <span class="n">means</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cov</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov</span><span class="p">))]</span>
+
+        <span class="c1"># clean up means</span>
+        <span class="n">clean_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_rows</span><span class="p">,)</span>
-        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="c1"># clean up cavariance matrix</span>
+        <span class="n">clean_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cov_matrix</span><span class="p">)</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">clean_mean</span><span class="p">,</span> <span class="n">clean_cov</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+
         <span class="c1"># run through cdf and inverse cdf</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
             <span class="n">distrib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+
             <span class="c1"># use standard normal&#39;s cdf</span>
             <span class="n">res</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+
             <span class="c1"># use original distributions inverse cdf</span>
             <span class="n">res</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">distrib</span><span class="o">.</span><span class="n">inverse_cdf</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">res</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -308,7 +327,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1-dev',
+            VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

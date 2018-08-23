@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.MVCopula &mdash; Copulas 0.1.1-dev documentation</title>
+  <title>copulas.multivariate.base &mdash; Copulas 0.1.1 documentation</title>
   
 
   
@@ -89,8 +89,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../copulas.univariate.html">copulas.univariate package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas.utils">copulas.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../copulas.html#module-copulas">Module contents</a></li>
 </ul>
 </li>
@@ -163,7 +161,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>copulas.multivariate.MVCopula</li>
+      <li>copulas.multivariate.base</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -178,30 +176,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for copulas.multivariate.MVCopula</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="MVCopula"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula">[docs]</a><span></span><span class="k">class</span> <span class="nc">MVCopula</span><span class="p">:</span>
+  <h1>Source code for copulas.multivariate.base</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Multivariate"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate">[docs]</a><span></span><span class="k">class</span> <span class="nc">Multivariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Abstract class for a multi-variate copula object &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; initialize copula object &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MVCopula.fit"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="Multivariate.fit"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Fits a model to the data and updates the parameters &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="MVCopula.infer"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula.infer">[docs]</a>    <span class="k">def</span> <span class="nf">infer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+<div class="viewcode-block" id="Multivariate.infer"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate.infer">[docs]</a>    <span class="k">def</span> <span class="nf">infer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Takes in subset of values and predicts the rest &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="MVCopula.get_pdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Multivariate.get_pdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns pdf of model &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="MVCopula.get_cdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Multivariate.get_cdf"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns cdf of model &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="MVCopula.sample"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.MVCopula.MVCopula.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Multivariate.sample"><a class="viewcode-back" href="../../../copulas.multivariate.html#copulas.multivariate.base.Multivariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns a new data point generated from model &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 </pre></div>
@@ -238,7 +236,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1-dev',
+            VERSION:'0.1.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

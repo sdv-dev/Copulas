@@ -4,18 +4,34 @@ copulas.bivariate package
 Submodules
 ----------
 
-copulas.bivariate.BVCopula module
----------------------------------
+copulas.bivariate.base module
+-----------------------------
 
-.. automodule:: copulas.bivariate.BVCopula
+.. automodule:: copulas.bivariate.base
     :members:
     :undoc-members:
     :show-inheritance:
 
-copulas.bivariate.copulas module
+copulas.bivariate.clayton module
 --------------------------------
 
-.. automodule:: copulas.bivariate.copulas
+.. automodule:: copulas.bivariate.clayton
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.bivariate.frank module
+------------------------------
+
+.. automodule:: copulas.bivariate.frank
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+copulas.bivariate.gumbel module
+-------------------------------
+
+.. automodule:: copulas.bivariate.gumbel
     :members:
     :undoc-members:
     :show-inheritance:
