@@ -37,7 +37,6 @@ class GaussianMultivariate(Multivariate):
 
     def fit(self, data, distrib_map=None):
         LOGGER.debug('Fitting Gaussian Copula')
-        self.data = data
         keys = data.keys()
         # create distributions based on user input
         if distrib_map is not None:
@@ -48,14 +47,14 @@ class GaussianMultivariate(Multivariate):
             for key in keys:
                 self.distribs[key] = GaussianUnivariate()
                 self.distribs[key].fit(data[key])
-        self.cov_matrix, self.means, self.distribution = self._get_parameters()
+        self.cov_matrix, self.means, self.distribution = self._get_parameters(data)
         self.pdf = st.multivariate_normal.pdf
 
-    def _get_parameters(self):
-        res = self.data.copy()
+    def _get_parameters(self, data):
+        res = data.copy()
         # loops through columns and applies transformation
-        for col in self.data.keys():
-            X = self.data.loc[:, col]
+        for col in data.keys():
+            X = data.loc[:, col]
             distrib = self.distribs[col]
             # get original distrib's cdf of the column
             cdf = distrib.get_cdf(X)
@@ -87,11 +86,33 @@ class GaussianMultivariate(Multivariate):
         clean_cov = np.nan_to_num(self.cov_matrix)
         samples = np.random.multivariate_normal(clean_mean, clean_cov, size=s)
         # run through cdf and inverse cdf
-        for i in range(self.data.shape[1]):
-            label = self.data.iloc[:, i].name
-            distrib = self.distribs[label]
+        for i, (label, distrib) in enumerate(self.distribs.items()):
             # use standard normal's cdf
             res[label] = st.norm.cdf(samples[:, i])
             # use original distributions inverse cdf
             res[label] = distrib.inverse_cdf(res[label])
         return pd.DataFrame(data=res)
+
+    def to_dict(self):
+        distributions = {
+            name: distribution.to_dict() for name, distribution in self.distribs.items()
+        }
+
+        return {
+            'means': self.means,
+            'cov_matrix': self.cov_matrix.tolist(),
+            'distribs': distributions
+        }
+
+    def from_dict(self, **kwargs):
+        """Set attributes with provided values."""
+        self.distribs = {}
+        distribs = kwargs.pop('distribs')
+
+        for name, parameters in distribs.items():
+            distribution = GaussianUnivariate()
+            distribution.from_dict(**parameters)
+            self.distribs[name] = distribution
+
+        for key, value in kwargs.items():
+            setattr(self, key, value)

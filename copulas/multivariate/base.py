@@ -1,3 +1,6 @@
+import json
+
+
 class Multivariate(object):
     """ Abstract class for a multi-variate copula object """
 
@@ -23,3 +26,24 @@ class Multivariate(object):
     def sample(self, num_rows=1):
         """ returns a new data point generated from model """
         raise NotImplementedError
+
+    def to_dict(self):
+        raise NotImplementedError
+
+    def from_dict(self, **kwargs):
+        raise NotImplementedError
+
+    @classmethod
+    def load(cls, copula):
+        """Creates a new instance from a file or dict."""
+        if isinstance(copula, str):
+            copula = json.loads(copula)
+
+        instance = cls()
+        instance.from_dict(**copula)
+        return instance
+
+    def save(self, filename):
+        """Save the internal state of a copula in the specified filename."""
+        with open(filename, 'w') as f:
+            f.write(json.dumps(self.to_dict()))
