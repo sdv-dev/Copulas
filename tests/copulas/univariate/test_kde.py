@@ -9,6 +9,7 @@ import numpy as np
 import scipy
 
 from copulas.univariate.kde import KDEUnivariate
+from tests import compare_nested_dicts
 
 
 class TestKDEUnivariate(TestCase):
@@ -174,4 +175,4 @@ class TestKDEUnivariate(TestCase):
         result = distribution.to_dict()
 
         # Check
-        assert result == expected_result
+        compare_nested_dicts(result, expected_result)

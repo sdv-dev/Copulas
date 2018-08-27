@@ -5,6 +5,7 @@ from unittest import TestCase, mock
 import pandas as pd
 
 from copulas.multivariate.gaussian import GaussianMultivariate
+from tests import compare_nested_dicts
 
 
 class TestGaussianCopula(TestCase):
@@ -56,7 +57,7 @@ class TestGaussianCopula(TestCase):
         result = copula.to_dict()
 
         # Check
-        assert result == expected_result
+        compare_nested_dicts(result, expected_result)
 
     def test_from_dict(self):
         """ """
@@ -134,7 +135,7 @@ class TestGaussianCopula(TestCase):
                 'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
             }
         }
-        expected_content = json.dumps(parameters)
+        expected_content = parameters
 
         # Run
         instance.save('test.json')
@@ -142,7 +143,8 @@ class TestGaussianCopula(TestCase):
         # Check
         file_mock.assert_called_once_with('test.json', 'w')  # Opening of the file
         write_mock = file_mock.return_value.write
-        write_mock.assert_called_once_with(expected_content)  # Writing the contents
+        assert write_mock.call_count == 1
+        compare_nested_dicts(json.loads(write_mock.call_args[0][0]), expected_content)
 
     @mock.patch('copulas.bivariate.base.json.loads')
     def test_load_from_file(self, json_mock):
