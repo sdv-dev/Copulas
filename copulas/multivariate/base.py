@@ -31,7 +31,8 @@ class Multivariate(object):
         raise NotImplementedError
 
     def from_dict(self, **kwargs):
-        raise NotImplementedError
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
     @classmethod
     def load(cls, copula):

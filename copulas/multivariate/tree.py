@@ -1,3 +1,4 @@
+import json
 import logging
 
 import numpy as np
@@ -175,6 +176,34 @@ class Tree(object):
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
                           for edge in self.edges])
+
+    def to_dict(self):
+        return {
+            'level': self.level,
+            'previous_tree': self.previous_tree.tolist(),
+            'n_nodes': self.n_nodes,
+            'edges': [edge.to_dict() for edge in self.edges],
+            'tau_matrix': self.tau_matrix.tolist()
+        }
+
+    def from_dict(self, **kwargs):
+        """Set attributes with provided values."""
+        pass
+
+    @classmethod
+    def load(cls, tree):
+        """Creates a new instance from a file or dict."""
+        if isinstance(tree, str):
+            tree = json.loads(tree)
+
+        instance = cls()
+        instance.from_dict(**tree)
+        return instance
+
+    def save(self, filename):
+        """Save the internal state of a copula in the specified filename."""
+        with open(filename, 'w') as f:
+            f.write(json.dumps(self.to_dict()))
 
 
 class CenterTree(Tree):
@@ -382,11 +411,10 @@ class Edge(object):
         sorted_edges = sorted(edges, key=lambda x: (x.L, x.R))
         return sorted_edges
 
-    @staticmethod
-    def get_conditional_uni(left_parent, right_parent):
+    @classmethod
+    def get_conditional_uni(cls, left_parent, right_parent):
         """ Identify pair univariate value from parents"""
-        left, right, depend_set =\
-            Edge._identify_eds_ing(left_parent, right_parent)
+        left, right, depend_set = cls._identify_eds_ing(left_parent, right_parent)
         if left_parent.L == left:
             left_u = left_parent.U[0]
         else:
@@ -397,11 +425,11 @@ class Edge(object):
             right_u = right_parent.U[1]
         return left_u, right_u
 
-    def get_child_edge(left_parent, right_parent):
+    @classmethod
+    def get_child_edge(cls, left_parent, right_parent):
         """ Construct a child edge from two parent edges """
-        [ed1, ed2, depend_set] =\
-            Edge._identify_eds_ing(left_parent, right_parent)
-        left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
+        [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
+        left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
         name, theta = Bivariate.select_copula(left_u, right_u)
         new_edge = Edge(ed1, ed2, name, theta)
         new_edge.D = depend_set
@@ -424,3 +452,46 @@ class Edge(object):
         left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
         right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
         return value, left_given_right, right_given_left
+
+    def to_dict(self):
+        parents = None
+        if self.parents:
+            parents = [parent.to_dict() for parent in self.parents]
+
+        neighbors = None
+        if self.neighbors:
+            neighbors = [neighbor.to_dict() for neighbor in self.neighbors]
+
+        return {
+            'L': self.L,
+            'R': self.R,
+            'D': self.D,
+            'parents': parents,
+            'neighbors': neighbors,
+            'name': self.name,
+            'theta': self.theta,
+            'tau': self.tau,
+            'U': self.U,
+            'likelihood': self.likelihood
+        }
+
+    def from_dict(self, **kwargs):
+        parents = kwargs.pop('parents')
+        neighbors = kwargs.pop('neighbors')
+
+        if parents:
+            self.parents = []
+            for parent in parents:
+                edge = Edge(None, None, None, None)
+                edge.from_dict(**parent)
+                self.parents.append(edge)
+
+        if neighbors:
+            self.neighbors = []
+            for neighbor in neighbors:
+                edge = Edge(None, None, None, None)
+                edge.from_dict(**neighbor)
+                self.neighbors.append(edge)
+
+        for key, value in kwargs.items():
+            setattr(self, key, value)
