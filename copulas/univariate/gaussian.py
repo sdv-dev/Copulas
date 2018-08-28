@@ -13,7 +13,7 @@ class GaussianUnivariate(Univariate):
     """ Gaussian univariate model """
 
     def __init__(self):
-        super(GaussianUnivariate, self).__init__()
+        super().__init__()
         self.column = None
         self.mean = 0
         self.std = 1
@@ -54,9 +54,6 @@ class GaussianUnivariate(Univariate):
         return norm.pdf(x, loc=self.mean, scale=self.std)
 
     def get_cdf(self, x):
-        # check to make sure dtype is not object
-        if x.dtype == 'object':
-            x = x.astype('float64')
         return norm.cdf(x, loc=self.mean, scale=self.std)
 
     def inverse_cdf(self, u):
