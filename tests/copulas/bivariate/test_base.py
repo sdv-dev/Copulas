@@ -1,6 +1,8 @@
+import json
 from unittest import TestCase, mock
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from tests import compare_nested_dicts
 
 
 class TestBivariate(TestCase):
@@ -50,14 +52,20 @@ class TestBivariate(TestCase):
         V = [0.2, 0.7, 0.1]
         instance.fit(U, V)
 
-        content = '{"class": "FRANK", "theta": -3.305771759329249, "tau": -0.33333333333333337}'
+        expected_content = {
+            "class": "FRANK",
+            "theta": -3.305771759329249,
+            "tau": -0.33333333333333337
+        }
 
         # Run
         instance.save('test.json')
 
         # Check
         file_mock.assert_called_once_with('test.json', 'w')  # Opening of the file
-        file_mock.return_value.write.assert_called_once_with(content)  # Writing the contents
+        write_mock = file_mock.return_value.write
+        assert write_mock.call_count == 1
+        compare_nested_dicts(json.loads(write_mock.call_args[0][0]), expected_content)
 
     @mock.patch('copulas.bivariate.base.json.loads')
     def test_load_from_file(self, json_mock):
