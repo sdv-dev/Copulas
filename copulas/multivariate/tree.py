@@ -3,8 +3,8 @@ import logging
 import numpy as np
 import scipy
 
+from copulas import EPSILON
 from copulas.bivariate.base import Bivariate
-from copulas.utils import EPSILON
 
 LOGGER = logging.getLogger(__name__)
 

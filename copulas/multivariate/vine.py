@@ -4,11 +4,11 @@ from random import randint
 import numpy as np
 from scipy import optimize
 
+from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import CenterTree, DirectTree, RegularTree
 from copulas.univariate.kde import KDEUnivariate
-from copulas.utils import EPSILON
 
 LOGGER = logging.getLogger(__name__)
 

@@ -13,7 +13,7 @@ class GaussianUnivariate(Univariate):
     """ Gaussian univariate model """
 
     def __init__(self):
-        super(GaussianUnivariate, self).__init__()
+        super().__init__()
         self.name = None
         self.mean = 0
         self.std = 1

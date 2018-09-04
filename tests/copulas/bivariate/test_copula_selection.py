@@ -43,8 +43,6 @@ class TestCopulas(TestCase):
             assert result[i] == expected_result[i]
         assert (result == expected_result).all()
 
-        # LOGGER.debug(Copula.select_copula(U,V))
-
     def test_fit(self):
         """cross-check fit with matlab implementation
         """
@@ -115,12 +113,3 @@ class TestCopulas(TestCase):
         expected = CopulaTypes.FRANK
 
         assert name == expected
-
-    # def test_copula_selction(self):
-    #     U = [0.1, 0.2, 0.3, 0.4]
-    #     V = [1, 2, 3, 4]
-    #
-    #     name, param = BVCopula.select_copula(U, V)
-    #     expected = 1
-    #
-    #     assert name == expected
