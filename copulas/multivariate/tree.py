@@ -188,7 +188,7 @@ class Tree(object):
 
     def from_dict(self, **kwargs):
         """Set attributes with provided values."""
-        pass
+        raise NotImplementedError
 
     @classmethod
     def load(cls, tree):
@@ -446,8 +446,7 @@ class Edge(object):
             right_ing = list(self.D - self.parents[1].D)[0]
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
-        cop = Bivariate(self.name)
-        cop.from_dict(theta=self.theta)
+        cop = Bivariate.from_dict(copula_type=self.name, theta=self.theta)
         value = np.sum(cop.get_pdf()(left_u, right_u))
         left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
         right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
@@ -475,23 +474,27 @@ class Edge(object):
             'likelihood': self.likelihood
         }
 
-    def from_dict(self, **kwargs):
-        parents = kwargs.pop('parents')
-        neighbors = kwargs.pop('neighbors')
+    @classmethod
+    def from_dict(cls, **kwargs):
+        instance = cls(kwargs['L'], kwargs['R'], kwargs['name'], kwargs['theta'])
+        parents = kwargs['parents']
+        neighbors = kwargs['neighbors']
 
         if parents:
-            self.parents = []
+            instance.parents = []
             for parent in parents:
                 edge = Edge(None, None, None, None)
                 edge.from_dict(**parent)
-                self.parents.append(edge)
+                instance.parents.append(edge)
 
         if neighbors:
-            self.neighbors = []
+            instance.neighbors = []
             for neighbor in neighbors:
-                edge = Edge(None, None, None, None)
-                edge.from_dict(**neighbor)
-                self.neighbors.append(edge)
+                edge = Edge.from_dict(**neighbor)
+                instance.neighbors.append(edge)
 
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        regular_attributes = ['D', 'tau', 'U', 'likelihood']
+        for key in regular_attributes:
+            setattr(instance, key, kwargs[key])
+
+        return instance

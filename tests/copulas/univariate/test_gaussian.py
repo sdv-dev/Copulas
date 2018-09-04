@@ -188,14 +188,13 @@ class TestGaussianUnivariate(TestCase):
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
-        copula = GaussianUnivariate()
         parameters = {
             'mean': 2.5,
             'std': 1.707825127659933
         }
 
         # Run
-        copula.from_dict(**parameters)
+        copula = GaussianUnivariate.from_dict(**parameters)
 
         # Check
         assert copula.mean == 2.5

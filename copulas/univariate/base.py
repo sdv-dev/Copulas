@@ -28,7 +28,7 @@ class Univariate(object):
         """Returns parameters to replicate the distribution."""
         raise NotImplementedError
 
-    def from_dict(self, **kwargs):
+    @classmethod
+    def from_dict(cls, **kwargs):
         """Set attributes with provided values."""
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        raise NotImplementedError

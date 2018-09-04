@@ -69,3 +69,11 @@ class GaussianUnivariate(Univariate):
             'mean': self.mean,
             'std': self.std
         }
+
+    @classmethod
+    def from_dict(cls, **kwargs):
+        """Set attributes with provided values."""
+        instance = cls()
+        instance.mean = kwargs['mean']
+        instance.std = kwargs['std']
+        return instance

@@ -51,7 +51,6 @@ class TestEdge(TestCase):
     def test_from_dict(self):
         """From_dict sets the dictionary values as instance attributes."""
         # Setup
-        edge = Edge(None, None, None, None)
         parameters = {
             'L': 2,
             'R': 5,
@@ -79,7 +78,7 @@ class TestEdge(TestCase):
         }
 
         # Run
-        edge.from_dict(**parameters)
+        edge = Edge.from_dict(**parameters)
 
         # Check
         assert edge.L == 2

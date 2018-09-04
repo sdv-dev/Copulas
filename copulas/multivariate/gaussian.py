@@ -121,15 +121,16 @@ class GaussianMultivariate(Multivariate):
             'distribs': distributions
         }
 
-    def from_dict(self, **kwargs):
+    @classmethod
+    def from_dict(cls, **kwargs):
         """Set attributes with provided values."""
-        self.distribs = {}
+        instance = cls()
+        instance.distribs = {}
         distribs = kwargs.pop('distribs')
 
         for name, parameters in distribs.items():
-            distribution = GaussianUnivariate()
-            distribution.from_dict(**parameters)
-            self.distribs[name] = distribution
+            instance.distribs[name] = GaussianUnivariate.from_dict(**parameters)
 
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        instance.cov_matrix = np.array(kwargs['cov_matrix'])
+        instance.means = kwargs['means']
+        return instance

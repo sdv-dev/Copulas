@@ -79,14 +79,17 @@ class Bivariate(object):
 
     def to_dict(self):
         return {
-            'class': self.copula_type.name,
+            'copula_type': self.copula_type.name,
             'theta': self.theta,
             'tau': self.tau
         }
 
-    def from_dict(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    @classmethod
+    def from_dict(cls, **kwargs):
+        instance = cls(kwargs['copula_type'])
+        instance.theta = kwargs['theta']
+        instance.tau = kwargs.get('tau')
+        return instance
 
     def infer(self, values):
         """Takes in subset of values and predicts the rest."""
@@ -207,15 +210,14 @@ class Bivariate(object):
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename."""
+        content = self.to_dict()
         with open(filename, 'w') as f:
-            f.write(json.dumps(self.to_dict()))
+            json.dump(content, f)
 
     @classmethod
-    def load(cls, copula):
+    def load(cls, copula_path):
         """Creates a new instance from a file or dict."""
-        if isinstance(copula, str):
-            copula = json.loads(copula)
+        with open(copula_path) as f:
+            copula_dict = json.load(f)
 
-        instance = cls(copula.pop('class'))
-        instance.from_dict(**copula)
-        return instance
+        return cls.from_dict(**copula_dict)
