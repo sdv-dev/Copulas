@@ -91,3 +91,17 @@ class GaussianUnivariate(Univariate):
             np.ndarray: Generated samples
         """
         return np.random.normal(self.mean, self.std, num_samples)
+
+    def to_dict(self):
+        return {
+            'mean': self.mean,
+            'std': self.std
+        }
+
+    @classmethod
+    def from_dict(cls, copula_dict):
+        """Set attributes with provided values."""
+        instance = cls()
+        instance.mean = copula_dict['mean']
+        instance.std = copula_dict['std']
+        return instance

@@ -1,3 +1,4 @@
+import numpy as np
 import scipy
 
 from copulas.univariate.base import Univariate
@@ -71,13 +72,38 @@ class KDEUnivariate(Univariate):
 
         return scipy.optimize.brentq(self.cumulative_density, -1000.0, 1000.0, args=(U))
 
-    def sample(self, n_samples=1):
+    def sample(self, num_samples=1):
         """Samples new data point based on model.
 
         Args:
-            n_samples: `int` number of points to be sampled
+            num_samples: `int` number of points to be sampled
 
         Returns:
             samples: a list of datapoints sampled from the model
         """
-        return self.model.resample(n_samples)
+        return self.model.resample(num_samples)
+
+    @classmethod
+    def from_dict(cls, copula_dict):
+        """Set attributes with provided values."""
+        instance = cls()
+        instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
+
+        for key in ['dataset', 'covariance', 'inv_cov']:
+            copula_dict[key] = np.array(copula_dict[key])
+
+        attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
+        for name in attributes:
+            setattr(instance.model, name, copula_dict[name])
+
+        return instance
+
+    def to_dict(self):
+        return {
+            'd': self.model.d,
+            'n': self.model.n,
+            'dataset': self.model.dataset.tolist(),
+            'covariance': self.model.covariance.tolist(),
+            'factor': self.model.factor,
+            'inv_cov': self.model.inv_cov.tolist()
+        }

@@ -1,3 +1,4 @@
+import json
 from enum import Enum
 
 import numpy as np
@@ -86,12 +87,19 @@ class Bivariate(object):
         self.tau = stats.kendalltau(self.U, self.V)[0]
         self.theta = self.get_theta()
 
-    def get_params(self):
-        return {'tau': self.tau, 'theta': self.theta}
+    def to_dict(self):
+        return {
+            'copula_type': self.copula_type.name,
+            'theta': self.theta,
+            'tau': self.tau
+        }
 
-    def set_params(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    @classmethod
+    def from_dict(cls, copula_dict):
+        instance = cls(copula_dict['copula_type'])
+        instance.theta = copula_dict['theta']
+        instance.tau = copula_dict['tau']
+        return instance
 
     def infer(self, values):
         """Takes in subset of values and predicts the rest."""
@@ -255,3 +263,17 @@ class Bivariate(object):
                 R.append(right / (1 - z_right[k])**2)
 
         return z_left, L, z_right, R
+
+    def save(self, filename):
+        """Save the internal state of a copula in the specified filename."""
+        content = self.to_dict()
+        with open(filename, 'w') as f:
+            json.dump(content, f)
+
+    @classmethod
+    def load(cls, copula_path):
+        """Create a new instance from a file."""
+        with open(copula_path) as f:
+            copula_dict = json.load(f)
+
+        return cls.from_dict(copula_dict)

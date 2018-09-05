@@ -9,6 +9,7 @@ import numpy as np
 import scipy
 
 from copulas.univariate.kde import KDEUnivariate
+from tests import compare_nested_dicts
 
 
 class TestKDEUnivariate(TestCase):
@@ -83,3 +84,93 @@ class TestKDEUnivariate(TestCase):
 
         with self.assertRaises(ValueError):
             self.kde.percent_point(2)
+
+    def test_from_dict(self):
+        """From_dict sets the values of a dictionary as attributes of the instance."""
+        # Setup
+        distribution = KDEUnivariate()
+        parameters = {
+            'd': 1,
+            'n': 10,
+            'dataset': [[
+                0.4967141530112327,
+                -0.13826430117118466,
+                0.6476885381006925,
+                1.5230298564080254,
+                -0.23415337472333597,
+                -0.23413695694918055,
+                1.5792128155073915,
+                0.7674347291529088,
+                -0.4694743859349521,
+                0.5425600435859647
+            ]],
+            'covariance': [[0.2081069604419522]],
+            'factor': 0.6309573444801932,
+            'inv_cov': [[4.805221304834407]]
+        }
+
+        # Run
+        distribution = KDEUnivariate.from_dict(parameters)
+
+        # Check
+        assert distribution.model.d == 1
+        assert distribution.model.n == 10
+        assert distribution.model.covariance == np.array([[0.2081069604419522]])
+        assert distribution.model.factor == 0.6309573444801932
+        assert distribution.model.inv_cov == np.array([[4.805221304834407]])
+        assert (distribution.model.dataset == np.array([[
+            0.4967141530112327,
+            -0.13826430117118466,
+            0.6476885381006925,
+            1.5230298564080254,
+            -0.23415337472333597,
+            -0.23413695694918055,
+            1.5792128155073915,
+            0.7674347291529088,
+            -0.4694743859349521,
+            0.5425600435859647
+        ]])).all()
+
+    def test_to_dict(self):
+        """To_dict returns the defining parameters of a distribution in a dict."""
+        # Setup
+        distribution = KDEUnivariate()
+        column = np.array([[
+            0.4967141530112327,
+            -0.13826430117118466,
+            0.6476885381006925,
+            1.5230298564080254,
+            -0.23415337472333597,
+            -0.23413695694918055,
+            1.5792128155073915,
+            0.7674347291529088,
+            -0.4694743859349521,
+            0.5425600435859647
+        ]])
+        distribution.fit(column)
+
+        expected_result = {
+            'd': 1,
+            'n': 10,
+            'dataset': [[
+                0.4967141530112327,
+                -0.13826430117118466,
+                0.6476885381006925,
+                1.5230298564080254,
+                -0.23415337472333597,
+                -0.23413695694918055,
+                1.5792128155073915,
+                0.7674347291529088,
+                -0.4694743859349521,
+                0.5425600435859647
+            ]],
+            'covariance': [[0.20810696044195218]],
+            'factor': 0.6309573444801932,
+            'inv_cov': [[4.805221304834407]]
+        }
+
+        # Run
+        result = distribution.to_dict()
+
+        # Check
+        compare_nested_dicts(result, expected_result)
