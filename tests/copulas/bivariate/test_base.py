@@ -16,7 +16,7 @@ class TestBivariate(TestCase):
         }
 
         # Run
-        instance = Bivariate.from_dict(**parameters)
+        instance = Bivariate.from_dict(parameters)
 
         # Check
         assert instance.copula_type == CopulaTypes.FRANK

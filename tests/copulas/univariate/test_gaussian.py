@@ -194,7 +194,7 @@ class TestGaussianUnivariate(TestCase):
         }
 
         # Run
-        copula = GaussianUnivariate.from_dict(**parameters)
+        copula = GaussianUnivariate.from_dict(parameters)
 
         # Check
         assert copula.mean == 2.5

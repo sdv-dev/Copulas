@@ -85,10 +85,10 @@ class Bivariate(object):
         }
 
     @classmethod
-    def from_dict(cls, **kwargs):
-        instance = cls(kwargs['copula_type'])
-        instance.theta = kwargs['theta']
-        instance.tau = kwargs.get('tau')
+    def from_dict(cls, copula_dict):
+        instance = cls(copula_dict['copula_type'])
+        instance.theta = copula_dict['theta']
+        instance.tau = copula_dict['tau']
         return instance
 
     def infer(self, values):
@@ -216,8 +216,8 @@ class Bivariate(object):
 
     @classmethod
     def load(cls, copula_path):
-        """Creates a new instance from a file or dict."""
+        """Create a new instance from a file."""
         with open(copula_path) as f:
             copula_dict = json.load(f)
 
-        return cls.from_dict(**copula_dict)
+        return cls.from_dict(copula_dict)

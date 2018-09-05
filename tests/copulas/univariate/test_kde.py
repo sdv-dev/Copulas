@@ -89,8 +89,6 @@ class TestKDEUnivariate(TestCase):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
         distribution = KDEUnivariate()
-        column = np.random.normal(0, 1, 1000)
-        distribution.fit(column)
         parameters = {
             'd': 1,
             'n': 10,
@@ -112,7 +110,7 @@ class TestKDEUnivariate(TestCase):
         }
 
         # Run
-        distribution.from_dict(**parameters)
+        distribution = KDEUnivariate.from_dict(parameters)
 
         # Check
         assert distribution.model.d == 1

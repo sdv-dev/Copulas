@@ -14,7 +14,7 @@ class Tree(object):
     """Helper class to instantiate a single tree in the vine model
     """
 
-    def __init__(self, index, n_nodes, tau_matrix, previous_tree):
+    def __init__(self, index, n_nodes, tau_matrix, previous_tree, edges=None):
         """Initialize tree object
 
         Args:
@@ -27,16 +27,20 @@ class Tree(object):
             :type tau_matrix: np.ndarray of size n_nodes*n_nodes
         """
         self.level = index + 1
-        self.previous_tree = previous_tree
         self.n_nodes = n_nodes
-        self.edges = []
         self.tau_matrix = tau_matrix
-        if self.level == 1:
-            self.u_matrix = previous_tree
-            self._build_first_tree()
-        else:
-            self._build_kth_tree()
-        self.prepare_next_tree()
+        self.previous_tree = previous_tree
+        self.edges = edges or []
+
+        if not self.edges:
+            if self.level == 1:
+                self.u_matrix = previous_tree
+                self._build_first_tree()
+
+            else:
+                self._build_kth_tree()
+
+            self.prepare_next_tree()
 
     def _check_contraint(self, edge1, edge2):
         """Check if two edges satisfy vine constraint
@@ -179,31 +183,31 @@ class Tree(object):
 
     def to_dict(self):
         return {
-            'level': self.level,
-            'previous_tree': self.previous_tree.tolist(),
+            'level': self.level - 1,
             'n_nodes': self.n_nodes,
+            'tau_matrix': self.tau_matrix.tolist(),
+            'previous_tree': self.previous_tree.tolist(),
             'edges': [edge.to_dict() for edge in self.edges],
-            'tau_matrix': self.tau_matrix.tolist()
         }
 
-    def from_dict(self, **kwargs):
-        """Set attributes with provided values."""
-        raise NotImplementedError
+    @classmethod
+    def from_dict(cls, tree_dict):
+        """Create a new instance from a dictionary."""
+        return cls(**tree_dict)
 
     @classmethod
-    def load(cls, tree):
-        """Creates a new instance from a file or dict."""
-        if isinstance(tree, str):
-            tree = json.loads(tree)
+    def load(cls, tree_path):
+        """Create a new instance from a file."""
+        with open(tree_path) as f:
+            tree_dict = json.load(f)
 
-        instance = cls()
-        instance.from_dict(**tree)
-        return instance
+        return cls.from_dict(tree_dict)
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename."""
+        content = self.to_dict()
         with open(filename, 'w') as f:
-            f.write(json.dumps(self.to_dict()))
+            json.dump(content, f)
 
 
 class CenterTree(Tree):
@@ -446,7 +450,8 @@ class Edge(object):
             right_ing = list(self.D - self.parents[1].D)[0]
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
-        cop = Bivariate.from_dict(copula_type=self.name, theta=self.theta)
+        cop = Bivariate(self.name)
+        cop.theta = self.theta
         value = np.sum(cop.get_pdf()(left_u, right_u))
         left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
         right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
@@ -475,26 +480,25 @@ class Edge(object):
         }
 
     @classmethod
-    def from_dict(cls, **kwargs):
-        instance = cls(kwargs['L'], kwargs['R'], kwargs['name'], kwargs['theta'])
-        parents = kwargs['parents']
-        neighbors = kwargs['neighbors']
+    def from_dict(cls, edge_dict):
+        instance = cls(edge_dict['L'], edge_dict['R'], edge_dict['name'], edge_dict['theta'])
+        parents = edge_dict['parents']
+        neighbors = edge_dict['neighbors']
 
         if parents:
             instance.parents = []
             for parent in parents:
-                edge = Edge(None, None, None, None)
-                edge.from_dict(**parent)
+                edge = Edge.from_dict(parent)
                 instance.parents.append(edge)
 
         if neighbors:
             instance.neighbors = []
             for neighbor in neighbors:
-                edge = Edge.from_dict(**neighbor)
+                edge = Edge.from_dict(neighbor)
                 instance.neighbors.append(edge)
 
         regular_attributes = ['D', 'tau', 'U', 'likelihood']
         for key in regular_attributes:
-            setattr(instance, key, kwargs[key])
+            setattr(instance, key, edge_dict[key])
 
         return instance

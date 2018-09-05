@@ -78,7 +78,7 @@ class TestEdge(TestCase):
         }
 
         # Run
-        edge = Edge.from_dict(**parameters)
+        edge = Edge.from_dict(parameters)
 
         # Check
         assert edge.L == 2

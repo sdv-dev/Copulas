@@ -83,15 +83,20 @@ class KDEUnivariate(Univariate):
         """
         return self.model.resample(num_samples)
 
-    def from_dict(self, **kwargs):
+    @classmethod
+    def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
-        self.model = self.model or scipy.stats.gaussian_kde([0, 0, 0])
+        instance = cls()
+        instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
 
         for key in ['dataset', 'covariance', 'inv_cov']:
-            kwargs[key] = np.array(kwargs[key])
+            copula_dict[key] = np.array(copula_dict[key])
 
-        for key, value in kwargs.items():
-            setattr(self.model, key, value)
+        attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
+        for name in attributes:
+            setattr(instance.model, name, copula_dict[name])
+
+        return instance
 
     def to_dict(self):
         return {

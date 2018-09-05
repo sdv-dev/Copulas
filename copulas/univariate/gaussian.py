@@ -71,9 +71,9 @@ class GaussianUnivariate(Univariate):
         }
 
     @classmethod
-    def from_dict(cls, **kwargs):
+    def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
-        instance.mean = kwargs['mean']
-        instance.std = kwargs['std']
+        instance.mean = copula_dict['mean']
+        instance.std = copula_dict['std']
         return instance

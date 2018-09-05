@@ -51,6 +51,7 @@ class GaussianMultivariate(Multivariate):
             for key in keys:
                 self.distribs[key] = GaussianUnivariate()
                 self.distribs[key].fit(data[key])
+
         self.cov_matrix, self.means, self.distribution = self._get_parameters(data)
         self.pdf = st.multivariate_normal.pdf
 
@@ -122,15 +123,14 @@ class GaussianMultivariate(Multivariate):
         }
 
     @classmethod
-    def from_dict(cls, **kwargs):
+    def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
         instance.distribs = {}
-        distribs = kwargs.pop('distribs')
 
-        for name, parameters in distribs.items():
-            instance.distribs[name] = GaussianUnivariate.from_dict(**parameters)
+        for name, parameters in copula_dict['distribs'].items():
+            instance.distribs[name] = GaussianUnivariate.from_dict(parameters)
 
-        instance.cov_matrix = np.array(kwargs['cov_matrix'])
-        instance.means = kwargs['means']
+        instance.cov_matrix = np.array(copula_dict['cov_matrix'])
+        instance.means = copula_dict['means']
         return instance

@@ -29,6 +29,6 @@ class Univariate(object):
         raise NotImplementedError
 
     @classmethod
-    def from_dict(cls, **kwargs):
-        """Set attributes with provided values."""
+    def from_dict(cls, param_dict):
+        """Create new instance from dictionary."""
         raise NotImplementedError

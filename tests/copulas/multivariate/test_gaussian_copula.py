@@ -84,7 +84,7 @@ class TestGaussianCopula(TestCase):
         }
 
         # Run
-        copula = GaussianMultivariate.from_dict(**parameters)
+        copula = GaussianMultivariate.from_dict(parameters)
 
         # Check
         assert copula.means == [

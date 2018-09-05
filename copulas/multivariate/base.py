@@ -31,16 +31,16 @@ class Multivariate(object):
         raise NotImplementedError
 
     @classmethod
-    def from_dict(cls, **kwargs):
+    def from_dict(cls, copula_dict):
         raise NotImplementedError
 
     @classmethod
     def load(cls, copula_path):
-        """Creates a new instance from a file or dict."""
+        """Create a new instance from a file."""
         with open(copula_path) as f:
             copula_dict = json.load(f)
 
-        return cls.from_dict(**copula_dict)
+        return cls.from_dict(copula_dict)
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename."""
