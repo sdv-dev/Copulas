@@ -93,7 +93,7 @@ class GaussianMultivariate(Multivariate):
 
     def sample(self, num_rows=1):
         res = {}
-        means = [0] * len(self.means)
+        means = np.zeros(len(self.means))
         s = (num_rows,)
 
         # clean up cavariance matrix

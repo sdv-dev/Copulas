@@ -25,17 +25,26 @@ class TestGaussianCopula(TestCase):
             assert len(result) == 10
 
     def test_sample(self):
+        """Generated samples keep the same mean and deviation as the original data."""
         copula = GaussianMultivariate()
-        data = pd.DataFrame([[-1, 0, 1], [1, -1, 0], [0, 1, -1]])
+        stats = [
+            {'mean': 10000, 'std': 15},
+            {'mean': 150, 'std': 10},
+            {'mean': -50, 'std': 0.1}
+        ]
+        data = pd.DataFrame([np.random.normal(x['mean'], x['std'], 100) for x in stats]).T
         copula.fit(data)
 
         # Run
         result = copula.sample(1000000)
 
         # Check
-        assert len(result) == 1000000
-        for i in range(result.shape[1]):
-            data_mean = np.mean(data.loc[:, i])
-            result_mean = np.mean(result.loc[:, i])
-            assert abs(data_mean - result_mean) < 10E-3
-            assert abs(data_mean - result_mean) < 10E-3
+        assert result.shape == (1000000, 3)
+        for i, stat in enumerate(stats):
+            expected_mean = np.mean(data[i])
+            expected_std = np.std(data[i])
+            result_mean = np.mean(result[i])
+            result_std = np.std(result[i])
+
+            assert abs(expected_mean - result_mean) < abs(expected_mean / 100)
+            assert abs(expected_std - result_std) < abs(expected_std / 100)
