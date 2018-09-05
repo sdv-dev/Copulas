@@ -449,7 +449,7 @@ class Edge(object):
             right_ing = list(self.D - self.parents[1].D)[0]
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
-        
+
         copula = Bivariate(self.name)
         copula.theta = self.theta
         value = np.sum(copula.probability_density(left_u, right_u))
