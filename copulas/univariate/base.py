@@ -23,3 +23,12 @@ class Univariate(object):
     def sample(self):
         """ returns new data point based on model """
         raise NotImplementedError
+
+    def to_dict(self):
+        """Returns parameters to replicate the distribution."""
+        raise NotImplementedError
+
+    @classmethod
+    def from_dict(cls, param_dict):
+        """Create new instance from dictionary."""
+        raise NotImplementedError

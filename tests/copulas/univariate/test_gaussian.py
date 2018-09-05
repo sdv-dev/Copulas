@@ -167,3 +167,37 @@ class TestGaussianUnivariate(TestCase):
         assert len(result) == 1000000
         assert abs(np.mean(result) - copula.mean) < 10E-3
         assert abs(np.std(result) - copula.std) < 10E-3
+
+    def test_to_dict(self):
+        """To_dict returns the defining parameters of a distribution in a dict."""
+        # Setup
+        copula = GaussianUnivariate()
+        column = [0, 1, 2, 3, 4, 5]
+        copula.fit(column)
+        expected_result = {
+            'mean': 2.5,
+            'std': 1.707825127659933
+        }
+
+        # Run
+        result = copula.to_dict()
+
+        # Check
+        assert result == expected_result
+
+    def test_from_dict(self):
+        """From_dict sets the values of a dictionary as attributes of the instance."""
+        # Setup
+        parameters = {
+            'mean': 2.5,
+            'std': 1.707825127659933
+        }
+
+        # Run
+        copula = GaussianUnivariate.from_dict(parameters)
+
+        # Check
+        assert copula.mean == 2.5
+        assert copula.std == 1.707825127659933
+
+        copula.sample(10)
