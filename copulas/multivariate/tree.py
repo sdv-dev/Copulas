@@ -1,3 +1,4 @@
+import json
 import logging
 
 import numpy as np
@@ -13,7 +14,7 @@ class Tree(object):
     """Helper class to instantiate a single tree in the vine model
     """
 
-    def __init__(self, index, n_nodes, tau_matrix, previous_tree):
+    def __init__(self, index, n_nodes, tau_matrix, previous_tree, edges=None):
         """Initialize tree object
 
         Args:
@@ -26,16 +27,20 @@ class Tree(object):
             :type tau_matrix: np.ndarray of size n_nodes*n_nodes
         """
         self.level = index + 1
-        self.previous_tree = previous_tree
         self.n_nodes = n_nodes
-        self.edges = []
         self.tau_matrix = tau_matrix
-        if self.level == 1:
-            self.u_matrix = previous_tree
-            self._build_first_tree()
-        else:
-            self._build_kth_tree()
-        self.prepare_next_tree()
+        self.previous_tree = previous_tree
+        self.edges = edges or []
+
+        if not self.edges:
+            if self.level == 1:
+                self.u_matrix = previous_tree
+                self._build_first_tree()
+
+            else:
+                self._build_kth_tree()
+
+            self.prepare_next_tree()
 
     def _check_contraint(self, edge1, edge2):
         """Check if two edges satisfy vine constraint
@@ -175,6 +180,34 @@ class Tree(object):
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
                           for edge in self.edges])
+
+    def to_dict(self):
+        return {
+            'level': self.level - 1,
+            'n_nodes': self.n_nodes,
+            'tau_matrix': self.tau_matrix.tolist(),
+            'previous_tree': self.previous_tree.tolist(),
+            'edges': [edge.to_dict() for edge in self.edges],
+        }
+
+    @classmethod
+    def from_dict(cls, tree_dict):
+        """Create a new instance from a dictionary."""
+        return cls(**tree_dict)
+
+    @classmethod
+    def load(cls, tree_path):
+        """Create a new instance from a file."""
+        with open(tree_path) as f:
+            tree_dict = json.load(f)
+
+        return cls.from_dict(tree_dict)
+
+    def save(self, filename):
+        """Save the internal state of a copula in the specified filename."""
+        content = self.to_dict()
+        with open(filename, 'w') as f:
+            json.dump(content, f)
 
 
 class CenterTree(Tree):
@@ -382,11 +415,10 @@ class Edge(object):
         sorted_edges = sorted(edges, key=lambda x: (x.L, x.R))
         return sorted_edges
 
-    @staticmethod
-    def get_conditional_uni(left_parent, right_parent):
+    @classmethod
+    def get_conditional_uni(cls, left_parent, right_parent):
         """ Identify pair univariate value from parents"""
-        left, right, depend_set =\
-            Edge._identify_eds_ing(left_parent, right_parent)
+        left, right, depend_set = cls._identify_eds_ing(left_parent, right_parent)
         if left_parent.L == left:
             left_u = left_parent.U[0]
         else:
@@ -397,11 +429,11 @@ class Edge(object):
             right_u = right_parent.U[1]
         return left_u, right_u
 
-    def get_child_edge(left_parent, right_parent):
+    @classmethod
+    def get_child_edge(cls, left_parent, right_parent):
         """ Construct a child edge from two parent edges """
-        [ed1, ed2, depend_set] =\
-            Edge._identify_eds_ing(left_parent, right_parent)
-        left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
+        [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
+        left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
         name, theta = Bivariate.select_copula(left_u, right_u)
         new_edge = Edge(ed1, ed2, name, theta)
         new_edge.D = depend_set
@@ -419,8 +451,54 @@ class Edge(object):
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
         cop = Bivariate(self.name)
-        cop.set_params(theta=self.theta)
+        cop.theta = self.theta
         value = np.sum(cop.get_pdf()(left_u, right_u))
         left_given_right = cop.get_h_function()(left_u, right_u, self.theta)
         right_given_left = cop.get_h_function()(right_u, left_u, self.theta)
         return value, left_given_right, right_given_left
+
+    def to_dict(self):
+        parents = None
+        if self.parents:
+            parents = [parent.to_dict() for parent in self.parents]
+
+        neighbors = None
+        if self.neighbors:
+            neighbors = [neighbor.to_dict() for neighbor in self.neighbors]
+
+        return {
+            'L': self.L,
+            'R': self.R,
+            'D': self.D,
+            'parents': parents,
+            'neighbors': neighbors,
+            'name': self.name,
+            'theta': self.theta,
+            'tau': self.tau,
+            'U': self.U,
+            'likelihood': self.likelihood
+        }
+
+    @classmethod
+    def from_dict(cls, edge_dict):
+        instance = cls(edge_dict['L'], edge_dict['R'], edge_dict['name'], edge_dict['theta'])
+        parents = edge_dict['parents']
+        neighbors = edge_dict['neighbors']
+
+        if parents:
+            instance.parents = []
+            for parent in parents:
+                edge = Edge.from_dict(parent)
+                instance.parents.append(edge)
+
+        if neighbors:
+            instance.neighbors = []
+            for neighbor in neighbors:
+                edge = Edge.from_dict(neighbor)
+                instance.neighbors.append(edge)
+
+        regular_attributes = ['D', 'tau', 'U', 'likelihood']
+        for key in regular_attributes:
+            setattr(instance, key, edge_dict[key])
+
+        return instance

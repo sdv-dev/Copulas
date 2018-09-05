@@ -37,8 +37,26 @@ class GaussianMultivariate(Multivariate):
         )
         return '\n'.join(distribs) + details
 
-    def _get_parameters(self):
-        result = self.data.copy()
+    def fit(self, data, distrib_map=None):
+        LOGGER.debug('Fitting Gaussian Copula')
+        keys = data.keys()
+
+        # create distributions based on user input
+        if distrib_map is not None:
+            for key in distrib_map:
+                # this isn't fully working yet
+                self.distribs[key] = distrib_map[key](data[key])
+
+        else:
+            for key in keys:
+                self.distribs[key] = GaussianUnivariate()
+                self.distribs[key].fit(data[key])
+
+        self.cov_matrix, self.means, self.distribution = self._get_parameters(data)
+        self.pdf = st.multivariate_normal.pdf
+
+    def _get_parameters(self, data):
+        result = data.copy()
 
         for column in result.keys():
             X = result[column]
@@ -57,25 +75,6 @@ class GaussianMultivariate(Multivariate):
         cov = result.cov()
 
         return (cov.values, means, result)
-
-    def fit(self, data, distrib_map=None):
-        LOGGER.debug('Fitting Gaussian Copula')
-        self.data = data
-        keys = data.keys()
-
-        # create distributions based on user input
-        if distrib_map is not None:
-            for key in distrib_map:
-                # this isn't fully working yet
-                self.distribs[key] = distrib_map[key](data[key])
-
-        else:
-            for key in keys:
-                self.distribs[key] = GaussianUnivariate()
-                self.distribs[key].fit(data[key])
-
-        self.cov_matrix, self.means, self.distribution = self._get_parameters()
-        self.pdf = st.multivariate_normal.pdf
 
     def get_pdf(self, X):
         # make cov positive semi-definite
@@ -103,10 +102,7 @@ class GaussianMultivariate(Multivariate):
         samples = np.random.multivariate_normal(clean_mean, clean_cov, size=s)
 
         # run through cdf and inverse cdf
-        for i in range(self.data.shape[1]):
-            label = self.data.iloc[:, i].name
-            distrib = self.distribs[label]
-
+        for i, (label, distrib) in enumerate(self.distribs.items()):
             # use standard normal's cdf
             res[label] = st.norm.cdf(samples[:, i])
 
@@ -114,3 +110,27 @@ class GaussianMultivariate(Multivariate):
             res[label] = distrib.inverse_cdf(res[label])
 
         return pd.DataFrame(data=res)
+
+    def to_dict(self):
+        distributions = {
+            name: distribution.to_dict() for name, distribution in self.distribs.items()
+        }
+
+        return {
+            'means': self.means,
+            'cov_matrix': self.cov_matrix.tolist(),
+            'distribs': distributions
+        }
+
+    @classmethod
+    def from_dict(cls, copula_dict):
+        """Set attributes with provided values."""
+        instance = cls()
+        instance.distribs = {}
+
+        for name, parameters in copula_dict['distribs'].items():
+            instance.distribs[name] = GaussianUnivariate.from_dict(parameters)
+
+        instance.cov_matrix = np.array(copula_dict['cov_matrix'])
+        instance.means = copula_dict['means']
+        return instance
