@@ -1,6 +1,7 @@
 import warnings
 from unittest import TestCase, mock
 
+import numpy as np
 import pandas as pd
 
 from copulas.multivariate.gaussian import GaussianMultivariate
@@ -23,6 +24,31 @@ class TestGaussianCopula(TestCase):
             # Check
             assert len(warns) == 0
             assert len(result) == 10
+
+    def test_sample(self):
+        """Generated samples keep the same mean and deviation as the original data."""
+        copula = GaussianMultivariate()
+        stats = [
+            {'mean': 10000, 'std': 15},
+            {'mean': 150, 'std': 10},
+            {'mean': -50, 'std': 0.1}
+        ]
+        data = pd.DataFrame([np.random.normal(x['mean'], x['std'], 100) for x in stats]).T
+        copula.fit(data)
+
+        # Run
+        result = copula.sample(1000000)
+
+        # Check
+        assert result.shape == (1000000, 3)
+        for i, stat in enumerate(stats):
+            expected_mean = np.mean(data[i])
+            expected_std = np.std(data[i])
+            result_mean = np.mean(result[i])
+            result_std = np.std(result[i])
+
+            assert abs(expected_mean - result_mean) < abs(expected_mean / 100)
+            assert abs(expected_std - result_std) < abs(expected_std / 100)
 
     def test_to_dict(self):
         """To_dict returns the parameters to replicate the copula."""
