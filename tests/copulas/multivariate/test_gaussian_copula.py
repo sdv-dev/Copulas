@@ -149,7 +149,7 @@ class TestGaussianCopula(TestCase):
         result = copula.get_cdf(X)
 
         # Check
-        assert result == expected_result
+        assert np.isclose(result, expected_result).all().all()
 
     def test_get_lower_bounds(self):
         """get_lower_bounds returns the point from where cut the tail of the infinite integral."""
