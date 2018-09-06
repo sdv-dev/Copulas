@@ -78,8 +78,8 @@ class GaussianMultivariate(Multivariate):
 
     def get_pdf(self, X):
         # make cov positive semi-definite
-        cov = self.cov_matrix * np.identity(3)
-        return self.pdf(X, self.means, cov)
+        covariance = self.cov_matrix * np.identity(3)
+        return self.pdf(X, cov=covariance)
 
     def get_cdf(self, X):
         def func(*args):
@@ -92,7 +92,7 @@ class GaussianMultivariate(Multivariate):
 
     def sample(self, num_rows=1):
         res = {}
-        means = np.zeros(len(self.means))
+        means = np.zeros(self.cov_matrix.shape[0])
         s = (num_rows,)
 
         # clean up cavariance matrix
