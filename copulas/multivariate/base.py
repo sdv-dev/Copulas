@@ -2,29 +2,29 @@ import json
 
 
 class Multivariate(object):
-    """ Abstract class for a multi-variate copula object """
+    """Abstract class for a multi-variate copula object."""
 
     def __init__(self):
-        """ initialize copula object """
+        """Initialize copula object."""
 
     def fit(self, data):
-        """ Fits a model to the data and updates the parameters """
+        """Fit a model to the data and update the parameters."""
         raise NotImplementedError
 
     def infer(self, values):
-        """ Takes in subset of values and predicts the rest """
+        """Predict data from a subset of values."""
         raise NotImplementedError
 
-    def get_pdf(self):
-        """ returns pdf of model """
+    def probability_density(self):
+        """Return probability density of model."""
         raise NotImplementedError
 
-    def get_cdf(self):
-        """ returns cdf of model """
+    def cumulative_density(self):
+        """Return cumulative density of model."""
         raise NotImplementedError
 
     def sample(self, num_rows=1):
-        """ returns a new data point generated from model """
+        """Return a new data point generated from model."""
         raise NotImplementedError
 
     def to_dict(self):

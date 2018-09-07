@@ -3,7 +3,7 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.tree import DirectTree
+from copulas.multivariate.tree import Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
 
 
@@ -18,7 +18,8 @@ class TestDirectTree(TestCase):
             uni.fit(self.data[col])
             self.u_matrix[:, count] = [uni.cumulative_density(x) for x in self.data[col]]
             count += 1
-        self.tree = DirectTree(0, 4, self.tau_mat, self.u_matrix)
+        self.tree = Tree(TreeTypes.DIRECT)
+        self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
         """ Assert 0 is the center node"""
@@ -52,7 +53,8 @@ class TestDirectTree(TestCase):
         """ Assert second tree likelihood is correct """
         tau = self.tree.get_tau_matrix()
 
-        second_tree = DirectTree(1, 3, tau, self.tree)
+        second_tree = Tree(TreeTypes.DIRECT)
+        second_tree.fit(1, 3, tau, self.tree)
 
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 

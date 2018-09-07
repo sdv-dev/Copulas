@@ -11,13 +11,13 @@ class TestVine(TestCase):
     def setUp(self):
         data = pd.read_csv('data/iris.data.csv')
 
-        self.rvine = VineCopula('rvine')
+        self.rvine = VineCopula('regular')
         self.rvine.fit(data)
 
-        self.cvine = VineCopula('cvine')
+        self.cvine = VineCopula('center')
         self.cvine.fit(data)
 
-        self.dvine = VineCopula('dvine')
+        self.dvine = VineCopula('direct')
         self.dvine.fit(data)
 
     @expectedFailure
@@ -41,4 +41,7 @@ class TestVine(TestCase):
     #     sample_r = self.rvine.sample()
     #     sample_c = self.cvine.sample()
     #     sample_d = self.cvine.sample()
-    #     self.assertEquals(len(sample_r), 4)
+
+    #     assert len(sample_r) == 4
+    #     assert len(sample_c) == 4
+    #     assert len(sample_d) == 4
