@@ -31,7 +31,7 @@ class TestCenterTree(TestCase):
 
         value, new_u = self.tree.get_likelihood(uni_matrix)
 
-        expected = -5.5411
+        expected = -0.19988720707143634
         assert abs(value - expected) < 10E-3
 
     def test_get_constraints(self):
@@ -59,5 +59,5 @@ class TestCenterTree(TestCase):
         first_value, new_u = self.tree.get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
 
-        expected = 2.1247
+        expected = 0.540089320412914
         assert abs(second_value - expected) < 10E-3

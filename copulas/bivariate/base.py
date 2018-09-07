@@ -4,6 +4,8 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
+from copulas import EPSILON
+
 COMPUTE_EMPIRICAL_STEPS = 50
 
 
@@ -186,6 +188,32 @@ class Bivariate(object):
         if not self.theta:
             raise NotFittedError("This model is not fitted.")
 
+    @staticmethod
+    def compute_empirical(u, v):
+        """Compute empirical distribution."""
+        z_left = []
+        z_right = []
+        L = []
+        R = []
+
+        N = len(u)
+        base = np.linspace(EPSILON, 1.0 - EPSILON, COMPUTE_EMPIRICAL_STEPS)
+        # See https://github.com/DAI-Lab/Copulas/issues/45
+
+        for k in range(COMPUTE_EMPIRICAL_STEPS):
+            left = sum(np.logical_and(u <= base[k], v <= base[k])) / N
+            right = sum(np.logical_and(u >= base[k], v >= base[k])) / N
+
+            if left > 0:
+                z_left.append(base[k])
+                L.append(left / base[k] ** 2)
+
+            if right > 0:
+                z_right.append(base[k])
+                R.append(right / (1 - z_right[k]) ** 2)
+
+        return z_left, L, z_right, R
+
     def check_theta(self):
         """Validate the computed theta against the copula specification."""
         lower, upper = self.theta_interval
@@ -198,8 +226,9 @@ class Bivariate(object):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
-    def get_dependences(cls, copulas, z_left, z_right):
-        left = right = []
+    def get_dependencies(cls, copulas, z_left, z_right):
+        left = []
+        right = []
 
         for copula in copulas:
             left.append(copula.cumulative_density(z_left, z_left) / np.power(z_left, 2))
@@ -220,26 +249,24 @@ class Bivariate(object):
         Returns:
             tuple: `tuple(CopulaType, float)` best fit and model param.
         """
-        clayton = Bivariate(CopulaTypes.CLAYTON)
-        clayton.fit(U, V)
+        frank = Bivariate(CopulaTypes.FRANK)
+        frank.fit(U, V)
 
-        if clayton.tau <= 0:
-            frank = Bivariate(CopulaTypes.FRANK)
-            frank.fit(U, V)
+        if frank.tau <= 0:
             selected_theta = frank.theta
             selected_copula = CopulaTypes.FRANK
-
             return selected_copula, selected_theta
 
-        copula_candidates = [clayton]
-        theta_candidates = [clayton.theta]
+        copula_candidates = [frank]
+        theta_candidates = [frank.theta]
 
         try:
-            frank = Bivariate(CopulaTypes.FRANK)
-            frank.fit(U, V)
-            copula_candidates.append(frank)
-            theta_candidates.append(frank.theta)
+            clayton = Bivariate(CopulaTypes.CLAYTON)
+            clayton.fit(U, V)
+            copula_candidates.append(clayton)
+            theta_candidates.append(clayton.theta)
         except ValueError:
+            # Invalid theta, copula ignored
             pass
 
         try:
@@ -248,10 +275,13 @@ class Bivariate(object):
             copula_candidates.append(gumbel)
             theta_candidates.append(gumbel.theta)
         except ValueError:
+            # Invalid theta, copula ignored
             pass
 
         z_left, L, z_right, R = cls.compute_empirical(U, V)
-        left_dependence, right_dependence = cls.get_dependences(copula_candidates, z_left, z_right)
+        left_dependence, right_dependence = cls.get_dependencies(
+            copula_candidates, z_left, z_right)
+
         # compute L2 distance from empirical distribution
         cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
         cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
@@ -260,28 +290,6 @@ class Bivariate(object):
         selected_copula = np.argmax(cost_LR)
         selected_theta = theta_candidates[selected_copula]
         return CopulaTypes(selected_copula), selected_theta
-
-    @staticmethod
-    def compute_empirical(u, v):
-        """Compute empirical distribution."""
-        z_left = z_right = []
-        L = R = []
-        N = len(u)
-        base = np.linspace(0.0, 1.0, COMPUTE_EMPIRICAL_STEPS)
-
-        for k in range(COMPUTE_EMPIRICAL_STEPS):
-            left = sum(np.logical_and(u <= base[k], v <= base[k])) / N
-            right = sum(np.logical_and(u >= base[k], v >= base[k])) / N
-
-            if left > 0:
-                z_left.append(base[k])
-                L.append(left / base[k]**2)
-
-            if right > 0:
-                z_right.append(base[k])
-                R.append(right / (1 - z_right[k])**2)
-
-        return z_left, L, z_right, R
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename."""

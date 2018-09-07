@@ -31,7 +31,7 @@ class TestDirectTree(TestCase):
 
         value, new_u = self.tree.get_likelihood(uni_matrix)
 
-        expected = -5.4620
+        expected = -0.1207611551427385
         assert abs(value - expected) < 10E-3
 
     def test_get_constraints(self):
@@ -61,5 +61,5 @@ class TestDirectTree(TestCase):
         first_value, new_u = self.tree.get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
 
-        expected = 0.7819
+        expected = 0.7184205492690413
         assert abs(second_value - expected) < 10E-3
