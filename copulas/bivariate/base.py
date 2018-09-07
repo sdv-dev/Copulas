@@ -62,8 +62,7 @@ class Bivariate(object):
                 return super(Bivariate, cls).__new__(subclass)
 
     def __init__(self, copula_type=None):
-        """
-        Creates a new instance of any of their subclasses.
+        """Create a new instance of any of their subclasses.
 
         Args:
             copula_type: `CopulaType` or `str` to be compared against CopulaType.
@@ -72,8 +71,7 @@ class Bivariate(object):
         self.tau = None
 
     def fit(self, U, V):
-        """
-        Fits a model to the data updating the parameters.
+        """Fit a model to the data updating the parameters.
 
         Args:
             U: 1-d `np.ndarray` for first variable to train the copula.
@@ -102,7 +100,7 @@ class Bivariate(object):
         return instance
 
     def infer(self, values):
-        """Takes in subset of values and predicts the rest."""
+        """Take in subset of values and predicts the rest."""
         raise NotImplementedError
 
     def generator(self, t):
@@ -121,7 +119,7 @@ class Bivariate(object):
         raise NotImplementedError
 
     def cumulative_density(self, U, V):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`.
 
         Args:
             U: `np.ndarray`
@@ -129,12 +127,11 @@ class Bivariate(object):
 
         Returns:
             np.array: cumulative probability
-
         """
         raise NotImplementedError
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`.
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.

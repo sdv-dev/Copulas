@@ -37,11 +37,12 @@ class TestVine(TestCase):
         expected = -5.1838
         assert abs(dvalue - expected) < 10E-3
 
-    # def test_sample(self):
-    #     sample_r = self.rvine.sample()
-    #     sample_c = self.cvine.sample()
-    #     sample_d = self.cvine.sample()
+    @expectedFailure
+    def test_sample(self):
+        sample_r = self.rvine.sample()
+        sample_c = self.cvine.sample()
+        sample_d = self.cvine.sample()
 
-    #     assert len(sample_r) == 4
-    #     assert len(sample_c) == 4
-    #     assert len(sample_d) == 4
+        assert len(sample_r) == 4
+        assert len(sample_c) == 4
+        assert len(sample_d) == 4

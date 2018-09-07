@@ -55,7 +55,7 @@ class Tree(object):
         Creates a new instance of any of their subclasses.
 
         Args:
-            tree_type: `TreeType` or `str` to be compared against CopulaType.
+            tree_type: `TreeType` or `str` to be compared against  TreeType.
         """
         pass
 
