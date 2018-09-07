@@ -2,8 +2,8 @@ import logging
 
 import numpy as np
 import pandas as pd
-import scipy.integrate as integrate
 import scipy.stats as st
+from scipy import integrate
 
 from copulas.multivariate.base import Multivariate
 from copulas.univariate.gaussian import GaussianUnivariate
@@ -78,29 +78,28 @@ class GaussianMultivariate(Multivariate):
 
     def get_pdf(self, X):
         # make cov positive semi-definite
-        cov = self.cov_matrix * np.identity(3)
-        return self.pdf(X, self.means, cov)
+        covariance = self.cov_matrix * np.identity(self.cov_matrix.shape[0])
+        return self.pdf(X, cov=covariance)
 
     def get_cdf(self, X):
+        # Wrapper for pdf to accept vector as args
         def func(*args):
-            return self.get_pdf([args[i] for i in range(len(args))])
+            return self.get_pdf(list(args))
 
-        # TODO: fix lower bounds
-        ranges = [[-10000, val] for val in X]
+        # Lower bound for integral, to split significant part from tail
+        lower_bound = self.get_lower_bound()
 
+        ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
 
     def sample(self, num_rows=1):
         res = {}
-
-        # clean up means
-        clean_mean = np.nan_to_num(self.means)
+        means = np.zeros(self.cov_matrix.shape[0])
         s = (num_rows,)
 
         # clean up cavariance matrix
         clean_cov = np.nan_to_num(self.cov_matrix)
-        samples = np.random.multivariate_normal(clean_mean, clean_cov, size=s)
-
+        samples = np.random.multivariate_normal(means, clean_cov, size=s)
         # run through cdf and inverse cdf
         for i, (label, distrib) in enumerate(self.distribs.items()):
             # use standard normal's cdf
@@ -133,3 +132,13 @@ class GaussianMultivariate(Multivariate):
         instance.cov_matrix = np.array(copula_dict['cov_matrix'])
         instance.means = copula_dict['means']
         return instance
+
+    def get_lower_bound(self):
+        lower_bounds = []
+
+        for distribution in self.distribs.values():
+            lower_bound = distribution.inverse_cdf(distribution.mean / 10000)
+            if not pd.isnull(lower_bound):
+                lower_bounds.append(lower_bound)
+
+        return min(lower_bounds)
