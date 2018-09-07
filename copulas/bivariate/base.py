@@ -33,6 +33,8 @@ class Bivariate(object):
 
     copula_type = None
     _subclasses = []
+    theta_interval = []
+    invalid_thetas = []
 
     @classmethod
     def _get_subclasses(cls):
@@ -84,6 +86,7 @@ class Bivariate(object):
         self.V = V
         self.tau = stats.kendalltau(self.U, self.V)[0]
         self.theta = self.get_theta()
+        self.check_theta()
 
     def to_dict(self):
         return {
@@ -183,6 +186,13 @@ class Bivariate(object):
         if not self.theta:
             raise NotFittedError("This model is not fitted.")
 
+    def check_theta(self):
+        """Validate the computed theta against the copula specification."""
+        lower, upper = self.theta_interval
+        if (not lower <= self.theta <= upper) or (self.theta in self.invalid_thetas):
+            message = 'The computed theta value {} is out of limits for the given {} copula.'
+            raise ValueError(message.format(self.theta, self.copula_type.name))
+
     @staticmethod
     def compute_tail(c, z):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
@@ -221,20 +231,32 @@ class Bivariate(object):
 
             return selected_copula, selected_theta
 
-        frank = Bivariate(CopulaTypes.FRANK)
-        frank.fit(U, V)
-        gumbel = Bivariate(CopulaTypes.GUMBEL)
-        gumbel.fit(U, V)
-        candidate_copulas = [clayton, frank, gumbel]
-        theta_candidates = [clayton.theta, frank.theta, gumbel.theta]
+        copula_candidates = [clayton]
+        theta_candidates = [clayton.theta]
+
+        try:
+            frank = Bivariate(CopulaTypes.FRANK)
+            frank.fit(U, V)
+            copula_candidates.append(frank)
+            theta_candidates.append(frank.theta)
+        except ValueError:
+            pass
+
+        try:
+            gumbel = Bivariate(CopulaTypes.GUMBEL)
+            gumbel.fit(U, V)
+            copula_candidates.append(gumbel)
+            theta_candidates.append(gumbel.theta)
+        except ValueError:
+            pass
 
         z_left, L, z_right, R = cls.compute_empirical(U, V)
-        left_dependence, right_dependence = cls.get_dependences(candidate_copulas, z_left, z_right)
-
+        left_dependence, right_dependence = cls.get_dependences(copula_candidates, z_left, z_right)
         # compute L2 distance from empirical distribution
         cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
         cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
         cost_LR = np.add(cost_L, cost_R)
+
         selected_copula = np.argmax(cost_LR)
         selected_theta = theta_candidates[selected_copula]
         return CopulaTypes(selected_copula), selected_theta

@@ -10,6 +10,8 @@ class Gumbel(Bivariate):
     """Class for clayton copula model."""
 
     copula_type = CopulaTypes.GUMBEL
+    theta_interval = [1, float('inf')]
+    invalid_thetas = []
 
     def get_generator(self, t):
         """Return the generator function."""

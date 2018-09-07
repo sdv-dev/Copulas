@@ -8,4 +8,5 @@ __all__ = (
     'GaussianMultivariate',
     'VineCopula',
     'Tree',
+    'TreeTypes'
 )

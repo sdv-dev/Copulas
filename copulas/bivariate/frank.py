@@ -11,6 +11,8 @@ class Frank(Bivariate):
     """Class for Frank copula model."""
 
     copula_type = CopulaTypes.FRANK
+    theta_interval = [-float('inf'), float('inf')]
+    invalid_thetas = [0]
 
     def generator(self, t):
         """Return the generator function."""

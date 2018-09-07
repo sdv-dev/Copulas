@@ -7,6 +7,8 @@ class Clayton(Bivariate):
     """Class for clayton copula model."""
 
     copula_type = CopulaTypes.CLAYTON
+    theta_interval = [-1, float('inf')]
+    invalid_thetas = [0]
 
     def generator(self, t):
         """Return the generator function."""
