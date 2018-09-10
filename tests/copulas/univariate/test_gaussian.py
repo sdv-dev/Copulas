@@ -96,7 +96,7 @@ class TestGaussianUnivariate(TestCase):
         assert result == expected_result
 
     def test_cumulative_density(self):
-        """Cumulative_density returns the cumulative distribution function value for a point."""
+        """Cumulative_density returns the cumulative distribution value for a point."""
 
         # Setup
         copula = GaussianUnivariate()
@@ -112,7 +112,7 @@ class TestGaussianUnivariate(TestCase):
         assert (result == expected_result).all()
 
     def test_percent_point(self):
-        """Percent_point returns the original point from the cumulative probability value """
+        """Percent_point returns the original point from the cumulative probability value."""
 
         # Setup
         copula = GaussianUnivariate()
