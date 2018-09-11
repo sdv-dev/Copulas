@@ -40,7 +40,7 @@ class GaussianUnivariate(Univariate):
         if not len(X):
             raise ValueError("Can't fit with an empty dataset.")
 
-        self.name = X.name if isinstance(X, pd.Series) else None
+        self.name = X.name if isinstance(X, (pd.Series, pd.DataFrame)) else None
         self.mean = np.mean(X)
         self.std = np.std(X) or 0.001
 
@@ -64,9 +64,6 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Cumulative density for X.
         """
-        # check to make sure dtype is not object
-        if X.dtype == 'object':
-            X = X.astype('float64')
 
         return norm.cdf(X, loc=self.mean, scale=self.std)
 

@@ -16,9 +16,18 @@ class Clayton(Bivariate):
 
         return 1.0 / self.theta * (np.power(t, -self.theta) - 1)
 
-    def probability_density(self, U, V):
-        """Compute density function for given copula family."""
+    def probability_density(self, X):
+        """Compute probability density function for given copula family.
+
+        Args:
+            X: `np.ndarray`
+
+        Returns:
+            np.array: Probability density for the input values.
+        """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta < 0:
             raise ValueError("Theta cannot be less or equal than 0 for Clayton")
@@ -32,18 +41,18 @@ class Clayton(Bivariate):
             c = -(2 * self.theta + 1) / self.theta
             return a * np.power(b, c)
 
-    def cumulative_density(self, U, V):
+    def cumulative_density(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
 
         Returns:
             np.array: cumulative probability
-
         """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta < 0:
             raise ValueError("Theta cannot be less or equal than 0 for clayton")
@@ -51,15 +60,8 @@ class Clayton(Bivariate):
         elif self.theta == 0:
             return np.multiply(U, V)
 
-        elif U == 0 or V == 0:
-            return 0
-
-        elif type(U) in (int, float):
-            value = np.power(
-                np.power(U, -self.theta) + np.power(V, -self.theta) - 1,
-                -1.0 / self.theta)
-
-            return value
+        elif (V == 0).all() or (U == 0).all():
+            return np.zeros(V.shape[0])
 
         else:
             cdfs = [
@@ -90,18 +92,19 @@ class Clayton(Bivariate):
             u = np.power((a + b - 1) / b, -1 / self.theta)
             return u
 
-    def partial_derivative(self, U, V, y=0):
+    def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
             y: `float`
 
         Returns:
             np.ndarray: Derivatives
         """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta == 0:
             return V
@@ -127,6 +130,3 @@ class Clayton(Bivariate):
             theta = 2 * self.tau / (1 - self.tau)
 
         return theta
-
-    def _sample(self, v, c):
-        return self.percent_point(c, v)

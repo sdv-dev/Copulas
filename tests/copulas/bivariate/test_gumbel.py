@@ -56,23 +56,28 @@ class TestGumbel(TestCase):
         # Setup
         self.copula.fit(self.X)
         expected_result = 1.003087
+        X = np.array([[0.1, 0.5]])
 
         # Run
-        result = self.copula.probability_density(0.1, 0.5)
+        result = self.copula.probability_density(X)
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result).all()
 
     def test_cumulative_density(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 0.05117
+        expected_result = np.array([0.051179])
+        X = np.array([[0.1, 0.5]])
         # Run
-        result = self.copula.cumulative_density(0.1, 0.5)
+
+        result = self.copula.cumulative_density(X)
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result).all()
 
     def test_sample(self):
         """After being fit, copula can produce samples."""
@@ -83,4 +88,5 @@ class TestGumbel(TestCase):
         result = self.copula.sample(10)
 
         # Check
+        assert isinstance(result, np.ndarray)
         assert result.shape == (10, 2)

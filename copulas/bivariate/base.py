@@ -74,23 +74,29 @@ class Bivariate(object):
         self.theta = None
         self.tau = None
 
-    def fit(self, U, V):
+    def fit(self, X):
         """Fit a model to the data updating the parameters.
 
         Args:
-            U: 1-d `np.ndarray` for first variable to train the copula.
-            V: 1-d `np.ndarray` for second variable to train the copula.
+            X: `np.ndarray` of shape (,2).
 
         Return:
             None
         """
-        self.U = U
-        self.V = V
-        self.tau = stats.kendalltau(self.U, self.V)[0]
+        U, V = self.split_matrix(X)
+        self.tau = stats.kendalltau(U, V)[0]
         self.theta = self.get_theta()
         self.check_theta()
 
     def to_dict(self):
+        """Return a `dict` with the parameters to replicate this object.
+
+        Args:
+            self:
+
+        Returns:
+            dict: Parameters of the copula.
+        """
         return {
             'copula_type': self.copula_type.name,
             'theta': self.theta,
@@ -99,36 +105,43 @@ class Bivariate(object):
 
     @classmethod
     def from_dict(cls, copula_dict):
+        """Create a new instance from the given parameters.
+
+        Args:
+            copula_dict: `dict` with the parameters to replicate the copula.
+            Like the output of `Bivariate.to_dict`
+
+        Returns:
+            Bivariate: Instance of the copula defined on the parameters.
+        """
         instance = cls(copula_dict['copula_type'])
         instance.theta = copula_dict['theta']
         instance.tau = copula_dict['tau']
         return instance
 
-    def infer(self, values):
+    def infer(self, X):
         """Take in subset of values and predicts the rest."""
         raise NotImplementedError
 
     def generator(self, t):
         raise NotImplementedError
 
-    def probability_density(self, U, V):
+    def probability_density(self, X):
         """Compute probability density function for given copula family.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
 
         Returns:
             np.array: Probability density for the input values.
         """
         raise NotImplementedError
 
-    def cumulative_density(self, U, V):
+    def cumulative_density(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
 
         Returns:
             np.array: cumulative probability
@@ -140,25 +153,24 @@ class Bivariate(object):
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
-            v: `np.ndarray` given value of v.
+            V: `np.ndarray` given value of V.
+
+        Returns:
+            np.ndarray: Percentiles for the given values.
         """
 
         raise NotImplementedError
 
-    def partial_derivative(self, U, V, y=0):
+    def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
             y: `float`
 
         Returns:
-
+            np.ndarray
         """
-        raise NotImplementedError
-
-    def _sample(self, v, c):
         raise NotImplementedError
 
     def sample(self, n_samples):
@@ -176,35 +188,58 @@ class Bivariate(object):
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
 
-        u = self._sample(v, c)
-        U = np.column_stack((u.flatten(), v))
-        return U
+        u = self.percent_point(c, v)
+        return np.column_stack((u, v))
 
     def get_theta(self):
         """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
 
+    def check_theta(self):
+        """Validate the computed theta against the copula specification.
+
+        This method is used to assert the computed theta is in the valid range for the copula."""
+        lower, upper = self.theta_interval
+        if (not lower <= self.theta <= upper) or (self.theta in self.invalid_thetas):
+            message = 'The computed theta value {} is out of limits for the given {} copula.'
+            raise ValueError(message.format(self.theta, self.copula_type.name))
+
     def check_fit(self):
+        """Assert that the model is fit and the computed `theta` is valid.
+
+        Raises a `NotFittedError` if the model is  not fitted.
+        Raises a `ValueError` if the computed theta is invalid."""
         if not self.theta:
             raise NotFittedError("This model is not fitted.")
 
+        self.check_theta()
+
     @staticmethod
-    def compute_empirical(u, v):
+    def split_matrix(X):
+        if len(X):
+            return X[:, 0], X[:, 1]
+
+        return np.array([]), np.array([])
+
+    @classmethod
+    def compute_empirical(cls, X):
         """Compute empirical distribution."""
         z_left = []
         z_right = []
         L = []
         R = []
 
-        N = len(u)
+        U, V = cls.split_matrix(X)
+        N = len(U)
         base = np.linspace(EPSILON, 1.0 - EPSILON, COMPUTE_EMPIRICAL_STEPS)
         # See https://github.com/DAI-Lab/Copulas/issues/45
 
         for k in range(COMPUTE_EMPIRICAL_STEPS):
-            left = sum(np.logical_and(u <= base[k], v <= base[k])) / N
-            right = sum(np.logical_and(u >= base[k], v >= base[k])) / N
+            left = sum(np.logical_and(U <= base[k], V <= base[k])) / N
+            right = sum(np.logical_and(U >= base[k], V >= base[k])) / N
 
             if left > 0:
+
                 z_left.append(base[k])
                 L.append(left / base[k] ** 2)
 
@@ -213,13 +248,6 @@ class Bivariate(object):
                 R.append(right / (1 - z_right[k]) ** 2)
 
         return z_left, L, z_right, R
-
-    def check_theta(self):
-        """Validate the computed theta against the copula specification."""
-        lower, upper = self.theta_interval
-        if (not lower <= self.theta <= upper) or (self.theta in self.invalid_thetas):
-            message = 'The computed theta value {} is out of limits for the given {} copula.'
-            raise ValueError(message.format(self.theta, self.copula_type.name))
 
     @staticmethod
     def compute_tail(c, z):
@@ -230,27 +258,28 @@ class Bivariate(object):
         left = []
         right = []
 
+        X_left = np.column_stack((z_left, z_left))
         for copula in copulas:
-            left.append(copula.cumulative_density(z_left, z_left) / np.power(z_left, 2))
+            left.append(copula.cumulative_density(X_left) / np.power(z_left, 2))
 
+        X_right = np.column_stack((z_right, z_right))
         for copula in copulas:
-            right.append(cls.compute_tail(copula.cumulative_density(z_right, z_right), z_right))
+            right.append(cls.compute_tail(copula.cumulative_density(X_right), z_right))
 
         return left, right
 
     @classmethod
-    def select_copula(cls, U, V):
+    def select_copula(cls, X):
         """Select best copula function based on likelihood.
 
         Args:
-            U: 1-dimensional `np.ndarray`
-            V: 1-dimensional `np.ndarray`
+            X: 2-dimensional `np.ndarray`
 
         Returns:
             tuple: `tuple(CopulaType, float)` best fit and model param.
         """
         frank = Bivariate(CopulaTypes.FRANK)
-        frank.fit(U, V)
+        frank.fit(X)
 
         if frank.tau <= 0:
             selected_theta = frank.theta
@@ -262,7 +291,7 @@ class Bivariate(object):
 
         try:
             clayton = Bivariate(CopulaTypes.CLAYTON)
-            clayton.fit(U, V)
+            clayton.fit(X)
             copula_candidates.append(clayton)
             theta_candidates.append(clayton.theta)
         except ValueError:
@@ -271,14 +300,14 @@ class Bivariate(object):
 
         try:
             gumbel = Bivariate(CopulaTypes.GUMBEL)
-            gumbel.fit(U, V)
+            gumbel.fit(X)
             copula_candidates.append(gumbel)
             theta_candidates.append(gumbel.theta)
         except ValueError:
             # Invalid theta, copula ignored
             pass
 
-        z_left, L, z_right, R = cls.compute_empirical(U, V)
+        z_left, L, z_right, R = cls.compute_empirical(X)
         left_dependence, right_dependence = cls.get_dependencies(
             copula_candidates, z_left, z_right)
 
@@ -292,14 +321,28 @@ class Bivariate(object):
         return CopulaTypes(selected_copula), selected_theta
 
     def save(self, filename):
-        """Save the internal state of a copula in the specified filename."""
+        """Save the internal state of a copula in the specified filename.
+
+        Args:
+            filename: `str` path to save.
+
+        Returns:
+            None
+        """
         content = self.to_dict()
         with open(filename, 'w') as f:
             json.dump(content, f)
 
     @classmethod
     def load(cls, copula_path):
-        """Create a new instance from a file."""
+        """Create a new instance from a file.
+
+        Args:
+            copula_path: `str` file with the serialized copula.
+
+        Returns:
+            Bivariate: Instance with the parameters stored in the file.
+        """
         with open(copula_path) as f:
             copula_dict = json.load(f)
 

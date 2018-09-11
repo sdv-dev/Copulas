@@ -109,7 +109,7 @@ class Tree(object):
         num_edges = len(self.edges)
         for k in range(num_edges):
             for i in range(num_edges):
-                # add to constriants if i shared an edge with k
+                # add to constraints if i shared an edge with k
                 if k != i and self.edges[k].is_adjacent(self.edges[i]):
                     self.edges[k].neighbors.append(i)
 
@@ -191,10 +191,13 @@ class Tree(object):
             # compute conditional cdfs C(i|j) = dC(i,j)/duj and dC(i,j)/du
             left_u = [x for x in left_u if x is not None]
             right_u = [x for x in right_u if x is not None]
+            X_left_right = np.array([[x, y] for x, y in zip(left_u, right_u)])
+            X_right_left = np.array([[x, y] for x, y in zip(right_u, left_u)])
+
             copula = Bivariate(edge.name)
-            copula.fit(left_u, right_u)
-            left_given_right = copula.partial_derivative(left_u, right_u, copula_theta)
-            right_given_left = copula.partial_derivative(right_u, left_u, copula_theta)
+            copula.fit(X_left_right)
+            left_given_right = copula.partial_derivative(X_left_right, copula_theta)
+            right_given_left = copula.partial_derivative(X_right_left, copula_theta)
 
             # correction of 0 or 1
             left_given_right[left_given_right == 0] = EPSILON
@@ -204,7 +207,7 @@ class Tree(object):
             edge.U = [left_given_right, right_given_left]
 
     def get_likelihood(self, uni_matrix):
-        """Compute likelihood of the tree given an U matrix
+        """Compute likelihood of the tree given an U matrix.
 
         Args:
             :param uni_matrix: univariate matrix to evaluate likelihood on
@@ -274,8 +277,7 @@ class CenterTree(Tree):
         tau_sorted = self._sort_tau_by_y(0)
         for itr in range(self.n_nodes - 1):
             ind = int(tau_sorted[itr, 0])
-            name, theta = Bivariate.select_copula(
-                self.u_matrix[:, 0], self.u_matrix[:, ind])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, (0, ind)])
 
             new_edge = Edge(0, ind, name, theta)
             new_edge.tau = self.tau_matrix[0, ind]
@@ -338,8 +340,7 @@ class DirectTree(Tree):
                 tau_matrix[:, right] = -10
 
         for k in range(self.n_nodes - 1):
-            name, theta = Bivariate.select_copula(
-                self.u_matrix[:, T1[k]], self.u_matrix[:, T1[k + 1]])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, (T1[k], T1[k + 1])])
 
             left, right = sorted([T1[k], T1[k + 1]])
             new_edge = Edge(left, right, name, theta)
@@ -356,7 +357,7 @@ class DirectTree(Tree):
 
 
 class RegularTree(Tree):
-    """ Helper class for instantiate Regular Vine."""
+    """Helper class for instantiate Regular Vine."""
 
     tree_type = TreeTypes.REGULAR
 
@@ -375,8 +376,7 @@ class RegularTree(Tree):
 
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            name, theta = Bivariate.select_copula(
-                self.u_matrix[:, edge[0]], self.u_matrix[:, edge[1]])
+            name, theta = Bivariate.select_copula(self.u_matrix[:, (edge[0], edge[1])])
 
             left, right = sorted([edge[0], edge[1]])
             new_edge = Edge(left, right, name, theta)
@@ -417,7 +417,7 @@ class RegularTree(Tree):
 
 class Edge(object):
     def __init__(self, left, right, copula_name, copula_theta):
-        """Initialize an Edge object
+        """Initialize an Edge object.
 
         Args:
             :param left: left_node index (smaller)
@@ -440,7 +440,7 @@ class Edge(object):
 
     @staticmethod
     def _identify_eds_ing(edge1, edge2):
-        """Find nodes connecting adjacent edges
+        """Find nodes connecting adjacent edges.
 
         Args:
             :param edge1: edge object representing edge1
@@ -461,7 +461,7 @@ class Edge(object):
         return left, right, depend_set
 
     def is_adjacent(self, another_edge):
-        """Check if two edges are adjacent
+        """Check if two edges are adjacent.
 
         Args:
             :param another_edge: edge object of another edge
@@ -478,7 +478,7 @@ class Edge(object):
 
     @staticmethod
     def sort_edge(edges):
-        """ sort edge object first by left node indices then right
+        """Sort edge object first by left node indices then right.
 
         Args:
             :param edges: list of edges need to be sorted
@@ -488,7 +488,7 @@ class Edge(object):
 
     @classmethod
     def get_conditional_uni(cls, left_parent, right_parent):
-        """ Identify pair univariate value from parents"""
+        """Identify pair univariate value from parents."""
         left, right, depend_set = cls._identify_eds_ing(left_parent, right_parent)
 
         left_u = left_parent.U[0] if left_parent.L == left else left_parent.U[1]
@@ -498,17 +498,18 @@ class Edge(object):
 
     @classmethod
     def get_child_edge(cls, left_parent, right_parent):
-        """ Construct a child edge from two parent edges """
+        """Construct a child edge from two parent edges."""
         [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
         left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
-        name, theta = Bivariate.select_copula(left_u, right_u)
+        X = np.array([[x, y] for x, y in zip(left_u, right_u)])
+        name, theta = Bivariate.select_copula(X)
         new_edge = Edge(ed1, ed2, name, theta)
         new_edge.D = depend_set
         new_edge.parents = [left_parent, right_parent]
         return new_edge
 
     def get_likelihood(self, uni_matrix):
-        """ Compute likelihood given a U matrix """
+        """Compute likelihood given a U matrix."""
         if self.parents is None:
             left_u = uni_matrix[:, self.L]
             right_u = uni_matrix[:, self.R]
@@ -521,9 +522,13 @@ class Edge(object):
 
         copula = Bivariate(self.name)
         copula.theta = self.theta
-        value = np.sum(copula.probability_density(left_u, right_u))
-        left_given_right = copula.partial_derivative(left_u, right_u)
-        right_given_left = copula.partial_derivative(right_u, left_u)
+
+        X_left_right = np.array([[left_u, right_u]])
+        X_right_left = np.array([[right_u, left_u]])
+
+        value = np.sum(copula.probability_density(X_left_right))
+        left_given_right = copula.partial_derivative(X_left_right)
+        right_given_left = copula.partial_derivative(X_right_left)
 
         return value, left_given_right, right_given_left
 

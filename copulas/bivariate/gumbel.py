@@ -17,9 +17,11 @@ class Gumbel(Bivariate):
         """Return the generator function."""
         return np.power(-np.log(t), self.theta)
 
-    def probability_density(self, U, V):
+    def probability_density(self, X):
         """Compute density function for given copula family."""
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta < 1:
             raise ValueError("Theta cannot be less than 1 for Gumbel")
@@ -33,19 +35,20 @@ class Gumbel(Bivariate):
             b = np.power(tmp, -2 + 2.0 / self.theta)
             c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
-            return self.cumulative_density(U, V) * a * b * c * d
+            return self.cumulative_density(X) * a * b * c * d
 
-    def cumulative_density(self, U, V):
+    def cumulative_density(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
 
         Returns:
             np.array: cumulative probability
         """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta < 1:
             raise ValueError("Theta cannot be less than 1 for Gumbel")
@@ -73,14 +76,22 @@ class Gumbel(Bivariate):
             return y
 
         else:
-            return fminbound(self.partial_derivative, EPSILON, 1.0, args=(y, V))
+            result = []
+            for _y, _V in zip(y, V):
+                result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
 
-    def partial_derivative(self, U, V, y=0):
+            return np.array(result)
+
+    def _partial_derivative(self, U, V, y):
+        """Helper function to compute the bounded minimum using scalars."""
+        X = np.column_stack((U, V))
+        return self.partial_derivative(X, y)
+
+    def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
             y: `float`
 
         Returns:
@@ -88,13 +99,15 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
+        U, V = self.split_matrix(X)
+
         if self.theta == 1:
             return V
 
         else:
             t1 = np.power(-np.log(U), self.theta)
             t2 = np.power(-np.log(V), self.theta)
-            p1 = p1 = self.cumulative_density(U, V)
+            p1 = self.cumulative_density(X)
             p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
             p3 = np.power(-np.log(V), self.theta - 1)
             return np.divide(np.multiply(np.multiply(p1, p2), p3), V) - y
@@ -102,7 +115,7 @@ class Gumbel(Bivariate):
     def get_theta(self):
         """Compute theta parameter using Kendall's tau.
 
-        On Gumbel copula :math:\\tau is defined as :math:`τ = \\frac{θ−1}{θ}`
+        On Gumbel copula :math:`\\tau is defined as :math:`τ = \\frac{θ−1}{θ}`
         that we solve as :math:`θ = \\frac{1}{1-τ}`
         """
         if self.tau == 1:
@@ -111,11 +124,3 @@ class Gumbel(Bivariate):
             theta = 1 / (1 - self.tau)
 
         return theta
-
-    def _sample(self, v, c):
-        u = np.empty([1, 0])
-
-        for v_, c_ in zip(v, c):
-            u = np.append(u, self.percent_point(v_, c_))
-
-        return u

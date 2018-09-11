@@ -58,10 +58,11 @@ class TestFrank(TestCase):
         expected_result = 0.999672586804842
 
         # Run
-        result = self.copula.probability_density(0.1, 0.5)
+        result = self.copula.probability_density(np.array([[0.1, 0.5]]))
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert np.isclose(result, expected_result).all()
+        assert isinstance(result, np.ndarray)
 
     def test_cumulative_density(self):
         """Cumulative_density returns the probability distribution value for a point."""
@@ -70,10 +71,11 @@ class TestFrank(TestCase):
         expected_result = 0.05147003
 
         # Run
-        result = self.copula.cumulative_density(0.1, 0.5)
+        result = self.copula.cumulative_density(np.array([[0.1, 0.5]]))
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert np.isclose(result, expected_result).all()
+        assert isinstance(result, np.ndarray)
 
     def test_sample(self):
         """After being fit, copula can produce samples."""
@@ -84,4 +86,5 @@ class TestFrank(TestCase):
         result = self.copula.sample(10)
 
         # Check
+        assert isinstance(result, np.ndarray)
         assert result.shape == (10, 2)

@@ -25,35 +25,31 @@ class VineCopula(Multivariate):
         self.type = vine_type
         self.u_matrix = None
 
-        self.ppf = None
+        self.model = KDEUnivariate
 
-        self.model = None
-        self.param = None
-
-    def fit(self, data, truncated=3):
+    def fit(self, X, truncated=3):
         """Fit a vine model to the data.
 
         Args:
-            :param data: data to be fitted
-            :param truncated: only construct the vine up to level (truncated)
-            :type data: pandas DataFrame
-            :type truncated: int
+            X: `np.ndarray`: data to be fitted.
+            truncated: `int` max level to build the vine.
         """
-        self.n_sample, self.n_var = data.shape
-        self.tau_mat = data.corr(method='kendall').values
+        self.n_sample, self.n_var = X.shape
+        self.tau_mat = X.corr(method='kendall').values
         self.u_matrix = np.empty([self.n_sample, self.n_var])
-        self.unis, self.ppfs = [], []
-
-        for i, col in enumerate(data):
-            uni = KDEUnivariate()
-            uni.fit(data[col])
-            self.u_matrix[:, i] = [uni.cumulative_density(x) for x in data[col]]
-            self.unis.append(uni)
-            self.ppfs.append(uni.percent_point)
 
         self.truncated = truncated
         self.depth = self.n_var - 1
         self.trees = []
+
+        self.unis, self.ppfs = [], []
+        for i, col in enumerate(X):
+            uni = self.model()
+            uni.fit(X[col])
+            self.u_matrix[:, i] = [uni.cumulative_density(x) for x in X[col]]
+            self.unis.append(uni)
+            self.ppfs.append(uni.percent_point)
+
         self.train_vine(self.type)
 
     def train_vine(self, tree_type):
@@ -64,7 +60,7 @@ class VineCopula(Multivariate):
         LOGGER.debug('finish building tree : 0')
 
         for k in range(1, min(self.n_var - 1, self.truncated)):
-            # get constraints from previous tree'''
+            # get constraints from previous tree
             self.trees[k - 1]._get_constraints()
             tau = self.trees[k - 1].get_tau_matrix()
             LOGGER.debug('start building tree: {0}'.format(k))

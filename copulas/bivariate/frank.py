@@ -32,9 +32,18 @@ class Frank(Bivariate):
         """
         return np.exp(np.multiply(-self.theta, z)) - 1
 
-    def probability_density(self, U, V):
-        """Compute density function for given copula family."""
+    def probability_density(self, X):
+        """Compute density function for given copula family.
+
+        Args:
+            X: `np.ndarray`
+
+        Returns:
+            np.array: cumulative probability
+        """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta == 0:
             return np.multiply(U, V)
@@ -45,17 +54,18 @@ class Frank(Bivariate):
             den = np.power(aux, 2)
             return num / den
 
-    def cumulative_density(self, U, V):
+    def cumulative_density(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
 
         Returns:
             np.array: cumulative probability
         """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta == 0:
             return np.multiply(U, V)
@@ -80,20 +90,29 @@ class Frank(Bivariate):
             return V
 
         else:
-            return fminbound(self.partial_derivative, EPSILON, 1.0, args=(y, V))
+            result = []
+            for _y, _V in zip(y, V):
+                result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
 
-    def partial_derivative(self, U, V, y=0):
+            return np.array(result)
+
+    def _partial_derivative(self, U, V, y):
+        X = np.column_stack((U, V))
+        return self.partial_derivative(X, y)
+
+    def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.
 
         Args:
-            U: `np.ndarray`
-            V: `np.ndarray`
+            X: `np.ndarray`
             y: `float`
 
         Returns:
-
+            np.ndarray
         """
         self.check_fit()
+
+        U, V = self.split_matrix(X)
 
         if self.theta == 0:
             return V
@@ -108,6 +127,8 @@ class Frank(Bivariate):
 
         On Frank copula, this is
         :math:`τ = 1 − \\frac{4}{θ} + \\frac{4}{θ^2}\int_0^θ \! \\frac{t}{e^t -1} \, \mathrm{d}t.`.
+
+
         """
         return fsolve(self._frank_help, 1, args=(self.tau))[0]
 
@@ -120,11 +141,3 @@ class Frank(Bivariate):
 
         debye_value = integrate.quad(debye, EPSILON, alpha)[0] / alpha
         return 4 * (debye_value - 1) / alpha + 1 - tau
-
-    def _sample(self, v, c):
-        u = np.empty([1, 0])
-
-        for v_, c_ in zip(v, c):
-            u = np.append(u, self.percent_point(v_, c_))
-
-        return u

@@ -55,25 +55,33 @@ class TestClayton(TestCase):
         """Probability_density returns the probability density for the given values."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 0.98854645
+        expected_result = np.array([0.98854645, 0.98607539])
 
         # Run
-        result = self.copula.probability_density(0.1, 0.5)
+        result = self.copula.probability_density(np.array([
+            [0.1, 0.5],
+            [0.2, 0.8]
+        ]))
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result).all()
 
     def test_cumulative_density(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 0.0522991967
+        expected_result = np.array([1.06658093e+06, 0.16165401])
 
         # Run
-        result = self.copula.cumulative_density(0.1, 0.5)
+        result = self.copula.cumulative_density(np.array([
+            [1500, 180],
+            [0.2, 0.8]
+        ]))
 
         # Check
-        self.assertAlmostEquals(result, expected_result, places=3)
+        assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result).all()
 
     def test_inverse_cumulative_percentile_point(self):
         """The percentile point and cumulative_density should be inverse one of the other."""
@@ -97,4 +105,5 @@ class TestClayton(TestCase):
         result = self.copula.sample(10)
 
         # Check
+        assert isinstance(result, np.ndarray)
         assert result.shape == (10, 2)
