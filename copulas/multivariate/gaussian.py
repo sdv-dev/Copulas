@@ -112,7 +112,7 @@ class GaussianMultivariate(Multivariate):
             distrib = self.distribs[column_name]
 
             # get original distrib's cdf of the column
-            cdf = distrib.cumulative_density(column)
+            cdf = distrib.cumulative_distribution(column)
 
             # get inverse cdf using standard normal
             result = self.set_column(result, column_name, stats.norm.ppf(cdf))

@@ -95,7 +95,7 @@ class TestGaussianUnivariate(TestCase):
         # Check
         assert result == expected_result
 
-    def test_cumulative_density(self):
+    def test_cumulative_distribution(self):
         """Cumulative_density returns the cumulative distribution value for a point."""
 
         # Setup
@@ -106,7 +106,7 @@ class TestGaussianUnivariate(TestCase):
         expected_result = [0.5]
 
         # Run
-        result = copula.cumulative_density(x)
+        result = copula.cumulative_distribution(x)
 
         # Check
         assert (result == expected_result).all()
@@ -127,8 +127,8 @@ class TestGaussianUnivariate(TestCase):
         # Check
         assert (result == expected_result).all()
 
-    def test_percent_point_reverse_cumulative_density(self):
-        """Combined cumulative_density and percent_point is the identity function."""
+    def test_percent_point_reverse_cumulative_distribution(self):
+        """Combined cumulative_distribution and percent_point is the identity function."""
 
         # Setup
         copula = GaussianUnivariate()
@@ -137,8 +137,8 @@ class TestGaussianUnivariate(TestCase):
         initial_value = pd.Series([0])
 
         # Run
-        result_a = copula.percent_point(copula.cumulative_density(initial_value))
-        result_b = copula.cumulative_density(copula.percent_point(initial_value))
+        result_a = copula.percent_point(copula.cumulative_distribution(initial_value))
+        result_b = copula.cumulative_distribution(copula.percent_point(initial_value))
 
         # Check
         assert (initial_value == result_a).all()

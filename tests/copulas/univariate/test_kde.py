@@ -60,11 +60,11 @@ class TestKDEUnivariate(TestCase):
         expected = 0.35206532676429952
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_cumulative_density(self):
-        """cumulative_density evaluates with the model."""
+    def test_cumulative_distribution(self):
+        """cumulative_distribution evaluates with the model."""
         self.setup_norm()
 
-        x = self.kde.cumulative_density(0.5)
+        x = self.kde.cumulative_distribution(0.5)
 
         expected = 0.69146246127401312
         self.assertAlmostEquals(x, expected, places=1)

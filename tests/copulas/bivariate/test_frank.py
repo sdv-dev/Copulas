@@ -64,14 +64,14 @@ class TestFrank(TestCase):
         assert np.isclose(result, expected_result).all()
         assert isinstance(result, np.ndarray)
 
-    def test_cumulative_density(self):
+    def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
         expected_result = 0.05147003
 
         # Run
-        result = self.copula.cumulative_density(np.array([[0.1, 0.5]]))
+        result = self.copula.cumulative_distribution(np.array([[0.1, 0.5]]))
 
         # Check
         assert np.isclose(result, expected_result).all()

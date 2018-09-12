@@ -65,7 +65,7 @@ class TestGumbel(TestCase):
         assert isinstance(result, np.ndarray)
         assert np.isclose(result, expected_result).all()
 
-    def test_cumulative_density(self):
+    def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
@@ -73,7 +73,7 @@ class TestGumbel(TestCase):
         X = np.array([[0.1, 0.5]])
         # Run
 
-        result = self.copula.cumulative_density(X)
+        result = self.copula.cumulative_distribution(X)
 
         # Check
         assert isinstance(result, np.ndarray)

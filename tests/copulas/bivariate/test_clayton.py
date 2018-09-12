@@ -67,14 +67,14 @@ class TestClayton(TestCase):
         assert isinstance(result, np.ndarray)
         assert np.isclose(result, expected_result).all()
 
-    def test_cumulative_density(self):
+    def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
         expected_result = np.array([1.06658093e+06, 0.16165401])
 
         # Run
-        result = self.copula.cumulative_density(np.array([
+        result = self.copula.cumulative_distribution(np.array([
             [1500, 180],
             [0.2, 0.8]
         ]))
@@ -84,14 +84,14 @@ class TestClayton(TestCase):
         assert np.isclose(result, expected_result).all()
 
     def test_inverse_cumulative_percentile_point(self):
-        """The percentile point and cumulative_density should be inverse one of the other."""
+        """The percentile point and cumulative_distribution should be inverse one of the other."""
         # Setup
         self.copula.fit(self.X)
 
         # Run
         # percentile = self.copula.percent_point(0.1, 0.5)
         # derivative = self.copula.partial_derivative([0.1], [0.5])
-        # result = self.copula.cumulative_density(derivative, percentile)
+        # result = self.copula.cumulative_distribution(derivative, percentile)
 
         # Check
         # assert point == result

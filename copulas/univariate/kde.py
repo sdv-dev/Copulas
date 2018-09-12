@@ -76,7 +76,7 @@ class KDEUnivariate(Univariate):
         if not 0 < U < 1:
             raise ValueError('cdf value must be in [0,1]')
 
-        return scipy.optimize.brentq(self.cumulative_density, -1000.0, 1000.0, args=(U))
+        return scipy.optimize.brentq(self.cumulative_distribution, -1000.0, 1000.0, args=(U))
 
     def ppf(self, U):
         return self.percent_point(U)

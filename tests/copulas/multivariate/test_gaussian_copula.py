@@ -134,7 +134,7 @@ class TestGaussianCopula(TestCase):
         # Check
         assert result == expected_result
 
-    def test_cumulative_density_fit_df_call_np_array(self):
+    def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
         copula = GaussianMultivariate()
@@ -143,12 +143,12 @@ class TestGaussianCopula(TestCase):
         expected_result = 0.5822020991592192
 
         # Run
-        result = copula.cumulative_density(X)
+        result = copula.cumulative_distribution(X)
 
         # Check
         assert np.isclose(result, expected_result).all().all()
 
-    def test_cumulative_density_fit_call_np_array(self):
+    def test_cumulative_distribution_fit_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
         copula = GaussianMultivariate()
@@ -157,12 +157,12 @@ class TestGaussianCopula(TestCase):
         expected_result = 0.5822020991592192
 
         # Run
-        result = copula.cumulative_density(X)
+        result = copula.cumulative_distribution(X)
 
         # Check
         assert np.isclose(result, expected_result).all().all()
 
-    def test_cumulative_density_fit_call_pd(self):
+    def test_cumulative_distribution_fit_call_pd(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
         copula = GaussianMultivariate()
@@ -171,7 +171,7 @@ class TestGaussianCopula(TestCase):
         expected_result = 0.5822020991592192
 
         # Run
-        result = copula.cumulative_density(X)
+        result = copula.cumulative_distribution(X)
 
         # Check
         assert np.isclose(result, expected_result).all().all()

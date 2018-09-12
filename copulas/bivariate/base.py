@@ -269,11 +269,11 @@ class Bivariate(object):
 
         X_left = np.column_stack((z_left, z_left))
         for copula in copulas:
-            left.append(copula.cumulative_density(X_left) / np.power(z_left, 2))
+            left.append(copula.cumulative_distribution(X_left) / np.power(z_left, 2))
 
         X_right = np.column_stack((z_right, z_right))
         for copula in copulas:
-            right.append(cls.compute_tail(copula.cumulative_density(X_right), z_right))
+            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), z_right))
 
         return left, right
 

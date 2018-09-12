@@ -16,7 +16,7 @@ class TestCenterTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_density(x) for x in self.data[col]]
+            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
             count += 1
         self.tree = Tree(TreeTypes.CENTER)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
