@@ -137,7 +137,10 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`.
 
         Args:
@@ -147,6 +150,9 @@ class Bivariate(object):
             np.array: cumulative probability
         """
         raise NotImplementedError
+
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`.
@@ -160,6 +166,9 @@ class Bivariate(object):
         """
 
         raise NotImplementedError
+
+    def ppf(self, y, V):
+        return self.percent_point(y, V)
 
     def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.

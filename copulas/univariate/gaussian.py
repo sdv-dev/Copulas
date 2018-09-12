@@ -55,7 +55,10 @@ class GaussianUnivariate(Univariate):
         """
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Cumulative density function for gaussian distribution.
 
         Arguments:
@@ -67,6 +70,9 @@ class GaussianUnivariate(Univariate):
 
         return norm.cdf(X, loc=self.mean, scale=self.std)
 
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
+
     def percent_point(self, U):
         """Given a cumulated density, returns a value in original space.
 
@@ -77,6 +83,9 @@ class GaussianUnivariate(Univariate):
             `np.ndarray`: Estimated values in original space.
         """
         return norm.ppf(U, loc=self.mean, scale=self.std)
+
+    def ppf(self, U):
+        return self.percent_point(U)
 
     def sample(self, num_samples=1):
         """Returns new data point based on model.

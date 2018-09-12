@@ -54,7 +54,10 @@ class Frank(Bivariate):
             den = np.power(aux, 2)
             return num / den
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
@@ -77,6 +80,9 @@ class Frank(Bivariate):
             den = np.exp(-self.theta) - 1
             return -1.0 / self.theta * np.log(1 + num / den)
 
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
+
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
 
@@ -95,6 +101,9 @@ class Frank(Bivariate):
                 result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
 
             return np.array(result)
+
+    def ppf(self, y, V):
+        return self.percent_point(y, V)
 
     def _partial_derivative(self, U, V, y):
         X = np.column_stack((U, V))

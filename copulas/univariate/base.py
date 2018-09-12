@@ -26,7 +26,10 @@ class Univariate(object):
         """
         raise NotImplementedError
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Computes cumulative density.
 
         Arguments:
@@ -36,6 +39,9 @@ class Univariate(object):
             np.ndarray: Cumulative density for X.
         """
         raise NotImplementedError
+
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
 
     def percent_point(self, U):
         """Given a cumulated density, returns a value in original space.
@@ -47,6 +53,9 @@ class Univariate(object):
             `np.ndarray`: Estimated values in original space.
         """
         raise NotImplementedError
+
+    def ppf(self, U):
+        return self.percent_point(U)
 
     def sample(self, n_samples=1):
         """Returns new data point based on model.

@@ -161,7 +161,10 @@ class GaussianMultivariate(Multivariate):
         covariance = self.covariance * np.identity(self.covariance.shape[0])
         return stats.multivariate_normal.pdf(X, cov=covariance)
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula
 
         Args:
@@ -179,6 +182,9 @@ class GaussianMultivariate(Multivariate):
 
         ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
+
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
 
     def sample(self, num_rows=1):
         """Creates sintentic values stadistically similar to the original dataset.

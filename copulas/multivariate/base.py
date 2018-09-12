@@ -19,9 +19,15 @@ class Multivariate(object):
         """Return probability density of model."""
         raise NotImplementedError
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Return cumulative density of model."""
         raise NotImplementedError
+
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
 
     def sample(self, num_rows=1):
         """Return a new data point generated from model."""

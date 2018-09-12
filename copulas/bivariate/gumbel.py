@@ -37,7 +37,10 @@ class Gumbel(Bivariate):
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
             return self.cumulative_density(X) * a * b * c * d
 
-    def cumulative_density(self, X):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
         Args:
@@ -62,6 +65,9 @@ class Gumbel(Bivariate):
             cdfs = np.exp(h)
             return cdfs
 
+    def cdf(self, X):
+        return self.cumulative_distribution(X)
+
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
 
@@ -81,6 +87,9 @@ class Gumbel(Bivariate):
                 result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
 
             return np.array(result)
+
+    def ppf(self, y, V):
+        return self.percent_point(y, V)
 
     def _partial_derivative(self, U, V, y):
         """Helper function to compute the bounded minimum using scalars."""

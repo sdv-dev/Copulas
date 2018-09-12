@@ -43,7 +43,10 @@ class KDEUnivariate(Univariate):
 
         return self.model.evaluate(X)[0]
 
-    def cumulative_density(self, X, U=0):
+    def pdf(self, X):
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X, U=0):
         """Computes the integral of a 1-D pdf between two bounds
 
         Arguments:
@@ -58,6 +61,9 @@ class KDEUnivariate(Univariate):
         low_bounds = -10000
         return self.model.integrate_box_1d(low_bounds, X) - U
 
+    def cdf(self, X, U=0):
+        return self.cumulative_distribution(X, U)
+
     def percent_point(self, U):
         """Given a cdf value, returns a value in original space.
 
@@ -71,6 +77,9 @@ class KDEUnivariate(Univariate):
             raise ValueError('cdf value must be in [0,1]')
 
         return scipy.optimize.brentq(self.cumulative_density, -1000.0, 1000.0, args=(U))
+
+    def ppf(self, U):
+        return self.percent_point(U)
 
     def sample(self, num_samples=1):
         """Samples new data point based on model.
