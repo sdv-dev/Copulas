@@ -39,7 +39,7 @@ class Frank(Bivariate):
             X: `np.ndarray`
 
         Returns:
-            np.array: cumulative probability
+            np.array: probability density
         """
         self.check_fit()
 
@@ -54,9 +54,6 @@ class Frank(Bivariate):
             den = np.power(aux, 2)
             return num / den
 
-    def pdf(self, X):
-        return self.probability_density(X)
-
     def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
@@ -64,27 +61,22 @@ class Frank(Bivariate):
             X: `np.ndarray`
 
         Returns:
-            np.array: cumulative probability
+            np.array: cumulative distribution
         """
         self.check_fit()
 
         U, V = self.split_matrix(X)
 
-        if self.theta == 0:
-            return np.multiply(U, V)
+        num = np.multiply(
+            np.exp(np.multiply(-self.theta, U)) - 1,
+            np.exp(np.multiply(-self.theta, V)) - 1
+        )
+        den = np.exp(-self.theta) - 1
 
-        else:
-            num = np.multiply(
-                np.exp(np.multiply(-self.theta, U)) - 1,
-                np.exp(np.multiply(-self.theta, V)) - 1)
-            den = np.exp(-self.theta) - 1
-            return -1.0 / self.theta * np.log(1 + num / den)
-
-    def cdf(self, X):
-        return self.cumulative_distribution(X)
+        return -1.0 / self.theta * np.log(1 + num / den)
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
@@ -102,15 +94,12 @@ class Frank(Bivariate):
 
             return np.array(result)
 
-    def ppf(self, y, V):
-        return self.percent_point(y, V)
-
     def _partial_derivative(self, U, V, y):
         X = np.column_stack((U, V))
         return self.partial_derivative(X, y)
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative density.
+        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
 
         Args:
             X: `np.ndarray`
@@ -131,7 +120,7 @@ class Frank(Bivariate):
             den = np.multiply(self._g(U), self._g(V)) + self._g(1)
             return (num / den) - y
 
-    def get_theta(self):
+    def compute_theta(self):
         """Compute theta parameter using Kendall's tau.
 
         On Frank copula, this is

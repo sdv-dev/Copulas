@@ -85,7 +85,7 @@ class Bivariate(object):
         """
         U, V = self.split_matrix(X)
         self.tau = stats.kendalltau(U, V)[0]
-        self.theta = self.get_theta()
+        self.theta = self.compute_theta()
         self.check_theta()
 
     def to_dict(self):
@@ -200,7 +200,7 @@ class Bivariate(object):
         u = self.percent_point(c, v)
         return np.column_stack((u, v))
 
-    def get_theta(self):
+    def compute_theta(self):
         """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
 

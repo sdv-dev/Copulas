@@ -29,20 +29,10 @@ class Clayton(Bivariate):
 
         U, V = self.split_matrix(X)
 
-        if self.theta < 0:
-            raise ValueError("Theta cannot be less or equal than 0 for Clayton")
-
-        elif self.theta == 0:
-            return np.multiply(U, V)
-
-        else:
-            a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
-            b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
-            c = -(2 * self.theta + 1) / self.theta
-            return a * np.power(b, c)
-
-    def pdf(self, X):
-        return self.probability_density(X)
+        a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
+        b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
+        c = -(2 * self.theta + 1) / self.theta
+        return a * np.power(b, c)
 
     def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
@@ -57,13 +47,7 @@ class Clayton(Bivariate):
 
         U, V = self.split_matrix(X)
 
-        if self.theta < 0:
-            raise ValueError("Theta cannot be less or equal than 0 for clayton")
-
-        elif self.theta == 0:
-            return np.multiply(U, V)
-
-        elif (V == 0).all() or (U == 0).all():
+        if (V == 0).all() or (U == 0).all():
             return np.zeros(V.shape[0])
 
         else:
@@ -72,16 +56,14 @@ class Clayton(Bivariate):
                     np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
                     -1.0 / self.theta
                 )
-                if U[i] > 0 else 0 for i in range(len(U))
+                if U[i] > 0 else 0
+                for i in range(len(U))
             ]
 
             return np.array([max(x, 0) for x in cdfs])
 
-    def cdf(self, X):
-        return self.cumulative_distribution(X)
-
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
@@ -98,11 +80,8 @@ class Clayton(Bivariate):
             u = np.power((a + b - 1) / b, -1 / self.theta)
             return u
 
-    def ppf(self, y, V):
-        return self.percent_point(y, V)
-
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative density.
+        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
 
         Args:
             X: `np.ndarray`
@@ -124,7 +103,7 @@ class Clayton(Bivariate):
             h = np.power(B, (-1 - self.theta) / self.theta)
             return np.multiply(A, h) - y
 
-    def get_theta(self):
+    def compute_theta(self):
         """Compute theta parameter using Kendall's tau.
 
         On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with

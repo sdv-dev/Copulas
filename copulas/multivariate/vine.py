@@ -142,14 +142,15 @@ class VineCopula(Multivariate):
                                 args=(unis[visited[0]], copula_para, tmp)
                             )
                         tmp = min(max(tmp, EPSILON), 0.99)
+
                 new_x = self.ppfs[current](tmp)
+
             sampled[current] = new_x
 
             for s in neighbors:
-                if s in visited:
-                    continue
-                else:
+                if s not in visited:
                     explore.insert(0, s)
+
             itr += 1
             visited.insert(0, current)
 

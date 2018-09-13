@@ -13,7 +13,7 @@ class Gumbel(Bivariate):
     theta_interval = [1, float('inf')]
     invalid_thetas = []
 
-    def get_generator(self, t):
+    def generator(self, t):
         """Return the generator function."""
         return np.power(-np.log(t), self.theta)
 
@@ -23,10 +23,7 @@ class Gumbel(Bivariate):
 
         U, V = self.split_matrix(X)
 
-        if self.theta < 1:
-            raise ValueError("Theta cannot be less than 1 for Gumbel")
-
-        elif self.theta == 1:
+        if self.theta == 1:
             return np.multiply(U, V)
 
         else:
@@ -36,9 +33,6 @@ class Gumbel(Bivariate):
             c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
             return self.cumulative_distribution(X) * a * b * c * d
-
-    def pdf(self, X):
-        return self.probability_density(X)
 
     def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
@@ -53,10 +47,7 @@ class Gumbel(Bivariate):
 
         U, V = self.split_matrix(X)
 
-        if self.theta < 1:
-            raise ValueError("Theta cannot be less than 1 for Gumbel")
-
-        elif self.theta == 1:
+        if self.theta == 1:
             return np.multiply(U, V)
 
         else:
@@ -65,11 +56,8 @@ class Gumbel(Bivariate):
             cdfs = np.exp(h)
             return cdfs
 
-    def cdf(self, X):
-        return self.cumulative_distribution(X)
-
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
@@ -87,9 +75,6 @@ class Gumbel(Bivariate):
                 result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
 
             return np.array(result)
-
-    def ppf(self, y, V):
-        return self.percent_point(y, V)
 
     def _partial_derivative(self, U, V, y):
         """Helper function to compute the bounded minimum using scalars."""
@@ -121,7 +106,7 @@ class Gumbel(Bivariate):
             p3 = np.power(-np.log(V), self.theta - 1)
             return np.divide(np.multiply(np.multiply(p1, p2), p3), V) - y
 
-    def get_theta(self):
+    def compute_theta(self):
         """Compute theta parameter using Kendall's tau.
 
         On Gumbel copula :math:`\\tau is defined as :math:`τ = \\frac{θ−1}{θ}`

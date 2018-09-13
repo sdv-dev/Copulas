@@ -44,7 +44,7 @@ class Univariate(object):
         return self.cumulative_distribution(X)
 
     def percent_point(self, U):
-        """Given a cumulated density, returns a value in original space.
+        """Given a cumulative distribution value, returns a value in original space.
 
         Arguments:
             U: `np.ndarray` of shape (n, 1) and values in [0,1]

@@ -28,7 +28,7 @@ class GaussianUnivariate(Univariate):
         )
 
     def fit(self, X):
-        """Fits the model.
+        """Fit the model.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
@@ -40,12 +40,16 @@ class GaussianUnivariate(Univariate):
         if not len(X):
             raise ValueError("Can't fit with an empty dataset.")
 
-        self.name = X.name if isinstance(X, (pd.Series, pd.DataFrame)) else None
+        if isinstance(X, (pd.Series, pd.DataFrame)):
+            self.name = X.name
+        else:
+            self.name = None
+
         self.mean = np.mean(X)
         self.std = np.std(X) or 0.001
 
     def probability_density(self, X):
-        """Computes probability density.
+        """Compute probability density.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
@@ -55,11 +59,8 @@ class GaussianUnivariate(Univariate):
         """
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
-    def pdf(self, X):
-        return self.probability_density(X)
-
     def cumulative_distribution(self, X):
-        """Cumulative density function for gaussian distribution.
+        """Cumulative distribution function for gaussian distribution.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
@@ -70,11 +71,8 @@ class GaussianUnivariate(Univariate):
 
         return norm.cdf(X, loc=self.mean, scale=self.std)
 
-    def cdf(self, X):
-        return self.cumulative_distribution(X)
-
     def percent_point(self, U):
-        """Given a cumulated density, returns a value in original space.
+        """Given a cumulated distribution value, returns a value in original space.
 
         Arguments:
             U: `np.ndarray` of shape (n, 1) and values in [0,1]
@@ -83,9 +81,6 @@ class GaussianUnivariate(Univariate):
             `np.ndarray`: Estimated values in original space.
         """
         return norm.ppf(U, loc=self.mean, scale=self.std)
-
-    def ppf(self, U):
-        return self.percent_point(U)
 
     def sample(self, num_samples=1):
         """Returns new data point based on model.

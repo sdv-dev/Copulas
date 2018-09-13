@@ -32,7 +32,7 @@ class KDEUnivariate(Univariate):
         """Evaluate the estimated pdf on a point.
 
         Args:
-            :param X: a datapoint.
+            X: `float` a datapoint.
             :type X: float
 
         Returns:
@@ -43,26 +43,18 @@ class KDEUnivariate(Univariate):
 
         return self.model.evaluate(X)[0]
 
-    def pdf(self, X):
-        return self.probability_density(X)
-
     def cumulative_distribution(self, X, U=0):
         """Computes the integral of a 1-D pdf between two bounds
 
-        Arguments:
-            :param X: a datapoint.
-            :param U: cdf value in [0,1], only used in get_ppf
-            :type X: int or float
-            :type U: int or float
+        Args:
+            X: `float` a datapoint.
+            U: `float` cdf value in [0,1], only used in get_ppf
 
         Returns:
-            cdf: int or float with the value of estimated cdf.
+            float: estimated cumulative distribution.
         """
-        low_bounds = -10000
+        low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
         return self.model.integrate_box_1d(low_bounds, X) - U
-
-    def cdf(self, X, U=0):
-        return self.cumulative_distribution(X, U)
 
     def percent_point(self, U):
         """Given a cdf value, returns a value in original space.
@@ -77,9 +69,6 @@ class KDEUnivariate(Univariate):
             raise ValueError('cdf value must be in [0,1]')
 
         return scipy.optimize.brentq(self.cumulative_distribution, -1000.0, 1000.0, args=(U))
-
-    def ppf(self, U):
-        return self.percent_point(U)
 
     def sample(self, num_samples=1):
         """Samples new data point based on model.
