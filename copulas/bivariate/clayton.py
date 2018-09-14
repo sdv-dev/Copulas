@@ -7,97 +7,110 @@ class Clayton(Bivariate):
     """Class for clayton copula model."""
 
     copula_type = CopulaTypes.CLAYTON
+    theta_interval = [-1, float('inf')]
+    invalid_thetas = [0]
 
-    def get_generator(self):
+    def generator(self, t):
         """Return the generator function."""
+        self.check_fit()
 
-        def generator(theta, t):
-            return 1.0 / theta * (np.power(t, -theta) - 1)
+        return 1.0 / self.theta * (np.power(t, -self.theta) - 1)
 
-        return generator
-
-    def get_pdf(self):
-        """Compute density function for given copula family."""
-        def pdf(U, V):
-            if self.theta < 0:
-                raise ValueError("Theta cannot be less or equal than 0 for clayton")
-            elif self.theta == 0:
-                return np.multiply(U, V)
-            else:
-                a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
-                b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
-                c = -(2 * self.theta + 1) / self.theta
-                return a * np.power(b, c)
-
-        return pdf
-
-    def get_cdf(self):
-        """Compute cdf function for given copula family."""
-        def cdf(U, V):
-            if self.theta < 0:
-                raise ValueError("Theta cannot be less or equal than 0 for clayton")
-
-            elif self.theta == 0:
-                return np.multiply(U, V)
-
-            elif U == 0 or V == 0:
-                return 0
-
-            elif type(U) in (int, float):
-                value = np.power(
-                    np.power(U, -self.theta) + np.power(V, -self.theta) - 1,
-                    -1.0 / self.theta)
-
-                return value
-
-            else:
-                cdfs = [
-                    np.power(
-                        np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
-                        -1.0 / self.theta
-                    )
-                    if U[i] > 0 else 0 for i in range(len(U))
-                ]
-
-                return [max(x, 0) for x in cdfs]
-
-        return cdf
-
-    def get_ppf(self):
-        """Compute the inverse of conditional CDF C(u|v)^-1.
+    def probability_density(self, X):
+        """Compute probability density function for given copula family.
 
         Args:
-            y: value of C(u|v)
-            v : given value of v
+            X: `np.ndarray`
+
+        Returns:
+            np.array: Probability density for the input values.
         """
-        def ppf(y, v, theta):
-            if theta < 0:
-                return v
+        self.check_fit()
 
-            else:
-                a = np.power(y, theta / (-1 - theta))
-                b = np.power(v, theta)
-                u = np.power((a + b - 1) / b, -1 / theta)
-                return u
+        U, V = self.split_matrix(X)
 
-        return ppf
+        a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
+        b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
+        c = -(2 * self.theta + 1) / self.theta
+        return a * np.power(b, c)
 
-    def get_h_function(self):
-        """Compute partial derivative C(u|v) of each copula cdf function."""
-        def du(u, v, theta, y=0):
-            if theta == 0:
-                return v
-            else:
-                A = np.power(v, -theta - 1)
-                B = np.power(v, -theta) + np.power(u, -theta) - 1
-                h = np.power(B, (-1 - theta) / theta)
-                h = np.multiply(A, h)
-                h = h - y
-                return h
+    def cumulative_distribution(self, X):
+        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
 
-        return du
+        Args:
+            X: `np.ndarray`
 
-    def tau_to_theta(self):
+        Returns:
+            np.array: cumulative probability
+        """
+        self.check_fit()
+
+        U, V = self.split_matrix(X)
+
+        if (V == 0).all() or (U == 0).all():
+            return np.zeros(V.shape[0])
+
+        else:
+            cdfs = [
+                np.power(
+                    np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
+                    -1.0 / self.theta
+                )
+                if U[i] > 0 else 0
+                for i in range(len(U))
+            ]
+
+            return np.array([max(x, 0) for x in cdfs])
+
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
+
+        Args:
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
+        """
+        self.check_fit()
+
+        if self.theta < 0:
+            return V
+
+        else:
+            a = np.power(y, self.theta / (-1 - self.theta))
+            b = np.power(V, self.theta)
+            u = np.power((a + b - 1) / b, -1 / self.theta)
+            return u
+
+    def partial_derivative(self, X, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
+
+        Args:
+            X: `np.ndarray`
+            y: `float`
+
+        Returns:
+            np.ndarray: Derivatives
+        """
+        self.check_fit()
+
+        U, V = self.split_matrix(X)
+
+        if self.theta == 0:
+            return V
+
+        else:
+            A = np.power(V, -self.theta - 1)
+            B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
+            h = np.power(B, (-1 - self.theta) / self.theta)
+            return np.multiply(A, h) - y
+
+    def compute_theta(self):
+        """Compute theta parameter using Kendall's tau.
+
+        On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with
+        :math:`θ ∈ (0, ∞)`.
+
+        On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
+        """
         if self.tau == 1:
             theta = 10000
 
@@ -105,6 +118,3 @@ class Clayton(Bivariate):
             theta = 2 * self.tau / (1 - self.tau)
 
         return theta
-
-    def _sample(self, v, c):
-        return self.get_ppf()(c, v, self.theta)

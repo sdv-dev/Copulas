@@ -3,7 +3,7 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.tree import CenterTree
+from copulas.multivariate.tree import Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
 
 
@@ -16,9 +16,10 @@ class TestCenterTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.get_cdf(x) for x in self.data[col]]
+            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
             count += 1
-        self.tree = CenterTree(0, 4, self.tau_mat, self.u_matrix)
+        self.tree = Tree(TreeTypes.CENTER)
+        self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
         """ Assert 0 is the center node"""
@@ -30,7 +31,7 @@ class TestCenterTree(TestCase):
 
         value, new_u = self.tree.get_likelihood(uni_matrix)
 
-        expected = -5.5411
+        expected = -0.19988720707143634
         assert abs(value - expected) < 10E-3
 
     def test_get_constraints(self):
@@ -51,11 +52,12 @@ class TestCenterTree(TestCase):
     def test_second_tree_likelihood(self):
         """ Assert second tree likelihood is correct """
         tau = self.tree.get_tau_matrix()
-        second_tree = CenterTree(1, 3, tau, self.tree)
+        second_tree = Tree(TreeTypes.CENTER)
+        second_tree.fit(1, 3, tau, self.tree)
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 
         first_value, new_u = self.tree.get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
 
-        expected = 2.1247
+        expected = 0.540089320412914
         assert abs(second_value - expected) < 10E-3

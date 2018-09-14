@@ -14,7 +14,7 @@ from tests import compare_nested_dicts
 
 class TestKDEUnivariate(TestCase):
     def setup_norm(self):
-        """set up the model to fit standard norm data"""
+        """set up the model to fit standard norm data."""
         self.kde = KDEUnivariate()
         # use 42 as a fixed random seed
         np.random.seed(42)
@@ -27,7 +27,7 @@ class TestKDEUnivariate(TestCase):
         assert self.kde.model is None
 
     def test_fit(self):
-        """On fit, kde model is instantiated with intance of gaussian_kde"""
+        """On fit, kde model is instantiated with intance of gaussian_kde."""
         self.kde = KDEUnivariate()
         data = [1, 2, 3, 4, 5]
 
@@ -36,54 +36,54 @@ class TestKDEUnivariate(TestCase):
         self.assertIsInstance(self.kde.model, scipy.stats.gaussian_kde)
 
     def test_fit_uniform(self):
-        """On fit, kde model is instantiated with passed data"""
+        """On fit, kde model is instantiated with passed data."""
         self.kde = KDEUnivariate()
         data = [1, 2, 3, 4, 5]
 
         self.kde.fit(data)
 
-        assert self.kde.data == data
+        assert self.kde.model
 
     def test_fit_empty_data(self):
-        """If fitting kde model with empty data it will raise ValueError"""
+        """If fitting kde model with empty data it will raise ValueError."""
         self.kde = KDEUnivariate()
 
         with self.assertRaises(ValueError):
             self.kde.fit([])
 
-    def test_get_pdf(self):
-        """get_pdf evaluates with the model"""
+    def test_probability_density(self):
+        """probability_density evaluates with the model."""
         self.setup_norm()
 
-        x = self.kde.get_pdf(0.5)
+        x = self.kde.probability_density(0.5)
 
         expected = 0.35206532676429952
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_cdf(self):
-        """get_pdf evaluates with the model"""
+    def test_cumulative_distribution(self):
+        """cumulative_distribution evaluates with the model."""
         self.setup_norm()
 
-        x = self.kde.get_cdf(0.5)
+        x = self.kde.cumulative_distribution(0.5)
 
         expected = 0.69146246127401312
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_ppf(self):
-        """get_ppf evaluates with the model"""
+    def test_percent_point(self):
+        """percent_point evaluates with the model."""
         self.setup_norm()
 
-        x = self.kde.get_ppf(0.5)
+        x = self.kde.percent_point(0.5)
 
         expected = 0.0
         self.assertAlmostEquals(x, expected, places=1)
 
-    def test_get_ppf_invalid_value(self):
-        """Evaluating an invalid value will raise ValueError"""
+    def test_percent_point_invalid_value(self):
+        """Evaluating an invalid value will raise ValueError."""
         self.setup_norm()
 
         with self.assertRaises(ValueError):
-            self.kde.get_ppf(2)
+            self.kde.percent_point(2)
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
