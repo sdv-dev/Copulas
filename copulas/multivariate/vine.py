@@ -141,6 +141,7 @@ class VineCopula(Multivariate):
                                 derivative, EPSILON, 1.0,
                                 args=(unis[visited[0]], copula_para, tmp)
                             )
+
                         tmp = min(max(tmp, EPSILON), 0.99)
 
                 new_x = self.ppfs[current](tmp)
