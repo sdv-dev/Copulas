@@ -80,11 +80,11 @@ a python terminal.
 >>> data = pd.read_csv('data/iris.data.csv')
 >>> data.head()
    feature_01  feature_02  feature_03  feature_04
-   0         5.1         3.5         1.4         0.2
-   1         4.9         3.0         1.4         0.2
-   2         4.7         3.2         1.3         0.2
-   3         4.6         3.1         1.5         0.2
-   4         5.0         3.6         1.4         0.2
+0         5.1         3.5         1.4         0.2
+1         4.9         3.0         1.4         0.2
+2         4.7         3.2         1.3         0.2
+3         4.6         3.1         1.5         0.2
+4         5.0         3.6         1.4         0.2
 ```
 
 Once we have the data, we can pass it into the GaussianUnivariate class.
@@ -95,22 +95,21 @@ Once we have the data, we can pass it into the GaussianUnivariate class.
 >>> gu.fit(feature1)
 >>> print(gu)
 Distribution Type: Gaussian
-mean =  5.843333333333335
-standard deviation =  0.8253012917851409
-max =  7.9
-min =  4.3
+Variable name: feature_01
+Mean: 5.843333333333334
+Standard deviation: 0.8253012917851409
 ```
 
 Once you fit the distribution, you can get the pdf or cdf of data points and you can sample
 from the distribution.
 
 ```python
->>> gu.get_pdf(5)
-0.28678585054723732
->>> gu.get_cdf(5)
-0.15342617720079199
+>>> gu.probability_density(5)
+0.2867858505472377
+>>> gu.cumulative_distribution(5)
+0.15342617720079227
 >>> gu.sample(1)
-array([ 6.14745446])
+array([6.14745446])
 ```
 
 ### Creating a Gaussian Copula
@@ -129,8 +128,6 @@ Distribution Type: Gaussian
 Variable name: feature_01
 Mean: 5.843333333333334
 Standard deviation: 0.8253012917851409
-Max: 7.9
-Min: 4.3
 
 feature_02
 ===============
@@ -138,8 +135,6 @@ Distribution Type: Gaussian
 Variable name: feature_02
 Mean: 3.0540000000000003
 Standard deviation: 0.4321465800705435
-Max: 4.4
-Min: 2.0
 
 feature_03
 ===============
@@ -147,8 +142,6 @@ Distribution Type: Gaussian
 Variable name: feature_03
 Mean: 3.758666666666666
 Standard deviation: 1.7585291834055212
-Max: 6.9
-Min: 1.0
 
 feature_04
 ===============
@@ -156,20 +149,6 @@ Distribution Type: Gaussian
 Variable name: feature_04
 Mean: 1.1986666666666668
 Standard deviation: 0.7606126185881716
-Max: 2.5
-Min: 0.1
-
-Copula Distribution:
-     feature_01  feature_02  feature_03  feature_04
-0     -0.900681    1.032057   -1.341272   -1.312977
-1     -1.143017   -0.124958   -1.341272   -1.312977
-2     -1.385353    0.337848   -1.398138   -1.312977
-3     -1.506521    0.106445   -1.284407   -1.312977
-4     -1.021849    1.263460   -1.341272   -1.312977
-5     -0.537178    1.957669   -1.170675   -1.050031
-...
-
-[150 rows x 4 columns]
 
 Covariance matrix:
 [[ 1.26935536  0.64987728  0.94166734 ... -0.57458312 -0.14548004
@@ -185,10 +164,6 @@ Covariance matrix:
    0.14455133]
  [-0.43589371 -0.21867228 -0.27836438 ...  0.19208669  0.14455133
    0.22229033]]
-
-Means:
-[-3.315866100213801e-16, -7.815970093361102e-16, 2.842170943040401e-16, -2.3684757858670006e-16]
-
 ```
 
 Once you have fit the copula, you can sample from it.

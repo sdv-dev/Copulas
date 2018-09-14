@@ -1,5 +1,13 @@
 # History
 
+## 0.2.0 - Unified API
+
+* New API for stats methods.
+* Standarize input and output to `numpy.ndarray`.
+* Increase unittest coverage to 90%.
+* Add methods to load/save copulas.
+* Improve Gaussian copula sampling accuracy.
+
 ## 0.1.1 - Minor Improvements
 
 * Different Copula types separated in subclasses
