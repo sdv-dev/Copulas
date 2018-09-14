@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate package &mdash; Copulas 0.1.1 documentation</title>
+  <title>copulas.univariate package &mdash; Copulas 0.2.0 documentation</title>
   
 
   
@@ -199,33 +199,118 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract class for representing univariate distributions</p>
 <dl class="method">
+<dt id="copulas.univariate.base.Univariate.cdf">
+<code class="descname">cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.cdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.base.Univariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes cumulative density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cumulative density for X.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.univariate.base.Univariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fits a univariate model and updates parameters</p>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.base.Univariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>param_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance from dictionary.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.base.Univariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.get_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value returns corresponding cdf value</p>
+<dt id="copulas.univariate.base.Univariate.pdf">
+<code class="descname">pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.base.Univariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cumulative distribution value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>np.ndarray</cite> of shape (n, 1) and values in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Estimated values in original space.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>np.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.base.Univariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.get_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value, returns corresponding pdf value</p>
-</dd></dl>
+<dt id="copulas.univariate.base.Univariate.ppf">
+<code class="descname">ppf</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.ppf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.base.Univariate.inverse_cdf">
-<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.inverse_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a cdf value, returns a value in original space</p>
+<dt id="copulas.univariate.base.Univariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes probability density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.univariate.base.Univariate.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns new data point based on model</p>
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns new data point based on model.</p>
+<dl class="docutils">
+<dt>Argument:</dt>
+<dd>n_samples: <cite>int</cite></dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Generated samples</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.base.Univariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.base.Univariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -239,33 +324,101 @@
 <dd><p>Bases: <a class="reference internal" href="#copulas.univariate.base.Univariate" title="copulas.univariate.base.Univariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.Univariate</span></code></a></p>
 <p>Gaussian univariate model</p>
 <dl class="method">
+<dt id="copulas.univariate.gaussian.GaussianUnivariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cumulative distribution function for gaussian distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cumulative density for X.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.univariate.gaussian.GaussianUnivariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fits a univariate model and updates parameters</p>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.gaussian.GaussianUnivariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes with provided values.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.gaussian.GaussianUnivariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value returns corresponding cdf value</p>
+<dt id="copulas.univariate.gaussian.GaussianUnivariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cumulated distribution value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>np.ndarray</cite> of shape (n, 1) and values in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Estimated values in original space.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>np.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.gaussian.GaussianUnivariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value, returns corresponding pdf value</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.univariate.gaussian.GaussianUnivariate.inverse_cdf">
-<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.inverse_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a cdf value, returns a value in original space</p>
+<dt id="copulas.univariate.gaussian.GaussianUnivariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.univariate.gaussian.GaussianUnivariate.sample">
 <code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns new data point based on model</p>
+<dd><p>Returns new data point based on model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_samples</strong> – <cite>int</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Generated samples</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.gaussian.GaussianUnivariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian.GaussianUnivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -281,41 +434,82 @@
 in scipy.stats toolbox. gaussian_kde is slower than statsmodels
 but allows more flexibility.</p>
 <dl class="method">
-<dt id="copulas.univariate.kde.KDEUnivariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit Kernel density estimation to an list of values.</p>
-<p>:param : param column: list of datapoints to be estimated from.
-:param : type column: 1-D np.ndarray or pd.Series or list</p>
-<p>This function will fit a gaussian_kde model to a list of datapoints
-and store it as a class attribute.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.univariate.kde.KDEUnivariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>x</em>, <em>u=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.kde.KDEUnivariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em>, <em>U=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the integral of a 1-D pdf between two bounds</p>
-<p>:param : param x: a datapoint.
-:param : param u: cdf value in [0,1], only used in get_ppf
-:param : type x: int or float
-:param : type u: int or float</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">int or float with the value of estimated cdf.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> – <cite>float</cite> a datapoint.</li>
+<li><strong>U</strong> – <cite>float</cite> cdf value in [0,1], only used in get_ppf</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">cdf</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">estimated cumulative distribution.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.kde.KDEUnivariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.kde.KDEUnivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit Kernel density estimation to an list of values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – 1-d <cite>np.ndarray</cite> or <cite>pd.Series</cite> or <cite>list</cite> datapoints to be estimated from.</td>
+</tr>
+</tbody>
+</table>
+<p>This function will fit a gaussian_kde model to a list of datapoints
+and store it as a class attribute.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.kde.KDEUnivariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes with provided values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.kde.KDEUnivariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cdf value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>int</cite> or <cite>float</cite> cdf value in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">value in original space</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.kde.KDEUnivariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.probability_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the estimated pdf on a point.</p>
-<p>:param : param x: a datapoint.
-:param : type x: int or float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>float</cite> a datapoint.</td>
+</tr>
+</tbody>
+</table>
+<p>:param : type X: float</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -329,39 +523,27 @@ and store it as a class attribute.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.kde.KDEUnivariate.get_ppf">
-<code class="descname">get_ppf</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.get_ppf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a cdf value, returns a value in original space
-:param : param u: cdf value in [0,1]
-:param : type u: int or float</p>
+<dt id="copulas.univariate.kde.KDEUnivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples new data point based on model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">int or float with the value in original space</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_samples</strong> – <cite>int</cite> number of points to be sampled</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">x</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of datapoints sampled from the model</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">samples</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.kde.KDEUnivariate.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Samples new data point based on model
-:param : param num_samples: number of points to be sampled
-:param : type num_samples: int</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of datapoints sampled from the model</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">samples</td>
-</tr>
-</tbody>
-</table>
+<dt id="copulas.univariate.kde.KDEUnivariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.kde.KDEUnivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -375,33 +557,118 @@ and store it as a class attribute.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract class for representing univariate distributions</p>
 <dl class="method">
+<dt id="copulas.univariate.Univariate.cdf">
+<code class="descname">cdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.cdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.Univariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes cumulative density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cumulative density for X.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.univariate.Univariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fits a univariate model and updates parameters</p>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.Univariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>param_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance from dictionary.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.Univariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.get_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value returns corresponding cdf value</p>
+<dt id="copulas.univariate.Univariate.pdf">
+<code class="descname">pdf</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.pdf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.Univariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cumulative distribution value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>np.ndarray</cite> of shape (n, 1) and values in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Estimated values in original space.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>np.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.Univariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.get_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value, returns corresponding pdf value</p>
-</dd></dl>
+<dt id="copulas.univariate.Univariate.ppf">
+<code class="descname">ppf</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.ppf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.Univariate.inverse_cdf">
-<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.inverse_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a cdf value, returns a value in original space</p>
+<dt id="copulas.univariate.Univariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes probability density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.univariate.Univariate.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns new data point based on model</p>
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns new data point based on model.</p>
+<dl class="docutils">
+<dt>Argument:</dt>
+<dd>n_samples: <cite>int</cite></dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Generated samples</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.Univariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/base.html#Univariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -412,33 +679,101 @@ and store it as a class attribute.</p>
 <dd><p>Bases: <a class="reference internal" href="#copulas.univariate.base.Univariate" title="copulas.univariate.base.Univariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.Univariate</span></code></a></p>
 <p>Gaussian univariate model</p>
 <dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cumulative distribution function for gaussian distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cumulative density for X.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.univariate.GaussianUnivariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>fits a univariate model and updates parameters</p>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.GaussianUnivariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes with provided values.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.GaussianUnivariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value returns corresponding cdf value</p>
+<dt id="copulas.univariate.GaussianUnivariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cumulated distribution value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>np.ndarray</cite> of shape (n, 1) and values in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Estimated values in original space.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>np.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.GaussianUnivariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a value, returns corresponding pdf value</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.univariate.GaussianUnivariate.inverse_cdf">
-<code class="descname">inverse_cdf</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.inverse_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.inverse_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>given a cdf value, returns a value in original space</p>
+<dt id="copulas.univariate.GaussianUnivariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.univariate.GaussianUnivariate.sample">
 <code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns new data point based on model</p>
+<dd><p>Returns new data point based on model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_samples</strong> – <cite>int</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Generated samples</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.GaussianUnivariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/gaussian.html#GaussianUnivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -451,41 +786,82 @@ and store it as a class attribute.</p>
 in scipy.stats toolbox. gaussian_kde is slower than statsmodels
 but allows more flexibility.</p>
 <dl class="method">
-<dt id="copulas.univariate.KDEUnivariate.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>column</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit Kernel density estimation to an list of values.</p>
-<p>:param : param column: list of datapoints to be estimated from.
-:param : type column: 1-D np.ndarray or pd.Series or list</p>
-<p>This function will fit a gaussian_kde model to a list of datapoints
-and store it as a class attribute.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.univariate.KDEUnivariate.get_cdf">
-<code class="descname">get_cdf</code><span class="sig-paren">(</span><em>x</em>, <em>u=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.get_cdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.KDEUnivariate.cumulative_distribution">
+<code class="descname">cumulative_distribution</code><span class="sig-paren">(</span><em>X</em>, <em>U=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the integral of a 1-D pdf between two bounds</p>
-<p>:param : param x: a datapoint.
-:param : param u: cdf value in [0,1], only used in get_ppf
-:param : type x: int or float
-:param : type u: int or float</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">int or float with the value of estimated cdf.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> – <cite>float</cite> a datapoint.</li>
+<li><strong>U</strong> – <cite>float</cite> cdf value in [0,1], only used in get_ppf</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">cdf</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">estimated cumulative distribution.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.KDEUnivariate.get_pdf">
-<code class="descname">get_pdf</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.get_pdf" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.KDEUnivariate.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit Kernel density estimation to an list of values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – 1-d <cite>np.ndarray</cite> or <cite>pd.Series</cite> or <cite>list</cite> datapoints to be estimated from.</td>
+</tr>
+</tbody>
+</table>
+<p>This function will fit a gaussian_kde model to a list of datapoints
+and store it as a class attribute.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="copulas.univariate.KDEUnivariate.from_dict">
+<em class="property">classmethod </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes with provided values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.KDEUnivariate.percent_point">
+<code class="descname">percent_point</code><span class="sig-paren">(</span><em>U</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a cdf value, returns a value in original space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>U</strong> – <cite>int</cite> or <cite>float</cite> cdf value in [0,1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">value in original space</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.univariate.KDEUnivariate.probability_density">
+<code class="descname">probability_density</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.probability_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the estimated pdf on a point.</p>
-<p>:param : param x: a datapoint.
-:param : type x: int or float</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> – <cite>float</cite> a datapoint.</td>
+</tr>
+</tbody>
+</table>
+<p>:param : type X: float</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -499,39 +875,27 @@ and store it as a class attribute.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.KDEUnivariate.get_ppf">
-<code class="descname">get_ppf</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.get_ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.get_ppf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a cdf value, returns a value in original space
-:param : param u: cdf value in [0,1]
-:param : type u: int or float</p>
+<dt id="copulas.univariate.KDEUnivariate.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples new data point based on model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">int or float with the value in original space</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_samples</strong> – <cite>int</cite> number of points to be sampled</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">x</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of datapoints sampled from the model</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">samples</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.KDEUnivariate.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>num_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Samples new data point based on model
-:param : param num_samples: number of points to be sampled
-:param : type num_samples: int</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of datapoints sampled from the model</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">samples</td>
-</tr>
-</tbody>
-</table>
+<dt id="copulas.univariate.KDEUnivariate.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/copulas/univariate/kde.html#KDEUnivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.KDEUnivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameters to replicate the distribution.</p>
 </dd></dl>
 
 </dd></dl>
@@ -581,7 +945,7 @@ and store it as a class attribute.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.1',
+            VERSION:'0.2.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -592,6 +956,7 @@ and store it as a class attribute.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

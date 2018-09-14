@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.clayton &mdash; Copulas 0.1.1 documentation</title>
+  <title>copulas.bivariate.clayton &mdash; Copulas 0.2.0 documentation</title>
   
 
   
@@ -186,107 +186,117 @@
     <span class="sd">&quot;&quot;&quot;Class for clayton copula model.&quot;&quot;&quot;</span>
 
     <span class="n">copula_type</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">CLAYTON</span>
+    <span class="n">theta_interval</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span>
+    <span class="n">invalid_thetas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Clayton.get_generator"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.get_generator">[docs]</a>    <span class="k">def</span> <span class="nf">get_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Clayton.generator"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.generator">[docs]</a>    <span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the generator function.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-            <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="n">generator</span></div>
-
-<div class="viewcode-block" id="Clayton.get_pdf"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute density function for given copula family.&quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Theta cannot be less or equal than 0 for clayton&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-                <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
-                <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">pdf</span></div>
-
-<div class="viewcode-block" id="Clayton.get_cdf"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute cdf function for given copula family.&quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Theta cannot be less or equal than 0 for clayton&quot;</span><span class="p">)</span>
-
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
-
-            <span class="k">elif</span> <span class="n">U</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">V</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">0</span>
-
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-
-                <span class="k">return</span> <span class="n">value</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cdfs</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-                        <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
-                    <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
-                <span class="p">]</span>
-
-                <span class="k">return</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cdfs</span><span class="p">]</span>
-
-        <span class="k">return</span> <span class="n">cdf</span></div>
-
-<div class="viewcode-block" id="Clayton.get_ppf"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.get_ppf">[docs]</a>    <span class="k">def</span> <span class="nf">get_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the inverse of conditional CDF C(u|v)^-1.</span>
+<div class="viewcode-block" id="Clayton.probability_density"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            y: value of C(u|v)</span>
-<span class="sd">            v : given value of v</span>
+<span class="sd">            X: `np.ndarray`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: Probability density for the input values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">ppf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">v</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">theta</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="n">theta</span><span class="p">))</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-                <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">u</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ppf</span></div>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Clayton.get_h_function"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.get_h_function">[docs]</a>    <span class="k">def</span> <span class="nf">get_h_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute partial derivative C(u|v) of each copula cdf function.&quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">du</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">v</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-                <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="n">theta</span><span class="p">)</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span>
-                <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
-                <span class="n">h</span> <span class="o">=</span> <span class="n">h</span> <span class="o">-</span> <span class="n">y</span>
-                <span class="k">return</span> <span class="n">h</span>
+<div class="viewcode-block" id="Clayton.cumulative_distribution"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Computes the cumulative distribution function for the copula, :math:`C(u, v)`</span>
 
-        <span class="k">return</span> <span class="n">du</span></div>
+<span class="sd">        Args:</span>
+<span class="sd">            X: `np.ndarray`</span>
 
-<div class="viewcode-block" id="Clayton.tau_to_theta"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.tau_to_theta">[docs]</a>    <span class="k">def</span> <span class="nf">tau_to_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            np.array: cumulative probability</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
+
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">V</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="n">U</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cdfs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
+            <span class="p">]</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cdfs</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="Clayton.percent_point"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            y: `np.ndarray` value of :math:`C(u|v)`.</span>
+<span class="sd">            v: `np.ndarray` given value of v.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">V</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">))</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">u</span></div>
+
+<div class="viewcode-block" id="Clayton.partial_derivative"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.partial_derivative">[docs]</a>    <span class="k">def</span> <span class="nf">partial_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute partial derivative :math:`C(u|v)` of cumulative distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X: `np.ndarray`</span>
+<span class="sd">            y: `float`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Derivatives</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
+
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">V</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="Clayton.compute_theta"><a class="viewcode-back" href="../../../copulas.bivariate.html#copulas.bivariate.clayton.Clayton.compute_theta">[docs]</a>    <span class="k">def</span> <span class="nf">compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
+
+<span class="sd">        On Clayton copula this is :math:`τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)` with</span>
+<span class="sd">        :math:`θ ∈ (0, ∞)`.</span>
+
+<span class="sd">        On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">theta</span> <span class="o">=</span> <span class="mi">10000</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">theta</span></div>
-
-    <span class="k">def</span> <span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ppf</span><span class="p">()(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">theta</span></div></div>
 </pre></div>
 
            </div>
@@ -321,7 +331,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1',
+            VERSION:'0.2.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -332,6 +342,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

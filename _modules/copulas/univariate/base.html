@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.base &mdash; Copulas 0.1.1 documentation</title>
+  <title>copulas.univariate.base &mdash; Copulas 0.2.0 documentation</title>
   
 
   
@@ -183,24 +183,77 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Univariate.fit"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; fits a univariate model and updates parameters &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.fit"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fits the model.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Univariate.get_pdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.get_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; given a value, returns corresponding pdf value &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.probability_density"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Computes probability density.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Univariate.get_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.get_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; given a value returns corresponding cdf value &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.pdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.pdf">[docs]</a>    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.cumulative_distribution"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Computes cumulative density.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Cumulative density for X.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Univariate.inverse_cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.inverse_cdf">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; given a cdf value, returns a value in original space &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.cdf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.percent_point"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a cumulative distribution value, returns a value in original space.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            U: `np.ndarray` of shape (n, 1) and values in [0,1]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            `np.ndarray`: Estimated values in original space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Univariate.sample"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns new data point based on model &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Univariate.ppf"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.ppf">[docs]</a>    <span class="k">def</span> <span class="nf">ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">U</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.sample"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns new data point based on model.</span>
+
+<span class="sd">        Argument:</span>
+<span class="sd">            n_samples: `int`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Generated samples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.to_dict"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns parameters to replicate the distribution.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.from_dict"><a class="viewcode-back" href="../../../copulas.univariate.html#copulas.univariate.base.Univariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create new instance from dictionary.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 </pre></div>
 
@@ -236,7 +289,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1.1',
+            VERSION:'0.2.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -247,6 +300,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
