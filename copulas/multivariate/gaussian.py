@@ -197,13 +197,13 @@ class GaussianMultivariate(Multivariate):
         # clean up covariance matrix
         clean_cov = np.nan_to_num(self.covariance)
         
-        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        s = np.random.get_state()
         
         np.random.seed(random_state)
         
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
         
-        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        np.random.set_state(s)
         
         # run through cdf and inverse cdf
         for i, (label, distrib) in enumerate(self.distribs.items()):
