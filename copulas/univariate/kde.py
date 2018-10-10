@@ -83,7 +83,7 @@ class KDEUnivariate(Univariate):
         """
         s = np.random.get_state()
         
-        np.random.seed(random_state)
+        np.random.seed(seed)
         
         sample = self.model.resample(num_samples)
         
