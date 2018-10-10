@@ -93,13 +93,13 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Generated samples
         """
-        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        s = np.random.get_state()
         
         np.random.seed(random_state)
         
         sample = np.random.normal(self.mean, self.std, num_samples)
         
-        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        np.random.set_state(s)
         
         return sample
 
