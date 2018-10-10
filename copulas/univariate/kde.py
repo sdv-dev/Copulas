@@ -81,13 +81,13 @@ class KDEUnivariate(Univariate):
         Returns:
             samples: a list of datapoints sampled from the model
         """
-        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        s = np.random.get_state()
         
         np.random.seed(random_state)
         
         sample = self.model.resample(num_samples)
         
-        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        np.random.set_state(s)
         
         return sample
 
