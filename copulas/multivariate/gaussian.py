@@ -194,9 +194,17 @@ class GaussianMultivariate(Multivariate):
         means = np.zeros(self.covariance.shape[0])
         size = (num_rows,)
 
-        # clean up cavariance matrix
+        # clean up covariance matrix
         clean_cov = np.nan_to_num(self.covariance)
+        
+        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        
+        np.random.seed(random_state)
+        
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
+        
+        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        
         # run through cdf and inverse cdf
         for i, (label, distrib) in enumerate(self.distribs.items()):
             # use standard normal's cdf
@@ -204,6 +212,7 @@ class GaussianMultivariate(Multivariate):
 
             # use original distributions inverse cdf
             res[label] = distrib.percent_point(res[label])
+            
         return pd.DataFrame(data=res)
 
     def to_dict(self):
