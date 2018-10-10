@@ -180,11 +180,13 @@ class GaussianMultivariate(Multivariate):
         ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
 
-    def sample(self, num_rows=1):
+    def sample(self, num_rows=1, seed=None):
         """Creates sintentic values stadistically similar to the original dataset.
 
         Args:
             num_rows: `int` amount of samples to generate.
+
+            seed: `int` or None, the seed for the random numbers generator.
 
         Returns:
             np.ndarray: Sampled data.
@@ -199,7 +201,7 @@ class GaussianMultivariate(Multivariate):
         
         s = np.random.get_state()
         
-        np.random.seed(random_state)
+        np.random.seed(seed)
         
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
         

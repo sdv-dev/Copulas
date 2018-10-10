@@ -95,7 +95,7 @@ class GaussianUnivariate(Univariate):
         """
         s = np.random.get_state()
         
-        np.random.seed(random_state)
+        np.random.seed(seed)
         
         sample = np.random.normal(self.mean, self.std, num_samples)
         

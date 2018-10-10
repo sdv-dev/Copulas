@@ -188,6 +188,8 @@ class Bivariate(object):
         Args:
             n_samples: `int`, amount of samples to create.
 
+            seed: `int` or None, the seed for the random numbers generator.
+
         Returns:
             np.ndarray: Array of length `n_samples` with generated data from the model.
         """
@@ -196,7 +198,7 @@ class Bivariate(object):
             
         s = np.random.get_state()
         
-        np.random.seed(random_state)
+        np.random.seed(seed)
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
