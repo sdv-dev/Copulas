@@ -180,11 +180,13 @@ class GaussianMultivariate(Multivariate):
         ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
 
-    def sample(self, num_rows=1):
+    def sample(self, num_rows=1, seed=None):
         """Creates sintentic values stadistically similar to the original dataset.
 
         Args:
             num_rows: `int` amount of samples to generate.
+
+            seed: `int` or None, the seed for the random numbers generator.
 
         Returns:
             np.ndarray: Sampled data.
@@ -194,9 +196,17 @@ class GaussianMultivariate(Multivariate):
         means = np.zeros(self.covariance.shape[0])
         size = (num_rows,)
 
-        # clean up cavariance matrix
+        # clean up covariance matrix
         clean_cov = np.nan_to_num(self.covariance)
+        
+        s = np.random.get_state()
+        
+        np.random.seed(seed)
+        
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
+        
+        np.random.set_state(s)
+        
         # run through cdf and inverse cdf
         for i, (label, distrib) in enumerate(self.distribs.items()):
             # use standard normal's cdf
@@ -204,6 +214,7 @@ class GaussianMultivariate(Multivariate):
 
             # use original distributions inverse cdf
             res[label] = distrib.percent_point(res[label])
+            
         return pd.DataFrame(data=res)
 
     def to_dict(self):

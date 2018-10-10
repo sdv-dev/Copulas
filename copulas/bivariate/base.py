@@ -182,20 +182,28 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
-    def sample(self, n_samples):
+    def sample(self, n_samples, seed=None):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
 
         Args:
             n_samples: `int`, amount of samples to create.
+
+            seed: `int` or None, the seed for the random numbers generator.
 
         Returns:
             np.ndarray: Array of length `n_samples` with generated data from the model.
         """
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
+            
+        s = np.random.get_state()
+        
+        np.random.seed(seed)
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
+        
+        np.random.set_state(s)
 
         u = self.percent_point(c, v)
         return np.column_stack((u, v))

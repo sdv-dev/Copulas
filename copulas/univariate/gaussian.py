@@ -82,16 +82,26 @@ class GaussianUnivariate(Univariate):
         """
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
-    def sample(self, num_samples=1):
+    def sample(self, num_samples=1, seed=None):
         """Returns new data point based on model.
 
         Arguments:
             n_samples: `int`
+            
+            seed: `int` or None, the seed for the random numbers generator.
 
         Returns:
             np.ndarray: Generated samples
         """
-        return np.random.normal(self.mean, self.std, num_samples)
+        s = np.random.get_state()
+        
+        np.random.seed(seed)
+        
+        sample = np.random.normal(self.mean, self.std, num_samples)
+        
+        np.random.set_state(s)
+        
+        return sample
 
     def to_dict(self):
         return {
