@@ -70,16 +70,26 @@ class KDEUnivariate(Univariate):
 
         return scipy.optimize.brentq(self.cumulative_distribution, -1000.0, 1000.0, args=(U))
 
-    def sample(self, num_samples=1):
+    def sample(self, num_samples=1, seed=None):
         """Samples new data point based on model.
 
         Args:
             num_samples: `int` number of points to be sampled
+            
+            seed: `int` or None, the seed for the random numbers generator.
 
         Returns:
             samples: a list of datapoints sampled from the model
         """
-        return self.model.resample(num_samples)
+        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        
+        np.random.seed(random_state)
+        
+        sample = self.model.resample(num_samples)
+        
+        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        
+        return sample
 
     @classmethod
     def from_dict(cls, copula_dict):
