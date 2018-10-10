@@ -182,7 +182,7 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
-    def sample(self, n_samples):
+    def sample(self, n_samples, seed=None):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
 
         Args:
@@ -193,9 +193,15 @@ class Bivariate(object):
         """
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
+            
+        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        
+        np.random.seed(random_state)
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
+        
+        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
 
         u = self.percent_point(c, v)
         return np.column_stack((u, v))
