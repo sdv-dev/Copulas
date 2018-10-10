@@ -194,14 +194,14 @@ class Bivariate(object):
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
             
-        s, keys, pos, has_gauss, cached_gaussian = np.random.get_state()
+        s = np.random.get_state()
         
         np.random.seed(random_state)
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
         
-        np.random.set_state((s, keys, pos, has_gauss, cached_gaussian))
+        np.random.set_state(s)
 
         u = self.percent_point(c, v)
         return np.column_stack((u, v))
