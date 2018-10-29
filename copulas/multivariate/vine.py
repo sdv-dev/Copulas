@@ -18,7 +18,7 @@ class VineCopula(Multivariate):
         """Instantiate a vine copula class.
 
         Args:
-            :param vine_type: type of the vine copula, could be 'cvine','dvine','rvine'
+            :param vine_type: type of the vine copula, could be 'center','direct','regular'
             :type vine_type: string
         """
         super().__init__()
