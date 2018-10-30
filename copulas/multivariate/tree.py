@@ -470,10 +470,10 @@ class Edge(object):
         This function will return true if the two edges are adjacent
         """
         return (
-            self.L == another_edge.L or
-            self.L == another_edge.R or
-            self.R == another_edge.L or
-            self.R == another_edge.R
+            self.L == another_edge.L
+            or self.L == another_edge.R
+            or self.R == another_edge.L
+            or self.R == another_edge.R
         )
 
     @staticmethod
