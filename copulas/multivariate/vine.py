@@ -18,7 +18,7 @@ class VineCopula(Multivariate):
         """Instantiate a vine copula class.
 
         Args:
-            :param vine_type: type of the vine copula, could be 'cvine','dvine','rvine'
+            :param vine_type: type of the vine copula, could be 'center','direct','regular'
             :type vine_type: string
         """
         super().__init__()
@@ -53,6 +53,7 @@ class VineCopula(Multivariate):
         self.train_vine(self.type)
 
     def train_vine(self, tree_type):
+        """Train vine."""
         LOGGER.debug('start building tree : 0')
         tree_1 = Tree(tree_type)
         tree_1.fit(0, self.n_var, self.tau_mat, self.u_matrix)
