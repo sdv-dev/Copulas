@@ -4,7 +4,7 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
-from copulas import EPSILON
+from copulas import EPSILON, NotFittedError
 
 COMPUTE_EMPIRICAL_STEPS = 50
 
@@ -14,10 +14,6 @@ class CopulaTypes(Enum):
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
-
-
-class NotFittedError(Exception):
-    pass
 
 
 class Bivariate(object):

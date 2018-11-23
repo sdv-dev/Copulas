@@ -9,3 +9,7 @@ __version__ = '0.2.1-dev'
 import numpy as np
 
 EPSILON = np.finfo(np.float32).eps
+
+
+class NotFittedError(Exception):
+    pass
