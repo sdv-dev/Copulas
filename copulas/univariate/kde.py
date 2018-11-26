@@ -9,6 +9,7 @@ class KDEUnivariate(Univariate):
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
     """
+    fitted = False
 
     def __init__(self):
         super(KDEUnivariate, self).__init__()
@@ -27,6 +28,7 @@ class KDEUnivariate(Univariate):
             raise ValueError("data cannot be empty")
 
         self.model = scipy.stats.gaussian_kde(X)
+        self.fitted = True
 
     def probability_density(self, X):
         """Evaluate the estimated pdf on a point.
@@ -38,6 +40,7 @@ class KDEUnivariate(Univariate):
         Returns:
             pdf: int or float with the value of estimated pdf
         """
+        self.check_fit()
         if type(X) not in (int, float):
             raise ValueError('x must be int or float')
 
@@ -53,6 +56,7 @@ class KDEUnivariate(Univariate):
         Returns:
             float: estimated cumulative distribution.
         """
+        self.check_fit()
         low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
         return self.model.integrate_box_1d(low_bounds, X) - U
 
@@ -65,6 +69,7 @@ class KDEUnivariate(Univariate):
         Returns:
             float: value in original space
         """
+        self.check_fit()
         if not 0 < U < 1:
             raise ValueError('cdf value must be in [0,1]')
 
@@ -79,29 +84,44 @@ class KDEUnivariate(Univariate):
         Returns:
             samples: a list of datapoints sampled from the model
         """
+        self.check_fit()
         return self.model.resample(num_samples)
 
     @classmethod
     def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
-        instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
 
-        for key in ['dataset', 'covariance', 'inv_cov']:
-            copula_dict[key] = np.array(copula_dict[key])
+        if copula_dict['fitted']:
+            instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
 
-        attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
-        for name in attributes:
-            setattr(instance.model, name, copula_dict[name])
+            for key in ['dataset', 'covariance', 'inv_cov']:
+                copula_dict[key] = np.array(copula_dict[key])
+
+            attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
+            for name in attributes:
+                setattr(instance.model, name, copula_dict[name])
+
+        instance.fitted = copula_dict['fitted']
 
         return instance
 
     def to_dict(self):
-        return {
+        result = {
+            'type': self.__class__.__name__,
+            'fitted': self.fitted
+        }
+
+        if not self.fitted:
+            return result
+
+        result.update({
             'd': self.model.d,
             'n': self.model.n,
             'dataset': self.model.dataset.tolist(),
             'covariance': self.model.covariance.tolist(),
             'factor': self.model.factor,
             'inv_cov': self.model.inv_cov.tolist()
-        }
+        })
+
+        return result

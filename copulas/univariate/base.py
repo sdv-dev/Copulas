@@ -1,3 +1,6 @@
+from copulas import NotFittedError
+
+
 class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
@@ -76,3 +79,11 @@ class Univariate(object):
     def from_dict(cls, param_dict):
         """Create new instance from dictionary."""
         raise NotImplementedError
+
+    def check_fit(self):
+        """Assert that the object is fit
+
+        Raises a `NotFittedError` if the model is  not fitted.
+        """
+        if not self.fitted:
+            raise NotFittedError("This model is not fitted.")

@@ -88,8 +88,8 @@ class TestKDEUnivariate(TestCase):
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
-        distribution = KDEUnivariate()
         parameters = {
+            'fitted': True,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -150,6 +150,8 @@ class TestKDEUnivariate(TestCase):
         distribution.fit(column)
 
         expected_result = {
+            'type': 'KDEUnivariate',
+            'fitted': True,
             'd': 1,
             'n': 10,
             'dataset': [[

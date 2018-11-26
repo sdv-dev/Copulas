@@ -10,7 +10,9 @@ LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(Univariate):
-    """ Gaussian univariate model """
+    """Gaussian univariate model"""
+
+    fitted = False
 
     def __init__(self):
         super().__init__()
@@ -47,6 +49,7 @@ class GaussianUnivariate(Univariate):
 
         self.mean = np.mean(X)
         self.std = np.std(X) or 0.001
+        self.fitted = True
 
     def probability_density(self, X):
         """Compute probability density.
@@ -57,6 +60,7 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray
         """
+        self.check_fit()
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
     def cumulative_distribution(self, X):
@@ -68,7 +72,7 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Cumulative density for X.
         """
-
+        self.check_fit()
         return norm.cdf(X, loc=self.mean, scale=self.std)
 
     def percent_point(self, U):
@@ -80,6 +84,7 @@ class GaussianUnivariate(Univariate):
         Returns:
             `np.ndarray`: Estimated values in original space.
         """
+        self.check_fit()
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):
@@ -91,18 +96,35 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Generated samples
         """
+        self.check_fit()
         return np.random.normal(self.mean, self.std, num_samples)
 
     def to_dict(self):
-        return {
-            'mean': self.mean,
-            'std': self.std
+        result = {
+            'type': self.__class__.__name__,
+            'fitted': self.fitted
         }
+
+        if not self.fitted:
+            return result
+
+        result.update({
+            'mean': self.mean,
+            'std': self.std,
+            'fitted': self.fitted
+        })
+
+        return result
 
     @classmethod
     def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
-        instance.mean = copula_dict['mean']
-        instance.std = copula_dict['std']
+        fitted = copula_dict.get('fitted')
+        instance.fitted = fitted
+
+        if fitted:
+            instance.mean = copula_dict['mean']
+            instance.std = copula_dict['std']
+
         return instance
