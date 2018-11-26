@@ -200,6 +200,7 @@ class TestGaussianUnivariate(TestCase):
 
     def test_valid_serialization_unfit_model(self):
         """For a unfitted model to_dict and from_dict are opposites."""
+        # Setup
         instance = GaussianUnivariate()
 
         # Run
