@@ -167,7 +167,7 @@ class TestGaussianUnivariate(TestCase):
         column = [0, 1, 2, 3, 4, 5]
         copula.fit(column)
         expected_result = {
-            'type': 'GaussianUnivariate',
+            'type': 'copulas.univariate.gaussian.GaussianUnivariate',
             'mean': 2.5,
             'std': 1.707825127659933,
             'fitted': True

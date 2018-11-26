@@ -14,6 +14,7 @@ class KDEUnivariate(Univariate):
     def __init__(self):
         super(KDEUnivariate, self).__init__()
         self.model = None
+        self.fitted
 
     def fit(self, X):
         """Fit Kernel density estimation to an list of values.
@@ -106,22 +107,12 @@ class KDEUnivariate(Univariate):
 
         return instance
 
-    def to_dict(self):
-        result = {
-            'type': self.__class__.__name__,
-            'fitted': self.fitted
-        }
-
-        if not self.fitted:
-            return result
-
-        result.update({
+    def _fit_params(self):
+        return {
             'd': self.model.d,
             'n': self.model.n,
             'dataset': self.model.dataset.tolist(),
             'covariance': self.model.covariance.tolist(),
             'factor': self.model.factor,
             'inv_cov': self.model.inv_cov.tolist()
-        })
-
-        return result
+        }

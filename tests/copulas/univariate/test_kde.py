@@ -150,7 +150,7 @@ class TestKDEUnivariate(TestCase):
         distribution.fit(column)
 
         expected_result = {
-            'type': 'KDEUnivariate',
+            'type': 'copulas.univariate.kde.KDEUnivariate',
             'fitted': True,
             'd': 1,
             'n': 10,

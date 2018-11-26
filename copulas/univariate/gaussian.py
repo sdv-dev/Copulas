@@ -99,22 +99,11 @@ class GaussianUnivariate(Univariate):
         self.check_fit()
         return np.random.normal(self.mean, self.std, num_samples)
 
-    def to_dict(self):
-        result = {
-            'type': self.__class__.__name__,
-            'fitted': self.fitted
-        }
-
-        if not self.fitted:
-            return result
-
-        result.update({
+    def _fit_params(self):
+        return {
             'mean': self.mean,
             'std': self.std,
-            'fitted': self.fitted
-        })
-
-        return result
+        }
 
     @classmethod
     def from_dict(cls, copula_dict):

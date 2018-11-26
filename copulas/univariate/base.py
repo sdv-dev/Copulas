@@ -1,4 +1,4 @@
-from copulas import NotFittedError
+from copulas import NotFittedError, get_qualified_name, import_object
 
 
 class Univariate(object):
@@ -73,12 +73,25 @@ class Univariate(object):
 
     def to_dict(self):
         """Returns parameters to replicate the distribution."""
+        result = {
+            'type': get_qualified_name(self),
+            'fitted': self.fitted
+        }
+
+        if not self.fitted:
+            return result
+
+        result.update(self._fit_params())
+        return result
+
+    def _fit_params(self):
         raise NotImplementedError
 
     @classmethod
     def from_dict(cls, param_dict):
         """Create new instance from dictionary."""
-        raise NotImplementedError
+        distribution_class = import_object(param_dict['type'])
+        return distribution_class.from_dict(param_dict)
 
     def check_fit(self):
         """Assert that the object is fit
