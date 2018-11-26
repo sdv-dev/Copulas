@@ -5,7 +5,7 @@ import pandas as pd
 from scipy import integrate, stats
 
 from copulas.multivariate.base import Multivariate
-from copulas.univariate.gaussian import GaussianUnivariate
+from copulas.univariate import GaussianUnivariate, Univariate
 
 LOGGER = logging.getLogger(__name__)
 
@@ -223,7 +223,7 @@ class GaussianMultivariate(Multivariate):
         instance.distribs = {}
 
         for name, parameters in copula_dict['distribs'].items():
-            instance.distribs[name] = GaussianUnivariate.from_dict(parameters)
+            instance.distribs[name] = Univariate.from_dict(parameters)
 
         instance.covariance = np.array(copula_dict['covariance'])
         return instance
