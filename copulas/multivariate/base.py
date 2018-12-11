@@ -1,11 +1,14 @@
 import json
 
+from copulas import NotFittedError, import_object
+
 
 class Multivariate(object):
     """Abstract class for a multi-variate copula object."""
 
     def __init__(self):
         """Initialize copula object."""
+        self.fitted = False
 
     def fit(self, X):
         """Fit a model to the data and update the parameters."""
@@ -46,7 +49,7 @@ class Multivariate(object):
 
     @classmethod
     def from_dict(cls, copula_dict):
-        """Create a new instance from the given parameters.
+        """Create a new instance from dictionary.
 
         Args:
             copula_dict: `dict` with the parameters to replicate the copula.
@@ -55,7 +58,9 @@ class Multivariate(object):
         Returns:
             Multivariate: Instance of the copula defined on the parameters.
         """
-        raise NotImplementedError
+
+        copula_class = import_object(copula_dict['type'])
+        return copula_class.from_dict(copula_dict)
 
     @classmethod
     def load(cls, copula_path):
@@ -84,3 +89,11 @@ class Multivariate(object):
         content = self.to_dict()
         with open(filename, 'w') as f:
             json.dump(content, f)
+
+    def check_fit(self):
+        """Assert that the object is fit
+
+        Raises a `NotFittedError` if the model is  not fitted.
+        """
+        if not self.fitted:
+            raise NotFittedError("This model is not fitted.")
