@@ -5,7 +5,7 @@ class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
     def __init__(self):
-        pass
+        self.fitted = False
 
     def fit(self, X):
         """Fits the model.

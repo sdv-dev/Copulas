@@ -9,12 +9,10 @@ class KDEUnivariate(Univariate):
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
     """
-    fitted = False
 
     def __init__(self):
         super(KDEUnivariate, self).__init__()
         self.model = None
-        self.fitted
 
     def fit(self, X):
         """Fit Kernel density estimation to an list of values.

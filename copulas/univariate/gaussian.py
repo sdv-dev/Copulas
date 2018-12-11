@@ -109,10 +109,9 @@ class GaussianUnivariate(Univariate):
     def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
-        fitted = copula_dict.get('fitted')
-        instance.fitted = fitted
+        instance.fitted = copula_dict['fitted']
 
-        if fitted:
+        if instance.fitted:
             instance.mean = copula_dict['mean']
             instance.std = copula_dict['std']
 
