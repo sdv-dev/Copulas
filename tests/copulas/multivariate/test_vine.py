@@ -68,6 +68,7 @@ class TestVine(TestCase):
         """ """
         # Setup
         instance = VineCopula('regular')
+        instance.fitted = True
         instance.n_sample = 100
         instance.n_var = 10
         instance.depth = 3
@@ -91,7 +92,7 @@ class TestVine(TestCase):
 
         expected_result = {
             'type': 'copulas.multivariate.vine.VineCopula',
-            'fitted': False,
+            'fitted': True,
             'vine_type': 'regular',
             'n_sample': 100,
             'n_var': 10,

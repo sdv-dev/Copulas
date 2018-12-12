@@ -597,9 +597,8 @@ class Edge(object):
     @classmethod
     def from_dict(cls, edge_dict):
         instance = cls(edge_dict['L'], edge_dict['R'], edge_dict['name'], edge_dict['theta'])
+        instance.U = np.array(edge_dict['U'])
         parents = edge_dict['parents']
-        univariates = edge_dict['U']
-        instance.U = np.array(univariates)
 
         if parents:
             instance.parents = []

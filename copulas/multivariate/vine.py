@@ -42,10 +42,11 @@ class VineCopula(Multivariate):
     def to_dict(self):
         result = {
             'type': get_qualified_name(self),
-            'vine_type': self.vine_type
+            'vine_type': self.vine_type,
+            'fitted': self.fitted
         }
 
-        if self.u_matrix is None:
+        if not self.fitted:
             return result
 
         result.update({
@@ -57,17 +58,16 @@ class VineCopula(Multivariate):
             'tau_mat': self.tau_mat.tolist(),
             'u_matrix': self.u_matrix.tolist(),
             'unis': [distribution.to_dict() for distribution in self.unis],
-            'fitted': self.fitted
         })
         return result
 
     @classmethod
     def from_dict(cls, vine_dict):
         instance = cls(vine_dict['vine_type'])
-        n_sample = vine_dict.get('n_sample')
-        if n_sample:
-            instance.n_sample = n_sample
-            instance.fitted = vine_dict['fitted']
+        fitted = vine_dict['fitted']
+        if fitted:
+            instance.fitted = fitted
+            instance.n_sample = vine_dict['n_sample']
             instance.n_var = vine_dict['n_var']
             instance.truncated = vine_dict['truncated']
             instance.depth = vine_dict['depth']
