@@ -4,7 +4,7 @@ from random import randint
 import numpy as np
 from scipy import optimize
 
-from copulas import EPSILON
+from copulas import EPSILON, get_qualified_name
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree
@@ -22,10 +22,61 @@ class VineCopula(Multivariate):
             :type vine_type: string
         """
         super().__init__()
-        self.type = vine_type
+        self.vine_type = vine_type
         self.u_matrix = None
 
         self.model = KDEUnivariate
+
+    @classmethod
+    def _deserialize_trees(cls, tree_list):
+        previous = Tree.from_dict(tree_list[0])
+        trees = [previous]
+
+        for tree_dict in tree_list[1:]:
+            tree = Tree.from_dict(tree_dict, previous)
+            trees.append(tree)
+            previous = tree
+
+        return trees
+
+    def to_dict(self):
+        result = {
+            'type': get_qualified_name(self),
+            'vine_type': self.vine_type
+        }
+
+        if self.u_matrix is None:
+            return result
+
+        result.update({
+            'n_sample': self.n_sample,
+            'n_var': self.n_var,
+            'depth': self.depth,
+            'truncated': self.truncated,
+            'trees': [tree.to_dict() for tree in self.trees],
+            'tau_mat': self.tau_mat.tolist(),
+            'u_matrix': self.u_matrix.tolist(),
+            'unis': [distribution.to_dict() for distribution in self.unis],
+            'fitted': self.fitted
+        })
+        return result
+
+    @classmethod
+    def from_dict(cls, vine_dict):
+        instance = cls(vine_dict['vine_type'])
+        n_sample = vine_dict.get('n_sample')
+        if n_sample:
+            instance.n_sample = n_sample
+            instance.fitted = vine_dict['fitted']
+            instance.n_var = vine_dict['n_var']
+            instance.truncated = vine_dict['truncated']
+            instance.depth = vine_dict['depth']
+            instance.trees = cls._deserialize_trees(vine_dict['trees'])
+            instance.unis = [KDEUnivariate.from_dict(uni) for uni in vine_dict['unis']]
+            instance.tau_mat = np.array(vine_dict['tau_mat'])
+            instance.u_matrix = np.array(vine_dict['u_matrix'])
+
+        return instance
 
     def fit(self, X, truncated=3):
         """Fit a vine model to the data.
@@ -50,7 +101,8 @@ class VineCopula(Multivariate):
             self.unis.append(uni)
             self.ppfs.append(uni.percent_point)
 
-        self.train_vine(self.type)
+        self.train_vine(self.vine_type)
+        self.fitted = True
 
     def train_vine(self, tree_type):
         """Train vine."""

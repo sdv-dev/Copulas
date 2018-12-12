@@ -3,8 +3,152 @@ from unittest import TestCase
 import numpy as np
 import pandas as pd
 
+from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
+
+
+class TestTree(TestCase):
+
+    def test_to_dict_unfitted_model(self):
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+        expected_result = {
+            'type': 'copulas.multivariate.tree.RegularTree',
+            'tree_type': TreeTypes.REGULAR,
+            'fitted': False
+        }
+
+        # Run
+        result = instance.to_dict()
+
+        # Check
+        assert result == expected_result
+
+    def test_to_dict_fit_model(self):
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+        X = pd.DataFrame(data=[
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ])
+        index = 0
+        n_nodes = X.shape[1]
+        tau_matrix = X.corr(method='kendall').values
+
+        univariates_matrix = np.empty(X.shape)
+        for i, column in enumerate(X):
+            distribution = KDEUnivariate()
+            distribution.fit(X[column])
+            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+
+        instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
+        expected_result = {
+            'type': 'copulas.multivariate.tree.RegularTree',
+            'fitted': True,
+            'level': 1,
+            'n_nodes': 3,
+            'previous_tree': [
+                [0.8230112726144534, 0.3384880496294825, 0.3384880496294825],
+                [0.3384880496294825, 0.8230112726144534, 0.3384880496294825],
+                [0.3384880496294825, 0.3384880496294825, 0.8230112726144534]
+            ],
+            'tau_matrix': [
+                [1.0, -0.49999999999999994, -0.49999999999999994],
+                [-0.49999999999999994, 1.0, -0.49999999999999994],
+                [-0.49999999999999994, -0.49999999999999994, 1.0]
+            ],
+            'tree_type': TreeTypes.REGULAR,
+            'edges': [
+                {
+                    'D': set(),
+                    'L': 0,
+                    'R': 1,
+                    'U': [
+                        [6.533235975920359, 6.425034969827687, 5.857062027493768],
+                        [6.425034969827687, 6.533235975920359, 5.857062027493768]
+                    ],
+                    'likelihood': None,
+                    'name': CopulaTypes.FRANK,
+                    'neighbors': [],
+                    'parents': None,
+                    'tau': -0.49999999999999994,
+                    'theta': -5.736282443655552
+                },
+                {
+                    'D': set(),
+                    'L': 1,
+                    'R': 2,
+                    'U': [
+                        [5.857062027493768, 6.533235975920359, 6.425034969827687],
+                        [5.857062027493768, 6.425034969827687, 6.533235975920359]
+                    ],
+                    'likelihood': None,
+                    'name': CopulaTypes.FRANK,
+                    'neighbors': [],
+                    'parents': None,
+                    'tau': -0.49999999999999994,
+                    'theta': -5.736282443655552
+                }
+            ],
+        }
+
+        # Run
+        result = instance.to_dict()
+
+        # Check
+        assert result == expected_result
+
+    def test_from_dict_unfitted_model(self):
+        # Setup
+        params = {
+            'tree_type': TreeTypes.REGULAR,
+            'fitted': False
+        }
+
+        # Run
+        result = Tree.from_dict(params)
+
+        # Check
+        assert result.tree_type == TreeTypes.REGULAR
+        assert result.fitted is False
+
+    def test_serialization_unfitted_model(self):
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+
+        # Run
+        result = Tree.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()
+
+    def test_serialization_fit_model(self):
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+        X = pd.DataFrame(data=[
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ])
+        index = 0
+        n_nodes = X.shape[1]
+        tau_matrix = X.corr(method='kendall').values
+
+        univariates_matrix = np.empty(X.shape)
+        for i, column in enumerate(X):
+            distribution = KDEUnivariate()
+            distribution.fit(X[column])
+            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+
+        instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
+
+        # Run
+        result = Tree.from_dict(instance.to_dict())
+
+        # Check
+        assert result.to_dict() == instance.to_dict()
 
 
 class TestCenterTree(TestCase):
@@ -218,7 +362,7 @@ class TestEdge(TestCase):
             'D': [1, 3],
             'U': None,
             'likelihood': None,
-            'neighbors': None,
+            'neighbors': [],
             'parents': None,
             'tau': None
         }
@@ -240,20 +384,7 @@ class TestEdge(TestCase):
             'D': [1, 3],
             'U': None,
             'likelihood': None,
-            'neighbors': [
-                {
-                    'L': 3,
-                    'R': 4,
-                    'name': 'gumbel',
-                    'theta': 0.4,
-                    'D': [2, 5],
-                    'U': None,
-                    'likelihood': None,
-                    'neighbors': None,
-                    'parents': None,
-                    'tau': None
-                }
-            ],
+            'neighbors': [1],
             'parents': None,
             'tau': None
         }
@@ -269,9 +400,14 @@ class TestEdge(TestCase):
         assert edge.D == [1, 3]
         assert not edge.U
         assert not edge.parents
-        assert len(edge.neighbors) == 1
-        assert edge.neighbors[0].L == 3
-        assert edge.neighbors[0].R == 4
-        assert edge.neighbors[0].name == 'gumbel'
-        assert edge.neighbors[0].D == [2, 5]
-        assert not edge.neighbors[0].parents
+        assert edge.neighbors == [1]
+
+    def test_valid_serialization(self):
+        # Setup
+        instance = Edge(2, 5, 'clayton', 1.5)
+
+        # Run
+        result = Edge.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()
