@@ -1,5 +1,4 @@
 import logging
-from random import randint
 
 import numpy as np
 from scipy import optimize
@@ -86,7 +85,7 @@ class VineCopula(Multivariate):
         """Generating samples from vine model."""
         unis = np.random.uniform(0, 1, self.n_var)
         # randomly select a node to start with
-        first_ind = randint(0, self.n_var - 1)
+        first_ind = np.random.randint(0, self.n_var)
         adj = self.trees[0].get_adjacent_matrix()
         visited = []
         explore = [first_ind]
