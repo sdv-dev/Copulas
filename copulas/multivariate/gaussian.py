@@ -4,8 +4,9 @@ import numpy as np
 import pandas as pd
 from scipy import integrate, stats
 
+from copulas import get_qualified_name
 from copulas.multivariate.base import Multivariate
-from copulas.univariate.gaussian import GaussianUnivariate
+from copulas.univariate import GaussianUnivariate, Univariate
 
 LOGGER = logging.getLogger(__name__)
 
@@ -15,6 +16,7 @@ class GaussianMultivariate(Multivariate):
 
     def __init__(self):
         super().__init__()
+
         self.distribs = {}
         self.covariance = None
         self.means = None
@@ -147,6 +149,7 @@ class GaussianMultivariate(Multivariate):
                 self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)
+        self.fitted = True
 
     def probability_density(self, X):
         """Compute probability density function for given copula family.
@@ -157,6 +160,8 @@ class GaussianMultivariate(Multivariate):
         Returns:
             np.array: Probability density for the input values.
         """
+        self.check_fit()
+
         # make cov positive semi-definite
         covariance = self.covariance * np.identity(self.covariance.shape[0])
         return stats.multivariate_normal.pdf(X, cov=covariance)
@@ -170,6 +175,8 @@ class GaussianMultivariate(Multivariate):
         Returns:
             np.array: cumulative probability
         """
+        self.check_fit()
+
         # Wrapper for pdf to accept vector as args
         def func(*args):
             return self.probability_density(list(args))
@@ -190,6 +197,8 @@ class GaussianMultivariate(Multivariate):
             np.ndarray: Sampled data.
 
         """
+        self.check_fit()
+
         res = {}
         means = np.zeros(self.covariance.shape[0])
         size = (num_rows,)
@@ -213,7 +222,9 @@ class GaussianMultivariate(Multivariate):
 
         return {
             'covariance': self.covariance.tolist(),
-            'distribs': distributions
+            'distribs': distributions,
+            'type': get_qualified_name(self),
+            'fitted': self.fitted
         }
 
     @classmethod
@@ -223,7 +234,8 @@ class GaussianMultivariate(Multivariate):
         instance.distribs = {}
 
         for name, parameters in copula_dict['distribs'].items():
-            instance.distribs[name] = GaussianUnivariate.from_dict(parameters)
+            instance.distribs[name] = Univariate.from_dict(parameters)
 
         instance.covariance = np.array(copula_dict['covariance'])
+        instance.fitted = copula_dict['fitted']
         return instance

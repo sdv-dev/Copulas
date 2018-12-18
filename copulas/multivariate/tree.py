@@ -5,8 +5,9 @@ from enum import Enum
 import numpy as np
 import scipy
 
-from copulas import EPSILON
+from copulas import EPSILON, get_qualified_name
 from copulas.bivariate.base import Bivariate
+from copulas.multivariate.base import Multivariate
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class TreeTypes(Enum):
     REGULAR = 2
 
 
-class Tree(object):
+class Tree(Multivariate):
     """Helper class to instantiate a single tree in the vine model."""
 
     tree_type = None
@@ -57,7 +58,8 @@ class Tree(object):
         Args:
             tree_type: `TreeType` or `str` to be compared against  TreeType.
         """
-        pass
+        self.tree_type = tree_type
+        self.fitted = False
 
     def fit(self, index, n_nodes, tau_matrix, previous_tree, edges=None):
         """Fits tree object.
@@ -86,6 +88,8 @@ class Tree(object):
                 self._build_kth_tree()
 
             self.prepare_next_tree()
+
+        self.fitted = True
 
     def _check_contraint(self, edge1, edge2):
         """Check if two edges satisfy vine constraint.
@@ -204,7 +208,7 @@ class Tree(object):
             right_given_left[right_given_left == 0] = EPSILON
             left_given_right[left_given_right == 1] = 1 - EPSILON
             right_given_left[right_given_left == 1] = 1 - EPSILON
-            edge.U = [left_given_right, right_given_left]
+            edge.U = np.array([left_given_right, right_given_left])
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the tree given an U matrix.
@@ -238,19 +242,55 @@ class Tree(object):
         return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
                           for edge in self.edges])
 
-    def to_dict(self):
-        return {
-            'level': self.level - 1,
-            'n_nodes': self.n_nodes,
-            'tau_matrix': self.tau_matrix.tolist(),
-            'previous_tree': self.previous_tree.tolist(),
-            'edges': [edge.to_dict() for edge in self.edges],
-        }
+    def _serialize_previous_tree(self):
+        if self.level == 1:
+            return self.previous_tree.tolist()
+
+        return None
 
     @classmethod
-    def from_dict(cls, tree_dict):
+    def _deserialize_previous_tree(cls, tree_dict, previous):
+        if tree_dict['level'] == 1:
+            return np.array(tree_dict['previous_tree'])
+
+        return previous
+
+    def to_dict(self):
+        fitted = self.fitted
+        result = {
+            'tree_type': self.tree_type,
+            'type': get_qualified_name(self),
+            'fitted': fitted
+        }
+
+        if not fitted:
+            return result
+
+        result.update({
+            'level': self.level,
+            'n_nodes': self.n_nodes,
+            'tau_matrix': self.tau_matrix.tolist(),
+            'previous_tree': self._serialize_previous_tree(),
+            'edges': [edge.to_dict() for edge in self.edges],
+        })
+
+        return result
+
+    @classmethod
+    def from_dict(cls, tree_dict, previous=None):
         """Create a new instance from a dictionary."""
-        return cls(**tree_dict)
+        instance = cls(tree_dict['tree_type'])
+
+        fitted = tree_dict['fitted']
+        instance.fitted = fitted
+        if fitted:
+            instance.level = tree_dict['level']
+            instance.n_nodes = tree_dict['n_nodes']
+            instance.tau_matrix = np.array(tree_dict['tau_matrix'])
+            instance.previous_tree = cls._deserialize_previous_tree(tree_dict, previous)
+            instance.edges = [Edge.from_dict(edge) for edge in tree_dict['edges']]
+
+        return instance
 
     @classmethod
     def load(cls, tree_path):
@@ -537,28 +577,28 @@ class Edge(object):
         if self.parents:
             parents = [parent.to_dict() for parent in self.parents]
 
-        neighbors = None
-        if self.neighbors:
-            neighbors = [neighbor.to_dict() for neighbor in self.neighbors]
+        U = None
+        if self.U is not None:
+            U = self.U.tolist()
 
         return {
             'L': self.L,
             'R': self.R,
             'D': self.D,
             'parents': parents,
-            'neighbors': neighbors,
+            'neighbors': self.neighbors,
             'name': self.name,
             'theta': self.theta,
             'tau': self.tau,
-            'U': self.U,
+            'U': U,
             'likelihood': self.likelihood
         }
 
     @classmethod
     def from_dict(cls, edge_dict):
         instance = cls(edge_dict['L'], edge_dict['R'], edge_dict['name'], edge_dict['theta'])
+        instance.U = np.array(edge_dict['U'])
         parents = edge_dict['parents']
-        neighbors = edge_dict['neighbors']
 
         if parents:
             instance.parents = []
@@ -566,13 +606,7 @@ class Edge(object):
                 edge = Edge.from_dict(parent)
                 instance.parents.append(edge)
 
-        if neighbors:
-            instance.neighbors = []
-            for neighbor in neighbors:
-                edge = Edge.from_dict(neighbor)
-                instance.neighbors.append(edge)
-
-        regular_attributes = ['D', 'tau', 'U', 'likelihood']
+        regular_attributes = ['D', 'tau', 'likelihood', 'neighbors']
         for key in regular_attributes:
             setattr(instance, key, edge_dict[key])
 

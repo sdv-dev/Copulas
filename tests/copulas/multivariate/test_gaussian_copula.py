@@ -243,11 +243,33 @@ class TestGaussianCopula(TestCase):
         ]
         expected_result = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 
@@ -268,11 +290,33 @@ class TestGaussianCopula(TestCase):
         ]
         parameters = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 
@@ -280,12 +324,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate.from_dict(parameters)
 
         # Check
-        assert (copula.covariance == [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]).all()
+        assert (copula.covariance == covariance).all()
+
         for name, distrib in copula.distribs.items():
             assert copula.distribs[name].to_dict() == parameters['distribs'][name]
 
@@ -307,11 +347,33 @@ class TestGaussianCopula(TestCase):
         ]
         parameters = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
         expected_content = parameters
@@ -335,11 +397,33 @@ class TestGaussianCopula(TestCase):
         ]
         json_mock.return_value = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 

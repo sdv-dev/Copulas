@@ -54,6 +54,7 @@ class TestGaussianUnivariate(TestCase):
         assert copula.mean == mean
         assert copula.std == std
         assert copula.name == name
+        assert copula.fitted
 
     def test_fit_empty_data(self):
         """On fit, if column is empty an error is raised."""
@@ -166,8 +167,10 @@ class TestGaussianUnivariate(TestCase):
         column = [0, 1, 2, 3, 4, 5]
         copula.fit(column)
         expected_result = {
+            'type': 'copulas.univariate.gaussian.GaussianUnivariate',
             'mean': 2.5,
-            'std': 1.707825127659933
+            'std': 1.707825127659933,
+            'fitted': True
         }
 
         # Run
@@ -181,7 +184,8 @@ class TestGaussianUnivariate(TestCase):
         # Setup
         parameters = {
             'mean': 2.5,
-            'std': 1.707825127659933
+            'std': 1.707825127659933,
+            'fitted': True,
         }
 
         # Run
@@ -190,5 +194,31 @@ class TestGaussianUnivariate(TestCase):
         # Check
         assert copula.mean == 2.5
         assert copula.std == 1.707825127659933
+        assert copula.fitted
 
         copula.sample(10)
+
+    def test_valid_serialization_unfit_model(self):
+        """For a unfitted model to_dict and from_dict are opposites."""
+        # Setup
+        instance = GaussianUnivariate()
+
+        # Run
+        result = GaussianUnivariate.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()
+
+    def test_valid_serialization_fit_model(self):
+        """For a fitted model to_dict and from_dict are opposites."""
+        # Setup
+        instance = GaussianUnivariate()
+        instance.fitted = True
+        instance.std = 1
+        instance.mean = 5
+
+        # Run
+        result = GaussianUnivariate.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()
