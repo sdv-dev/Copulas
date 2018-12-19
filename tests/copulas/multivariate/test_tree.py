@@ -6,6 +6,7 @@ import pandas as pd
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
+from tests import compare_nested_dicts
 
 
 class TestTree(TestCase):
@@ -98,7 +99,7 @@ class TestTree(TestCase):
         result = instance.to_dict()
 
         # Check
-        assert result == expected_result
+        compare_nested_dicts(result, expected_result)
 
     def test_from_dict_unfitted_model(self):
         # Setup
