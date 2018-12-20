@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `univariate` package."""
+"""Tests for `kde` module."""
 
 from unittest import TestCase
 
@@ -9,10 +9,11 @@ import numpy as np
 import scipy
 
 from copulas.univariate.kde import KDEUnivariate
-from tests import compare_nested_dicts
+from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestKDEUnivariate(TestCase):
+
     def setup_norm(self):
         """set up the model to fit standard norm data."""
         self.kde = KDEUnivariate()
@@ -84,6 +85,34 @@ class TestKDEUnivariate(TestCase):
 
         with self.assertRaises(ValueError):
             self.kde.percent_point(2)
+
+    def test_sample_random_state(self):
+        """If random_state is set, samples will generate the exact same values."""
+        # Setup
+        # 3 crides a 3 instancies
+        instance_1 = KDEUnivariate(random_state=0)
+        instance_2 = KDEUnivariate()
+        instance_3 = KDEUnivariate()
+
+        X = np.array([1, 2, 3, 4, 5])
+        instance_1.fit(X)
+        instance_2.fit(X)
+        instance_3.fit(X)
+
+        expected_result_random_state = np.array([
+            [7.02156389, 1.45857107, 2.12161148, 7.56801267, 5.14017901]
+        ])
+
+        # Run
+        result_1 = instance_1.sample(5)
+        result_2 = instance_2.sample(5)
+        result_3 = instance_3.sample(5)
+
+        # Check
+        compare_nested_iterables(result_1, expected_result_random_state)
+        compare_nested_iterables(result_2, expected_result_random_state)
+        compare_nested_iterables(result_3, expected_result_random_state)
+        compare_nested_iterables(result_2, result_3)
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""

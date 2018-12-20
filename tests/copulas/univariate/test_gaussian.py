@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
@@ -158,6 +159,29 @@ class TestGaussianUnivariate(TestCase):
         assert len(result) == 1000000
         assert abs(np.mean(result) - copula.mean) < 10E-3
         assert abs(np.std(result) - copula.std) < 10E-3
+
+    @patch('copulas.univariate.base.np.random.RandomState')
+    def test_sample_random_state(self, random_mock):
+        """When random state is set, samples are the same."""
+        # Setup
+        instance = GaussianUnivariate(random_state=0)
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+        expected_result = np.array([0.1, 0.2, 0.3])
+
+        # Setup - Mock
+        rs_instance_mock = MagicMock()
+        rs_instance_mock.normal.return_value = np.array([0.1, 0.2, 0.3])
+        random_mock.return_value = rs_instance_mock
+
+        # Run
+        result = instance.sample(3)
+
+        # Check
+        assert (result == expected_result).all()
+
+        random_mock.assert_called_once_with(0)
+        rs_instance_mock.normal.assert_called_once_with(instance.mean, instance.std, 3)
 
     def test_to_dict(self):
         """To_dict returns the defining parameters of a distribution in a dict."""

@@ -10,10 +10,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(Univariate):
-    """ Gaussian univariate model """
+    """Gaussian univariate model."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.name = None
         self.mean = 0
         self.std = 1
@@ -91,7 +91,8 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Generated samples
         """
-        return np.random.normal(self.mean, self.std, num_samples)
+        random = self.get_random_state()
+        return random.normal(self.mean, self.std, num_samples)
 
     def to_dict(self):
         return {
