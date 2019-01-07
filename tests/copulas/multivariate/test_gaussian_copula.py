@@ -4,6 +4,7 @@ from unittest import TestCase, mock
 import numpy as np
 import pandas as pd
 
+from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from tests import compare_nested_dicts
 
@@ -39,7 +40,7 @@ class TestGaussianCopula(TestCase):
             ])
         })
 
-    def test___init__(self):
+    def test___init__default_args(self):
         """On init an instance with None on all attributes except distribs is returned."""
         # Run
         copula = GaussianMultivariate()
@@ -48,8 +49,23 @@ class TestGaussianCopula(TestCase):
         assert copula.distribs == {}
         assert copula.covariance is None
         assert copula.means is None
+        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
-    def test_fit(self):
+    def test__init__distribution_arg(self):
+        """On init the distribution argument is set as attribute."""
+        # Setup
+        distribution = 'full.qualified.name.of.distribution'
+
+        # Run
+        copula = GaussianMultivariate(distribution)
+
+        # Check
+        assert copula.distribs == {}
+        assert copula.covariance is None
+        assert copula.means is None
+        assert copula.distribution == 'full.qualified.name.of.distribution'
+
+    def test_fit_default_distribution(self):
         """On fit, a distribution is created for each column along the covariance and means"""
 
         # Setup
@@ -59,10 +75,32 @@ class TestGaussianCopula(TestCase):
         copula.fit(self.data)
 
         # Check
+        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
+
         for key in self.data.columns:
-            assert copula.distribs[key]
+            assert key in copula.distribs
+            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
             assert copula.distribs[key].mean == self.data[key].mean()
             assert copula.distribs[key].std == np.std(self.data[key])
+
+        expected_covariance = copula._get_covariance(self.data)
+        assert (copula.covariance == expected_covariance).all().all()
+
+    def test_fit_distribution_arg(self):
+        """On fit, the distributions for each column use instances of copula.distribution."""
+        # Setup
+        distribution = 'copulas.univariate.kde.KDEUnivariate'
+        copula = GaussianMultivariate(distribution=distribution)
+
+        # Run
+        copula.fit(self.data)
+
+        # Check
+        assert copula.distribution == 'copulas.univariate.kde.KDEUnivariate'
+
+        for key in self.data.columns:
+            assert key in copula.distribs
+            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
@@ -245,6 +283,7 @@ class TestGaussianCopula(TestCase):
             'covariance': covariance,
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
                 'feature_01': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
@@ -292,6 +331,7 @@ class TestGaussianCopula(TestCase):
             'covariance': covariance,
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
                 'feature_01': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
@@ -349,6 +389,7 @@ class TestGaussianCopula(TestCase):
             'covariance': covariance,
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
                 'feature_01': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
@@ -399,6 +440,7 @@ class TestGaussianCopula(TestCase):
             'covariance': covariance,
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
                 'feature_01': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
