@@ -9,6 +9,7 @@ from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
 LOGGER = logging.getLogger(__name__)
+DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
 
 
 class GaussianMultivariate(Multivariate):
@@ -18,13 +19,13 @@ class GaussianMultivariate(Multivariate):
         distribution (str): Full qualified name of the class to be used as distribution.
     """
 
-    def __init__(self, distribution=None):
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION):
         super().__init__()
 
         self.distribs = {}
         self.covariance = None
         self.means = None
-        self.distribution = distribution or 'copulas.univariate.gaussian.GaussianUnivariate'
+        self.distribution = distribution
 
     def __str__(self):
         distribs = [
