@@ -12,7 +12,11 @@ LOGGER = logging.getLogger(__name__)
 
 
 class GaussianMultivariate(Multivariate):
-    """Class for a gaussian copula model."""
+    """Class for a gaussian copula model.
+
+    Args:
+        distribution (str): Full qualified name of the class to be used as distribution.
+    """
 
     def __init__(self, distribution=None):
         super().__init__()
@@ -129,7 +133,6 @@ class GaussianMultivariate(Multivariate):
 
         Args:
             X: `numpy.ndarray` or `pandas.DataFrame`. Data to model.
-            distrib_map: `dict` mapping of distributions for the columns in X.
 
         Returns:
             None
