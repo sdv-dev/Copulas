@@ -171,7 +171,9 @@ class VineCopula(Multivariate):
                                 condition = set(edge.D)
                                 condition.add(edge.L)
                                 condition.add(edge.R)
-                                visit_set = set(visited).add(current)
+
+                                visit_set = set(visited)
+                                visit_set.add(current)
 
                                 if condition.issubset(visit_set):
                                     current_ind = edge.index
@@ -180,19 +182,19 @@ class VineCopula(Multivariate):
                     if current_ind != -1:
                         # the node is not indepedent contional on visited node
                         copula_type = current_tree[current_ind].name
-                        copula_para = current_tree[current_ind].param
-                        cop = Bivariate(CopulaTypes(copula_type))
-                        derivative = cop.get_h_function()
-                        # start with last level
+                        copula = Bivariate(CopulaTypes(copula_type))
+                        copula.theta = current_tree[current_ind].theta
+                        derivative = copula._partial_derivative
+
                         if i == itr - 1:
                             tmp = optimize.fminbound(
                                 derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], copula_para, unis[current])
+                                args=(unis[visited[0]], unis[current])
                             )
                         else:
                             tmp = optimize.fminbound(
                                 derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], copula_para, tmp)
+                                args=(unis[visited[0]], tmp)
                             )
 
                         tmp = min(max(tmp, EPSILON), 0.99)
