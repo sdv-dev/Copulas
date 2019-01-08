@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from copulas.multivariate.base import Multivariate
-from copulas.multivariate.tree import Tree, TreeTypes
+from copulas.multivariate.tree import Tree
 from copulas.multivariate.vine import VineCopula
 from copulas.univariate import KDEUnivariate
 from tests import compare_nested_dicts
@@ -39,13 +39,13 @@ class TestVine(TestCase):
             ])
         })
 
-        self.rvine = VineCopula(TreeTypes.REGULAR)
+        self.rvine = VineCopula('regular')
         self.rvine.fit(data)
 
-        self.cvine = VineCopula(TreeTypes.CENTER)
+        self.cvine = VineCopula('center')
         self.cvine.fit(data)
 
-        self.dvine = VineCopula(TreeTypes.DIRECT)
+        self.dvine = VineCopula('direct')
         self.dvine.fit(data)
 
     def test_get_likelihood(self):
@@ -205,21 +205,3 @@ class TestVine(TestCase):
 
         # Check
         compare_nested_dicts(result.to_dict(), instance.to_dict())
-
-    def test_sample(self):
-        """After being fit, a vine can sample new data."""
-        # Setup
-        vine = VineCopula(TreeTypes.REGULAR)
-        X = pd.DataFrame([
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 1]
-        ])
-        vine.fit(X)
-
-        # Run
-        result = vine.sample()
-
-        # Check
-        assert len(result) == vine.n_var

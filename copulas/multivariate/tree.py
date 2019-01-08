@@ -319,7 +319,7 @@ class CenterTree(Tree):
             ind = int(tau_sorted[itr, 0])
             name, theta = Bivariate.select_copula(self.u_matrix[:, (0, ind)])
 
-            new_edge = Edge(itr, 0, ind, name, theta)
+            new_edge = Edge(0, ind, name, theta)
             new_edge.tau = self.tau_matrix[0, ind]
             self.edges.append(new_edge)
 
@@ -332,7 +332,7 @@ class CenterTree(Tree):
         for itr in range(self.n_nodes - 1):
             right = int(aux_sorted[itr, 0])
             left_parent, right_parent = Edge.sort_edge([edges[anchor], edges[right]])
-            new_edge = Edge.get_child_edge(itr, left_parent, right_parent)
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = aux_sorted[itr, 1]
             self.edges.append(new_edge)
 
@@ -383,7 +383,7 @@ class DirectTree(Tree):
             name, theta = Bivariate.select_copula(self.u_matrix[:, (T1[k], T1[k + 1])])
 
             left, right = sorted([T1[k], T1[k + 1]])
-            new_edge = Edge(k, left, right, name, theta)
+            new_edge = Edge(left, right, name, theta)
             new_edge.tau = tau_T1[k]
             self.edges.append(new_edge)
 
@@ -391,7 +391,7 @@ class DirectTree(Tree):
         edges = self.previous_tree.edges
         for k in range(self.n_nodes - 1):
             left_parent, right_parent = Edge.sort_edge([edges[k], edges[k + 1]])
-            new_edge = Edge.get_child_edge(k, left_parent, right_parent)
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = self.tau_matrix[k, k + 1]
             self.edges.append(new_edge)
 
@@ -419,7 +419,7 @@ class RegularTree(Tree):
             name, theta = Bivariate.select_copula(self.u_matrix[:, (edge[0], edge[1])])
 
             left, right = sorted([edge[0], edge[1]])
-            new_edge = Edge(len(X) - 1, left, right, name, theta)
+            new_edge = Edge(left, right, name, theta)
             new_edge.tau = self.tau_matrix[edge[0], edge[1]]
             self.edges.append(new_edge)
             X.add(edge[1])
@@ -447,7 +447,7 @@ class RegularTree(Tree):
             pairs = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
             left_parent, right_parent = Edge.sort_edge([edges[pairs[0]], edges[pairs[1]]])
 
-            new_edge = Edge.get_child_edge(len(visited) - 1, left_parent, right_parent)
+            new_edge = Edge.get_child_edge(left_parent, right_parent)
             new_edge.tau = self.tau_matrix[pairs[0], pairs[1]]
             self.edges.append(new_edge)
 
@@ -456,7 +456,7 @@ class RegularTree(Tree):
 
 
 class Edge(object):
-    def __init__(self, index, left, right, copula_name, copula_theta):
+    def __init__(self, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
 
         Args:
@@ -466,7 +466,6 @@ class Edge(object):
             :param copula_theta: parameters of the fitted copula class
 
         """
-        self.index = index
         self.L = left
         self.R = right
         self.D = set()  # dependence_set
@@ -538,13 +537,13 @@ class Edge(object):
         return left_u, right_u
 
     @classmethod
-    def get_child_edge(cls, index, left_parent, right_parent):
+    def get_child_edge(cls, left_parent, right_parent):
         """Construct a child edge from two parent edges."""
         [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
         left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
         X = np.array([[x, y] for x, y in zip(left_u, right_u)])
         name, theta = Bivariate.select_copula(X)
-        new_edge = Edge(index, ed1, ed2, name, theta)
+        new_edge = Edge(ed1, ed2, name, theta)
         new_edge.D = depend_set
         new_edge.parents = [left_parent, right_parent]
         return new_edge
@@ -583,7 +582,6 @@ class Edge(object):
             U = self.U.tolist()
 
         return {
-            'index': self.index,
             'L': self.L,
             'R': self.R,
             'D': self.D,
@@ -598,10 +596,7 @@ class Edge(object):
 
     @classmethod
     def from_dict(cls, edge_dict):
-        instance = cls(
-            edge_dict['index'], edge_dict['L'], edge_dict['R'],
-            edge_dict['name'], edge_dict['theta']
-        )
+        instance = cls(edge_dict['L'], edge_dict['R'], edge_dict['name'], edge_dict['theta'])
         instance.U = np.array(edge_dict['U'])
         parents = edge_dict['parents']
 

@@ -334,9 +334,9 @@ class TestDirectTree(TestCase):
 
 class TestEdge(TestCase):
     def setUp(self):
-        self.e1 = Edge(0, 2, 5, 'clayton', 1.5)
+        self.e1 = Edge(2, 5, 'clayton', 1.5)
         self.e1.D = [1, 3]
-        self.e2 = Edge(1, 3, 4, 'clayton', 1.5)
+        self.e2 = Edge(3, 4, 'clayton', 1.5)
         self.e2.D = [1, 5]
 
     def test_identify_eds(self):
@@ -353,10 +353,9 @@ class TestEdge(TestCase):
     def test_to_dict(self):
         """To_dict returns a dictionary with the parameters to recreate an edge."""
         # Setup
-        edge = Edge(1, 2, 5, 'clayton', 1.5)
+        edge = Edge(2, 5, 'clayton', 1.5)
         edge.D = [1, 3]
         expected_result = {
-            'index': 1,
             'L': 2,
             'R': 5,
             'name': 'clayton',
@@ -379,7 +378,6 @@ class TestEdge(TestCase):
         """From_dict sets the dictionary values as instance attributes."""
         # Setup
         parameters = {
-            'index': 0,
             'L': 2,
             'R': 5,
             'name': 'clayton',
@@ -396,7 +394,6 @@ class TestEdge(TestCase):
         edge = Edge.from_dict(parameters)
 
         # Check
-        assert edge.index == 0
         assert edge.L == 2
         assert edge.R == 5
         assert edge.name == 'clayton'
@@ -408,7 +405,7 @@ class TestEdge(TestCase):
 
     def test_valid_serialization(self):
         # Setup
-        instance = Edge(0, 2, 5, 'clayton', 1.5)
+        instance = Edge(2, 5, 'clayton', 1.5)
 
         # Run
         result = Edge.from_dict(instance.to_dict())
