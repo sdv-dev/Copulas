@@ -178,6 +178,14 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
+    def partial_derivative_scalar(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
+
+        self.check_fit()
+
+        X = np.column_stack((U, V))
+        return self.partial_derivative(X, y)
+
     def sample(self, n_samples):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
 
