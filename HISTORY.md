@@ -1,5 +1,10 @@
 # History
 
+## 0.2.1 - Vine serialization
+* Add serialization to `Vine` copulas.
+* Add `distribution` as argument for `Gaussian` copula.
+* Make compatible with pycodestyle 2.4.0
+
 ## 0.2.0 - Unified API
 
 * New API for stats methods.
