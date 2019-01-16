@@ -184,7 +184,7 @@ class VineCopula(Multivariate):
                         copula_type = current_tree[current_ind].name
                         copula = Bivariate(CopulaTypes(copula_type))
                         copula.theta = current_tree[current_ind].theta
-                        derivative = copula._partial_derivative
+                        derivative = copula.partial_derivative_scalar
 
                         if i == itr - 1:
                             tmp = optimize.fminbound(
