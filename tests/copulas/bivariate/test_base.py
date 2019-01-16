@@ -147,7 +147,6 @@ class TestBivariate(TestCase):
 
         # Check
         assert result == derivative_mock.return_value
-        derivative_mock.assert_called_once
 
         assert len(expected_args) == len(derivative_mock.call_args)
         assert (derivative_mock.call_args[0][0] == expected_args[0][0]).all()
