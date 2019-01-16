@@ -142,9 +142,8 @@ class TestBivariate(TestCase):
         # Check
         assert result == derivative_mock.return_value
 
+        expected_args = ((np.array([[0.5, 0.1]]), 0), {})
         assert len(expected_args) == len(derivative_mock.call_args)
         assert (derivative_mock.call_args[0][0] == expected_args[0][0]).all()
         assert derivative_mock.call_args[0][1] == expected_args[0][1]
-
-        expected_args = ((np.array([[0.5, 0.1]]), 0), {})
         assert derivative_mock.call_args[1] == expected_args[1]
