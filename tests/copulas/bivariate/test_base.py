@@ -72,8 +72,9 @@ class TestBivariate(TestCase):
         # Check
         assert result == expected_result
 
+    @mock.patch("builtins.open")
     @mock.patch('copulas.bivariate.base.json.dump')
-    def test_save(self, json_mock):
+    def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
         instance = Bivariate('frank')
@@ -89,12 +90,13 @@ class TestBivariate(TestCase):
         instance.save('test.json')
 
         # Check
+        assert open_mock.called_once_with('test.json', 'w')
         assert json_mock.called
         compare_nested_dicts(json_mock.call_args[0][0], expected_content)
 
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('builtins.open')
     @mock.patch('copulas.bivariate.base.json.load')
-    def test_load_from_file(self, json_mock, file_mock):
+    def test_load_from_file(self, json_mock, open_mock):
         """Load can recreate an instance from a saved file."""
         # Setup
         json_mock.return_value = {
@@ -107,6 +109,7 @@ class TestBivariate(TestCase):
         instance = Bivariate.load('somefile.json')
 
         # Check
+        assert open_mock.called_once_with('test.json', 'r')
         instance.copula_type == CopulaTypes.FRANK
         instance.tau == -0.33333333333333337
         instance.theta == -3.305771759329249

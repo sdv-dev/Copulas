@@ -372,8 +372,9 @@ class TestGaussianCopula(TestCase):
         # This isn't to check the sampling, but that the copula is able to run.
         assert copula.sample(10).all().all()
 
+    @mock.patch("builtins.open")
     @mock.patch('copulas.multivariate.base.json.dump')
-    def test_save(self, json_mock):
+    def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
         instance = GaussianMultivariate()
@@ -423,11 +424,12 @@ class TestGaussianCopula(TestCase):
         instance.save('test.json')
 
         # Check
+        assert open_mock.called_once_with('test.json', 'w')
         compare_nested_dicts(json_mock.call_args[0][0], expected_content)
 
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('builtins.open')
     @mock.patch('copulas.bivariate.base.json.load')
-    def test_load(self, json_mock, file_mock):
+    def test_load(self, json_mock, open_mock):
         """Load can recreate an instance from a saved file."""
         # Setup
         covariance = [
@@ -470,7 +472,7 @@ class TestGaussianCopula(TestCase):
         }
 
         # Run
-        instance = GaussianMultivariate.load('somefile.json')
+        instance = GaussianMultivariate.load('test.json')
 
         # Check
         assert (instance.covariance == np.array([
@@ -482,3 +484,5 @@ class TestGaussianCopula(TestCase):
 
         for name, distrib in instance.distribs.items():
             assert instance.distribs[name].to_dict() == json_mock.return_value['distribs'][name]
+
+        assert open_mock.called_once_with('test.json', 'r')
