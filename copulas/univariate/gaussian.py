@@ -10,56 +10,109 @@ LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(Univariate):
-    """ Gaussian univariate model """
+    """Gaussian univariate model"""
+
+    fitted = False
 
     def __init__(self):
         super().__init__()
-        self.column = None
+        self.name = None
         self.mean = 0
         self.std = 1
-        self.min = -np.inf
-        self.max = np.inf
 
     def __str__(self):
-        column_name = self.column.name if isinstance(self.column, pd.Series) else None
-        details = [column_name, self.mean, self.std, self.max, self.min]
+        details = [self.name, self.mean, self.std]
         return (
             'Distribution Type: Gaussian\n'
             'Variable name: {}\n'
             'Mean: {}\n'
-            'Standard deviation: {}\n'
-            'Max: {}\n'
-            'Min: {}'.format(*details)
+            'Standard deviation: {}'.format(*details)
         )
 
-    def fit(self, column):
-        if not len(column):
+    def fit(self, X):
+        """Fit the model.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            None
+        """
+
+        if not len(X):
             raise ValueError("Can't fit with an empty dataset.")
 
-        self.column = column
-        self.mean = np.mean(column)
-        std = np.std(column)
-
-        # check for column with all the same vals
-        if std == 0:
-            self.std = 0.001
-
+        if isinstance(X, (pd.Series, pd.DataFrame)):
+            self.name = X.name
         else:
-            self.std = std
+            self.name = None
 
-        self.max = max(column)
-        self.min = min(column)
+        self.mean = np.mean(X)
+        self.std = np.std(X) or 0.001
+        self.fitted = True
 
-    def get_pdf(self, x):
-        return norm.pdf(x, loc=self.mean, scale=self.std)
+    def probability_density(self, X):
+        """Compute probability density.
 
-    def get_cdf(self, x):
-        return norm.cdf(x, loc=self.mean, scale=self.std)
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
 
-    def inverse_cdf(self, u):
-        """ given a cdf value, returns a value in original space """
-        return norm.ppf(u, loc=self.mean, scale=self.std)
+        Returns:
+            np.ndarray
+        """
+        self.check_fit()
+        return norm.pdf(X, loc=self.mean, scale=self.std)
+
+    def cumulative_distribution(self, X):
+        """Cumulative distribution function for gaussian distribution.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray: Cumulative density for X.
+        """
+        self.check_fit()
+        return norm.cdf(X, loc=self.mean, scale=self.std)
+
+    def percent_point(self, U):
+        """Given a cumulated distribution value, returns a value in original space.
+
+        Arguments:
+            U: `np.ndarray` of shape (n, 1) and values in [0,1]
+
+        Returns:
+            `np.ndarray`: Estimated values in original space.
+        """
+        self.check_fit()
+        return norm.ppf(U, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):
-        """ returns new data point based on model """
+        """Returns new data point based on model.
+
+        Arguments:
+            n_samples: `int`
+
+        Returns:
+            np.ndarray: Generated samples
+        """
+        self.check_fit()
         return np.random.normal(self.mean, self.std, num_samples)
+
+    def _fit_params(self):
+        return {
+            'mean': self.mean,
+            'std': self.std,
+        }
+
+    @classmethod
+    def from_dict(cls, copula_dict):
+        """Set attributes with provided values."""
+        instance = cls()
+        instance.fitted = copula_dict['fitted']
+
+        if instance.fitted:
+            instance.mean = copula_dict['mean']
+            instance.std = copula_dict['std']
+
+        return instance
