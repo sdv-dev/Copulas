@@ -1,7 +1,0 @@
-copulas
-=======
-
-.. toctree::
-   :maxdepth: 4
-
-   copulas

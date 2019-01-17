@@ -32,20 +32,20 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/DAI-Lab/copulas
+    $ git clone git://github.com/DAI-Lab/Copulas
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/DAI-Lab/copulas/tarball/master
+    $ curl  -OL https://github.com/DAI-Lab/Copulas/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ make install
 
 
-.. _Github repo: https://github.com/DAI-Lab/copulas
-.. _tarball: https://github.com/DAI-Lab/copulas/tarball/master
+.. _Github repo: https://github.com/DAI-Lab/Copulas
+.. _tarball: https://github.com/DAI-Lab/Copulas/tarball/master
