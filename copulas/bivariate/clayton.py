@@ -14,7 +14,7 @@ class Clayton(Bivariate):
         """Return the generator function."""
         self.check_fit()
 
-        return 1.0 / self.theta * (np.power(t, -self.theta) - 1)
+        return (1.0 / self.theta) * (np.power(t, -self.theta) - 1)
 
     def probability_density(self, X):
         """Compute probability density function for given copula family.

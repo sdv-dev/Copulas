@@ -4,7 +4,7 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
-from copulas import EPSILON
+from copulas import EPSILON, NotFittedError
 
 COMPUTE_EMPIRICAL_STEPS = 50
 
@@ -14,10 +14,6 @@ class CopulaTypes(Enum):
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
-
-
-class NotFittedError(Exception):
-    pass
 
 
 class Bivariate(object):
@@ -182,6 +178,14 @@ class Bivariate(object):
             np.ndarray
         """
         raise NotImplementedError
+
+    def partial_derivative_scalar(self, U, V, y=0):
+        """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
+
+        self.check_fit()
+
+        X = np.column_stack((U, V))
+        return self.partial_derivative(X, y)
 
     def sample(self, n_samples):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`

@@ -131,8 +131,8 @@ class TestKDEUnivariate(TestCase):
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
-        distribution = KDEUnivariate()
         parameters = {
+            'fitted': True,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -193,6 +193,8 @@ class TestKDEUnivariate(TestCase):
         distribution.fit(column)
 
         expected_result = {
+            'type': 'copulas.univariate.kde.KDEUnivariate',
+            'fitted': True,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -217,3 +219,27 @@ class TestKDEUnivariate(TestCase):
 
         # Check
         compare_nested_dicts(result, expected_result)
+
+    def test_valid_serialization_unfit_model(self):
+        """For a unfitted model to_dict and from_dict are opposites."""
+        # Setup
+        instance = KDEUnivariate()
+
+        # Run
+        result = KDEUnivariate.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()
+
+    def test_valid_serialization_fit_model(self):
+        """For a fitted model to_dict and from_dict are opposites."""
+        # Setup
+        instance = KDEUnivariate()
+        X = np.array([1, 2, 3, 4])
+        instance.fit(X)
+
+        # Run
+        result = KDEUnivariate.from_dict(instance.to_dict())
+
+        # Check
+        assert instance.to_dict() == result.to_dict()

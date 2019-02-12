@@ -72,14 +72,11 @@ class Gumbel(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                result.append(fminbound(self._partial_derivative, EPSILON, 1.0, args=(_y, _V)))
+                result.append(fminbound(
+                    self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V)
+                ))
 
             return np.array(result)
-
-    def _partial_derivative(self, U, V, y):
-        """Helper function to compute the bounded minimum using scalars."""
-        X = np.column_stack((U, V))
-        return self.partial_derivative(X, y)
 
     def partial_derivative(self, X, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density.

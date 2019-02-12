@@ -4,6 +4,7 @@ from unittest import TestCase, mock
 import numpy as np
 import pandas as pd
 
+from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from tests import compare_nested_dicts
 
@@ -39,7 +40,7 @@ class TestGaussianCopula(TestCase):
             ])
         })
 
-    def test___init__(self):
+    def test___init__default_args(self):
         """On init an instance with None on all attributes except distribs is returned."""
         # Run
         copula = GaussianMultivariate()
@@ -48,8 +49,23 @@ class TestGaussianCopula(TestCase):
         assert copula.distribs == {}
         assert copula.covariance is None
         assert copula.means is None
+        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
-    def test_fit(self):
+    def test__init__distribution_arg(self):
+        """On init the distribution argument is set as attribute."""
+        # Setup
+        distribution = 'full.qualified.name.of.distribution'
+
+        # Run
+        copula = GaussianMultivariate(distribution)
+
+        # Check
+        assert copula.distribs == {}
+        assert copula.covariance is None
+        assert copula.means is None
+        assert copula.distribution == 'full.qualified.name.of.distribution'
+
+    def test_fit_default_distribution(self):
         """On fit, a distribution is created for each column along the covariance and means"""
 
         # Setup
@@ -59,10 +75,32 @@ class TestGaussianCopula(TestCase):
         copula.fit(self.data)
 
         # Check
+        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
+
         for key in self.data.columns:
-            assert copula.distribs[key]
+            assert key in copula.distribs
+            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
             assert copula.distribs[key].mean == self.data[key].mean()
             assert copula.distribs[key].std == np.std(self.data[key])
+
+        expected_covariance = copula._get_covariance(self.data)
+        assert (copula.covariance == expected_covariance).all().all()
+
+    def test_fit_distribution_arg(self):
+        """On fit, the distributions for each column use instances of copula.distribution."""
+        # Setup
+        distribution = 'copulas.univariate.kde.KDEUnivariate'
+        copula = GaussianMultivariate(distribution=distribution)
+
+        # Run
+        copula.fit(self.data)
+
+        # Check
+        assert copula.distribution == 'copulas.univariate.kde.KDEUnivariate'
+
+        for key in self.data.columns:
+            assert key in copula.distribs
+            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
@@ -243,11 +281,34 @@ class TestGaussianCopula(TestCase):
         ]
         expected_result = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 
@@ -268,11 +329,34 @@ class TestGaussianCopula(TestCase):
         ]
         parameters = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 
@@ -280,20 +364,17 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate.from_dict(parameters)
 
         # Check
-        assert (copula.covariance == [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]).all()
+        assert (copula.covariance == covariance).all()
+
         for name, distrib in copula.distribs.items():
             assert copula.distribs[name].to_dict() == parameters['distribs'][name]
 
         # This isn't to check the sampling, but that the copula is able to run.
         assert copula.sample(10).all().all()
 
+    @mock.patch("builtins.open")
     @mock.patch('copulas.multivariate.base.json.dump')
-    def test_save(self, json_mock):
+    def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
         instance = GaussianMultivariate()
@@ -307,11 +388,34 @@ class TestGaussianCopula(TestCase):
         ]
         parameters = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
         expected_content = parameters
@@ -320,11 +424,12 @@ class TestGaussianCopula(TestCase):
         instance.save('test.json')
 
         # Check
+        assert open_mock.called_once_with('test.json', 'w')
         compare_nested_dicts(json_mock.call_args[0][0], expected_content)
 
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('builtins.open')
     @mock.patch('copulas.bivariate.base.json.load')
-    def test_load(self, json_mock, file_mock):
+    def test_load(self, json_mock, open_mock):
         """Load can recreate an instance from a saved file."""
         # Setup
         covariance = [
@@ -335,16 +440,39 @@ class TestGaussianCopula(TestCase):
         ]
         json_mock.return_value = {
             'covariance': covariance,
+            'fitted': True,
+            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
+            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
             'distribs': {
-                'feature_01': {'mean': 5.843333333333334, 'std': 0.8253012917851409},
-                'feature_02': {'mean': 3.0540000000000003, 'std': 0.4321465800705435},
-                'feature_03': {'mean': 3.758666666666666, 'std': 1.7585291834055212},
-                'feature_04': {'mean': 1.1986666666666668, 'std': 0.7606126185881716}
+                'feature_01': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 5.843333333333334,
+                    'std': 0.8253012917851409,
+                    'fitted': True
+                },
+                'feature_02': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.0540000000000003,
+                    'std': 0.4321465800705435,
+                    'fitted': True
+                },
+                'feature_03': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 3.758666666666666,
+                    'std': 1.7585291834055212,
+                    'fitted': True
+                },
+                'feature_04': {
+                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
+                    'mean': 1.1986666666666668,
+                    'std': 0.7606126185881716,
+                    'fitted': True
+                }
             }
         }
 
         # Run
-        instance = GaussianMultivariate.load('somefile.json')
+        instance = GaussianMultivariate.load('test.json')
 
         # Check
         assert (instance.covariance == np.array([
@@ -356,3 +484,5 @@ class TestGaussianCopula(TestCase):
 
         for name, distrib in instance.distribs.items():
             assert instance.distribs[name].to_dict() == json_mock.return_value['distribs'][name]
+
+        assert open_mock.called_once_with('test.json', 'r')

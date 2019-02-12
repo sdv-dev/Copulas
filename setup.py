@@ -37,6 +37,7 @@ development_requires = [
 
 tests_require = [
     'pytest>=3.4.2',
+    'pytest-cov>=2.6.0',
 ]
 
 setup_requires = [
@@ -80,6 +81,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/DAI-Lab/Copulas',
-    version='0.2.1-dev',
+    version='0.2.2-dev',
     zip_safe=False,
 )
