@@ -1,14 +1,8 @@
-import numpy as np
-
-
 class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
     def __init__(self, random_state=None):
         self.random_seed = random_state
-
-    def get_random_state(self):
-        return np.random.RandomState(self.random_seed)
 
     def fit(self, X):
         """Fits the model.

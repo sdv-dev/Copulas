@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
+from copulas import random_state
 from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
@@ -82,6 +83,7 @@ class GaussianUnivariate(Univariate):
         """
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
+    @random_state
     def sample(self, num_samples=1):
         """Returns new data point based on model.
 
@@ -91,8 +93,7 @@ class GaussianUnivariate(Univariate):
         Returns:
             np.ndarray: Generated samples
         """
-        random = self.get_random_state()
-        return random.normal(self.mean, self.std, num_samples)
+        return np.random.normal(self.mean, self.std, num_samples)
 
     def to_dict(self):
         return {
