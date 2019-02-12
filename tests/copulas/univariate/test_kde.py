@@ -113,7 +113,7 @@ class TestKDEUnivariate(TestCase):
     def test_sample_random_state(self):
         """If random_state is set, samples will generate the exact same values."""
         # Setup
-        instance = KDEUnivariate(random_state=0)
+        instance = KDEUnivariate(random_seed=0)
 
         X = np.array([1, 2, 3, 4, 5])
         instance.fit(X)

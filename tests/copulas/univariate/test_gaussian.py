@@ -170,7 +170,7 @@ class TestGaussianUnivariate(TestCase):
     def test_sample_random_state(self):
         """When random state is set, samples are the same."""
         # Setup
-        instance = GaussianUnivariate(random_state=0)
+        instance = GaussianUnivariate(random_seed=0)
         X = np.array([1, 2, 3, 4, 5])
         instance.fit(X)
 

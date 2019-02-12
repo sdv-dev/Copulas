@@ -1,8 +1,8 @@
 class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
-    def __init__(self, random_state=None):
-        self.random_seed = random_state
+    def __init__(self, random_seed=None):
+        self.random_seed = random_seed
 
     def fit(self, X):
         """Fits the model.
