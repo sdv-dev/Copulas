@@ -37,6 +37,17 @@ class TestBivariate(TestCase):
             [-592.84497457, 174.92272693]
         ])
 
+    def test___init__random_seed(self):
+        """If random_seed is passed as argument, will be set as attribute."""
+        # Setup
+        random_seed = 'random_seed'
+
+        # Run
+        instance = Bivariate(CopulaTypes.CLAYTON, random_seed)
+
+        # Check
+        assert instance.random_seed == 'random_seed'
+
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
