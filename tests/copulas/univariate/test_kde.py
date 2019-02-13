@@ -108,7 +108,8 @@ class TestKDEUnivariate(TestCase):
         # Check
         compare_nested_iterables(result, expected_result)
         compare_nested_iterables(kde_mock.call_args_list, expected_kde_mock_call_args_list)
-        compare_nested_iterables(model_mock.call_args_list, expected_model_mock_call_args_list)
+        compare_nested_iterables(
+            model_mock.resample.call_args_list, expected_model_mock_call_args_list)
 
     def test_sample_random_state(self):
         """If random_state is set, samples will generate the exact same values."""
@@ -119,7 +120,7 @@ class TestKDEUnivariate(TestCase):
         instance.fit(X)
 
         expected_result_random_state = np.array([
-            [7.02156389, 1.45857107, 2.12161148, 7.56801267, 5.14017901]
+            [5.02156389, 5.45857107, 6.12161148, 4.56801267, 6.14017901]
         ])
 
         # Run
