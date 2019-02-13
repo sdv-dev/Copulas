@@ -72,9 +72,11 @@ class Gumbel(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                result.append(fminbound(
-                    self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V)
-                ))
+                minimum = fminbound(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
+                if isinstance(minimum, np.ndarray):
+                    minimum = minimum[0]
+
+                result.append(minimum)
 
             return np.array(result)
 

@@ -4,7 +4,7 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
-from copulas import EPSILON, NotFittedError
+from copulas import EPSILON, NotFittedError, random_state
 
 COMPUTE_EMPIRICAL_STEPS = 50
 
@@ -187,6 +187,7 @@ class Bivariate(object):
         X = np.column_stack((U, V))
         return self.partial_derivative(X, y)
 
+    @random_state
     def sample(self, n_samples):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
 
