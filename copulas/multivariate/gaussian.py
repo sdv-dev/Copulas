@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 
 import numpy as np
 import pandas as pd
@@ -22,7 +23,7 @@ class GaussianMultivariate(Multivariate):
     def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.distribs = {}
+        self.distribs = OrderedDict()
         self.covariance = None
         self.means = None
         self.distribution = distribution
