@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import integrate, stats
 
-from copulas import get_qualified_name, import_object
+from copulas import get_qualified_name, import_object, random_state
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -19,8 +19,8 @@ class GaussianMultivariate(Multivariate):
         distribution (str): Full qualified name of the class to be used as distribution.
     """
 
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION):
-        super().__init__()
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.distribs = {}
         self.covariance = None
@@ -186,6 +186,7 @@ class GaussianMultivariate(Multivariate):
         ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
 
+    @random_state
     def sample(self, num_rows=1):
         """Creates sintentic values stadistically similar to the original dataset.
 

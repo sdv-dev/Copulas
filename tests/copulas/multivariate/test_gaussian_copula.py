@@ -1,5 +1,6 @@
 import warnings
-from unittest import TestCase, mock
+from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -242,30 +243,74 @@ class TestGaussianCopula(TestCase):
             assert len(warns) == 0
             assert len(result) == 10
 
-    def test_sample(self):
-        """Generated samples keep the same mean and deviation as the original data."""
-        copula = GaussianMultivariate()
-        stats = [
-            {'mean': 10000, 'std': 15},
-            {'mean': 150, 'std': 10},
-            {'mean': -50, 'std': 0.1}
-        ]
-        data = pd.DataFrame([np.random.normal(x['mean'], x['std'], 100) for x in stats]).T
-        copula.fit(data)
+    @patch('copulas.multivariate.gaussian.np.random.multivariate_normal')
+    def test_sample(self, normal_mock):
+        """Sample use the inverse-transform method to generate new samples."""
+        # Setup
+        instance = GaussianMultivariate()
+        data = pd.DataFrame([
+            {'A': 25, 'B': 75, 'C': 100},
+            {'A': 30, 'B': 60, 'C': 250},
+            {'A': 10, 'B': 65, 'C': 350},
+            {'A': 20, 'B': 80, 'C': 150},
+            {'A': 25, 'B': 70, 'C': 500}
+        ])
+        instance.fit(data)
+
+        normal_mock.return_value = np.array([
+            [0.1, 0.1, 0.1],
+            [0.2, 0.2, 0.2],
+            [0.4, 0.4, 0.4],
+            [0.6, 0.6, 0.6],
+            [0.8, 0.8, 0.8]
+        ])
+
+        expected_result = pd.DataFrame([
+            {'A': 22.678232998312527, 'B': 70.70710678118655, 'C': 284.35270009440734},
+            {'A': 23.356465996625055, 'B': 71.41421356237309, 'C': 298.7054001888146},
+            {'A': 24.712931993250110, 'B': 72.82842712474618, 'C': 327.4108003776293},
+            {'A': 26.069397989875164, 'B': 74.24264068711929, 'C': 356.116200566444},
+            {'A': 27.425863986500215, 'B': 75.65685424949238, 'C': 384.8216007552586}
+        ])
 
         # Run
-        result = copula.sample(1000000)
+        result = instance.sample(5)
 
         # Check
-        assert result.shape == (1000000, 3)
-        for i, stat in enumerate(stats):
-            expected_mean = np.mean(data[i])
-            expected_std = np.std(data[i])
-            result_mean = np.mean(result[i])
-            result_std = np.std(result[i])
+        assert result.equals(expected_result)
 
-            assert abs(expected_mean - result_mean) < abs(expected_mean / 100)
-            assert abs(expected_std - result_std) < abs(expected_std / 100)
+        assert normal_mock.called_once_with(
+            np.zeros(instance.covariance.shape[0]),
+            instance.covariance,
+            5
+        )
+
+    def test_sample_random_state(self):
+        """When random_state is set the samples are the same."""
+        # Setup
+        instance = GaussianMultivariate(random_seed=0)
+        data = pd.DataFrame([
+            {'A': 25, 'B': 75, 'C': 100},
+            {'A': 30, 'B': 60, 'C': 250},
+            {'A': 10, 'B': 65, 'C': 350},
+            {'A': 20, 'B': 80, 'C': 150},
+            {'A': 25, 'B': 70, 'C': 500}
+        ])
+        instance.fit(data)
+
+        expected_result = pd.DataFrame([
+            {'A': 25.566882482769294, 'B': 61.01690157277244, 'C': 575.71068885087790},
+            {'A': 32.624255560452110, 'B': 47.31477394460025, 'C': 447.84049148268970},
+            {'A': 20.117642182744806, 'B': 63.68224998298797, 'C': 397.76402526341593},
+            {'A': 25.357483201156676, 'B': 72.30337152729443, 'C': 433.06766240515134},
+            {'A': 23.202174689737113, 'B': 66.32056962524452, 'C': 405.08384853948280}
+        ])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.equals(expected_result)
 
     def test_to_dict(self):
         """To_dict returns the parameters to replicate the copula."""
@@ -319,7 +364,7 @@ class TestGaussianCopula(TestCase):
         compare_nested_dicts(result, expected_result)
 
     def test_from_dict(self):
-        """ """
+        """from_dict generates a new instance from its parameters."""
         # Setup
         covariance = [
             [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
@@ -372,8 +417,8 @@ class TestGaussianCopula(TestCase):
         # This isn't to check the sampling, but that the copula is able to run.
         assert copula.sample(10).all().all()
 
-    @mock.patch("builtins.open")
-    @mock.patch('copulas.multivariate.base.json.dump')
+    @patch("builtins.open")
+    @patch('copulas.multivariate.base.json.dump')
     def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
@@ -427,8 +472,8 @@ class TestGaussianCopula(TestCase):
         assert open_mock.called_once_with('test.json', 'w')
         compare_nested_dicts(json_mock.call_args[0][0], expected_content)
 
-    @mock.patch('builtins.open')
-    @mock.patch('copulas.bivariate.base.json.load')
+    @patch('builtins.open')
+    @patch('copulas.bivariate.base.json.load')
     def test_load(self, json_mock, open_mock):
         """Load can recreate an instance from a saved file."""
         # Setup
