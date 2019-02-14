@@ -501,3 +501,22 @@ class TestGaussianCopula(TestCase):
             assert instance.distribs[name].to_dict() == json_mock.return_value['distribs'][name]
 
         assert open_mock.called_once_with('test.json', 'r')
+
+    def test_sample_constant_column(self):
+        """ """
+        # Setup
+        instance = GaussianMultivariate()
+        X = np.array([
+            [1, 2],
+            [1, 3],
+            [1, 4],
+            [1, 5]
+        ])
+        instance.fit(X)
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.shape == (5, 2)
+        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))

@@ -262,28 +262,42 @@ class TestKDEUnivariate(TestCase):
         # Check
         compare_nested_iterables(result, expected_result)
 
-    def test_probability_density_constant_raises(self):
-        """If constant_value, probability_density raises a ValueError."""
+    @patch('copulas.univariate.base.Univariate._constant_probability_density', autospec=True)
+    def test_probability_density_constant(self, pdf_mock):
+        """If constant_value, probability_density uses the degenerate version."""
+        # Setup
+        instance = KDEUnivariate()
+        instance.fitted = True
+        instance.constant_value = 3
+
+        X = np.array([0, 1, 2, 3, 4, 5])
+        expected_result = np.array([0, 0, 1, 0, 0])
+
+        pdf_mock.return_value = np.array([0, 0, 1, 0, 0])
+
+        # Run
+        result = instance.probability_density(X)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+        pdf_mock.assert_called_once_with(instance, X)
+
+    @patch('copulas.univariate.base.Univariate._constant_percent_point', autospec=True)
+    def test_percent_point_constant_raises(self, ppf_mock):
+        """If constant_value, percent_point uses the degenerate version."""
         # Setup
         instance = KDEUnivariate()
         instance.fitted = True
         instance.constant_value = 3
 
         X = np.array([0.1, 0.5, 0.75])
+        expected_result = np.array([3, 3, 3])
 
-        # Run / Check
-        with self.assertRaises(ValueError):
-            instance.probability_density(X)
+        ppf_mock.return_value = np.array([3, 3, 3])
 
-    def test_percent_point_constant_raises(self):
-        """If constant_value, percent_point raises a ValueError."""
-        # Setup
-        instance = KDEUnivariate()
-        instance.fitted = True
-        instance.constant_value = 3
+        # Run
+        result = instance.percent_point(X)
 
-        X = np.array([0.1, 0.5, 0.75])
-
-        # Run / Check
-        with self.assertRaises(ValueError):
-            instance.percent_point(X)
+        # Check
+        compare_nested_iterables(result, expected_result)
+        ppf_mock.assert_called_once_with(instance, X)

@@ -63,7 +63,9 @@ class GaussianUnivariate(Univariate):
             np.ndarray
         """
         self.check_fit()
-        self.check_constant_value()
+        if self.constant_value:
+            return self._constant_probability_density(X)
+
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
     def cumulative_distribution(self, X):
@@ -91,7 +93,9 @@ class GaussianUnivariate(Univariate):
             `np.ndarray`: Estimated values in original space.
         """
         self.check_fit()
-        self.check_constant_value()
+        if self.constant_value:
+            return self._constant_percent_point(U)
+
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):

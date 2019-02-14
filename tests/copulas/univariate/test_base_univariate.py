@@ -8,16 +8,6 @@ from tests import compare_nested_iterables
 
 class TestUnivariate(TestCase):
 
-    def test_check_constant_value(self):
-        """If constant_value is not None, raises an exception."""
-        # Setup
-        instance = Univariate()
-        instance.constant_value = 5
-
-        # Run / Check
-        with self.assertRaises(ValueError):
-            instance.check_constant_value()
-
     def test_get_constant_value(self):
         """get_constant_value return the unique value of an array if it exists."""
         # Setup
@@ -67,6 +57,36 @@ class TestUnivariate(TestCase):
 
         # Run
         result = instance._constant_cumulative_distribution(X)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+    def test__constant_probability_density(self):
+        """constant_probability_density only is 1 in self.constant_value."""
+        # Setup
+        instance = Univariate()
+        instance.constant_value = 3
+
+        X = np.array([1, 2, 3, 4, 5])
+        expected_result = np.array([0, 0, 1, 0, 0])
+
+        # Run
+        result = instance._constant_probability_density(X)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+    def test__constant_percent_point(self):
+        """constant_percent_point only is self.constant_value in non-zero probabilities."""
+        # Setup
+        instance = Univariate()
+        instance.constant_value = 3
+
+        X = np.array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5])
+        expected_result = np.array([3, 3, 3, 3, 3])
+
+        # Run
+        result = instance._constant_percent_point(X)
 
         # Check
         compare_nested_iterables(result, expected_result)

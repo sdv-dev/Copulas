@@ -44,7 +44,9 @@ class KDEUnivariate(Univariate):
             pdf: int or float with the value of estimated pdf
         """
         self.check_fit()
-        self.check_constant_value()
+        if self.constant_value:
+            return self._constant_probability_density(X)
+
         if type(X) not in (int, float):
             raise ValueError('x must be int or float')
 
@@ -77,7 +79,9 @@ class KDEUnivariate(Univariate):
             float: value in original space
         """
         self.check_fit()
-        self.check_constant_value()
+        if self.constant_value:
+            return self._constant_percent_point(U)
+
         if not 0 < U < 1:
             raise ValueError('cdf value must be in [0,1]')
 

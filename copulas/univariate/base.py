@@ -105,16 +105,12 @@ class Univariate(object):
         if not self.fitted:
             raise NotFittedError("This model is not fitted.")
 
-    def check_constant_value(self):
-        if self.constant_value:
-            raise ValueError('This method is not available on constant distributions.')
-
     @staticmethod
     def _get_constant_value(X):
         """Checks if a Series or array contains only one unique value.
 
         Args:
-            X(pandas.Series or numpy.array): Array to check for constantness
+            X(pandas.Series or numpy.ndarray): Array to check for constantness
 
         Returns:
             (float or None): Return the constant value if there is one, else return None.
@@ -130,7 +126,7 @@ class Univariate(object):
             num_samples(int): Number of rows to sample
 
         Returns:
-            numpy.array: Sampled values. Array of shape (num_samples,).
+            numpy.ndarray: Sampled values. Array of shape (num_samples,).
         """
         return np.array([self.constant_value] * num_samples)
 
@@ -138,14 +134,48 @@ class Univariate(object):
         """Cumulative distribution for the degenerate case of constant distribution.
 
         Note that the output of this method will be an array whose unique values are 0 and 1.
+        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
 
         Args:
-            X (numpy.array): Values to compute cdf to.
+            X (numpy.ndarray): Values to compute cdf to.
 
         Returns:
-            numpy.array: Cumulative distribution for the given values.
+            numpy.ndarray: Cumulative distribution for the given values.
         """
         result = np.ones(X.shape)
         result[np.nonzero(X < self.constant_value)] = 0
 
         return result
+
+    def _constant_probability_density(self, X):
+        """Probability density for the degenerate case of constant distribution.
+
+        Note that the output of this method will be an array whose unique values are 0 and 1.
+        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
+
+        Args:
+            X(numpy.ndarray): Values to compute pdf.
+
+        Returns:
+            numpy.ndarray: Probability densisty for the given values
+        """
+        result = np.zeros(X.shape)
+        result[np.nonzero(X == self.constant_value)] = 1
+
+        return result
+
+    def _constant_percent_point(self, X):
+        """Percent point for the degenerate case of constant distribution.
+
+        Note that the output of this method will be an array whose unique values are `np.nan`
+        and self.constant_value.
+        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
+
+        Args:
+            X(numpy.ndarray): Percentiles.
+
+        Returns:
+            numpy.ndarray:
+
+        """
+        return np.full(X.shape, self.constant_value)
