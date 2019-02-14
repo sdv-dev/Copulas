@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `univariate` package."""
+"""Tests for `univariate.kde` module."""
 
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
-import scipy
 
 from copulas.univariate.kde import KDEUnivariate
-from tests import compare_nested_dicts
+from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestKDEUnivariate(TestCase):
@@ -23,26 +23,46 @@ class TestKDEUnivariate(TestCase):
 
     def test___init__(self):
         """On init, model are set to None."""
-        self.kde = KDEUnivariate()
-        assert self.kde.model is None
+        # Setup / Run
+        instance = KDEUnivariate()
 
-    def test_fit(self):
-        """On fit, kde model is instantiated with intance of gaussian_kde."""
-        self.kde = KDEUnivariate()
-        data = [1, 2, 3, 4, 5]
+        # Check
+        instance.model is None
+        instance.fitted is False
+        instance.constant_value is None
 
-        self.kde.fit(data)
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_fit(self, kde_mock):
+        """On fit, a new instance of gaussian_kde is fitted."""
+        # Setup
+        instance = KDEUnivariate()
+        X = np.array([1, 2, 3, 4, 5])
 
-        self.assertIsInstance(self.kde.model, scipy.stats.gaussian_kde)
+        kde_mock.return_value = 'mock model'
 
-    def test_fit_uniform(self):
-        """On fit, kde model is instantiated with passed data."""
-        self.kde = KDEUnivariate()
-        data = [1, 2, 3, 4, 5]
+        # Run
+        instance.fit(X)
 
-        self.kde.fit(data)
+        # Check
+        assert instance.model == 'mock model'
+        assert instance.fitted is True
+        assert instance.constant_value is None
 
-        assert self.kde.model
+        kde_mock.assert_called_once_with(X)
+
+    def test_fit_constant(self):
+        """If fit data is constant, no gaussian_kde model is created."""
+        # Setup
+        instance = KDEUnivariate()
+        X = np.array([1, 1, 1, 1, 1])
+
+        # Run
+        instance.fit(X)
+
+        # Check
+        assert instance.model is None
+        assert instance.constant_value == 1
+        assert instance.fitted is True
 
     def test_fit_empty_data(self):
         """If fitting kde model with empty data it will raise ValueError."""
@@ -90,6 +110,7 @@ class TestKDEUnivariate(TestCase):
         # Setup
         parameters = {
             'fitted': True,
+            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -152,6 +173,7 @@ class TestKDEUnivariate(TestCase):
         expected_result = {
             'type': 'copulas.univariate.kde.KDEUnivariate',
             'fitted': True,
+            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -200,3 +222,68 @@ class TestKDEUnivariate(TestCase):
 
         # Check
         assert instance.to_dict() == result.to_dict()
+
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_sample(self, kde_mock):
+        """When fitted, we are able to use the model to get samples."""
+        # Setup
+        instance = KDEUnivariate()
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+
+        model_mock = kde_mock.return_value
+        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
+
+        expected_result = np.array([0, 1, 0, 1, 0])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        assert instance.model == model_mock
+
+        kde_mock.assert_called_once_with(X)
+        model_mock.resample.assert_called_once_with(5)
+
+    def test_sample_constant(self):
+        """If constant_value is set, all the sample have the same value."""
+        # Setup
+        instance = KDEUnivariate()
+        instance.fitted = True
+        instance.constant_value = 3
+
+        expected_result = np.array([3, 3, 3, 3, 3])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+    def test_probability_density_constant_raises(self):
+        """If constant_value, probability_density raises a ValueError."""
+        # Setup
+        instance = KDEUnivariate()
+        instance.fitted = True
+        instance.constant_value = 3
+
+        X = np.array([0.1, 0.5, 0.75])
+
+        # Run / Check
+        with self.assertRaises(ValueError):
+            instance.probability_density(X)
+
+    def test_percent_point_constant_raises(self):
+        """If constant_value, percent_point raises a ValueError."""
+        # Setup
+        instance = KDEUnivariate()
+        instance.fitted = True
+        instance.constant_value = 3
+
+        X = np.array([0.1, 0.5, 0.75])
+
+        # Run / Check
+        with self.assertRaises(ValueError):
+            instance.percent_point(X)

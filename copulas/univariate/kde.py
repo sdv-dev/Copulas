@@ -26,7 +26,11 @@ class KDEUnivariate(Univariate):
         if not len(X):
             raise ValueError("data cannot be empty")
 
-        self.model = scipy.stats.gaussian_kde(X)
+        self.constant_value = self._get_constant_value(X)
+
+        if not self.constant_value:
+            self.model = scipy.stats.gaussian_kde(X)
+
         self.fitted = True
 
     def probability_density(self, X):
@@ -40,6 +44,7 @@ class KDEUnivariate(Univariate):
             pdf: int or float with the value of estimated pdf
         """
         self.check_fit()
+        self.check_constant_value()
         if type(X) not in (int, float):
             raise ValueError('x must be int or float')
 
@@ -49,13 +54,16 @@ class KDEUnivariate(Univariate):
         """Computes the integral of a 1-D pdf between two bounds
 
         Args:
-            X: `float` a datapoint.
-            U: `float` cdf value in [0,1], only used in get_ppf
+            X(float): a datapoint.
+            U(float): cdf value in [0,1], only used in get_ppf
 
         Returns:
             float: estimated cumulative distribution.
         """
         self.check_fit()
+        if self.constant_value:
+            return self._constant_cumulative_distribution(X)
+
         low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
         return self.model.integrate_box_1d(low_bounds, X) - U
 
@@ -69,6 +77,7 @@ class KDEUnivariate(Univariate):
             float: value in original space
         """
         self.check_fit()
+        self.check_constant_value()
         if not 0 < U < 1:
             raise ValueError('cdf value must be in [0,1]')
 
@@ -78,12 +87,15 @@ class KDEUnivariate(Univariate):
         """Samples new data point based on model.
 
         Args:
-            num_samples: `int` number of points to be sampled
+            num_samples(int): number of points to be sampled
 
         Returns:
             samples: a list of datapoints sampled from the model
         """
         self.check_fit()
+        if self.constant_value:
+            return self._constant_sample(num_samples)
+
         return self.model.resample(num_samples)
 
     @classmethod
@@ -91,7 +103,10 @@ class KDEUnivariate(Univariate):
         """Set attributes with provided values."""
         instance = cls()
 
-        if copula_dict['fitted']:
+        instance.fitted = copula_dict['fitted']
+        instance.constant_value = copula_dict['constant_value']
+
+        if instance.fitted and not instance.constant_value:
             instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
 
             for key in ['dataset', 'covariance', 'inv_cov']:
@@ -100,8 +115,6 @@ class KDEUnivariate(Univariate):
             attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
             for name in attributes:
                 setattr(instance.model, name, copula_dict[name])
-
-        instance.fitted = copula_dict['fitted']
 
         return instance
 
