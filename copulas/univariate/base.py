@@ -1,3 +1,5 @@
+import numpy as np
+
 from copulas import NotFittedError, get_qualified_name, import_object
 
 
@@ -6,6 +8,7 @@ class Univariate(object):
 
     def __init__(self):
         self.fitted = False
+        self.constant_value = None
 
     def fit(self, X):
         """Fits the model.
@@ -75,7 +78,8 @@ class Univariate(object):
         """Returns parameters to replicate the distribution."""
         result = {
             'type': get_qualified_name(self),
-            'fitted': self.fitted
+            'fitted': self.fitted,
+            'constant_value': self.constant_value
         }
 
         if not self.fitted:
@@ -100,3 +104,48 @@ class Univariate(object):
         """
         if not self.fitted:
             raise NotFittedError("This model is not fitted.")
+
+    def check_constant_value(self):
+        if self.constant_value:
+            raise ValueError('This method is not available on constant distributions.')
+
+    @staticmethod
+    def _get_constant_value(X):
+        """Checks if a Series or array contains only one unique value.
+
+        Args:
+            X(pandas.Series or numpy.array): Array to check for constantness
+
+        Returns:
+            (float or None): Return the constant value if there is one, else return None.
+        """
+        uniques = np.unique(X)
+        if len(uniques) == 1:
+            return uniques[0]
+
+    def _constant_sample(self, num_samples):
+        """Sample values for a constant distribution.
+
+        Args:
+            num_samples(int): Number of rows to sample
+
+        Returns:
+            numpy.array: Sampled values. Array of shape (num_samples,).
+        """
+        return np.array([self.constant_value] * num_samples)
+
+    def _constant_cumulative_distribution(self, X):
+        """Cumulative distribution for the degenerate case of constant distribution.
+
+        Note that the output of this method will be an array whose unique values are 0 and 1.
+
+        Args:
+            X (numpy.array): Values to compute cdf to.
+
+        Returns:
+            numpy.array: Cumulative distribution for the given values.
+        """
+        result = np.ones(X.shape)
+        result[np.nonzero(X < self.constant_value)] = 0
+
+        return result
