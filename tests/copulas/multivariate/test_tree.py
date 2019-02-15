@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
@@ -6,12 +7,13 @@ import pandas as pd
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
-from tests import compare_nested_dicts
+from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestTree(TestCase):
 
     def test_to_dict_unfitted_model(self):
+        """to_dict returns a simpler dict when Tree is not fitted."""
         # Setup
         instance = Tree(TreeTypes.REGULAR)
         expected_result = {
@@ -63,6 +65,7 @@ class TestTree(TestCase):
             'tree_type': TreeTypes.REGULAR,
             'edges': [
                 {
+                    'index': 0,
                     'D': set(),
                     'L': 0,
                     'R': 1,
@@ -78,6 +81,7 @@ class TestTree(TestCase):
                     'theta': -5.736282443655552
                 },
                 {
+                    'index': 1,
                     'D': set(),
                     'L': 1,
                     'R': 2,
@@ -308,6 +312,18 @@ class TestDirectTree(TestCase):
         assert self.tree.edges[0].neighbors == [1]
         assert self.tree.edges[1].neighbors == [0, 2]
 
+    def test_get_tau_matrix_no_edges_empty(self):
+        """get_tau_matrix returns an empty array if there are no edges."""
+        # Setup
+        tree = Tree(TreeTypes.DIRECT)
+        tree.edges = []
+
+        # Run
+        result = tree.get_tau_matrix()
+
+        # Check
+        assert result.shape == (0, 0)
+
     def test_get_tau_matrix(self):
         """ Assert none of get tau matrix is NaN """
         self.tau = self.tree.get_tau_matrix()
@@ -340,15 +356,105 @@ class TestEdge(TestCase):
         self.e2.D = [1, 5]
 
     def test_identify_eds(self):
-        left, right, depend_set = Edge._identify_eds_ing(self.e1, self.e2)
-        assert left == 2
-        assert right == 4
-        expected_result = set([1, 3, 5])
-        assert depend_set == expected_result
+        """_identify_eds_ing returns the left, right and dependency for a new edge."""
+        # Setup
+        first = Edge(None, 2, 5, None, None)
+        first.D = {1, 3}
+
+        second = Edge(None, 3, 4, None, None)
+        second.D = {1, 5}
+
+        # Please, note that we passed the index, copula_name and copula_theta as None
+        # To show they are no going to be used in the scope of this test.
+
+        # left, right and dependence set
+        expected_result = (2, 4, set([1, 3, 5]))
+
+        # Run
+        result = Edge._identify_eds_ing(first, second)
+
+        # Check
+        assert result == expected_result
+
+    def test_identify_eds_empty_dependence(self):
+        """_identify_eds_ing don't require edges to have dependence set."""
+        # Setup
+        first = Edge(None, 0, 1, None, None)
+        second = Edge(None, 1, 2, None, None)
+
+        # Please, note that we passed the index, copula_name and copula_theta as None
+        # To show they are no going to be used in the scope of this test.
+
+        # left, right and dependence set
+        expected_result = (0, 2, {1})
+
+        # Run
+        result = Edge._identify_eds_ing(first, second)
+
+        # Check
+        assert result == expected_result
+
+    def test_identify_eds_not_adjacent(self):
+        """_identify_eds_ing raises a ValueError if the edges are not adjacent."""
+        # Setup
+        first = Edge(None, 0, 1, None, None)
+        second = Edge(None, 2, 3, None, None)
+
+        # Please, note that we passed the index, copula_name and copula_theta as None
+        # To show they are no going to be used in the scope of this test.
+
+        # Run / Check
+        # As they are not adjacent, we can asure calling _identify_eds_ing will raise a ValueError.
+        assert not first.is_adjacent(second)
+
+        with self.assertRaises(ValueError):
+            Edge._identify_eds_ing(first, second)
+
+    @patch('copulas.multivariate.tree.Edge._identify_eds_ing')
+    def test_get_conditional_uni(self, adjacent_mock):
+        """get_conditional_uni return the corresponding univariate adjacent to the parents."""
+        # Setup
+        left = Edge(None, 1, 2, None, None)
+        left.U = np.array([
+            ['left_0_0', 'left_0_1'],
+            ['left_1_0', 'left_1_1']
+        ])
+
+        right = Edge(None, 4, 2, None, None)
+        right.U = np.array([
+            ['right_0_0', 'right_0_1'],
+            ['right_1_0', 'right_1_1']
+        ])
+
+        adjacent_mock.return_value = (0, 1, None)
+        expected_result = (
+            np.array(['left_1_0', 'left_1_1']),
+            np.array(['right_1_0', 'right_1_1'])
+        )
+
+        # Run
+        result = Edge.get_conditional_uni(left, right)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
 
     def test_sort_edge(self):
-        sorted_edges = Edge.sort_edge([self.e2, self.e1])
-        assert sorted_edges[0].L == 2
+        """sort_edge sorts Edge objects by left node index, and in case of match by right index."""
+        # Setup
+        edge_1 = Edge(None, 1, 0, None, None)
+        edge_2 = Edge(None, 1, 1, None, None)
+        edge_3 = Edge(None, 1, 2, None, None)
+        edge_4 = Edge(None, 2, 0, None, None)
+        edge_5 = Edge(None, 3, 0, None, None)
+
+        edges = [edge_3, edge_1, edge_5, edge_4, edge_2]
+        expected_result = [edge_1, edge_2, edge_3, edge_4, edge_5]
+
+        # Run
+        result = Edge.sort_edge(edges)
+
+        # Check
+        assert result == expected_result
 
     def test_to_dict(self):
         """To_dict returns a dictionary with the parameters to recreate an edge."""
@@ -415,3 +521,116 @@ class TestEdge(TestCase):
 
         # Check
         assert instance.to_dict() == result.to_dict()
+
+    @patch('copulas.multivariate.tree.Bivariate', autospec=True)
+    def test_get_likelihood_no_parents(self, bivariate_mock):
+        """get_likelihood will use current node indices if there are no parents."""
+        # Setup
+        index = 0
+        left = 0
+        right = 1
+        copula_name = 'copula_name'
+        copula_theta = 'copula_theta'
+        instance = Edge(index, left, right, copula_name, copula_theta)
+
+        univariates = np.array([
+            [0.25, 0.75],
+            [0.50, 0.50],
+            [0.75, 0.25]
+        ]).T
+
+        instance_mock = bivariate_mock.return_value
+        instance_mock.probability_density.return_value = [0]
+        instance_mock.partial_derivative.return_value = 'partial_derivative'
+
+        expected_partial_derivative_call_args = [
+            (
+                (np.array([[
+                    [0.25, 0.75],
+                    [0.50, 0.50],
+                ]]),), {}
+            ),
+            (
+                (np.array([[
+                    [0.50, 0.50],
+                    [0.25, 0.75]
+                ]]), ), {}
+            )
+        ]
+
+        # Run
+        result = instance.get_likelihood(univariates)
+
+        # Check
+        value, left_given_right, right_given_left = result
+        assert value == 0
+        assert left_given_right == 'partial_derivative'
+        assert right_given_left == 'partial_derivative'
+
+        bivariate_mock.assert_called_once_with('copula_name')
+
+        assert instance_mock.theta == 'copula_theta'
+        compare_nested_iterables(
+            instance_mock.partial_derivative.call_args_list,
+            expected_partial_derivative_call_args
+        )
+
+    @patch('copulas.multivariate.tree.Bivariate', autospec=True)
+    def test_get_likelihood_with_parents(self, bivariate_mock):
+        """If edge has parents, their dependences are used to retrieve univariates."""
+        # Setup
+        index = None
+        left = 0
+        right = 1
+        copula_name = 'copula_name'
+        copula_theta = 'copula_theta'
+        instance = Edge(index, left, right, copula_name, copula_theta)
+        instance.D = {0, 1, 2, 3}
+
+        parent_1 = MagicMock(spec=Edge)
+        parent_1.D = {1, 2, 3}
+
+        parent_2 = MagicMock(spec=Edge)
+        parent_2.D = {0, 2, 3}
+
+        univariates = np.array([
+            [0.25, 0.75],
+            [0.50, 0.50],
+            [0.75, 0.25]
+        ]).T
+
+        instance_mock = bivariate_mock.return_value
+        instance_mock.probability_density.return_value = [0]
+        instance_mock.partial_derivative.return_value = 'partial_derivative'
+
+        expected_partial_derivative_call_args = [
+            (
+                (np.array([[
+                    [0.25, 0.75],
+                    [0.50, 0.50],
+                ]]),), {}
+            ),
+            (
+                (np.array([[
+                    [0.50, 0.50],
+                    [0.25, 0.75]
+                ]]), ), {}
+            )
+        ]
+
+        # Run
+        result = instance.get_likelihood(univariates)
+
+        # Check
+        value, left_given_right, right_given_left = result
+        assert value == 0
+        assert left_given_right == 'partial_derivative'
+        assert right_given_left == 'partial_derivative'
+
+        bivariate_mock.assert_called_once_with('copula_name')
+
+        assert instance_mock.theta == 'copula_theta'
+        compare_nested_iterables(
+            instance_mock.partial_derivative.call_args_list,
+            expected_partial_derivative_call_args
+        )
