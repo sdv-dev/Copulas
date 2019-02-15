@@ -181,7 +181,7 @@ class Tree(Multivariate):
 
     def prepare_next_tree(self):
         """Prepare conditional U matrix for next tree."""
-        for edge in self.edges:
+        for index, edge in enumerate(self.edges):
             copula_theta = edge.theta
 
             if self.level == 1:
@@ -199,9 +199,9 @@ class Tree(Multivariate):
             X_right_left = np.array([[x, y] for x, y in zip(right_u, left_u)])
 
             copula = Bivariate(edge.name)
-            copula.fit(X_left_right)
-            left_given_right = copula.partial_derivative(X_left_right, copula_theta)
-            right_given_left = copula.partial_derivative(X_right_left, copula_theta)
+            copula.theta = copula_theta
+            left_given_right = copula.partial_derivative(X_left_right)
+            right_given_left = copula.partial_derivative(X_right_left)
 
             # correction of 0 or 1
             left_given_right[left_given_right == 0] = EPSILON
