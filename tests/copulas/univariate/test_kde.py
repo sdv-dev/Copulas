@@ -29,7 +29,7 @@ class TestKDEUnivariate(TestCase):
     def test_fit(self):
         """On fit, kde model is instantiated with intance of gaussian_kde."""
         self.kde = KDEUnivariate()
-        data = [1, 2, 3, 4, 5]
+        data = np.array([1, 2, 3, 4, 5])
 
         self.kde.fit(data)
 
@@ -38,18 +38,11 @@ class TestKDEUnivariate(TestCase):
     def test_fit_uniform(self):
         """On fit, kde model is instantiated with passed data."""
         self.kde = KDEUnivariate()
-        data = [1, 2, 3, 4, 5]
+        data = np.array([1, 2, 3, 4, 5])
 
         self.kde.fit(data)
 
         assert self.kde.model
-
-    def test_fit_empty_data(self):
-        """If fitting kde model with empty data it will raise ValueError."""
-        self.kde = KDEUnivariate()
-
-        with self.assertRaises(ValueError):
-            self.kde.fit([])
 
     def test_probability_density(self):
         """probability_density evaluates with the model."""

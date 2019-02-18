@@ -56,23 +56,12 @@ class TestGaussianUnivariate(TestCase):
         assert copula.name == name
         assert copula.fitted
 
-    def test_fit_empty_data(self):
-        """On fit, if column is empty an error is raised."""
-
-        # Setup
-        copula = GaussianUnivariate()
-        column = pd.Series([])
-
-        # Run
-        with self.assertRaises(ValueError):
-            copula.fit(column)
-
     def test_test_fit_equal_values(self):
         """On fit, even if column has equal values, std is never 0."""
 
         # Setup
         copula = GaussianUnivariate()
-        column = [1, 1, 1, 1, 1, 1]
+        column = np.array([1, 1, 1, 1, 1, 1])
 
         # Run
         copula.fit(column)
@@ -86,7 +75,7 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         expected_result = 0.48860251190292
 
@@ -101,7 +90,7 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         x = pd.Series([0])
         expected_result = [0.5]
@@ -117,7 +106,7 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         x = 0.5
         expected_result = 0
@@ -133,7 +122,7 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         initial_value = pd.Series([0])
 
@@ -149,7 +138,7 @@ class TestGaussianUnivariate(TestCase):
         """After fitting, GaussianUnivariate is able to sample new data."""
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
 
         # Run
@@ -164,7 +153,7 @@ class TestGaussianUnivariate(TestCase):
         """To_dict returns the defining parameters of a distribution in a dict."""
         # Setup
         copula = GaussianUnivariate()
-        column = [0, 1, 2, 3, 4, 5]
+        column = np.array([0, 1, 2, 3, 4, 5])
         copula.fit(column)
         expected_result = {
             'type': 'copulas.univariate.gaussian.GaussianUnivariate',

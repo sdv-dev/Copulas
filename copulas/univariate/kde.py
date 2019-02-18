@@ -1,6 +1,7 @@
 import numpy as np
 import scipy
 
+from copulas import check_valid_values
 from copulas.univariate.base import Univariate
 
 
@@ -14,6 +15,7 @@ class KDEUnivariate(Univariate):
         super(KDEUnivariate, self).__init__()
         self.model = None
 
+    @check_valid_values
     def fit(self, X):
         """Fit Kernel density estimation to an list of values.
 
@@ -23,8 +25,6 @@ class KDEUnivariate(Univariate):
         This function will fit a gaussian_kde model to a list of datapoints
         and store it as a class attribute.
         """
-        if not len(X):
-            raise ValueError("data cannot be empty")
 
         self.model = scipy.stats.gaussian_kde(X)
         self.fitted = True
