@@ -181,7 +181,7 @@ class Tree(Multivariate):
 
     def prepare_next_tree(self):
         """Prepare conditional U matrix for next tree."""
-        for index, edge in enumerate(self.edges):
+        for edge in self.edges:
             copula_theta = edge.theta
 
             if self.level == 1:
@@ -214,14 +214,11 @@ class Tree(Multivariate):
         """Compute likelihood of the tree given an U matrix.
 
         Args:
-            :param uni_matrix: univariate matrix to evaluate likelihood on
-            :type uni_matrix: a np.ndarray
+            uni_matrix(numpy.array): univariate matrix to evaluate likelihood on.
 
         Returns:
-            param value: likelihood value of the current tree
-            param new_uni_matrix: next level onditional univariate matrix
-            type value: float or int
-            type new_uni_matrix: np.ndarray
+            tuple[float, numpy.array]:
+                likelihood of the current tree, next level conditional univariate matrix
         """
         uni_dim = uni_matrix.shape[1]
         num_edge = len(self.edges)

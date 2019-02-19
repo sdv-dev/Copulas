@@ -4,10 +4,11 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pandas as pd
 
+from copulas import EPSILON
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
 from copulas.univariate.kde import KDEUnivariate
-from tests import compare_nested_dicts, compare_nested_iterables
+from tests import compare_nested_dicts, compare_nested_iterables, compare_values_epsilon
 
 
 class TestTree(TestCase):
@@ -70,8 +71,8 @@ class TestTree(TestCase):
                     'L': 0,
                     'R': 1,
                     'U': [
-                        [6.533235975920359, 6.425034969827687, 5.857062027493768],
-                        [6.425034969827687, 6.533235975920359, 5.857062027493768]
+                        [0.7969535322648066, 0.6887525261721343, 0.12077958383821545],
+                        [0.6887525261721343, 0.7969535322648066, 0.12077958383821545]
                     ],
                     'likelihood': None,
                     'name': CopulaTypes.FRANK,
@@ -86,8 +87,8 @@ class TestTree(TestCase):
                     'L': 1,
                     'R': 2,
                     'U': [
-                        [5.857062027493768, 6.533235975920359, 6.425034969827687],
-                        [5.857062027493768, 6.425034969827687, 6.533235975920359]
+                        [0.12077958383821545, 0.7969535322648066, 0.6887525261721343],
+                        [0.12077958383821545, 0.6887525261721343, 0.7969535322648066]
                     ],
                     'likelihood': None,
                     'name': CopulaTypes.FRANK,
@@ -155,6 +156,103 @@ class TestTree(TestCase):
         # Check
         assert result.to_dict() == instance.to_dict()
 
+    @patch('copulas.multivariate.tree.Bivariate', autospec=True)
+    def test_prepare_next_tree_first_level(self, bivariate_mock):
+        """prepare_next_tree computes the conditional U matrices on its edges."""
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+        instance.level = 1
+        instance.u_matrix = np.array([
+            [0.1, 0.2],
+            [0.3, 0.4]
+        ])
+
+        edge = MagicMock(spec=Edge)
+        edge.L = 0
+        edge.R = 1
+        edge.name = 'copula_type'
+        edge.theta = 'copula_theta'
+        instance.edges = [edge]
+
+        copula_mock = bivariate_mock.return_value
+        copula_mock.partial_derivative.return_value = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+
+        expected_univariate = np.array([
+            [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON],
+            [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON]
+        ])
+
+        expected_partial_derivative_call_args = [
+            ((instance.u_matrix,), {}),
+            ((instance.u_matrix[:, np.argsort([1, 0])],), {})
+        ]
+
+        # Run
+        instance.prepare_next_tree()
+
+        # Check
+        compare_nested_iterables(instance.edges[0].U, expected_univariate)
+
+        bivariate_mock.assert_called_once_with('copula_type')
+
+        assert copula_mock.theta == 'copula_theta'
+        compare_nested_iterables(
+            copula_mock.partial_derivative.call_args_list,
+            expected_partial_derivative_call_args
+        )
+
+    @patch('copulas.multivariate.tree.Edge.get_conditional_uni')
+    @patch('copulas.multivariate.tree.Bivariate', autospec=True)
+    def test_prepare_next_tree_regular_level(self, bivariate_mock, conditional_mock):
+        """prepare_next_tree computes the conditional U matrices on its edges."""
+        # Setup
+        instance = Tree(TreeTypes.REGULAR)
+        instance.level = 2
+
+        edge = MagicMock(spec=Edge)
+        edge.parents = ['first_parent', 'second_parent']
+        edge.name = 'copula_type'
+        edge.theta = 'copula_theta'
+        instance.edges = [edge]
+
+        copula_mock = bivariate_mock.return_value
+        copula_mock.partial_derivative.return_value = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+
+        conditional_mock.return_value = (
+            ['left_u_1', 'left_u_2'],
+            ['right_u_1', 'right_u_2']
+        )
+
+        expected_univariate = np.array([
+            [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON],
+            [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON]
+        ])
+
+        conditional_univariates = np.array([
+            ['left_u_1', 'right_u_1'],
+            ['left_u_2', 'right_u_2']
+        ])
+        expected_partial_derivative_call_args = [
+            ((conditional_univariates,), {}),
+            ((conditional_univariates[:, np.argsort([1, 0])],), {})
+        ]
+
+        # Run
+        instance.prepare_next_tree()
+
+        # Check
+        compare_nested_iterables(instance.edges[0].U, expected_univariate)
+
+        bivariate_mock.assert_called_once_with('copula_type')
+
+        conditional_mock.assert_called_once_with('first_parent', 'second_parent')
+
+        assert copula_mock.theta == 'copula_theta'
+        compare_nested_iterables(
+            copula_mock.partial_derivative.call_args_list,
+            expected_partial_derivative_call_args
+        )
+
 
 class TestCenterTree(TestCase):
     def setUp(self):
@@ -171,11 +269,11 @@ class TestCenterTree(TestCase):
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
-        """ Assert 0 is the center node"""
+        """Assert 0 is the center node on the first tree."""
         assert self.tree.edges[0].L == 0
 
     def test_first_tree_likelihood(self):
-        """ Assert first tree likehood is correct"""
+        """Assert first tree likehood is correct."""
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 
         value, new_u = self.tree.get_likelihood(uni_matrix)
@@ -184,14 +282,14 @@ class TestCenterTree(TestCase):
         assert abs(value - expected) < 10E-3
 
     def test_get_constraints(self):
-        """ Assert get constraint gets correct neighbor nodes"""
+        """Assert get constraint gets correct neighbor nodes."""
         self.tree._get_constraints()
 
         assert self.tree.edges[0].neighbors == [1, 2]
         assert self.tree.edges[1].neighbors == [0, 2]
 
     def test_get_tau_matrix(self):
-        """ Assert none of get tau matrix is NaN """
+        """Assert none of get tau matrix is NaN."""
         self.tau = self.tree.get_tau_matrix()
 
         test = np.isnan(self.tau)
@@ -199,17 +297,34 @@ class TestCenterTree(TestCase):
         self.assertFalse(test.all())
 
     def test_second_tree_likelihood(self):
-        """ Assert second tree likelihood is correct """
-        tau = self.tree.get_tau_matrix()
-        second_tree = Tree(TreeTypes.CENTER)
-        second_tree.fit(1, 3, tau, self.tree)
+        """Assert second tree likelihood is correct."""
+        # Setup
+        # Build first tree
+        data = pd.read_csv('data/iris.data.csv')
+        tau_mat = data.corr(method='kendall').values
+        u_matrix = np.empty(data.shape)
+
+        for index, col in enumerate(data):
+            uni = KDEUnivariate()
+            uni.fit(data[col])
+            u_matrix[:, index] = [uni.cumulative_distribution(x) for x in data[col]]
+
+        first_tree = Tree(TreeTypes.CENTER)
+        first_tree.fit(0, 4, tau_mat, u_matrix)
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
+        likelihood_first_tree, conditional_uni_first = first_tree.get_likelihood(uni_matrix)
+        tau = first_tree.get_tau_matrix()
 
-        first_value, new_u = self.tree.get_likelihood(uni_matrix)
-        second_value, out_u = second_tree.get_likelihood(new_u)
+        # Build second tree
+        second_tree = Tree(TreeTypes.CENTER)
+        second_tree.fit(1, 3, tau, first_tree)
+        expected_likelihood_second_tree = 0.4888802429313932
 
-        expected = 0.540089320412914
-        assert abs(second_value - expected) < 10E-3
+        # Run
+        likelihood_second_tree, out_u = second_tree.get_likelihood(conditional_uni_first)
+
+        # Check
+        assert compare_values_epsilon(likelihood_second_tree, expected_likelihood_second_tree)
 
 
 class TestRegularTree(TestCase):
@@ -325,7 +440,7 @@ class TestDirectTree(TestCase):
         assert result.shape == (0, 0)
 
     def test_get_tau_matrix(self):
-        """ Assert none of get tau matrix is NaN """
+        """Assert none of get tau matrix is NaN."""
         self.tau = self.tree.get_tau_matrix()
 
         test = np.isnan(self.tau)
@@ -333,7 +448,7 @@ class TestDirectTree(TestCase):
         self.assertFalse(test.all())
 
     def test_second_tree_likelihood(self):
-        """ Assert second tree likelihood is correct """
+        """Assert second tree likelihood is correct."""
         tau = self.tree.get_tau_matrix()
 
         second_tree = Tree(TreeTypes.DIRECT)
@@ -344,7 +459,7 @@ class TestDirectTree(TestCase):
         first_value, new_u = self.tree.get_likelihood(uni_matrix)
         second_value, out_u = second_tree.get_likelihood(new_u)
 
-        expected = 0.7184205492690413
+        expected = 0.24428294700258632
         assert abs(second_value - expected) < 10E-3
 
 
