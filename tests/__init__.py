@@ -9,25 +9,30 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
 
     assert first.keys() == second.keys()
 
-    for key in first.keys():
-        if isinstance(first[key], dict):
-            compare_nested_dicts(first[key], second[key])
+    for key, _first in first.items():
+        _second = second[key]
+        if isinstance(_first, dict):
+            compare_nested_dicts(_first, _second)
 
-        elif isinstance(first[key], (list, np.ndarray, tuple)):
-            compare_nested_iterables(first[key], second[key])
+        elif isinstance(_first, (list, np.ndarray, tuple)):
+            compare_nested_iterables(_first, _second)
 
-        elif isinstance(first[key], pd.DataFrame):
-            assert first[key].equals(second[key])
+        elif isinstance(_first, pd.DataFrame):
+            assert _first.equals(_second)
 
-        elif isinstance(first[key], float):
-            assert compare_values_epsilon(first[key], second[key], key)
+        elif isinstance(_first, float):
+            message = COMPARE_VALUES_ERROR.format(key, _first, _second)
+            assert compare_values_epsilon(_first, _second), message
 
         else:
-            assert first[key] == second[key], "{} doesn't equal {}".format(first[key], second[key])
+            assert _first == _second, "{} doesn't equal {}".format(_first, _second)
 
 
-def compare_values_epsilon(first, second, index=None, epsilon=10E-6,):
-    return abs(first - second) < epsilon, COMPARE_VALUES_ERROR.format(index, first, second)
+def compare_values_epsilon(first, second, epsilon=10E-6,):
+    if pd.isnull(first) and pd.isnull(second):
+        return True
+
+    return abs(first - second) < epsilon
 
 
 def compare_nested_iterables(first, second, epsilon=10E-6):
@@ -43,7 +48,8 @@ def compare_nested_iterables(first, second, epsilon=10E-6):
             compare_nested_dicts(_first, _second)
 
         elif isinstance(_first, float):
-            assert compare_values_epsilon(_first, _second)
+            message = COMPARE_VALUES_ERROR.format(index, _first, _second)
+            assert compare_values_epsilon(_first, _second), message
 
         else:
             assert _first == _second, COMPARE_VALUES_ERROR.format(index, _first, _second)
