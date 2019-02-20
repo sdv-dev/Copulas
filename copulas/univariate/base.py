@@ -128,7 +128,7 @@ class Univariate(object):
         Returns:
             numpy.ndarray: Sampled values. Array of shape (num_samples,).
         """
-        return np.array([self.constant_value] * num_samples)
+        return np.full(num_samples, self.constant_value)
 
     def _constant_cumulative_distribution(self, X):
         """Cumulative distribution for the degenerate case of constant distribution.
@@ -179,3 +179,10 @@ class Univariate(object):
 
         """
         return np.full(X.shape, self.constant_value)
+
+    def _replace_constant_methods(self):
+        """Replaces conventional distribution methods by its constant counterparts."""
+        self.cumulative_distribution = self._constant_cumulative_distribution
+        self.percent_point = self._constant_percent_point
+        self.probability_density = self._constant_probability_density
+        self.sample = self._constant_sample

@@ -28,8 +28,11 @@ class KDEUnivariate(Univariate):
 
         self.constant_value = self._get_constant_value(X)
 
-        if not self.constant_value:
+        if self.constant_value is None:
             self.model = scipy.stats.gaussian_kde(X)
+
+        else:
+            self._replace_constant_methods()
 
         self.fitted = True
 
@@ -44,8 +47,6 @@ class KDEUnivariate(Univariate):
             pdf: int or float with the value of estimated pdf
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_probability_density(X)
 
         if type(X) not in (int, float):
             raise ValueError('x must be int or float')
@@ -63,8 +64,6 @@ class KDEUnivariate(Univariate):
             float: estimated cumulative distribution.
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_cumulative_distribution(X)
 
         low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
         return self.model.integrate_box_1d(low_bounds, X) - U
@@ -79,8 +78,6 @@ class KDEUnivariate(Univariate):
             float: value in original space
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_percent_point(U)
 
         if not 0 < U < 1:
             raise ValueError('cdf value must be in [0,1]')
@@ -97,8 +94,6 @@ class KDEUnivariate(Univariate):
             samples: a list of datapoints sampled from the model
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_sample(num_samples)
 
         return self.model.resample(num_samples)
 

@@ -47,9 +47,12 @@ class GaussianUnivariate(Univariate):
 
         self.constant_value = self._get_constant_value(X)
 
-        if not self.constant_value:
+        if self.constant_value is None:
             self.mean = np.mean(X)
             self.std = np.std(X)
+
+        else:
+            self._replace_constant_methods()
 
         self.fitted = True
 
@@ -63,9 +66,6 @@ class GaussianUnivariate(Univariate):
             np.ndarray
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_probability_density(X)
-
         return norm.pdf(X, loc=self.mean, scale=self.std)
 
     def cumulative_distribution(self, X):
@@ -78,9 +78,6 @@ class GaussianUnivariate(Univariate):
             np.ndarray: Cumulative density for X.
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_cumulative_distribution(X)
-
         return norm.cdf(X, loc=self.mean, scale=self.std)
 
     def percent_point(self, U):
@@ -93,9 +90,6 @@ class GaussianUnivariate(Univariate):
             `np.ndarray`: Estimated values in original space.
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_percent_point(U)
-
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
     def sample(self, num_samples=1):
@@ -108,9 +102,6 @@ class GaussianUnivariate(Univariate):
             np.ndarray: Generated samples
         """
         self.check_fit()
-        if self.constant_value:
-            return self._constant_sample(num_samples)
-
         return np.random.normal(self.mean, self.std, num_samples)
 
     def _fit_params(self):

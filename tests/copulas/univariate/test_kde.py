@@ -253,6 +253,7 @@ class TestKDEUnivariate(TestCase):
         instance = KDEUnivariate()
         instance.fitted = True
         instance.constant_value = 3
+        instance._replace_constant_methods()
 
         expected_result = np.array([3, 3, 3, 3, 3])
 
@@ -269,6 +270,7 @@ class TestKDEUnivariate(TestCase):
         instance = KDEUnivariate()
         instance.fitted = True
         instance.constant_value = 3
+        instance._replace_constant_methods()
 
         X = np.array([0, 1, 2, 3, 4, 5])
         expected_result = np.array([0, 0, 1, 0, 0])
@@ -289,6 +291,7 @@ class TestKDEUnivariate(TestCase):
         instance = KDEUnivariate()
         instance.fitted = True
         instance.constant_value = 3
+        instance._replace_constant_methods()
 
         X = np.array([0.1, 0.5, 0.75])
         expected_result = np.array([3, 3, 3])

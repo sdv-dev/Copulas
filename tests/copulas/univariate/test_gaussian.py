@@ -116,6 +116,7 @@ class TestGaussianUnivariate(TestCase):
         # Setup
         instance = GaussianUnivariate()
         instance.constant_value = 3
+        instance._replace_constant_methods()
         instance.fitted = True
 
         X = np.array([1, 2, 3, 4, 5])
@@ -180,6 +181,7 @@ class TestGaussianUnivariate(TestCase):
         # Setup
         instance = GaussianUnivariate()
         instance.constant_value = 3
+        instance._replace_constant_methods()
         instance.fitted = True
 
         expected_result = np.array([3, 3, 3, 3, 3])
