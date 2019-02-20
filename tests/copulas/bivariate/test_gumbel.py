@@ -3,6 +3,7 @@ from unittest import TestCase
 import numpy as np
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from tests import copula_single_arg_not_one, copula_zero_if_arg_zero
 
 
 class TestGumbel(TestCase):
@@ -90,3 +91,27 @@ class TestGumbel(TestCase):
         # Check
         assert isinstance(result, np.ndarray)
         assert result.shape == (10, 2)
+
+    def test_cdf_zero_if_single_arg_is_zero(self):
+        """Test of the analytical properties of copulas on a range of values of theta."""
+        # Setup
+        instance = Bivariate(CopulaTypes.GUMBEL)
+        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+
+        # Run/Check
+        for tau in tau_values:
+            instance.tau = tau
+            instance.theta = instance.compute_theta()
+            copula_zero_if_arg_zero(instance)
+
+    def test_cdf_value_if_all_other_arg_are_one(self):
+        """Test of the analytical properties of copulas on a range of values of theta."""
+        # Setup
+        instance = Bivariate(CopulaTypes.GUMBEL)
+        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+
+        # Run/Check
+        for tau in tau_values:
+            instance.tau = tau
+            instance.theta = instance.compute_theta()
+            copula_single_arg_not_one(instance)
