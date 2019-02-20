@@ -212,7 +212,33 @@ class TestVine(TestCase):
 
     @patch('copulas.multivariate.vine.np.random.randint', autospec=True)
     @patch('copulas.multivariate.vine.np.random.uniform', autospec=True)
-    def test_sample(self, uniform_mock, randint_mock):
+    def test_sample_row(self, uniform_mock, randint_mock):
+        """After being fit, a vine can sample new data."""
+        # Setup
+        instance = VineCopula(TreeTypes.REGULAR)
+        X = pd.DataFrame([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ], columns=list('ABCD'))
+        instance.fit(X)
+
+        uniform_mock.return_value = np.array([0.1, 0.25, 0.5, 0.75])
+        randint_mock.return_value = 1
+        expected_result = np.array([-1.63155227, -0.16358589, -1.63155227, -1.62583869])
+
+        # Run
+        result = instance._sample_row()
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        uniform_mock.assert_called_once_with(0, 1, 4)
+        randint_mock.assert_called_once_with(0, 4)
+
+    @patch('copulas.multivariate.vine.VineCopula._sample_row', autospec=True)
+    def test_sample(self, sample_mock):
         """After being fit, a vine can sample new data."""
         # Setup
         vine = VineCopula(TreeTypes.REGULAR)
@@ -221,21 +247,26 @@ class TestVine(TestCase):
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]
-        ])
+        ], columns=list('ABCD'))
         vine.fit(X)
 
-        uniform_mock.return_value = np.array([0.1, 0.25, 0.5, 0.75])
-        randint_mock.return_value = 1
-        expected_result = np.array([-1.63155227, -0.16358589, -1.63155227, -1.62583869])
+        expected_result = pd.DataFrame([
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+        ])
+
+        sample_mock.return_value = np.array([1, 2, 3, 4])
 
         # Run
-        result = vine.sample()
+        result = vine.sample(5)
 
         # Check
         compare_nested_iterables(result, expected_result)
 
-        uniform_mock.assert_called_once_with(0, 1, 4)
-        randint_mock.assert_called_once_with(0, 4)
+        assert sample_mock.call_count == 5
 
     def test_sample_random_state(self):
         """When random_state is set, the generated samples are always the same."""
@@ -249,10 +280,13 @@ class TestVine(TestCase):
         ])
         vine.fit(X)
 
-        expected_result = np.array([-1.63155227, 0.52773442, -1.63155227, -1.63155227])
+        expected_result = pd.DataFrame(
+            [[-1.6315522689646478, 0.527734420510573, -1.6315522689646478, -1.6315522689646478]],
+            columns=range(4)
+        )
 
         # Run
-        result = vine.sample()
+        result = vine.sample(1)
 
         # Check
-        compare_nested_iterables(result, expected_result)
+        assert result.equals(expected_result)

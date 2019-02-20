@@ -1,6 +1,7 @@
 import logging
 
 import numpy as np
+import pandas as pd
 from scipy import optimize
 
 from copulas import EPSILON, get_qualified_name, random_state
@@ -81,10 +82,11 @@ class VineCopula(Multivariate):
         """Fit a vine model to the data.
 
         Args:
-            X: `np.ndarray`: data to be fitted.
-            truncated: `int` max level to build the vine.
+            X(numpy.ndarray): data to be fitted.
+            truncated(int): max level to build the vine.
         """
         self.n_sample, self.n_var = X.shape
+        self.columns = X.columns
         self.tau_mat = X.corr(method='kendall').values
         self.u_matrix = np.empty([self.n_sample, self.n_var])
 
@@ -133,9 +135,12 @@ class VineCopula(Multivariate):
 
         return np.sum(values)
 
-    @random_state
-    def sample(self, num_rows=1):
-        """Generating samples from vine model."""
+    def _sample_row(self):
+        """Generate a single sampled row from vine model.
+
+        Returns:
+            numpy.ndarray
+        """
         unis = np.random.uniform(0, 1, self.n_var)
         # randomly select a node to start with
         first_ind = np.random.randint(0, self.n_var)
@@ -211,3 +216,20 @@ class VineCopula(Multivariate):
             visited.insert(0, current)
 
         return sampled
+
+    @random_state
+    def sample(self, num_rows):
+        """Sample new rows.
+
+        Args:
+            num_rows(int): Number of rows to sample
+
+        Returns:
+            pandas.DataFrame
+        """
+
+        sampled_values = []
+        for i in range(num_rows):
+            sampled_values.append(self._sample_row())
+
+        return pd.DataFrame(sampled_values, columns=self.columns)
