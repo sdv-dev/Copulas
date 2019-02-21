@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.stats
 
 from copulas import NotFittedError, get_qualified_name, import_object
 
@@ -89,6 +90,11 @@ class Univariate(object):
         return result
 
     def _fit_params(self):
+        """Return attributes from self.model to serialize.
+
+        Returns:
+            dict: Parameters to recreate self.model in its current fit status.
+        """
         raise NotImplementedError
 
     @classmethod
@@ -186,3 +192,136 @@ class Univariate(object):
         self.percent_point = self._constant_percent_point
         self.probability_density = self._constant_probability_density
         self.sample = self._constant_sample
+
+
+class ScipyWrapper(Univariate):
+    """Wrapper for scipy.stats.rv_continous subclasses.
+
+    On fit time it will instantiate the given `model_class` name, and delete all of its
+    methods that are not properly mapped to model's methods.
+
+    If a method is not present on the model, but you want to implement it, you need to update
+    the `method_map` for that method's to a non-None value and simply override the method.
+
+    You can subclass `ScipyWrapper` by:
+    1. On a file named after your distribution, create a new subclass.
+    2. Set the `model_class` and `method_map` with the desired values for your model.
+    3. Implement the `from_dict` and `_fit_params` methods.
+    4. Implement any custom method not found in `model_class`.
+
+    For a working example of how to implement subclasses of `ScipyWraper`, please check the source
+    of `copulas.univariate.kde`.
+
+    Class Attributes:
+        model_class(str): Name of the model to use (Must be found in scipy.stats)
+        method_map(dict): Mapping of the local names of methods to the name in the model.
+
+    Args:
+        None
+    """
+
+    model_class = None
+    method_map = {
+        'probability_density': None,
+        'cumulative_distribution': None,
+        'percent_point': None,
+        'sample': None
+    }
+
+    def __init__(self):
+        super(ScipyWrapper, self).__init__()
+        self.model = None
+
+        if not set(ScipyWrapper.method_map.keys()).issubset(set(self.method_map.keys())):
+            raise ValueError(
+                'This class hasn\'t been subclasses properly and some methods may crash')
+
+        if not hasattr(scipy.stats, self.model_class):
+            raise ValueError('The given `model_class` {} couldn\'t be found on scipy.stats')
+
+    def fit(self, X):
+        """Fit scipy model to an array of values.
+
+        Args:
+            X(`np.ndarray` or `pd.DataFrame`):  Datapoints to be estimated from. Must be 1-d
+
+        Returns:
+            None
+        """
+
+        self.constant_value = self._get_constant_value(X)
+
+        if self.constant_value is None:
+            self.model = getattr(scipy.stats, self.model_class)(X)
+            for name, method_name in self.method_map.items():
+                if method_name is None or not hasattr(self.model, method_name):
+                    setattr(self, name, None)
+
+        else:
+            self._replace_constant_methods()
+
+        self.fitted = True
+
+    def probability_density(self, X):
+        """Evaluate the estimated pdf on a point.
+
+        Args:
+            X(numpy.array): Points to evaluate its pdf.
+
+        Returns:
+            numpy.array: Value of estimated pdf for given points.
+        """
+        self.check_fit()
+
+        return getattr(self.model, self.method_map['probability_density'])(X)
+
+    def cumulative_distribution(self, X):
+        """Computes the integral of a 1-D pdf between two bounds
+
+        Args:
+            X(numpy.array): Shaped (1, n), containing the datapoints.
+
+        Returns:
+            numpy.array: estimated cumulative distribution.
+        """
+        self.check_fit()
+
+        return getattr(self.model, self.method_map['cumulative_distribution'])(X)
+
+    def percent_point(self, U):
+        """Given a cdf value, returns a value in original space.
+
+        Args:
+            U(numpy.array): cdf values in [0,1]
+
+        Returns:
+            numpy.array: value in original space
+        """
+        self.check_fit()
+
+        return getattr(self.model, self.method_map['percent_point'])(U)
+
+    def sample(self, num_samples=1):
+        """Samples new data point based on model.
+
+        Args:
+            num_samples(int): number of points to be sampled
+
+        Returns:
+            samples: a list of datapoints sampled from the model
+        """
+        self.check_fit()
+
+        return getattr(self.model, self.method_map['sample'])(num_samples)
+
+    @classmethod
+    def from_dict(cls, parameters):
+        """Set attributes with provided values.
+
+        Args:
+            parameters(dict): Dictionary containing instance parameters.
+
+        Returns:
+            ScipyWrapper: Instance populated with given parameters.
+        """
+        raise NotImplementedError

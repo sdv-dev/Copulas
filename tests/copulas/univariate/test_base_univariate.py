@@ -1,8 +1,9 @@
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 
-from copulas.univariate.base import Univariate
+from copulas.univariate.base import ScipyWrapper, Univariate
 from tests import compare_nested_iterables
 
 
@@ -90,3 +91,232 @@ class TestUnivariate(TestCase):
 
         # Check
         compare_nested_iterables(result, expected_result)
+
+
+class TestScipyWrapper(TestCase):
+
+    def test___init___valid_params(self):
+        """On init, self.model is set to None."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'gaussian_kde'
+
+        # Run
+        instance = ScipyWrapperSubclass()
+
+        # Check
+        assert instance.model is None
+        assert instance.fitted is False
+        assert instance.constant_value is None
+
+    def test___init___missing_method_map_keys(self):
+        """On init, if not all expected keys of model a ValueError is raised."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            method_map = {}
+
+        # Run / Check
+        with self.assertRaises(ValueError):
+            ScipyWrapperSubclass()
+
+    def test___init___second_valuerror(self):
+        """On init, if model_class hasn't been set to a valid value a ValueError is raised."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'wrong_model'
+
+        # Run / Check
+        with self.assertRaises(ValueError):
+            ScipyWrapperSubclass()
+
+    @patch('copulas.univariate.base.scipy.stats', autospec=True)
+    def test_fit(self, scipy_mock):
+        """On fit, a new instance of model is created and available methods are updated."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'mock_model'
+            method_map = {
+                'probability_density': 'pdf',
+                'cumulative_distribution': 'cdf',
+                'percent_point': 'ppf',
+                'sample': None
+            }
+
+        # We have declared sample as None on method_map
+        # And now we are not creating `ppf`, so any of them will be on our fit instance.
+        model_instance_mock = MagicMock(spec=['pdf', 'cdf'])
+        model_class_mock = MagicMock()
+        model_class_mock.return_value = model_instance_mock
+        scipy_mock.mock_model = model_class_mock
+
+        instance = ScipyWrapperSubclass()
+        data = np.array(range(5))
+
+        # Run
+        instance.fit(data)
+
+        # Check
+        assert instance.fitted is True
+        assert instance.model == model_instance_mock
+        assert instance.percent_point is None
+        assert instance.sample is None
+        assert callable(instance.probability_density)
+        assert callable(instance.cumulative_distribution)
+
+        model_class_mock.assert_called_once_with(data)
+        model_instance_mock.assert_not_called()
+        scipy_mock.assert_not_called()
+
+    @patch('copulas.univariate.base.scipy.stats', autospec=True)
+    def test_probability_density(self, scipy_mock):
+        """probability_density calls to the mapped method of model."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'mock_model'
+            method_map = {
+                'probability_density': 'pdf',
+                'cumulative_distribution': None,
+                'percent_point': None,
+                'sample': None
+            }
+
+        model_instance_mock = MagicMock(spec=['pdf'])
+        model_instance_mock.pdf.return_value = 'pdf value'
+        model_class_mock = MagicMock()
+        model_class_mock.return_value = model_instance_mock
+        scipy_mock.mock_model = model_class_mock
+
+        fit_data = np.array(range(5))
+        instance = ScipyWrapperSubclass()
+        instance.fit(fit_data)
+
+        call_data = np.array([0.0])
+        expected_result = 'pdf value'
+
+        # Run
+        result = instance.probability_density(call_data)
+
+        # Check
+        assert result == expected_result
+
+        scipy_mock.assert_not_called()
+        model_class_mock.assert_called_once_with(fit_data)
+        model_instance_mock.assert_not_called()
+        model_instance_mock.pdf.assert_called_once_with(call_data)
+
+    @patch('copulas.univariate.base.scipy.stats', autospec=True)
+    def test_cumulative_distribution(self, scipy_mock):
+        """cumulative_distribution calls to the mapped method of model."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'mock_model'
+            method_map = {
+                'probability_density': None,
+                'cumulative_distribution': 'cdf',
+                'percent_point': None,
+                'sample': None
+            }
+
+        model_instance_mock = MagicMock(spec=['cdf'])
+        model_instance_mock.cdf.return_value = 'cdf value'
+        model_class_mock = MagicMock()
+        model_class_mock.return_value = model_instance_mock
+        scipy_mock.mock_model = model_class_mock
+
+        fit_data = np.array(range(5))
+        instance = ScipyWrapperSubclass()
+        instance.fit(fit_data)
+
+        call_data = np.array([0.0])
+        expected_result = 'cdf value'
+
+        # Run
+        result = instance.cumulative_distribution(call_data)
+
+        # Check
+        assert result == expected_result
+
+        scipy_mock.assert_not_called()
+        model_class_mock.assert_called_once_with(fit_data)
+        model_instance_mock.assert_not_called()
+        model_instance_mock.cdf.assert_called_once_with(call_data)
+
+    @patch('copulas.univariate.base.scipy.stats', autospec=True)
+    def test_percent_point(self, scipy_mock):
+        """percent_point calls to the mapped method of model."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'mock_model'
+            method_map = {
+                'probability_density': None,
+                'cumulative_distribution': None,
+                'percent_point': 'ppf',
+                'sample': None
+            }
+
+        model_instance_mock = MagicMock(spec=['ppf'])
+        model_instance_mock.ppf.return_value = 'ppf value'
+        model_class_mock = MagicMock()
+        model_class_mock.return_value = model_instance_mock
+        scipy_mock.mock_model = model_class_mock
+
+        fit_data = np.array(range(5))
+        instance = ScipyWrapperSubclass()
+        instance.fit(fit_data)
+
+        call_data = np.array([0.0])
+        expected_result = 'ppf value'
+
+        # Run
+        result = instance.percent_point(call_data)
+
+        # Check
+        assert result == expected_result
+
+        scipy_mock.assert_not_called()
+        model_class_mock.assert_called_once_with(fit_data)
+        model_instance_mock.assert_not_called()
+        model_instance_mock.ppf.assert_called_once_with(call_data)
+
+    @patch('copulas.univariate.base.scipy.stats', autospec=True)
+    def test_sample(self, scipy_mock):
+        """sample calls to the mapped method of model."""
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            model_class = 'mock_model'
+            method_map = {
+                'probability_density': None,
+                'cumulative_distribution': None,
+                'percent_point': None,
+                'sample': 'sample'
+            }
+
+        model_instance_mock = MagicMock(spec=['sample'])
+        model_instance_mock.sample.return_value = 'samples'
+        model_class_mock = MagicMock()
+        model_class_mock.return_value = model_instance_mock
+        scipy_mock.mock_model = model_class_mock
+
+        fit_data = np.array(range(5))
+        instance = ScipyWrapperSubclass()
+        instance.fit(fit_data)
+
+        call_data = np.array([0.0])
+        expected_result = 'samples'
+
+        # Run
+        result = instance.sample(call_data)
+
+        # Check
+        assert result == expected_result
+
+        scipy_mock.assert_not_called()
+        model_class_mock.assert_called_once_with(fit_data)
+        model_instance_mock.assert_not_called()
+        model_instance_mock.sample.assert_called_once_with(call_data)
+
+    def test_from_dict(self):
+        """_from_dict will raise NotImpementedError."""
+        # Run / Check
+        with self.assertRaises(NotImplementedError):
+            ScipyWrapper.from_dict({})
