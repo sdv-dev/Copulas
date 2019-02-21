@@ -42,7 +42,7 @@ class TestTree(TestCase):
         for i, column in enumerate(X):
             distribution = KDEUnivariate()
             distribution.fit(X[column])
-            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+            univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
         instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
         expected_result = {
@@ -141,7 +141,7 @@ class TestTree(TestCase):
         for i, column in enumerate(X):
             distribution = KDEUnivariate()
             distribution.fit(X[column])
-            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+            univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
         instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
 
@@ -161,7 +161,7 @@ class TestCenterTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.CENTER)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
@@ -217,7 +217,7 @@ class TestRegularTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.REGULAR)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
@@ -283,7 +283,7 @@ class TestDirectTree(TestCase):
         for col in self.data:
             uni = KDEUnivariate()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.DIRECT)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
