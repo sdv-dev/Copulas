@@ -142,9 +142,8 @@ class TestScipyWrapper(TestCase):
                 'sample': None
             }
 
-        # We have declared sample as None on method_map
-        # And now we are not creating `ppf`, so any of them will be on our fit instance.
-        model_instance_mock = MagicMock(spec=['pdf', 'cdf'])
+        # We have declared sample as None on method_map so it won't be on our fitted instance.
+        model_instance_mock = MagicMock(spec=['pdf', 'cdf', 'ppf'])
         model_class_mock = MagicMock()
         model_class_mock.return_value = model_instance_mock
         scipy_mock.mock_model = model_class_mock
@@ -158,8 +157,8 @@ class TestScipyWrapper(TestCase):
         # Check
         assert instance.fitted is True
         assert instance.model == model_instance_mock
-        assert instance.percent_point is None
         assert instance.sample is None
+        assert callable(instance.percent_point)
         assert callable(instance.probability_density)
         assert callable(instance.cumulative_distribution)
 

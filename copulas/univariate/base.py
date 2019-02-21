@@ -254,7 +254,7 @@ class ScipyWrapper(Univariate):
         if self.constant_value is None:
             self.model = getattr(scipy.stats, self.model_class)(X)
             for name, method_name in self.method_map.items():
-                if method_name is None or not hasattr(self.model, method_name):
+                if method_name is None:
                     setattr(self, name, None)
 
         else:
