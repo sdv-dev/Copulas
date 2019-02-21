@@ -45,11 +45,16 @@ class GaussianUnivariate(Univariate):
 
         if isinstance(X, (pd.Series, pd.DataFrame)):
             self.name = X.name
-        else:
-            self.name = None
 
-        self.mean = np.mean(X)
-        self.std = np.std(X) or 0.001
+        self.constant_value = self._get_constant_value(X)
+
+        if self.constant_value is None:
+            self.mean = np.mean(X)
+            self.std = np.std(X)
+
+        else:
+            self._replace_constant_methods()
+
         self.fitted = True
 
     def probability_density(self, X):
@@ -112,8 +117,9 @@ class GaussianUnivariate(Univariate):
         """Set attributes with provided values."""
         instance = cls()
         instance.fitted = copula_dict['fitted']
+        instance.constant_value = copula_dict['constant_value']
 
-        if instance.fitted:
+        if instance.fitted and instance.constant_value is None:
             instance.mean = copula_dict['mean']
             instance.std = copula_dict['std']
 
