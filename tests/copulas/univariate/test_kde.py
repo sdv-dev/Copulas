@@ -4,7 +4,7 @@
 """Tests for `univariate.kde` module."""
 
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 
@@ -13,6 +13,7 @@ from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestKDEUnivariate(TestCase):
+
     def setup_norm(self):
         """set up the model to fit standard norm data."""
         self.kde = KDEUnivariate()
@@ -66,44 +67,135 @@ class TestKDEUnivariate(TestCase):
 
     def test_fit_empty_data(self):
         """If fitting kde model with empty data it will raise ValueError."""
-        self.kde = KDEUnivariate()
+        # Setup
+        instance = KDEUnivariate()
+        data = np.array([])
 
+        # Run / Check
         with self.assertRaises(ValueError):
-            self.kde.fit([])
+            instance.fit(data)
 
-    def test_probability_density(self):
+    @patch('copulas.univariate.kde.scalarize', autospec=True)
+    @patch('copulas.univariate.kde.partial', autospec=True)
+    def test__brentq_cdf(self, partial_mock, scalarize_mock):
+        """_brentq_cdf returns a function that computes the cdf of a scalar minus its argument."""
+        # Setup
+        instance = KDEUnivariate()
+
+        def mock_partial_return_value(x):
+            return x
+
+        scalarize_mock.return_value = 'scalar_function'
+        partial_mock.return_value = mock_partial_return_value
+
+        # Run
+        result = instance._brentq_cdf(0.5)
+
+        # Check
+        assert callable(result)
+
+        # result uses the return_value of partial_mock, so every value returned
+        # is (x - 0.5)
+        assert result(1.0) == 0.5
+        assert result(0.5) == 0
+        assert result(0.0) == -0.5
+
+        scalarize_mock.assert_called_once_with(KDEUnivariate.cumulative_distribution)
+        partial_mock.assert_called_once_with('scalar_function', instance)
+
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_probability_density(self, kde_mock):
         """probability_density evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        model_mock.pdf.return_value = np.array([0.0, 0.5, 1.0])
 
-        x = self.kde.probability_density(0.5)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = KDEUnivariate()
+        instance.fit(fit_data)
+        call_data = np.array([-10, 0, 10])
 
-        expected = 0.35206532676429952
-        self.assertAlmostEquals(x, expected, places=1)
+        expected_result = np.array([0.0, 0.5, 1.0])
 
-    def test_cumulative_distribution(self):
+        # Run
+        result = instance.probability_density(call_data)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        kde_mock.assert_called_once_with(fit_data)
+        model_mock.evaluate.assert_called_once_with(call_data)
+
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_cumulative_distribution(self, kde_mock):
         """cumulative_distribution evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        model_mock.integrate_box_1d.side_effect = [0.0, 0.5, 1.0]
 
-        x = self.kde.cumulative_distribution(0.5)
+        model_mock.dataset = MagicMock()
+        model_mock.dataset.mean.return_value = 1
+        model_mock.dataset.std.return_value = 0.1
 
-        expected = 0.69146246127401312
-        self.assertAlmostEquals(x, expected, places=1)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = KDEUnivariate()
+        instance.fit(fit_data)
 
-    def test_percent_point(self):
+        call_data = np.array([-10, 0, 10])
+        expected_result = np.array([0.0, 0.5, 1.0])
+
+        expected_integrate_1d_box_call_args_list = [
+            ((0.5, -10), {}),  # The first argument is the lower_bound (1 - 0.1*5)
+            ((0.5, 0), {}),
+            ((0.5, 10), {}),
+        ]
+
+        # Run
+        result = instance.cumulative_distribution(call_data)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        kde_mock.assert_called_once_with(fit_data)
+        assert (model_mock.integrate_box_1d.call_args_list
+                == expected_integrate_1d_box_call_args_list)
+
+    @patch('copulas.univariate.kde.KDEUnivariate._brentq_cdf', autospec=True)
+    @patch('copulas.univariate.kde.scipy.optimize.brentq', autospec=True)
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_percent_point(self, kde_mock, brentq_mock, cdf_mock):
         """percent_point evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        brentq_mock.return_value = -250.0
+        cdf_mock.return_value = 'a nice scalar bounded method'
 
-        x = self.kde.percent_point(0.5)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = KDEUnivariate()
+        instance.fit(fit_data)
 
-        expected = 0.0
-        self.assertAlmostEquals(x, expected, places=1)
+        expected_result = np.array([-250.0])
+
+        # Run
+        result = instance.percent_point([0.5])
+
+        # Check
+        assert result == expected_result
+
+        kde_mock.assert_called_once_with(fit_data)
+        model_mock.assert_not_called()
+        assert len(model_mock.method_calls) == 0
+
+        brentq_mock.assert_called_once_with('a nice scalar bounded method', -1000, 1000)
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
-        self.setup_norm()
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = KDEUnivariate()
+        instance.fit(fit_data)
 
         with self.assertRaises(ValueError):
-            self.kde.percent_point(2)
+            instance.percent_point([2.])
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
