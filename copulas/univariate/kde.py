@@ -4,53 +4,21 @@ import numpy as np
 import scipy
 
 from copulas import scalarize
-from copulas.univariate.base import Univariate
+from copulas.univariate.base import ScipyWrapper
 
 
-class KDEUnivariate(Univariate):
-    """ A wrapper for gaussian Kernel density estimation implemented
+class KDEUnivariate(ScipyWrapper):
+    """A wrapper for gaussian Kernel density estimation implemented
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
     """
-
-    def __init__(self):
-        super(KDEUnivariate, self).__init__()
-        self.model = None
-
-    def fit(self, X):
-        """Fit Kernel density estimation to an array of values.
-
-        Args:
-            X(`np.ndarray` or `pd.DataFrame`):  Datapoints to be estimated from. Must be 1-d
-
-        Returns:
-            None
-        """
-        if not len(X):
-            raise ValueError("data cannot be empty")
-
-        self.constant_value = self._get_constant_value(X)
-
-        if self.constant_value is None:
-            self.model = scipy.stats.gaussian_kde(X)
-
-        else:
-            self._replace_constant_methods()
-
-        self.fitted = True
-
-    def probability_density(self, X):
-        """Evaluate the estimated pdf on a point.
-
-        Args:
-            X(numpy.array): Points to evaluate its pdf.
-
-        Returns:
-            numpy.array: Value of estimated pdf for given points.
-        """
-        self.check_fit()
-
-        return self.model.evaluate(X)
+    model_class = 'gaussian_kde'
+    method_map = {
+        'probability_density': 'evaluate',
+        'cumulative_distribution': True,
+        'percent_point': True,
+        'sample': 'resample'
+    }
 
     def cumulative_distribution(self, X):
         """Computes the integral of a 1-D pdf between two bounds
@@ -114,19 +82,6 @@ class KDEUnivariate(Univariate):
             result.append(value)
 
         return np.array(result)
-
-    def sample(self, num_samples=1):
-        """Samples new data point based on model.
-
-        Args:
-            num_samples(int): number of points to be sampled
-
-        Returns:
-            samples: a list of datapoints sampled from the model
-        """
-        self.check_fit()
-
-        return self.model.resample(num_samples)
 
     @classmethod
     def from_dict(cls, copula_dict):
