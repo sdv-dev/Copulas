@@ -548,7 +548,10 @@ class TestGaussianCopula(TestCase):
         assert open_mock.called_once_with('test.json', 'r')
 
     def test_sample_constant_column(self):
-        """ """
+        """Gaussian copula can sample after being fit with a constant column.
+
+        This process will raise warnings when computing the covariance matrix
+        """
         # Setup
         instance = GaussianMultivariate()
         X = np.array([
@@ -564,4 +567,11 @@ class TestGaussianCopula(TestCase):
 
         # Check
         assert result.shape == (5, 2)
+        assert result[~result.isnull()].all().all()
         assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))
+
+        # This is to check that the samples on the non constant column are not constant too.
+        assert len(result.loc[:, 1].unique()) > 1
+
+        covariance = instance.covariance
+        assert (~pd.isnull(covariance)).all().all()
