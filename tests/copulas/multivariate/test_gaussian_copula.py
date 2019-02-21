@@ -289,25 +289,29 @@ class TestGaussianCopula(TestCase):
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 }
             }
         }
@@ -337,25 +341,29 @@ class TestGaussianCopula(TestCase):
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 }
             }
         }
@@ -386,7 +394,7 @@ class TestGaussianCopula(TestCase):
             [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
             [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
         ]
-        parameters = {
+        expected_content = {
             'covariance': covariance,
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
@@ -396,29 +404,32 @@ class TestGaussianCopula(TestCase):
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 }
             }
         }
-        expected_content = parameters
 
         # Run
         instance.save('test.json')
@@ -448,25 +459,29 @@ class TestGaussianCopula(TestCase):
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
-                    'fitted': True
+                    'fitted': True,
+                    'constant_value': None
                 }
             }
         }
@@ -486,3 +501,22 @@ class TestGaussianCopula(TestCase):
             assert instance.distribs[name].to_dict() == json_mock.return_value['distribs'][name]
 
         assert open_mock.called_once_with('test.json', 'r')
+
+    def test_sample_constant_column(self):
+        """ """
+        # Setup
+        instance = GaussianMultivariate()
+        X = np.array([
+            [1, 2],
+            [1, 3],
+            [1, 4],
+            [1, 5]
+        ])
+        instance.fit(X)
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.shape == (5, 2)
+        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))

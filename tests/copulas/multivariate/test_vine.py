@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -116,7 +117,8 @@ class TestVine(TestCase):
             'unis': [
                 {
                     'type': 'copulas.univariate.kde.KDEUnivariate',
-                    'fitted': False
+                    'fitted': False,
+                    'constant_value': None
                 }
             ]
         }
@@ -155,7 +157,8 @@ class TestVine(TestCase):
             'unis': [
                 {
                     'type': 'copulas.univariate.kde.KDEUnivariate',
-                    'fitted': False
+                    'fitted': False,
+                    'constant_value': None
                 }
             ]
         }
@@ -206,7 +209,8 @@ class TestVine(TestCase):
         # Check
         compare_nested_dicts(result.to_dict(), instance.to_dict())
 
-    def test_sample(self):
+    @patch('copulas.multivariate.vine.VineCopula._sample_row', autospec=True)
+    def test_sample(self, sample_mock):
         """After being fit, a vine can sample new data."""
         # Setup
         vine = VineCopula(TreeTypes.REGULAR)
@@ -215,11 +219,23 @@ class TestVine(TestCase):
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]
-        ])
+        ], columns=list('ABCD'))
         vine.fit(X)
 
+        expected_result = pd.DataFrame([
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+        ])
+
+        sample_mock.return_value = np.array([1, 2, 3, 4])
+
         # Run
-        result = vine.sample()
+        result = vine.sample(5)
 
         # Check
-        assert len(result) == vine.n_var
+        assert result.equals(expected_result)
+
+        assert sample_mock.call_count == 5
