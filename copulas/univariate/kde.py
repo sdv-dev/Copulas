@@ -12,6 +12,7 @@ class KDEUnivariate(ScipyWrapper):
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
     """
+
     model_class = 'gaussian_kde'
     method_map = {
         'probability_density': 'evaluate',

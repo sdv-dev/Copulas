@@ -221,6 +221,7 @@ class ScipyWrapper(Univariate):
     """
 
     model_class = None
+    model_fit_init = None
     method_map = {
         'probability_density': None,
         'cumulative_distribution': None,
@@ -239,7 +240,7 @@ class ScipyWrapper(Univariate):
         if not hasattr(scipy.stats, self.model_class):
             raise ValueError('The given `model_class` {} couldn\'t be found on scipy.stats')
 
-    def fit(self, X):
+    def fit(self, X, *args, **kwargs):
         """Fit scipy model to an array of values.
 
         Args:
@@ -252,7 +253,11 @@ class ScipyWrapper(Univariate):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            self.model = getattr(scipy.stats, self.model_class)(X)
+            if self.model_fit_init:
+                self.model = getattr(scipy.stats, self.model_class)(*args, **kwargs)
+            else:
+                self.model = getattr(scipy.stats, self.model_class)(X)
+
             for name, method_name in self.method_map.items():
                 if method_name is None:
                     setattr(self, name, None)
@@ -262,7 +267,7 @@ class ScipyWrapper(Univariate):
 
         self.fitted = True
 
-    def probability_density(self, X):
+    def probability_density(self, X, *args, **kwargs):
         """Evaluate the estimated pdf on a point.
 
         Args:
@@ -273,9 +278,9 @@ class ScipyWrapper(Univariate):
         """
         self.check_fit()
 
-        return getattr(self.model, self.method_map['probability_density'])(X)
+        return getattr(self.model, self.method_map['probability_density'])(X, *args, **kwargs)
 
-    def cumulative_distribution(self, X):
+    def cumulative_distribution(self, X, *args, **kwargs):
         """Computes the integral of a 1-D pdf between two bounds
 
         Args:
@@ -286,9 +291,9 @@ class ScipyWrapper(Univariate):
         """
         self.check_fit()
 
-        return getattr(self.model, self.method_map['cumulative_distribution'])(X)
+        return getattr(self.model, self.method_map['cumulative_distribution'])(X, *args, **kwargs)
 
-    def percent_point(self, U):
+    def percent_point(self, U, *args, **kwargs):
         """Given a cdf value, returns a value in original space.
 
         Args:
@@ -299,9 +304,9 @@ class ScipyWrapper(Univariate):
         """
         self.check_fit()
 
-        return getattr(self.model, self.method_map['percent_point'])(U)
+        return getattr(self.model, self.method_map['percent_point'])(U, *args, **kwargs)
 
-    def sample(self, num_samples=1):
+    def sample(self, num_samples=1, *args, **kwargs):
         """Samples new data point based on model.
 
         Args:
@@ -312,7 +317,7 @@ class ScipyWrapper(Univariate):
         """
         self.check_fit()
 
-        return getattr(self.model, self.method_map['sample'])(num_samples)
+        return getattr(self.model, self.method_map['sample'])(num_samples, *args, **kwargs)
 
     @classmethod
     def from_dict(cls, parameters):
