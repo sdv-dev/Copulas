@@ -68,6 +68,7 @@ class TestCheckValidValues(TestCase):
         function_mock.assert_not_called()
         instance_mock.assert_not_called()
 
+
 class TestRandomStateDecorator(TestCase):
 
     @patch('copulas.np.random')
