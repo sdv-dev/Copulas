@@ -20,7 +20,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
         elif isinstance(first[key], float):
             assert compare_values_epsilon(first[key], second[key])
 
-        elif isinstance(first[key], list):
+        elif isinstance(first[key], (list, np.ndarray)):
             compare_nested_iterables(first[key], second[key])
 
         else:
@@ -33,9 +33,11 @@ def compare_values_epsilon(first, second, epsilon=10E-6):
 
 def compare_nested_iterables(first, second, epsilon=10E-6):
 
+    assert len(first) == len(second)
+
     for _first, _second in zip(first, second):
 
-        if isinstance(_first, list):
+        if isinstance(_first, (list, np.ndarray)):
             compare_nested_iterables(_first, _second, epsilon)
 
         if isinstance(_first, float):
