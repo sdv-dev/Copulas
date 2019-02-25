@@ -4,19 +4,19 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
-from copulas import check_valid_values
+from copulas import check_valid_values, random_state
 from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(Univariate):
-    """Gaussian univariate model"""
+    """Gaussian univariate model."""
 
     fitted = False
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.name = None
         self.mean = 0
         self.std = 1
@@ -90,6 +90,7 @@ class GaussianUnivariate(Univariate):
         self.check_fit()
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
+    @random_state
     def sample(self, num_samples=1):
         """Returns new data point based on model.
 

@@ -13,6 +13,7 @@ from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestKDEUnivariate(TestCase):
+
     def setup_norm(self):
         """set up the model to fit standard norm data."""
         self.kde = KDEUnivariate()
@@ -71,7 +72,7 @@ class TestKDEUnivariate(TestCase):
         x = self.kde.probability_density(0.5)
 
         expected = 0.35206532676429952
-        self.assertAlmostEquals(x, expected, places=1)
+        self.assertAlmostEqual(x, expected, places=1)
 
     def test_cumulative_distribution(self):
         """cumulative_distribution evaluates with the model."""
@@ -80,7 +81,7 @@ class TestKDEUnivariate(TestCase):
         x = self.kde.cumulative_distribution(0.5)
 
         expected = 0.69146246127401312
-        self.assertAlmostEquals(x, expected, places=1)
+        self.assertAlmostEqual(x, expected, places=1)
 
     def test_percent_point(self):
         """percent_point evaluates with the model."""
@@ -89,7 +90,7 @@ class TestKDEUnivariate(TestCase):
         x = self.kde.percent_point(0.5)
 
         expected = 0.0
-        self.assertAlmostEquals(x, expected, places=1)
+        self.assertAlmostEqual(x, expected, places=1)
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
@@ -97,6 +98,64 @@ class TestKDEUnivariate(TestCase):
 
         with self.assertRaises(ValueError):
             self.kde.percent_point(2)
+
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_sample(self, kde_mock):
+        """When fitted, we are able to use the model to get samples."""
+        # Setup
+        instance = KDEUnivariate()
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+
+        model_mock = kde_mock.return_value
+        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
+
+        expected_result = np.array([0, 1, 0, 1, 0])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        assert instance.model == model_mock
+
+        kde_mock.assert_called_once_with(X)
+        model_mock.resample.assert_called_once_with(5)
+
+    def test_sample_constant(self):
+        """If constant_value is set, all the sample have the same value."""
+        # Setup
+        instance = KDEUnivariate()
+        instance.fitted = True
+        instance.constant_value = 3
+        instance._replace_constant_methods()
+
+        expected_result = np.array([3, 3, 3, 3, 3])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+    def test_sample_random_state(self):
+        """If random_state is set, samples will generate the exact same values."""
+        # Setup
+        instance = KDEUnivariate(random_seed=0)
+
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+
+        expected_result_random_state = np.array([
+            [5.02156389, 5.45857107, 6.12161148, 4.56801267, 6.14017901]
+        ])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result_random_state)
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
@@ -215,46 +274,6 @@ class TestKDEUnivariate(TestCase):
 
         # Check
         assert instance.to_dict() == result.to_dict()
-
-    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
-    def test_sample(self, kde_mock):
-        """When fitted, we are able to use the model to get samples."""
-        # Setup
-        instance = KDEUnivariate()
-        X = np.array([1, 2, 3, 4, 5])
-        instance.fit(X)
-
-        model_mock = kde_mock.return_value
-        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
-
-        expected_result = np.array([0, 1, 0, 1, 0])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        compare_nested_iterables(result, expected_result)
-
-        assert instance.model == model_mock
-
-        kde_mock.assert_called_once_with(X)
-        model_mock.resample.assert_called_once_with(5)
-
-    def test_sample_constant(self):
-        """If constant_value is set, all the sample have the same value."""
-        # Setup
-        instance = KDEUnivariate()
-        instance.fitted = True
-        instance.constant_value = 3
-        instance._replace_constant_methods()
-
-        expected_result = np.array([3, 3, 3, 3, 3])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        compare_nested_iterables(result, expected_result)
 
     @patch('copulas.univariate.base.Univariate._constant_probability_density', autospec=True)
     def test_probability_density_constant(self, pdf_mock):

@@ -12,17 +12,17 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
     for key, _first in first.items():
         _second = second[key]
         if isinstance(_first, dict):
-            compare_nested_dicts(_first, _second)
+            compare_nested_dicts(_first, _second, epsilon)
 
         elif isinstance(_first, (list, np.ndarray, tuple)):
-            compare_nested_iterables(_first, _second)
+            compare_nested_iterables(_first, _second, epsilon)
 
         elif isinstance(_first, pd.DataFrame):
             assert _first.equals(_second)
 
         elif isinstance(_first, float):
             message = COMPARE_VALUES_ERROR.format(key, _first, _second)
-            assert compare_values_epsilon(_first, _second), message
+            assert compare_values_epsilon(_first, _second, epsilon), message
 
         else:
             assert _first == _second, "{} doesn't equal {}".format(_first, _second)
@@ -42,14 +42,14 @@ def compare_nested_iterables(first, second, epsilon=10E-6):
     for index, (_first, _second) in enumerate(zip(first, second)):
 
         if isinstance(_first, (list, np.ndarray, tuple)):
-            compare_nested_iterables(_first, _second)
+            compare_nested_iterables(_first, _second, epsilon)
 
         elif isinstance(_first, dict):
-            compare_nested_dicts(_first, _second)
+            compare_nested_dicts(_first, _second, epsilon)
 
         elif isinstance(_first, float):
             message = COMPARE_VALUES_ERROR.format(index, _first, _second)
-            assert compare_values_epsilon(_first, _second), message
+            assert compare_values_epsilon(_first, _second, epsilon), message
 
         else:
             assert _first == _second, COMPARE_VALUES_ERROR.format(index, _first, _second)

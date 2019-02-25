@@ -1,7 +1,7 @@
 import numpy as np
 import scipy
 
-from copulas import check_valid_values
+from copulas import check_valid_values, random_state
 from copulas.univariate.base import Univariate
 
 
@@ -11,8 +11,8 @@ class KDEUnivariate(Univariate):
     but allows more flexibility.
     """
 
-    def __init__(self):
-        super(KDEUnivariate, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.model = None
 
     @check_valid_values
@@ -84,6 +84,7 @@ class KDEUnivariate(Univariate):
 
         return scipy.optimize.brentq(self.cumulative_distribution, -1000.0, 1000.0, args=(U))
 
+    @random_state
     def sample(self, num_samples=1):
         """Samples new data point based on model.
 
