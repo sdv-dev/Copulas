@@ -5,7 +5,7 @@ import pandas as pd
 
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
-from copulas.univariate.kde import KDEUnivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
 from tests import compare_nested_dicts
 
 
@@ -40,7 +40,7 @@ class TestTree(TestCase):
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
-            distribution = KDEUnivariate()
+            distribution = GaussianKDE()
             distribution.fit(X[column])
             univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
@@ -139,7 +139,7 @@ class TestTree(TestCase):
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
-            distribution = KDEUnivariate()
+            distribution = GaussianKDE()
             distribution.fit(X[column])
             univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
@@ -159,7 +159,7 @@ class TestCenterTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
@@ -215,7 +215,7 @@ class TestRegularTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
@@ -281,7 +281,7 @@ class TestDirectTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1

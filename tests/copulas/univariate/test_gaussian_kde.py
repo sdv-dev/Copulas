@@ -4,18 +4,19 @@
 """Tests for `univariate.kde` module."""
 
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 
-from copulas.univariate.kde import KDEUnivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
 from tests import compare_nested_dicts, compare_nested_iterables
 
 
-class TestKDEUnivariate(TestCase):
+class TestGaussianKDE(TestCase):
+
     def setup_norm(self):
         """set up the model to fit standard norm data."""
-        self.kde = KDEUnivariate()
+        self.kde = GaussianKDE()
         # use 42 as a fixed random seed
         np.random.seed(42)
         column = np.random.normal(0, 1, 1000)
@@ -24,18 +25,18 @@ class TestKDEUnivariate(TestCase):
     def test___init__(self):
         """On init, model are set to None."""
         # Setup / Run
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
 
         # Check
         instance.model is None
         instance.fitted is False
         instance.constant_value is None
 
-    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
     def test_fit(self, kde_mock):
         """On fit, a new instance of gaussian_kde is fitted."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         X = np.array([1, 2, 3, 4, 5])
 
         kde_mock.return_value = 'mock model'
@@ -53,7 +54,7 @@ class TestKDEUnivariate(TestCase):
     def test_fit_constant(self):
         """If fit data is constant, no gaussian_kde model is created."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         X = np.array([1, 1, 1, 1, 1])
 
         # Run
@@ -66,44 +67,135 @@ class TestKDEUnivariate(TestCase):
 
     def test_fit_empty_data(self):
         """If fitting kde model with empty data it will raise ValueError."""
-        self.kde = KDEUnivariate()
+        # Setup
+        instance = GaussianKDE()
+        data = np.array([])
 
+        # Run / Check
         with self.assertRaises(ValueError):
-            self.kde.fit([])
+            instance.fit(data)
 
-    def test_probability_density(self):
+    @patch('copulas.univariate.gaussian_kde.scalarize', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.partial', autospec=True)
+    def test__brentq_cdf(self, partial_mock, scalarize_mock):
+        """_brentq_cdf returns a function that computes the cdf of a scalar minus its argument."""
+        # Setup
+        instance = GaussianKDE()
+
+        def mock_partial_return_value(x):
+            return x
+
+        scalarize_mock.return_value = 'scalar_function'
+        partial_mock.return_value = mock_partial_return_value
+
+        # Run
+        result = instance._brentq_cdf(0.5)
+
+        # Check
+        assert callable(result)
+
+        # result uses the return_value of partial_mock, so every value returned
+        # is (x - 0.5)
+        assert result(1.0) == 0.5
+        assert result(0.5) == 0
+        assert result(0.0) == -0.5
+
+        scalarize_mock.assert_called_once_with(GaussianKDE.cumulative_distribution)
+        partial_mock.assert_called_once_with('scalar_function', instance)
+
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_probability_density(self, kde_mock):
         """probability_density evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        model_mock.pdf.return_value = np.array([0.0, 0.5, 1.0])
 
-        x = self.kde.probability_density(0.5)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = GaussianKDE()
+        instance.fit(fit_data)
+        call_data = np.array([-10, 0, 10])
 
-        expected = 0.35206532676429952
-        self.assertAlmostEquals(x, expected, places=1)
+        expected_result = np.array([0.0, 0.5, 1.0])
 
-    def test_cumulative_distribution(self):
+        # Run
+        result = instance.probability_density(call_data)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        kde_mock.assert_called_once_with(fit_data)
+        model_mock.evaluate.assert_called_once_with(call_data)
+
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_cumulative_distribution(self, kde_mock):
         """cumulative_distribution evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        model_mock.integrate_box_1d.side_effect = [0.0, 0.5, 1.0]
 
-        x = self.kde.cumulative_distribution(0.5)
+        model_mock.dataset = MagicMock()
+        model_mock.dataset.mean.return_value = 1
+        model_mock.dataset.std.return_value = 0.1
 
-        expected = 0.69146246127401312
-        self.assertAlmostEquals(x, expected, places=1)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = GaussianKDE()
+        instance.fit(fit_data)
 
-    def test_percent_point(self):
+        call_data = np.array([-10, 0, 10])
+        expected_result = np.array([0.0, 0.5, 1.0])
+
+        expected_integrate_1d_box_call_args_list = [
+            ((0.5, -10), {}),  # The first argument is the lower_bound (1 - 0.1*5)
+            ((0.5, 0), {}),
+            ((0.5, 10), {}),
+        ]
+
+        # Run
+        result = instance.cumulative_distribution(call_data)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        kde_mock.assert_called_once_with(fit_data)
+        assert (model_mock.integrate_box_1d.call_args_list
+                == expected_integrate_1d_box_call_args_list)
+
+    @patch('copulas.univariate.gaussian_kde.GaussianKDE._brentq_cdf', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.scipy.optimize.brentq', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_percent_point(self, kde_mock, brentq_mock, cdf_mock):
         """percent_point evaluates with the model."""
-        self.setup_norm()
+        # Setup
+        model_mock = kde_mock.return_value
+        brentq_mock.return_value = -250.0
+        cdf_mock.return_value = 'a nice scalar bounded method'
 
-        x = self.kde.percent_point(0.5)
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = GaussianKDE()
+        instance.fit(fit_data)
 
-        expected = 0.0
-        self.assertAlmostEquals(x, expected, places=1)
+        expected_result = np.array([-250.0])
+
+        # Run
+        result = instance.percent_point([0.5])
+
+        # Check
+        assert result == expected_result
+
+        kde_mock.assert_called_once_with(fit_data)
+        model_mock.assert_not_called()
+        assert len(model_mock.method_calls) == 0
+
+        brentq_mock.assert_called_once_with('a nice scalar bounded method', -1000, 1000)
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
-        self.setup_norm()
+        fit_data = np.array([1, 2, 3, 4, 5])
+        instance = GaussianKDE()
+        instance.fit(fit_data)
 
         with self.assertRaises(ValueError):
-            self.kde.percent_point(2)
+            instance.percent_point([2.])
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
@@ -131,7 +223,7 @@ class TestKDEUnivariate(TestCase):
         }
 
         # Run
-        distribution = KDEUnivariate.from_dict(parameters)
+        distribution = GaussianKDE.from_dict(parameters)
 
         # Check
         assert distribution.model.d == 1
@@ -155,7 +247,7 @@ class TestKDEUnivariate(TestCase):
     def test_to_dict(self):
         """To_dict returns the defining parameters of a distribution in a dict."""
         # Setup
-        distribution = KDEUnivariate()
+        distribution = GaussianKDE()
         column = np.array([[
             0.4967141530112327,
             -0.13826430117118466,
@@ -171,7 +263,7 @@ class TestKDEUnivariate(TestCase):
         distribution.fit(column)
 
         expected_result = {
-            'type': 'copulas.univariate.kde.KDEUnivariate',
+            'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
             'fitted': True,
             'constant_value': None,
             'd': 1,
@@ -202,10 +294,10 @@ class TestKDEUnivariate(TestCase):
     def test_valid_serialization_unfit_model(self):
         """For a unfitted model to_dict and from_dict are opposites."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
 
         # Run
-        result = KDEUnivariate.from_dict(instance.to_dict())
+        result = GaussianKDE.from_dict(instance.to_dict())
 
         # Check
         assert instance.to_dict() == result.to_dict()
@@ -213,12 +305,12 @@ class TestKDEUnivariate(TestCase):
     def test_valid_serialization_fit_model(self):
         """For a fitted model to_dict and from_dict are opposites."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         X = np.array([1, 2, 3, 4])
         instance.fit(X)
 
         # Run
-        result = KDEUnivariate.from_dict(instance.to_dict())
+        result = GaussianKDE.from_dict(instance.to_dict())
 
         # Check
         assert instance.to_dict() == result.to_dict()
@@ -227,7 +319,7 @@ class TestKDEUnivariate(TestCase):
     def test_sample(self, kde_mock):
         """When fitted, we are able to use the model to get samples."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         X = np.array([1, 2, 3, 4, 5])
         instance.fit(X)
 
@@ -250,7 +342,7 @@ class TestKDEUnivariate(TestCase):
     def test_sample_constant(self):
         """If constant_value is set, all the sample have the same value."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         instance.fitted = True
         instance.constant_value = 3
         instance._replace_constant_methods()
@@ -267,7 +359,7 @@ class TestKDEUnivariate(TestCase):
     def test_probability_density_constant(self, pdf_mock):
         """If constant_value, probability_density uses the degenerate version."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         instance.fitted = True
         instance.constant_value = 3
         instance._replace_constant_methods()
@@ -288,7 +380,7 @@ class TestKDEUnivariate(TestCase):
     def test_percent_point_constant_raises(self, ppf_mock):
         """If constant_value, percent_point uses the degenerate version."""
         # Setup
-        instance = KDEUnivariate()
+        instance = GaussianKDE()
         instance.fitted = True
         instance.constant_value = 3
         instance._replace_constant_methods()
