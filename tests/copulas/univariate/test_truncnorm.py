@@ -50,7 +50,7 @@ class TestTruncNorm(TestCase):
         assert callable(instance.sample)
 
         scipy_mock.assert_not_called()
-        truncnorm.assert_called_once_with(1, 5)
+        truncnorm.assert_called_once_with(0, 6)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""
@@ -97,8 +97,8 @@ class TestTruncNorm(TestCase):
         instance.fit(data)
 
         expected_result = {
-            'a': 0,
-            'b': 4
+            'a': -1,
+            'b': 5
         }
 
         # Run
