@@ -4,7 +4,7 @@ from enum import Enum
 import numpy as np
 from scipy import stats
 
-from copulas import EPSILON, NotFittedError
+from copulas import EPSILON, NotFittedError, random_state
 
 COMPUTE_EMPIRICAL_STEPS = 50
 
@@ -27,6 +27,11 @@ class Bivariate(object):
 
     >>> Bivariate('frank').__class__
     copulas.bivariate.frank.Frank
+
+
+    Args:
+        copula_type (CopulaType or str): Subtype of the copula.
+        random_seed (int or None): Seed for the random generator.
     """
 
     copula_type = None
@@ -50,7 +55,7 @@ class Bivariate(object):
 
         return cls._subclasses
 
-    def __new__(cls, copula_type=None):
+    def __new__(cls, copula_type=None, random_seed=None):
         if not isinstance(copula_type, CopulaTypes):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
@@ -61,14 +66,10 @@ class Bivariate(object):
             if subclass.copula_type is copula_type:
                 return super(Bivariate, cls).__new__(subclass)
 
-    def __init__(self, copula_type=None):
-        """Create a new instance of any of their subclasses.
-
-        Args:
-            copula_type: `CopulaType` or `str` to be compared against CopulaType.
-        """
+    def __init__(self, copula_type=None, random_seed=None):
         self.theta = None
         self.tau = None
+        self.random_seed = random_seed
 
     def fit(self, X):
         """Fit a model to the data updating the parameters.
@@ -186,6 +187,7 @@ class Bivariate(object):
         X = np.column_stack((U, V))
         return self.partial_derivative(X, y)
 
+    @random_state
     def sample(self, n_samples):
         """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
 

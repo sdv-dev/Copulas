@@ -17,6 +17,23 @@ class NotFittedError(Exception):
     pass
 
 
+def random_state(function):
+    def wrapper(self, *args, **kwargs):
+        if self.random_seed is None:
+            return function(self, *args, **kwargs)
+
+        else:
+            original_state = np.random.get_state()
+            np.random.seed(self.random_seed)
+
+            result = function(self, *args, **kwargs)
+
+            np.random.set_state(original_state)
+            return result
+
+    return wrapper
+
+
 def import_object(object_name):
     """Import an object from its Fully Qualified Name."""
     package, name = object_name.rsplit('.', 1)

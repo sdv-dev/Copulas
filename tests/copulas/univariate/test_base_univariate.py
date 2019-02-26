@@ -84,7 +84,7 @@ class TestUnivariate(TestCase):
         instance.constant_value = 3
 
         X = np.array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5])
-        expected_result = np.array([3, 3, 3, 3, 3])
+        expected_result = np.array([3, 3, 3, 3, 3, 3])
 
         # Run
         result = instance._constant_percent_point(X)

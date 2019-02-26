@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -161,20 +162,41 @@ class TestGaussianUnivariate(TestCase):
         assert (initial_value - result_a < 10E-5).all()
         assert (initial_value - result_b < 10E-5).all()
 
-    def test_sample(self):
+    @patch('copulas.univariate.gaussian.np.random.normal')
+    def test_sample(self, random_mock):
         """After fitting, GaussianUnivariate is able to sample new data."""
         # Setup
-        copula = GaussianUnivariate()
-        column = [-1, 0, 1]
-        copula.fit(column)
+        instance = GaussianUnivariate()
+        column = np.array([-1, 0, 1])
+        instance.fit(column)
+
+        expected_result = np.array([1, 2, 3, 4, 5])
+        random_mock.return_value = expected_result
 
         # Run
-        result = copula.sample(1000000)
+        result = instance.sample(5)
 
         # Check
-        assert len(result) == 1000000
-        assert abs(np.mean(result) - copula.mean) < 10E-3
-        assert abs(np.std(result) - copula.std) < 10E-3
+        compare_nested_iterables(result, expected_result)
+
+        assert instance.mean == 0.0
+        assert instance.std == 0.816496580927726
+        random_mock.assert_called_once_with(0.0, 0.816496580927726, 5)
+
+    def test_sample_random_state(self):
+        """When random state is set, samples are the same."""
+        # Setup
+        instance = GaussianUnivariate(random_seed=0)
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+
+        expected_result = np.array([5.494746752403546, 3.565907751154284, 4.384144531132039])
+
+        # Run
+        result = instance.sample(3)
+
+        # Check
+        assert (result == expected_result).all()
 
     def test_sample_constant(self):
         """samples can be generated for constant distribution."""

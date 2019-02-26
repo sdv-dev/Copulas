@@ -7,7 +7,8 @@ from copulas import NotFittedError, get_qualified_name, import_object
 class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
-    def __init__(self):
+    def __init__(self, random_seed=None):
+        self.random_seed = random_seed
         self.fitted = False
         self.constant_value = None
 

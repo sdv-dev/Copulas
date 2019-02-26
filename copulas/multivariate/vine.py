@@ -1,11 +1,10 @@
 import logging
-from random import randint
 
 import numpy as np
 import pandas as pd
 from scipy import optimize
 
-from copulas import EPSILON, get_qualified_name
+from copulas import EPSILON, get_qualified_name, random_state
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree
@@ -15,14 +14,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 class VineCopula(Multivariate):
-    def __init__(self, vine_type):
+    def __init__(self, vine_type, *args, **kwargs):
         """Instantiate a vine copula class.
 
         Args:
             :param vine_type: type of the vine copula, could be 'center','direct','regular'
             :type vine_type: string
         """
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self.vine_type = vine_type
         self.u_matrix = None
 
@@ -144,7 +143,7 @@ class VineCopula(Multivariate):
         """
         unis = np.random.uniform(0, 1, self.n_var)
         # randomly select a node to start with
-        first_ind = randint(0, self.n_var - 1)
+        first_ind = np.random.randint(0, self.n_var)
         adj = self.trees[0].get_adjacent_matrix()
         visited = []
         explore = [first_ind]
@@ -218,6 +217,7 @@ class VineCopula(Multivariate):
 
         return sampled
 
+    @random_state
     def sample(self, num_rows):
         """Sample new rows.
 
