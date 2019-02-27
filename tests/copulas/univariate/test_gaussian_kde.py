@@ -108,7 +108,7 @@ class TestGaussianKDE(TestCase):
         """probability_density evaluates with the model."""
         # Setup
         model_mock = kde_mock.return_value
-        model_mock.pdf.return_value = np.array([0.0, 0.5, 1.0])
+        model_mock.evaluate.return_value = np.array([0.0, 0.5, 1.0])
 
         fit_data = np.array([1, 2, 3, 4, 5])
         instance = GaussianKDE()
