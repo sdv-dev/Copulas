@@ -11,13 +11,21 @@ class Clayton(Bivariate):
     invalid_thetas = [0]
 
     def generator(self, t):
-        """Return the generator function."""
+        """Generator function for the Clayton copula family.
+
+
+        """
         self.check_fit()
 
         return (1.0 / self.theta) * (np.power(t, -self.theta) - 1)
 
     def probability_density(self, X):
         """Compute probability density function for given copula family.
+
+        The probability density(PDF) for the Clayton family of copulas correspond to the formula:
+
+        .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u} =
+            (\\theta + 1)(uv)^{−\\theta−1}(u^{−\\theta} + v^{−\\theta} − 1)^\\frac{−2\\theta + 1}{\\theta}
 
         Args:
             X: `np.ndarray`
@@ -35,7 +43,12 @@ class Clayton(Bivariate):
         return a * np.power(b, c)
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+        """Computes the cumulative distribution function for the clayton copula.
+
+        The cumulative density(cdf), or distribution function for the Clayton family of copulas
+        correspond to the formula:
+
+        .. math:: C(u,v) = max[(u^{-θ} + v^{-θ} + 1),0]^{-1/θ}
 
         Args:
             X: `np.ndarray`
@@ -63,7 +76,9 @@ class Clayton(Bivariate):
             return np.array([max(x, 0) for x in cdfs])
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`.
+
+        The percent point is the
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
@@ -81,7 +96,12 @@ class Clayton(Bivariate):
             return u
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
+        """Compute partial derivative of cumulative distribution.
+
+        The partial derivative of the copula(CDF) is the value of the conditional probability.
+
+        .. math:: F(v|u) = \\frac{\\partial C(u,v)}{\\partial u} =
+            u^{−\\theta−1}(u^{-\\theta} + v^{-\\theta} + 1)^\\frac{\\theta+1}{\\theta}
 
         Args:
             X: `np.ndarray`
@@ -106,8 +126,10 @@ class Clayton(Bivariate):
     def compute_theta(self):
         """Compute theta parameter using Kendall's tau.
 
-        On Clayton copula this is :math:`τ = θ/(θ + 2) \\implies θ = 2τ/(1-τ)` with
-        :math:`θ ∈ (0, ∞)`.
+        On Clayton copula this is
+
+        .. math:: τ = θ/(θ + 2) \\implies θ = 2τ/(1-τ)
+        .. math:: θ ∈ (0, ∞)
 
         On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
         """

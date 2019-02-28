@@ -75,7 +75,7 @@ class Bivariate(object):
         """Fit a model to the data updating the parameters.
 
         Args:
-            X: `np.ndarray` of shape (,2).
+            X(np.ndarray): Array of datapoints with shape (n,2).
 
         Return:
             None
@@ -126,6 +126,10 @@ class Bivariate(object):
     def probability_density(self, X):
         """Compute probability density function for given copula family.
 
+        The probability density(pdf) for a given copula is defined as:
+
+        .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u}
+
         Args:
             X: `np.ndarray`
 
@@ -135,13 +139,14 @@ class Bivariate(object):
         raise NotImplementedError
 
     def pdf(self, X):
+        """Shortcut to `probability_density` """
         return self.probability_density(X)
 
     def cumulative_distribution(self, X):
         """Computes the cumulative distribution function for the copula, :math:`C(u, v)`.
 
         Args:
-            X: `np.ndarray`
+            X(np.ndarray):
 
         Returns:
             np.array: cumulative probability
@@ -149,6 +154,7 @@ class Bivariate(object):
         raise NotImplementedError
 
     def cdf(self, X):
+        """ """
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
