@@ -1,15 +1,14 @@
-Welcome to Copulas's documentation!
-======================================
+Welcome to Copulas!
+===================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   readme
    installation
    usage
-   modules
    contributing
+   API Reference <api/copulas>
    authors
    history
 
