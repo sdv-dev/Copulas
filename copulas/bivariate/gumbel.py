@@ -23,7 +23,14 @@ class Gumbel(Bivariate):
         The probability density(PDF) for the Gumbel family of copulas correspond to the formula:
 
         .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u} =
-            \\frac{C(u,v)}{uv} \\frac{((-\\ln u)^{\\theta} + (-\\ln v)^{\\theta})^{\\frac{2}{\\theta} - 2 }}{(\\ln u \\ln v)^{1 - \\theta}}
+            \\frac{C(u,v)}{uv} \\frac{((-\\ln u)^{\\theta} + (-\\ln v)^{\\theta})^{\\frac{2}
+            {\\theta} - 2 }}{(\\ln u \\ln v)^{1 - \\theta}}
+
+        Args:
+            X(numpy.array)
+
+        Returns:
+            numpy.array
 
         """
         self.check_fit()
@@ -98,7 +105,8 @@ class Gumbel(Bivariate):
         The partial derivative of the copula(CDF) is the value of the conditional probability.
 
         .. math:: F(v|u) = \\frac{\\partial C(u,v)}{\\partial u} =
-            C(u,v)\\frac{((-\\ln u)^{\\theta} + (-\\ln v)^{\\theta})^{\\frac{1}{\\theta} - 1}}{\\theta(- \\ln u)^{1 -\\theta}}
+            C(u,v)\\frac{((-\\ln u)^{\\theta} + (-\\ln v)^{\\theta})^{\\frac{1}{\\theta} - 1}}
+            {\\theta(- \\ln u)^{1 -\\theta}}
 
         Args:
             X: `np.ndarray`

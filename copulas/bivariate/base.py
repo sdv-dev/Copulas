@@ -10,7 +10,7 @@ COMPUTE_EMPIRICAL_STEPS = 50
 
 
 class CopulaTypes(Enum):
-    """Available copulas  """
+    """Available copulas"""
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
@@ -32,6 +32,17 @@ class Bivariate(object):
     Args:
         copula_type (CopulaType or str): Subtype of the copula.
         random_seed (int or None): Seed for the random generator.
+
+    Attributes:
+        copula_type(CopulaTypes): Family of the copula a subclass belongs to.
+        _subclasses(list[type]): List of declared subclasses.
+        theta_interval(list[float]): Interval of valid thetas for the given copula family.
+        invalid_thetas(list[float]): Values that, even though they belong to theta_interval,
+            shouldn't be considered valid.
+        tau (float): Kendall's tau for the data given at `fit`.
+        theta(float): Parameter for the copula
+
+
     """
 
     copula_type = None
@@ -88,9 +99,6 @@ class Bivariate(object):
     def to_dict(self):
         """Return a `dict` with the parameters to replicate this object.
 
-        Args:
-            self:
-
         Returns:
             dict: Parameters of the copula.
         """
@@ -106,7 +114,7 @@ class Bivariate(object):
 
         Args:
             copula_dict: `dict` with the parameters to replicate the copula.
-            Like the output of `Bivariate.to_dict`
+              Like the output of `Bivariate.to_dict`
 
         Returns:
             Bivariate: Instance of the copula defined on the parameters.
@@ -121,6 +129,19 @@ class Bivariate(object):
         raise NotImplementedError
 
     def generator(self, t):
+        """Generator function for Archimedian copulas.
+
+        The generator is a function :math:`\\psi: [0,1]\\times\\Theta \\rightarrow [0, \\infty)`
+        that given an Archimedian copula fulills:
+
+        .. math:: C(u,v) = \\psi^-1(\\psi(u) + \\psi(v))
+
+
+        In a more generic way:
+
+        .. math:: C(u_1, u_2, ..., u_n;\\theta) = \\psi^-1(\\sum_0^n{\\psi(u_i;\\theta)}; \\theta)
+
+        """
         raise NotImplementedError
 
     def probability_density(self, X):
@@ -131,7 +152,7 @@ class Bivariate(object):
         .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u}
 
         Args:
-            X: `np.ndarray`
+            X(np.ndarray): Shape (n, 2).Datapoints to compute pdf.
 
         Returns:
             np.array: Probability density for the input values.
@@ -139,7 +160,7 @@ class Bivariate(object):
         raise NotImplementedError
 
     def pdf(self, X):
-        """Shortcut to `probability_density` """
+        """Shortcut to `probability_density`."""
         return self.probability_density(X)
 
     def cumulative_distribution(self, X):
@@ -154,7 +175,7 @@ class Bivariate(object):
         raise NotImplementedError
 
     def cdf(self, X):
-        """ """
+        """Shortcut to cumulative_distribution"""
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
@@ -174,7 +195,11 @@ class Bivariate(object):
         return self.percent_point(y, V)
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative density.
+        """Compute partial derivative of cumulative distribution.
+
+        The partial derivative of the copula(CDF) is the value of the conditional probability.
+
+         .. math:: F(v|u) = \\frac{\\partial C(u,v)}{\\partial u}
 
         Args:
             X: `np.ndarray`

@@ -11,9 +11,17 @@ class Clayton(Bivariate):
     invalid_thetas = [0]
 
     def generator(self, t):
-        """Generator function for the Clayton copula family.
+        r"""Compute the generator function for Clayton copula family.
 
 
+
+        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
+        that given an Archimedian copula fulills:
+
+        .. math:: C(u,v) = \psi^-1(\psi(u) + \psi(v))
+
+        Args:
+            
         """
         self.check_fit()
 
@@ -25,7 +33,8 @@ class Clayton(Bivariate):
         The probability density(PDF) for the Clayton family of copulas correspond to the formula:
 
         .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u} =
-            (\\theta + 1)(uv)^{−\\theta−1}(u^{−\\theta} + v^{−\\theta} − 1)^\\frac{−2\\theta + 1}{\\theta}
+            (\\theta + 1)(uv)^{−\\theta−1}(u^{−\\theta} +
+            v^{−\\theta} − 1)^\\frac{−2\\theta + 1}{\\theta}
 
         Args:
             X: `np.ndarray`
