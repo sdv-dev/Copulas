@@ -13,15 +13,13 @@ class Clayton(Bivariate):
     def generator(self, t):
         r"""Compute the generator function for Clayton copula family.
 
-
-
         The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
         that given an Archimedian copula fulills:
 
         .. math:: C(u,v) = \psi^-1(\psi(u) + \psi(v))
 
         Args:
-            
+
         """
         self.check_fit()
 

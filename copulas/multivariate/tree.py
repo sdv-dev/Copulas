@@ -64,8 +64,6 @@ class Tree(Multivariate):
     def fit(self, index, n_nodes, tau_matrix, previous_tree, edges=None):
         """Fits tree object.
 
-        
-
         Args:
             index(int): index of the tree.
             n_nodes(int): number of nodes in the tree.

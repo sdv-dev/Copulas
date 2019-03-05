@@ -1,3 +1,6 @@
+"""This module contains a base class for all bivariate copulas."""
+
+
 import json
 from enum import Enum
 
@@ -10,7 +13,8 @@ COMPUTE_EMPIRICAL_STEPS = 50
 
 
 class CopulaTypes(Enum):
-    """Available copulas"""
+    """Available copula families."""
+
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
@@ -30,18 +34,17 @@ class Bivariate(object):
 
 
     Args:
-        copula_type (CopulaType or str): Subtype of the copula.
-        random_seed (int or None): Seed for the random generator.
+        copula_type (Union[CopulaType, str]): Subtype of the copula.
+        random_seed (Union[int, None]): Seed for the random generator.
 
     Attributes:
         copula_type(CopulaTypes): Family of the copula a subclass belongs to.
         _subclasses(list[type]): List of declared subclasses.
         theta_interval(list[float]): Interval of valid thetas for the given copula family.
-        invalid_thetas(list[float]): Values that, even though they belong to theta_interval,
-            shouldn't be considered valid.
-        tau (float): Kendall's tau for the data given at `fit`.
-        theta(float): Parameter for the copula
-
+        invalid_thetas(list[float]): Values that, even though they belong to
+            :attr:`theta_interval`, shouldn't be considered valid.
+        tau (float): Kendall's tau for the data given at :meth:`fit`.
+        theta(float): Parameter for the copula.
 
     """
 
@@ -52,6 +55,12 @@ class Bivariate(object):
 
     @classmethod
     def _get_subclasses(cls):
+        """Find recursively subclasses for the current class object.
+
+        Returns:
+            list[Bivariate]: List of subclass objects.
+
+        """
         subclasses = []
         for subclass in cls.__subclasses__():
             subclasses.append(subclass)
@@ -61,12 +70,27 @@ class Bivariate(object):
 
     @classmethod
     def subclasses(cls):
+        """Return a list of subclasses for the current class object.
+
+        Returns:
+            list[Bivariate]: Subclasses for given class.
+
+        """
         if not cls._subclasses:
             cls._subclasses = cls._get_subclasses()
 
         return cls._subclasses
 
-    def __new__(cls, copula_type=None, random_seed=None):
+    def __new__(cls, copula_type=None, *args, **kwargs):
+        """Create and return a new object.
+
+        Args:
+            copula_type(CopulaTypes): subtype of the instance.
+
+        Returns:
+            Bivariate: New object.
+
+        """
         if not isinstance(copula_type, CopulaTypes):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
@@ -78,9 +102,42 @@ class Bivariate(object):
                 return super(Bivariate, cls).__new__(subclass)
 
     def __init__(self, copula_type=None, random_seed=None):
+        """Initialize Bivariate object.
+
+        Args:
+            copula_type (CopulaType or str): Subtype of the copula.
+            random_seed (int or None): Seed for the random generator.
+        """
         self.theta = None
         self.tau = None
         self.random_seed = random_seed
+
+    def check_theta(self):
+        """Validate the computed theta against the copula specification.
+
+        This method is used to assert the computed theta is in the valid range for the copula.
+
+        Raises:
+            ValueError: If theta is not in :attr:`theta_interval` or is in :attr:`invalid_thetas`,
+
+        """
+        lower, upper = self.theta_interval
+        if (not lower <= self.theta <= upper) or (self.theta in self.invalid_thetas):
+            message = 'The computed theta value {} is out of limits for the given {} copula.'
+            raise ValueError(message.format(self.theta, self.copula_type.name))
+
+    def check_fit(self):
+        """Assert that the model is fit and the computed `theta` is valid.
+
+        Raises:
+            NotFittedError: if the model is  not fitted.
+            ValueError: if the computed theta is invalid.
+
+        """
+        if not self.theta:
+            raise NotFittedError("This model is not fitted.")
+
+        self.check_theta()
 
     def fit(self, X):
         """Fit a model to the data updating the parameters.
@@ -101,6 +158,7 @@ class Bivariate(object):
 
         Returns:
             dict: Parameters of the copula.
+
         """
         return {
             'copula_type': self.copula_type.name,
@@ -118,6 +176,7 @@ class Bivariate(object):
 
         Returns:
             Bivariate: Instance of the copula defined on the parameters.
+
         """
         instance = cls(copula_dict['copula_type'])
         instance.theta = copula_dict['theta']
@@ -129,90 +188,93 @@ class Bivariate(object):
         raise NotImplementedError
 
     def generator(self, t):
-        """Generator function for Archimedian copulas.
+        r"""Compute the generator function for Archimedian copulas.
 
-        The generator is a function :math:`\\psi: [0,1]\\times\\Theta \\rightarrow [0, \\infty)`
+        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
         that given an Archimedian copula fulills:
 
-        .. math:: C(u,v) = \\psi^-1(\\psi(u) + \\psi(v))
+        .. math:: C(u,v) = \psi^-1(\psi(u) + \psi(v))
 
 
         In a more generic way:
 
-        .. math:: C(u_1, u_2, ..., u_n;\\theta) = \\psi^-1(\\sum_0^n{\\psi(u_i;\\theta)}; \\theta)
+        .. math:: C(u_1, u_2, ..., u_n;\theta) = \psi^-1(\sum_0^n{\psi(u_i;\theta)}; \theta)
 
         """
         raise NotImplementedError
 
     def probability_density(self, X):
-        """Compute probability density function for given copula family.
+        r"""Compute probability density function for given copula family.
 
         The probability density(pdf) for a given copula is defined as:
 
-        .. math:: c(U,V) = \\frac{\\partial^2 C(u,v)}{\\partial v \\partial u}
+        .. math:: c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u}
 
         Args:
             X(np.ndarray): Shape (n, 2).Datapoints to compute pdf.
 
         Returns:
             np.array: Probability density for the input values.
+
         """
         raise NotImplementedError
 
     def pdf(self, X):
-        """Shortcut to `probability_density`."""
+        """Shortcut to :meth:`probability_density`."""
         return self.probability_density(X)
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`.
+        """Compute the cumulative distribution function for the copula, :math:`C(u, v)`.
 
         Args:
             X(np.ndarray):
 
         Returns:
-            np.array: cumulative probability
+            numpy.array: cumulative probability
+
         """
         raise NotImplementedError
 
     def cdf(self, X):
-        """Shortcut to cumulative_distribution"""
+        """Shortcut to :meth:`cumulative_distribution`."""
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`.
 
         Args:
-            y: `np.ndarray` value of :math:`C(u|v)`.
-            V: `np.ndarray` given value of V.
+            y(np.ndarray): value of :math:`C(u|v)`.
+            V(np.ndarray): given value of V.
 
         Returns:
             np.ndarray: Percentiles for the given values.
-        """
 
+        """
         raise NotImplementedError
 
     def ppf(self, y, V):
+        """Shortcut to :meth:`percent_point`."""
         return self.percent_point(y, V)
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative of cumulative distribution.
+        r"""Compute partial derivative of cumulative distribution.
 
         The partial derivative of the copula(CDF) is the value of the conditional probability.
 
-         .. math:: F(v|u) = \\frac{\\partial C(u,v)}{\\partial u}
+         .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u}
 
         Args:
-            X: `np.ndarray`
-            y: `float`
+            X(np.ndarray)
+            y(float):
 
         Returns:
             np.ndarray
+
         """
         raise NotImplementedError
 
     def partial_derivative_scalar(self, U, V, y=0):
         """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
-
         self.check_fit()
 
         X = np.column_stack((U, V))
@@ -220,13 +282,16 @@ class Bivariate(object):
 
     @random_state
     def sample(self, n_samples):
-        """Generate specified `n_samples` of new data from model. `v~U[0,1],v~C^-1(u|v)`
+        """Generate specified `n_samples` of new data from model.
+
+        The sampled are generated using the inverse transform method `v~U[0,1],v~C^-1(u|v)`
 
         Args:
             n_samples: `int`, amount of samples to create.
 
         Returns:
             np.ndarray: Array of length `n_samples` with generated data from the model.
+
         """
         if self.tau > 1 or self.tau < -1:
             raise ValueError("The range for correlation measure is [-1,1].")
@@ -241,27 +306,17 @@ class Bivariate(object):
         """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
 
-    def check_theta(self):
-        """Validate the computed theta against the copula specification.
-
-        This method is used to assert the computed theta is in the valid range for the copula."""
-        lower, upper = self.theta_interval
-        if (not lower <= self.theta <= upper) or (self.theta in self.invalid_thetas):
-            message = 'The computed theta value {} is out of limits for the given {} copula.'
-            raise ValueError(message.format(self.theta, self.copula_type.name))
-
-    def check_fit(self):
-        """Assert that the model is fit and the computed `theta` is valid.
-
-        Raises a `NotFittedError` if the model is  not fitted.
-        Raises a `ValueError` if the computed theta is invalid."""
-        if not self.theta:
-            raise NotFittedError("This model is not fitted.")
-
-        self.check_theta()
-
     @staticmethod
     def split_matrix(X):
+        """Split an (n,2) numpy.array into two vectors.
+
+        Args:
+            X(numpy.array): Matrix of shape (n,2)
+
+        Returns:
+            tuple[numpy.array]: Both of shape (n,)
+
+        """
         if len(X):
             return X[:, 0], X[:, 1]
 
@@ -269,7 +324,15 @@ class Bivariate(object):
 
     @classmethod
     def compute_empirical(cls, X):
-        """Compute empirical distribution."""
+        """Compute empirical distribution.
+
+        Args:
+            X(numpy.array): Shape (n,2); Datapoints to compute the empirical(frequentist) copula.
+
+        Return:
+            tuple(list):
+
+        """
         z_left = []
         z_right = []
         L = []
@@ -297,10 +360,36 @@ class Bivariate(object):
 
     @staticmethod
     def compute_tail(c, z):
+        r"""Compute upper concentration function for tail.
+
+        The upper tail concentration function is defined by:
+
+        .. math:: R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)}
+
+        Args:
+            c(Iterable): Values of :math:`C(z,z)`.
+            z(Iterable): Values for the empirical copula.
+
+        Returns:
+            numpy.array
+
+        """
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
     def get_dependencies(cls, copulas, z_left, z_right):
+        """Compute dependencies.
+
+        Args:
+            copulas(list[Bivariate]): Fitted instances of bivariate copulas.
+            z_left(list):
+            z_right(list):
+
+        Returns:
+            tuple[list]: Arrays of left and right dependencies for the empirical copula.
+
+
+        """
         left = []
         right = []
 
@@ -316,13 +405,33 @@ class Bivariate(object):
 
     @classmethod
     def select_copula(cls, X):
-        """Select best copula function based on likelihood.
+        r"""Select best copula function based on likelihood.
+
+        Given out candidate copulas the procedure proposed for selecting the one
+        that best fit to a dataset of pairs :math:`\{(u_j, v_j )\}, j=1,2,...n` , is as follows:
+
+        1. Estimate the most likely parameter :math:`\theta` of each copula candidate for the given
+           dataset.
+
+        2. Construct :math:`R(z|\theta)`. Calculate the area under the tail for each of the copula
+           candidates.
+
+        3. Compare the areas: :math:`a_u` achieved using empirical copula against the ones
+           achieved for the copula candidates. Score the outcome of the comparison from 3 (best)
+           down to 1 (worst).
+
+        4. Proceed as in steps 2- 3 with the lower tail and function :math:`L`.
+
+        5. Finally the sum of empirical upper and lower tail functions is compared against
+           :math:`R + L`. Scores of the three comparisons are summed and the candidate with the
+           highest value is selected.
 
         Args:
-            X: 2-dimensional `np.ndarray`
+            X(np.ndarray): Matrix of shape (n,2).
 
         Returns:
-            tuple: `tuple(CopulaType, float)` best fit and model param.
+            tuple(CopulaType, float): Best model and param for it.
+
         """
         frank = Bivariate(CopulaTypes.FRANK)
         frank.fit(X)
@@ -370,10 +479,11 @@ class Bivariate(object):
         """Save the internal state of a copula in the specified filename.
 
         Args:
-            filename: `str` path to save.
+            filename(str): Path to save.
 
         Returns:
             None
+
         """
         content = self.to_dict()
         with open(filename, 'w') as f:
@@ -384,10 +494,11 @@ class Bivariate(object):
         """Create a new instance from a file.
 
         Args:
-            copula_path: `str` file with the serialized copula.
+            copula_path(str): Path to file with the serialized copula.
 
         Returns:
             Bivariate: Instance with the parameters stored in the file.
+
         """
         with open(copula_path) as f:
             copula_dict = json.load(f)
