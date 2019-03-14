@@ -124,6 +124,7 @@ def scalarize(function):
         return function(self, np.array([X]), *args, **kwargs)[0]
 
     decorated.__doc__ = function.__doc__
+    return decorated
 
 
 def check_valid_values(function):

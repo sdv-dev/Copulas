@@ -307,7 +307,7 @@ class TestCenterTree(TestCase):
         for index, col in enumerate(data):
             uni = GaussianKDE()
             uni.fit(data[col])
-            u_matrix[:, index] = [uni.cumulative_distribution(x) for x in data[col]]
+            u_matrix[:, index] = uni.cumulative_distribution(data[col])
 
         first_tree = Tree(TreeTypes.CENTER)
         first_tree.fit(0, 4, tau_mat, u_matrix)
