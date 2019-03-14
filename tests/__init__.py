@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
-
+NUMPY_NUMERICAL_DTYPES = set('buifc')
 
 def compare_nested_dicts(first, second, epsilon=10E-6):
     """Compares two dictionaries. Raises an assertion error when a difference is found."""
@@ -46,8 +46,11 @@ def compare_nested_iterables(first, second, epsilon=10E-6):
         if isinstance(_first, (list, tuple)):
             compare_nested_iterables(_first, _second, epsilon)
 
-        if isinstance(_first, np.ndarray):
-            np.testing.assert_equal(_first, _second)
+        elif isinstance(_first, np.ndarray):
+            if _first.dtype.kind in NUMPY_NUMERICAL_DTYPES:
+                np.testing.assert_allclose(_first, _second)
+            else:
+                compare_nested_iterables(_first, _second, epsilon)
 
         elif isinstance(_first, dict):
             compare_nested_dicts(_first, _second, epsilon)
@@ -57,7 +60,6 @@ def compare_nested_iterables(first, second, epsilon=10E-6):
 
         else:
             assert _first == _second, message
-
 
 
 def copula_zero_if_arg_zero(copula, dimensions=2, steps=10, tolerance=1E-05):
