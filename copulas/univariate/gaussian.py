@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
-from copulas import random_state
+from copulas import check_valid_values, random_state
 from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ class GaussianUnivariate(Univariate):
             'Standard deviation: {}'.format(*details)
         )
 
+    @check_valid_values
     def fit(self, X):
         """Fit the model.
 
@@ -39,10 +40,6 @@ class GaussianUnivariate(Univariate):
         Returns:
             None
         """
-
-        if not len(X):
-            raise ValueError("Can't fit with an empty dataset.")
-
         if isinstance(X, (pd.Series, pd.DataFrame)):
             self.name = X.name
 

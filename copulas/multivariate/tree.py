@@ -199,9 +199,9 @@ class Tree(Multivariate):
             X_right_left = np.array([[x, y] for x, y in zip(right_u, left_u)])
 
             copula = Bivariate(edge.name)
-            copula.fit(X_left_right)
-            left_given_right = copula.partial_derivative(X_left_right, copula_theta)
-            right_given_left = copula.partial_derivative(X_right_left, copula_theta)
+            copula.theta = copula_theta
+            left_given_right = copula.partial_derivative(X_left_right)
+            right_given_left = copula.partial_derivative(X_right_left)
 
             # correction of 0 or 1
             left_given_right[left_given_right == 0] = EPSILON
@@ -214,14 +214,11 @@ class Tree(Multivariate):
         """Compute likelihood of the tree given an U matrix.
 
         Args:
-            :param uni_matrix: univariate matrix to evaluate likelihood on
-            :type uni_matrix: a np.ndarray
+            uni_matrix(numpy.array): univariate matrix to evaluate likelihood on.
 
         Returns:
-            param value: likelihood value of the current tree
-            param new_uni_matrix: next level onditional univariate matrix
-            type value: float or int
-            type new_uni_matrix: np.ndarray
+            tuple[float, numpy.array]:
+                likelihood of the current tree, next level conditional univariate matrix
         """
         uni_dim = uni_matrix.shape[1]
         num_edge = len(self.edges)
@@ -480,25 +477,26 @@ class Edge(object):
         self.likelihood = None
 
     @staticmethod
-    def _identify_eds_ing(edge1, edge2):
+    def _identify_eds_ing(first, second):
         """Find nodes connecting adjacent edges.
 
         Args:
-            :param edge1: edge object representing edge1
-            :param edge2: edge object representing edge2
-            :type edge1: Edge object
-            :type edge2: Edge object
-            :return left,right: end node indices of the new edge
-            :return depend_set: new dependence set
-            :type left, right, ing: int
-            :type depend_set: set
+            first(Edge): Edge object representing the first edge.
+            second(Edge): Edge object representing the second edge.
+
+        Returns:
+            tuple[int, int, set[int]]: The first two values represent left and right node
+                indicies of the new edge. The third value is the new dependence set.
         """
-        A = set([edge1.L, edge1.R])
-        A.update(edge1.D)
-        B = set([edge2.L, edge2.R])
-        B.update(edge2.D)
+        A = set([first.L, first.R])
+        A.update(first.D)
+
+        B = set([second.L, second.R])
+        B.update(second.D)
+
         depend_set = A & B
         left, right = sorted(list(A ^ B))
+
         return left, right, depend_set
 
     def is_adjacent(self, another_edge):
@@ -508,7 +506,7 @@ class Edge(object):
             :param another_edge: edge object of another edge
             :type another_edge: edge object
 
-        This function will return true if the two edges are adjacent
+        This function will return true if the two edges are adjacent.
         """
         return (
             self.L == another_edge.L
@@ -519,18 +517,28 @@ class Edge(object):
 
     @staticmethod
     def sort_edge(edges):
-        """Sort edge object first by left node indices then right.
+        """Sort iterable of edges first by left node indices then right.
 
         Args:
-            :param edges: list of edges need to be sorted
-            :type edges: list
+            edges(list[Edge]): List of edges to be sorted.
+
+        Returns:
+            list[Edge]: Sorted list by left and right node indices.
         """
         return sorted(edges, key=lambda x: (x.L, x.R))
 
     @classmethod
     def get_conditional_uni(cls, left_parent, right_parent):
-        """Identify pair univariate value from parents."""
-        left, right, depend_set = cls._identify_eds_ing(left_parent, right_parent)
+        """Identify pair univariate value from parents.
+
+        Args:
+            left_parent(Edge): left parent
+            right_parent(Edge): right parent
+
+        Returns:
+            tuple[np.ndarray, np.ndarray]: left and right parents univariate.
+        """
+        left, right, _ = cls._identify_eds_ing(left_parent, right_parent)
 
         left_u = left_parent.U[0] if left_parent.L == left else left_parent.U[1]
         right_u = right_parent.U[0] if right_parent.L == right else right_parent.U[1]
@@ -550,7 +558,14 @@ class Edge(object):
         return new_edge
 
     def get_likelihood(self, uni_matrix):
-        """Compute likelihood given a U matrix."""
+        """Compute likelihood given a U matrix.
+
+        Args:
+            uni_matrix(numpy.array): Matrix to compute the likelihood.
+
+        Return:
+            tuple(np.ndarray, np.ndarray, np.array): likelihood and conditional values.
+        """
         if self.parents is None:
             left_u = uni_matrix[:, self.L]
             right_u = uni_matrix[:, self.R]

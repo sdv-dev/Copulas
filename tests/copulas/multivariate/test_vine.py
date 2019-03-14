@@ -54,7 +54,7 @@ class TestVine(TestCase):
 
         # FIX ME: there is some randomness in rvine, will do another test
         rvalue = self.rvine.get_likelihood(uni_matrix)
-        expected = -0.2859820599667698
+        expected = -0.26888124854583245
         assert abs(rvalue - expected) < 10E-3
 
         cvalue = self.cvine.get_likelihood(uni_matrix)
