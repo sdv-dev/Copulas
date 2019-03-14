@@ -4,6 +4,7 @@ import pandas as pd
 COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
 NUMPY_NUMERICAL_DTYPES = set('buifc')
 
+
 def compare_nested_dicts(first, second, epsilon=10E-6):
     """Compares two dictionaries. Raises an assertion error when a difference is found."""
 
