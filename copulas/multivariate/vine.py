@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import optimize
 
-from copulas import EPSILON, get_qualified_name, random_state
+from copulas import EPSILON, check_valid_values, get_qualified_name, random_state
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree
@@ -78,6 +78,7 @@ class VineCopula(Multivariate):
 
         return instance
 
+    @check_valid_values
     def fit(self, X, truncated=3):
         """Fit a vine model to the data.
 
