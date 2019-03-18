@@ -76,7 +76,7 @@ class Clayton(Bivariate):
                     np.power(U[i], -self.theta) + np.power(V[i], -self.theta) - 1,
                     -1.0 / self.theta
                 )
-                if U[i] > 0 else 0
+                if (U[i] > 0 and V[i] > 0) else 0
                 for i in range(len(U))
             ]
 
