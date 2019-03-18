@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from scipy import integrate, stats
 
-from copulas import EPSILON, get_qualified_name, import_object, random_state
+from copulas import EPSILON, check_valid_values, get_qualified_name, import_object, random_state
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -134,11 +134,12 @@ class GaussianMultivariate(Multivariate):
         result = result[(result != np.inf).all(axis=1)]
         return pd.DataFrame(data=result).cov().values
 
+    @check_valid_values
     def fit(self, X):
         """Compute the distribution for each variable and then its covariance matrix.
 
         Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`. Data to model.
+            X(numpy.ndarray or pandas.DataFrame): Data to model.
 
         Returns:
             None

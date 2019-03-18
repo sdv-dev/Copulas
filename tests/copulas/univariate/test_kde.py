@@ -65,13 +65,6 @@ class TestKDEUnivariate(TestCase):
         assert instance.constant_value == 1
         assert instance.fitted is True
 
-    def test_fit_empty_data(self):
-        """If fitting kde model with empty data it will raise ValueError."""
-        self.kde = KDEUnivariate()
-
-        with self.assertRaises(ValueError):
-            self.kde.fit([])
-
     def test_probability_density(self):
         """probability_density evaluates with the model."""
         self.setup_norm()

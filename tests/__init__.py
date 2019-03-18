@@ -1,47 +1,66 @@
 import numpy as np
 import pandas as pd
 
+COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
+NUMPY_NUMERICAL_DTYPES = set('buifc')
+
 
 def compare_nested_dicts(first, second, epsilon=10E-6):
     """Compares two dictionaries. Raises an assertion error when a difference is found."""
 
     assert first.keys() == second.keys()
 
-    for key in first.keys():
-        if isinstance(first[key], dict):
-            compare_nested_dicts(first[key], second[key])
+    for key, _first in first.items():
+        _second = second[key]
+        if isinstance(_first, dict):
+            compare_nested_dicts(_first, _second, epsilon)
 
-        elif isinstance(first[key], np.ndarray):
-            assert (compare_values_epsilon(first[key], second[key])).all()
+        elif isinstance(_first, (list, np.ndarray, tuple)):
+            compare_nested_iterables(_first, _second, epsilon)
 
-        elif isinstance(first[key], pd.DataFrame):
-            assert first[key].equals(second[key])
+        elif isinstance(_first, pd.DataFrame):
+            assert _first.equals(_second)
 
-        elif isinstance(first[key], float):
-            assert compare_values_epsilon(first[key], second[key])
-
-        elif isinstance(first[key], (list, np.ndarray)):
-            compare_nested_iterables(first[key], second[key])
+        elif isinstance(_first, float):
+            message = COMPARE_VALUES_ERROR.format(key, _first, _second)
+            assert compare_values_epsilon(_first, _second, epsilon), message
 
         else:
-            assert first[key] == second[key], "{} doesn't equal {}".format(first[key], second[key])
+            assert _first == _second, "{} doesn't equal {}".format(_first, _second)
 
 
-def compare_values_epsilon(first, second, epsilon=10E-6):
+def compare_values_epsilon(first, second, epsilon=10E-6,):
+    if pd.isnull(first) and pd.isnull(second):
+        return True
+
     return abs(first - second) < epsilon
 
 
 def compare_nested_iterables(first, second, epsilon=10E-6):
 
-    assert len(first) == len(second)
+    assert len(first) == len(second), "Iterables should have the same length to be compared."
 
-    for _first, _second in zip(first, second):
+    for index, (_first, _second) in enumerate(zip(first, second)):
 
-        if isinstance(_first, (list, np.ndarray)):
+        message = COMPARE_VALUES_ERROR.format(index, _first, _second)
+
+        if isinstance(_first, (list, tuple)):
             compare_nested_iterables(_first, _second, epsilon)
 
-        if isinstance(_first, float):
-            assert compare_values_epsilon(_first, _second, epsilon)
+        elif isinstance(_first, np.ndarray):
+            if _first.dtype.kind in NUMPY_NUMERICAL_DTYPES:
+                np.testing.assert_allclose(_first, _second)
+            else:
+                compare_nested_iterables(_first, _second, epsilon)
+
+        elif isinstance(_first, dict):
+            compare_nested_dicts(_first, _second, epsilon)
+
+        elif isinstance(_first, float):
+            assert compare_values_epsilon(_first, _second, epsilon), message
+
+        else:
+            assert _first == _second, message
 
 
 def copula_zero_if_arg_zero(copula, dimensions=2, steps=10, tolerance=1E-05):
