@@ -1,7 +1,9 @@
 import numpy as np
 import scipy.stats
 
-from copulas import NotFittedError, check_valid_values, get_qualified_name, import_object
+from copulas import (
+    NotFittedError, check_valid_values, get_qualified_name, import_object,
+    missing_method_scipy_wrapper)
 
 
 class Univariate(object):
@@ -198,8 +200,8 @@ class Univariate(object):
 class ScipyWrapper(Univariate):
     """Wrapper for scipy.stats.rv_continous subclasses.
 
-    On fit time it will instantiate the given `model_class` name, and delete all of its
-    methods that are not properly mapped to model's methods.
+    On fit time it will instantiate the given `model_class` name, and add a custom error message
+    on all of its methods that are not properly mapped to model's methods.
 
     If a method is not present on the model, but you want to implement it, you need to update
     the `method_map` for that method's to a non-None value and simply override the method.
@@ -214,16 +216,19 @@ class ScipyWrapper(Univariate):
     of `copulas.univariate.kde`.
 
     Attributes:
+        model(scipy.stats.rv_continuous): Actual scipy.stats instance we are wrapping.
         model_class(str): Name of the model to use (Must be found in scipy.stats)
         method_map(dict): Mapping of the local names of methods to the name in the model.
-
+        unfittable_model(bool): Wheter or not if the wrapper method needs data to be created or
+                                only parameters. (Examaples of both behaviors are
+                                :attr:`GaussianKDE` and :attr:`TruncNorm`)
     Args:
         None
     """
 
     model = None
     model_class = None
-    model_fit_init = None
+    unfittable_model = None
     method_map = {
         'probability_density': None,
         'cumulative_distribution': None,
@@ -248,14 +253,15 @@ class ScipyWrapper(Univariate):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            if self.model_fit_init:
+            if self.unfittable_model:
                 self.model = getattr(scipy.stats, self.model_class)(*args, **kwargs)
             else:
-                self.model = getattr(scipy.stats, self.model_class)(X)
+                self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
 
             for name, method_name in self.method_map.items():
                 if method_name is None:
-                    setattr(self, name, None)
+                    method = getattr(self, name)
+                    setattr(self, name, missing_method_scipy_wrapper(method))
 
         else:
             self._replace_constant_methods()

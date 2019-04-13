@@ -137,7 +137,7 @@ class TestScipyWrapper(TestCase):
         # Check
         assert instance.fitted is True
         assert instance.model == model_instance_mock
-        assert instance.sample is None
+        assert callable(instance.sample)
         assert callable(instance.percent_point)
         assert callable(instance.probability_density)
         assert callable(instance.cumulative_distribution)
