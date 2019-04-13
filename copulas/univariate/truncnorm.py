@@ -11,7 +11,7 @@ class TruncNorm(ScipyWrapper):
     """
 
     model_class = 'truncnorm'
-    model_fit_init = True
+    unfittable_model = True
     method_map = {
         'probability_density': 'pdf',
         'cumulative_distribution': 'cdf',

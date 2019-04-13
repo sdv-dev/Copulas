@@ -17,7 +17,7 @@ class TestTruncNorm(TestCase):
 
         # Check
         assert instance.model_class == 'truncnorm'
-        assert instance.model_fit_init is True
+        assert instance.unfittable_model is True
         assert instance.method_map == {
             'probability_density': 'pdf',
             'cumulative_distribution': 'cdf',
