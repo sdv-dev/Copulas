@@ -109,26 +109,6 @@ class TestScipyWrapper(TestCase):
         assert instance.fitted is False
         assert instance.constant_value is None
 
-    def test___init___missing_method_map_keys(self):
-        """On init, if not all expected keys of model a ValueError is raised."""
-        # Setup
-        class ScipyWrapperSubclass(ScipyWrapper):
-            method_map = {}
-
-        # Run / Check
-        with self.assertRaises(ValueError):
-            ScipyWrapperSubclass()
-
-    def test___init___second_valuerror(self):
-        """On init, if model_class hasn't been set to a valid value a ValueError is raised."""
-        # Setup
-        class ScipyWrapperSubclass(ScipyWrapper):
-            model_class = 'wrong_model'
-
-        # Run / Check
-        with self.assertRaises(ValueError):
-            ScipyWrapperSubclass()
-
     @patch('copulas.univariate.base.scipy.stats', autospec=True)
     def test_fit(self, scipy_mock):
         """On fit, a new instance of model is created and available methods are updated."""

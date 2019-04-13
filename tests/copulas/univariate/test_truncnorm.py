@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import scipy
 
+from copulas import EPSILON
 from copulas.univariate.truncnorm import TruncNorm
 
 
@@ -50,7 +51,7 @@ class TestTruncNorm(TestCase):
         assert callable(instance.sample)
 
         scipy_mock.assert_not_called()
-        truncnorm.assert_called_once_with(0, 6)
+        truncnorm.assert_called_once_with(1 - EPSILON, 5 + EPSILON)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""
@@ -97,8 +98,8 @@ class TestTruncNorm(TestCase):
         instance.fit(data)
 
         expected_result = {
-            'a': -1,
-            'b': 5
+            'a': - EPSILON,
+            'b': 4 + EPSILON
         }
 
         # Run

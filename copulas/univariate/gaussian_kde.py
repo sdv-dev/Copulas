@@ -3,7 +3,7 @@ from functools import partial
 import numpy as np
 import scipy
 
-from copulas import scalarize
+from copulas import scalarize, vectorize
 from copulas.univariate.base import ScipyWrapper
 
 
@@ -66,6 +66,7 @@ class GaussianKDE(ScipyWrapper):
 
         return f
 
+    @vectorize
     def percent_point(self, U):
         """Given a cdf value, returns a value in original space.
 
@@ -77,12 +78,7 @@ class GaussianKDE(ScipyWrapper):
         """
         self.check_fit()
 
-        result = []
-        for value in U:
-            value = scipy.optimize.brentq(self._brentq_cdf(value), -1000.0, 1000.0)
-            result.append(value)
-
-        return np.array(result)
+        return scipy.optimize.brentq(self._brentq_cdf(U), -1000.0, 1000.0)
 
     @classmethod
     def from_dict(cls, copula_dict):

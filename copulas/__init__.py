@@ -54,7 +54,7 @@ def get_qualified_name(_object):
 
 
 def vectorize(function):
-    """Allow a methods that only accepts scalars to work with vectors.
+    """Allow a method that only accepts scalars to accept vectors too.
 
     This decorator has two different behaviors depending on the dimensionality of the
     array passed as an argument:
@@ -85,18 +85,19 @@ def vectorize(function):
     It will return a function that is guaranteed to return a `numpy.array`.
 
     Args:
-        function(callable): Function that accepts and returns scalars.
+        function(callable): Function that only accept and return scalars.
 
     Returns:
-        callable: Decorated function that accepts and returns `numpy.array`.
+        callable: Decorated function that can accept and return :attr:`numpy.array`.
+
     """
 
     def decorated(self, X, *args, **kwargs):
+        if not isinstance(X, np.ndarray):
+            return function(self, X, *args, **kwargs)
+
         if len(X.shape) == 1:
-            return np.fromiter(
-                (function(self, x, *args, **kwargs) for x in X),
-                np.dtype('float64')
-            )
+            X = X.reshape([-1, 1])
 
         if len(X.shape) == 2:
             return np.fromiter(
@@ -121,7 +122,16 @@ def scalarize(function):
         callable: Decorated function that accepts and returns scalars.
     """
     def decorated(self, X, *args, **kwargs):
-        return function(self, np.array([X]), *args, **kwargs)[0]
+        scalar = not isinstance(X, np.ndarray)
+
+        if scalar:
+            X = np.array([X])
+
+        result = function(self, X, *args, **kwargs)
+        if scalar:
+            result = result[0]
+
+        return result
 
     decorated.__doc__ = function.__doc__
     return decorated

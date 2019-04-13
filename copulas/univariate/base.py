@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.stats
 
-from copulas import NotFittedError, get_qualified_name, import_object
+from copulas import NotFittedError, check_valid_values, get_qualified_name, import_object
 
 
 class Univariate(object):
@@ -213,7 +213,7 @@ class ScipyWrapper(Univariate):
     For a working example of how to implement subclasses of `ScipyWraper`, please check the source
     of `copulas.univariate.kde`.
 
-    Class Attributes:
+    Attributes:
         model_class(str): Name of the model to use (Must be found in scipy.stats)
         method_map(dict): Mapping of the local names of methods to the name in the model.
 
@@ -221,6 +221,7 @@ class ScipyWrapper(Univariate):
         None
     """
 
+    model = None
     model_class = None
     model_fit_init = None
     method_map = {
@@ -232,15 +233,8 @@ class ScipyWrapper(Univariate):
 
     def __init__(self):
         super(ScipyWrapper, self).__init__()
-        self.model = None
 
-        if not set(ScipyWrapper.method_map.keys()).issubset(set(self.method_map.keys())):
-            raise ValueError(
-                'This class hasn\'t been subclasses properly and some methods may crash')
-
-        if not hasattr(scipy.stats, self.model_class):
-            raise ValueError('The given `model_class` {} couldn\'t be found on scipy.stats')
-
+    @check_valid_values
     def fit(self, X, *args, **kwargs):
         """Fit scipy model to an array of values.
 

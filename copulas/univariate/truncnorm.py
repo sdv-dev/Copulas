@@ -1,5 +1,6 @@
 import scipy
 
+from copulas import EPSILON
 from copulas.univariate.base import ScipyWrapper
 
 
@@ -20,8 +21,8 @@ class TruncNorm(ScipyWrapper):
 
     def fit(self, X):
         """Prepare necessary params and call super().fit."""
-        min_ = X.min() - 1
-        max_ = X.max() + 1
+        min_ = X.min() - EPSILON
+        max_ = X.max() + EPSILON
         self.mean = X.mean()
         self.std = X.std()
 

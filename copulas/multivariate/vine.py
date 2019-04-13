@@ -155,7 +155,7 @@ class VineCopula(Multivariate):
             current = explore.pop(0)
             neighbors = np.where(adj[current, :] == 1)[0].tolist()
             if itr == 0:
-                new_x = self.ppfs[current]([unis[current]])
+                new_x = self.ppfs[current](unis[current])
 
             else:
                 for i in range(itr - 1, -1, -1):
@@ -205,7 +205,7 @@ class VineCopula(Multivariate):
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 
-                new_x = self.ppfs[current]([tmp])
+                new_x = self.ppfs[current](tmp)
 
             sampled[current] = new_x
 
