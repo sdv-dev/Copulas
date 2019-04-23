@@ -55,10 +55,20 @@ class Independence(Bivariate):
     def partial_derivative(self, X):
         """Computes the conditional probability of one event conditiones to the other.
 
-        In the case of the independence copulas, due to C(u,v) = u*v, wre have that
-        C(u/v) = dC/du = v.
+        In the case of the independence copulas, due to C(u,v) = u*v, we have that
+        F(u|v) = dC/du = v.
 
         Args:
             X()
         """
         return X
+
+    def percent_point(self, y, V):
+        """Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`
+
+        Args:
+            y: `np.ndarray` value of :math:`F(u|v)`.
+            v: `np.ndarray` given value of v.
+        """
+        self.check_fit()
+        return V
