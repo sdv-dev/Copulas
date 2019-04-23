@@ -12,12 +12,10 @@ class TruncNorm(ScipyWrapper):
 
     model_class = 'truncnorm'
     unfittable_model = True
-    method_map = {
-        'probability_density': 'pdf',
-        'cumulative_distribution': 'cdf',
-        'percent_point': 'ppf',
-        'sample': 'rvs'
-    }
+    probability_density = 'pdf'
+    cumulative_distribution = 'cdf'
+    percent_point = 'ppf'
+    sample = 'rvs'
 
     def fit(self, X):
         """Prepare necessary params and call super().fit."""
@@ -27,9 +25,6 @@ class TruncNorm(ScipyWrapper):
         self.std = X.std()
 
         super().fit(X, min_, max_)
-
-    def cumulative_distribution(self, X):
-        return super().cumulative_distribution(X, self.mean, self.std)
 
     @classmethod
     def from_dict(cls, parameters):

@@ -14,12 +14,8 @@ class GaussianKDE(ScipyWrapper):
     """
 
     model_class = 'gaussian_kde'
-    method_map = {
-        'probability_density': 'evaluate',
-        'cumulative_distribution': True,
-        'percent_point': True,
-        'sample': 'resample'
-    }
+    probability_density = 'evaluate'
+    sample = 'resample'
 
     def cumulative_distribution(self, X):
         """Computes the integral of a 1-D pdf between two bounds

@@ -198,30 +198,55 @@ class Univariate(object):
 
 
 class ScipyWrapper(Univariate):
-    """Wrapper for scipy.stats.rv_continous subclasses.
+    """Wrapper for :attr:`scipy.stats.rv_continous` subclasses.
 
-    On fit time it will instantiate the given `model_class` name, and add a custom error message
-    on all of its methods that are not properly mapped to model's methods.
+    This class is intended to be used to integrate random variables from :attr:`scipy.stats`
+    into copulas. It contain 5 attributes that control its behavior:
 
-    If a method is not present on the model, but you want to implement it, you need to update
-    the `method_map` for that method's to a non-None value and simply override the method.
+    - :attr:`model_class`: Name of the class to integrate, it must be in the :attr:`scipy.stats`
+      module.
+    - :attr:`probability_density`, :attr:`cumulative_distribution`, :attr:`percent_point`,
+      :attr:`sample` : This attributes contain the information about how to map the methods in the
+      model.
 
-    You can subclass `ScipyWrapper` by:
+      * If it's of type :attr:`str` it will interpreted as the name of the corresponding method in
+        model.
+
+      * If it's :attr:`None` it will be interpreted as the method doesn't exist in the model and
+        is not implemented and a error message will be displayed.
+
+      * If it's not present it will be interpreted as the method doesn't exist in the model but
+        has been implemented in the integration.
+
+    On fit time it will instantiate the given :attr:`model_class` name, and map its methods to the
+    class, following the values in the attributes for the corresponding method.
+
+    You can subclass :attr:`ScipyWrapper` by:
+
     1. On a file named after your distribution, create a new subclass.
-    2. Set the `model_class` and `method_map` with the desired values for your model.
-    3. Implement the `from_dict` and `_fit_params` methods.
-    4. Implement any custom method not found in `model_class`.
 
-    For a working example of how to implement subclasses of `ScipyWraper`, please check the source
-    of `copulas.univariate.kde`.
+    2. Set the :attr:`model_class` with the name of the distribution you want to integrate.
+
+    3. Map the methods of your model.
+
+    4. Implement the :attr:`from_dict` and :attr:`_fit_params` methods.
+
+    5. Implement any custom method not mapped.
+
+    For a working example of how to implement subclasses of :attr:`ScipyWraper`, please check the
+    source of :attr:`copulas.univariate.kde`.
 
     Attributes:
         model(scipy.stats.rv_continuous): Actual scipy.stats instance we are wrapping.
         model_class(str): Name of the model to use (Must be found in scipy.stats)
-        method_map(dict): Mapping of the local names of methods to the name in the model.
-        unfittable_model(bool): Wheter or not if the wrapper method needs data to be created or
-                                only parameters. (Examaples of both behaviors are
-                                :attr:`GaussianKDE` and :attr:`TruncNorm`)
+        probability_density(str): Name of the method of model to map to :attr:`probability_density`
+        percent_point(str): Name of the method of model to map to :attr:`percent_point`
+        sample(str): Name of the method of model to map to :attr:`sample`
+        cumulative_distribution(str):
+            Name of the method of model to map to :attr:`cumulative_distribution`
+        unfittable_model(bool):
+            Wheter or not if the wrapper method needs data to be created or only parameters.
+            (Examaples of both behaviors are :attr:`GaussianKDE` and :attr:`TruncNorm`)
     Args:
         None
     """
@@ -229,12 +254,10 @@ class ScipyWrapper(Univariate):
     model = None
     model_class = None
     unfittable_model = None
-    method_map = {
-        'probability_density': None,
-        'cumulative_distribution': None,
-        'percent_point': None,
-        'sample': None
-    }
+    probability_density = None
+    cumulative_distribution = None
+    percent_point = None
+    sample = None
 
     def __init__(self):
         super(ScipyWrapper, self).__init__()
@@ -258,67 +281,21 @@ class ScipyWrapper(Univariate):
             else:
                 self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
 
-            for name, method_name in self.method_map.items():
-                if method_name is None:
-                    method = getattr(self, name)
-                    setattr(self, name, missing_method_scipy_wrapper(method))
+            method_names = [
+                'sample', 'probability_density', 'cumulative_distribution', 'percent_point']
+
+            for name in method_names:
+                attribute = getattr(self.__class__, name)
+                if isinstance(attribute, str):
+                    setattr(self, name, getattr(self.model, attribute))
+
+                elif attribute is None:
+                    setattr(self, name, missing_method_scipy_wrapper(lambda x: x))
 
         else:
             self._replace_constant_methods()
 
         self.fitted = True
-
-    def probability_density(self, X, *args, **kwargs):
-        """Evaluate the estimated pdf on a point.
-
-        Args:
-            X(numpy.array): Points to evaluate its pdf.
-
-        Returns:
-            numpy.array: Value of estimated pdf for given points.
-        """
-        self.check_fit()
-
-        return getattr(self.model, self.method_map['probability_density'])(X, *args, **kwargs)
-
-    def cumulative_distribution(self, X, *args, **kwargs):
-        """Computes the integral of a 1-D pdf between two bounds
-
-        Args:
-            X(numpy.array): Shaped (1, n), containing the datapoints.
-
-        Returns:
-            numpy.array: estimated cumulative distribution.
-        """
-        self.check_fit()
-
-        return getattr(self.model, self.method_map['cumulative_distribution'])(X, *args, **kwargs)
-
-    def percent_point(self, U, *args, **kwargs):
-        """Given a cdf value, returns a value in original space.
-
-        Args:
-            U(numpy.array): cdf values in [0,1]
-
-        Returns:
-            numpy.array: value in original space
-        """
-        self.check_fit()
-
-        return getattr(self.model, self.method_map['percent_point'])(U, *args, **kwargs)
-
-    def sample(self, num_samples=1, *args, **kwargs):
-        """Samples new data point based on model.
-
-        Args:
-            num_samples(int): number of points to be sampled
-
-        Returns:
-            samples: a list of datapoints sampled from the model
-        """
-        self.check_fit()
-
-        return getattr(self.model, self.method_map['sample'])(num_samples, *args, **kwargs)
 
     @classmethod
     def from_dict(cls, parameters):

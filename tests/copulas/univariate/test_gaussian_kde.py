@@ -39,15 +39,18 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         X = np.array([1, 2, 3, 4, 5])
 
-        kde_mock.return_value = 'mock model'
+        kde_instance = MagicMock(evaluate='pdf', resample='sample')
+        kde_mock.return_value = kde_instance
 
         # Run
         instance.fit(X)
 
         # Check
-        assert instance.model == 'mock model'
+        assert instance.model == kde_instance
         assert instance.fitted is True
         assert instance.constant_value is None
+        assert instance.sample == 'sample'
+        assert instance.probability_density == 'pdf'
 
         kde_mock.assert_called_once_with(X)
 

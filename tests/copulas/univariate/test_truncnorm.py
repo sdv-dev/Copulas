@@ -2,7 +2,6 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-import scipy
 
 from copulas import EPSILON
 from copulas.univariate.truncnorm import TruncNorm
@@ -18,40 +17,40 @@ class TestTruncNorm(TestCase):
         # Check
         assert instance.model_class == 'truncnorm'
         assert instance.unfittable_model is True
-        assert instance.method_map == {
-            'probability_density': 'pdf',
-            'cumulative_distribution': 'cdf',
-            'percent_point': 'ppf',
-            'sample': 'rvs'
-        }
+        assert instance.probability_density == 'pdf'
+        assert instance.cumulative_distribution == 'cdf'
+        assert instance.percent_point == 'ppf'
+        assert instance.sample == 'rvs'
         assert instance.model is None
         assert instance.fitted is False
         assert instance.constant_value is None
 
-    @patch('copulas.univariate.base.scipy.stats', autospec=True)
-    def test_fit(self, scipy_mock):
+    @patch('copulas.univariate.base.scipy.stats.truncnorm', autospec=True)
+    def test_fit(self, truncnorm_mock):
         """On fit, the attribute model is set with an instance of scipy.stats.truncnorm."""
         # Setup
         instance = TruncNorm()
         data = np.array([1, 2, 3, 4, 5])
 
-        truncnorm = MagicMock(spec=scipy.stats.truncnorm)
-        truncnorm.return_value = 'a truncnorm model'
-        scipy_mock.truncnorm = truncnorm
+        model_mock = MagicMock(
+            ppf='percent_point',
+            rvs='sample',
+            pdf='probability_density',
+            cdf='cumulative_distribution'
+        )
+        truncnorm_mock.return_value = model_mock
 
         # Run
         instance.fit(data)
 
         # Check
-        assert instance.model == 'a truncnorm model'
+        assert instance.model == model_mock
+        assert instance.probability_density == 'probability_density'
+        assert instance.percent_point == 'percent_point'
+        assert instance.cumulative_distribution == 'cumulative_distribution'
+        assert instance.sample == 'sample'
 
-        assert callable(instance.probability_density)
-        assert callable(instance.cumulative_distribution)
-        assert callable(instance.percent_point)
-        assert callable(instance.sample)
-
-        scipy_mock.assert_not_called()
-        truncnorm.assert_called_once_with(1 - EPSILON, 5 + EPSILON)
+        truncnorm_mock.assert_called_once_with(1 - EPSILON, 5 + EPSILON)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""

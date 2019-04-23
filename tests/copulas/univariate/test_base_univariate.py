@@ -115,12 +115,10 @@ class TestScipyWrapper(TestCase):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
             model_class = 'mock_model'
-            method_map = {
-                'probability_density': 'pdf',
-                'cumulative_distribution': 'cdf',
-                'percent_point': 'ppf',
-                'sample': None
-            }
+            probability_density = 'pdf'
+            cumulative_distribution = 'cdf'
+            percent_point = 'ppf'
+            sample = None
 
         # We have declared sample as None on method_map so it won't be on our fitted instance.
         model_instance_mock = MagicMock(spec=['pdf', 'cdf', 'ppf'])
@@ -152,12 +150,10 @@ class TestScipyWrapper(TestCase):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
             model_class = 'mock_model'
-            method_map = {
-                'probability_density': 'pdf',
-                'cumulative_distribution': None,
-                'percent_point': None,
-                'sample': None
-            }
+            probability_density = 'pdf'
+            cumulative_distribution = None
+            percent_point = None
+            sample = None
 
         model_instance_mock = MagicMock(spec=['pdf'])
         model_instance_mock.pdf.return_value = 'pdf value'
@@ -189,12 +185,10 @@ class TestScipyWrapper(TestCase):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
             model_class = 'mock_model'
-            method_map = {
-                'probability_density': None,
-                'cumulative_distribution': 'cdf',
-                'percent_point': None,
-                'sample': None
-            }
+            probability_density = None
+            cumulative_distribution = 'cdf'
+            percent_point = None
+            sample = None
 
         model_instance_mock = MagicMock(spec=['cdf'])
         model_instance_mock.cdf.return_value = 'cdf value'
@@ -226,12 +220,10 @@ class TestScipyWrapper(TestCase):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
             model_class = 'mock_model'
-            method_map = {
-                'probability_density': None,
-                'cumulative_distribution': None,
-                'percent_point': 'ppf',
-                'sample': None
-            }
+            probability_density = None
+            cumulative_distribution = None
+            percent_point = 'ppf'
+            sample = None
 
         model_instance_mock = MagicMock(spec=['ppf'])
         model_instance_mock.ppf.return_value = 'ppf value'
@@ -263,12 +255,10 @@ class TestScipyWrapper(TestCase):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
             model_class = 'mock_model'
-            method_map = {
-                'probability_density': None,
-                'cumulative_distribution': None,
-                'percent_point': None,
-                'sample': 'sample'
-            }
+            probability_density = None
+            cumulative_distribution = None
+            percent_point = None
+            sample = 'sample'
 
         model_instance_mock = MagicMock(spec=['sample'])
         model_instance_mock.sample.return_value = 'samples'
