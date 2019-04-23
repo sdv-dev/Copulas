@@ -258,6 +258,7 @@ class ScipyWrapper(Univariate):
     cumulative_distribution = None
     percent_point = None
     sample = None
+    METHOD_NAMES = ('sample', 'probability_density', 'cumulative_distribution', 'percent_point')
 
     def __init__(self):
         super(ScipyWrapper, self).__init__()
@@ -281,10 +282,7 @@ class ScipyWrapper(Univariate):
             else:
                 self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
 
-            method_names = [
-                'sample', 'probability_density', 'cumulative_distribution', 'percent_point']
-
-            for name in method_names:
+            for name in self.METHOD_NAMES:
                 attribute = getattr(self.__class__, name)
                 if isinstance(attribute, str):
                     setattr(self, name, getattr(self.model, attribute))
