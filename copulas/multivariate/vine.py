@@ -8,7 +8,7 @@ from copulas import EPSILON, check_valid_values, get_qualified_name, random_stat
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree
-from copulas.univariate.kde import KDEUnivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
 
 LOGGER = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class VineCopula(Multivariate):
         self.vine_type = vine_type
         self.u_matrix = None
 
-        self.model = KDEUnivariate
+        self.model = GaussianKDE
 
     @classmethod
     def _deserialize_trees(cls, tree_list):
@@ -72,7 +72,7 @@ class VineCopula(Multivariate):
             instance.truncated = vine_dict['truncated']
             instance.depth = vine_dict['depth']
             instance.trees = cls._deserialize_trees(vine_dict['trees'])
-            instance.unis = [KDEUnivariate.from_dict(uni) for uni in vine_dict['unis']]
+            instance.unis = [GaussianKDE.from_dict(uni) for uni in vine_dict['unis']]
             instance.tau_mat = np.array(vine_dict['tau_mat'])
             instance.u_matrix = np.array(vine_dict['u_matrix'])
 
@@ -99,7 +99,7 @@ class VineCopula(Multivariate):
         for i, col in enumerate(X):
             uni = self.model()
             uni.fit(X[col])
-            self.u_matrix[:, i] = [uni.cumulative_distribution(x) for x in X[col]]
+            self.u_matrix[:, i] = uni.cumulative_distribution(X[col])
             self.unis.append(uni)
             self.ppfs.append(uni.percent_point)
 
