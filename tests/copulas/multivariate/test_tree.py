@@ -7,7 +7,7 @@ import pandas as pd
 from copulas import EPSILON
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes
-from copulas.univariate.kde import KDEUnivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
 from tests import compare_nested_dicts, compare_nested_iterables, compare_values_epsilon
 
 
@@ -43,9 +43,9 @@ class TestTree(TestCase):
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
-            distribution = KDEUnivariate()
+            distribution = GaussianKDE()
             distribution.fit(X[column])
-            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+            univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
         instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
         expected_result = {
@@ -144,9 +144,9 @@ class TestTree(TestCase):
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
-            distribution = KDEUnivariate()
+            distribution = GaussianKDE()
             distribution.fit(X[column])
-            univariates_matrix[:, i] = [distribution.cumulative_distribution(x) for x in X[column]]
+            univariates_matrix[:, i] = distribution.cumulative_distribution(X[column])
 
         instance.fit(index, n_nodes, tau_matrix, univariates_matrix)
 
@@ -261,9 +261,9 @@ class TestCenterTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.CENTER)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
@@ -305,9 +305,9 @@ class TestCenterTree(TestCase):
         u_matrix = np.empty(data.shape)
 
         for index, col in enumerate(data):
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(data[col])
-            u_matrix[:, index] = [uni.cumulative_distribution(x) for x in data[col]]
+            u_matrix[:, index] = uni.cumulative_distribution(data[col])
 
         first_tree = Tree(TreeTypes.CENTER)
         first_tree.fit(0, 4, tau_mat, u_matrix)
@@ -334,9 +334,9 @@ class TestRegularTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.REGULAR)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
@@ -400,9 +400,9 @@ class TestDirectTree(TestCase):
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
-            uni = KDEUnivariate()
+            uni = GaussianKDE()
             uni.fit(self.data[col])
-            self.u_matrix[:, count] = [uni.cumulative_distribution(x) for x in self.data[col]]
+            self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
         self.tree = Tree(TreeTypes.DIRECT)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
