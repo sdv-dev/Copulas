@@ -89,6 +89,10 @@ lint: ## check style with flake8 and isort
 	flake8 copulas tests examples
 	isort -c --recursive copulas tests examples
 
+lint-docs: ## check docs formatting with doc8 and pydocstyle
+	doc8 . docs/
+	pydocstyle copulas/
+
 .PHONY: fix-lint
 fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 	find copulas -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
