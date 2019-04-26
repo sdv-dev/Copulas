@@ -7,49 +7,78 @@
 [![][pypi-img]][pypi-url]
 [![][travis-img]][travis-url]
 
-# Copulas
-
 [travis-img]: https://travis-ci.org/DAI-Lab/Copulas.svg?branch=master
 [travis-url]: https://travis-ci.org/DAI-Lab/Copulas
 [pypi-img]: https://img.shields.io/pypi/v/copulas.svg
 [pypi-url]: https://pypi.python.org/pypi/copulas
 
-## Overview
+# Copulas
 
-A python library for building different types of [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
+A python library for building multivariate distributuions with [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
 
 - Free software: MIT license
 - Documentation: https://DAI-Lab.github.io/Copulas
 
+
+# Overview
+
+This repository contains multiple implementations of bivariate and multivariate copulas, 
+
+* Most usual statistical functions from the underlying distribution.
+* Built-in inverse-transform sampling method.
+* Easy save and load of fitted copulas.
+* Create copulas directly from their parameters.
+
+## Data Format
+
+
+This package works under the assumption that the data is perfectly clean, that means that:
+
+- Has no missing or invalid values.
+- Has columns of types `int` or `float`.
+
+
+## Concepts
+
+### Distribution
+
+### Types of distributions
+
+### Multivariate distributions
+
+### Copulas
+
+Copu
+
 ## Supported Copulas
 
-### Bivariate
+### Bivariate copulas
 
-- Clayton
-- Frank
-- Gumbel
-
-Accesible from `copulas.bivariate.copulas.Copula`
+* Clayton
+* Frank
+* Gumbel
+* Independence
 
 ### Multivariate
-- Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
 
-Accesible from `copulas.multivariate.models.CopulaModel`
+* Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
+* Vines
 
+
+
+
+
+# Getting started
 
 ## Installation
 
-### Install with pip
-
-The easiest way to install Copulas is using `pip`
+The simplest and recommended way to install **Copulas** is using `pip`
 
 ```
 pip install copulas
 ```
 
-### Install from sources
-
-You can also clone the repository and install it from sources
+For development, you can also clone the repository and install it from sources
 
 ```
 git clone git@github.com:DAI-Lab/Copulas.git
@@ -57,63 +86,28 @@ cd Copulas
 python setup.py install
 ```
 
-## Data Requirements
-
-This package works under the assumption that the data is perfectly clean, that means that:
-
-- There are no missing values.
-- All values are numerical
-
 ## Usage
 
-In this library you can model univariate distributions and create copulas from a numeric dataset.
-For this example, we will use the iris dataset in the data folder.
+Below there is a short example about how to use Copulas to create a gaussian copula, fit it using
+demo data and use it to generate samples.
 
-### Creating Univariate Distribution
+For advance usage and more detailed explanation about each component, please have a look at the
+documentation.
 
-First we will retrieve the data from the data folder and create a univariate distribution.
-For this example, we will create a normal distribution. First type the following commands on
-a python terminal.
+### Creating a gaussian copula
 
-```python
->>> from copulas.univariate.gaussian import GaussianUnivariate
->>> import pandas as pd
->>> data = pd.read_csv('data/iris.data.csv')
->>> data.head()
-   feature_01  feature_02  feature_03  feature_04
-0         5.1         3.5         1.4         0.2
-1         4.9         3.0         1.4         0.2
-2         4.7         3.2         1.3         0.2
-3         4.6         3.1         1.5         0.2
-4         5.0         3.6         1.4         0.2
-```
-
-Once we have the data, we can pass it into the GaussianUnivariate class.
+To create a gaussian copula in Copula you only need to call the GaussianMultivariate class.
+This will create a new instance with the default parameters.
 
 ```python
->>> feature1 = data['feature_01']
->>> gu = GaussianUnivariate()
->>> gu.fit(feature1)
->>> print(gu)
-Distribution Type: Gaussian
-Variable name: feature_01
-Mean: 5.843333333333334
-Standard deviation: 0.8253012917851409
+>>> from copulas.multivariate import GaussianMultivariate
+>>> gm = GaussianMultivariate()
 ```
 
-Once you fit the distribution, you can get the pdf or cdf of data points and you can sample
-from the distribution.
 
-```python
->>> gu.probability_density(5)
-0.2867858505472377
->>> gu.cumulative_distribution(5)
-0.15342617720079227
->>> gu.sample(1)
-array([6.14745446])
-```
 
-### Creating a Gaussian Copula
+
+
 
 When you have a numeric data table, you can also create a copula and use it to sample from
 the multivariate distribution. In this example, we will use a Gaussian Copula.
@@ -121,6 +115,12 @@ the multivariate distribution. In this example, we will use a Gaussian Copula.
 ```python
 >>> from copulas.multivariate.gaussian import GaussianMultivariate
 >>> gc = GaussianMultivariate()
+```
+
+At this point our gaussian copula has no parameters, so 
+
+
+```
 >>> gc.fit(data)
 >>> print(gc)
 feature_01
