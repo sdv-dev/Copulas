@@ -3,7 +3,6 @@
 <i>An open source project from Data to AI Lab at MIT.</i>
 </p>
 
-
 [![][pypi-img]][pypi-url]
 [![][travis-img]][travis-url]
 
@@ -16,9 +15,8 @@
 
 A python library for building multivariate distributuions with [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
 
-- Free software: MIT license
-- Documentation: https://DAI-Lab.github.io/Copulas
-
+* Free software: MIT license
+* Documentation: [https://DAI-Lab.github.io/Copulas](https://DAI-Lab.github.io/Copulas)
 
 # Overview
 
@@ -31,22 +29,45 @@ This repository contains multiple implementations of bivariate and multivariate 
 
 ## Data Format
 
-
 This package works under the assumption that the data is perfectly clean, that means that:
 
-- Has no missing or invalid values.
-- Has columns of types `int` or `float`.
-
+* Has no missing or invalid values.
+* Has columns of types `int` or `float`.
 
 ## Concepts
 
+### Probability
+
+We call **probability** to the measure assigned to the change of an event happe
+
 ### Distribution
+
+A **distribution** is a mathematical object that describes the behavior of a random phenomenon,
+like rolling a dice, and the probability of events related to them.
+
+Usually a distribution is presented as a function f: ℝ -> [0, 1], called the **cumulative distribution function**
+ or **cdf**, that has the following properties:
+
+* Is strictly **non-decreasing**
+* Is **right-continous**
+* It's negative infinite limit exists and is 0.
+* It's positive infinite limit exists and is 1.
+
+Below we can see the cdf of the distribution of rolling a standard, 6 sided, dice:
+
+![](docs/images/dice_cdf.png)
+
+We can see as the cumulative probability raises by steps of 1/6 at each integer between 1 and 6,
+as those are the only values that can appear 
 
 ### Types of distributions
 
+There are as many different distributions as different random phenomenon, 
+
+
 ### Multivariate distributions
 
-### Copulas
+### Copulas 
 
 Copu
 
@@ -63,10 +84,6 @@ Copu
 
 * Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
 * Vines
-
-
-
-
 
 # Getting started
 
@@ -94,6 +111,8 @@ demo data and use it to generate samples.
 For advance usage and more detailed explanation about each component, please have a look at the
 documentation.
 
+**NOTE:** To be able to run this demo you will need to install the package from its sources.
+
 ### Creating a gaussian copula
 
 To create a gaussian copula in Copula you only need to call the GaussianMultivariate class.
@@ -104,9 +123,20 @@ This will create a new instance with the default parameters.
 >>> gm = GaussianMultivariate()
 ```
 
+Now we will load a demo dataset and use it to fit our copula
 
+```python
+>>> import pandas as pd
+>>> data = pd.read_csv('data/iris.data.csv')
+>>> gc.fit(data)
+```
 
+Now we are ready to use the copula, let's start by sampling some data:
 
+```python
+samples = gm.sample(1000)
+
+```
 
 
 When you have a numeric data table, you can also create a copula and use it to sample from
