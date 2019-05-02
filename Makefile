@@ -131,7 +131,6 @@ coverage: ## check code coverage quickly with the default Python
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	sphinx-apidoc --module-first --separate -T -o docs/api/ copulas
 	$(MAKE) -C docs html
-	touch docs/_build/html/.nojekyll
 
 .PHONY: view-docs
 view-docs: docs ## view docs in browser
@@ -160,7 +159,7 @@ publish: dist ## package and upload a release
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Merge master to stable and bumpversion release
-	git checkout stable
+	git checkout stable || git checkout -b stable
 	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
 	bumpversion release
 	git push --tags origin stable
@@ -180,8 +179,8 @@ bumpversion-minor: ## Bump the version the next minor skipping the release
 bumpversion-major: ## Bump the version the next major skipping the release
 	bumpversion --no-tag major
 
-CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-CHANGELOG_LINES := $(shell git diff HEAD..stable HISTORY.md | wc -l)
+CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
+￼CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-release
 check-release: ## Check if the release can be made

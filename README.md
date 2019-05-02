@@ -1,19 +1,14 @@
 <p align="left">
-<img width=15% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“Copulas” />
+<img width=20% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“Copulas” />
 <i>An open source project from Data to AI Lab at MIT.</i>
 </p>
 
-[![][pypi-img]][pypi-url]
-[![][travis-img]][travis-url]
-
-[travis-img]: https://travis-ci.org/DAI-Lab/Copulas.svg?branch=master
-[travis-url]: https://travis-ci.org/DAI-Lab/Copulas
-[pypi-img]: https://img.shields.io/pypi/v/copulas.svg
-[pypi-url]: https://pypi.python.org/pypi/copulas
+[![PyPi Shield](https://img.shields.io/pypi/v/copulas.svg)](https://pypi.python.org/pypi/copulas)
+[![Travis CI Shield](https://travis-ci.org/DAI-Lab/Copulas.svg?branch=master)](https://travis-ci.org/DAI-Lab/Copulas)
 
 # Copulas
 
-A python library for building multivariate distributuions with [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
+A python library for building multivariate distributuions with [copulas](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29) and using them for sampling.
 
 * Free software: MIT license
 * Documentation: https://DAI-Lab.github.io/Copulas
@@ -67,7 +62,7 @@ This repository contains multiple implementations of bivariate and multivariate 
 
 ### Multivariate
 
-* Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
+* Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29#Gaussian_copula)
 * Vines
 
 # Data Format
@@ -132,7 +127,7 @@ Usually a distribution is presented as a function F: ℝ -> [0, 1], called the *
 
 Below we can see the cdf of the distribution of rolling a standard, 6 sided, dice:
 
-![](docs/images/dice_cdf.png)
+<img src="https://github.com/DAI-Lab/Copulas/raw/improve_documentation/docs/images/dice_cdf.png" alt="CDF function of a dice"/>
 
 We can see as the cumulative probability raises by steps of 1/6 at each integer between 1 and 6,
 as those are the only values that can appear.
@@ -252,7 +247,7 @@ feature_03  3.379794  5.181586  2.552305
 feature_04  1.345214  2.101377  1.001049
 ```
 
-## 6. Extract parameters and reconstruct instance from parameters
+## 6. Extract and set parameters
 
 In some cases it's more useful to obtain the parameters from a fitted copula than to save and load from disk.
 

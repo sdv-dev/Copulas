@@ -1,14 +1,17 @@
-Welcome to Copulas!
-===================
+.. include:: readme.rst
 
 .. toctree::
+   :hidden:
    :maxdepth: 2
-   :caption: Contents:
 
-   installation
-   usage
-   contributing
+   Overview <readme>
+
+.. toctree::
+   :caption: Resources
+   :hidden:
+
    API Reference <api/copulas>
+   contributing
    authors
    history
 
