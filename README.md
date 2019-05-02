@@ -38,20 +38,35 @@ This package works under the assumption that the data is perfectly clean, that m
 
 ### Probability
 
-We call **probability** to the measure assigned to the change of an event happe
+We call **probability** to the measure assigned to the chance of an event happening. For example, in a dice, there are 6 sides, each with the same chance of being on top.
+
+If we consider `0` to be **impossible** and `1` **absolute certain**, we can explain its probability like this:
+```
+ ·   -> 1/6
+ :   -> 1/6
+ :·  -> 1/6
+ ::  -> 1/6
+ :·: -> 1/6
+ ::: -> 1/6
+```
+
+### Random variable
+
+We call ` X = {1, 2, 3, 4, 5, 6}` a **random variable** and it contains the different values of the events,in our case the 6 sided dice. For each value in our random variable we have a value assigned, the **probability** of such event happening.
+
+A random variable is a function from the event space to the 
 
 ### Distribution
 
-A **distribution** is a mathematical object that describes the behavior of a random phenomenon,
+A **distribution** is a function that describes the behavior of a **random variable**,
 like rolling a dice, and the probability of events related to them.
 
-Usually a distribution is presented as a function f: ℝ -> [0, 1], called the **cumulative distribution function**
- or **cdf**, that has the following properties:
+Usually a distribution is presented as a function F: ℝ -> [0, 1], called the **cumulative distribution function** or **cdf**, that has the following properties:
 
 * Is strictly **non-decreasing**
 * Is **right-continous**
-* It's negative infinite limit exists and is 0.
-* It's positive infinite limit exists and is 1.
+* It's limit to negative infinity exists and is 0.
+* It's limit to positive infinite exists and is 1.
 
 Below we can see the cdf of the distribution of rolling a standard, 6 sided, dice:
 
@@ -62,7 +77,13 @@ as those are the only values that can appear
 
 ### Types of distributions
 
-There are as many different distributions as different random phenomenon, 
+There are as many different distributions as different random phenomenon, but usually we classify them in different types according to the scope
+
+Discrete and continous
+
+Univariate, bivariate, Multivariate
+
+Families
 
 
 ### Multivariate distributions
