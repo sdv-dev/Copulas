@@ -18,6 +18,7 @@ class CopulaTypes(Enum):
     CLAYTON = 0
     FRANK = 1
     GUMBEL = 2
+    INDEPENDENCE = 3
 
 
 class Bivariate(object):
