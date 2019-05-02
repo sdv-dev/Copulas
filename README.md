@@ -16,7 +16,36 @@
 A python library for building multivariate distributuions with [copulas](https://en.wikipedia.org/wiki/Copula_(probability_theory)) and using them for sampling.
 
 * Free software: MIT license
-* Documentation: [https://DAI-Lab.github.io/Copulas](https://DAI-Lab.github.io/Copulas)
+* Documentation: https://DAI-Lab.github.io/Copulas
+* Homepage: https://github.com/DAI-Lab/Copulas
+
+# Requirements
+
+## Python
+
+**Copulas** has been developed and runs on Python [3.5](https://www.python.org/downloads/release/python-356/),
+[3.6](https://www.python.org/downloads/release/python-360/) and
+[3.7](https://www.python.org/downloads/release/python-370/).
+
+Also, although it is not strictly required, the usage of a [virtualenv](https://virtualenv.pypa.io/en/latest/)
+is highly recommended in order to avoid interfering with other software installed in the system where **Copulas**
+is run.
+
+# Installation
+
+The simplest and recommended way to install **Copulas** is using `pip`
+
+```
+pip install copulas
+```
+
+For development, you can also clone the repository and install it from sources
+
+```
+git clone git@github.com:DAI-Lab/Copulas.git
+cd Copulas
+python setup.py install
+```
 
 # Overview
 
@@ -27,12 +56,32 @@ This repository contains multiple implementations of bivariate and multivariate 
 * Easy save and load of fitted copulas.
 * Create copulas directly from their parameters.
 
-## Data Format
+## Supported Copulas
+
+### Bivariate copulas
+
+* Clayton
+* Frank
+* Gumbel
+* Independence
+
+### Multivariate
+
+* Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
+* Vines
+
+# Data Format
+
+## Input format
 
 This package works under the assumption that the data is perfectly clean, that means that:
 
 * Has no missing or invalid values.
 * Has columns of types `int` or `float`.
+
+## Output format
+
+The output of **Copulas** is a table of sampled data with the same columns as the input table and as many rows as requested.
 
 # Concepts
 
@@ -97,44 +146,12 @@ There are as many different distributions as different random phenomenon, but us
 * Dimensionality: When a random variable represents the behavior of a single random phenomenon, we call it a **univariate distribution**, analogously we define **bivariate** and **multivariate** distribution.
 * Type: Most distribution have a type, defined by its behavior, some of the most common types of distributions are: **uniform**, **gaussian**, **exponential**,...
 
-### Copulas
+## Copulas
 
 Copulas are multivariate distributions whose marginals are uniform. Using them with distributions to model the marginals they allow us to generate
 **multivariate random variables** for any kind of phenomena
 
-## Supported Copulas
-
-### Bivariate copulas
-
-* Clayton
-* Frank
-* Gumbel
-* Independence
-
-### Multivariate
-
-* Gaussian [[+ info]](https://en.wikipedia.org/wiki/Copula_(probability_theory)#Gaussian_copula)
-* Vines
-
-# Getting started
-
-## Installation
-
-The simplest and recommended way to install **Copulas** is using `pip`
-
-```
-pip install copulas
-```
-
-For development, you can also clone the repository and install it from sources
-
-```
-git clone git@github.com:DAI-Lab/Copulas.git
-cd Copulas
-python setup.py install
-```
-
-# Usage
+# Quickstart
 
 In this short tutorial we will guide you through the a series of steps that will help you getting
 started with the most basic usage of **Copulas** in order to generate samples from a simple
