@@ -30,15 +30,14 @@ development_requires = [
     'm2r>=0.2.0',
     'Sphinx>=1.7.1',
     'sphinx_rtd_theme>=0.2.4',
-    'recommonmark>=0.4.0',
 
     # style check
-    'flake8>=3.5.0',
+    'flake8>=3.7.7',
     'isort>=4.3.4',
 
     # fix style issues
     'autoflake>=1.1',
-    'autopep8==1.3.4',    # Keep fixed because of flake8 and pycodestyle
+    'autopep8>=1.4.3',
 
     # distribute on PyPI
     'twine>=1.10.0',
