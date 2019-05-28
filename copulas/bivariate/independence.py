@@ -17,11 +17,12 @@ class Independence(Bivariate):
 
         Returns:
             None
+
         """
         pass
 
     def generator(self, t):
-        """Generator function for the Copula.
+        """Compute the generator function for the Copula.
 
         The generator function is a function f(t), such that an archimedian copula can be
         defined as
@@ -33,42 +34,46 @@ class Independence(Bivariate):
 
         Returns:
             np.array
+
         """
         return np.log(t)
 
     def probability_density(self, X):
-        """ """
+        """Compute the probability density for the independence copula."""
         return scipy.stats.multivariate_normal.pdf(X, cov=np.identity(2))
 
     def cumulative_distribution(self, X):
-        """The cumulative distribution of the independence bivariate copulas is the product.
+        """Compute the cumulative distribution of the independence bivariate copula is the product.
 
         Args:
             X(numpy.array): Matrix of shape (n,2), whose values are in [0, 1]
 
         Returns:
             numpy.array: Cumulative distribution values of given input.
+
         """
         U, V = self.split_matrix(X)
         return np.multiply(U, V)
 
     def partial_derivative(self, X):
-        """Computes the conditional probability of one event conditiones to the other.
+        """Compute the conditional probability of one event conditiones to the other.
 
-        In the case of the independence copulas, due to C(u,v) = u*v, we have that
+        In the case of the independence copula, due to C(u,v) = u*v, we have that
         F(u|v) = dC/du = v.
 
         Args:
             X()
+
         """
         return X
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`.
 
         Args:
             y: `np.ndarray` value of :math:`F(u|v)`.
             v: `np.ndarray` given value of v.
+
         """
         self.check_fit()
         return V

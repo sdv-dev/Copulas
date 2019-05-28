@@ -1,4 +1,4 @@
-"""This module contains a base class for all bivariate copulas."""
+"""This module contains a base class for bivariate copulas."""
 
 
 import json
@@ -22,10 +22,10 @@ class CopulaTypes(Enum):
 
 
 class Bivariate(object):
-    """Base class for all bivariate copulas.
+    """Base class for bivariate copulas.
 
     This class allows to instantiate all its subclasses and serves as a unique entry point for
-    all the bivariate copulas classes.
+    the bivariate copulas classes.
 
     >>> Bivariate(CopulaTypes.FRANK).__class__
     copulas.bivariate.frank.Frank
@@ -194,7 +194,7 @@ class Bivariate(object):
         The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
         that given an Archimedian copula fulills:
 
-        .. math:: C(u,v) = \psi^-1(\psi(u) + \psi(v))
+        .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
 
 
         In a more generic way:
@@ -241,7 +241,7 @@ class Bivariate(object):
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^-1`.
+        """Compute the inverse of conditional cumulative density :math:`C(u|v)^{-1}`.
 
         Args:
             y(np.ndarray): value of :math:`C(u|v)`.
@@ -266,7 +266,7 @@ class Bivariate(object):
 
         Args:
             X(np.ndarray)
-            y(float):
+            y(float)
 
         Returns:
             np.ndarray
@@ -288,7 +288,7 @@ class Bivariate(object):
         The sampled are generated using the inverse transform method `v~U[0,1],v~C^-1(u|v)`
 
         Args:
-            n_samples: `int`, amount of samples to create.
+            n_samples (int): amount of samples to create.
 
         Returns:
             np.ndarray: Array of length `n_samples` with generated data from the model.
@@ -372,7 +372,7 @@ class Bivariate(object):
             z(Iterable): Values for the empirical copula.
 
         Returns:
-            numpy.array
+            numpy.ndarray
 
         """
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
