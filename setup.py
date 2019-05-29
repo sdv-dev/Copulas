@@ -14,7 +14,7 @@ with open('HISTORY.md') as history_file:
 install_requires = [
     'numpy>=1.13.1',
     'pandas>=0.22.0',
-    'scipy>=0.19.1',
+    'scipy>=0.19.1, <1.3',
     'exrex>=0.10.5',
     'matplotlib>=2.2.2',
     'boto3>=1.7.47'
@@ -70,8 +70,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
@@ -94,7 +92,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.4',
+    python_requires='>=3.5',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
