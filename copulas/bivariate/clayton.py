@@ -11,19 +11,39 @@ class Clayton(Bivariate):
     invalid_thetas = [0]
 
     def generator(self, t):
-        """Return the generator function."""
+        r"""Compute the generator function for Clayton copula family.
+
+        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
+        that given an Archimedian copula fulills:
+
+        .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
+
+        Args:
+            t (numpy.ndarray)
+
+        Returns:
+            numpy.ndarray
+
+        """
         self.check_fit()
 
         return (1.0 / self.theta) * (np.power(t, -self.theta) - 1)
 
     def probability_density(self, X):
-        """Compute probability density function for given copula family.
+        r"""Compute probability density function for given copula family.
+
+        The probability density(PDF) for the Clayton family of copulas correspond to the formula:
+
+        .. math:: c(U,V) = \frac{\partial^2}{\partial v \partial u}C(u,v) =
+            (\theta + 1)(uv)^{-\theta-1}(u^{-\theta} +
+            v^{-\theta} - 1)^{-\frac{2\theta + 1}{\theta}}
 
         Args:
-            X: `np.ndarray`
+            X (numpy.ndarray)
 
         Returns:
-            np.array: Probability density for the input values.
+            numpy.ndarray: Probability density for the input values.
+
         """
         self.check_fit()
 
@@ -35,13 +55,19 @@ class Clayton(Bivariate):
         return a * np.power(b, c)
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+        """Compute the cumulative distribution function for the clayton copula.
+
+        The cumulative density(cdf), or distribution function for the Clayton family of copulas
+        correspond to the formula:
+
+        .. math:: C(u,v) = max[(u^{-θ} + v^{-θ} - 1),0]^{-1/θ}
 
         Args:
-            X: `np.ndarray`
+            X (numpy.ndarray)
 
         Returns:
-            np.array: cumulative probability
+            numpy.ndarray: cumulative probability.
+
         """
         self.check_fit()
 
@@ -63,11 +89,13 @@ class Clayton(Bivariate):
             return np.array([max(x, 0) for x in cdfs])
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
+
+        The percent point is the
 
         Args:
-            y: `np.ndarray` value of :math:`C(u|v)`.
-            v: `np.ndarray` given value of v.
+            y (numpy.ndarray): Value of :math:`C(u|v)`.
+            v (numpy.ndarray): given value of v.
         """
         self.check_fit()
 
@@ -81,14 +109,20 @@ class Clayton(Bivariate):
             return u
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
+        r"""Compute partial derivative of cumulative distribution.
+
+        The partial derivative of the copula(CDF) is the value of the conditional probability.
+
+        .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u} =
+            u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}
 
         Args:
-            X: `np.ndarray`
-            y: `float`
+            X (np.ndarray)
+            y (float)
 
         Returns:
-            np.ndarray: Derivatives
+            numpy.ndarray: Derivatives
+
         """
         self.check_fit()
 
@@ -104,10 +138,12 @@ class Clayton(Bivariate):
             return np.multiply(A, h) - y
 
     def compute_theta(self):
-        """Compute theta parameter using Kendall's tau.
+        r"""Compute theta parameter using Kendall's tau.
 
-        On Clayton copula this is :math:`τ = θ/(θ + 2) \\implies θ = 2τ/(1-τ)` with
-        :math:`θ ∈ (0, ∞)`.
+        On Clayton copula this is
+
+        .. math:: τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)
+        .. math:: θ ∈ (0, ∞)
 
         On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
         """

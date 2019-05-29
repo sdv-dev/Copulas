@@ -14,12 +14,46 @@ LOGGER = logging.getLogger(__name__)
 
 
 class VineCopula(Multivariate):
+    """Vine copula model.
+
+    A :math:`vine` is a graphical representation of one factorization of the n-variate probability
+    distribution in terms of :math:`n(n − 1)/2` bivariate copulas by means of the chain rule.
+
+    It consists of a sequence of levels and as many levels as variables. Each level consists of
+    a tree (no isolated nodes and no loops) satisfying that if it has :math:`n` nodes there must
+    be :math:`n − 1` edges.
+
+    Each node in tree :math:`T_1` is a variable and edges are couplings of variables constructed
+    with bivariate copulas.
+
+    Each node in tree :math:`T_{k+1}` is a coupling in :math:`T_{k}`, expressed by the copula
+    of the variables; while edges are couplings between two vertices that must have one variable
+    in common, becoming a conditioning variable in the bivariate copula. Thus, every level has
+    one node less than the former. Once all the trees are drawn, the factorization is the product
+    of all the nodes.
+
+    Args:
+        vine_type ({'center', 'direct', 'regular'}): Type of the vine copula
+
+
+    Attributes:
+        model (copulas.univariate.Univariate): Distribution to compute univariates.
+        u_matrix(numpy.array): Univariates.
+        n_sample(int): Number of samples.
+        n_var(int): Number of variables.
+        columns(pandas.Series): Names of the variables.
+        tau_mat(numpy.array): Kendall correlation parameters for data.
+        truncated(int):
+        depth(int):
+        trees(list[Tree]):
+        self.ppfs(list[callable]):
+
+    """
     def __init__(self, vine_type, *args, **kwargs):
-        """Instantiate a vine copula class.
+        """Instantiate a vine copula.
 
         Args:
-            :param vine_type: type of the vine copula, could be 'center','direct','regular'
-            :type vine_type: string
+            vine_type(str): type of the vine copula, could be 'center','direct','regular'
         """
         super().__init__(*args, **kwargs)
         self.vine_type = vine_type
@@ -82,6 +116,15 @@ class VineCopula(Multivariate):
     def fit(self, X, truncated=3):
         """Fit a vine model to the data.
 
+        1. Transform all the variables by means of their marginals.
+        In other words, compute
+
+        .. math:: u_i = F_i(x_i), i = 1, ..., n
+
+        and compose the matrix :math:`u = u_1, ..., u_n,` where :math:`u_i` are their columns.
+
+
+
         Args:
             X(numpy.ndarray): data to be fitted.
             truncated(int): max level to build the vine.
@@ -107,8 +150,46 @@ class VineCopula(Multivariate):
         self.fitted = True
 
     def train_vine(self, tree_type):
-        """Train vine."""
+        """Build the wine.
+
+        1. For the construction of the first tree :math:`T_1`, assign one node to each variable
+           and then couple them by maximizing the measure of association considered.
+           Different vines impose different constraints on this construction. When those are
+           applied different trees are achieved at this level.
+
+        2. Select the copula that best fits to the pair of variables coupled by each edge in
+           :math:`T_1`.
+
+        3. Let :math:`C_{ij}(u_i , u_j )` be the copula for a given edge :math:`(u_i, u_j)`
+           in :math:`T_1`. Then for every edge in :math:`T_1`, compute either
+
+           .. math:: {v^1}_{j|i} = \\frac{\\partial C_{ij}(u_i, u_j)}{\\partial u_j}
+
+           or similarly :math:`{v^1}_{i|j}`, which are conditional cdfs. When finished with
+           all the edges, construct the new matrix with :math:`v^1` that has one less column u.
+
+        4. Set k = 2.
+
+        5. Assign one node of :math:`T_k` to each edge of :math:`T_ {k−1}`. The structure of
+           :math:`T_{k−1}` imposes a set of constraints on which edges of :math:`T_k` are
+           realizable. Hence the next step is to get a linked list of the accesible nodes for
+           every node in :math:`T_k`.
+
+        6. As in step 1, nodes of :math:`T_k` are coupled maximizing the measure of association
+           considered and satisfying the constraints impose by the kind of vine employed plus the
+           set of constraints imposed by tree :math:`T_{k−1}`.
+
+        7. Select the copula that best fit to each edge created in :math:`T_k`.
+
+        8. Recompute matrix :math:`v_k` as in step 4, but taking :math:`T_k` and :math:`vk−1`
+           instead of :math:`T_1` and u.
+
+        9. Set :math:`k = k + 1` and repeat from (5) until all the trees are constructed.
+
+
+        """
         LOGGER.debug('start building tree : 0')
+        # 1
         tree_1 = Tree(tree_type)
         tree_1.fit(0, self.n_var, self.tau_mat, self.u_matrix)
         self.trees.append(tree_1)

@@ -18,7 +18,22 @@ class Gumbel(Bivariate):
         return np.power(-np.log(t), self.theta)
 
     def probability_density(self, X):
-        """Compute density function for given copula family."""
+        r"""Compute probability density function for given copula family.
+
+        The probability density(PDF) for the Gumbel family of copulas correspond to the formula:
+
+        .. math:: c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
+            \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
+            {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
+            + (-\ln v)^\theta\big)^{-1/\theta})
+
+        Args:
+            X (numpy.ndarray)
+
+        Returns:
+            numpy.ndarray
+
+        """
         self.check_fit()
 
         U, V = self.split_matrix(X)
@@ -35,13 +50,19 @@ class Gumbel(Bivariate):
             return self.cumulative_distribution(X) * a * b * c * d
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+        r"""Compute the cumulative distribution function for the Gumbel copula.
+
+        The cumulative density(cdf), or distribution function for the Gumbel family of copulas
+        correspond to the formula:
+
+        .. math:: C(u,v) = e^{-((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta}}}
 
         Args:
-            X: `np.ndarray`
+            X (np.ndarray)
 
         Returns:
-            np.array: cumulative probability
+            np.ndarray: cumulative probability for the given datapoints, cdf(X).
+
         """
         self.check_fit()
 
@@ -57,13 +78,13 @@ class Gumbel(Bivariate):
             return cdfs
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
 
         Args:
-            y: `np.ndarray` value of :math:`C(u|v)`.
-            v: `np.ndarray` given value of v.
-        """
+            y (np.ndarray): value of :math:`C(u|v)`.
+            v (np.ndarray): given value of v.
 
+        """
         self.check_fit()
 
         if self.theta == 1:
@@ -81,13 +102,20 @@ class Gumbel(Bivariate):
             return np.array(result)
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative density.
+        r"""Compute partial derivative of cumulative distribution.
+
+        The partial derivative of the copula(CDF) is the value of the conditional probability.
+
+        .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u} =
+            C(u,v)\frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta} - 1}}
+            {\theta(- \ln u)^{1 -\theta}}
 
         Args:
-            X: `np.ndarray`
-            y: `float`
+            X (np.ndarray)
+            y (float)
 
         Returns:
+            numpy.ndarray
 
         """
         self.check_fit()
@@ -106,9 +134,9 @@ class Gumbel(Bivariate):
             return np.divide(np.multiply(np.multiply(p1, p2), p3), V) - y
 
     def compute_theta(self):
-        """Compute theta parameter using Kendall's tau.
+        r"""Compute theta parameter using Kendall's tau.
 
-        On Gumbel copula :math:`\\tau is defined as :math:`τ = \\frac{θ−1}{θ}`
-        that we solve as :math:`θ = \\frac{1}{1-τ}`
+        On Gumbel copula :math:`\tau` is defined as :math:`τ = \frac{θ−1}{θ}`
+        that we solve as :math:`θ = \frac{1}{1-τ}`
         """
         return 1 / (1 - self.tau)

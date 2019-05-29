@@ -14,25 +14,43 @@ with open('HISTORY.md') as history_file:
 install_requires = [
     'numpy>=1.13.1',
     'pandas>=0.22.0',
-    'scipy>=0.19.1',
+    'scipy>=0.19.1, <1.3',
     'exrex>=0.10.5',
     'matplotlib>=2.2.2',
     'boto3>=1.7.47'
 ]
 
 development_requires = [
+    # general
     'bumpversion>=0.5.3',
+    'pip>=9.0.1',
+    'watchdog>=0.8.3',
+
+    # docs
+    'm2r>=0.2.0',
     'Sphinx>=1.7.1',
-    'recommonmark>=0.4.0',
     'sphinx_rtd_theme>=0.2.4',
-    'flake8>=3.5.0',
+
+    # style check
+    'flake8>=3.7.7',
     'isort>=4.3.4',
+
+    # fix style issues
     'autoflake>=1.1',
-    'autopep8>=1.3.5',
+    'autopep8>=1.4.3',
+
+    # distribute on PyPI
     'twine>=1.10.0',
     'wheel>=0.30.0',
+
+    # Advanced testing
     'coverage>=4.5.1',
     'tox>=2.9.1',
+
+    # Documentation style
+    'doc8==0.8.0',
+    'pydocstyle==3.0.0'
+
 ]
 
 tests_require = [
@@ -52,8 +70,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
@@ -76,7 +92,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.4',
+    python_requires='>=3.5',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,

@@ -40,11 +40,11 @@ class KDEUnivariate(Univariate):
         """Evaluate the estimated pdf on a point.
 
         Args:
-            X: `float` a datapoint.
-            :type X: float
+            X(float):  a datapoint.
 
         Returns:
-            pdf: int or float with the value of estimated pdf
+            (float): value of estimated pdf.
+
         """
         self.check_fit()
 

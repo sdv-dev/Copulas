@@ -65,13 +65,10 @@ class Tree(Multivariate):
         """Fits tree object.
 
         Args:
-            :param index: index of the tree
-            :param n_nodes: number of nodes in the tree
-            :tau_matrix: kendall's tau matrix of the data
-            :previous_tree: tree object of previous level
-            :type index: int
-            :type n_nodes: int
-            :type tau_matrix: np.ndarray of size n_nodes*n_nodes
+            index(int): index of the tree.
+            n_nodes(int): number of nodes in the tree.
+            tau_matrix(numpy.array): kendall's tau matrix of the data, shape (n_nodes, n_nodes).
+            previous_tree(Tree): tree object of previous level.
         """
         self.level = index + 1
         self.n_nodes = n_nodes
