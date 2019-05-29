@@ -19,8 +19,6 @@
 # absolute, like shown here.
 #
 import sphinx_rtd_theme # For read the docs theme
-from recommonmark.parser import CommonMarkParser
-from recommonmark.transform import AutoStructify
 
 import copulas
 
@@ -49,10 +47,6 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 source_suffix = ['.rst', '.md']
-
-source_parsers = {
-#    '.md': CommonMarkParser,
-}
 
 # The master toctree document.
 master_doc = 'index'
