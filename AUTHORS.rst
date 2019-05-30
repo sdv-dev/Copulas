@@ -1,4 +1,3 @@
-=======
 Credits
 =======
 
@@ -13,3 +12,4 @@ Contributors
 * Manuel Alvarez <manuel@pythiac.com>
 * Carles Sala <carles@pythiac.com>
 * Andrew Montanez <amontane@mit.edu>
+* paulolimac <paulolimac@gmail.com>

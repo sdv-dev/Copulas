@@ -365,7 +365,7 @@ class Bivariate(object):
 
         The upper tail concentration function is defined by:
 
-        .. math:: R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)}
+        .. math:: R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)^{2}}
 
         Args:
             c(Iterable): Values of :math:`C(z,z)`.
