@@ -7,6 +7,7 @@
 
 [![PyPi Shield](https://img.shields.io/pypi/v/copulas.svg)](https://pypi.python.org/pypi/copulas)
 [![Travis CI Shield](https://travis-ci.org/DAI-Lab/Copulas.svg?branch=master)](https://travis-ci.org/DAI-Lab/Copulas)
+[![Coverage Status](https://codecov.io/gh/DAI-Lab/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/Copulas)
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 
 
