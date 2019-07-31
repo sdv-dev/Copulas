@@ -12,7 +12,6 @@
 
    API Reference <api/copulas>
    contributing
-   authors
    history
 
 Indices and tables

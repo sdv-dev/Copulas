@@ -1,5 +1,32 @@
 # History
 
+## 0.2.2 (2019-05-30)
+
+
+### New Features
+
+* Add `truncnorm` distribution and a generic wrapper for `scipy.rv_continous` distributions - 
+  [Issue #27 ](https://github.com/DAI-Lab/Copulas/issues/27) by @amontanez, @csala and @ManuelAlvarezC
+* Add `Independence` bivariate copulas - [Issue #46](https://github.com/DAI-Lab/Copulas/issues/46)
+  by @aliciasun, @csala and @ManuelAlvarezC
+* Add ability to handle constant data to univariate classes -
+  [Issue #57](https://github.com/DAI-Lab/Copulas/issues/57) and
+  [Issue #82](https://github.com/DAI-Lab/Copulas/issues/82) by @csala and @ManuelAlvarezC
+* Improved documentation - [Issue #96](https://github.com/DAI-Lab/Copulas/issues/96)
+  by @ManuelAlvarezC
+* Add tests for analytics properties of copulas -
+  [Issue #61](https://github.com/DAI-Lab/Copulas/issues/61) by @ManuelAlvarezC
+* Add option to select seed on random number generator -
+  [Issue #63](https://github.com/DAI-Lab/Copulas/issues/63) by @echo66 and @ManuelAlvarezC
+* Add option on Vine copulas to select number of rows to sample -
+  [Issue #77](https://github.com/DAI-Lab/Copulas/issues/77) by @ManuelAlvarezC
+
+### Bugs fixed
+
+* Fix bug on Vine copulas, that make it crash during the bivariate copula selection.
+  [Issue #64](https://github.com/DAI-Lab/Copulas/issues/64) by @echo66 and @ManuelAlvarezC
+
+
 ## 0.2.1 - Vine serialization
 
 * Add serialization to Vine copulas.
