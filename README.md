@@ -224,10 +224,13 @@ example dataset.
 In this case, we will load the `iris` dataset into a `pandas.DataFrame`.
 
 ```python
->>> import pandas as pd
->>> data = pd.read_csv('data/iris.data.csv')
->>> data.head(3).T
+import pandas as pd
+data = pd.read_csv('data/iris.data.csv')
+```
 
+This will be return us a dataframe with 4 columns:
+
+```
               0    1    2
 feature_01  5.1  4.9  4.7
 feature_02  3.5  3.0  3.2
@@ -243,8 +246,8 @@ To do so, we need to import the `copulas.multivariate.GaussianMultivariate` and 
 to create a GaussianMultivariate instance with the default arguments:
 
 ```python
->>> from copulas.multivariate import GaussianMultivariate
->>> copula = GaussianMultivariate()
+from copulas.multivariate import GaussianMultivariate
+copula = GaussianMultivariate()
 ```
 
 ## 3. Fit the model
@@ -253,7 +256,7 @@ Once we have a **Copulas** instance, we can proceed to call its `fit` method pas
 that we loaded bfore in order to start the fitting process:
 
 ```python
->>> copula.fit(data)
+copula.fit(data)
 ```
 
 ## 4. Sample new data
@@ -262,10 +265,13 @@ After the model has been fitted, we are ready to generate new samples by calling
 method of the `Copulas` instance passing it the desired amount of samples:
 
 ```python
->>> num_samples = 1000
->>> samples = copula.sample(num_samples)
->>> samples.head(3).T
+num_samples = 1000
+samples = copula.sample(num_samples)
+```
 
+This will return a DataFrame with the same number of columns as the original data.
+
+```
                    0         1         2
 feature_01  7.534814  7.255292  5.723322
 feature_02  2.723615  2.959855  3.282245
@@ -287,8 +293,8 @@ as argument the path where the model will be stored. Similarly, the `load` allow
 a model stored on disk by passing as argument the path where the model is stored.
 
 ```python
->>> model_path = 'mymodel.pkl'
->>> copula.save(model_path)
+model_path = 'mymodel.pkl'
+copula.save(model_path)
 ```
 
 Once the model is saved, it can be loaded back as a **Copulas** instance by using the `load`
@@ -297,20 +303,13 @@ method:
 **NOTE**: In order to load a saved model, you need to load it using the same class that was used to save it.
 
 ```python
->>> new_copula = GaussianMultivariate.load(model_path)
+new_copula = GaussianMultivariate.load(model_path)
 ```
 
 At this point we could use this model instance to generate more samples.
 
 ```python
->>> new_samples = new_copula.sample(num_samples)
->>> new_samples.head(3).T
-
-                   0         1         2
-feature_01  4.834213  5.441848  4.802118
-feature_02  2.488793  2.499855  2.770923
-feature_03  3.379794  5.181586  2.552305
-feature_04  1.345214  2.101377  1.001049
+new_samples = new_copula.sample(num_samples)
 ```
 
 ## 6. Extract and set parameters
@@ -321,8 +320,12 @@ and load from disk.
 Once our copula is fitted, we can extract it's parameters using the `to_dict` method:
 
 ```python
->>> copula_params = copula.to_dict()
->>> copula_params
+copula_params = copula.to_dict()
+```
+
+This will return a dictionary containing all the copula parameters:
+
+```
 {'covariance': [[1.006711409395973,
    -0.11010327176239859,
    0.877604856347186,
@@ -367,20 +370,13 @@ Once our copula is fitted, we can extract it's parameters using the `to_dict` me
 Once we have all the parameters we can create a new identical **Copula** instance by using the method `from_dict`:
 
 ```python
->>> new_copula = GaussianMultivariate.from_dict(copula_params)
+new_copula = GaussianMultivariate.from_dict(copula_params)
 ```
 
 At this point we could use this model instance to generate more samples.
 
 ```python
->>> new_samples = new_copula.sample(num_samples)
->>> new_samples.head(3).T
-
-                   0         1         2
-feature_01  6.009206  6.653476  5.802923
-feature_02  2.848561  2.771476  2.948189
-feature_03  4.092759  5.612561  3.865684
-feature_04  1.384638  2.043285  1.476101
+new_samples = new_copula.sample(num_samples)
 ```
 
 # What's next?
