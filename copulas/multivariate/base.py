@@ -6,9 +6,10 @@ from copulas import NotFittedError, import_object
 class Multivariate(object):
     """Abstract class for a multi-variate copula object."""
 
-    def __init__(self):
+    def __init__(self, random_seed=None):
         """Initialize copula object."""
         self.fitted = False
+        self.random_seed = random_seed
 
     def fit(self, X):
         """Fit a model to the data and update the parameters."""

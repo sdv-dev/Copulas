@@ -1,9 +1,11 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
 
 from copulas.univariate.gaussian import GaussianUnivariate
+from tests import compare_nested_iterables
 
 
 class TestGaussianUnivariate(TestCase):
@@ -43,50 +45,37 @@ class TestGaussianUnivariate(TestCase):
         # Setup
         copula = GaussianUnivariate()
         column = pd.Series([0, 1, 2, 3, 4, 5], name='column')
-        mean = 2.5
-        std = 1.707825127659933
-        name = 'column'
 
         # Run
         copula.fit(column)
 
         # Check
-        assert copula.mean == mean
-        assert copula.std == std
-        assert copula.name == name
-        assert copula.fitted
-
-    def test_fit_empty_data(self):
-        """On fit, if column is empty an error is raised."""
-
-        # Setup
-        copula = GaussianUnivariate()
-        column = pd.Series([])
-
-        # Run
-        with self.assertRaises(ValueError):
-            copula.fit(column)
+        assert copula.mean == 2.5
+        assert copula.std == 1.707825127659933
+        assert copula.name == 'column'
+        assert copula.fitted is True
 
     def test_test_fit_equal_values(self):
-        """On fit, even if column has equal values, std is never 0."""
+        """If it's fit with constant data, contant_value is set."""
 
         # Setup
-        copula = GaussianUnivariate()
-        column = [1, 1, 1, 1, 1, 1]
+        instance = GaussianUnivariate()
+        column = np.array([5, 5, 5, 5, 5, 5])
 
         # Run
-        copula.fit(column)
+        instance.fit(column)
 
         # Check
-        assert copula.mean == 1
-        assert copula.std == 0.001
+        assert instance.mean == 0
+        assert instance.std == 1
+        assert instance.constant_value == 5
 
     def test_get_probability_density(self):
         """Probability_density returns the normal probability distribution for the given values."""
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         expected_result = 0.48860251190292
 
@@ -101,7 +90,7 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         x = pd.Series([0])
         expected_result = [0.5]
@@ -112,12 +101,29 @@ class TestGaussianUnivariate(TestCase):
         # Check
         assert (result == expected_result).all()
 
+    def test_cumulative_distribution_constant(self):
+        """cumulative_distribution can be computed for constant distribution."""
+        # Setup
+        instance = GaussianUnivariate()
+        instance.constant_value = 3
+        instance._replace_constant_methods()
+        instance.fitted = True
+
+        X = np.array([1, 2, 3, 4, 5])
+        expected_result = np.array([0, 0, 1, 1, 1])
+
+        # Run
+        result = instance.cumulative_distribution(X)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
     def test_percent_point(self):
         """Percent_point returns the original point from the cumulative probability value."""
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
         x = 0.5
         expected_result = 0
@@ -133,44 +139,82 @@ class TestGaussianUnivariate(TestCase):
 
         # Setup
         copula = GaussianUnivariate()
-        column = [-1, 0, 1]
+        column = np.array([-1, 0, 1])
         copula.fit(column)
-        initial_value = pd.Series([0])
+        initial_value = np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5])
 
         # Run
         result_a = copula.percent_point(copula.cumulative_distribution(initial_value))
         result_b = copula.cumulative_distribution(copula.percent_point(initial_value))
 
         # Check
-        assert (initial_value == result_a).all()
-        assert (initial_value == result_b).all()
+        assert (initial_value - result_a < 10E-5).all()
+        assert (initial_value - result_b < 10E-5).all()
 
-    def test_sample(self):
+    @patch('copulas.univariate.gaussian.np.random.normal')
+    def test_sample(self, random_mock):
         """After fitting, GaussianUnivariate is able to sample new data."""
         # Setup
-        copula = GaussianUnivariate()
-        column = [-1, 0, 1]
-        copula.fit(column)
+        instance = GaussianUnivariate()
+        column = np.array([-1, 0, 1])
+        instance.fit(column)
+
+        expected_result = np.array([1, 2, 3, 4, 5])
+        random_mock.return_value = expected_result
 
         # Run
-        result = copula.sample(1000000)
+        result = instance.sample(5)
 
         # Check
-        assert len(result) == 1000000
-        assert abs(np.mean(result) - copula.mean) < 10E-3
-        assert abs(np.std(result) - copula.std) < 10E-3
+        compare_nested_iterables(result, expected_result)
+
+        assert instance.mean == 0.0
+        assert instance.std == 0.816496580927726
+        random_mock.assert_called_once_with(0.0, 0.816496580927726, 5)
+
+    def test_sample_random_state(self):
+        """When random state is set, samples are the same."""
+        # Setup
+        instance = GaussianUnivariate(random_seed=0)
+        X = np.array([1, 2, 3, 4, 5])
+        instance.fit(X)
+
+        expected_result = np.array([5.494746752403546, 3.565907751154284, 4.384144531132039])
+
+        # Run
+        result = instance.sample(3)
+
+        # Check
+        assert (result == expected_result).all()
+
+    def test_sample_constant(self):
+        """samples can be generated for constant distribution."""
+        # Setup
+        instance = GaussianUnivariate()
+        instance.constant_value = 3
+        instance._replace_constant_methods()
+        instance.fitted = True
+
+        expected_result = np.array([3, 3, 3, 3, 3])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
 
     def test_to_dict(self):
         """To_dict returns the defining parameters of a distribution in a dict."""
         # Setup
         copula = GaussianUnivariate()
-        column = [0, 1, 2, 3, 4, 5]
+        column = np.array([0, 1, 2, 3, 4, 5])
         copula.fit(column)
         expected_result = {
             'type': 'copulas.univariate.gaussian.GaussianUnivariate',
             'mean': 2.5,
             'std': 1.707825127659933,
-            'fitted': True
+            'fitted': True,
+            'constant_value': None
         }
 
         # Run
@@ -186,6 +230,7 @@ class TestGaussianUnivariate(TestCase):
             'mean': 2.5,
             'std': 1.707825127659933,
             'fitted': True,
+            'constant_value': None
         }
 
         # Run

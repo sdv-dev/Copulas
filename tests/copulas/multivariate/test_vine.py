@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -7,7 +8,7 @@ from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree, TreeTypes
 from copulas.multivariate.vine import VineCopula
 from copulas.univariate import KDEUnivariate
-from tests import compare_nested_dicts
+from tests import compare_nested_dicts, compare_nested_iterables
 
 
 class TestVine(TestCase):
@@ -53,7 +54,7 @@ class TestVine(TestCase):
 
         # FIX ME: there is some randomness in rvine, will do another test
         rvalue = self.rvine.get_likelihood(uni_matrix)
-        expected = -0.2859820599667698
+        expected = -0.26888124854583245
         assert abs(rvalue - expected) < 10E-3
 
         cvalue = self.cvine.get_likelihood(uni_matrix)
@@ -65,7 +66,7 @@ class TestVine(TestCase):
         assert abs(dvalue - expected) < 10E-3
 
     def test_to_dict(self):
-        """ """
+        """to_dict returns the internal parameters to replicate one instance."""
         # Setup
         instance = VineCopula('regular')
         instance.fitted = True
@@ -116,7 +117,8 @@ class TestVine(TestCase):
             'unis': [
                 {
                     'type': 'copulas.univariate.kde.KDEUnivariate',
-                    'fitted': False
+                    'fitted': False,
+                    'constant_value': None
                 }
             ]
         }
@@ -128,6 +130,7 @@ class TestVine(TestCase):
         assert result == expected_result
 
     def test_from_dict(self):
+        """from_dict creates a new instance from its parameters."""
         # Setup
         vine_dict = {
             'type': 'copulas.multivariate.vine.VineCopula',
@@ -155,7 +158,8 @@ class TestVine(TestCase):
             'unis': [
                 {
                     'type': 'copulas.univariate.kde.KDEUnivariate',
-                    'fitted': False
+                    'fitted': False,
+                    'constant_value': None
                 }
             ]
         }
@@ -181,6 +185,7 @@ class TestVine(TestCase):
         ])).all()
 
     def test_serialization_unfitted_model(self):
+        """An unfitted vine can be serialized and deserialized and kept unchanged."""
         # Setup
         instance = VineCopula('regular')
 
@@ -191,6 +196,7 @@ class TestVine(TestCase):
         assert result.to_dict() == instance.to_dict()
 
     def test_serialization_fit_model(self):
+        """A fitted vine can be serialized and deserialized and kept unchanged."""
         # Setup
         instance = VineCopula('regular')
         X = pd.DataFrame(data=[
@@ -206,7 +212,35 @@ class TestVine(TestCase):
         # Check
         compare_nested_dicts(result.to_dict(), instance.to_dict())
 
-    def test_sample(self):
+    @patch('copulas.multivariate.vine.np.random.randint', autospec=True)
+    @patch('copulas.multivariate.vine.np.random.uniform', autospec=True)
+    def test_sample_row(self, uniform_mock, randint_mock):
+        """After being fit, a vine can sample new data."""
+        # Setup
+        instance = VineCopula(TreeTypes.REGULAR)
+        X = pd.DataFrame([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ], columns=list('ABCD'))
+        instance.fit(X)
+
+        uniform_mock.return_value = np.array([0.1, 0.25, 0.5, 0.75])
+        randint_mock.return_value = 1
+        expected_result = np.array([-1.63155227, -0.16358589, -1.63155227, -1.62583869])
+
+        # Run
+        result = instance._sample_row()
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        uniform_mock.assert_called_once_with(0, 1, 4)
+        randint_mock.assert_called_once_with(0, 4)
+
+    @patch('copulas.multivariate.vine.VineCopula._sample_row', autospec=True)
+    def test_sample(self, sample_mock):
         """After being fit, a vine can sample new data."""
         # Setup
         vine = VineCopula(TreeTypes.REGULAR)
@@ -215,11 +249,46 @@ class TestVine(TestCase):
             [0, 1, 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]
+        ], columns=list('ABCD'))
+        vine.fit(X)
+
+        expected_result = pd.DataFrame([
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+            {'A': 1, 'B': 2, 'C': 3, 'D': 4},
+        ])
+
+        sample_mock.return_value = np.array([1, 2, 3, 4])
+
+        # Run
+        result = vine.sample(5)
+
+        # Check
+        compare_nested_iterables(result, expected_result)
+
+        assert sample_mock.call_count == 5
+
+    def test_sample_random_state(self):
+        """When random_state is set, the generated samples are always the same."""
+        # Setup
+        vine = VineCopula(TreeTypes.REGULAR, random_seed=0)
+        X = pd.DataFrame([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
         ])
         vine.fit(X)
 
+        expected_result = pd.DataFrame(
+            [[-1.6315522689646478, 0.527734420510573, -1.6315522689646478, -1.6315522689646478]],
+            columns=range(4)
+        )
+
         # Run
-        result = vine.sample()
+        result = vine.sample(1)
 
         # Check
-        assert len(result) == vine.n_var
+        assert result.equals(expected_result)

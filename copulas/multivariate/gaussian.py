@@ -1,10 +1,11 @@
 import logging
+from collections import OrderedDict
 
 import numpy as np
 import pandas as pd
 from scipy import integrate, stats
 
-from copulas import get_qualified_name, import_object
+from copulas import EPSILON, check_valid_values, get_qualified_name, import_object, random_state
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -19,10 +20,10 @@ class GaussianMultivariate(Multivariate):
         distribution (str): Full qualified name of the class to be used as distribution.
     """
 
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION):
-        super().__init__()
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        self.distribs = {}
+        self.distribs = OrderedDict()
         self.covariance = None
         self.means = None
         self.distribution = distribution
@@ -122,6 +123,10 @@ class GaussianMultivariate(Multivariate):
             # get original distrib's cdf of the column
             cdf = distrib.cumulative_distribution(column)
 
+            if distrib.constant_value is not None:
+                # This is to avoid np.inf in the case the column is constant.
+                cdf = np.ones(column.shape) - EPSILON
+
             # get inverse cdf using standard normal
             result = self.set_column(result, column_name, stats.norm.ppf(cdf))
 
@@ -129,11 +134,12 @@ class GaussianMultivariate(Multivariate):
         result = result[(result != np.inf).all(axis=1)]
         return pd.DataFrame(data=result).cov().values
 
+    @check_valid_values
     def fit(self, X):
         """Compute the distribution for each variable and then its covariance matrix.
 
         Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`. Data to model.
+            X(numpy.ndarray or pandas.DataFrame): Data to model.
 
         Returns:
             None
@@ -186,6 +192,7 @@ class GaussianMultivariate(Multivariate):
         ranges = [[lower_bound, val] for val in X]
         return integrate.nquad(func, ranges)[0]
 
+    @random_state
     def sample(self, num_rows=1):
         """Creates sintentic values stadistically similar to the original dataset.
 

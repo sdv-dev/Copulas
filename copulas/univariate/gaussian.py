@@ -4,18 +4,19 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
+from copulas import check_valid_values, random_state
 from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
 
 
 class GaussianUnivariate(Univariate):
-    """Gaussian univariate model"""
+    """Gaussian univariate model."""
 
     fitted = False
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.name = None
         self.mean = 0
         self.std = 1
@@ -29,6 +30,7 @@ class GaussianUnivariate(Univariate):
             'Standard deviation: {}'.format(*details)
         )
 
+    @check_valid_values
     def fit(self, X):
         """Fit the model.
 
@@ -38,17 +40,18 @@ class GaussianUnivariate(Univariate):
         Returns:
             None
         """
-
-        if not len(X):
-            raise ValueError("Can't fit with an empty dataset.")
-
         if isinstance(X, (pd.Series, pd.DataFrame)):
             self.name = X.name
-        else:
-            self.name = None
 
-        self.mean = np.mean(X)
-        self.std = np.std(X) or 0.001
+        self.constant_value = self._get_constant_value(X)
+
+        if self.constant_value is None:
+            self.mean = np.mean(X)
+            self.std = np.std(X)
+
+        else:
+            self._replace_constant_methods()
+
         self.fitted = True
 
     def probability_density(self, X):
@@ -87,6 +90,7 @@ class GaussianUnivariate(Univariate):
         self.check_fit()
         return norm.ppf(U, loc=self.mean, scale=self.std)
 
+    @random_state
     def sample(self, num_samples=1):
         """Returns new data point based on model.
 
@@ -110,8 +114,9 @@ class GaussianUnivariate(Univariate):
         """Set attributes with provided values."""
         instance = cls()
         instance.fitted = copula_dict['fitted']
+        instance.constant_value = copula_dict['constant_value']
 
-        if instance.fitted:
+        if instance.fitted and instance.constant_value is None:
             instance.mean = copula_dict['mean']
             instance.std = copula_dict['std']
 

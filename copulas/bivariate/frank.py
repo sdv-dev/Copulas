@@ -20,26 +20,37 @@ class Frank(Bivariate):
         return -np.log(a)
 
     def _g(self, z):
-        """Helper function to solve Frank copula.
+        r"""Helper function to solve Frank copula.
 
-        This functions encapsulates :math:`g_z = e^{-\\theta z} - 1` used on Frank copulas.
+        This functions encapsulates :math:`g(z) = e^{-\theta z} - 1` used on Frank copulas.
 
         Argument:
             z: np.ndarray
 
         Returns:
             np.ndarray
+
         """
         return np.exp(np.multiply(-self.theta, z)) - 1
 
     def probability_density(self, X):
-        """Compute density function for given copula family.
+        r"""Compute probability density function for given copula family.
+
+        The probability density(PDF) for the Frank family of copulas correspond to the formula:
+
+        .. math:: c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
+             \frac{-\theta g(1)(1 + g(u + v))}{(g(u) g(v) + g(1)) ^ 2}
+
+        Where the g function is defined by:
+
+        .. math:: g(x) = e^{-\theta x} - 1
 
         Args:
             X: `np.ndarray`
 
         Returns:
             np.array: probability density
+
         """
         self.check_fit()
 
@@ -55,13 +66,20 @@ class Frank(Bivariate):
             return num / den
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula, :math:`C(u, v)`
+        r"""Compute the cumulative distribution function for the Frank copula.
+
+        The cumulative density(cdf), or distribution function for the Frank family of copulas
+        correspond to the formula:
+
+        .. math:: C(u,v) =  −\frac{\ln({\frac{1 + g(u) g(v)}{g(1)}})}{\theta}
+
 
         Args:
             X: `np.ndarray`
 
         Returns:
             np.array: cumulative distribution
+
         """
         self.check_fit()
 
@@ -76,7 +94,7 @@ class Frank(Bivariate):
         return -1.0 / self.theta * np.log(1 + num / den)
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^-1`
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
 
         Args:
             y: `np.ndarray` value of :math:`C(u|v)`.
@@ -90,21 +108,29 @@ class Frank(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                result.append(fminbound(
-                    self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V)
-                ))
+                minimum = fminbound(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
+                if isinstance(minimum, np.ndarray):
+                    minimum = minimum[0]
+
+                result.append(minimum)
 
             return np.array(result)
 
     def partial_derivative(self, X, y=0):
-        """Compute partial derivative :math:`C(u|v)` of cumulative distribution.
+        r"""Compute partial derivative of cumulative distribution.
+
+        The partial derivative of the copula(CDF) is the value of the conditional probability.
+
+        .. math:: F(v|u) = \frac{\partial}{\partial u}C(u,v) =
+            \frac{g(u)g(v) + g(v)}{g(u)g(v) + g(1)}
 
         Args:
-            X: `np.ndarray`
-            y: `float`
+            X (np.ndarray)
+            y (float)
 
         Returns:
             np.ndarray
+
         """
         self.check_fit()
 
@@ -119,11 +145,20 @@ class Frank(Bivariate):
             return (num / den) - y
 
     def compute_theta(self):
-        """Compute theta parameter using Kendall's tau.
+        r"""Compute theta parameter using Kendall's tau.
 
         On Frank copula, this is
-        :math:`τ = 1 − \\frac{4}{θ} + \\frac{4}{θ^2}\\int_0^θ \\!
-        \\frac{t}{e^t -1} \\, \\mathrm{d}t`.
+
+        .. math:: \tau = 1 − \frac{4}{\theta} + \frac{4}{\theta^2}\int_0^\theta \!
+            \frac{t}{e^t -1} \mathrm{d}t.
+
+        In order to solve, we can simplify it as
+
+        .. math:: \tau = 1 + \frac{4}{\theta}(D_1(\theta) - 1)
+
+        where the function D is the Debye function of first order, defined as:
+
+        .. math:: D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.
 
         """
         return fsolve(self._frank_help, 1, args=(self.tau))[0]
@@ -131,7 +166,6 @@ class Frank(Bivariate):
     @staticmethod
     def _frank_help(alpha, tau):
         """Compute first order debye function to estimate theta."""
-
         def debye(t):
             return t / (np.exp(t) - 1)
 
