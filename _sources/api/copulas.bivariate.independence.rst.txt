@@ -1,0 +1,7 @@
+copulas.bivariate.independence module
+=====================================
+
+.. automodule:: copulas.bivariate.independence
+   :members:
+   :undoc-members:
+   :show-inheritance:

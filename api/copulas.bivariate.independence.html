@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.bivariate.independence module &mdash; Copulas 0.2.2 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="copulas.multivariate package" href="copulas.multivariate.html" />
+    <link rel="prev" title="copulas.bivariate.gumbel module" href="copulas.bivariate.gumbel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#overview">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#supported-copulas">Supported Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#bivariate-copulas">Bivariate copulas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#multivariate">Multivariate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-for-development">Install for Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#concepts">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#probability">Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#random-variable">Random variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#distribution">Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#types-of-distributions">Types of distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#id2">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#what-s-next">What’s next?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#credits">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#related-projects">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#sdv">SDV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#tgan">TGAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="copulas.bivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#unified-api">0.2.0 - Unified API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#first-release">0.1.0 - First Release</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+          <li><a href="copulas.bivariate.html">copulas.bivariate package</a> &raquo;</li>
+        
+      <li>copulas.bivariate.independence module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.bivariate.independence.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-copulas.bivariate.independence">
+<span id="copulas-bivariate-independence-module"></span><h1>copulas.bivariate.independence module<a class="headerlink" href="#module-copulas.bivariate.independence" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="copulas.bivariate.independence.Independence">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.independence.</code><code class="sig-name descname">Independence</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
+<p>This class represent the copula for two independent variables.</p>
+<dl class="attribute">
+<dt id="copulas.bivariate.independence.Independence.copula_type">
+<code class="sig-name descname">copula_type</code><em class="property"> = 3</em><a class="headerlink" href="#copulas.bivariate.independence.Independence.copula_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cumulative distribution of the independence bivariate copula is the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Matrix of shape (n,2), whose values are in [0, 1]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cumulative distribution values of given input.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the copula to the given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Probabilites in a matrix shaped (n, 2)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.generator">
+<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the generator function for the Copula.</p>
+<p>The generator function is a function f(t), such that an archimedian copula can be
+defined as</p>
+<p>C(u1, …, uN) = f(f^-1(u1), …, f^-1(uN)).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>numpy.array</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.partial_derivative">
+<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the conditional probability of one event conditiones to the other.</p>
+<p>In the case of the independence copula, due to C(u,v) = u*v, we have that
+F(u|v) = dC/du = v.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong><strong>(</strong><strong>)</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.percent_point">
+<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(F(u|v)^-1\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> – <cite>np.ndarray</cite> value of <span class="math notranslate nohighlight">\(F(u|v)\)</span>.</p></li>
+<li><p><strong>v</strong> – <cite>np.ndarray</cite> given value of v.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.independence.Independence.probability_density">
+<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/independence.html#Independence.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.independence.Independence.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the probability density for the independence copula.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.multivariate.html" class="btn btn-neutral float-right" title="copulas.multivariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.bivariate.gumbel.html" class="btn btn-neutral float-left" title="copulas.bivariate.gumbel module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

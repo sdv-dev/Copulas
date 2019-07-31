@@ -1,0 +1,7 @@
+copulas.multivariate.vine module
+================================
+
+.. automodule:: copulas.multivariate.vine
+   :members:
+   :undoc-members:
+   :show-inheritance:

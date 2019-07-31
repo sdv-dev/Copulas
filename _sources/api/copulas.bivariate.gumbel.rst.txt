@@ -1,0 +1,7 @@
+copulas.bivariate.gumbel module
+===============================
+
+.. automodule:: copulas.bivariate.gumbel
+   :members:
+   :undoc-members:
+   :show-inheritance:

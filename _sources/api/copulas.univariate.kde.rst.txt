@@ -1,0 +1,7 @@
+copulas.univariate.kde module
+=============================
+
+.. automodule:: copulas.univariate.kde
+   :members:
+   :undoc-members:
+   :show-inheritance:

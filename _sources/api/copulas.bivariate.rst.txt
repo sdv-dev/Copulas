@@ -1,0 +1,21 @@
+copulas.bivariate package
+=========================
+
+Submodules
+----------
+
+.. toctree::
+
+   copulas.bivariate.base
+   copulas.bivariate.clayton
+   copulas.bivariate.frank
+   copulas.bivariate.gumbel
+   copulas.bivariate.independence
+
+Module contents
+---------------
+
+.. automodule:: copulas.bivariate
+   :members:
+   :undoc-members:
+   :show-inheritance:

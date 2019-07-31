@@ -1,0 +1,7 @@
+copulas.univariate.truncnorm module
+===================================
+
+.. automodule:: copulas.univariate.truncnorm
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,1181 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.bivariate package &mdash; Copulas 0.2.2 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="copulas.bivariate.base module" href="copulas.bivariate.base.html" />
+    <link rel="prev" title="copulas package" href="copulas.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#overview">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#supported-copulas">Supported Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#bivariate-copulas">Bivariate copulas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#multivariate">Multivariate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-for-development">Install for Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#concepts">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#probability">Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#random-variable">Random variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#distribution">Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#types-of-distributions">Types of distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#id2">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#what-s-next">What’s next?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#credits">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#related-projects">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#sdv">SDV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#tgan">TGAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.bivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#unified-api">0.2.0 - Unified API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#first-release">0.1.0 - First Release</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+      <li>copulas.bivariate package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.bivariate.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="copulas-bivariate-package">
+<h1>copulas.bivariate package<a class="headerlink" href="#copulas-bivariate-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-copulas.bivariate">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.bivariate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="copulas.bivariate.Bivariate">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.</code><code class="sig-name descname">Bivariate</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for bivariate copulas.</p>
+<p>This class allows to instantiate all its subclasses and serves as a unique entry point for
+the bivariate copulas classes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
+<span class="go">copulas.bivariate.frank.Frank</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="s1">&#39;frank&#39;</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
+<span class="go">copulas.bivariate.frank.Frank</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copula_type</strong> (<em>Union</em><em>[</em><em>CopulaType</em><em>, </em><em>str</em><em>]</em>) – Subtype of the copula.</p></li>
+<li><p><strong>random_seed</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>None</em><em>]</em>) – Seed for the random generator.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate.copula_type">
+<code class="sig-name descname">copula_type</code><a class="headerlink" href="#copulas.bivariate.Bivariate.copula_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Family of the copula a subclass belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.CopulaTypes" title="copulas.bivariate.CopulaTypes">CopulaTypes</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate._subclasses">
+<code class="sig-name descname">_subclasses</code><a class="headerlink" href="#copulas.bivariate.Bivariate._subclasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of declared subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate.theta_interval">
+<code class="sig-name descname">theta_interval</code><a class="headerlink" href="#copulas.bivariate.Bivariate.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interval of valid thetas for the given copula family.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate.invalid_thetas">
+<code class="sig-name descname">invalid_thetas</code><a class="headerlink" href="#copulas.bivariate.Bivariate.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Values that, even though they belong to
+<a class="reference internal" href="#copulas.bivariate.Bivariate.theta_interval" title="copulas.bivariate.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a>, shouldn’t be considered valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate.tau">
+<code class="sig-name descname">tau</code><a class="headerlink" href="#copulas.bivariate.Bivariate.tau" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kendall’s tau for the data given at <a class="reference internal" href="#copulas.bivariate.Bivariate.fit" title="copulas.bivariate.Bivariate.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Bivariate.theta">
+<code class="sig-name descname">theta</code><a class="headerlink" href="#copulas.bivariate.Bivariate.theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter for the copula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.cdf">
+<code class="sig-name descname">cdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.Bivariate.cumulative_distribution" title="copulas.bivariate.Bivariate.cumulative_distribution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cumulative_distribution()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.check_fit">
+<code class="sig-name descname">check_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.check_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that the model is fit and the computed <cite>theta</cite> is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is  not fitted.</p></li>
+<li><p><strong>ValueError</strong> – if the computed theta is invalid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.check_theta">
+<code class="sig-name descname">check_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.check_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the computed theta against the copula specification.</p>
+<p>This method is used to assert the computed theta is in the valid range for the copula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If theta is not in <a class="reference internal" href="#copulas.bivariate.Bivariate.theta_interval" title="copulas.bivariate.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a> or is in <a class="reference internal" href="#copulas.bivariate.Bivariate.invalid_thetas" title="copulas.bivariate.Bivariate.invalid_thetas"><code class="xref py py-attr docutils literal notranslate"><span class="pre">invalid_thetas</span></code></a>,</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.compute_empirical">
+<em class="property">classmethod </em><code class="sig-name descname">compute_empirical</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_empirical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.compute_empirical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute empirical distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Shape (n,2); Datapoints to compute the empirical(frequentist) copula.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.compute_tail">
+<em class="property">static </em><code class="sig-name descname">compute_tail</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">z</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.compute_tail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute upper concentration function for tail.</p>
+<p>The upper tail concentration function is defined by:</p>
+<div class="math notranslate nohighlight">
+\[R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)^{2}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<em>Iterable</em>) – Values of <span class="math notranslate nohighlight">\(C(z,z)\)</span>.</p></li>
+<li><p><strong>z</strong> (<em>Iterable</em>) – Values for the empirical copula.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.compute_theta">
+<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute theta parameter using Kendall’s tau.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">copula_type</code><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cumulative distribution function for the copula, <span class="math notranslate nohighlight">\(C(u, v)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cumulative probability</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a model to the data updating the parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Array of datapoints with shape (n,2).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance from the given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>copula_dict</strong> – <cite>dict</cite> with the parameters to replicate the copula.
+Like the output of <cite>Bivariate.to_dict</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Instance of the copula defined on the parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.generator">
+<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the generator function for Archimedian copulas.</p>
+<p>The generator is a function <span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>
+that given an Archimedian copula fulills:</p>
+<div class="math notranslate nohighlight">
+\[C(u,v) = \psi^{-1}(\psi(u) + \psi(v))\]</div>
+<p>In a more generic way:</p>
+<div class="math notranslate nohighlight">
+\[C(u_1, u_2, ..., u_n;\theta) = \psi^-1(\sum_0^n{\psi(u_i;\theta)}; \theta)\]</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.get_dependencies">
+<em class="property">classmethod </em><code class="sig-name descname">get_dependencies</code><span class="sig-paren">(</span><em class="sig-param">copulas</em>, <em class="sig-param">z_left</em>, <em class="sig-param">z_right</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.get_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.get_dependencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copulas</strong> (<em>list</em><em>[</em><a class="reference internal" href="#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate"><em>Bivariate</em></a><em>]</em>) – Fitted instances of bivariate copulas.</p></li>
+<li><p><strong>z_left</strong> (<em>list</em>) – </p></li>
+<li><p><strong>z_right</strong> (<em>list</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Arrays of left and right dependencies for the empirical copula.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.infer">
+<code class="sig-name descname">infer</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.infer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take in subset of values and predicts the rest.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">invalid_thetas</code><em class="property"> = []</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.load">
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">copula_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>copula_path</strong> (<em>str</em>) – Path to file with the serialized copula.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Instance with the parameters stored in the file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.partial_derivative">
+<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute partial derivative of cumulative distribution.</p>
+<p>The partial derivative of the copula(CDF) is the value of the conditional probability.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[F(v|u) = \frac{\partial C(u,v)}{\partial u}\]</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.partial_derivative_scalar">
+<code class="sig-name descname">partial_derivative_scalar</code><span class="sig-paren">(</span><em class="sig-param">U</em>, <em class="sig-param">V</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.partial_derivative_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute partial derivative <span class="math notranslate nohighlight">\(C(u|v)\)</span> of cumulative density of single values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.pdf">
+<code class="sig-name descname">pdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.Bivariate.probability_density" title="copulas.bivariate.Bivariate.probability_density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">probability_density()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.percent_point">
+<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of conditional cumulative density <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
+<li><p><strong>V</strong> (<em>np.ndarray</em>) – given value of V.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Percentiles for the given values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.ppf">
+<code class="sig-name descname">ppf</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.ppf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.Bivariate.percent_point" title="copulas.bivariate.Bivariate.percent_point"><code class="xref py py-meth docutils literal notranslate"><span class="pre">percent_point()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.probability_density">
+<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density function for given copula family.</p>
+<p>The probability density(pdf) for a given copula is defined as:</p>
+<div class="math notranslate nohighlight">
+\[c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Shape (n, 2).Datapoints to compute pdf.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Probability density for the input values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.bivariate.Bivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the internal state of a copula in the specified filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Path to save.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.select_copula">
+<em class="property">classmethod </em><code class="sig-name descname">select_copula</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.select_copula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.select_copula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select best copula function based on likelihood.</p>
+<p>Given out candidate copulas the procedure proposed for selecting the one
+that best fit to a dataset of pairs <span class="math notranslate nohighlight">\(\{(u_j, v_j )\}, j=1,2,...n\)</span> , is as follows:</p>
+<ol class="arabic simple">
+<li><p>Estimate the most likely parameter <span class="math notranslate nohighlight">\(\theta\)</span> of each copula candidate for the given
+dataset.</p></li>
+<li><p>Construct <span class="math notranslate nohighlight">\(R(z|\theta)\)</span>. Calculate the area under the tail for each of the copula
+candidates.</p></li>
+<li><p>Compare the areas: <span class="math notranslate nohighlight">\(a_u\)</span> achieved using empirical copula against the ones
+achieved for the copula candidates. Score the outcome of the comparison from 3 (best)
+down to 1 (worst).</p></li>
+<li><p>Proceed as in steps 2- 3 with the lower tail and function <span class="math notranslate nohighlight">\(L\)</span>.</p></li>
+<li><p>Finally the sum of empirical upper and lower tail functions is compared against
+<span class="math notranslate nohighlight">\(R + L\)</span>. Scores of the three comparisons are summed and the candidate with the
+highest value is selected.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Matrix of shape (n,2).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Best model and param for it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple(CopulaType, float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.split_matrix">
+<em class="property">static </em><code class="sig-name descname">split_matrix</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.split_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.split_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split an (n,2) numpy.array into two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Matrix of shape (n,2)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Both of shape (n,)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[numpy.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.subclasses">
+<em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.subclasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of subclasses for the current class object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Subclasses for given class.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">theta_interval</code><em class="property"> = []</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Bivariate.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters of the copula.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.bivariate.Clayton">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.</code><code class="sig-name descname">Clayton</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
+<p>Class for clayton copula model.</p>
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.compute_theta">
+<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute theta parameter using Kendall’s tau.</p>
+<p>On Clayton copula this is</p>
+<div class="math notranslate nohighlight">
+\[τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)\]</div>
+<div class="math notranslate nohighlight">
+\[θ ∈ (0, ∞)\]</div>
+<p>On the corner case of <span class="math notranslate nohighlight">\(τ = 1\)</span>, a big enough number is returned instead of infinity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Clayton.copula_type">
+<code class="sig-name descname">copula_type</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.bivariate.Clayton.copula_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cumulative distribution function for the clayton copula.</p>
+<p>The cumulative density(cdf), or distribution function for the Clayton family of copulas
+correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[C(u,v) = max[(u^{-θ} + v^{-θ} - 1),0]^{-1/θ}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cumulative probability.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.generator">
+<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the generator function for Clayton copula family.</p>
+<p>The generator is a function <span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>
+that given an Archimedian copula fulills:</p>
+<div class="math notranslate nohighlight">
+\[C(u,v) = \psi^{-1}(\psi(u) + \psi(v))\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>numpy.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Clayton.invalid_thetas">
+<code class="sig-name descname">invalid_thetas</code><em class="property"> = [0]</em><a class="headerlink" href="#copulas.bivariate.Clayton.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.partial_derivative">
+<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute partial derivative of cumulative distribution.</p>
+<p>The partial derivative of the copula(CDF) is the value of the conditional probability.</p>
+<div class="math notranslate nohighlight">
+\[F(v|u) = \frac{\partial C(u,v)}{\partial u} =
+u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Derivatives</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.percent_point">
+<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
+<p>The percent point is the</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – Value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
+<li><p><strong>v</strong> (<em>numpy.ndarray</em>) – given value of v.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Clayton.probability_density">
+<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Clayton.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density function for given copula family.</p>
+<p>The probability density(PDF) for the Clayton family of copulas correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[c(U,V) = \frac{\partial^2}{\partial v \partial u}C(u,v) =
+(\theta + 1)(uv)^{-\theta-1}(u^{-\theta} +
+v^{-\theta} - 1)^{-\frac{2\theta + 1}{\theta}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Probability density for the input values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Clayton.theta_interval">
+<code class="sig-name descname">theta_interval</code><em class="property"> = [-1, inf]</em><a class="headerlink" href="#copulas.bivariate.Clayton.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.bivariate.CopulaTypes">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.</code><code class="sig-name descname">CopulaTypes</code><a class="reference internal" href="../_modules/copulas/bivariate/base.html#CopulaTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.CopulaTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Available copula families.</p>
+<dl class="attribute">
+<dt id="copulas.bivariate.CopulaTypes.CLAYTON">
+<code class="sig-name descname">CLAYTON</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.bivariate.CopulaTypes.CLAYTON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.CopulaTypes.FRANK">
+<code class="sig-name descname">FRANK</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.bivariate.CopulaTypes.FRANK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.CopulaTypes.GUMBEL">
+<code class="sig-name descname">GUMBEL</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.bivariate.CopulaTypes.GUMBEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.CopulaTypes.INDEPENDENCE">
+<code class="sig-name descname">INDEPENDENCE</code><em class="property"> = 3</em><a class="headerlink" href="#copulas.bivariate.CopulaTypes.INDEPENDENCE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.bivariate.Frank">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.</code><code class="sig-name descname">Frank</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
+<p>Class for Frank copula model.</p>
+<dl class="method">
+<dt id="copulas.bivariate.Frank.compute_theta">
+<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute theta parameter using Kendall’s tau.</p>
+<p>On Frank copula, this is</p>
+<div class="math notranslate nohighlight">
+\[\tau = 1 − \frac{4}{\theta} + \frac{4}{\theta^2}\int_0^\theta \!
+\frac{t}{e^t -1} \mathrm{d}t.\]</div>
+<p>In order to solve, we can simplify it as</p>
+<div class="math notranslate nohighlight">
+\[\tau = 1 + \frac{4}{\theta}(D_1(\theta) - 1)\]</div>
+<p>where the function D is the Debye function of first order, defined as:</p>
+<div class="math notranslate nohighlight">
+\[D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.\]</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Frank.copula_type">
+<code class="sig-name descname">copula_type</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.bivariate.Frank.copula_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Frank.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cumulative distribution function for the Frank copula.</p>
+<p>The cumulative density(cdf), or distribution function for the Frank family of copulas
+correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[C(u,v) =  −\frac{\ln({\frac{1 + g(u) g(v)}{g(1)}})}{\theta}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cumulative distribution</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Frank.generator">
+<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the generator function.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Frank.invalid_thetas">
+<code class="sig-name descname">invalid_thetas</code><em class="property"> = [0]</em><a class="headerlink" href="#copulas.bivariate.Frank.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Frank.partial_derivative">
+<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute partial derivative of cumulative distribution.</p>
+<p>The partial derivative of the copula(CDF) is the value of the conditional probability.</p>
+<div class="math notranslate nohighlight">
+\[F(v|u) = \frac{\partial}{\partial u}C(u,v) =
+\frac{g(u)g(v) + g(v)}{g(u)g(v) + g(1)}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Frank.percent_point">
+<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> – <cite>np.ndarray</cite> value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
+<li><p><strong>v</strong> – <cite>np.ndarray</cite> given value of v.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Frank.probability_density">
+<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Frank.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density function for given copula family.</p>
+<p>The probability density(PDF) for the Frank family of copulas correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
+\frac{-\theta g(1)(1 + g(u + v))}{(g(u) g(v) + g(1)) ^ 2}\]</div>
+<p>Where the g function is defined by:</p>
+<div class="math notranslate nohighlight">
+\[g(x) = e^{-\theta x} - 1\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>probability density</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Frank.theta_interval">
+<code class="sig-name descname">theta_interval</code><em class="property"> = [-inf, inf]</em><a class="headerlink" href="#copulas.bivariate.Frank.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.bivariate.Gumbel">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.</code><code class="sig-name descname">Gumbel</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
+<p>Class for clayton copula model.</p>
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.compute_theta">
+<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute theta parameter using Kendall’s tau.</p>
+<p>On Gumbel copula <span class="math notranslate nohighlight">\(\tau\)</span> is defined as <span class="math notranslate nohighlight">\(τ = \frac{θ−1}{θ}\)</span>
+that we solve as <span class="math notranslate nohighlight">\(θ = \frac{1}{1-τ}\)</span></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Gumbel.copula_type">
+<code class="sig-name descname">copula_type</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.bivariate.Gumbel.copula_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the cumulative distribution function for the Gumbel copula.</p>
+<p>The cumulative density(cdf), or distribution function for the Gumbel family of copulas
+correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[C(u,v) = e^{-((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta}}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cumulative probability for the given datapoints, cdf(X).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.generator">
+<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the generator function.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Gumbel.invalid_thetas">
+<code class="sig-name descname">invalid_thetas</code><em class="property"> = []</em><a class="headerlink" href="#copulas.bivariate.Gumbel.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.partial_derivative">
+<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute partial derivative of cumulative distribution.</p>
+<p>The partial derivative of the copula(CDF) is the value of the conditional probability.</p>
+<div class="math notranslate nohighlight">
+\[F(v|u) = \frac{\partial C(u,v)}{\partial u} =
+C(u,v)\frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta} - 1}}
+{\theta(- \ln u)^{1 -\theta}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.percent_point">
+<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.percent_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em>) – given value of v.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.bivariate.Gumbel.probability_density">
+<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Gumbel.probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute probability density function for given copula family.</p>
+<p>The probability density(PDF) for the Gumbel family of copulas correspond to the formula:</p>
+<div class="math notranslate nohighlight">
+\[c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
+\frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
+{\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
++ (-\ln v)^\theta\big)^{-1/\theta})\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.bivariate.Gumbel.theta_interval">
+<code class="sig-name descname">theta_interval</code><em class="property"> = [1, inf]</em><a class="headerlink" href="#copulas.bivariate.Gumbel.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.bivariate.base.html" class="btn btn-neutral float-right" title="copulas.bivariate.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.html" class="btn btn-neutral float-left" title="copulas package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

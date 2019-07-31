@@ -1,0 +1,21 @@
+copulas.univariate package
+==========================
+
+Submodules
+----------
+
+.. toctree::
+
+   copulas.univariate.base
+   copulas.univariate.gaussian
+   copulas.univariate.gaussian_kde
+   copulas.univariate.kde
+   copulas.univariate.truncnorm
+
+Module contents
+---------------
+
+.. automodule:: copulas.univariate
+   :members:
+   :undoc-members:
+   :show-inheritance:

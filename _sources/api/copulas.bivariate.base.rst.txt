@@ -1,0 +1,7 @@
+copulas.bivariate.base module
+=============================
+
+.. automodule:: copulas.bivariate.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

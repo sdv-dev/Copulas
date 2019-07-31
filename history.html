@@ -8,48 +8,56 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Copulas 0.2.1 documentation</title>
+  <title>History &mdash; Copulas 0.2.2 documentation</title>
   
 
   
   
+    <link rel="shortcut icon" href="_static/dai-logo-white.ico"/>
+  
   
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Credits" href="authors.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="Contributing" href="contributing.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
             <a href="index.html" class="icon icon-home"> Copulas
           
 
+          
+            
+            <img src="_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -74,14 +82,74 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#stable-release">Stable release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#from-sources">From sources</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#supported-copulas">Supported Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#bivariate-copulas">Bivariate copulas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#multivariate">Multivariate</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-for-development">Install for Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#concepts">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#probability">Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#random-variable">Random variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#distribution">Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#types-of-distributions">Types of distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#id2">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#what-s-next">What’s next?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#credits">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#related-projects">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#sdv">SDV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#tgan">TGAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api/copulas.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
@@ -98,8 +166,17 @@
 <li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="authors.html#contributors">Contributors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-improvements">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vine-serialization">0.2.1 - Vine serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unified-api">0.2.0 - Unified API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minor-improvements">0.1.1 - Minor Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-release">0.1.0 - First Release</a></li>
 </ul>
 </li>
 </ul>
@@ -147,14 +224,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>History</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/DAI-Lab/copulas/blob/master/docs/history.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/history.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -168,7 +245,76 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
+  <div class="section" id="history">
+<h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>0.2.2 (2019-07-31)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-features">
+<h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">truncnorm</span></code> distribution and a generic wrapper for <code class="docutils literal notranslate"><span class="pre">scipy.rv_continous</span></code> distributions - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/27">#27</a> by &#64;amontanez, &#64;csala and &#64;ManuelAlvarezC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Independence</span></code> bivariate copulas - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/46">#46</a> by &#64;aliciasun, &#64;csala and &#64;ManuelAlvarezC</p></li>
+<li><p>Option to select seed on random number generator - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/63">#63</a> by &#64;echo66 and &#64;ManuelAlvarezC</p></li>
+<li><p>Option on Vine copulas to select number of rows to sample - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/77">#77</a> by &#64;ManuelAlvarezC</p></li>
+<li><p>Make copulas accept both scalars and arrays as arguments - Issues <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/85">#85</a> and <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/90">#90</a> by &#64;ManuelAlvarezC</p></li>
+</ul>
+</div>
+<div class="section" id="general-improvements">
+<h3>General Improvements<a class="headerlink" href="#general-improvements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Ability to properly handle constant data - Issues <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/57">#57</a> and <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/82">#82</a> by &#64;csala and &#64;ManuelAlvarezC</p></li>
+<li><p>Tests for analytics properties of copulas - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/61">#61</a> by &#64;ManuelAlvarezC</p></li>
+<li><p>Improved documentation - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/96">#96</a> by &#64;ManuelAlvarezC</p></li>
+</ul>
+</div>
+<div class="section" id="bugs-fixed">
+<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix bug on Vine copulas, that made it crash during the bivariate copula selection - Issue <a class="reference external" href="https://github.com/DAI-Lab/Copulas/issues/64">#64</a> by &#64;echo66 and &#64;ManuelAlvarezC</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="vine-serialization">
+<h2>0.2.1 - Vine serialization<a class="headerlink" href="#vine-serialization" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add serialization to Vine copulas.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">distribution</span></code> as argument for the Gaussian Copula.</p></li>
+<li><p>Improve Bivariate Copulas code structure to remove code duplication.</p></li>
+<li><p>Fix bug in Vine Copulas sampling: ‘Edge’ object has no attribute ‘index’</p></li>
+<li><p>Improve code documentation.</p></li>
+<li><p>Improve code style and linting tools configuration.</p></li>
+</ul>
+</div>
+<div class="section" id="unified-api">
+<h2>0.2.0 - Unified API<a class="headerlink" href="#unified-api" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>New API for stats methods.</p></li>
+<li><p>Standarize input and output to <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>.</p></li>
+<li><p>Increase unittest coverage to 90%.</p></li>
+<li><p>Add methods to load/save copulas.</p></li>
+<li><p>Improve Gaussian copula sampling accuracy.</p></li>
+</ul>
+</div>
+<div class="section" id="minor-improvements">
+<h2>0.1.1 - Minor Improvements<a class="headerlink" href="#minor-improvements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Different Copula types separated in subclasses</p></li>
+<li><p>Extensive Unit Testing</p></li>
+<li><p>More pythonic names in the public API.</p></li>
+<li><p>Stop using third party elements that will be deprected soon.</p></li>
+<li><p>Add methods to sample new data on bivariate copulas.</p></li>
+<li><p>New KDE Univariate copula</p></li>
+<li><p>Improved examples with additional demo data.</p></li>
+</ul>
+</div>
+<div class="section" id="first-release">
+<h2>0.1.0 - First Release<a class="headerlink" href="#first-release" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First release on PyPI.</p></li>
+</ul>
+</div>
+</div>
+
 
            </div>
            
@@ -178,7 +324,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="authors.html" class="btn btn-neutral" title="Credits" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -187,7 +333,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, Andrew Montanez
+        &copy; Copyright 2018, MIT Data To AI Lab
 
     </p>
   </div>
@@ -204,26 +350,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

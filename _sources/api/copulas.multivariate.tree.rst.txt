@@ -1,0 +1,7 @@
+copulas.multivariate.tree module
+================================
+
+.. automodule:: copulas.multivariate.tree
+   :members:
+   :undoc-members:
+   :show-inheritance:

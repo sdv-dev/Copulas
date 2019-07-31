@@ -1,0 +1,7 @@
+copulas.univariate.gaussian\_kde module
+=======================================
+
+.. automodule:: copulas.univariate.gaussian_kde
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.univariate.base &mdash; Copulas 0.2.2 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../../../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#overview">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#supported-copulas">Supported Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#bivariate-copulas">Bivariate copulas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#multivariate">Multivariate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-for-development">Install for Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#concepts">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#probability">Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#random-variable">Random variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#distribution">Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#types-of-distributions">Types of distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#id2">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#what-s-next">What’s next?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#credits">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#related-projects">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#sdv">SDV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#tgan">TGAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/copulas.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.bivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unified-api">0.2.0 - Unified API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#first-release">0.1.0 - First Release</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../copulas.html">copulas</a> &raquo;</li>
+        
+      <li>copulas.univariate.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for copulas.univariate.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
+
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">NotFittedError</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">import_object</span><span class="p">,</span>
+    <span class="n">missing_method_scipy_wrapper</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Univariate"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate">[docs]</a><span class="k">class</span> <span class="nc">Univariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Abstract class for representing univariate distributions &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Univariate.fit"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fits the model.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Computes probability density.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.pdf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.pdf">[docs]</a>    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Computes cumulative density.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Cumulative density for X.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.cdf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.percent_point"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Given a cumulative distribution value, returns a value in original space.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            U: `np.ndarray` of shape (n, 1) and values in [0,1]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            `np.ndarray`: Estimated values in original space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.ppf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.ppf">[docs]</a>    <span class="k">def</span> <span class="nf">ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">U</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns new data point based on model.</span>
+
+<span class="sd">        Argument:</span>
+<span class="sd">            n_samples: `int`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Generated samples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Univariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns parameters to replicate the distribution.&quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span>
+            <span class="s1">&#39;constant_value&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_params</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="k">def</span> <span class="nf">_fit_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return attributes from self.model to serialize.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Parameters to recreate self.model in its current fit status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Univariate.from_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create new instance from dictionary.&quot;&quot;&quot;</span>
+        <span class="n">distribution_class</span> <span class="o">=</span> <span class="n">import_object</span><span class="p">(</span><span class="n">param_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">distribution_class</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">param_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Univariate.check_fit"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.check_fit">[docs]</a>    <span class="k">def</span> <span class="nf">check_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assert that the object is fit</span>
+
+<span class="sd">        Raises a `NotFittedError` if the model is  not fitted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s2">&quot;This model is not fitted.&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_constant_value</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if a Series or array contains only one unique value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X(pandas.Series or numpy.ndarray): Array to check for constantness</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (float or None): Return the constant value if there is one, else return None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">uniques</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniques</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">uniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_constant_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sample values for a constant distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_samples(int): Number of rows to sample</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: Sampled values. Array of shape (num_samples,).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_constant_cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cumulative distribution for the degenerate case of constant distribution.</span>
+
+<span class="sd">        Note that the output of this method will be an array whose unique values are 0 and 1.</span>
+<span class="sd">        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (numpy.ndarray): Values to compute cdf to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: Cumulative distribution for the given values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">X</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_constant_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Probability density for the degenerate case of constant distribution.</span>
+
+<span class="sd">        Note that the output of this method will be an array whose unique values are 0 and 1.</span>
+<span class="sd">        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X(numpy.ndarray): Values to compute pdf.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: Probability densisty for the given values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">X</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_constant_percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Percent point for the degenerate case of constant distribution.</span>
+
+<span class="sd">        Note that the output of this method will be an array whose unique values are `np.nan`</span>
+<span class="sd">        and self.constant_value.</span>
+<span class="sd">        More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X(numpy.ndarray): Percentiles.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_replace_constant_methods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replaces conventional distribution methods by its constant counterparts.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_cumulative_distribution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">percent_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_percent_point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_probability_density</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constant_sample</span></div>
+
+
+<div class="viewcode-block" id="ScipyWrapper"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyWrapper">[docs]</a><span class="k">class</span> <span class="nc">ScipyWrapper</span><span class="p">(</span><span class="n">Univariate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper for :attr:`scipy.stats.rv_continous` subclasses.</span>
+
+<span class="sd">    This class is intended to be used to integrate random variables from :attr:`scipy.stats`</span>
+<span class="sd">    into copulas. It contain 5 attributes that control its behavior:</span>
+
+<span class="sd">    - :attr:`model_class`: Name of the class to integrate, it must be in the :attr:`scipy.stats`</span>
+<span class="sd">      module.</span>
+<span class="sd">    - :attr:`probability_density`, :attr:`cumulative_distribution`, :attr:`percent_point`,</span>
+<span class="sd">      :attr:`sample` : This attributes contain the information about how to map the methods in the</span>
+<span class="sd">      model.</span>
+
+<span class="sd">      * If it&#39;s of type :attr:`str` it will interpreted as the name of the corresponding method in</span>
+<span class="sd">        model.</span>
+
+<span class="sd">      * If it&#39;s :attr:`None` it will be interpreted as the method doesn&#39;t exist in the model and</span>
+<span class="sd">        is not implemented and a error message will be displayed.</span>
+
+<span class="sd">      * If it&#39;s not present it will be interpreted as the method doesn&#39;t exist in the model but</span>
+<span class="sd">        has been implemented in the integration.</span>
+
+<span class="sd">    On fit time it will instantiate the given :attr:`model_class` name, and map its methods to the</span>
+<span class="sd">    class, following the values in the attributes for the corresponding method.</span>
+
+<span class="sd">    You can subclass :attr:`ScipyWrapper` by:</span>
+
+<span class="sd">    1. On a file named after your distribution, create a new subclass.</span>
+
+<span class="sd">    2. Set the :attr:`model_class` with the name of the distribution you want to integrate.</span>
+
+<span class="sd">    3. Map the methods of your model.</span>
+
+<span class="sd">    4. Implement the :attr:`from_dict` and :attr:`_fit_params` methods.</span>
+
+<span class="sd">    5. Implement any custom method not mapped.</span>
+
+<span class="sd">    For a working example of how to implement subclasses of :attr:`ScipyWraper`, please check the</span>
+<span class="sd">    source of :attr:`copulas.univariate.kde`.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        model(scipy.stats.rv_continuous): Actual scipy.stats instance we are wrapping.</span>
+<span class="sd">        model_class(str): Name of the model to use (Must be found in scipy.stats)</span>
+<span class="sd">        probability_density(str): Name of the method of model to map to :attr:`probability_density`</span>
+<span class="sd">        percent_point(str): Name of the method of model to map to :attr:`percent_point`</span>
+<span class="sd">        sample(str): Name of the method of model to map to :attr:`sample`</span>
+<span class="sd">        cumulative_distribution(str):</span>
+<span class="sd">            Name of the method of model to map to :attr:`cumulative_distribution`</span>
+<span class="sd">        unfittable_model(bool):</span>
+<span class="sd">            Wheter or not if the wrapper method needs data to be created or only parameters.</span>
+<span class="sd">            (Examaples of both behaviors are :attr:`GaussianKDE` and :attr:`TruncNorm`)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">model_class</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">unfittable_model</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">probability_density</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cumulative_distribution</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">percent_point</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">METHOD_NAMES</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span> <span class="s1">&#39;probability_density&#39;</span><span class="p">,</span> <span class="s1">&#39;cumulative_distribution&#39;</span><span class="p">,</span> <span class="s1">&#39;percent_point&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ScipyWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="nd">@check_valid_values</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit scipy model to an array of values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X(`np.ndarray` or `pd.DataFrame`):  Datapoints to be estimated from. Must be 1-d</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_constant_value</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfittable_model</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_class</span><span class="p">)(</span><span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">METHOD_NAMES</span><span class="p">:</span>
+                <span class="n">attribute</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+
+                <span class="k">elif</span> <span class="n">attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">missing_method_scipy_wrapper</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_replace_constant_methods</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="ScipyWrapper.from_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyWrapper.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set attributes with provided values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parameters(dict): Dictionary containing instance parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ScipyWrapper: Instance populated with given parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

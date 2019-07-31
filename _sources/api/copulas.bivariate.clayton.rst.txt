@@ -1,0 +1,7 @@
+copulas.bivariate.clayton module
+================================
+
+.. automodule:: copulas.bivariate.clayton
+   :members:
+   :undoc-members:
+   :show-inheritance:

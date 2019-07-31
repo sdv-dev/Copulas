@@ -1,0 +1,20 @@
+copulas.multivariate package
+============================
+
+Submodules
+----------
+
+.. toctree::
+
+   copulas.multivariate.base
+   copulas.multivariate.gaussian
+   copulas.multivariate.tree
+   copulas.multivariate.vine
+
+Module contents
+---------------
+
+.. automodule:: copulas.multivariate
+   :members:
+   :undoc-members:
+   :show-inheritance:

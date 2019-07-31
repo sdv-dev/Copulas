@@ -1,0 +1,7 @@
+copulas.bivariate.frank module
+==============================
+
+.. automodule:: copulas.bivariate.frank
+   :members:
+   :undoc-members:
+   :show-inheritance:

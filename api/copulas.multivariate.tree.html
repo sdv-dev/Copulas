@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.multivariate.tree module &mdash; Copulas 0.2.2 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="copulas.multivariate.vine module" href="copulas.multivariate.vine.html" />
+    <link rel="prev" title="copulas.multivariate.gaussian module" href="copulas.multivariate.gaussian.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#overview">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#supported-copulas">Supported Copulas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#bivariate-copulas">Bivariate copulas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#multivariate">Multivariate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-for-development">Install for Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#concepts">Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#probability">Probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#random-variable">Random variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#distribution">Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#types-of-distributions">Types of distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#id2">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#what-s-next">What’s next?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#credits">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#related-projects">Related Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#sdv">SDV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#tgan">TGAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="copulas.multivariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#release-workflow">Release Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#unified-api">0.2.0 - Unified API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#first-release">0.1.0 - First Release</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+          <li><a href="copulas.multivariate.html">copulas.multivariate package</a> &raquo;</li>
+        
+      <li>copulas.multivariate.tree module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.multivariate.tree.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-copulas.multivariate.tree">
+<span id="copulas-multivariate-tree-module"></span><h1>copulas.multivariate.tree module<a class="headerlink" href="#module-copulas.multivariate.tree" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="copulas.multivariate.tree.CenterTree">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">CenterTree</code><span class="sig-paren">(</span><em class="sig-param">tree_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#CenterTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.CenterTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Center Vine</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.CenterTree.get_anchor">
+<code class="sig-name descname">get_anchor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#CenterTree.get_anchor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.CenterTree.get_anchor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find anchor variable with highest sum of dependence with the rest.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.CenterTree.tree_type">
+<code class="sig-name descname">tree_type</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.multivariate.tree.CenterTree.tree_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.DirectTree">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">DirectTree</code><span class="sig-paren">(</span><em class="sig-param">tree_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#DirectTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.DirectTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper Class for instantiate a Direct Vine.</p>
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.DirectTree.tree_type">
+<code class="sig-name descname">tree_type</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.multivariate.tree.DirectTree.tree_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.Edge">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">Edge</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">left</em>, <em class="sig-param">right</em>, <em class="sig-param">copula_name</em>, <em class="sig-param">copula_theta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">edge_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.get_child_edge">
+<em class="property">classmethod </em><code class="sig-name descname">get_child_edge</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">left_parent</em>, <em class="sig-param">right_parent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.get_child_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_child_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a child edge from two parent edges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.get_conditional_uni">
+<em class="property">classmethod </em><code class="sig-name descname">get_conditional_uni</code><span class="sig-paren">(</span><em class="sig-param">left_parent</em>, <em class="sig-param">right_parent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.get_conditional_uni"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_conditional_uni" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify pair univariate value from parents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left_parent</strong> (<a class="reference internal" href="#copulas.multivariate.tree.Edge" title="copulas.multivariate.tree.Edge"><em>Edge</em></a>) – left parent</p></li>
+<li><p><strong>right_parent</strong> (<a class="reference internal" href="#copulas.multivariate.tree.Edge" title="copulas.multivariate.tree.Edge"><em>Edge</em></a>) – right parent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>left and right parents univariate.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.get_likelihood">
+<code class="sig-name descname">get_likelihood</code><span class="sig-paren">(</span><em class="sig-param">uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood given a U matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uni_matrix</strong> (<em>numpy.array</em>) – Matrix to compute the likelihood.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>likelihood and conditional values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple(np.ndarray, np.ndarray, np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.is_adjacent">
+<code class="sig-name descname">is_adjacent</code><span class="sig-paren">(</span><em class="sig-param">another_edge</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.is_adjacent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.is_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if two edges are adjacent.</p>
+<p>:param : param another_edge: edge object of another edge
+:param : type another_edge: edge object</p>
+<p>This function will return true if the two edges are adjacent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.sort_edge">
+<em class="property">static </em><code class="sig-name descname">sort_edge</code><span class="sig-paren">(</span><em class="sig-param">edges</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.sort_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.sort_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort iterable of edges first by left node indices then right.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>edges</strong> (<em>list</em><em>[</em><a class="reference internal" href="#copulas.multivariate.tree.Edge" title="copulas.multivariate.tree.Edge"><em>Edge</em></a><em>]</em>) – List of edges to be sorted.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sorted list by left and right node indices.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#copulas.multivariate.tree.Edge" title="copulas.multivariate.tree.Edge">Edge</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Edge.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Edge.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Edge.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.RegularTree">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">RegularTree</code><span class="sig-paren">(</span><em class="sig-param">tree_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#RegularTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.RegularTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#copulas.multivariate.tree.Tree" title="copulas.multivariate.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.tree.Tree</span></code></a></p>
+<p>Helper class for instantiate Regular Vine.</p>
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.RegularTree.tree_type">
+<code class="sig-name descname">tree_type</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.multivariate.tree.RegularTree.tree_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.Tree">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param">tree_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
+<p>Helper class to instantiate a single tree in the vine model.</p>
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">n_nodes</em>, <em class="sig-param">tau_matrix</em>, <em class="sig-param">previous_tree</em>, <em class="sig-param">edges=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits tree object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – index of the tree.</p></li>
+<li><p><strong>n_nodes</strong> (<em>int</em>) – number of nodes in the tree.</p></li>
+<li><p><strong>tau_matrix</strong> (<em>numpy.array</em>) – kendall’s tau matrix of the data, shape (n_nodes, n_nodes).</p></li>
+<li><p><strong>previous_tree</strong> (<a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree" title="copulas.multivariate.Tree"><em>Tree</em></a>) – tree object of previous level.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">tree_dict</em>, <em class="sig-param">previous=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance from a dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_adjacent_matrix">
+<code class="sig-name descname">get_adjacent_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.get_adjacent_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_adjacent_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get adjacency matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>param adj: adjacency matrix
+:type adj: np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_likelihood">
+<code class="sig-name descname">get_likelihood</code><span class="sig-paren">(</span><em class="sig-param">uni_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.get_likelihood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute likelihood of the tree given an U matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uni_matrix</strong> (<em>numpy.array</em>) – univariate matrix to evaluate likelihood on.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>likelihood of the current tree, next level conditional univariate matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[float, numpy.array]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.get_tau_matrix">
+<code class="sig-name descname">get_tau_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.get_tau_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.get_tau_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tau matrix for adjacent pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>param tau: tau matrix for the current tree
+:type tau: np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.load">
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">tree_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.prepare_next_tree">
+<code class="sig-name descname">prepare_next_tree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.prepare_next_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.prepare_next_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare conditional U matrix for next tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the internal state of a copula in the specified filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.subclasses">
+<em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.subclasses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="copulas.multivariate.tree.Tree.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.Tree.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parameters of the copula.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.Tree.tree_type">
+<code class="sig-name descname">tree_type</code><em class="property"> = None</em><a class="headerlink" href="#copulas.multivariate.tree.Tree.tree_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="copulas.multivariate.tree.TreeTypes">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.tree.</code><code class="sig-name descname">TreeTypes</code><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#TreeTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.tree.TreeTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.TreeTypes.CENTER">
+<code class="sig-name descname">CENTER</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.multivariate.tree.TreeTypes.CENTER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.TreeTypes.DIRECT">
+<code class="sig-name descname">DIRECT</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.multivariate.tree.TreeTypes.DIRECT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.tree.TreeTypes.REGULAR">
+<code class="sig-name descname">REGULAR</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.multivariate.tree.TreeTypes.REGULAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.multivariate.vine.html" class="btn btn-neutral float-right" title="copulas.multivariate.vine module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.multivariate.gaussian.html" class="btn btn-neutral float-left" title="copulas.multivariate.gaussian module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
