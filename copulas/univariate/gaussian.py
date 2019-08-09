@@ -18,8 +18,8 @@ class GaussianUnivariate(Univariate):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = None
-        self.mean = 0
-        self.std = 1
+        self.mean = None
+        self.std = None
 
     def __str__(self):
         details = [self.name, self.mean, self.std]
@@ -104,6 +104,12 @@ class GaussianUnivariate(Univariate):
         return np.random.normal(self.mean, self.std, num_samples)
 
     def _fit_params(self):
+        if self.constant_value is not None:
+            return {
+                'mean': self.constant_value,
+                'std': 0
+            }
+
         return {
             'mean': self.mean,
             'std': self.std,
@@ -114,10 +120,16 @@ class GaussianUnivariate(Univariate):
         """Set attributes with provided values."""
         instance = cls()
         instance.fitted = copula_dict['fitted']
-        instance.constant_value = copula_dict['constant_value']
 
-        if instance.fitted and instance.constant_value is None:
+        if not instance.fitted:
+            return instance
+
+        std = copula_dict['std']
+        if std == 0:
+            instance.constant_value = copula_dict['mean']
+
+        else:
             instance.mean = copula_dict['mean']
-            instance.std = copula_dict['std']
+            instance.std = std
 
         return instance

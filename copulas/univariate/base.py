@@ -83,7 +83,6 @@ class Univariate(object):
         result = {
             'type': get_qualified_name(self),
             'fitted': self.fitted,
-            'constant_value': self.constant_value
         }
 
         if not self.fitted:

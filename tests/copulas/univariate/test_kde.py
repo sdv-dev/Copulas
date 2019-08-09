@@ -162,7 +162,6 @@ class TestKDEUnivariate(TestCase):
         # Setup
         parameters = {
             'fitted': True,
-            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -225,7 +224,6 @@ class TestKDEUnivariate(TestCase):
         expected_result = {
             'type': 'copulas.univariate.kde.KDEUnivariate',
             'fitted': True,
-            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[

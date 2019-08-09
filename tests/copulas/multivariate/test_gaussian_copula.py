@@ -335,28 +335,24 @@ class TestGaussianCopula(TestCase):
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
-                    'constant_value': None
                 }
             }
         }
@@ -387,28 +383,24 @@ class TestGaussianCopula(TestCase):
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
-                    'constant_value': None
                 }
             }
         }
@@ -450,28 +442,24 @@ class TestGaussianCopula(TestCase):
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
-                    'constant_value': None
                 }
             }
         }
@@ -505,28 +493,24 @@ class TestGaussianCopula(TestCase):
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_02': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_03': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
-                    'constant_value': None
                 },
                 'feature_04': {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
-                    'constant_value': None
                 }
             }
         }

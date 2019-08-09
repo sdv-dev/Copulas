@@ -118,7 +118,6 @@ class TestVine(TestCase):
                 {
                     'type': 'copulas.univariate.kde.KDEUnivariate',
                     'fitted': False,
-                    'constant_value': None
                 }
             ]
         }

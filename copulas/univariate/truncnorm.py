@@ -21,8 +21,6 @@ class TruncNorm(ScipyWrapper):
         """Prepare necessary params and call super().fit."""
         min_ = X.min() - EPSILON
         max_ = X.max() + EPSILON
-        self.mean = X.mean()
-        self.std = X.std()
 
         super().fit(X, min_, max_)
 
@@ -38,10 +36,16 @@ class TruncNorm(ScipyWrapper):
         """
         instance = cls()
         instance.fitted = parameters['fitted']
-        instance.constant_value = parameters['constant_value']
 
-        if instance.fitted and instance.constant_value is None:
-            instance.model = scipy.stats.truncnorm(parameters['a'], parameters['b'])
+        if instance.fitted:
+            a = parameters['a']
+            b = parameters['b']
+
+            if a > b:
+                instance.constant_value = a
+
+            else:
+                instance.model = scipy.stats.truncnorm(a, b)
 
         return instance
 
@@ -51,6 +55,12 @@ class TruncNorm(ScipyWrapper):
         Returns:
             dict: Parameters to recreate self.model in its current fit status.
         """
+        if self.constant_value is not None:
+            return {
+                'a': self.constant_value,
+                'b': self.constant_value - 1
+            }
+
         return {
             'a': self.model.a,
             'b': self.model.b

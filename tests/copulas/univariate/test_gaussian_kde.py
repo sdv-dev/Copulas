@@ -205,7 +205,6 @@ class TestGaussianKDE(TestCase):
         # Setup
         parameters = {
             'fitted': True,
-            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[
@@ -268,7 +267,6 @@ class TestGaussianKDE(TestCase):
         expected_result = {
             'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
             'fitted': True,
-            'constant_value': None,
             'd': 1,
             'n': 10,
             'dataset': [[

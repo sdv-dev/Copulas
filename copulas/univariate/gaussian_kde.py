@@ -82,21 +82,37 @@ class GaussianKDE(ScipyWrapper):
         instance = cls()
 
         instance.fitted = copula_dict['fitted']
-        instance.constant_value = copula_dict['constant_value']
 
-        if instance.fitted and not instance.constant_value:
-            instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
+        if instance.fitted:
 
-            for key in ['dataset', 'covariance', 'inv_cov']:
-                copula_dict[key] = np.array(copula_dict[key])
+            covariance = copula_dict['covariance']
+            if not isinstance(covariance, list):
+                instance.constant_value = covariance
 
-            attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
-            for name in attributes:
-                setattr(instance.model, name, copula_dict[name])
+            if instance.constant_value is None:
+                instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
+
+                copula_dict['covariance'] = np.array(covariance)
+                for key in ['dataset', 'inv_cov']:
+                    copula_dict[key] = np.array(copula_dict[key])
+
+                attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
+                for name in attributes:
+                    setattr(instance.model, name, copula_dict[name])
 
         return instance
 
     def _fit_params(self):
+        if self.constant_value is not None:
+            return {
+                'd': 0,
+                'n': 0,
+                'dataset': [],
+                'covariance': self.constant_value,
+                'factor': 0,
+                'inv_cov': []
+            }
+
         return {
             'd': self.model.d,
             'n': self.model.n,

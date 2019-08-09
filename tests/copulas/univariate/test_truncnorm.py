@@ -58,7 +58,6 @@ class TestTruncNorm(TestCase):
         parameters = {
             'type': 'copulas.univariate.truncnorm.TruncNorm',
             'fitted': False,
-            'constant_value': None
         }
 
         # Run
@@ -75,7 +74,6 @@ class TestTruncNorm(TestCase):
         parameters = {
             'type': 'copulas.univariate.truncnorm.TruncNorm',
             'fitted': True,
-            'constant_value': None,
             'a': 0,
             'b': 10
         }
