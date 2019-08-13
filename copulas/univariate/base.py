@@ -259,8 +259,8 @@ class ScipyWrapper(Univariate):
     sample = None
     METHOD_NAMES = ('sample', 'probability_density', 'cumulative_distribution', 'percent_point')
 
-    def __init__(self):
-        super(ScipyWrapper, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super(ScipyWrapper, self).__init__(*args, **kwargs)
 
     @check_valid_values
     def fit(self, X, *args, **kwargs):

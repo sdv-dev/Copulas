@@ -90,14 +90,14 @@ class TestGaussianCopula(TestCase):
     def test_fit_distribution_arg(self):
         """On fit, the distributions for each column use instances of copula.distribution."""
         # Setup
-        distribution = 'copulas.univariate.kde.KDEUnivariate'
+        distribution = 'copulas.univariate.gaussian_kde.GaussianKDE'
         copula = GaussianMultivariate(distribution=distribution)
 
         # Run
         copula.fit(self.data)
 
         # Check
-        assert copula.distribution == 'copulas.univariate.kde.KDEUnivariate'
+        assert copula.distribution == 'copulas.univariate.gaussian_kde.GaussianKDE'
 
         for key in self.data.columns:
             assert key in copula.distribs

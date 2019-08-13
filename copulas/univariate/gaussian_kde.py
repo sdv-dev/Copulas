@@ -17,6 +17,27 @@ class GaussianKDE(ScipyWrapper):
     probability_density = 'evaluate'
     sample = 'resample'
 
+
+    def __init__(self, sample_size=None, *args, **kwargs):
+        self.sample_size = sample_size
+        super().__init__(*args, **kwargs)
+
+    def fit(self, X, *args, **kwargs):
+        self.constant_value = self._get_constant_value(X)
+
+        if self.constant_value is None:
+            model = scipy.stats.gaussian_kde(X)
+            if self.sample_size is None:
+                self.sample_size = max(X.shape)
+
+            samples = model.resample(self.sample_size)
+            super().fit(samples, *args, **kwargs)
+
+        else:
+            self._replace_constant_methods()
+
+        self.fitted = True
+
     def cumulative_distribution(self, X):
         """Computes the integral of a 1-D pdf between two bounds
 
@@ -84,40 +105,22 @@ class GaussianKDE(ScipyWrapper):
         instance.fitted = copula_dict['fitted']
 
         if instance.fitted:
+            X = np.array(copula_dict['dataset'])
+            uniques = np.unique(X)
+            if len(uniques) == 1:
+                instance.constant_value = uniques[0]
 
-            covariance = copula_dict['covariance']
-            if not isinstance(covariance, list):
-                instance.constant_value = covariance
-
-            if instance.constant_value is None:
-                instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
-
-                copula_dict['covariance'] = np.array(covariance)
-                for key in ['dataset', 'inv_cov']:
-                    copula_dict[key] = np.array(copula_dict[key])
-
-                attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
-                for name in attributes:
-                    setattr(instance.model, name, copula_dict[name])
+            else:
+                instance.model = scipy.stats.gaussian_kde(X)
 
         return instance
 
     def _fit_params(self):
         if self.constant_value is not None:
             return {
-                'd': 0,
-                'n': 0,
-                'dataset': [],
-                'covariance': self.constant_value,
-                'factor': 0,
-                'inv_cov': []
+                'dataset': [self.constant_value] * self.sample_size,
             }
 
         return {
-            'd': self.model.d,
-            'n': self.model.n,
             'dataset': self.model.dataset.tolist(),
-            'covariance': self.model.covariance.tolist(),
-            'factor': self.model.factor,
-            'inv_cov': self.model.inv_cov.tolist()
         }
