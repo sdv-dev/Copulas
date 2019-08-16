@@ -50,7 +50,8 @@ class TestTruncNorm(TestCase):
         assert instance.cumulative_distribution == 'cumulative_distribution'
         assert instance.sample == 'sample'
 
-        truncnorm_mock.assert_called_once_with(1 - EPSILON, 5 + EPSILON)
+        truncnorm_mock.assert_called_once_with(
+            1 - EPSILON, 5 + EPSILON, loc=3.0, scale=1.4142135623730951)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""
@@ -74,8 +75,10 @@ class TestTruncNorm(TestCase):
         parameters = {
             'type': 'copulas.univariate.truncnorm.TruncNorm',
             'fitted': True,
-            'a': 0,
-            'b': 10
+            'a': -10,
+            'b': 10,
+            'mean': 0,
+            'std': 1
         }
 
         # Run
@@ -84,8 +87,10 @@ class TestTruncNorm(TestCase):
         # Check
         assert instance.fitted is True
         assert instance.constant_value is None
-        assert instance.model.a == 0
+        assert instance.model.a == -10
         assert instance.model.b == 10
+        assert instance.model.kwds['loc'] == 0
+        assert instance.model.kwds['scale'] == 1
 
     def test__fit_params(self):
         """_fit_params returns a dict with the params of the scipy model."""
@@ -96,7 +101,9 @@ class TestTruncNorm(TestCase):
 
         expected_result = {
             'a': - EPSILON,
-            'b': 4 + EPSILON
+            'b': 4 + EPSILON,
+            'loc': 2.0,
+            'scale': 1.4142135623730951
         }
 
         # Run

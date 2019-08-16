@@ -11,7 +11,7 @@ class KDEUnivariate(Univariate):
     but allows more flexibility.
     """
 
-    def __init__(self, sample_size=10, *args, **kwargs):
+    def __init__(self, sample_size=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.sample_size = sample_size
         self.model = None
@@ -30,9 +30,11 @@ class KDEUnivariate(Univariate):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            model = scipy.stats.gaussian_kde(X)
-            sample = model.resample(self.sample_size)
-            self.model = scipy.stats.gaussian_kde(sample)
+            if self.sample_size is not None:
+                model = scipy.stats.gaussian_kde(X)
+                X = model.resample(self.sample_size)
+
+            self.model = scipy.stats.gaussian_kde(X)
 
         else:
             self._replace_constant_methods()

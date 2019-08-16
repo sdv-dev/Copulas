@@ -17,7 +17,6 @@ class GaussianKDE(ScipyWrapper):
     probability_density = 'evaluate'
     sample = 'resample'
 
-
     def __init__(self, sample_size=None, *args, **kwargs):
         self.sample_size = sample_size
         super().__init__(*args, **kwargs)
@@ -26,12 +25,11 @@ class GaussianKDE(ScipyWrapper):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            model = scipy.stats.gaussian_kde(X)
-            if self.sample_size is None:
-                self.sample_size = max(X.shape)
+            if self.sample_size is not None:
+                model = scipy.stats.gaussian_kde(X)
+                X = model.resample(self.sample_size)
 
-            samples = model.resample(self.sample_size)
-            super().fit(samples, *args, **kwargs)
+            super().fit(X, *args, **kwargs)
 
         else:
             self._replace_constant_methods()

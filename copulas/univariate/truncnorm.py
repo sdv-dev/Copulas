@@ -19,10 +19,18 @@ class TruncNorm(ScipyWrapper):
 
     def fit(self, X):
         """Prepare necessary params and call super().fit."""
-        min_ = X.min() - EPSILON
-        max_ = X.max() + EPSILON
+        self.constant_value = self._get_constant_value(X)
+        if self.constant_value is None:
+            min_ = X.min() - EPSILON
+            max_ = X.max() + EPSILON
+            mean = X.mean()
+            std = X.std()
 
-        super().fit(X, min_, max_)
+            super().fit(X, min_, max_, loc=mean, scale=std)
+        else:
+            self._replace_constant_methods()
+
+        self.fitted = True
 
     @classmethod
     def from_dict(cls, parameters):
@@ -40,12 +48,14 @@ class TruncNorm(ScipyWrapper):
         if instance.fitted:
             a = parameters['a']
             b = parameters['b']
+            mean = parameters['mean']
+            std = parameters['std']
 
-            if a > b:
+            if a == b == mean and std == 0:
                 instance.constant_value = a
 
             else:
-                instance.model = scipy.stats.truncnorm(a, b)
+                instance.model = scipy.stats.truncnorm(a, b, loc=mean, scale=std)
 
         return instance
 
@@ -58,10 +68,13 @@ class TruncNorm(ScipyWrapper):
         if self.constant_value is not None:
             return {
                 'a': self.constant_value,
-                'b': self.constant_value - 1
+                'b': self.constant_value,
+                'mean': self.constant_value,
+                'std': 0
             }
 
-        return {
-            'a': self.model.a,
-            'b': self.model.b
-        }
+        return dict(
+            a=self.model.a,
+            b=self.model.b,
+            **self.model.kwds
+        )

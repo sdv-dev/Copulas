@@ -54,14 +54,7 @@ class TestGaussianKDE(TestCase):
         assert instance.constant_value is None
         assert instance.sample == sample_method
         assert instance.probability_density == 'pdf'
-
-        assert kde_mock.call_count == 2
-        expected_call_args = [
-            ((X,), {}),
-            ((X,), {})
-        ]
-        actual_call_args = kde_mock.call_args_list
-        compare_nested_iterables(expected_call_args, actual_call_args)
+        kde_mock.assert_called_once_with(X)
 
     def test_fit_constant(self):
         """If fit data is constant, no gaussian_kde model is created."""
@@ -124,7 +117,6 @@ class TestGaussianKDE(TestCase):
         model_mock.evaluate.return_value = np.array([0.0, 0.5, 1.0])
         model_mock.resample.return_value = fit_data
 
-        
         instance = GaussianKDE()
         instance.fit(fit_data)
         call_data = np.array([-10, 0, 10])
@@ -137,8 +129,7 @@ class TestGaussianKDE(TestCase):
         # Check
         compare_nested_iterables(result, expected_result)
 
-        expected
-        #kde_mock.assert_called_once_with(fit_data)
+        # <kde_mock.assert_called_once_with(fit_data)
         model_mock.evaluate.assert_called_once_with(call_data)
 
     @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
@@ -269,7 +260,7 @@ class TestGaussianKDE(TestCase):
             -0.4694743859349521,
             0.5425600435859647
         ]])
-        
+
         kde_instance_mock = kde_mock.return_value
         kde_instance_mock.dataset = column
         kde_instance_mock.resample.return_value = column
@@ -343,20 +334,8 @@ class TestGaussianKDE(TestCase):
         compare_nested_iterables(result, expected_result)
 
         assert instance.model == model_mock
-
-        expected_kde_call_args = [
-            ((X,), {}),
-            ((expected_result,), {}),
-        ]
-        actual_kde_call_args = kde_mock.call_args_list
-        compare_nested_iterables(actual_kde_call_args, expected_kde_call_args)
-        
-        expected_resample_call_args = [
-            ((5,), {}),
-            ((5,), {}),
-        ]
-        actual_resample_call_args = model_mock.resample.call_args_list
-        compare_nested_iterables(actual_resample_call_args, expected_resample_call_args)
+        kde_mock.assert_called_once_with(X)
+        model_mock.resample.assert_called_once_with(5)
 
     def test_sample_constant(self):
         """If constant_value is set, all the sample have the same value."""

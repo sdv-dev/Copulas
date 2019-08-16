@@ -41,7 +41,6 @@ class TestKDEUnivariate(TestCase):
         X = np.array([1, 2, 3, 4, 5])
 
         kde_instance_mock = kde_mock.return_value
-        kde_instance_mock.resample.return_value = 'resampled_values'
 
         # Run
         instance.fit(X)
@@ -50,12 +49,7 @@ class TestKDEUnivariate(TestCase):
         assert instance.model == kde_instance_mock
         assert instance.fitted is True
         assert instance.constant_value is None
-
-        assert kde_mock.call_count == 2
-        kde_mock.assert_any_call(X)
-        kde_mock.assert_any_call('resampled_values')
-
-        kde_instance_mock.resample.assert_called_once_with(10)
+        kde_mock.assert_called_once_with(X)
 
     def test_fit_constant(self):
         """If fit data is constant, no gaussian_kde model is created."""
@@ -143,21 +137,8 @@ class TestKDEUnivariate(TestCase):
         compare_nested_iterables(result, expected_result)
 
         assert instance.model == model_mock
-
-        expected_kde_calls = [
-            ((X,), {}),
-            ((expected_result,), {})
-        ]
-        actual_kde_calls = kde_mock.call_args_list
-        compare_nested_iterables(expected_kde_calls, actual_kde_calls)
-
-        expected_resample_calls = [
-            ((10,), {}),
-            ((5,), {})
-        ]
-        actual_resample_calls = model_mock.resample.call_args_list
-
-        compare_nested_iterables(expected_resample_calls, actual_resample_calls)
+        kde_mock.assert_called_once_with(X)
+        model_mock.resample.assert_called_once_with(5)
 
     def test_sample_constant(self):
         """If constant_value is set, all the sample have the same value."""
@@ -256,16 +237,16 @@ class TestKDEUnivariate(TestCase):
             'type': 'copulas.univariate.kde.KDEUnivariate',
             'fitted': True,
             'dataset': [[
-                -0.05203280917218478,
-                -0.17423174119062362,
-                0.3221364588838637,
-                0.4838795829614052,
-                0.08850966508764879,
-                -0.9021663526973743,
-                0.6449521391849532,
-                1.1253616092767915,
-                2.347399441357645,
-                1.3698755884178568
+                0.4967141530112327,
+                -0.13826430117118466,
+                0.6476885381006925,
+                1.5230298564080254,
+                -0.23415337472333597,
+                -0.23413695694918055,
+                1.5792128155073915,
+                0.7674347291529088,
+                -0.4694743859349521,
+                0.5425600435859647
             ]],
         }
 
