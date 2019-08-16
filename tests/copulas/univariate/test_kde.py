@@ -165,7 +165,7 @@ class TestKDEUnivariate(TestCase):
         instance.fit(X)
 
         expected_result_random_state = np.array([
-            [3.1443663, 4.33023998, 4.35733536, 6.44897849, 5.09086686]
+            [5.02156389, 5.45857107, 6.12161148, 4.56801267, 6.14017901]
         ])
 
         # Run
