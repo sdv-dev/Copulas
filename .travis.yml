@@ -1,6 +1,8 @@
 # Config file for automatic testing at travis-ci.org
+dist: xenial
 language: python
 python:
+  - 3.7
   - 3.6
   - 3.5
 
@@ -22,4 +24,4 @@ deploy:
     target-branch: gh-pages
     on:
       branch: stable
-      python: 3.6
+      python: 3.7
