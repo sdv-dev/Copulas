@@ -11,6 +11,9 @@ class GaussianKDE(ScipyWrapper):
     """A wrapper for gaussian Kernel density estimation implemented
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
+
+    Args:
+        sample_size(int): amount of parameters to sample
     """
 
     model_class = 'gaussian_kde'
@@ -25,9 +28,9 @@ class GaussianKDE(ScipyWrapper):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            if self.sample_size is not None:
-                model = scipy.stats.gaussian_kde(X)
-                X = model.resample(self.sample_size)
+            if self.sample_size:
+                X = self.sample(self.sample_size)
+                super().fit(X, *args, **kwargs)
 
             super().fit(X, *args, **kwargs)
 

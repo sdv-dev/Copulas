@@ -23,10 +23,8 @@ class TruncNorm(ScipyWrapper):
         if self.constant_value is None:
             min_ = X.min() - EPSILON
             max_ = X.max() + EPSILON
-            mean = X.mean()
-            std = X.std()
 
-            super().fit(X, min_, max_, loc=mean, scale=std)
+            super().fit(X, min_, max_)
         else:
             self._replace_constant_methods()
 
@@ -48,14 +46,12 @@ class TruncNorm(ScipyWrapper):
         if instance.fitted:
             a = parameters['a']
             b = parameters['b']
-            mean = parameters['mean']
-            std = parameters['std']
 
-            if a == b == mean and std == 0:
+            if a == b:
                 instance.constant_value = a
 
             else:
-                instance.model = scipy.stats.truncnorm(a, b, loc=mean, scale=std)
+                instance.model = scipy.stats.truncnorm(a, b)
 
         return instance
 
@@ -69,8 +65,6 @@ class TruncNorm(ScipyWrapper):
             return {
                 'a': self.constant_value,
                 'b': self.constant_value,
-                'mean': self.constant_value,
-                'std': 0
             }
 
         return dict(
