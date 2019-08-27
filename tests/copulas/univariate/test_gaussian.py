@@ -18,8 +18,9 @@ class TestGaussianUnivariate(TestCase):
 
         # Check
         assert not copula.name
-        assert copula.mean == 0
-        assert copula.std == 1
+        assert copula.mean is None
+        assert copula.std is None
+        assert copula.constant_value is None
 
     def test___str__(self):
         """str returns details about the model."""
@@ -29,8 +30,8 @@ class TestGaussianUnivariate(TestCase):
         expected_result = '\n'.join([
             'Distribution Type: Gaussian',
             'Variable name: None',
-            'Mean: 0',
-            'Standard deviation: 1'
+            'Mean: None',
+            'Standard deviation: None'
         ])
 
         # Run
@@ -66,8 +67,8 @@ class TestGaussianUnivariate(TestCase):
         instance.fit(column)
 
         # Check
-        assert instance.mean == 0
-        assert instance.std == 1
+        assert instance.mean is None
+        assert instance.std is None
         assert instance.constant_value == 5
 
     def test_get_probability_density(self):
@@ -214,7 +215,6 @@ class TestGaussianUnivariate(TestCase):
             'mean': 2.5,
             'std': 1.707825127659933,
             'fitted': True,
-            'constant_value': None
         }
 
         # Run
@@ -230,7 +230,6 @@ class TestGaussianUnivariate(TestCase):
             'mean': 2.5,
             'std': 1.707825127659933,
             'fitted': True,
-            'constant_value': None
         }
 
         # Run

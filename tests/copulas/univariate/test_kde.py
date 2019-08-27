@@ -31,6 +31,7 @@ class TestKDEUnivariate(TestCase):
         instance.model is None
         instance.fitted is False
         instance.constant_value is None
+        instance.sample_size == 10
 
     @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
     def test_fit(self, kde_mock):
@@ -39,16 +40,15 @@ class TestKDEUnivariate(TestCase):
         instance = KDEUnivariate()
         X = np.array([1, 2, 3, 4, 5])
 
-        kde_mock.return_value = 'mock model'
+        kde_instance_mock = kde_mock.return_value
 
         # Run
         instance.fit(X)
 
         # Check
-        assert instance.model == 'mock model'
+        assert instance.model == kde_instance_mock
         assert instance.fitted is True
         assert instance.constant_value is None
-
         kde_mock.assert_called_once_with(X)
 
     def test_fit_constant(self):
@@ -65,14 +65,23 @@ class TestKDEUnivariate(TestCase):
         assert instance.constant_value == 1
         assert instance.fitted is True
 
-    def test_probability_density(self):
-        """probability_density evaluates with the model."""
-        self.setup_norm()
+    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    def test_probability_density(self, kde_mock):
+        """Probability_density evaluates with the model."""
+        # Setup
+        kde_instance = kde_mock.return_value
+        kde_instance.evaluate.return_value = ('probability_density_from_model',)
 
-        x = self.kde.probability_density(0.5)
+        instance = KDEUnivariate()
+        X = np.array([1, 2, 3, 4, 5])
 
-        expected = 0.35206532676429952
-        self.assertAlmostEqual(x, expected, places=1)
+        instance.fit(X)
+
+        # Run
+        result = instance.probability_density(0.5)
+
+        assert result == 'probability_density_from_model'
+        kde_instance.evaluate.assert_called_once_with(0.5)
 
     def test_cumulative_distribution(self):
         """cumulative_distribution evaluates with the model."""
@@ -85,12 +94,21 @@ class TestKDEUnivariate(TestCase):
 
     def test_percent_point(self):
         """percent_point evaluates with the model."""
-        self.setup_norm()
+        instance = KDEUnivariate(sample_size=1000)
 
-        x = self.kde.percent_point(0.5)
+        np.random.seed(42)
+        X = np.random.normal(0, 1, 1000)
 
-        expected = 0.0
-        self.assertAlmostEqual(x, expected, places=1)
+        instance.fit(X)
+
+        expected_result = 0.0
+
+        # Run
+        result = instance.percent_point(0.5)
+
+        # Check
+        np.testing.assert_allclose(result, expected_result, atol=1e-1)
+        # TODO: Discuss if this loss of precision is acceptable
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
@@ -103,12 +121,12 @@ class TestKDEUnivariate(TestCase):
     def test_sample(self, kde_mock):
         """When fitted, we are able to use the model to get samples."""
         # Setup
+        model_mock = kde_mock.return_value
+        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
+
         instance = KDEUnivariate()
         X = np.array([1, 2, 3, 4, 5])
         instance.fit(X)
-
-        model_mock = kde_mock.return_value
-        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
 
         expected_result = np.array([0, 1, 0, 1, 0])
 
@@ -119,7 +137,6 @@ class TestKDEUnivariate(TestCase):
         compare_nested_iterables(result, expected_result)
 
         assert instance.model == model_mock
-
         kde_mock.assert_called_once_with(X)
         model_mock.resample.assert_called_once_with(5)
 
@@ -162,9 +179,6 @@ class TestKDEUnivariate(TestCase):
         # Setup
         parameters = {
             'fitted': True,
-            'constant_value': None,
-            'd': 1,
-            'n': 10,
             'dataset': [[
                 0.4967141530112327,
                 -0.13826430117118466,
@@ -177,9 +191,6 @@ class TestKDEUnivariate(TestCase):
                 -0.4694743859349521,
                 0.5425600435859647
             ]],
-            'covariance': [[0.2081069604419522]],
-            'factor': 0.6309573444801932,
-            'inv_cov': [[4.805221304834407]]
         }
 
         # Run
@@ -188,9 +199,9 @@ class TestKDEUnivariate(TestCase):
         # Check
         assert distribution.model.d == 1
         assert distribution.model.n == 10
-        assert distribution.model.covariance == np.array([[0.2081069604419522]])
+        assert distribution.model.covariance == np.array([[0.20810696044195226]])
         assert distribution.model.factor == 0.6309573444801932
-        assert distribution.model.inv_cov == np.array([[4.805221304834407]])
+        assert distribution.model.inv_cov == np.array([[4.805221304834406]])
         assert (distribution.model.dataset == np.array([[
             0.4967141530112327,
             -0.13826430117118466,
@@ -225,9 +236,6 @@ class TestKDEUnivariate(TestCase):
         expected_result = {
             'type': 'copulas.univariate.kde.KDEUnivariate',
             'fitted': True,
-            'constant_value': None,
-            'd': 1,
-            'n': 10,
             'dataset': [[
                 0.4967141530112327,
                 -0.13826430117118466,
@@ -240,9 +248,6 @@ class TestKDEUnivariate(TestCase):
                 -0.4694743859349521,
                 0.5425600435859647
             ]],
-            'covariance': [[0.20810696044195218]],
-            'factor': 0.6309573444801932,
-            'inv_cov': [[4.805221304834407]]
         }
 
         # Run
