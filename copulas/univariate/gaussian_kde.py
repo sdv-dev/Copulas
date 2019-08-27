@@ -12,6 +12,10 @@ class GaussianKDE(ScipyWrapper):
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
 
+    When a sample_size is provided the fit method will sample the
+    data, and mask the real information. Also, ensure the number of
+    entries will be always the value of sample_size.
+
     Args:
         sample_size(int): amount of parameters to sample
     """
