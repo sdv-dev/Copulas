@@ -379,7 +379,7 @@ class Bivariate(object):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
-    def get_dependencies(cls, copulas, z_left, z_right):
+    def compute_candidates(cls, copulas, z_left, z_right):
         """Compute dependencies.
 
         Args:
@@ -462,23 +462,27 @@ class Bivariate(object):
             # Invalid theta, copula ignored
             pass
 
-        z_left, L, z_right, R = cls.compute_empirical(X)
-        left_dependence, right_dependence = cls.get_dependencies(
-            copula_candidates, z_left, z_right)
+        left_tail, empirical_left_aut, right_tail, empirical_right_aut = cls.compute_empirical(X)
+        candidate_left_auts, candidate_right_auts = cls.compute_candidates(
+            copula_candidates, left_tail, right_tail)
+
+        empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
+        candidate_auts = [np.concatenate((l, r)) for l, r in zip(
+            candidate_left_auts, candidate_right_auts)]
 
         # compute L2 distance from empirical distribution
-        cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
-        cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
-        cost_LR = np.add(cost_L, cost_R)
+        diff_left = [np.sum((empirical_left_aut - l) ** 2) for l in candidate_left_auts]
+        diff_right = [np.sum((empirical_right_aut - r) ** 2) for r in candidate_right_auts]
+        diff_both = [np.sum((empirical_aut - candidate) ** 2) for candidate in candidate_auts]
 
         # calcule ranks
-        rank_L = pd.Series(cost_L).rank(ascending=False)
-        rank_R = pd.Series(cost_R).rank(ascending=False)
-        rank_LR = pd.Series(cost_LR).rank(ascending=False)
+        score_left = pd.Series(diff_left).rank(ascending=False)
+        score_right = pd.Series(diff_right).rank(ascending=False)
+        score_both = pd.Series(diff_both).rank(ascending=False)
 
-        sum_rank = rank_L + rank_R + rank_LR
+        score = score_left + score_right + score_both
 
-        selected_copula = np.argmax(sum_rank.values)
+        selected_copula = np.argmax(score.values)
         return copula_candidates[selected_copula]
 
     def save(self, filename):
