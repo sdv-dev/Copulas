@@ -311,7 +311,8 @@ class CenterTree(Tree):
         tau_sorted = self._sort_tau_by_y(0)
         for itr in range(self.n_nodes - 1):
             ind = int(tau_sorted[itr, 0])
-            name, theta = Bivariate.select_copula(self.u_matrix[:, (0, ind)])
+            copula = Bivariate.select_copula(self.u_matrix[:, (0, ind)])
+            name, theta = copula.copula_type, copula.theta
 
             new_edge = Edge(itr, 0, ind, name, theta)
             new_edge.tau = self.tau_matrix[0, ind]
@@ -374,7 +375,8 @@ class DirectTree(Tree):
                 tau_matrix[:, right] = -10
 
         for k in range(self.n_nodes - 1):
-            name, theta = Bivariate.select_copula(self.u_matrix[:, (T1[k], T1[k + 1])])
+            copula = Bivariate.select_copula(self.u_matrix[:, (T1[k], T1[k + 1])])
+            name, theta = copula.copula_type, copula.theta
 
             left, right = sorted([T1[k], T1[k + 1]])
             new_edge = Edge(k, left, right, name, theta)
@@ -410,7 +412,8 @@ class RegularTree(Tree):
 
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
-            name, theta = Bivariate.select_copula(self.u_matrix[:, (edge[0], edge[1])])
+            copula = Bivariate.select_copula(self.u_matrix[:, (edge[0], edge[1])])
+            name, theta = copula.copula_type, copula.theta
 
             left, right = sorted([edge[0], edge[1]])
             new_edge = Edge(len(X) - 1, left, right, name, theta)
@@ -548,7 +551,8 @@ class Edge(object):
         [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
         left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
         X = np.array([[x, y] for x, y in zip(left_u, right_u)])
-        name, theta = Bivariate.select_copula(X)
+        copula = Bivariate.select_copula(X)
+        name, theta = copula.copula_type, copula.theta
         new_edge = Edge(index, ed1, ed2, name, theta)
         new_edge.D = depend_set
         new_edge.parents = [left_parent, right_parent]

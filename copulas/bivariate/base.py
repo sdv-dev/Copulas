@@ -5,6 +5,7 @@ import json
 from enum import Enum
 
 import numpy as np
+import pandas as pd
 from scipy import stats
 
 from copulas import EPSILON, NotFittedError, random_state
@@ -438,9 +439,7 @@ class Bivariate(object):
         frank.fit(X)
 
         if frank.tau <= 0:
-            selected_theta = frank.theta
-            selected_copula = CopulaTypes.FRANK
-            return selected_copula, selected_theta
+            return frank
 
         copula_candidates = [frank]
         theta_candidates = [frank.theta]
@@ -472,9 +471,15 @@ class Bivariate(object):
         cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
         cost_LR = np.add(cost_L, cost_R)
 
-        selected_copula = np.argmax(cost_LR)
-        selected_theta = theta_candidates[selected_copula]
-        return CopulaTypes(selected_copula), selected_theta
+        # calcule ranks
+        rank_L = pd.Series(cost_L).rank(ascending=False)
+        rank_R = pd.Series(cost_R).rank(ascending=False)
+        rank_LR = pd.Series(cost_LR).rank(ascending=False)
+
+        sum_rank = rank_L + rank_R + rank_LR
+
+        selected_copula = np.argmax(sum_rank.values)
+        return copula_candidates[selected_copula]
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename.
