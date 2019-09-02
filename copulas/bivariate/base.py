@@ -405,6 +405,27 @@ class Bivariate(object):
 
         return left, right
 
+    @staticmethod
+    def fit_copula(copula_type, X):
+        r"""Try to fit a matrix in a copula of a given type.
+
+        If the copula raises an exception on fit time will return None.
+        Otherwise, the copula fitted.
+
+        Args:
+            copula_type(CopulaType): Copula type to fit.
+            X(np.ndarray): Matrix of shape (n,2).
+
+        Returns:
+            Bivariate: Copula with the given copula_type fitted or None.
+        """
+        try:
+            copula = Bivariate(copula_type)
+            copula.fit(X)
+            return copula
+        except ValueError:
+            pass
+
     @classmethod
     def select_copula(cls, X):
         r"""Select best copula function based on likelihood.
@@ -432,7 +453,7 @@ class Bivariate(object):
             X(np.ndarray): Matrix of shape (n,2).
 
         Returns:
-            tuple(CopulaType, float): Best model and param for it.
+            copula: Best copula that fits for it.
 
         """
         frank = Bivariate(CopulaTypes.FRANK)
@@ -442,33 +463,24 @@ class Bivariate(object):
             return frank
 
         copula_candidates = [frank]
-        theta_candidates = [frank.theta]
+        copula_type_list = [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]
 
-        try:
-            clayton = Bivariate(CopulaTypes.CLAYTON)
-            clayton.fit(X)
-            copula_candidates.append(clayton)
-            theta_candidates.append(clayton.theta)
-        except ValueError:
-            # Invalid theta, copula ignored
-            pass
-
-        try:
-            gumbel = Bivariate(CopulaTypes.GUMBEL)
-            gumbel.fit(X)
-            copula_candidates.append(gumbel)
-            theta_candidates.append(gumbel.theta)
-        except ValueError:
-            # Invalid theta, copula ignored
-            pass
+        # append copulas into the candidate list
+        for copula_type in copula_type_list:
+            copula = Bivariate.fit_copula(copula_type, X)
+            if copula is not None:
+                copula_candidates.append(copula)
 
         left_tail, empirical_left_aut, right_tail, empirical_right_aut = cls.compute_empirical(X)
         candidate_left_auts, candidate_right_auts = cls.compute_candidates(
             copula_candidates, left_tail, right_tail)
 
         empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
-        candidate_auts = [np.concatenate((l, r)) for l, r in zip(
-            candidate_left_auts, candidate_right_auts)]
+        candidate_auts = [
+            np.concatenate((l, r)) for l, r in zip(
+                candidate_left_auts, candidate_right_auts
+            )
+        ]
 
         # compute L2 distance from empirical distribution
         diff_left = [np.sum((empirical_left_aut - l) ** 2) for l in candidate_left_auts]
