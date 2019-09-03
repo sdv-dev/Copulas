@@ -379,7 +379,7 @@ class Bivariate(object):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
-    def compute_candidates(cls, copulas, z_left, z_right):
+    def compute_candidates(cls, copulas, left_tail, right_tail):
         """Compute dependencies.
 
         Args:
@@ -395,17 +395,17 @@ class Bivariate(object):
         left = []
         right = []
 
-        X_left = np.column_stack((z_left, z_left))
-        X_right = np.column_stack((z_right, z_right))
+        X_left = np.column_stack((left_tail, left_tail))
+        X_right = np.column_stack((right_tail, right_tail))
 
         for copula in copulas:
-            left.append(copula.cumulative_distribution(X_left) / np.power(z_left, 2))
-            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), z_right))
+            left.append(copula.cumulative_distribution(X_left) / np.power(left_tail, 2))
+            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), right_tail))
 
         return left, right
 
     @staticmethod
-    def fit_copula(copula_type, X):
+    def _fit_copula(copula_type, X):
         r"""Try to fit a matrix in a copula of a given type.
 
         If the copula raises an exception on fit time will return None.
@@ -423,7 +423,7 @@ class Bivariate(object):
             copula.fit(X)
             return copula
         except ValueError:
-            pass
+            return None
 
     @classmethod
     def select_copula(cls, X):
@@ -462,11 +462,10 @@ class Bivariate(object):
             return frank
 
         copula_candidates = [frank]
-        copula_type_list = [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]
 
         # append copulas into the candidate list
-        for copula_type in copula_type_list:
-            copula = Bivariate.fit_copula(copula_type, X)
+        for copula_type in [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]:
+            copula = Bivariate._fit_copula(copula_type, X)
             if copula is not None:
                 copula_candidates.append(copula)
 
