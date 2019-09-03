@@ -137,7 +137,8 @@ class TestBivariate(TestCase):
         assert stats.kendalltau(X[:, 0], X[:, 1])[0] < 0
 
         # Run
-        name, param = Bivariate.select_copula(X)
+        copula = Bivariate.select_copula(X)
+        name = copula.copula_type
         expected = CopulaTypes.FRANK
 
         # Check

@@ -5,6 +5,7 @@ import json
 from enum import Enum
 
 import numpy as np
+import pandas as pd
 from scipy import stats
 
 from copulas import EPSILON, NotFittedError, random_state
@@ -378,7 +379,7 @@ class Bivariate(object):
         return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
 
     @classmethod
-    def get_dependencies(cls, copulas, z_left, z_right):
+    def compute_candidates(cls, copulas, left_tail, right_tail):
         """Compute dependencies.
 
         Args:
@@ -394,15 +395,35 @@ class Bivariate(object):
         left = []
         right = []
 
-        X_left = np.column_stack((z_left, z_left))
-        for copula in copulas:
-            left.append(copula.cumulative_distribution(X_left) / np.power(z_left, 2))
+        X_left = np.column_stack((left_tail, left_tail))
+        X_right = np.column_stack((right_tail, right_tail))
 
-        X_right = np.column_stack((z_right, z_right))
         for copula in copulas:
-            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), z_right))
+            left.append(copula.cumulative_distribution(X_left) / np.power(left_tail, 2))
+            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), right_tail))
 
         return left, right
+
+    @staticmethod
+    def _fit_copula(copula_type, X):
+        r"""Try to fit a matrix in a copula of a given type.
+
+        If the copula raises an exception on fit time will return None.
+        Otherwise, the copula fitted.
+
+        Args:
+            copula_type(CopulaType): Copula type to fit.
+            X(np.ndarray): Matrix of shape (n,2).
+
+        Returns:
+            Bivariate: Copula with the given copula_type fitted or None.
+        """
+        try:
+            copula = Bivariate(copula_type)
+            copula.fit(X)
+            return copula
+        except ValueError:
+            return None
 
     @classmethod
     def select_copula(cls, X):
@@ -431,50 +452,48 @@ class Bivariate(object):
             X(np.ndarray): Matrix of shape (n,2).
 
         Returns:
-            tuple(CopulaType, float): Best model and param for it.
+            copula: Best copula that fits for it.
 
         """
         frank = Bivariate(CopulaTypes.FRANK)
         frank.fit(X)
 
         if frank.tau <= 0:
-            selected_theta = frank.theta
-            selected_copula = CopulaTypes.FRANK
-            return selected_copula, selected_theta
+            return frank
 
         copula_candidates = [frank]
-        theta_candidates = [frank.theta]
 
-        try:
-            clayton = Bivariate(CopulaTypes.CLAYTON)
-            clayton.fit(X)
-            copula_candidates.append(clayton)
-            theta_candidates.append(clayton.theta)
-        except ValueError:
-            # Invalid theta, copula ignored
-            pass
+        # append copulas into the candidate list
+        for copula_type in [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]:
+            copula = Bivariate._fit_copula(copula_type, X)
+            if copula is not None:
+                copula_candidates.append(copula)
 
-        try:
-            gumbel = Bivariate(CopulaTypes.GUMBEL)
-            gumbel.fit(X)
-            copula_candidates.append(gumbel)
-            theta_candidates.append(gumbel.theta)
-        except ValueError:
-            # Invalid theta, copula ignored
-            pass
+        left_tail, empirical_left_aut, right_tail, empirical_right_aut = cls.compute_empirical(X)
+        candidate_left_auts, candidate_right_auts = cls.compute_candidates(
+            copula_candidates, left_tail, right_tail)
 
-        z_left, L, z_right, R = cls.compute_empirical(X)
-        left_dependence, right_dependence = cls.get_dependencies(
-            copula_candidates, z_left, z_right)
+        empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
+        candidate_auts = [
+            np.concatenate((l, r)) for l, r in zip(
+                candidate_left_auts, candidate_right_auts
+            )
+        ]
 
         # compute L2 distance from empirical distribution
-        cost_L = [np.sum((L - l) ** 2) for l in left_dependence]
-        cost_R = [np.sum((R - r) ** 2) for r in right_dependence]
-        cost_LR = np.add(cost_L, cost_R)
+        diff_left = [np.sum((empirical_left_aut - l) ** 2) for l in candidate_left_auts]
+        diff_right = [np.sum((empirical_right_aut - r) ** 2) for r in candidate_right_auts]
+        diff_both = [np.sum((empirical_aut - candidate) ** 2) for candidate in candidate_auts]
 
-        selected_copula = np.argmax(cost_LR)
-        selected_theta = theta_candidates[selected_copula]
-        return CopulaTypes(selected_copula), selected_theta
+        # calcule ranks
+        score_left = pd.Series(diff_left).rank(ascending=False)
+        score_right = pd.Series(diff_right).rank(ascending=False)
+        score_both = pd.Series(diff_both).rank(ascending=False)
+
+        score = score_left + score_right + score_both
+
+        selected_copula = np.argmax(score.values)
+        return copula_candidates[selected_copula]
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename.

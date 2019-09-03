@@ -139,4 +139,7 @@ class Gumbel(Bivariate):
         On Gumbel copula :math:`\tau` is defined as :math:`τ = \frac{θ−1}{θ}`
         that we solve as :math:`θ = \frac{1}{1-τ}`
         """
+        if self.tau == 1:
+            raise ValueError("Tau value can't be 1")
+
         return 1 / (1 - self.tau)
