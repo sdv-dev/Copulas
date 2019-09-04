@@ -34,6 +34,34 @@ Clone the project and install the development requirements before start the rele
 Execute ALL the tests and linting, tests must end with no errors:
 
 	make test-all
+
+This command will use tox to execute the unittests with different environments, see tox.ini configuration.
+
+To be able to run this you will need the differents python versions used in the tox.ini file.
+
+At the end, you will see an output like this:
+
+```
+_____________________________________________ summary ______________________________________________
+  py35: commands succeeded
+  py36: commands succeeded
+  lint: commands succeeded
+  docs: commands succeeded
+```
+
+To run the tests over your python version:
+
+	make test && make lint
+
+And you will see something like this:
+
+```
+============================ 169 passed, 1 skipped, 3 warnings in 7.10s ============================
+flake8 copulas tests examples
+isort -c --recursive copulas tests examples
+```
+
+The execution has finished with no errors, 1 test skipped and 3 warnings.
 		
 ## Documentation
 
@@ -42,6 +70,10 @@ The documentation must be up to dates and generated with:
 	make view-docs
 
 Read the documentation to ensure all the changes are reflected in the documentation.
+
+Alternatively, you can simple generate the documentation using the command:
+
+	make docs
 
 ## HISTORY.md
 
@@ -63,11 +95,23 @@ HISTORY.md is updated with the issues of the milestone:
 	
 	* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
 
+The issue list per milestone can be found [here][milestones].
+
+[milestones]: https://github.com/DAI-Lab/Copulas/milestones
+
 ## Distribution
 
 Generate the distribution executing:
 
 	make dist
+
+This will create a `dist` and `build` directories. The `dist` directory contains the library installer.
+
+```
+dist/
+├── copulas-<version>-py2.py3-none-any.whl
+└── copulas-<version>.tar.gz
+```
 
 Now, create a new virtualenv with the distributed file generated and run the README.md examples.
 
