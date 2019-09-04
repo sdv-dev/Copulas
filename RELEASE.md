@@ -24,16 +24,20 @@ The process of releasing a new version involves several steps:
 
 Clone the project and install the development requirements before start the release process. Alternatively, with your virtualenv activated.
 
-	git clone https://github.com/DAI-Lab/Copulas.git
-	cd Copulas
-	git checkout master
-	make install-develop
+```bash
+git clone https://github.com/DAI-Lab/Copulas.git
+cd Copulas
+git checkout master
+make install-develop
+```
 
 ## Linting and tests
 
 Execute ALL the tests and linting, tests must end with no errors:
 
-	make test-all
+```bash
+make test-all
+```
 
 This command will use tox to execute the unittests with different environments, see tox.ini configuration.
 
@@ -51,7 +55,9 @@ _____________________________________________ summary __________________________
 
 To run the tests over your python version:
 
-	make test && make lint
+```bash
+make test && make lint
+```
 
 And you will see something like this:
 
@@ -67,33 +73,39 @@ The execution has finished with no errors, 1 test skipped and 3 warnings.
 
 The documentation must be up to dates and generated with:
 
-	make view-docs
+```bash
+make view-docs
+```
 
 Read the documentation to ensure all the changes are reflected in the documentation.
 
 Alternatively, you can simple generate the documentation using the command:
 
-	make docs
+```bash
+make docs
+```
 
 ## HISTORY.md
 
 HISTORY.md is updated with the issues of the milestone:
 
-    # History
+```
+# History
 	
-    ## X.Y.Z (YYYY-MM-DD)
+## X.Y.Z (YYYY-MM-DD)
 	
-    ### New Features
+### New Features
 	
-	* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
 	
-	### General Improvements
+### General Improvements
 	
-	* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
 	
-	### Bug Fixed
+### Bug Fixed
 	
-	* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+```
 
 The issue list per milestone can be found [here][milestones].
 
@@ -103,7 +115,9 @@ The issue list per milestone can be found [here][milestones].
 
 Generate the distribution executing:
 
-	make dist
+```bash
+make dist
+```
 
 This will create a `dist` and `build` directories. The `dist` directory contains the library installer.
 
@@ -113,7 +127,29 @@ dist/
 └── copulas-<version>.tar.gz
 ```
 
-Now, create a new virtualenv with the distributed file generated and run the README.md examples.
+Now, create a new virtualenv with the distributed file generated and run the README.md examples:
+
+1. Create the copulas-test directory (out of the Copulas directory):
+
+```bash
+mkdir copulas-test
+cd copulas-test
+```
+
+2. Create a new virtuelenv and activate it:
+
+```bash
+virtualenv -p $(which python3.6) .venv
+source .venv/bin/activate
+```
+
+3. Install the wheel distribution:
+
+```bash
+pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
+```
+
+4. Now you are ready to execute the README.md examples.
 
 ## Integration with SDV
 
@@ -121,21 +157,27 @@ Now, create a new virtualenv with the distributed file generated and run the REA
 
 Clone the project and install the development requirements. Alternatively, with your virtualenv activated.
 
-	git clone https://github.com/HDI-Project/SDV
-	cd SDV
-	git checkout master
-	make install-develop
+```bash
+git clone https://github.com/HDI-Project/SDV
+cd SDV
+git checkout master
+make install-develop
+```
 
 ### Install from distribution
 
 Install the Copulas version from the generated distribution file.
 
-	pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
+```bash
+pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
+```
 
 ### Run SDV tests and README.md examples
 
 Execute the SDV tests to ensure that the new distribution version works.
 
-	make test
+```bash
+make test
+```
 
 Also, execute the SDV README.md examples.
