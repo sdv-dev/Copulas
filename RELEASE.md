@@ -39,9 +39,9 @@ Execute ALL the tests and linting, tests must end with no errors:
 make test-all
 ```
 
-This command will use tox to execute the unittests with differents environments, see tox.ini configuration.
+This command will use tox to execute the unittests with different environments, see tox.ini configuration.
 
-To be able to run this you will need the differents python versions used in the tox.ini file.
+To be able to run this you will need the different python versions used in the tox.ini file.
 
 At the end, you will see an output like this:
 
