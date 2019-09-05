@@ -39,7 +39,7 @@ Execute ALL the tests and linting, tests must end with no errors:
 make test-all
 ```
 
-This command will use tox to execute the unittests with different environments, see tox.ini configuration.
+This command will use tox to execute the unittests with differents environments, see tox.ini configuration.
 
 To be able to run this you will need the differents python versions used in the tox.ini file.
 
@@ -71,7 +71,7 @@ The execution has finished with no errors, 1 test skipped and 3 warnings.
 		
 ## Documentation
 
-The documentation must be up to dates and generated with:
+The documentation must be up to date and generated with:
 
 ```bash
 make view-docs
@@ -79,7 +79,7 @@ make view-docs
 
 Read the documentation to ensure all the changes are reflected in the documentation.
 
-Alternatively, you can simple generate the documentation using the command:
+Alternatively, you can simply generate the documentation using the command:
 
 ```bash
 make docs
@@ -87,7 +87,7 @@ make docs
 
 ## HISTORY.md
 
-HISTORY.md is updated with the issues of the milestone:
+Make sure HISTORY.md is updated with the issues of the milestone:
 
 ```
 # History
