@@ -24,14 +24,9 @@ The process of releasing a new version involves several steps:
 
 8. [Making the release](#making-the-release)
 
-8.1. [Release](#release)
+8.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
 
-8.2. [Patch](#patch)
-
-8.3. [Minnor](#minnor)
-
-8.4. [Major](#major)
-
+8.2. [Update the release on GitHub](#update-the-release-on-github)
 
 
 ## Install Copulas from source
