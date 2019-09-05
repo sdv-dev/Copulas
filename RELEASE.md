@@ -236,8 +236,6 @@ the type of release that we want to make:
   the user API in a backwards incompatible way after the major version 1 has been released.
 
 
-<br/>
-
 ### Update the release on GitHub
 
 Once the tag and the release to PyPi has been made, go to GitHub and edit the freshly created "tag" to
