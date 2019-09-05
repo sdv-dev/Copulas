@@ -101,13 +101,17 @@ make docs
 
 ## Milestone
 
-It's important check that the milestone exists.
+It's important check that the git hub and milestone issues are up to date with the release.
 
-Also, all the pull requests in the milestone has been closed and are related to one issue.
+You neet to check that:
 
-All the issues in the milestone must be closed and every issue assigned to one (or more) person.
-
-If there are any issue in the milestone not closed should be reassigned in a new milestone.
+- The milestone for the current release exists.
+- All the issues closed since the latest release are associated to the milestone. If they are not, associate them
+- All the issues associated to the milestone are closed. If there are open issues but the milestone needs to
+  be released anyway, move them to the next milestone.
+- All the issues in the milestone are assigned to at least one person.+
+- All the pull requests closed since the latest release are associatged to an issue. If necessary, create issues
+  and assign them to the milestone. Also assigne the person who opened the issue to them.
 
 ## HISTORY.md
 
@@ -208,48 +212,35 @@ Also, execute the SDV README.md examples.
 
 ## Making the release
 
-At the end, we need to make the release, first check if the release can be made:
+At the end, we need to make the release. First, check if the release can be made:
 
 ```bash
 make check-release
 ```
 
-Once we are sure that the release can be made we can make different releases:
+### Tag and release to PyPi
 
-### Release
+Once we are sure that the release can be made we can use different commands depending on
+the type of release that we want to make:
 
-This command will marge master into stable and bumpversion patch.
+* `make release`: This will relase a patch, which is the most common type of release. Use this
+  when the changes are bugfixes or enhancements that do not modify the existing user API. Changes
+  that modify the user API to add new features but that do not modify the usage of the previous
+  features can also be released as a patch.
+* `make release-minor`: This will release the next minor version. Use this if the changes modify
+  the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible
+  changes can also be released as minor versions while the library is still in beta state.
+  After the major version 1 has been released, minor version can only be used to add backwards
+  compatible API changes.
+* `make release-major`: This will release the next major version. Use this to if the changes modify
+  the user API in a backwards incompatible way after the major version 1 has been released.
 
-```bash
-make bumpversion-release
-```
-
-### Patch
-
-This command will merge stable to master and make a bumpversion patch.
-
-```bash
-make bumpversion-patch
-```
-
-### Minnor
-
-This command will bump the version the next minnor skipping the release.
-
-```bash
-make bumpversion-minor
-```
-
-### Major
-
-This command will bump the version the next major skipping the release.
-
-```bash
-make bumpversion-major
-```
 
 <br/>
 
-Next, go to GitHub and edit the "tag" to add the release notes of the release.
+### Update the release on GitHub
 
-And finaly, close the milestone.
+Once the tag and the release to PyPi has been made, go to GitHub and edit the freshly created "tag" to
+add the title and release notes, which should be exactly the same that we added to the HISTORY.md file.
+
+Finaly, close the milestone and, if it does not exit, create the next one.
