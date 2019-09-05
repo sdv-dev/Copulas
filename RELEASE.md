@@ -8,17 +8,26 @@ The process of releasing a new version involves several steps:
 
 3. [Documentation](#documentation)
 
-4. [HISTORY.md](#history.md)
+4. [Milestone](#milestone)
 
-5. [Distribution](#distribution)
+5. [HISTORY.md](#history.md)
 
-6. [Integration with SDV](#integration-with-sdv)
+6. [Distribution](#distribution)
 
-6.1. [Install SDV from source](#install-sdv-from-source)
+7. [Integration with SDV](#integration-with-sdv)
 
-6.2. [Install from distribution](#install-from-distribution)
+7.1. [Install SDV from source](#install-sdv-from-source)
 
-6.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+7.2. [Install from distribution](#install-from-distribution)
+
+7.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+
+8. [Making the release](#making-the-release)
+
+8.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
+
+8.2. [Update the release on GitHub](#update-the-release-on-github)
+
 
 ## Install Copulas from source
 
@@ -84,6 +93,20 @@ Alternatively, you can simply generate the documentation using the command:
 ```bash
 make docs
 ```
+
+## Milestone
+
+It's important check that the git hub and milestone issues are up to date with the release.
+
+You neet to check that:
+
+- The milestone for the current release exists.
+- All the issues closed since the latest release are associated to the milestone. If they are not, associate them
+- All the issues associated to the milestone are closed. If there are open issues but the milestone needs to
+  be released anyway, move them to the next milestone.
+- All the issues in the milestone are assigned to at least one person.+
+- All the pull requests closed since the latest release are associatged to an issue. If necessary, create issues
+  and assign them to the milestone. Also assigne the person who opened the issue to them.
 
 ## HISTORY.md
 
@@ -181,3 +204,36 @@ make test
 ```
 
 Also, execute the SDV README.md examples.
+
+## Making the release
+
+At the end, we need to make the release. First, check if the release can be made:
+
+```bash
+make check-release
+```
+
+### Tag and release to PyPi
+
+Once we are sure that the release can be made we can use different commands depending on
+the type of release that we want to make:
+
+* `make release`: This will relase a patch, which is the most common type of release. Use this
+  when the changes are bugfixes or enhancements that do not modify the existing user API. Changes
+  that modify the user API to add new features but that do not modify the usage of the previous
+  features can also be released as a patch.
+* `make release-minor`: This will release the next minor version. Use this if the changes modify
+  the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible
+  changes can also be released as minor versions while the library is still in beta state.
+  After the major version 1 has been released, minor version can only be used to add backwards
+  compatible API changes.
+* `make release-major`: This will release the next major version. Use this to if the changes modify
+  the user API in a backwards incompatible way after the major version 1 has been released.
+
+
+### Update the release on GitHub
+
+Once the tag and the release to PyPi has been made, go to GitHub and edit the freshly created "tag" to
+add the title and release notes, which should be exactly the same that we added to the HISTORY.md file.
+
+Finaly, close the milestone and, if it does not exit, create the next one.
