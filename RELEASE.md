@@ -8,17 +8,31 @@ The process of releasing a new version involves several steps:
 
 3. [Documentation](#documentation)
 
-4. [HISTORY.md](#history.md)
+4. [Milestone](#milestone)
 
-5. [Distribution](#distribution)
+5. [HISTORY.md](#history.md)
 
-6. [Integration with SDV](#integration-with-sdv)
+6. [Distribution](#distribution)
 
-6.1. [Install SDV from source](#install-sdv-from-source)
+7. [Integration with SDV](#integration-with-sdv)
 
-6.2. [Install from distribution](#install-from-distribution)
+7.1. [Install SDV from source](#install-sdv-from-source)
 
-6.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+7.2. [Install from distribution](#install-from-distribution)
+
+7.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+
+8. [Making the release](#making-the-release)
+
+8.1. [Release](#release)
+
+8.2. [Patch](#patch)
+
+8.3. [Minnor](#minnor)
+
+8.4. [Major](#major)
+
+
 
 ## Install Copulas from source
 
@@ -84,6 +98,16 @@ Alternatively, you can simply generate the documentation using the command:
 ```bash
 make docs
 ```
+
+## Milestone
+
+It's important check that the milestone exists.
+
+Also, all the pull requests in the milestone has been closed and are related to one issue.
+
+All the issues in the milestone must be closed and every issue assigned to one (or more) person.
+
+If there are any issue in the milestone not closed should be reassigned in a new milestone.
 
 ## HISTORY.md
 
@@ -181,3 +205,51 @@ make test
 ```
 
 Also, execute the SDV README.md examples.
+
+## Making the release
+
+At the end, we need to make the release, first check if the release can be made:
+
+```bash
+make check-release
+```
+
+Once we are sure that the release can be made we can make different releases:
+
+### Release
+
+This command will marge master into stable and bumpversion patch.
+
+```bash
+make bumpversion-release
+```
+
+### Patch
+
+This command will merge stable to master and make a bumpversion patch.
+
+```bash
+make bumpversion-patch
+```
+
+### Minnor
+
+This command will bump the version the next minnor skipping the release.
+
+```bash
+make bumpversion-minor
+```
+
+### Major
+
+This command will bump the version the next major skipping the release.
+
+```bash
+make bumpversion-major
+```
+
+<br/>
+
+Next, go to GitHub and edit the "tag" to add the release notes of the release.
+
+And finaly, close the milestone.
