@@ -182,7 +182,7 @@ Usually a distribution is presented as a function F: ℝ -> [0, 1], called the
 
 Below we can see the cdf of the distribution of rolling a standard, 6 sided, dice:
 
-<img src="https://github.com/DAI-Lab/Copulas/raw/improve_documentation/docs/images/dice_cdf.png" alt="CDF function of a dice"/>
+<img src="docs/images/dice_cdf.png" alt="CDF function of a dice"/>
 
 We can see as the cumulative probability raises by steps of 1/6 at each integer between 1 and 6,
 as those are the only values that can appear.
