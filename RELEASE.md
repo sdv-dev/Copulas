@@ -104,8 +104,8 @@ You neet to check that:
 - All the issues closed since the latest release are associated to the milestone. If they are not, associate them
 - All the issues associated to the milestone are closed. If there are open issues but the milestone needs to
   be released anyway, move them to the next milestone.
-- All the issues in the milestone are assigned to at least one person.+
-- All the pull requests closed since the latest release are associatged to an issue. If necessary, create issues
+- All the issues in the milestone are assigned to at least one person.
+- All the pull requests closed since the latest release are associated to an issue. If necessary, create issues
   and assign them to the milestone. Also assigne the person who opened the issue to them.
 
 ## HISTORY.md
