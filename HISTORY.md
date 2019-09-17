@@ -1,5 +1,21 @@
 # History
 
+## 0.2.3 (2019-09-17)
+
+### New Features
+
+* Add support to Python 3.7 Approved new feature - Issue [#53](https://github.com/DAI-Lab/Copulas/issues/53) by @JDTheRipperPC
+
+### General Improvements
+
+* Document RELEASE workflow - Issue [#105](https://github.com/DAI-Lab/Copulas/issues/105) by @JDTheRipperPC
+
+* Improve serialization of univariate distributions internal improvements - Issue [#99](https://github.com/DAI-Lab/Copulas/issues/99) by @ManuelAlvarezC and @JDTheRipperPC
+
+### Bugs fixed
+
+* The method 'select_copula' of Bivariate return wrong CopulaType bug - Issue [#101](https://github.com/DAI-Lab/Copulas/issues/101) by @JDTheRipperPC
+
 ## 0.2.2 (2019-07-31)
 
 ### New Features
