@@ -11,11 +11,37 @@ class GaussianKDE(ScipyWrapper):
     """A wrapper for gaussian Kernel density estimation implemented
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
+
+    When a sample_size is provided the fit method will sample the
+    data, and mask the real information. Also, ensure the number of
+    entries will be always the value of sample_size.
+
+    Args:
+        sample_size(int): amount of parameters to sample
     """
 
     model_class = 'gaussian_kde'
     probability_density = 'evaluate'
     sample = 'resample'
+
+    def __init__(self, sample_size=None, *args, **kwargs):
+        self.sample_size = sample_size
+        super().__init__(*args, **kwargs)
+
+    def fit(self, X, *args, **kwargs):
+        self.constant_value = self._get_constant_value(X)
+
+        if self.constant_value is None:
+            if self.sample_size:
+                X = self.sample(self.sample_size)
+                super().fit(X, *args, **kwargs)
+
+            super().fit(X, *args, **kwargs)
+
+        else:
+            self._replace_constant_methods()
+
+        self.fitted = True
 
     def cumulative_distribution(self, X):
         """Computes the integral of a 1-D pdf between two bounds
@@ -82,26 +108,24 @@ class GaussianKDE(ScipyWrapper):
         instance = cls()
 
         instance.fitted = copula_dict['fitted']
-        instance.constant_value = copula_dict['constant_value']
 
-        if instance.fitted and not instance.constant_value:
-            instance.model = scipy.stats.gaussian_kde([-1, 0, 0])
+        if instance.fitted:
+            X = np.array(copula_dict['dataset'])
+            uniques = np.unique(X)
+            if len(uniques) == 1:
+                instance.constant_value = uniques[0]
 
-            for key in ['dataset', 'covariance', 'inv_cov']:
-                copula_dict[key] = np.array(copula_dict[key])
-
-            attributes = ['d', 'n', 'dataset', 'covariance', 'factor', 'inv_cov']
-            for name in attributes:
-                setattr(instance.model, name, copula_dict[name])
+            else:
+                instance.model = scipy.stats.gaussian_kde(X)
 
         return instance
 
     def _fit_params(self):
+        if self.constant_value is not None:
+            return {
+                'dataset': [self.constant_value] * self.sample_size,
+            }
+
         return {
-            'd': self.model.d,
-            'n': self.model.n,
             'dataset': self.model.dataset.tolist(),
-            'covariance': self.model.covariance.tolist(),
-            'factor': self.model.factor,
-            'inv_cov': self.model.inv_cov.tolist()
         }

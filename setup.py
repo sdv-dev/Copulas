@@ -74,6 +74,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
     entry_points={
@@ -98,6 +99,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/DAI-Lab/Copulas',
-    version='0.2.2',
+    version='0.2.3-dev',
     zip_safe=False,
 )

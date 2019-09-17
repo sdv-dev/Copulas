@@ -58,7 +58,6 @@ class TestTruncNorm(TestCase):
         parameters = {
             'type': 'copulas.univariate.truncnorm.TruncNorm',
             'fitted': False,
-            'constant_value': None
         }
 
         # Run
@@ -75,9 +74,8 @@ class TestTruncNorm(TestCase):
         parameters = {
             'type': 'copulas.univariate.truncnorm.TruncNorm',
             'fitted': True,
-            'constant_value': None,
-            'a': 0,
-            'b': 10
+            'a': -10,
+            'b': 10,
         }
 
         # Run
@@ -86,7 +84,7 @@ class TestTruncNorm(TestCase):
         # Check
         assert instance.fitted is True
         assert instance.constant_value is None
-        assert instance.model.a == 0
+        assert instance.model.a == -10
         assert instance.model.b == 10
 
     def test__fit_params(self):
@@ -98,7 +96,7 @@ class TestTruncNorm(TestCase):
 
         expected_result = {
             'a': - EPSILON,
-            'b': 4 + EPSILON
+            'b': 4 + EPSILON,
         }
 
         # Run
