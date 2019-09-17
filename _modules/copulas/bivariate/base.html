@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.base &mdash; Copulas 0.2.2 documentation</title>
+  <title>copulas.bivariate.base &mdash; Copulas 0.2.3 documentation</title>
   
 
   
@@ -166,10 +166,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -250,6 +256,7 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 
 <span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">NotFittedError</span><span class="p">,</span> <span class="n">random_state</span>
@@ -622,8 +629,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Bivariate.get_dependencies"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.get_dependencies">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_dependencies</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copulas</span><span class="p">,</span> <span class="n">z_left</span><span class="p">,</span> <span class="n">z_right</span><span class="p">):</span>
+<div class="viewcode-block" id="Bivariate.compute_candidates"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.compute_candidates">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">compute_candidates</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copulas</span><span class="p">,</span> <span class="n">left_tail</span><span class="p">,</span> <span class="n">right_tail</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute dependencies.</span>
 
 <span class="sd">        Args:</span>
@@ -639,15 +646,35 @@
         <span class="n">left</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">right</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">X_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">z_left</span><span class="p">,</span> <span class="n">z_left</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">copula</span> <span class="ow">in</span> <span class="n">copulas</span><span class="p">:</span>
-            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copula</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X_left</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">z_left</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">X_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">left_tail</span><span class="p">,</span> <span class="n">left_tail</span><span class="p">))</span>
+        <span class="n">X_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">right_tail</span><span class="p">,</span> <span class="n">right_tail</span><span class="p">))</span>
 
-        <span class="n">X_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">z_right</span><span class="p">,</span> <span class="n">z_right</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">copula</span> <span class="ow">in</span> <span class="n">copulas</span><span class="p">:</span>
-            <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">compute_tail</span><span class="p">(</span><span class="n">copula</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X_right</span><span class="p">),</span> <span class="n">z_right</span><span class="p">))</span>
+            <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copula</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X_left</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">left_tail</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">compute_tail</span><span class="p">(</span><span class="n">copula</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X_right</span><span class="p">),</span> <span class="n">right_tail</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_fit_copula</span><span class="p">(</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Try to fit a matrix in a copula of a given type.</span>
+
+<span class="sd">        If the copula raises an exception on fit time will return None.</span>
+<span class="sd">        Otherwise, the copula fitted.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            copula_type(CopulaType): Copula type to fit.</span>
+<span class="sd">            X(np.ndarray): Matrix of shape (n,2).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Bivariate: Copula with the given copula_type fitted or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="p">)</span>
+            <span class="n">copula</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">copula</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Bivariate.select_copula"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.select_copula">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">select_copula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -676,50 +703,48 @@
 <span class="sd">            X(np.ndarray): Matrix of shape (n,2).</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple(CopulaType, float): Best model and param for it.</span>
+<span class="sd">            copula: Best copula that fits for it.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">frank</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span><span class="p">)</span>
         <span class="n">frank</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">frank</span><span class="o">.</span><span class="n">tau</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">selected_theta</span> <span class="o">=</span> <span class="n">frank</span><span class="o">.</span><span class="n">theta</span>
-            <span class="n">selected_copula</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span>
-            <span class="k">return</span> <span class="n">selected_copula</span><span class="p">,</span> <span class="n">selected_theta</span>
+            <span class="k">return</span> <span class="n">frank</span>
 
         <span class="n">copula_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">frank</span><span class="p">]</span>
-        <span class="n">theta_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">frank</span><span class="o">.</span><span class="n">theta</span><span class="p">]</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">clayton</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">CLAYTON</span><span class="p">)</span>
-            <span class="n">clayton</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="n">copula_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clayton</span><span class="p">)</span>
-            <span class="n">theta_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clayton</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="c1"># Invalid theta, copula ignored</span>
-            <span class="k">pass</span>
+        <span class="c1"># append copulas into the candidate list</span>
+        <span class="k">for</span> <span class="n">copula_type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">CLAYTON</span><span class="p">,</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">GUMBEL</span><span class="p">]:</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">_fit_copula</span><span class="p">(</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">copula</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">copula_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copula</span><span class="p">)</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">gumbel</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">GUMBEL</span><span class="p">)</span>
-            <span class="n">gumbel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="n">copula_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gumbel</span><span class="p">)</span>
-            <span class="n">theta_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gumbel</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="c1"># Invalid theta, copula ignored</span>
-            <span class="k">pass</span>
+        <span class="n">left_tail</span><span class="p">,</span> <span class="n">empirical_left_aut</span><span class="p">,</span> <span class="n">right_tail</span><span class="p">,</span> <span class="n">empirical_right_aut</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">compute_empirical</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">candidate_left_auts</span><span class="p">,</span> <span class="n">candidate_right_auts</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">compute_candidates</span><span class="p">(</span>
+            <span class="n">copula_candidates</span><span class="p">,</span> <span class="n">left_tail</span><span class="p">,</span> <span class="n">right_tail</span><span class="p">)</span>
 
-        <span class="n">z_left</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">z_right</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">compute_empirical</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="n">left_dependence</span><span class="p">,</span> <span class="n">right_dependence</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_dependencies</span><span class="p">(</span>
-            <span class="n">copula_candidates</span><span class="p">,</span> <span class="n">z_left</span><span class="p">,</span> <span class="n">z_right</span><span class="p">)</span>
+        <span class="n">empirical_aut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">empirical_left_aut</span><span class="p">,</span> <span class="n">empirical_right_aut</span><span class="p">))</span>
+        <span class="n">candidate_auts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">candidate_left_auts</span><span class="p">,</span> <span class="n">candidate_right_auts</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
 
         <span class="c1"># compute L2 distance from empirical distribution</span>
-        <span class="n">cost_L</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">L</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">left_dependence</span><span class="p">]</span>
-        <span class="n">cost_R</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">R</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">right_dependence</span><span class="p">]</span>
-        <span class="n">cost_LR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cost_L</span><span class="p">,</span> <span class="n">cost_R</span><span class="p">)</span>
+        <span class="n">diff_left</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">empirical_left_aut</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">candidate_left_auts</span><span class="p">]</span>
+        <span class="n">diff_right</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">empirical_right_aut</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">candidate_right_auts</span><span class="p">]</span>
+        <span class="n">diff_both</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">empirical_aut</span> <span class="o">-</span> <span class="n">candidate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidate_auts</span><span class="p">]</span>
 
-        <span class="n">selected_copula</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">cost_LR</span><span class="p">)</span>
-        <span class="n">selected_theta</span> <span class="o">=</span> <span class="n">theta_candidates</span><span class="p">[</span><span class="n">selected_copula</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">CopulaTypes</span><span class="p">(</span><span class="n">selected_copula</span><span class="p">),</span> <span class="n">selected_theta</span></div>
+        <span class="c1"># calcule ranks</span>
+        <span class="n">score_left</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">diff_left</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">score_right</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">diff_right</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">score_both</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">diff_both</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="n">score_left</span> <span class="o">+</span> <span class="n">score_right</span> <span class="o">+</span> <span class="n">score_both</span>
+
+        <span class="n">selected_copula</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">copula_candidates</span><span class="p">[</span><span class="n">selected_copula</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Bivariate.save"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save the internal state of a copula in the specified filename.</span>

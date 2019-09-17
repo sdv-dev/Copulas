@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.base module &mdash; Copulas 0.2.2 documentation</title>
+  <title>copulas.bivariate.base module &mdash; Copulas 0.2.3 documentation</title>
   
 
   
@@ -168,10 +168,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.3 (2019-09-17)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id19">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -376,6 +382,27 @@ the bivariate copulas classes.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="copulas.bivariate.base.Bivariate.compute_candidates">
+<em class="property">classmethod </em><code class="sig-name descname">compute_candidates</code><span class="sig-paren">(</span><em class="sig-param">copulas</em>, <em class="sig-param">left_tail</em>, <em class="sig-param">right_tail</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_candidates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_candidates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>copulas</strong> (<em>list</em><em>[</em><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate"><em>Bivariate</em></a><em>]</em>) – Fitted instances of bivariate copulas.</p></li>
+<li><p><strong>z_left</strong> (<em>list</em>) – </p></li>
+<li><p><strong>z_right</strong> (<em>list</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Arrays of left and right dependencies for the empirical copula.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.bivariate.base.Bivariate.compute_empirical">
 <em class="property">classmethod </em><code class="sig-name descname">compute_empirical</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_empirical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_empirical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute empirical distribution.</p>
@@ -483,27 +510,6 @@ that given an Archimedian copula fulills:</p>
 <p>In a more generic way:</p>
 <div class="math notranslate nohighlight">
 \[C(u_1, u_2, ..., u_n;\theta) = \psi^-1(\sum_0^n{\psi(u_i;\theta)}; \theta)\]</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.get_dependencies">
-<em class="property">classmethod </em><code class="sig-name descname">get_dependencies</code><span class="sig-paren">(</span><em class="sig-param">copulas</em>, <em class="sig-param">z_left</em>, <em class="sig-param">z_right</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.get_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.get_dependencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute dependencies.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>copulas</strong> (<em>list</em><em>[</em><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate"><em>Bivariate</em></a><em>]</em>) – Fitted instances of bivariate copulas.</p></li>
-<li><p><strong>z_left</strong> (<em>list</em>) – </p></li>
-<li><p><strong>z_right</strong> (<em>list</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Arrays of left and right dependencies for the empirical copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[list]</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -657,10 +663,10 @@ highest value is selected.</p></li>
 <dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Matrix of shape (n,2).</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Best model and param for it.</p>
+<dd class="field-even"><p>Best copula that fits for it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple(CopulaType, float)</p>
+<dd class="field-odd"><p>copula</p>
 </dd>
 </dl>
 </dd></dl>

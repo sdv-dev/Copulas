@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.tree &mdash; Copulas 0.2.2 documentation</title>
+  <title>copulas.multivariate.tree &mdash; Copulas 0.2.3 documentation</title>
   
 
   
@@ -166,10 +166,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -556,7 +562,8 @@
         <span class="n">tau_sorted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_tau_by_y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tau_sorted</span><span class="p">[</span><span class="n">itr</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ind</span><span class="p">)])</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ind</span><span class="p">)])</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">copula</span><span class="o">.</span><span class="n">theta</span>
 
             <span class="n">new_edge</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="n">itr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
             <span class="n">new_edge</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ind</span><span class="p">]</span>
@@ -619,7 +626,8 @@
                 <span class="n">tau_matrix</span><span class="p">[:,</span> <span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="n">T1</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">T1</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])])</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="n">T1</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">T1</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])])</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">copula</span><span class="o">.</span><span class="n">theta</span>
 
             <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">T1</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">T1</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
             <span class="n">new_edge</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
@@ -655,7 +663,8 @@
 
             <span class="c1"># find edge with maximum</span>
             <span class="n">edge</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adj_set</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">neg_tau</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">copula</span><span class="o">.</span><span class="n">theta</span>
 
             <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
             <span class="n">new_edge</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
@@ -793,7 +802,8 @@
         <span class="p">[</span><span class="n">ed1</span><span class="p">,</span> <span class="n">ed2</span><span class="p">,</span> <span class="n">depend_set</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_identify_eds_ing</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
         <span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_conditional_uni</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">)])</span>
-        <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="o">.</span><span class="n">select_copula</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">copula_type</span><span class="p">,</span> <span class="n">copula</span><span class="o">.</span><span class="n">theta</span>
         <span class="n">new_edge</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">ed1</span><span class="p">,</span> <span class="n">ed2</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
         <span class="n">new_edge</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">depend_set</span>
         <span class="n">new_edge</span><span class="o">.</span><span class="n">parents</span> <span class="o">=</span> <span class="p">[</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">]</span>
