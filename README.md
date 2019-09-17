@@ -392,17 +392,14 @@ in order to help us developing new features or cool ideas.
 Copulas is an open source project from the Data to AI Lab at MIT which has been built and maintained
 over the years by the following team:
 
-**Development Lead**
-
-* Kalyan Veeramachaneni <kalyan@mit.edu>
-* (Alicia)Yi Sun <yis@mit.edu>
-
-**Contributors**
-
 * Manuel Alvarez <manuel@pythiac.com>
 * Carles Sala <carles@pythiac.com>
+* José David Pérez <jose@pythiac.com>
+* (Alicia)Yi Sun <yis@mit.edu>
 * Andrew Montanez <amontane@mit.edu>
+* Kalyan Veeramachaneni <kalyan@csail.mit.edu>
 * paulolimac <paulolimac@gmail.com>
+
 
 ## Related Projects
 
