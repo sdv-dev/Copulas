@@ -3,16 +3,15 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 
-from copulas import EPSILON
-from copulas.univariate.truncnorm import TruncNorm
+from copulas.univariate.truncated_gaussian import TruncatedGaussian
 
 
-class TestTruncNorm(TestCase):
+class TestTruncatedGaussian(TestCase):
 
     def test_init(self):
         """On init, there are no errors and attributes are set as expected."""
         # Run / Setup
-        instance = TruncNorm()
+        instance = TruncatedGaussian()
 
         # Check
         assert instance.model_class == 'truncnorm'
@@ -29,8 +28,8 @@ class TestTruncNorm(TestCase):
     def test_fit(self, truncnorm_mock):
         """On fit, the attribute model is set with an instance of scipy.stats.truncnorm."""
         # Setup
-        instance = TruncNorm()
-        data = np.array([1, 2, 3, 4, 5])
+        instance = TruncatedGaussian()
+        data = np.array([0, 1, 2, 3, 4])
 
         model_mock = MagicMock(
             ppf='percent_point',
@@ -50,18 +49,18 @@ class TestTruncNorm(TestCase):
         assert instance.cumulative_distribution == 'cumulative_distribution'
         assert instance.sample == 'sample'
 
-        truncnorm_mock.assert_called_once_with(1 - EPSILON, 5 + EPSILON)
+        truncnorm_mock.assert_called_once_with(0, 4, loc=1.4142135623730951, scale=2.0)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""
         # Setup
         parameters = {
-            'type': 'copulas.univariate.truncnorm.TruncNorm',
+            'type': 'copulas.univariate.truncnorm.TruncatedGaussian',
             'fitted': False,
         }
 
         # Run
-        instance = TruncNorm.from_dict(parameters)
+        instance = TruncatedGaussian.from_dict(parameters)
 
         # Check
         assert instance.fitted is False
@@ -72,31 +71,40 @@ class TestTruncNorm(TestCase):
         """from_dict creates a new instance from a dict of params."""
         # Setup
         parameters = {
-            'type': 'copulas.univariate.truncnorm.TruncNorm',
+            'type': 'copulas.univariate.truncnorm.TruncatedGaussian',
             'fitted': True,
-            'a': -10,
-            'b': 10,
+            'min': -10,
+            'max': 10,
+            'std': 0,
+            'mean': 1,
+            'epsilon': 0
         }
 
         # Run
-        instance = TruncNorm.from_dict(parameters)
+        instance = TruncatedGaussian.from_dict(parameters)
 
         # Check
         assert instance.fitted is True
         assert instance.constant_value is None
-        assert instance.model.a == -10
-        assert instance.model.b == 10
+        assert instance._min == -10
+        assert instance._max == 10
+        assert instance._std == 0
+        assert instance._mean == 1
+        assert instance.epsilon == 0
 
     def test__fit_params(self):
         """_fit_params returns a dict with the params of the scipy model."""
         # Setup
         data = np.array(range(5))
-        instance = TruncNorm()
+        instance = TruncatedGaussian()
         instance.fit(data)
 
         expected_result = {
-            'a': - EPSILON,
-            'b': 4 + EPSILON,
+            'min': 0,
+            'max': 4,
+            'std': 1.4142135623730951,
+            'mean': 2.0,
+            'epsilon': 0
         }
 
         # Run

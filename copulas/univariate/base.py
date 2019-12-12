@@ -254,13 +254,22 @@ class ScipyWrapper(Univariate):
     model_class = None
     unfittable_model = None
     probability_density = None
-    cumulative_distribution = None
+    CUMULATIVE_DISTRIBUTION = None
     percent_point = None
     sample = None
     METHOD_NAMES = ('sample', 'probability_density', 'cumulative_distribution', 'percent_point')
 
     def __init__(self, *args, **kwargs):
         super(ScipyWrapper, self).__init__(*args, **kwargs)
+
+    def _replace_methods(self):
+        for name in self.METHOD_NAMES:
+            attribute = getattr(self.__class__, name)
+            if isinstance(attribute, str):
+                setattr(self, name, getattr(self.model, attribute))
+
+            elif attribute is None:
+                setattr(self, name, missing_method_scipy_wrapper(lambda x: x))
 
     @check_valid_values
     def fit(self, X, *args, **kwargs):
@@ -272,8 +281,8 @@ class ScipyWrapper(Univariate):
         Returns:
             None
         """
-
-        self.constant_value = self._get_constant_value(X)
+        if X is not None:
+            self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
             if self.unfittable_model:
@@ -281,13 +290,7 @@ class ScipyWrapper(Univariate):
             else:
                 self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
 
-            for name in self.METHOD_NAMES:
-                attribute = getattr(self.__class__, name)
-                if isinstance(attribute, str):
-                    setattr(self, name, getattr(self.model, attribute))
-
-                elif attribute is None:
-                    setattr(self, name, missing_method_scipy_wrapper(lambda x: x))
+            self._replace_methods()
 
         else:
             self._replace_constant_methods()
