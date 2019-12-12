@@ -67,6 +67,8 @@ class TruncatedGaussian(ScipyWrapper):
                 instance.epsilon = epsilon
                 instance.model = scipy.stats.truncnorm(min_, max_, loc=std, scale=mean)
 
+            cls._replace_methods(instance)
+
         return instance
 
     def _fit_params(self):
