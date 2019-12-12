@@ -254,7 +254,7 @@ class ScipyWrapper(Univariate):
     model_class = None
     unfittable_model = None
     probability_density = None
-    CUMULATIVE_DISTRIBUTION = None
+    cumulative_distribution = None
     percent_point = None
     sample = None
     METHOD_NAMES = ('sample', 'probability_density', 'cumulative_distribution', 'percent_point')
@@ -281,8 +281,8 @@ class ScipyWrapper(Univariate):
         Returns:
             None
         """
-        if X is not None:
-            self.constant_value = self._get_constant_value(X)
+
+        self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
             if self.unfittable_model:

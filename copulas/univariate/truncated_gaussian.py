@@ -16,12 +16,10 @@ class TruncatedGaussian(ScipyWrapper):
     percent_point = 'ppf'
     sample = 'rvs'
 
-    def __init__(self, min=None, max=None, std=None, mean=None, epsilon=0):
+    def __init__(self, min=None, max=None, epsilon=0):
         super(TruncatedGaussian, self).__init__()
         self._min = min
         self._max = max
-        self._std = std
-        self._mean = mean
         self.epsilon = epsilon
 
     def fit(self, X):
@@ -32,11 +30,8 @@ class TruncatedGaussian(ScipyWrapper):
         if self._max is None:
             self._max = X.max() + self.epsilon
 
-        if self._std is None:
-            self._std = X.std()
-
-        if self._mean is None:
-            self._mean = X.mean()
+        self._std = X.std()
+        self._mean = X.mean()
 
         super().fit(X, self._min, self._max, loc=self._std, scale=self._mean)
         self.fitted = True
@@ -71,8 +66,6 @@ class TruncatedGaussian(ScipyWrapper):
                 instance._mean = mean
                 instance.epsilon = epsilon
                 instance.model = scipy.stats.truncnorm(min_, max_, loc=std, scale=mean)
-
-            cls._replace_methods(instance)
 
         return instance
 
