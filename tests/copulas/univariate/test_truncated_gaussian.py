@@ -86,10 +86,10 @@ class TestTruncatedGaussian(TestCase):
         # Check
         assert instance.fitted is True
         assert instance.constant_value is None
-        assert instance._min == -10
-        assert instance._max == 10
-        assert instance._std == 0
-        assert instance._mean == 1
+        assert instance.min == -10
+        assert instance.max == 10
+        assert instance.std == 0
+        assert instance.mean == 1
         assert instance.epsilon == 0
 
     def test__fit_params(self):

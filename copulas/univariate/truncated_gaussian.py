@@ -18,22 +18,22 @@ class TruncatedGaussian(ScipyWrapper):
 
     def __init__(self, min=None, max=None, epsilon=0):
         super(TruncatedGaussian, self).__init__()
-        self._min = min
-        self._max = max
+        self.min = min
+        self.max = max
         self.epsilon = epsilon
 
     def fit(self, X):
         """Prepare necessary params and call super().fit."""
-        if self._min is None:
-            self._min = X.min() - self.epsilon
+        if self.min is None:
+            self.min = X.min() - self.epsilon
 
-        if self._max is None:
-            self._max = X.max() + self.epsilon
+        if self.max is None:
+            self.max = X.max() + self.epsilon
 
-        self._std = X.std()
-        self._mean = X.mean()
+        self.std = X.std()
+        self.mean = X.mean()
 
-        super().fit(X, self._min, self._max, loc=self._std, scale=self._mean)
+        super().fit(X, self.min, self.max, loc=self.std, scale=self.mean)
         self.fitted = True
 
     @classmethod
@@ -60,10 +60,10 @@ class TruncatedGaussian(ScipyWrapper):
                 instance.constant_value = min_
 
             else:
-                instance._min = min_
-                instance._max = max_
-                instance._std = std
-                instance._mean = mean
+                instance.min = min_
+                instance.max = max_
+                instance.std = std
+                instance.mean = mean
                 instance.epsilon = epsilon
                 instance.model = scipy.stats.truncnorm(min_, max_, loc=std, scale=mean)
 
@@ -84,9 +84,9 @@ class TruncatedGaussian(ScipyWrapper):
             }
 
         return {
-            'min': self._min,
-            'max': self._max,
-            'std': self._std,
-            'mean': self._mean,
+            'min': self.min,
+            'max': self.max,
+            'std': self.std,
+            'mean': self.mean,
             'epsilon': self.epsilon
         }
