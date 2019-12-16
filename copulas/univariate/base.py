@@ -1,9 +1,7 @@
 import numpy as np
 import scipy.stats
 
-from copulas import (
-    NotFittedError, check_valid_values, get_qualified_name, import_object,
-    missing_method_scipy_wrapper)
+from copulas import NotFittedError, check_valid_values, get_qualified_name, import_object
 
 
 class Univariate(object):
@@ -267,9 +265,6 @@ class ScipyWrapper(Univariate):
             attribute = getattr(self.__class__, name)
             if isinstance(attribute, str):
                 setattr(self, name, getattr(self.model, attribute))
-
-            elif attribute is None:
-                setattr(self, name, missing_method_scipy_wrapper(lambda x: x))
 
     @check_valid_values
     def fit(self, X, *args, **kwargs):
