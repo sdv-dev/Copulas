@@ -115,12 +115,12 @@ class TestGaussianCopula(TestCase):
         copula.fit(self.data.values)
 
         # Check
-        for key in copula.get_column_names(self.data.values):
+        for key, column in enumerate(self.data.columns):
             assert copula.distribs[key]
-            assert copula.distribs[key].mean == np.mean(copula.get_column(self.data.values, key))
-            assert copula.distribs[key].std == np.std(copula.get_column(self.data.values, key))
+            assert copula.distribs[key].mean == np.mean(self.data[column])
+            assert copula.distribs[key].std == np.std(self.data[column])
 
-        expected_covariance = copula._get_covariance(self.data.values)
+        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
         assert (copula.covariance == expected_covariance).all().all()
 
     def test__get_covariance(self):
@@ -137,24 +137,6 @@ class TestGaussianCopula(TestCase):
 
         # Run
         covariance = copula._get_covariance(self.data)
-
-        # Check
-        assert np.isclose(covariance, expected_covariance).all().all()
-
-    def test__get_covariance_numpy_array(self):
-        """_get_covariance computes the covariance matrix of normalized values."""
-        # Setup
-        copula = GaussianMultivariate()
-        copula.fit(self.data.values)
-
-        expected_covariance = np.array([
-            [1.04347826, -0.01316681, -0.20683455],
-            [-0.01316681, 1.04347826, -0.176307],
-            [-0.20683455, -0.176307, 1.04347826]
-        ])
-
-        # Run
-        covariance = copula._get_covariance(self.data.values)
 
         # Check
         assert np.isclose(covariance, expected_covariance).all().all()

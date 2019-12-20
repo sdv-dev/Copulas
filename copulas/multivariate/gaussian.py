@@ -54,56 +54,6 @@ class GaussianMultivariate(Multivariate):
 
         return min(lower_bounds)
 
-    def get_column_names(self, X):
-        """Return iterable containing columns for the given array X.
-
-        Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`.
-
-        Returns:
-            iterable: columns for the given matrix.
-        """
-        if isinstance(X, pd.DataFrame):
-            return X.columns
-
-        return range(X.shape[1])
-
-    def get_column(self, X, column):
-        """Return a column of the given matrix.
-
-        Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`.
-            column: `int` or `str`.
-
-        Returns:
-            np.ndarray: Selected column.
-        """
-        if isinstance(X, pd.DataFrame):
-            return X[column].values
-
-        return X[:, column]
-
-    def set_column(self, X, column, value):
-        """Sets a column on the matrix X with the given value.
-
-        Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`.
-            column: `int` or `str`.
-            value: `np.ndarray` with shape (1,)
-
-        Returns:
-            `np.ndarray` or `pandas.DataFrame` with the inserted column.
-
-        """
-
-        if isinstance(X, pd.DataFrame):
-            X.loc[:, column] = value
-
-        else:
-            X[:, column] = value
-
-        return X
-
     def _get_covariance(self, X):
         """Compute covariance matrix with transformed data.
 
@@ -115,9 +65,7 @@ class GaussianMultivariate(Multivariate):
 
         """
         result = pd.DataFrame(index=range(len(X)))
-        column_names = self.get_column_names(X)
-        for column_name in column_names:
-            column = self.get_column(X, column_name)
+        for column_name, column in X.items():
             distrib = self.distribs[column_name]
 
             # get original distrib's cdf of the column
@@ -128,10 +76,10 @@ class GaussianMultivariate(Multivariate):
                 cdf = np.ones(column.shape) - EPSILON
 
             # get inverse cdf using standard normal
-            result = self.set_column(result, column_name, stats.norm.ppf(cdf))
+            result[column_name] = stats.norm.ppf(cdf)
 
         # remove any rows that have infinite values
-        result = result[(result != np.inf).all(axis=1)]
+        result = result[~result.isin([np.inf, -np.inf]).any(axis=1)]
         return pd.DataFrame(data=result).cov().values
 
     @check_valid_values
@@ -145,12 +93,13 @@ class GaussianMultivariate(Multivariate):
             None
         """
         LOGGER.debug('Fitting Gaussian Copula')
-        column_names = self.get_column_names(X)
         distribution_class = import_object(self.distribution)
 
-        for column_name in column_names:
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X)
+
+        for column_name, column in X.items():
             self.distribs[column_name] = distribution_class()
-            column = self.get_column(X, column_name)
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)
