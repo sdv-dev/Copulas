@@ -1,6 +1,6 @@
 
 import numpy as np
-from scipy.optimize import fminbound
+from scipy.optimize import brentq
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
@@ -93,7 +93,7 @@ class Gumbel(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                minimum = fminbound(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
+                minimum = brentq(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
                 if isinstance(minimum, np.ndarray):
                     minimum = minimum[0]
 

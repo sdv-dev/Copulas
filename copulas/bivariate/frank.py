@@ -1,7 +1,7 @@
 
 import numpy as np
 import scipy.integrate as integrate
-from scipy.optimize import fminbound, fsolve
+from scipy.optimize import brentq, fsolve, fmin
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
@@ -108,7 +108,7 @@ class Frank(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                minimum = fminbound(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
+                minimum = brentq(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
                 if isinstance(minimum, np.ndarray):
                     minimum = minimum[0]
 
@@ -147,27 +147,26 @@ class Frank(Bivariate):
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.
 
-        On Frank copula, this is
+        On Frank copula, the relationship between tau and theta is defined by:
 
         .. math:: \tau = 1 − \frac{4}{\theta} + \frac{4}{\theta^2}\int_0^\theta \!
             \frac{t}{e^t -1} \mathrm{d}t.
 
-        In order to solve, we can simplify it as
+        In order to solve it, we can simplify it as
 
-        .. math:: \tau = 1 + \frac{4}{\theta}(D_1(\theta) - 1)
+        .. math:: 0 = 1 + \frac{4(D_1(\theta)}{\theta} - 1) - \tau
 
         where the function D is the Debye function of first order, defined as:
 
         .. math:: D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.
 
         """
-        return fsolve(self._frank_help, 1, args=(self.tau))[0]
+        return fsolve(self._tau_to_theta, 1)[0]
 
-    @staticmethod
-    def _frank_help(alpha, tau):
-        """Compute first order debye function to estimate theta."""
+    def _tau_to_theta(self, alpha):
+        """Relationship between tau and theta as a solvable equation."""
         def debye(t):
             return t / (np.exp(t) - 1)
 
         debye_value = integrate.quad(debye, EPSILON, alpha)[0] / alpha
-        return 4 * (debye_value - 1) / alpha + 1 - tau
+        return 4 * (debye_value - 1) / alpha + 1 - self.tau

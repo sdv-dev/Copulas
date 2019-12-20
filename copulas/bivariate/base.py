@@ -9,8 +9,7 @@ import pandas as pd
 from scipy import stats
 
 from copulas import EPSILON, NotFittedError, random_state
-
-COMPUTE_EMPIRICAL_STEPS = 50
+from copulas.bivariate.utils import split_matrix
 
 
 class CopulaTypes(Enum):
@@ -28,10 +27,10 @@ class Bivariate(object):
     This class allows to instantiate all its subclasses and serves as a unique entry point for
     the bivariate copulas classes.
 
-    >>> Bivariate(CopulaTypes.FRANK).__class__
+    >>> Bivariate(copula_type=CopulaTypes.FRANK).__class__
     copulas.bivariate.frank.Frank
 
-    >>> Bivariate('frank').__class__
+    >>> Bivariate(copula_type='frank').__class__
     copulas.bivariate.frank.Frank
 
 
@@ -54,6 +53,8 @@ class Bivariate(object):
     _subclasses = []
     theta_interval = []
     invalid_thetas = []
+    theta = None
+    tau = None
 
     @classmethod
     def _get_subclasses(cls):
@@ -83,7 +84,7 @@ class Bivariate(object):
 
         return cls._subclasses
 
-    def __new__(cls, copula_type=None, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         """Create and return a new object.
 
         Args:
@@ -93,6 +94,10 @@ class Bivariate(object):
             Bivariate: New object.
 
         """
+        copula_type = kwargs.pop('copula_type', None)
+        if copula_type is None:
+            return super(Bivariate, cls).__new__(cls)
+
         if not isinstance(copula_type, CopulaTypes):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
@@ -103,16 +108,17 @@ class Bivariate(object):
             if subclass.copula_type is copula_type:
                 return super(Bivariate, cls).__new__(subclass)
 
-    def __init__(self, copula_type=None, random_seed=None):
+    def __init__(self, tau=None, random_seed=None, **kwargs):
         """Initialize Bivariate object.
 
         Args:
             copula_type (CopulaType or str): Subtype of the copula.
             random_seed (int or None): Seed for the random generator.
         """
-        self.theta = None
-        self.tau = None
         self.random_seed = random_seed
+        if tau is not None:
+            self.tau = tau
+            self._compute_theta()
 
     def check_theta(self):
         """Validate the computed theta against the copula specification.
@@ -141,6 +147,11 @@ class Bivariate(object):
 
         self.check_theta()
 
+    def _compute_theta(self):
+        """Compute theta, validate it and assign it to self."""
+        self.theta = self.compute_theta()
+        self.check_theta()
+
     def fit(self, X):
         """Fit a model to the data updating the parameters.
 
@@ -150,10 +161,9 @@ class Bivariate(object):
         Return:
             None
         """
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
         self.tau = stats.kendalltau(U, V)[0]
-        self.theta = self.compute_theta()
-        self.check_theta()
+        self._compute_theta()
 
     def to_dict(self):
         """Return a `dict` with the parameters to replicate this object.
@@ -419,7 +429,7 @@ class Bivariate(object):
             Bivariate: Copula with the given copula_type fitted or None.
         """
         try:
-            copula = Bivariate(copula_type)
+            copula = Bivariate(copula_type=copula_type)
             copula.fit(X)
             return copula
         except ValueError:
@@ -455,7 +465,7 @@ class Bivariate(object):
             copula: Best copula that fits for it.
 
         """
-        frank = Bivariate(CopulaTypes.FRANK)
+        frank = cls(copula_type=CopulaTypes.FRANK)
         frank.fit(X)
 
         if frank.tau <= 0:
@@ -465,7 +475,7 @@ class Bivariate(object):
 
         # append copulas into the candidate list
         for copula_type in [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]:
-            copula = Bivariate._fit_copula(copula_type, X)
+            copula = cls._fit_copula(copula_type, X)
             if copula is not None:
                 copula_candidates.append(copula)
 
