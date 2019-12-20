@@ -1,10 +1,15 @@
+import sys
 
 import numpy as np
 import scipy.integrate as integrate
-from scipy.optimize import brentq, fsolve, fmin
+from scipy.optimize import brentq, least_squares
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
+
+MIN_FLOAT_LOG = np.log(sys.float_info.min)
+MAX_FLOAT_LOG = np.log(sys.float_info.max)
 
 
 class Frank(Bivariate):
@@ -54,7 +59,7 @@ class Frank(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 0:
             return np.multiply(U, V)
@@ -83,7 +88,7 @@ class Frank(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         num = np.multiply(
             np.exp(np.multiply(-self.theta, U)) - 1,
@@ -134,7 +139,7 @@ class Frank(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 0:
             return V
@@ -161,7 +166,8 @@ class Frank(Bivariate):
         .. math:: D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.
 
         """
-        return fsolve(self._tau_to_theta, 1)[0]
+        result = least_squares(self._tau_to_theta, 1, bounds=(MIN_FLOAT_LOG, MAX_FLOAT_LOG))
+        return result.x[0]
 
     def _tau_to_theta(self, alpha):
         """Relationship between tau and theta as a solvable equation."""

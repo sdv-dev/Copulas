@@ -4,6 +4,7 @@ from scipy.optimize import brentq
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
 
 
 class Gumbel(Bivariate):
@@ -36,7 +37,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return np.multiply(U, V)
@@ -66,7 +67,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return np.multiply(U, V)
@@ -120,7 +121,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return V

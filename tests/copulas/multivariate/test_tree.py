@@ -194,7 +194,7 @@ class TestTree(TestCase):
         # Check
         compare_nested_iterables(instance.edges[0].U, expected_univariate)
 
-        bivariate_mock.assert_called_once_with('copula_type')
+        bivariate_mock.assert_called_once_with(copula_type='copula_type')
 
         assert copula_mock.theta == 'copula_theta'
         compare_nested_iterables(
@@ -244,7 +244,7 @@ class TestTree(TestCase):
         # Check
         compare_nested_iterables(instance.edges[0].U, expected_univariate)
 
-        bivariate_mock.assert_called_once_with('copula_type')
+        bivariate_mock.assert_called_once_with(copula_type='copula_type')
 
         conditional_mock.assert_called_once_with('first_parent', 'second_parent')
 
@@ -688,7 +688,7 @@ class TestEdge(TestCase):
         assert left_given_right == 'partial_derivative'
         assert right_given_left == 'partial_derivative'
 
-        bivariate_mock.assert_called_once_with('copula_name')
+        bivariate_mock.assert_called_once_with(copula_type='copula_name')
 
         assert instance_mock.theta == 'copula_theta'
         compare_nested_iterables(
@@ -748,7 +748,7 @@ class TestEdge(TestCase):
         assert left_given_right == 'partial_derivative'
         assert right_given_left == 'partial_derivative'
 
-        bivariate_mock.assert_called_once_with('copula_name')
+        bivariate_mock.assert_called_once_with(copula_type='copula_name')
 
         assert instance_mock.theta == 'copula_theta'
         compare_nested_iterables(

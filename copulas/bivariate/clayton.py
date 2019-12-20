@@ -1,7 +1,7 @@
 import numpy as np
 
-from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
 
 
 class Clayton(Bivariate):
@@ -48,7 +48,7 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
         b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
@@ -72,7 +72,7 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if (V == 0).all() or (U == 0).all():
             return np.zeros(V.shape[0])
@@ -130,7 +130,7 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         A = np.power(V, -self.theta - 1)
 

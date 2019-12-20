@@ -11,7 +11,7 @@ from copulas.bivariate.utils import split_matrix
 __all__ = (
     'Bivariate',
     'Clayton',
-    'CopulaTypes'
+    'CopulaTypes',
     'Frank',
     'Gumbel',
 )
