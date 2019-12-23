@@ -86,12 +86,8 @@ class Bivariate(object):
     def __new__(cls, *args, **kwargs):
         """Create and return a new object.
 
-        Args:
-            copula_type(CopulaTypes): subtype of the instance.
-
         Returns:
             Bivariate: New object.
-
         """
         copula_type = kwargs.get('copula_type', None)
         if copula_type is None:
@@ -112,7 +108,6 @@ class Bivariate(object):
 
         Args:
             copula_type (CopulaType or str): Subtype of the copula.
-            tau (
             random_seed (int or None): Seed for the random generator.
         """
         self.random_seed = random_seed
