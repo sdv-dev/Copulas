@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.frank module &mdash; Copulas 0.2.4 documentation</title>
+  <title>copulas.bivariate.utils module &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="copulas.bivariate.gumbel module" href="copulas.bivariate.gumbel.html" />
-    <link rel="prev" title="copulas.bivariate.clayton module" href="copulas.bivariate.clayton.html" /> 
+    <link rel="next" title="copulas.multivariate package" href="copulas.multivariate.html" />
+    <link rel="prev" title="copulas.bivariate.independence module" href="copulas.bivariate.independence.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -242,14 +242,14 @@
         
           <li><a href="copulas.bivariate.html">copulas.bivariate package</a> &raquo;</li>
         
-      <li>copulas.bivariate.frank module</li>
+      <li>copulas.bivariate.utils module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.bivariate.frank.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.bivariate.utils.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -263,130 +263,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-copulas.bivariate.frank">
-<span id="copulas-bivariate-frank-module"></span><h1>copulas.bivariate.frank module<a class="headerlink" href="#module-copulas.bivariate.frank" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="copulas.bivariate.frank.Frank">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.frank.</code><code class="sig-name descname">Frank</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
-<p>Class for Frank copula model.</p>
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.compute_theta">
-<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.compute_theta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute theta parameter using Kendall’s tau.</p>
-<p>On Frank copula, the relationship between tau and theta is defined by:</p>
-<div class="math notranslate nohighlight">
-\[\tau = 1 − \frac{4}{\theta} + \frac{4}{\theta^2}\int_0^\theta \!
-\frac{t}{e^t -1} \mathrm{d}t.\]</div>
-<p>In order to solve it, we can simplify it as</p>
-<div class="math notranslate nohighlight">
-\[0 = 1 + \frac{4(D_1(\theta)}{\theta} - 1) - \tau\]</div>
-<p>where the function D is the Debye function of first order, defined as:</p>
-<div class="math notranslate nohighlight">
-\[D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.\]</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.bivariate.frank.Frank.copula_type">
-<code class="sig-name descname">copula_type</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.bivariate.frank.Frank.copula_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the cumulative distribution function for the Frank copula.</p>
-<p>The cumulative density(cdf), or distribution function for the Frank family of copulas
-correspond to the formula:</p>
-<div class="math notranslate nohighlight">
-\[C(u,v) =  −\frac{\ln({\frac{1 + g(u) g(v)}{g(1)}})}{\theta}\]</div>
+  <div class="section" id="module-copulas.bivariate.utils">
+<span id="copulas-bivariate-utils-module"></span><h1>copulas.bivariate.utils module<a class="headerlink" href="#module-copulas.bivariate.utils" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="copulas.bivariate.utils.split_matrix">
+<code class="sig-prename descclassname">copulas.bivariate.utils.</code><code class="sig-name descname">split_matrix</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/utils.html#split_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.utils.split_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split an (n,2) numpy.array into two vectors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite></p>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Matrix of shape (n,2)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>cumulative distribution</p>
+<dd class="field-even"><p>Both of shape (n,)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.array</p>
+<dd class="field-odd"><p>tuple[numpy.array]</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.generator">
-<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.generator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the generator function.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.bivariate.frank.Frank.invalid_thetas">
-<code class="sig-name descname">invalid_thetas</code><em class="property"> = [0]</em><a class="headerlink" href="#copulas.bivariate.frank.Frank.invalid_thetas" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.partial_derivative">
-<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.partial_derivative" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute partial derivative of cumulative distribution.</p>
-<p>The partial derivative of the copula(CDF) is the value of the conditional probability.</p>
-<div class="math notranslate nohighlight">
-\[F(v|u) = \frac{\partial}{\partial u}C(u,v) =
-\frac{g(u)g(v) + g(v)}{g(u)g(v) + g(1)}\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
-<li><p><strong>y</strong> (<em>float</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.percent_point">
-<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.percent_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>y</strong> – <cite>np.ndarray</cite> value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
-<li><p><strong>v</strong> – <cite>np.ndarray</cite> given value of v.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.frank.Frank.probability_density">
-<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/frank.html#Frank.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.frank.Frank.probability_density" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute probability density function for given copula family.</p>
-<p>The probability density(PDF) for the Frank family of copulas correspond to the formula:</p>
-<div class="math notranslate nohighlight">
-\[c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
-\frac{-\theta g(1)(1 + g(u + v))}{(g(u) g(v) + g(1)) ^ 2}\]</div>
-<p>Where the g function is defined by:</p>
-<div class="math notranslate nohighlight">
-\[g(x) = e^{-\theta x} - 1\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>probability density</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.bivariate.frank.Frank.theta_interval">
-<code class="sig-name descname">theta_interval</code><em class="property"> = [-inf, inf]</em><a class="headerlink" href="#copulas.bivariate.frank.Frank.theta_interval" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </div>
@@ -399,10 +292,10 @@ correspond to the formula:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="copulas.bivariate.gumbel.html" class="btn btn-neutral float-right" title="copulas.bivariate.gumbel module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="copulas.multivariate.html" class="btn btn-neutral float-right" title="copulas.multivariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="copulas.bivariate.clayton.html" class="btn btn-neutral float-left" title="copulas.bivariate.clayton module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="copulas.bivariate.independence.html" class="btn btn-neutral float-left" title="copulas.bivariate.independence module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

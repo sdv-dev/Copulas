@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Copulas &mdash; Copulas 0.2.3 documentation</title>
+  <title>Copulas &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -167,16 +167,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -452,16 +459,16 @@ dataset.</p>
 first import the module <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and call its function <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> with the path to our
 example dataset.</p>
 <p>In this case, we will load the <code class="docutils literal notranslate"><span class="pre">iris</span></code> dataset into a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/iris.data.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will be return us a dataframe with 4 columns:</p>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>              <span class="mi">0</span>    <span class="mi">1</span>    <span class="mi">2</span>
-<span class="n">feature_01</span>  <span class="mi">5</span><span class="p">.</span><span class="mi">1</span>  <span class="mi">4</span><span class="p">.</span><span class="mi">9</span>  <span class="mi">4</span><span class="p">.</span><span class="mi">7</span>
-<span class="n">feature_02</span>  <span class="mi">3</span><span class="p">.</span><span class="mi">5</span>  <span class="mi">3</span><span class="p">.</span><span class="mi">0</span>  <span class="mi">3</span><span class="p">.</span><span class="mi">2</span>
-<span class="n">feature_03</span>  <span class="mi">1</span><span class="p">.</span><span class="mi">4</span>  <span class="mi">1</span><span class="p">.</span><span class="mi">4</span>  <span class="mi">1</span><span class="p">.</span><span class="mi">3</span>
-<span class="n">feature_04</span>  <span class="mi">0</span><span class="p">.</span><span class="mi">2</span>  <span class="mi">0</span><span class="p">.</span><span class="mi">2</span>  <span class="mi">0</span><span class="p">.</span><span class="mi">2</span>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>              0    1    2
+feature_01  5.1  4.9  4.7
+feature_02  3.5  3.0  3.2
+feature_03  1.4  1.4  1.3
+feature_04  0.2  0.2  0.2
 </pre></div>
 </div>
 </div>
@@ -492,11 +499,11 @@ method of the <code class="docutils literal notranslate"><span class="pre">Copul
 </pre></div>
 </div>
 <p>This will return a DataFrame with the same number of columns as the original data.</p>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>                   <span class="mi">0</span>         <span class="mi">1</span>         <span class="mi">2</span>
-<span class="n">feature_01</span>  <span class="mi">7</span><span class="p">.</span><span class="mi">534814</span>  <span class="mi">7</span><span class="p">.</span><span class="mi">255292</span>  <span class="mi">5</span><span class="p">.</span><span class="mi">723322</span>
-<span class="n">feature_02</span>  <span class="mi">2</span><span class="p">.</span><span class="mi">723615</span>  <span class="mi">2</span><span class="p">.</span><span class="mi">959855</span>  <span class="mi">3</span><span class="p">.</span><span class="mi">282245</span>
-<span class="n">feature_03</span>  <span class="mi">6</span><span class="p">.</span><span class="mi">465199</span>  <span class="mi">6</span><span class="p">.</span><span class="mi">896618</span>  <span class="mi">2</span><span class="p">.</span><span class="mi">658393</span>
-<span class="n">feature_04</span>  <span class="mi">2</span><span class="p">.</span><span class="mi">267646</span>  <span class="mi">2</span><span class="p">.</span><span class="mi">442479</span>  <span class="mi">1</span><span class="p">.</span><span class="mi">109811</span>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>                   0         1         2
+feature_01  7.534814  7.255292  5.723322
+feature_02  2.723615  2.959855  3.282245
+feature_03  6.465199  6.896618  2.658393
+feature_04  2.267646  2.442479  1.109811
 </pre></div>
 </div>
 <p>The returned object, <code class="docutils literal notranslate"><span class="pre">samples</span></code>, is a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> containing a table of synthetic data with

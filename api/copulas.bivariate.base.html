@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.base module &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.bivariate.base module &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -168,16 +168,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -266,11 +273,11 @@
 <p>Base class for bivariate copulas.</p>
 <p>This class allows to instantiate all its subclasses and serves as a unique entry point for
 the bivariate copulas classes.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="o">=</span><span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
 <span class="go">copulas.bivariate.frank.Frank</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="s1">&#39;frank&#39;</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="o">=</span><span class="s1">&#39;frank&#39;</span><span class="p">)</span><span class="o">.</span><span class="vm">__class__</span>
 <span class="go">copulas.bivariate.frank.Frank</span>
 </pre></div>
 </div>
@@ -377,64 +384,6 @@ the bivariate copulas classes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>ValueError</strong> – If theta is not in <a class="reference internal" href="#copulas.bivariate.base.Bivariate.theta_interval" title="copulas.bivariate.base.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a> or is in <a class="reference internal" href="#copulas.bivariate.base.Bivariate.invalid_thetas" title="copulas.bivariate.base.Bivariate.invalid_thetas"><code class="xref py py-attr docutils literal notranslate"><span class="pre">invalid_thetas</span></code></a>,</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.compute_candidates">
-<em class="property">classmethod </em><code class="sig-name descname">compute_candidates</code><span class="sig-paren">(</span><em class="sig-param">copulas</em>, <em class="sig-param">left_tail</em>, <em class="sig-param">right_tail</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_candidates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_candidates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute dependencies.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>copulas</strong> (<em>list</em><em>[</em><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate"><em>Bivariate</em></a><em>]</em>) – Fitted instances of bivariate copulas.</p></li>
-<li><p><strong>z_left</strong> (<em>list</em>) – </p></li>
-<li><p><strong>z_right</strong> (<em>list</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Arrays of left and right dependencies for the empirical copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[list]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.compute_empirical">
-<em class="property">classmethod </em><code class="sig-name descname">compute_empirical</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_empirical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_empirical" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute empirical distribution.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Shape (n,2); Datapoints to compute the empirical(frequentist) copula.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple(list)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.compute_tail">
-<em class="property">static </em><code class="sig-name descname">compute_tail</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">z</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_tail" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute upper concentration function for tail.</p>
-<p>The upper tail concentration function is defined by:</p>
-<div class="math notranslate nohighlight">
-\[R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)^{2}}\]</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<em>Iterable</em>) – Values of <span class="math notranslate nohighlight">\(C(z,z)\)</span>.</p></li>
-<li><p><strong>z</strong> (<em>Iterable</em>) – Values for the empirical copula.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -672,23 +621,6 @@ highest value is selected.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.split_matrix">
-<em class="property">static </em><code class="sig-name descname">split_matrix</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.split_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.split_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split an (n,2) numpy.array into two vectors.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>numpy.array</em>) – Matrix of shape (n,2)</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Both of shape (n,)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[numpy.array]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="copulas.bivariate.base.Bivariate.subclasses">
 <em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.subclasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of subclasses for the current class object.</p>
@@ -701,6 +633,16 @@ highest value is selected.</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">tau</code><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">theta</code><em class="property"> = None</em></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt>

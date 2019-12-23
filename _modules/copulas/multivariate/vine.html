@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -166,16 +166,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -253,13 +260,13 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">optimize</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span>
-<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="k">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="k">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="k">import</span> <span class="n">Tree</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian_kde</span> <span class="k">import</span> <span class="n">GaussianKDE</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span>
+<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian_kde</span> <span class="kn">import</span> <span class="n">GaussianKDE</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -300,7 +307,7 @@
 <span class="sd">        self.ppfs(list[callable]):</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Instantiate a vine copula.</span>
 
 <span class="sd">        Args:</span>
@@ -520,7 +527,7 @@
                     <span class="k">if</span> <span class="n">current_ind</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                         <span class="c1"># the node is not indepedent contional on visited node</span>
                         <span class="n">copula_type</span> <span class="o">=</span> <span class="n">current_tree</span><span class="p">[</span><span class="n">current_ind</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-                        <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">CopulaTypes</span><span class="p">(</span><span class="n">copula_type</span><span class="p">))</span>
+                        <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="o">=</span><span class="n">CopulaTypes</span><span class="p">(</span><span class="n">copula_type</span><span class="p">))</span>
                         <span class="n">copula</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">current_tree</span><span class="p">[</span><span class="n">current_ind</span><span class="p">]</span><span class="o">.</span><span class="n">theta</span>
                         <span class="n">derivative</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">partial_derivative_scalar</span>
 

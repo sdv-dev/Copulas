@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.clayton module &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.bivariate.clayton module &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -168,16 +168,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -272,7 +279,7 @@
 \[τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)\]</div>
 <div class="math notranslate nohighlight">
 \[θ ∈ (0, ∞)\]</div>
-<p>On the corner case of <span class="math notranslate nohighlight">\(τ = 1\)</span>, a big enough number is returned instead of infinity.</p>
+<p>On the corner case of <span class="math notranslate nohighlight">\(τ = 1\)</span>, return infinite.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -352,7 +359,6 @@ u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}\]</di
 <dt id="copulas.bivariate.clayton.Clayton.percent_point">
 <code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.percent_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
-<p>The percent point is the</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

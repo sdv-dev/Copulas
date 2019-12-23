@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.frank &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.bivariate.frank &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -166,16 +166,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -249,13 +256,18 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.bivariate.frank</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">fminbound</span><span class="p">,</span> <span class="n">fsolve</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">brentq</span><span class="p">,</span> <span class="n">least_squares</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span>
-<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="k">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span>
+<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
+<span class="kn">from</span> <span class="nn">copulas.bivariate.utils</span> <span class="kn">import</span> <span class="n">split_matrix</span>
+
+<span class="n">MIN_FLOAT_LOG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+<span class="n">MAX_FLOAT_LOG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Frank"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank">[docs]</a><span class="k">class</span> <span class="nc">Frank</span><span class="p">(</span><span class="n">Bivariate</span><span class="p">):</span>
@@ -305,7 +317,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
@@ -334,7 +346,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">U</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
@@ -359,7 +371,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">_y</span><span class="p">,</span> <span class="n">_V</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-                <span class="n">minimum</span> <span class="o">=</span> <span class="n">fminbound</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_derivative_scalar</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">_y</span><span class="p">,</span> <span class="n">_V</span><span class="p">))</span>
+                <span class="n">minimum</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_derivative_scalar</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">_y</span><span class="p">,</span> <span class="n">_V</span><span class="p">))</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                     <span class="n">minimum</span> <span class="o">=</span> <span class="n">minimum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -385,7 +397,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">V</span>
@@ -398,30 +410,30 @@
 <div class="viewcode-block" id="Frank.compute_theta"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.compute_theta">[docs]</a>    <span class="k">def</span> <span class="nf">compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
 
-<span class="sd">        On Frank copula, this is</span>
+<span class="sd">        On Frank copula, the relationship between tau and theta is defined by:</span>
 
 <span class="sd">        .. math:: \tau = 1 − \frac{4}{\theta} + \frac{4}{\theta^2}\int_0^\theta \!</span>
 <span class="sd">            \frac{t}{e^t -1} \mathrm{d}t.</span>
 
-<span class="sd">        In order to solve, we can simplify it as</span>
+<span class="sd">        In order to solve it, we can simplify it as</span>
 
-<span class="sd">        .. math:: \tau = 1 + \frac{4}{\theta}(D_1(\theta) - 1)</span>
+<span class="sd">        .. math:: 0 = 1 + \frac{4(D_1(\theta)}{\theta} - 1) - \tau</span>
 
 <span class="sd">        where the function D is the Debye function of first order, defined as:</span>
 
 <span class="sd">        .. math:: D_1(x) = \frac{1}{x}\int_0^x\frac{t}{e^t -1} \mathrm{d}t.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">fsolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frank_help</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tau_to_theta</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">MIN_FLOAT_LOG</span><span class="p">,</span> <span class="n">MAX_FLOAT_LOG</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_frank_help</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute first order debye function to estimate theta.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_tau_to_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Relationship between tau and theta as a solvable equation.&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">debye</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">t</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="n">debye_value</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">debye</span><span class="p">,</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">alpha</span>
-        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">debye_value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">tau</span></div>
+        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">debye_value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span></div>
 </pre></div>
 
            </div>

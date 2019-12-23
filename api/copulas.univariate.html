@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate package &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.univariate package &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -168,16 +168,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -264,7 +271,7 @@
 <li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copulas.univariate.kde.html">copulas.univariate.kde module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.truncnorm.html">copulas.univariate.truncnorm module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </div>
 </div>
@@ -512,25 +519,34 @@ but allows more flexibility.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="copulas.univariate.TruncNorm">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">TruncNorm</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncnorm.html#TruncNorm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncNorm" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">TruncatedGaussian</code><span class="sig-paren">(</span><em class="sig-param">min=None</em>, <em class="sig-param">max=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncated_gaussian.html#TruncatedGaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncatedGaussian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper" title="copulas.univariate.base.ScipyWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyWrapper</span></code></a></p>
 <p>Wrapper around scipy.stats.truncnorm.</p>
 <p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html</a></p>
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><em class="property"> = 'cdf'</em><a class="headerlink" href="#copulas.univariate.TruncNorm.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.constant_value">
+<code class="sig-name descname">constant_value</code><em class="property"> = None</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.constant_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.TruncatedGaussian.cumulative_distribution">
+<code class="sig-name descname">cumulative_distribution</code><em class="property"> = 'cdf'</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.TruncNorm.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncnorm.html#TruncNorm.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncNorm.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepare necessary params and call super().fit.</p>
-</dd></dl>
+<dt id="copulas.univariate.TruncatedGaussian.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.TruncatedGaussian.fitted">
+<code class="sig-name descname">fitted</code><em class="property"> = False</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.fitted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
-<dt id="copulas.univariate.TruncNorm.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">parameters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncnorm.html#TruncNorm.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncNorm.from_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">parameters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncated_gaussian.html#TruncatedGaussian.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set attributes with provided values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -546,28 +562,38 @@ but allows more flexibility.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.model_class">
-<code class="sig-name descname">model_class</code><em class="property"> = 'truncnorm'</em><a class="headerlink" href="#copulas.univariate.TruncNorm.model_class" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.mean">
+<code class="sig-name descname">mean</code><em class="property"> = None</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.mean" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.percent_point">
-<code class="sig-name descname">percent_point</code><em class="property"> = 'ppf'</em><a class="headerlink" href="#copulas.univariate.TruncNorm.percent_point" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.model_class">
+<code class="sig-name descname">model_class</code><em class="property"> = 'truncnorm'</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.model_class" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.probability_density">
-<code class="sig-name descname">probability_density</code><em class="property"> = 'pdf'</em><a class="headerlink" href="#copulas.univariate.TruncNorm.probability_density" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.percent_point">
+<code class="sig-name descname">percent_point</code><em class="property"> = 'ppf'</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.percent_point" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.sample">
-<code class="sig-name descname">sample</code><em class="property"> = 'rvs'</em><a class="headerlink" href="#copulas.univariate.TruncNorm.sample" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.probability_density">
+<code class="sig-name descname">probability_density</code><em class="property"> = 'pdf'</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.probability_density" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.univariate.TruncNorm.unfittable_model">
-<code class="sig-name descname">unfittable_model</code><em class="property"> = True</em><a class="headerlink" href="#copulas.univariate.TruncNorm.unfittable_model" title="Permalink to this definition">¶</a></dt>
+<dt id="copulas.univariate.TruncatedGaussian.sample">
+<code class="sig-name descname">sample</code><em class="property"> = 'rvs'</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.TruncatedGaussian.std">
+<code class="sig-name descname">std</code><em class="property"> = None</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.std" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.TruncatedGaussian.unfittable_model">
+<code class="sig-name descname">unfittable_model</code><em class="property"> = True</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.unfittable_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

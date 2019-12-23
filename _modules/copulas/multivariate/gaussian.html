@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -166,16 +166,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -250,15 +257,15 @@
             
   <h1>Source code for copulas.multivariate.gaussian</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">integrate</span><span class="p">,</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span><span class="p">,</span> <span class="n">stats</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">import_object</span><span class="p">,</span> <span class="n">random_state</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="k">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="k">import</span> <span class="n">Univariate</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">import_object</span><span class="p">,</span> <span class="n">random_state</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">Univariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">DEFAULT_DISTRIBUTION</span> <span class="o">=</span> <span class="s1">&#39;copulas.univariate.gaussian.GaussianUnivariate&#39;</span>
@@ -271,7 +278,7 @@
 <span class="sd">        distribution (str): Full qualified name of the class to be used as distribution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="n">DEFAULT_DISTRIBUTION</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="n">DEFAULT_DISTRIBUTION</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -279,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">distribution</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">distribs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s1">==============</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -305,56 +312,6 @@
 
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">lower_bounds</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianMultivariate.get_column_names"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.get_column_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_column_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return iterable containing columns for the given array X.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X: `numpy.ndarray` or `pandas.DataFrame`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            iterable: columns for the given matrix.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span>
-
-        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
-
-<div class="viewcode-block" id="GaussianMultivariate.get_column"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.get_column">[docs]</a>    <span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a column of the given matrix.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X: `numpy.ndarray` or `pandas.DataFrame`.</span>
-<span class="sd">            column: `int` or `str`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            np.ndarray: Selected column.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-
-        <span class="k">return</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="GaussianMultivariate.set_column"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.set_column">[docs]</a>    <span class="k">def</span> <span class="nf">set_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a column on the matrix X with the given value.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X: `numpy.ndarray` or `pandas.DataFrame`.</span>
-<span class="sd">            column: `int` or `str`.</span>
-<span class="sd">            value: `np.ndarray` with shape (1,)</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            `np.ndarray` or `pandas.DataFrame` with the inserted column.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">X</span><span class="p">[:,</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-
-        <span class="k">return</span> <span class="n">X</span></div>
-
     <span class="k">def</span> <span class="nf">_get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute covariance matrix with transformed data.</span>
 
@@ -366,9 +323,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
-        <span class="n">column_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column_names</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
-            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">distrib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
 
             <span class="c1"># get original distrib&#39;s cdf of the column</span>
@@ -379,10 +334,10 @@
                 <span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="n">EPSILON</span>
 
             <span class="c1"># get inverse cdf using standard normal</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">cdf</span><span class="p">))</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
 
         <span class="c1"># remove any rows that have infinite values</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="o">~</span><span class="n">result</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
 
     <span class="nd">@check_valid_values</span>
@@ -396,12 +351,13 @@
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting Gaussian Copula&#39;</span><span class="p">)</span>
-        <span class="n">column_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column_names</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">distribution_class</span> <span class="o">=</span> <span class="n">import_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">distribution_class</span><span class="p">()</span>
-            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_covariance</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>

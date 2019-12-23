@@ -10,7 +10,7 @@ Submodules
    copulas.univariate.gaussian
    copulas.univariate.gaussian_kde
    copulas.univariate.kde
-   copulas.univariate.truncnorm
+   copulas.univariate.truncated_gaussian
 
 Module contents
 ---------------

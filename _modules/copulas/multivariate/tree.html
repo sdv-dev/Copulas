@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.tree &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.multivariate.tree &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -166,16 +166,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -251,14 +258,14 @@
   <h1>Source code for copulas.multivariate.tree</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">get_qualified_name</span>
-<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="k">import</span> <span class="n">Bivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="k">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">get_qualified_name</span>
+<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -291,7 +298,7 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_subclasses</span></div>
 
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="n">TreeTypes</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">):</span>
                 <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="p">[</span><span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
@@ -302,7 +309,7 @@
             <span class="k">if</span> <span class="n">subclass</span><span class="o">.</span><span class="n">tree_type</span> <span class="ow">is</span> <span class="n">tree_type</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Tree</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a new instance of any of their subclasses.</span>
 
@@ -446,7 +453,7 @@
             <span class="n">X_left_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">)])</span>
             <span class="n">X_right_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">right_u</span><span class="p">,</span> <span class="n">left_u</span><span class="p">)])</span>
 
-            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="o">=</span><span class="n">edge</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">copula</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="n">copula_theta</span>
             <span class="n">left_given_right</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">partial_derivative</span><span class="p">(</span><span class="n">X_left_right</span><span class="p">)</span>
             <span class="n">right_given_left</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">partial_derivative</span><span class="p">(</span><span class="n">X_right_left</span><span class="p">)</span>
@@ -482,7 +489,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="n">new_uni_matrix</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;L:</span><span class="si">{}</span><span class="s1"> R:</span><span class="si">{}</span><span class="s1"> D:</span><span class="si">{}</span><span class="s1"> Copula:</span><span class="si">{}</span><span class="s1"> Theta:</span><span class="si">{}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
                           <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">])</span>
@@ -704,7 +711,7 @@
 
 
 <div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">copula_name</span><span class="p">,</span> <span class="n">copula_theta</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">copula_name</span><span class="p">,</span> <span class="n">copula_theta</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize an Edge object.</span>
 
 <span class="sd">        Args:</span>
@@ -828,7 +835,7 @@
             <span class="n">left_u</span> <span class="o">=</span> <span class="n">uni_matrix</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">left_ing</span><span class="p">]</span>
             <span class="n">right_u</span> <span class="o">=</span> <span class="n">uni_matrix</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">right_ing</span><span class="p">]</span>
 
-        <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">copula</span> <span class="o">=</span> <span class="n">Bivariate</span><span class="p">(</span><span class="n">copula_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">copula</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
 
         <span class="n">X_left_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">]])</span>

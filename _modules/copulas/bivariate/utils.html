@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.truncnorm &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.bivariate.utils &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -166,16 +166,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -233,7 +240,7 @@
         
           <li><a href="../../copulas.html">copulas</a> &raquo;</li>
         
-      <li>copulas.univariate.truncnorm</li>
+      <li>copulas.bivariate.utils</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -248,81 +255,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for copulas.univariate.truncnorm</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">scipy</span>
-
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="k">import</span> <span class="n">EPSILON</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="k">import</span> <span class="n">ScipyWrapper</span>
+  <h1>Source code for copulas.bivariate.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="TruncNorm"><a class="viewcode-back" href="../../../api/copulas.univariate.truncnorm.html#copulas.univariate.TruncNorm">[docs]</a><span class="k">class</span> <span class="nc">TruncNorm</span><span class="p">(</span><span class="n">ScipyWrapper</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wrapper around scipy.stats.truncnorm.</span>
+<div class="viewcode-block" id="split_matrix"><a class="viewcode-back" href="../../../api/copulas.bivariate.utils.html#copulas.bivariate.utils.split_matrix">[docs]</a><span class="k">def</span> <span class="nf">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split an (n,2) numpy.array into two vectors.</span>
 
-<span class="sd">    Documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html</span>
+<span class="sd">    Args:</span>
+<span class="sd">        X(numpy.array): Matrix of shape (n,2)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[numpy.array]: Both of shape (n,)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
 
-    <span class="n">model_class</span> <span class="o">=</span> <span class="s1">&#39;truncnorm&#39;</span>
-    <span class="n">unfittable_model</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">probability_density</span> <span class="o">=</span> <span class="s1">&#39;pdf&#39;</span>
-    <span class="n">cumulative_distribution</span> <span class="o">=</span> <span class="s1">&#39;cdf&#39;</span>
-    <span class="n">percent_point</span> <span class="o">=</span> <span class="s1">&#39;ppf&#39;</span>
-    <span class="n">sample</span> <span class="o">=</span> <span class="s1">&#39;rvs&#39;</span>
-
-<div class="viewcode-block" id="TruncNorm.fit"><a class="viewcode-back" href="../../../api/copulas.univariate.truncnorm.html#copulas.univariate.TruncNorm.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prepare necessary params and call super().fit.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_constant_value</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">min_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">EPSILON</span>
-            <span class="n">max_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">EPSILON</span>
-
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">min_</span><span class="p">,</span> <span class="n">max_</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_replace_constant_methods</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="TruncNorm.from_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.truncnorm.html#copulas.univariate.TruncNorm.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set attributes with provided values.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            parameters(dict): Dictionary containing instance parameters.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Truncnorm: Instance populated with given parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;fitted&#39;</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
-                <span class="n">instance</span><span class="o">.</span><span class="n">constant_value</span> <span class="o">=</span> <span class="n">a</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">instance</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">truncnorm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">instance</span></div>
-
-    <span class="k">def</span> <span class="nf">_fit_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return attributes from self.model to serialize.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Parameters to recreate self.model in its current fit status.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span>
-                <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">,</span>
-                <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_value</span><span class="p">,</span>
-            <span class="p">}</span>
-
-        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">a</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
-            <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
-            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">kwds</span>
-        <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 </pre></div>
 
            </div>

@@ -1,0 +1,7 @@
+copulas.univariate.truncated\_gaussian module
+=============================================
+
+.. automodule:: copulas.univariate.truncated_gaussian
+   :members:
+   :undoc-members:
+   :show-inheritance:

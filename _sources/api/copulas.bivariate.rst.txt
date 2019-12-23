@@ -11,6 +11,7 @@ Submodules
    copulas.bivariate.frank
    copulas.bivariate.gumbel
    copulas.bivariate.independence
+   copulas.bivariate.utils
 
 Module contents
 ---------------

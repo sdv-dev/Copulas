@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate package &mdash; Copulas 0.2.3 documentation</title>
+  <title>copulas.multivariate package &mdash; Copulas 0.2.4 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="copulas.multivariate.base module" href="copulas.multivariate.base.html" />
-    <link rel="prev" title="copulas.bivariate.independence module" href="copulas.bivariate.independence.html" /> 
+    <link rel="prev" title="copulas.bivariate.utils module" href="copulas.bivariate.utils.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -168,16 +168,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id9">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id19">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id21">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id26">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -430,43 +437,6 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.GaussianMultivariate.get_column">
-<code class="sig-name descname">get_column</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">column</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_column" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a column of the given matrix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> – <cite>numpy.ndarray</cite> or <cite>pandas.DataFrame</cite>.</p></li>
-<li><p><strong>column</strong> – <cite>int</cite> or <cite>str</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Selected column.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianMultivariate.get_column_names">
-<code class="sig-name descname">get_column_names</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_column_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_column_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return iterable containing columns for the given array X.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> – <cite>numpy.ndarray</cite> or <cite>pandas.DataFrame</cite>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>columns for the given matrix.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="copulas.multivariate.GaussianMultivariate.get_lower_bound">
 <code class="sig-name descname">get_lower_bound</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_lower_bound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_lower_bound" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the lower bound to integrate cumulative density.</p>
@@ -501,24 +471,6 @@
 <dt id="copulas.multivariate.GaussianMultivariate.sample">
 <code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.sample" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianMultivariate.set_column">
-<code class="sig-name descname">set_column</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">column</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.set_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.set_column" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets a column on the matrix X with the given value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> – <cite>numpy.ndarray</cite> or <cite>pandas.DataFrame</cite>.</p></li>
-<li><p><strong>column</strong> – <cite>int</cite> or <cite>str</cite>.</p></li>
-<li><p><strong>value</strong> – <cite>np.ndarray</cite> with shape (1,)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><cite>np.ndarray</cite> or <cite>pandas.DataFrame</cite> with the inserted column.</p>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.GaussianMultivariate.to_dict">
@@ -906,7 +858,7 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
         <a href="copulas.multivariate.base.html" class="btn btn-neutral float-right" title="copulas.multivariate.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="copulas.bivariate.independence.html" class="btn btn-neutral float-left" title="copulas.bivariate.independence module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="copulas.bivariate.utils.html" class="btn btn-neutral float-left" title="copulas.bivariate.utils module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
