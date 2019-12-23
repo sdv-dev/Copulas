@@ -4,15 +4,17 @@
 
 ### New Features
 
-* Allow creating copula classes directly new feature - Issue [#117](https://github.com/DAI-Lab/Copulas/issues/117) by @csala
+* Allow creating copula classes directly - Issue [#117](https://github.com/DAI-Lab/Copulas/issues/117) by @csala
 
-# General Improvements
+### General Improvements
 
-* Remove `select_copula` from `Bivariate` internal improvements - Issue [#118](https://github.com/DAI-Lab/Copulas/issues/118) by @csala
+* Remove `select_copula` from `Bivariate` - Issue [#118](https://github.com/DAI-Lab/Copulas/issues/118) by @csala
 
-* How to produce new samples - Issue [#112](https://github.com/DAI-Lab/Copulas/issues/112) by @csala
+* Rename TruncNorm to TruncGaussian and make it non standard - Issue [#102](https://github.com/DAI-Lab/Copulas/issues/102) by @csala @JDTheRipperPC
 
-* Rename TruncNorm to TruncGaussian and make it non standard internal improvements - Issue [#102](https://github.com/DAI-Lab/Copulas/issues/102) by @csala @JDTheRipperPC
+### Bugs fixed
+
+* Error on Frank and Gumble sampling - Issue [#112](https://github.com/DAI-Lab/Copulas/issues/112) by @csala
 
 ## 0.2.3 (2019-09-17)
 
