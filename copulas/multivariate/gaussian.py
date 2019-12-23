@@ -96,12 +96,11 @@ class GaussianMultivariate(Multivariate):
         """
         LOGGER.debug('Fitting Gaussian Copula')
 
-        column_names = self.get_column_names(X)
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X)
 
-        for column_name in column_names:
+        for column_name, column in X.items():
             self.distribs[column_name] = get_instance(self.distribution)
-            column = self.get_column(X, column_name)
-
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)

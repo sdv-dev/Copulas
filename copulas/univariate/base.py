@@ -2,8 +2,7 @@ import numpy as np
 import scipy.stats
 
 from copulas import (
-    NotFittedError, check_valid_values, get_instance, get_qualified_name,
-    missing_method_scipy_wrapper)
+    NotFittedError, check_valid_values, get_instance, get_qualified_name)
 
 
 class Univariate(object):
