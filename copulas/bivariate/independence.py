@@ -2,6 +2,7 @@ import numpy as np
 import scipy
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
 
 
 class Independence(Bivariate):
@@ -52,7 +53,7 @@ class Independence(Bivariate):
             numpy.array: Cumulative distribution values of given input.
 
         """
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
         return np.multiply(U, V)
 
     def partial_derivative(self, X):

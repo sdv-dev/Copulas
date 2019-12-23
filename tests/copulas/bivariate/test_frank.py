@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.frank import Frank
 from tests import compare_nested_iterables, copula_single_arg_not_one, copula_zero_if_arg_zero
 
 
@@ -36,7 +36,7 @@ class TestFrank(TestCase):
             [-180.57028875, 201.56983421],
             [-592.84497457, 174.92272693]
         ])
-        self.copula = Bivariate(CopulaTypes.FRANK)
+        self.copula = Frank()
 
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
@@ -83,18 +83,18 @@ class TestFrank(TestCase):
     def test_sample(self, uniform_mock):
         """Sample use the inverse-transform method to generate new samples."""
         # Setup
-        instance = Bivariate(CopulaTypes.FRANK)
+        instance = Frank()
         instance.tau = 0.5
         instance.theta = instance.compute_theta()
 
         uniform_mock.return_value = np.array([0.1, 0.2, 0.4, 0.6, 0.8])
 
         expected_result = np.array([
-            [6.080069565509917e-06, 0.1],
-            [6.080069565509917e-06, 0.2],
-            [6.080069565509917e-06, 0.4],
-            [6.080069565509917e-06, 0.6],
-            [4.500185268624483e-06, 0.8]
+            [0.0312640840463779, 0.1],
+            [0.1007998170183327, 0.2],
+            [0.3501836319841291, 0.4],
+            [0.6498163680158703, 0.6],
+            [0.8992001829816683, 0.8]
         ])
 
         expected_uniform_call_args_list = [
@@ -114,7 +114,7 @@ class TestFrank(TestCase):
     def test_cdf_zero_if_single_arg_is_zero(self):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
-        instance = Bivariate(CopulaTypes.FRANK)
+        instance = Frank()
         tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
 
         # Run/Check
@@ -126,7 +126,7 @@ class TestFrank(TestCase):
     def test_cdf_value_if_all_other_arg_are_one(self):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
-        instance = Bivariate(CopulaTypes.FRANK)
+        instance = Frank()
         tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
 
         # Run/Check
@@ -134,24 +134,3 @@ class TestFrank(TestCase):
             instance.tau = tau
             instance.theta = instance.compute_theta()
             copula_single_arg_not_one(instance, tolerance=1E-03)
-
-    def test_sample_random_state(self):
-        """If random_state is set, the samples are the same."""
-        # Setup
-        instance = Bivariate(CopulaTypes.FRANK, random_seed=0)
-        instance.tau = 0.5
-        instance.theta = instance.compute_theta()
-
-        expected_result = np.array([
-            [3.66330927e-06, 5.48813504e-01],
-            [6.08006957e-06, 7.15189366e-01],
-            [5.27582646e-06, 6.02763376e-01],
-            [5.58315848e-06, 5.44883183e-01],
-            [6.08006957e-06, 4.23654799e-01]
-        ])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        compare_nested_iterables(result, expected_result)

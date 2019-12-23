@@ -1,6 +1,7 @@
 import numpy as np
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
 
 
 class Clayton(Bivariate):
@@ -47,7 +48,7 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
         b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
@@ -71,7 +72,7 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if (V == 0).all() or (U == 0).all():
             return np.zeros(V.shape[0])
@@ -91,8 +92,6 @@ class Clayton(Bivariate):
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
 
-        The percent point is the
-
         Args:
             y (numpy.ndarray): Value of :math:`C(u|v)`.
             v (numpy.ndarray): given value of v.
@@ -105,8 +104,13 @@ class Clayton(Bivariate):
         else:
             a = np.power(y, self.theta / (-1 - self.theta))
             b = np.power(V, self.theta)
-            u = np.power((a + b - 1) / b, -1 / self.theta)
-            return u
+
+            # If b == 0, self.theta tends to inf,
+            # so the next operation tends to 1
+            if (b == 0).all():
+                return np.ones(len(V))
+
+            return np.power((a + b - 1) / b, -1 / self.theta)
 
     def partial_derivative(self, X, y=0):
         r"""Compute partial derivative of cumulative distribution.
@@ -126,16 +130,18 @@ class Clayton(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
-        if self.theta == 0:
-            return V
+        A = np.power(V, -self.theta - 1)
 
-        else:
-            A = np.power(V, -self.theta - 1)
-            B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
-            h = np.power(B, (-1 - self.theta) / self.theta)
-            return np.multiply(A, h) - y
+        # If theta tends to inf, A tends to inf
+        # And the next partial_derivative tends to 0
+        if (A == np.inf).any():
+            return np.zeros(len(V))
+
+        B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
+        h = np.power(B, (-1 - self.theta) / self.theta)
+        return np.multiply(A, h) - y
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.
@@ -145,12 +151,9 @@ class Clayton(Bivariate):
         .. math:: τ = θ/(θ + 2) \implies θ = 2τ/(1-τ)
         .. math:: θ ∈ (0, ∞)
 
-        On the corner case of :math:`τ = 1`, a big enough number is returned instead of infinity.
+        On the corner case of :math:`τ = 1`, return infinite.
         """
         if self.tau == 1:
-            theta = 10000
+            return np.inf
 
-        else:
-            theta = 2 * self.tau / (1 - self.tau)
-
-        return theta
+        return 2 * self.tau / (1 - self.tau)
