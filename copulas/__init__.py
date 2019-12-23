@@ -205,22 +205,3 @@ def check_valid_values(function):
         return function(self, X, *args, **kwargs)
 
     return decorated
-
-
-def missing_method_scipy_wrapper(function):
-    """Raises a detailed exception when a method is not available."""
-    def decorated(self, *args, **kwargs):
-        message = (
-            'Your tried to access `{method_name}` from {class_name}, but its not available.\n '
-            'There can be multiple factors causing this, please feel free to open an issue in '
-            'https://github.com/DAI-Lab/Copulas/issues/new'
-        )
-
-        params = {
-            'method_name': function.__name__,
-            'class_name': get_qualified_name(function.__self__.__class__)
-        }
-
-        raise NotImplementedError(message.format(**params))
-
-    return decorated
