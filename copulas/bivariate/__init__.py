@@ -140,7 +140,10 @@ def select_copula(X):
     # append copulas into the candidate list
     for copula_class in [Clayton, Gumbel]:
         try:
-            copula_candidates.append(copula_class(frank.tau))
+            copula = copula_class()
+            copula.tau = frank.tau
+            copula._compute_theta()
+            copula_candidates.append(copula)
         except ValueError:
             pass
 

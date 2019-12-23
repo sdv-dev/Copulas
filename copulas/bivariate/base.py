@@ -107,7 +107,7 @@ class Bivariate(object):
             if subclass.copula_type is copula_type:
                 return super(Bivariate, cls).__new__(subclass)
 
-    def __init__(self, tau=None, random_seed=None, **kwargs):
+    def __init__(self, copula_type=None, random_seed=None):
         """Initialize Bivariate object.
 
         Args:
@@ -116,9 +116,6 @@ class Bivariate(object):
             random_seed (int or None): Seed for the random generator.
         """
         self.random_seed = random_seed
-        if tau is not None:
-            self.tau = tau
-            self._compute_theta()
 
     def check_theta(self):
         """Validate the computed theta against the copula specification.
