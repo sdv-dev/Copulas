@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm
 
-from copulas import check_valid_values, random_state
+from copulas import check_valid_values, random_state, store_args
 from copulas.univariate.base import Univariate
 
 LOGGER = logging.getLogger(__name__)
@@ -15,6 +15,7 @@ class GaussianUnivariate(Univariate):
 
     fitted = False
 
+    @store_args
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = None

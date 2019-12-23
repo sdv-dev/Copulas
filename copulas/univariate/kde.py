@@ -1,7 +1,7 @@
 import numpy as np
 import scipy
 
-from copulas import check_valid_values, random_state
+from copulas import check_valid_values, random_state, store_args
 from copulas.univariate.base import Univariate
 
 
@@ -11,6 +11,7 @@ class KDEUnivariate(Univariate):
     but allows more flexibility.
     """
 
+    @store_args
     def __init__(self, sample_size=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.sample_size = sample_size

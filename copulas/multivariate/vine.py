@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import optimize
 
-from copulas import EPSILON, check_valid_values, get_qualified_name, random_state
+from copulas import EPSILON, check_valid_values, get_qualified_name, random_state, store_args
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree
@@ -49,6 +49,7 @@ class VineCopula(Multivariate):
         self.ppfs(list[callable]):
 
     """
+    @store_args
     def __init__(self, vine_type, *args, **kwargs):
         """Instantiate a vine copula.
 

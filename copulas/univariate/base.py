@@ -2,7 +2,7 @@ import numpy as np
 import scipy.stats
 
 from copulas import (
-    NotFittedError, check_valid_values, get_qualified_name, import_object,
+    NotFittedError, check_valid_values, get_instance, get_qualified_name,
     missing_method_scipy_wrapper)
 
 
@@ -102,7 +102,7 @@ class Univariate(object):
     @classmethod
     def from_dict(cls, param_dict):
         """Create new instance from dictionary."""
-        distribution_class = import_object(param_dict['type'])
+        distribution_class = get_instance(param_dict['type'])
         return distribution_class.from_dict(param_dict)
 
     def check_fit(self):

@@ -5,7 +5,7 @@ from enum import Enum
 import numpy as np
 import scipy
 
-from copulas import EPSILON, get_qualified_name
+from copulas import EPSILON, get_qualified_name, store_args
 from copulas.bivariate.base import Bivariate
 from copulas.multivariate.base import Multivariate
 
@@ -51,6 +51,7 @@ class Tree(Multivariate):
             if subclass.tree_type is tree_type:
                 return super(Tree, cls).__new__(subclass)
 
+    @store_args
     def __init__(self, tree_type=None):
         """
         Creates a new instance of any of their subclasses.
