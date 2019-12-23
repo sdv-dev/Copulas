@@ -1,8 +1,8 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from numpy.testing import assert_array_equal
 
 from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
@@ -287,4 +287,4 @@ class TestGetInstance(TestCase):
         assert not instance6.fitted
 
         instances = [instance1, instance2, instance3, instance4, instance5, instance6]
-        assert all(type(instance) == type(instances[0]) for instance in instances)
+        assert all(isinstance(instance, type(instances[0])) for instance in instances)
