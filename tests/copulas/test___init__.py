@@ -1,10 +1,11 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
+import pandas as pd
 import numpy as np
 from numpy.testing import assert_array_equal
 
-from copulas import check_valid_values, random_state, scalarize, vectorize
+from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
 
 
 class TestVectorize(TestCase):
@@ -264,3 +265,26 @@ class TestRandomStateDecorator(TestCase):
         random_mock.get_state.assert_not_called()
         random_mock.seed.assert_not_called()
         random_mock.set_state.assert_not_called()
+
+
+class TestGetInstance(TestCase):
+
+    def test_get_instance(self):
+        """Try to get a new instance from str, class and instance"""
+        instance1 = get_instance('copulas.multivariate.gaussian.GaussianMultivariate')
+        instance2 = get_instance(instance1.__class__)
+        instance3 = get_instance(instance2)
+        instance3.fit(pd.DataFrame({'a_field': list(range(10))}))
+        instance4 = get_instance(instance3)
+        instance5 = get_instance(instance4, distribution='copulas.univariate.truncnorm.TruncNorm')
+        instance6 = get_instance(instance5)
+
+        assert not instance1.fitted
+        assert not instance2.fitted
+        assert instance3.fitted
+        assert not instance4.fitted
+        assert not instance5.fitted
+        assert not instance6.fitted
+
+        instances = [instance1, instance2, instance3, instance4, instance5, instance6]
+        assert all(type(instance) == type(instances[0]) for instance in instances)
