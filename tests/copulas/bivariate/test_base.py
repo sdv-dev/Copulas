@@ -1,7 +1,6 @@
 from unittest import TestCase, mock
 
 import numpy as np
-from scipy import stats
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from tests import compare_nested_dicts
@@ -43,7 +42,7 @@ class TestBivariate(TestCase):
         random_seed = 'random_seed'
 
         # Run
-        instance = Bivariate(CopulaTypes.CLAYTON, random_seed)
+        instance = Bivariate(copula_type=CopulaTypes.CLAYTON, random_seed=random_seed)
 
         # Check
         assert instance.random_seed == 'random_seed'
@@ -68,13 +67,13 @@ class TestBivariate(TestCase):
     def test_to_dict(self):
         """To_dict returns the defining parameters of a copula in a dict."""
         # Setup
-        instance = Bivariate('frank')
+        instance = Bivariate(copula_type='frank')
         instance.fit(self.X)
 
         expected_result = {
             'copula_type': 'FRANK',
             "tau": 0.014492753623188406,
-            "theta": 0.13070829945417198
+            "theta": 0.13070829953311924
         }
 
         # Run
@@ -88,7 +87,7 @@ class TestBivariate(TestCase):
     def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
-        instance = Bivariate('frank')
+        instance = Bivariate(copula_type='frank')
         instance.fit(self.X)
 
         expected_content = {
@@ -125,30 +124,11 @@ class TestBivariate(TestCase):
         instance.tau == -0.33333333333333337
         instance.theta == -3.305771759329249
 
-    def test_copula_selection_negative_tau(self):
-        """If tau is negative, should choose frank copula."""
-        # Setup
-        X = np.array([
-            [0.1, 0.6],
-            [0.2, 0.5],
-            [0.3, 0.4],
-            [0.4, 0.3]
-        ])
-        assert stats.kendalltau(X[:, 0], X[:, 1])[0] < 0
-
-        # Run
-        copula = Bivariate.select_copula(X)
-        name = copula.copula_type
-        expected = CopulaTypes.FRANK
-
-        # Check
-        assert name == expected
-
     @mock.patch('copulas.bivariate.clayton.Clayton.partial_derivative')
     def test_partial_derivative_scalar(self, derivative_mock):
         """partial_derivative_scalar calls partial_derivative with its arguments in an array."""
         # Setup
-        instance = Bivariate(CopulaTypes.CLAYTON)
+        instance = Bivariate(copula_type=CopulaTypes.CLAYTON)
         instance.fit(self.X)
 
         # Run

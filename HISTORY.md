@@ -1,5 +1,19 @@
 # History
 
+## 0.2.4 (2019-12-23)
+
+### New Features
+
+* Allow creating copula classes directly new feature - Issue [#117](https://github.com/DAI-Lab/Copulas/issues/117) by @csala
+
+# General Improvements
+
+* Remove `select_copula` from `Bivariate` internal improvements - Issue [#118](https://github.com/DAI-Lab/Copulas/issues/118) by @csala
+
+* How to produce new samples - Issue [#112](https://github.com/DAI-Lab/Copulas/issues/112) by @csala
+
+* Rename TruncNorm to TruncGaussian and make it non standard internal improvements - Issue [#102](https://github.com/DAI-Lab/Copulas/issues/102) by @csala @JDTheRipperPC
+
 ## 0.2.3 (2019-09-17)
 
 ### New Features

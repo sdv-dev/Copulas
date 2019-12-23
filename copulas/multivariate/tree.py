@@ -195,7 +195,7 @@ class Tree(Multivariate):
             X_left_right = np.array([[x, y] for x, y in zip(left_u, right_u)])
             X_right_left = np.array([[x, y] for x, y in zip(right_u, left_u)])
 
-            copula = Bivariate(edge.name)
+            copula = Bivariate(copula_type=edge.name)
             copula.theta = copula_theta
             left_given_right = copula.partial_derivative(X_left_right)
             right_given_left = copula.partial_derivative(X_right_left)
@@ -577,7 +577,7 @@ class Edge(object):
             left_u = uni_matrix[self.L, left_ing]
             right_u = uni_matrix[self.R, right_ing]
 
-        copula = Bivariate(self.name)
+        copula = Bivariate(copula_type=self.name)
         copula.theta = self.theta
 
         X_left_right = np.array([[left_u, right_u]])

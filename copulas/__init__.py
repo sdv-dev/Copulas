@@ -4,7 +4,7 @@
 
 __author__ = 'MIT Data To AI Lab'
 __email__ = 'dailabmit@gmail.com',
-__version__ = '0.2.3'
+__version__ = '0.2.4-dev'
 
 import importlib
 
@@ -167,24 +167,5 @@ def check_valid_values(function):
             raise ValueError('There are nan values in your data.')
 
         return function(self, X, *args, **kwargs)
-
-    return decorated
-
-
-def missing_method_scipy_wrapper(function):
-    """Raises a detailed exception when a method is not available."""
-    def decorated(self, *args, **kwargs):
-        message = (
-            'Your tried to access `{method_name}` from {class_name}, but its not available.\n '
-            'There can be multiple factors causing this, please feel free to open an issue in '
-            'https://github.com/DAI-Lab/Copulas/issues/new'
-        )
-
-        params = {
-            'method_name': function.__name__,
-            'class_name': get_qualified_name(function.__self__.__class__)
-        }
-
-        raise NotImplementedError(message.format(**params))
 
     return decorated

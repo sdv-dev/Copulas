@@ -269,7 +269,7 @@ class VineCopula(Multivariate):
                     if current_ind != -1:
                         # the node is not indepedent contional on visited node
                         copula_type = current_tree[current_ind].name
-                        copula = Bivariate(CopulaTypes(copula_type))
+                        copula = Bivariate(copula_type=CopulaTypes(copula_type))
                         copula.theta = current_tree[current_ind].theta
                         derivative = copula.partial_derivative_scalar
 

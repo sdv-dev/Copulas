@@ -99,6 +99,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/DAI-Lab/Copulas',
-    version='0.2.3',
+    version='0.2.4-dev',
     zip_safe=False,
 )

@@ -1,9 +1,7 @@
 import numpy as np
 import scipy.stats
 
-from copulas import (
-    NotFittedError, check_valid_values, get_qualified_name, import_object,
-    missing_method_scipy_wrapper)
+from copulas import NotFittedError, check_valid_values, get_qualified_name, import_object
 
 
 class Univariate(object):
@@ -262,6 +260,12 @@ class ScipyWrapper(Univariate):
     def __init__(self, *args, **kwargs):
         super(ScipyWrapper, self).__init__(*args, **kwargs)
 
+    def _replace_methods(self):
+        for name in self.METHOD_NAMES:
+            attribute = getattr(self.__class__, name)
+            if isinstance(attribute, str):
+                setattr(self, name, getattr(self.model, attribute))
+
     @check_valid_values
     def fit(self, X, *args, **kwargs):
         """Fit scipy model to an array of values.
@@ -281,13 +285,7 @@ class ScipyWrapper(Univariate):
             else:
                 self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
 
-            for name in self.METHOD_NAMES:
-                attribute = getattr(self.__class__, name)
-                if isinstance(attribute, str):
-                    setattr(self, name, getattr(self.model, attribute))
-
-                elif attribute is None:
-                    setattr(self, name, missing_method_scipy_wrapper(lambda x: x))
+            self._replace_methods()
 
         else:
             self._replace_constant_methods()

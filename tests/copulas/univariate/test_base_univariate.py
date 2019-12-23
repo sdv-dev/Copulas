@@ -109,40 +109,74 @@ class TestScipyWrapper(TestCase):
         assert instance.fitted is False
         assert instance.constant_value is None
 
-    @patch('copulas.univariate.base.scipy.stats', autospec=True)
-    def test_fit(self, scipy_mock):
-        """On fit, a new instance of model is created and available methods are updated."""
+    def test_fit_constant(self):
+        # Run
+        wrapper = ScipyWrapper()
+        wrapper.fit(np.zeros(5))
+
+        # Asserts
+        assert wrapper.fitted
+        assert wrapper.cumulative_distribution == wrapper._constant_cumulative_distribution
+        assert wrapper.percent_point == wrapper._constant_percent_point
+        assert wrapper.probability_density == wrapper._constant_probability_density
+        assert wrapper.sample == wrapper._constant_sample
+
+    @patch('copulas.univariate.base.scipy.stats')
+    def test_fit_fittable(self, stats_mock):
         # Setup
         class ScipyWrapperSubclass(ScipyWrapper):
-            model_class = 'mock_model'
-            probability_density = 'pdf'
+            model_class = 'dummy'
             cumulative_distribution = 'cdf'
             percent_point = 'ppf'
-            sample = None
+            probability_density = 'pdf'
+            sample = 'rvs'
 
-        # We have declared sample as None on method_map so it won't be on our fitted instance.
-        model_instance_mock = MagicMock(spec=['pdf', 'cdf', 'ppf'])
-        model_class_mock = MagicMock()
-        model_class_mock.return_value = model_instance_mock
-        scipy_mock.mock_model = model_class_mock
-
-        instance = ScipyWrapperSubclass()
-        data = np.array(range(5))
+        dummy = MagicMock()
+        stats_mock.dummy.return_value = dummy
 
         # Run
-        instance.fit(data)
+        data = np.array(range(5))
+        wrapper = ScipyWrapperSubclass()
+        wrapper.fit(data, 'some', 'args', some='kwargs')
 
-        # Check
-        assert instance.fitted is True
-        assert instance.model == model_instance_mock
-        assert callable(instance.sample)
-        assert callable(instance.percent_point)
-        assert callable(instance.probability_density)
-        assert callable(instance.cumulative_distribution)
+        # Asserts
+        stats_mock.dummy.assert_called_once_with(data, 'some', 'args', some='kwargs')
+        assert wrapper.model == dummy
 
-        model_class_mock.assert_called_once_with(data)
-        model_instance_mock.assert_not_called()
-        scipy_mock.assert_not_called()
+        assert wrapper.fitted
+        assert wrapper.cumulative_distribution == dummy.cdf
+        assert wrapper.percent_point == dummy.ppf
+        assert wrapper.probability_density == dummy.pdf
+        assert wrapper.sample == dummy.rvs
+
+    @patch('copulas.univariate.base.scipy.stats')
+    def test_fit_unfittable(self, stats_mock):
+        # Setup
+        class ScipyWrapperSubclass(ScipyWrapper):
+            unfittable_model = True
+            model_class = 'dummy'
+            cumulative_distribution = 'cdf'
+            percent_point = 'ppf'
+            probability_density = 'pdf'
+            sample = 'rvs'
+
+        dummy = MagicMock()
+        stats_mock.dummy.return_value = dummy
+
+        # Run
+        data = np.array(range(5))
+        wrapper = ScipyWrapperSubclass()
+        wrapper.fit(data, 'some', 'args', some='kwargs')
+
+        # Asserts
+        stats_mock.dummy.assert_called_once_with('some', 'args', some='kwargs')
+        assert wrapper.model == dummy
+
+        assert wrapper.fitted
+        assert wrapper.cumulative_distribution == dummy.cdf
+        assert wrapper.percent_point == dummy.ppf
+        assert wrapper.probability_density == dummy.pdf
+        assert wrapper.sample == dummy.rvs
 
     @patch('copulas.univariate.base.scipy.stats', autospec=True)
     def test_probability_density(self, scipy_mock):

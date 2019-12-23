@@ -1,9 +1,10 @@
 
 import numpy as np
-from scipy.optimize import fminbound
+from scipy.optimize import brentq
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.utils import split_matrix
 
 
 class Gumbel(Bivariate):
@@ -36,7 +37,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return np.multiply(U, V)
@@ -66,7 +67,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return np.multiply(U, V)
@@ -93,7 +94,7 @@ class Gumbel(Bivariate):
         else:
             result = []
             for _y, _V in zip(y, V):
-                minimum = fminbound(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
+                minimum = brentq(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
                 if isinstance(minimum, np.ndarray):
                     minimum = minimum[0]
 
@@ -120,7 +121,7 @@ class Gumbel(Bivariate):
         """
         self.check_fit()
 
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
 
         if self.theta == 1:
             return V
