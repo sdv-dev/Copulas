@@ -1,8 +1,7 @@
 import numpy as np
 import scipy.stats
 
-from copulas import (
-    NotFittedError, check_valid_values, get_instance, get_qualified_name)
+from copulas import NotFittedError, check_valid_values, get_instance, get_qualified_name
 
 
 class Univariate(object):

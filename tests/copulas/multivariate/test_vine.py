@@ -4,7 +4,6 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree, TreeTypes
 from copulas.multivariate.vine import VineCopula
 from copulas.univariate import KDEUnivariate
@@ -164,7 +163,7 @@ class TestVine(TestCase):
         }
 
         # Run
-        instance = Multivariate.from_dict(vine_dict)
+        instance = VineCopula.from_dict(vine_dict)
 
         # Check
         assert instance.vine_type == 'regular'

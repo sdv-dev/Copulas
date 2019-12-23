@@ -58,6 +58,7 @@ def get_instance(obj, **kwargs):
 
     return instance
 
+
 def store_args(__init__):
     """Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.
 
@@ -76,6 +77,7 @@ def store_args(__init__):
         self.__kwargs__ = kwargs_copy
 
     return new__init__
+
 
 def get_qualified_name(_object):
     """Return the Fully Qualified Name from an instance or class."""
