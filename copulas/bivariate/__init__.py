@@ -38,7 +38,7 @@ def _compute_empirical(X):
     U, V = split_matrix(X)
     N = len(U)
     base = np.linspace(EPSILON, 1.0 - EPSILON, COMPUTE_EMPIRICAL_STEPS)
-    # See https://github.com/DAI-Lab/Copulas/issues/45
+    # See https://github.com/sdv-dev/Copulas/issues/45
 
     for k in range(COMPUTE_EMPIRICAL_STEPS):
         left = sum(np.logical_and(U <= base[k], V <= base[k])) / N

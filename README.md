@@ -1,21 +1,21 @@
 <p align="left">
-<img width=20% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“Copulas” />
+<img width=20% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“sdv-dev” />
 <i>An open source project from Data to AI Lab at MIT.</i>
 </p>
 
 
 
 [![PyPi Shield](https://img.shields.io/pypi/v/copulas.svg)](https://pypi.python.org/pypi/copulas)
-[![Travis CI Shield](https://travis-ci.org/DAI-Lab/Copulas.svg?branch=master)](https://travis-ci.org/DAI-Lab/Copulas)
-[![Coverage Status](https://codecov.io/gh/DAI-Lab/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/DAI-Lab/Copulas)
+[![Travis CI Shield](https://travis-ci.org/sdv-dev/Copulas.svg?branch=master)](https://travis-ci.org/sdv-dev/Copulas)
+[![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 
 
 # Copulas
 
 * Free software: MIT license
-* Documentation: https://DAI-Lab.github.io/Copulas
-* Homepage: https://github.com/DAI-Lab/Copulas
+* Documentation: https://sdv-dev.github.io/Copulas
+* Homepage: https://github.com/sdv-dev/Copulas
 
 # Overview
 
@@ -92,7 +92,7 @@ Alternatively, with your virtualenv activated, you can clone the repository and 
 source by running `make install` on the `stable` branch:
 
 ```bash
-git clone git@github.com:DAI-Lab/Copulas.git
+git clone git@github.com:sdv-dev/Copulas.git
 cd Copulas
 git checkout stable
 make install
@@ -103,7 +103,7 @@ make install
 If you want to contribute to the project, a few more steps are required to make the project ready
 for development.
 
-First, please head to [the GitHub page of the project](https://github.com/DAI-Lab/Copulas)
+First, please head to [the GitHub page of the project](https://github.com/sdv-dev/Copulas)
 and make a fork of the project under you own username by clicking on the **fork** button on the
 upper right corner of the page.
 
@@ -382,9 +382,9 @@ new_samples = new_copula.sample(num_samples)
 # What's next?
 
 For more details about **Copulas** and all its possibilities and features, please check the
-[documentation site](https://dai-lab.github.io/Copulas/).
+[documentation site](https://sdv-dev.github.io/Copulas/).
 
-There you can learn more about [how to contribute to Copulas](https://dai-lab.github.io/Copulas/contributing.html)
+There you can learn more about [how to contribute to Copulas](https://sdv-dev.github.io/Copulas/contributing.html)
 in order to help us developing new features or cool ideas.
 
 # Credits
@@ -413,6 +413,6 @@ relational integrity on sampled records.
 
 ### TGAN
 
-[TGAN](https://github.com/DAI-Lab/TGAN) is a GAN based model for synthesizing tabular data.
-It's also developed by the [MIT's Data to AI Lab](https://dai-lab.github.io/) and is under
+[TGAN](https://github.com/sdv-dev/TGAN) is a GAN based model for synthesizing tabular data.
+It's also developed by the [MIT's Data to AI Lab](https://sdv-dev.github.io/) and is under
 active development.
