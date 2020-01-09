@@ -13,7 +13,7 @@
 
 # Copulas
 
-* Free software: MIT license
+* License: [MIT](https://github.com/sdv-dev/Copulas/blob/master/LICENSE)
 * Documentation: https://sdv-dev.github.io/Copulas
 * Homepage: https://github.com/sdv-dev/Copulas
 
