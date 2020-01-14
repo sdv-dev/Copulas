@@ -2,9 +2,11 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
+import pandas as pd
 from numpy.testing import assert_array_equal
 
-from copulas import check_valid_values, random_state, scalarize, vectorize
+from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
+from copulas.multivariate import GaussianMultivariate
 
 
 class TestVectorize(TestCase):
@@ -264,3 +266,69 @@ class TestRandomStateDecorator(TestCase):
         random_mock.get_state.assert_not_called()
         random_mock.seed.assert_not_called()
         random_mock.set_state.assert_not_called()
+
+
+class TestGetInstance(TestCase):
+
+    def test_get_instance_str(self):
+        """Try to get a new instance from a str"""
+        # Run
+        instance = get_instance('copulas.multivariate.gaussian.GaussianMultivariate')
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance___class__(self):
+        """Try to get a new instance from a __clas__"""
+        # Run
+        instance = get_instance(GaussianMultivariate)
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance(self):
+        """Try to get a new instance from a instance"""
+        # Run
+        instance = get_instance(GaussianMultivariate())
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance_fitted(self):
+        """Try to get a new instance from a fitted instance"""
+        # Run
+        gaussian = GaussianMultivariate()
+        gaussian.fit(pd.DataFrame({'a_field': list(range(10))}))
+        instance = get_instance(gaussian)
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance_distribution(self):
+        """Try to get a new instance from a instance with distribution"""
+        # Run
+        instance = get_instance(
+            GaussianMultivariate(distribution='copulas.univariate.truncnorm.TruncNorm')
+        )
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+        assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'
+
+    def test_get_instance_with_kwargs(self):
+        """Try to get a new instance with kwargs"""
+        # Run
+        instance = get_instance(
+            GaussianMultivariate,
+            distribution='copulas.univariate.truncnorm.TruncNorm'
+        )
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+        assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'

@@ -7,6 +7,7 @@ __email__ = 'dailabmit@gmail.com',
 __version__ = '0.2.5-dev'
 
 import importlib
+from copy import deepcopy
 
 import numpy as np
 import pandas as pd
@@ -35,10 +36,48 @@ def random_state(function):
     return wrapper
 
 
-def import_object(object_name):
-    """Import an object from its Fully Qualified Name."""
-    package, name = object_name.rsplit('.', 1)
-    return getattr(importlib.import_module(package), name)
+def get_instance(obj, **kwargs):
+    """Create new instance of the ``obj`` argument.
+
+    Args:
+        obj (str, type, instance):
+    """
+    instance = None
+    if isinstance(obj, str):
+        package, name = obj.rsplit('.', 1)
+        instance = getattr(importlib.import_module(package), name)(**kwargs)
+
+    elif isinstance(obj, type):
+        instance = obj(**kwargs)
+
+    else:
+        if kwargs != dict():
+            instance = obj.__class__(**kwargs)
+
+        else:
+            instance = obj.__class__(*obj.__args__, **obj.__kwargs__)
+
+    return instance
+
+
+def store_args(__init__):
+    """Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.
+
+    Args:
+        __init__(callable): ``__init__`` function to store their arguments.
+
+    Returns:
+        callable: Decorated ``__init__`` function.
+    """
+
+    def new__init__(self, *args, **kwargs):
+        args_copy = deepcopy(args)
+        kwargs_copy = deepcopy(kwargs)
+        __init__(self, *args, **kwargs)
+        self.__args__ = args_copy
+        self.__kwargs__ = kwargs_copy
+
+    return new__init__
 
 
 def get_qualified_name(_object):

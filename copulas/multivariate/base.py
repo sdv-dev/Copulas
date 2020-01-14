@@ -1,6 +1,6 @@
 import json
 
-from copulas import NotFittedError, import_object
+from copulas import NotFittedError, get_instance
 
 
 class Multivariate(object):
@@ -60,7 +60,7 @@ class Multivariate(object):
             Multivariate: Instance of the copula defined on the parameters.
         """
 
-        copula_class = import_object(copula_dict['type'])
+        copula_class = get_instance(copula_dict['type'])
         return copula_class.from_dict(copula_dict)
 
     @classmethod
