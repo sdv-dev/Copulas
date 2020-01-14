@@ -1,16 +1,14 @@
 """This module contains a base class for bivariate copulas."""
 
-
 import json
+import warnings
 from enum import Enum
 
 import numpy as np
-import pandas as pd
 from scipy import stats
 
-from copulas import EPSILON, NotFittedError, random_state
-
-COMPUTE_EMPIRICAL_STEPS = 50
+from copulas import NotFittedError, random_state
+from copulas.bivariate.utils import split_matrix
 
 
 class CopulaTypes(Enum):
@@ -28,10 +26,10 @@ class Bivariate(object):
     This class allows to instantiate all its subclasses and serves as a unique entry point for
     the bivariate copulas classes.
 
-    >>> Bivariate(CopulaTypes.FRANK).__class__
+    >>> Bivariate(copula_type=CopulaTypes.FRANK).__class__
     copulas.bivariate.frank.Frank
 
-    >>> Bivariate('frank').__class__
+    >>> Bivariate(copula_type='frank').__class__
     copulas.bivariate.frank.Frank
 
 
@@ -54,6 +52,8 @@ class Bivariate(object):
     _subclasses = []
     theta_interval = []
     invalid_thetas = []
+    theta = None
+    tau = None
 
     @classmethod
     def _get_subclasses(cls):
@@ -83,16 +83,16 @@ class Bivariate(object):
 
         return cls._subclasses
 
-    def __new__(cls, copula_type=None, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         """Create and return a new object.
-
-        Args:
-            copula_type(CopulaTypes): subtype of the instance.
 
         Returns:
             Bivariate: New object.
-
         """
+        copula_type = kwargs.get('copula_type', None)
+        if copula_type is None:
+            return super(Bivariate, cls).__new__(cls)
+
         if not isinstance(copula_type, CopulaTypes):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
@@ -110,8 +110,6 @@ class Bivariate(object):
             copula_type (CopulaType or str): Subtype of the copula.
             random_seed (int or None): Seed for the random generator.
         """
-        self.theta = None
-        self.tau = None
         self.random_seed = random_seed
 
     def check_theta(self):
@@ -141,6 +139,11 @@ class Bivariate(object):
 
         self.check_theta()
 
+    def _compute_theta(self):
+        """Compute theta, validate it and assign it to self."""
+        self.theta = self.compute_theta()
+        self.check_theta()
+
     def fit(self, X):
         """Fit a model to the data updating the parameters.
 
@@ -150,10 +153,9 @@ class Bivariate(object):
         Return:
             None
         """
-        U, V = self.split_matrix(X)
+        U, V = split_matrix(X)
         self.tau = stats.kendalltau(U, V)[0]
-        self.theta = self.compute_theta()
-        self.check_theta()
+        self._compute_theta()
 
     def to_dict(self):
         """Return a `dict` with the parameters to replicate this object.
@@ -180,7 +182,7 @@ class Bivariate(object):
             Bivariate: Instance of the copula defined on the parameters.
 
         """
-        instance = cls(copula_dict['copula_type'])
+        instance = cls(copula_type=copula_dict['copula_type'])
         instance.theta = copula_dict['theta']
         instance.tau = copula_dict['tau']
         return instance
@@ -308,123 +310,6 @@ class Bivariate(object):
         """Compute theta parameter using Kendall's tau."""
         raise NotImplementedError
 
-    @staticmethod
-    def split_matrix(X):
-        """Split an (n,2) numpy.array into two vectors.
-
-        Args:
-            X(numpy.array): Matrix of shape (n,2)
-
-        Returns:
-            tuple[numpy.array]: Both of shape (n,)
-
-        """
-        if len(X):
-            return X[:, 0], X[:, 1]
-
-        return np.array([]), np.array([])
-
-    @classmethod
-    def compute_empirical(cls, X):
-        """Compute empirical distribution.
-
-        Args:
-            X(numpy.array): Shape (n,2); Datapoints to compute the empirical(frequentist) copula.
-
-        Return:
-            tuple(list):
-
-        """
-        z_left = []
-        z_right = []
-        L = []
-        R = []
-
-        U, V = cls.split_matrix(X)
-        N = len(U)
-        base = np.linspace(EPSILON, 1.0 - EPSILON, COMPUTE_EMPIRICAL_STEPS)
-        # See https://github.com/DAI-Lab/Copulas/issues/45
-
-        for k in range(COMPUTE_EMPIRICAL_STEPS):
-            left = sum(np.logical_and(U <= base[k], V <= base[k])) / N
-            right = sum(np.logical_and(U >= base[k], V >= base[k])) / N
-
-            if left > 0:
-
-                z_left.append(base[k])
-                L.append(left / base[k] ** 2)
-
-            if right > 0:
-                z_right.append(base[k])
-                R.append(right / (1 - z_right[k]) ** 2)
-
-        return z_left, L, z_right, R
-
-    @staticmethod
-    def compute_tail(c, z):
-        r"""Compute upper concentration function for tail.
-
-        The upper tail concentration function is defined by:
-
-        .. math:: R(z) = \frac{[1 − 2z + C(z, z)]}{(1 − z)^{2}}
-
-        Args:
-            c(Iterable): Values of :math:`C(z,z)`.
-            z(Iterable): Values for the empirical copula.
-
-        Returns:
-            numpy.ndarray
-
-        """
-        return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
-
-    @classmethod
-    def compute_candidates(cls, copulas, left_tail, right_tail):
-        """Compute dependencies.
-
-        Args:
-            copulas(list[Bivariate]): Fitted instances of bivariate copulas.
-            z_left(list):
-            z_right(list):
-
-        Returns:
-            tuple[list]: Arrays of left and right dependencies for the empirical copula.
-
-
-        """
-        left = []
-        right = []
-
-        X_left = np.column_stack((left_tail, left_tail))
-        X_right = np.column_stack((right_tail, right_tail))
-
-        for copula in copulas:
-            left.append(copula.cumulative_distribution(X_left) / np.power(left_tail, 2))
-            right.append(cls.compute_tail(copula.cumulative_distribution(X_right), right_tail))
-
-        return left, right
-
-    @staticmethod
-    def _fit_copula(copula_type, X):
-        r"""Try to fit a matrix in a copula of a given type.
-
-        If the copula raises an exception on fit time will return None.
-        Otherwise, the copula fitted.
-
-        Args:
-            copula_type(CopulaType): Copula type to fit.
-            X(np.ndarray): Matrix of shape (n,2).
-
-        Returns:
-            Bivariate: Copula with the given copula_type fitted or None.
-        """
-        try:
-            copula = Bivariate(copula_type)
-            copula.fit(X)
-            return copula
-        except ValueError:
-            return None
-
     @classmethod
     def select_copula(cls, X):
         r"""Select best copula function based on likelihood.
@@ -455,45 +340,13 @@ class Bivariate(object):
             copula: Best copula that fits for it.
 
         """
-        frank = Bivariate(CopulaTypes.FRANK)
-        frank.fit(X)
-
-        if frank.tau <= 0:
-            return frank
-
-        copula_candidates = [frank]
-
-        # append copulas into the candidate list
-        for copula_type in [CopulaTypes.CLAYTON, CopulaTypes.GUMBEL]:
-            copula = Bivariate._fit_copula(copula_type, X)
-            if copula is not None:
-                copula_candidates.append(copula)
-
-        left_tail, empirical_left_aut, right_tail, empirical_right_aut = cls.compute_empirical(X)
-        candidate_left_auts, candidate_right_auts = cls.compute_candidates(
-            copula_candidates, left_tail, right_tail)
-
-        empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
-        candidate_auts = [
-            np.concatenate((l, r)) for l, r in zip(
-                candidate_left_auts, candidate_right_auts
-            )
-        ]
-
-        # compute L2 distance from empirical distribution
-        diff_left = [np.sum((empirical_left_aut - l) ** 2) for l in candidate_left_auts]
-        diff_right = [np.sum((empirical_right_aut - r) ** 2) for r in candidate_right_auts]
-        diff_both = [np.sum((empirical_aut - candidate) ** 2) for candidate in candidate_auts]
-
-        # calcule ranks
-        score_left = pd.Series(diff_left).rank(ascending=False)
-        score_right = pd.Series(diff_right).rank(ascending=False)
-        score_both = pd.Series(diff_both).rank(ascending=False)
-
-        score = score_left + score_right + score_both
-
-        selected_copula = np.argmax(score.values)
-        return copula_candidates[selected_copula]
+        from copulas.bivariate import select_copula  # noqa
+        warnings.warn(
+            '`Bivariate.select_copula` has been deprecated and will be removed in a later '
+            'release. Please use `copulas.bivariate.select_copla` instead',
+            DeprecationWarning
+        )
+        return select_copula(X)
 
     def save(self, filename):
         """Save the internal state of a copula in the specified filename.

@@ -3,14 +3,14 @@ from unittest.mock import patch
 
 import numpy as np
 
-from copulas.bivariate.base import Bivariate, CopulaTypes
+from copulas.bivariate.clayton import Clayton
 from tests import compare_nested_iterables, copula_single_arg_not_one, copula_zero_if_arg_zero
 
 
 class TestClayton(TestCase):
 
     def setUp(self):
-        self.copula = Bivariate(CopulaTypes.CLAYTON)
+        self.copula = Clayton()
         self.X = np.array([
             [2641.16233666, 180.2425623],
             [921.14476418, 192.35609972],
@@ -102,7 +102,7 @@ class TestClayton(TestCase):
     def test_sample(self, uniform_mock):
         """Sample use the inverse-transform method to generate new samples."""
         # Setup
-        instance = Bivariate(CopulaTypes.CLAYTON)
+        instance = Clayton()
         instance.tau = 0.5
         instance.theta = instance.compute_theta()
 
@@ -133,7 +133,7 @@ class TestClayton(TestCase):
     def test_cdf_zero_if_single_arg_is_zero(self):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
-        instance = Bivariate(CopulaTypes.CLAYTON)
+        instance = Clayton()
         tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
 
         # Run/Check
@@ -145,7 +145,7 @@ class TestClayton(TestCase):
     def test_cdf_value_if_all_other_arg_are_one(self):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
-        instance = Bivariate(CopulaTypes.CLAYTON)
+        instance = Clayton()
         tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
 
         # Run/Check
@@ -153,24 +153,3 @@ class TestClayton(TestCase):
             instance.tau = tau
             instance.theta = instance.compute_theta()
             copula_single_arg_not_one(instance)
-
-    def test_sample_random_state(self):
-        """If random_state is set, the samples are the same."""
-        # Setup
-        instance = Bivariate(CopulaTypes.CLAYTON, random_seed=0)
-        instance.tau = 0.5
-        instance.theta = instance.compute_theta()
-
-        expected_result = np.array([
-            [0.68627770, 0.54881350],
-            [0.64059280, 0.71518937],
-            [0.90594782, 0.60276338],
-            [0.96040856, 0.54488318],
-            [0.40876969, 0.42365480]
-        ])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        compare_nested_iterables(result, expected_result)
