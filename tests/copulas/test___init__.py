@@ -6,6 +6,7 @@ import pandas as pd
 from numpy.testing import assert_array_equal
 
 from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
+from copulas.multivariate import GaussianMultivariate
 
 
 class TestVectorize(TestCase):
@@ -269,22 +270,65 @@ class TestRandomStateDecorator(TestCase):
 
 class TestGetInstance(TestCase):
 
-    def test_get_instance(self):
-        """Try to get a new instance from str, class and instance"""
-        instance1 = get_instance('copulas.multivariate.gaussian.GaussianMultivariate')
-        instance2 = get_instance(instance1.__class__)
-        instance3 = get_instance(instance2)
-        instance3.fit(pd.DataFrame({'a_field': list(range(10))}))
-        instance4 = get_instance(instance3)
-        instance5 = get_instance(instance4, distribution='copulas.univariate.truncnorm.TruncNorm')
-        instance6 = get_instance(instance5)
+    def test_get_instance_str(self):
+        """Try to get a new instance from a str"""
+        # Run
+        instance = get_instance('copulas.multivariate.gaussian.GaussianMultivariate')
 
-        assert not instance1.fitted
-        assert not instance2.fitted
-        assert instance3.fitted
-        assert not instance4.fitted
-        assert not instance5.fitted
-        assert not instance6.fitted
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
 
-        instances = [instance1, instance2, instance3, instance4, instance5, instance6]
-        assert all(isinstance(instance, type(instances[0])) for instance in instances)
+    def test_get_instance___class__(self):
+        """Try to get a new instance from a __clas__"""
+        # Run
+        instance = get_instance(GaussianMultivariate)
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance(self):
+        """Try to get a new instance from a instance"""
+        # Run
+        instance = get_instance(GaussianMultivariate())
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance_fitted(self):
+        """Try to get a new instance from a fitted instance"""
+        # Run
+        gaussian = GaussianMultivariate()
+        gaussian.fit(pd.DataFrame({'a_field': list(range(10))}))
+        instance = get_instance(gaussian)
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+
+    def test_get_instance_instance_distribution(self):
+        """Try to get a new instance from a instance with distribution"""
+        # Run
+        instance = get_instance(
+            GaussianMultivariate(distribution='copulas.univariate.truncnorm.TruncNorm')
+        )
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+        assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'
+
+    def test_get_instance_with_kwargs(self):
+        """Try to get a new instance with kwargs"""
+        # Run
+        instance = get_instance(
+            GaussianMultivariate,
+            distribution='copulas.univariate.truncnorm.TruncNorm'
+        )
+
+        # Asserts
+        assert not instance.fitted
+        assert isinstance(instance, GaussianMultivariate)
+        assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'
