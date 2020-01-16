@@ -1,5 +1,11 @@
 # History
 
+## 0.2.5 (2019-01-17)
+
+### General Improvements
+
+* Convert import_object to get_instance - Issue [#114](https://github.com/sdv-dev/Copulas/issues/114) by @JDTheRipperPC
+
 ## 0.2.4 (2019-12-23)
 
 ### New Features
