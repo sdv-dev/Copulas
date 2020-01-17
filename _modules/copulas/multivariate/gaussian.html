@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.2.4 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.2.5 documentation</title>
   
 
   
@@ -166,23 +166,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.4 (2019-12-23)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.5 (2019-01-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id6">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id9">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id5">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id13">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id14">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id21">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id26">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id10">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id12">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id15">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id17">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id18">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id25">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id30">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -263,7 +266,8 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span><span class="p">,</span> <span class="n">stats</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">import_object</span><span class="p">,</span> <span class="n">random_state</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_instance</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
 <span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">Univariate</span>
 
@@ -278,6 +282,7 @@
 <span class="sd">        distribution (str): Full qualified name of the class to be used as distribution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="nd">@store_args</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="n">DEFAULT_DISTRIBUTION</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -351,13 +356,12 @@
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting Gaussian Copula&#39;</span><span class="p">)</span>
-        <span class="n">distribution_class</span> <span class="o">=</span> <span class="n">import_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">distribution_class</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">distribs</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_covariance</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas package &mdash; Copulas 0.2.4 documentation</title>
+  <title>copulas package &mdash; Copulas 0.2.5 documentation</title>
   
 
   
@@ -168,23 +168,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.4 (2019-12-23)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.5 (2019-01-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id3">0.2.4 (2019-12-23)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id6">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id7">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id9">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id5">General Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id13">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id14">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id21">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id26">Bugs fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id9">0.2.3 (2019-09-17)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id10">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id12">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id15">Bugs fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../history.html#id17">0.2.2 (2019-07-31)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id18">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id25">General Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../history.html#id30">Bugs fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
@@ -245,7 +248,7 @@
         
             
             
-              <a href="https://github.com/DAI-Lab/Copulas/blob/master/docs/api/copulas.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -334,15 +337,20 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="copulas.get_qualified_name">
-<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">get_qualified_name</code><span class="sig-paren">(</span><em class="sig-param">_object</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#get_qualified_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.get_qualified_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Fully Qualified Name from an instance or class.</p>
+<dt id="copulas.get_instance">
+<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">get_instance</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#get_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.get_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance of the <code class="docutils literal notranslate"><span class="pre">obj</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>str</em><em>, </em><em>type</em><em>, </em><em>instance</em>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="copulas.import_object">
-<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">import_object</code><span class="sig-paren">(</span><em class="sig-param">object_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#import_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.import_object" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import an object from its Fully Qualified Name.</p>
+<dt id="copulas.get_qualified_name">
+<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">get_qualified_name</code><span class="sig-paren">(</span><em class="sig-param">_object</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#get_qualified_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.get_qualified_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Fully Qualified Name from an instance or class.</p>
 </dd></dl>
 
 <dl class="function">
@@ -360,6 +368,23 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Decorated function that accepts and returns scalars.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.store_args">
+<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">store_args</code><span class="sig-paren">(</span><em class="sig-param">__init__</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#store_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.store_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> used in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> of a copula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>__init__</strong> (<em>callable</em>) – <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function to store their arguments.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorated <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>callable</p>
