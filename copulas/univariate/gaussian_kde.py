@@ -3,7 +3,7 @@ from functools import partial
 import numpy as np
 import scipy
 
-from copulas import scalarize, vectorize
+from copulas import scalarize, store_args, vectorize
 from copulas.univariate.base import ScipyWrapper
 
 
@@ -24,6 +24,7 @@ class GaussianKDE(ScipyWrapper):
     probability_density = 'evaluate'
     sample = 'resample'
 
+    @store_args
     def __init__(self, sample_size=None, *args, **kwargs):
         self.sample_size = sample_size
         super().__init__(*args, **kwargs)

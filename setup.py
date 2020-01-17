@@ -98,7 +98,7 @@ setup(
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
-    url='https://github.com/DAI-Lab/Copulas',
-    version='0.2.4',
+    url='https://github.com/sdv-dev/Copulas',
+    version='0.2.5-dev',
     zip_safe=False,
 )

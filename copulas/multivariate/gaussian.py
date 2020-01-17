@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 from scipy import integrate, stats
 
-from copulas import EPSILON, check_valid_values, get_qualified_name, import_object, random_state
+from copulas import (
+    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -20,6 +21,7 @@ class GaussianMultivariate(Multivariate):
         distribution (str): Full qualified name of the class to be used as distribution.
     """
 
+    @store_args
     def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -93,13 +95,12 @@ class GaussianMultivariate(Multivariate):
             None
         """
         LOGGER.debug('Fitting Gaussian Copula')
-        distribution_class = import_object(self.distribution)
 
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
 
         for column_name, column in X.items():
-            self.distribs[column_name] = distribution_class()
+            self.distribs[column_name] = get_instance(self.distribution)
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)

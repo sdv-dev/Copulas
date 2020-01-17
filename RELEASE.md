@@ -34,7 +34,7 @@ The process of releasing a new version involves several steps:
 Clone the project and install the development requirements before start the release process. Alternatively, with your virtualenv activated.
 
 ```bash
-git clone https://github.com/DAI-Lab/Copulas.git
+git clone https://github.com/sdv-dev/Copulas.git
 cd Copulas
 git checkout master
 make install-develop
@@ -119,20 +119,20 @@ Make sure HISTORY.md is updated with the issues of the milestone:
 	
 ### New Features
 	
-* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
 	
 ### General Improvements
 	
-* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
 	
 ### Bug Fixed
 	
-* <ISSUE TITLE> - [Issue #<issue>](https://github.com/DAI-Lab/Copulas/issues/<issue>) by @resolver
+* <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
 ```
 
 The issue list per milestone can be found [here][milestones].
 
-[milestones]: https://github.com/DAI-Lab/Copulas/milestones
+[milestones]: https://github.com/sdv-dev/Copulas/milestones
 
 ## Distribution
 
