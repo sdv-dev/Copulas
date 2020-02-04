@@ -5,6 +5,7 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
+from scipy.stats import truncnorm
 from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from tests import compare_nested_dicts
@@ -39,6 +40,13 @@ class TestGaussianCopula(TestCase):
                 -0.53118328, 1.23969655, -0.35985016, -0.03568531, 0.91456357,
                 0.49077378, -0.27428204, 0.45857406, 2.29614033
             ])
+        })
+        
+        a, b, loc, scale = -1.0, 0.5, 0.0, 1.0
+        mask = np.random.randint(0, 2, size=1000)
+        self.structured_data = pd.DataFrame({
+            'truncnorm': truncnorm.rvs(a, b, loc=loc, scale=scale, size=1000),
+            'bimodal': np.random.normal(size=1000)*mask+10.0*np.random.normal(size=1000)*(1.0-mask)
         })
 
     def test___init__default_args(self):
@@ -105,6 +113,24 @@ class TestGaussianCopula(TestCase):
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
+
+    def test_fit_distribution_auto(self):
+        """On fit, the distributions for each column should be automatically selected."""
+        a, b, loc, scale = -1.0, 0.5, 0.0, 1.0
+        mask = np.random.randint(0, 2, size=1000)
+        copula = GaussianMultivariate(distribution={})
+        copula.fit(self.structured_data)
+        assert get_qualified_name(copula.distribs["truncnorm"].__class__) == 'copulas.univariate.truncated_gaussian.TruncatedGaussian'
+        assert get_qualified_name(copula.distribs["bimodal"].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
+
+    def test_fit_distribution_auto(self):
+        """On fit, the distributions for each column should be automatically selected if not specified."""
+        copula = GaussianMultivariate(distribution={
+            'truncnorm': 'copulas.univariate.gaussian.GaussianUnivariate'
+        })
+        copula.fit(self.structured_data)
+        assert get_qualified_name(copula.distribs["truncnorm"].__class__) == 'copulas.univariate.gaussian.GaussianUnivariate'
+        assert get_qualified_name(copula.distribs["bimodal"].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
 
     def test_fit_numpy_array(self):
         """Fit should work indistinctly with numpy arrays and pandas dataframes """

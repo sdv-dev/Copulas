@@ -8,7 +8,7 @@ from scipy import integrate, stats
 from copulas import (
     EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
 from copulas.multivariate.base import Multivariate
-from copulas.univariate import Univariate
+from copulas.univariate import select_univariate, Univariate
 
 LOGGER = logging.getLogger(__name__)
 DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
@@ -28,7 +28,7 @@ class GaussianMultivariate(Multivariate):
         self.distribs = OrderedDict()
         self.covariance = None
         self.means = None
-        self.distribution = distribution
+        self.distribution = distribution if distribution else {}
 
     def __str__(self):
         distribs = [
@@ -100,7 +100,13 @@ class GaussianMultivariate(Multivariate):
             X = pd.DataFrame(X)
 
         for column_name, column in X.items():
-            self.distribs[column_name] = get_instance(self.distribution)
+            if isinstance(self.distribution, dict):
+                if column_name in self.distribution:
+                    self.distribs[column_name] = get_instance(self.distribution[column_name])
+                else:
+                    self.distribs[column_name] = select_univariate(column)
+            else:
+                self.distribs[column_name] = get_instance(self.distribution)
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)
