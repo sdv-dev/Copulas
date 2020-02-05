@@ -34,6 +34,18 @@ class Univariate(object):
         """
         raise NotImplementedError
 
+    def log_probability_density(self, X):
+        """Return log probability density of model. It should be overridden
+        with numerically stable variants whenever possible.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray
+        """
+        return np.log(self.probability_density(X))
+
     def pdf(self, X):
         return self.probability_density(X)
 
@@ -252,10 +264,17 @@ class ScipyWrapper(Univariate):
     model_class = None
     unfittable_model = None
     probability_density = None
+    log_probability_density = None
     cumulative_distribution = None
     percent_point = None
     sample = None
-    METHOD_NAMES = ('sample', 'probability_density', 'cumulative_distribution', 'percent_point')
+    METHOD_NAMES = (
+        'sample',
+        'probability_density',
+        'log_probability_density',
+        'cumulative_distribution',
+        'percent_point'
+    )
 
     def __init__(self, *args, **kwargs):
         super(ScipyWrapper, self).__init__(*args, **kwargs)

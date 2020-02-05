@@ -22,6 +22,7 @@ class GaussianKDE(ScipyWrapper):
 
     model_class = 'gaussian_kde'
     probability_density = 'evaluate'
+    log_probability_density = 'logpdf'
     sample = 'resample'
 
     @store_args

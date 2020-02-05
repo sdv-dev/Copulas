@@ -1,4 +1,3 @@
-import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
@@ -15,6 +14,7 @@ class TruncatedGaussian(ScipyWrapper):
     model_class = 'truncnorm'
     unfittable_model = True
     probability_density = 'pdf'
+    log_probability_density = 'logpdf'
     cumulative_distribution = 'cdf'
     percent_point = 'ppf'
     sample = 'rvs'
@@ -36,12 +36,6 @@ class TruncatedGaussian(ScipyWrapper):
 
     def _fit_truncnorm(self, X):
         """Fit the truncnorm parameters to the data.
-
-        The optimization is done using a constraint to force a loc value
-        that strictly stays between the minimum and maximum values. This is done
-        to avoid falling into degenerated situations where the mean is far away
-        from the range of valid values, which provokes a ValueError inside
-        scipy.truncnorm.
         """
         if self.min is None:
             self.min = X.min() - EPSILON
@@ -55,14 +49,11 @@ class TruncatedGaussian(ScipyWrapper):
             b = (self.max - loc) / scale
             return truncnorm.nnlf((a, b, loc, scale), X)
 
-        def constraint(params):
-            loc, scale = params
-            a = (self.min - loc) / scale
-            b = (self.max - loc) / scale
-            return np.array([a < 0, 0 < b]).astype(int)
-
         initial_params = X.mean(), X.std()
-        optimal = fmin_slsqp(nnlf, initial_params, f_eqcons=constraint, iprint=False)
+        optimal = fmin_slsqp(nnlf, initial_params, iprint=False, bounds=[
+            (self.min, self.max),
+            (0.0, (self.max - self.min)**2)
+        ])
 
         self.mean, self.std = optimal
         self.model = self._get_model()
@@ -109,6 +100,7 @@ class TruncatedGaussian(ScipyWrapper):
 
             if instance.min == instance.max:
                 instance.constant_value = instance.min
+                instance._replace_constant_methods()
 
             else:
                 instance.model = instance._get_model()

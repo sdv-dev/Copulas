@@ -1,9 +1,8 @@
 from unittest import TestCase
 
-import numpy as np
+from scipy.stats import truncnorm
 from scipy.stats.distributions import rv_frozen
 
-from copulas import EPSILON
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 
 
@@ -29,17 +28,23 @@ class TestTruncatedGaussian(TestCase):
         """On fit, the attribute model is set with an instance of scipy.stats.truncnorm."""
         # Setup
         instance = TruncatedGaussian()
-        data = np.array([0, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 4])
+
+        # Generate data from a truncated gaussian
+        loc, scale = 2.0, 1.0
+        min_value, max_value = -1.0, 4.0
+        a = (min_value - loc) / scale
+        b = (max_value - loc) / scale
+        data = truncnorm.rvs(a=a, b=b, loc=loc, scale=scale, size=1000000, random_state=42)
 
         # Run
         instance.fit(data)
 
         # Check
         assert isinstance(instance.model, rv_frozen)
-        assert instance.min == 0 - EPSILON
-        assert instance.max == 4 + EPSILON
-        assert instance.mean == 2
-        assert instance.std == 1
+        self.assertAlmostEqual(min_value, instance.min, places=2)
+        self.assertAlmostEqual(max_value, instance.max, places=2)
+        self.assertAlmostEqual(loc, instance.mean, places=2)
+        self.assertAlmostEqual(scale, instance.std, places=2)
 
     def test_from_dict_unfitted(self):
         """from_dict creates a new instance from a dict of params."""

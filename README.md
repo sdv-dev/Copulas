@@ -399,6 +399,7 @@ over the years by the following team:
 * Andrew Montanez <amontane@mit.edu>
 * Kalyan Veeramachaneni <kalyan@csail.mit.edu>
 * paulolimac <paulolimac@gmail.com>
+* Kevin Alex Zhang <kevz@mit.edu>
 
 
 ## Related Projects
