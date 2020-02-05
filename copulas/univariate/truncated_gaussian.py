@@ -1,4 +1,3 @@
-import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 

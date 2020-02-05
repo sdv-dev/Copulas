@@ -20,7 +20,6 @@ class Independence(Bivariate):
             None
 
         """
-        pass
 
     def generator(self, t):
         """Compute the generator function for the Copula.

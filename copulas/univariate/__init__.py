@@ -13,6 +13,7 @@ __all__ = (
     'Univariate',
 )
 
+
 def select_univariate(X):
     """
     This function returns an Univariate model which minimizes the KS statistic.

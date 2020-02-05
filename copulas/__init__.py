@@ -160,6 +160,7 @@ def scalarize(function):
     Returns:
         callable: Decorated function that accepts and returns scalars.
     """
+
     def decorated(self, X, *args, **kwargs):
         scalar = not isinstance(X, np.ndarray)
 
@@ -188,6 +189,7 @@ def check_valid_values(function):
     Raises:
         ValueError: If there are missing or invalid values or if the dataset is empty.
     """
+
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):

@@ -1,4 +1,5 @@
 import json
+
 import numpy as np
 
 from copulas import NotFittedError, get_instance
@@ -23,9 +24,9 @@ class Multivariate(object):
     def probability_density(self, X):
         """Return probability density of model."""
         raise NotImplementedError
-    
+
     def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden 
+        """Return log probability density of model. It should be overridden
         with numerically stable variants whenever possible.
 
         Arguments:

@@ -1,10 +1,8 @@
 from unittest import TestCase
 
-import numpy as np
 from scipy.stats import truncnorm
 from scipy.stats.distributions import rv_frozen
 
-from copulas import EPSILON
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 
 

@@ -1,12 +1,12 @@
 from unittest import TestCase
-from unittest.mock import patch
 
 import numpy as np
-import pandas as pd
-
 from scipy.stats import truncnorm
+
 from copulas.metrics import ks_statistic
-from copulas.univariate import select_univariate, GaussianKDE, GaussianUnivariate, TruncatedGaussian
+from copulas.univariate import (
+    GaussianKDE, GaussianUnivariate, TruncatedGaussian, select_univariate)
+
 
 class TestKSStatistic(TestCase):
 
@@ -23,7 +23,8 @@ class TestKSStatistic(TestCase):
 
         # Mixture of Normals
         mask = np.random.normal(size=size) > 0.5
-        self.bimodal_data = np.random.normal(size=size)*mask + np.random.normal(size=size, loc=10)*(1.0-mask)
+        self.bimodal_data = np.random.normal(size=size) * mask + \
+            np.random.normal(size=size, loc=10) * (1.0 - mask)
 
     def test_select_univariate(self):
         """
@@ -35,8 +36,8 @@ class TestKSStatistic(TestCase):
 
     def test_binary(self):
         """
-        Suppose the data follows a Bernoulli distribution. The KS statistic should be larger 
-        for a TruncatedGaussian model than a GaussianKDE model which can somewhat capture a 
+        Suppose the data follows a Bernoulli distribution. The KS statistic should be larger
+        for a TruncatedGaussian model than a GaussianKDE model which can somewhat capture a
         Bernoulli distribution as it resembles a bimodal distribution.
         """
         kde_likelihood = ks_statistic(GaussianKDE(), self.binary_data)
@@ -45,8 +46,8 @@ class TestKSStatistic(TestCase):
 
     def test_truncated(self):
         """
-        Suppose the data follows a truncated normal distribution. The KS statistic should be larger 
-        for a Gaussian model than a TruncatedGaussian model (since the fit is worse).
+        Suppose the data follows a truncated normal distribution. The KS statistic should be
+        larger for a Gaussian model than a TruncatedGaussian model (since the fit is worse).
         """
         gaussian_likelihood = ks_statistic(GaussianUnivariate(), self.truncated_data)
         truncated_likelihood = ks_statistic(TruncatedGaussian(), self.truncated_data)
@@ -54,8 +55,8 @@ class TestKSStatistic(TestCase):
 
     def test_bimodal(self):
         """
-        Suppose the data follows a bimodal distribution. The KS statistic should be larger 
-        for a Gaussian model than a GaussianKDE model (since it can't capture multiple modes).
+        Suppose the data follows a bimodal distribution. The KS statistic should be larger
+        for a Gaussian model than a GaussianKDE model (since it can't capture 2 modes).
         """
         kde_likelihood = ks_statistic(GaussianKDE(), self.bimodal_data)
         gaussian_likelihood = ks_statistic(GaussianUnivariate(), self.bimodal_data)
