@@ -8,3 +8,4 @@ Credits
 * Andrew Montanez <amontane@mit.edu>
 * Kalyan Veeramachaneni <kalyan@csail.mit.edu>
 * paulolimac <paulolimac@gmail.com>
+* Kevin Alex Zhang <kevz@mit.edu>

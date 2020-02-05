@@ -223,6 +223,18 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
+    def log_probability_density(self, X):
+        """Return log probability density of model. It should be overridden 
+        with numerically stable variants whenever possible.
+
+        Arguments:
+            X: `np.ndarray` of shape (n, 1).
+
+        Returns:
+            np.ndarray
+        """
+        return np.log(self.probability_density(X))
+
     def pdf(self, X):
         """Shortcut to :meth:`probability_density`."""
         return self.probability_density(X)
@@ -343,7 +355,7 @@ class Bivariate(object):
         from copulas.bivariate import select_copula  # noqa
         warnings.warn(
             '`Bivariate.select_copula` has been deprecated and will be removed in a later '
-            'release. Please use `copulas.bivariate.select_copla` instead',
+            'release. Please use `copulas.bivariate.select_copula` instead',
             DeprecationWarning
         )
         return select_copula(X)
