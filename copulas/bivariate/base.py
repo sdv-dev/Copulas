@@ -6,8 +6,9 @@ from enum import Enum
 
 import numpy as np
 from scipy import stats
+from scipy.optimize import brentq
 
-from copulas import NotFittedError, random_state
+from copulas import EPSILON, NotFittedError, random_state
 from copulas.bivariate.utils import split_matrix
 
 
@@ -256,26 +257,31 @@ class Bivariate(object):
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^{-1}`.
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
 
         Args:
-            y(np.ndarray): value of :math:`C(u|v)`.
-            V(np.ndarray): given value of V.
-
-        Returns:
-            np.ndarray: Percentiles for the given values.
-
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
         """
-        raise NotImplementedError
+        self.check_fit()
+        result = []
+        for _y, _v in zip(y, V):
+            def f(u):
+                return self.partial_derivative_scalar(u, _v) - _y
+            minimum = brentq(f, EPSILON, 1.0)
+            if isinstance(minimum, np.ndarray):
+                minimum = minimum[0]
+            result.append(minimum)
+        return np.array(result)
 
     def ppf(self, y, V):
         """Shortcut to :meth:`percent_point`."""
         return self.percent_point(y, V)
 
-    def partial_derivative(self, X, y=0):
+    def partial_derivative(self, X):
         r"""Compute partial derivative of cumulative distribution.
 
-        The partial derivative of the copula(CDF) is the value of the conditional probability.
+        The partial derivative of the copula(CDF) is the conditional CDF.
 
          .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u}
 
@@ -289,12 +295,12 @@ class Bivariate(object):
         """
         raise NotImplementedError
 
-    def partial_derivative_scalar(self, U, V, y=0):
+    def partial_derivative_scalar(self, U, V):
         """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
         self.check_fit()
 
         X = np.column_stack((U, V))
-        return self.partial_derivative(X, y)
+        return self.partial_derivative(X)
 
     @random_state
     def sample(self, n_samples):

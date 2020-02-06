@@ -8,8 +8,8 @@ class Clayton(Bivariate):
     """Class for clayton copula model."""
 
     copula_type = CopulaTypes.CLAYTON
-    theta_interval = [-1, float('inf')]
-    invalid_thetas = [0]
+    theta_interval = [0, float('inf')]
+    invalid_thetas = []
 
     def generator(self, t):
         r"""Compute the generator function for Clayton copula family.
@@ -61,7 +61,7 @@ class Clayton(Bivariate):
         The cumulative density(cdf), or distribution function for the Clayton family of copulas
         correspond to the formula:
 
-        .. math:: C(u,v) = max[(u^{-θ} + v^{-θ} - 1),0]^{-1/θ}
+        .. math:: C(u,v) = (u^{-θ} + v^{-θ} - 1)^{-1/θ}
 
         Args:
             X (numpy.ndarray)
@@ -87,7 +87,7 @@ class Clayton(Bivariate):
                 for i in range(len(U))
             ]
 
-            return np.array([max(x, 0) for x in cdfs])
+            return np.array(cdfs)
 
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
@@ -112,10 +112,10 @@ class Clayton(Bivariate):
 
             return np.power((a + b - 1) / b, -1 / self.theta)
 
-    def partial_derivative(self, X, y=0):
+    def partial_derivative(self, X):
         r"""Compute partial derivative of cumulative distribution.
 
-        The partial derivative of the copula(CDF) is the value of the conditional probability.
+        The partial derivative of the copula(CDF) is the conditional CDF.
 
         .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u} =
             u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}
@@ -141,7 +141,7 @@ class Clayton(Bivariate):
 
         B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
         h = np.power(B, (-1 - self.theta) / self.theta)
-        return np.multiply(A, h) - y
+        return np.multiply(A, h)
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.

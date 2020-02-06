@@ -1,5 +1,4 @@
 import numpy as np
-import scipy
 
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.bivariate.utils import split_matrix
@@ -40,7 +39,7 @@ class Independence(Bivariate):
 
     def probability_density(self, X):
         """Compute the probability density for the independence copula."""
-        return scipy.stats.multivariate_normal.pdf(X, cov=np.identity(2))
+        return np.all((0.0 <= X) & (X <= 1.0), axis=1).astype(float)
 
     def cumulative_distribution(self, X):
         """Compute the cumulative distribution of the independence bivariate copula is the product.
@@ -65,7 +64,8 @@ class Independence(Bivariate):
             X()
 
         """
-        return X
+        _, V = split_matrix(X)
+        return V
 
     def percent_point(self, y, V):
         """Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`.

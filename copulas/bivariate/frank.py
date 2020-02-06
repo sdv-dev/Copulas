@@ -2,7 +2,7 @@ import sys
 
 import numpy as np
 import scipy.integrate as integrate
-from scipy.optimize import brentq, least_squares
+from scipy.optimize import least_squares
 
 from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
@@ -111,20 +111,12 @@ class Frank(Bivariate):
             return V
 
         else:
-            result = []
-            for _y, _V in zip(y, V):
-                minimum = brentq(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
-                if isinstance(minimum, np.ndarray):
-                    minimum = minimum[0]
+            return super().percent_point(y, V)
 
-                result.append(minimum)
-
-            return np.array(result)
-
-    def partial_derivative(self, X, y=0):
+    def partial_derivative(self, X):
         r"""Compute partial derivative of cumulative distribution.
 
-        The partial derivative of the copula(CDF) is the value of the conditional probability.
+        The partial derivative of the copula(CDF) is the conditional CDF.
 
         .. math:: F(v|u) = \frac{\partial}{\partial u}C(u,v) =
             \frac{g(u)g(v) + g(v)}{g(u)g(v) + g(1)}
@@ -147,7 +139,7 @@ class Frank(Bivariate):
         else:
             num = np.multiply(self._g(U), self._g(V)) + self._g(U)
             den = np.multiply(self._g(U), self._g(V)) + self._g(1)
-            return (num / den) - y
+            return num / den
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.
