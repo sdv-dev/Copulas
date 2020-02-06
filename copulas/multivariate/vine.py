@@ -276,8 +276,10 @@ class VineCopula(Multivariate):
 
                         def f(u, y):
                             return derivative(u, unis[visited[0]]) - y
+
                         if i == itr - 1:
                             tmp = optimize.brentq(f, EPSILON, 1.0, args=(unis[current],))
+
                         else:
                             tmp = optimize.brentq(f, EPSILON, 1.0, args=(tmp,))
 

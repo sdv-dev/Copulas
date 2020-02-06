@@ -268,10 +268,13 @@ class Bivariate(object):
         for _y, _v in zip(y, V):
             def f(u):
                 return self.partial_derivative_scalar(u, _v) - _y
+
             minimum = brentq(f, EPSILON, 1.0)
             if isinstance(minimum, np.ndarray):
                 minimum = minimum[0]
+
             result.append(minimum)
+
         return np.array(result)
 
     def ppf(self, y, V):
