@@ -8,7 +8,7 @@ from scipy import integrate, stats
 from copulas import (
     EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
 from copulas.multivariate.base import Multivariate
-from copulas.univariate import Univariate
+from copulas.univariate import Univariate, select_univariate
 
 LOGGER = logging.getLogger(__name__)
 DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
@@ -18,7 +18,11 @@ class GaussianMultivariate(Multivariate):
     """Class for a gaussian copula model.
 
     Args:
-        distribution (str): Full qualified name of the class to be used as distribution.
+        distribution (str): Full qualified name of the class to be used as distribution
+        for all columns OR a dictionary mapping column names to the fully qualified name.
+
+        If a column name is missing from the dictionary, then the univariate distribution
+        is automatically selected according to the KS statistic.
     """
 
     @store_args
@@ -100,11 +104,22 @@ class GaussianMultivariate(Multivariate):
             X = pd.DataFrame(X)
 
         for column_name, column in X.items():
-            self.distribs[column_name] = get_instance(self.distribution)
+            self.distribs[column_name] = self._get_distribution(column_name, column)
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)
         self.fitted = True
+
+    def _get_distribution(self, column_name, column):
+        """Get an instance of the appropriate univariate distribution for the
+        given column.
+        """
+        if isinstance(self.distribution, str):
+            return get_instance(self.distribution)
+        if isinstance(self.distribution, dict):
+            if column_name in self.distribution:
+                return get_instance(self.distribution[column_name])
+        return select_univariate(column)
 
     def probability_density(self, X):
         """Compute probability density function for given copula family.
