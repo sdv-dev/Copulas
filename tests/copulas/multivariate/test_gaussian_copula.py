@@ -42,6 +42,7 @@ class TestGaussianCopula(TestCase):
             ])
         })
 
+        np.random.seed(42)
         a, b, loc, scale = -1.0, 0.5, 0.0, 1.0
         mask = np.random.randint(0, 2, size=1000)
         self.structured_data = pd.DataFrame({
