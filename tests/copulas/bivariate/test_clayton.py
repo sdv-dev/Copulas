@@ -39,6 +39,20 @@ class TestClayton(TestCase):
         assert isinstance(result, np.ndarray)
         assert np.isclose(result, expected_result).all()
 
+    def test_partial_derivative(self):
+        """Probability_density returns the probability density for the given values."""
+        self.copula.fit(self.X)
+        U = np.array([0.1, 0.2, 0.3, 0.5])
+        V = np.array([0.3, 0.5, 0.6, 0.5])
+
+        # Direct implementation of the derivative
+        result1 = self.copula.partial_derivative(np.column_stack((U, V)))
+
+        # Finite difference implementation of the derivative
+        result2 = super(Clayton, self.copula).partial_derivative(np.column_stack((U, V)))
+
+        assert np.isclose(result1, result2, rtol=0.01).all()
+
     def test_inverse_cumulative_percentile_point(self):
         """The percentile point and cumulative_distribution should be inverse one of the other."""
         self.copula.fit(self.X)

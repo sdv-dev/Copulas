@@ -288,6 +288,9 @@ class Bivariate(object):
 
          .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u}
 
+        The base class provides a finite difference approximation of the
+        partial derivative of the CDF with respect to u.
+
         Args:
             X(np.ndarray)
             y(float)
@@ -296,7 +299,12 @@ class Bivariate(object):
             np.ndarray
 
         """
-        raise NotImplementedError
+        delta = 0.0001 * (-2*(X[:,1]>0.5)+1)
+        X_prime = X.copy()
+        X_prime[:,1] += delta
+        f = self.cumulative_distribution(X)
+        f_prime = self.cumulative_distribution(X_prime)
+        return (f_prime - f) / delta
 
     def partial_derivative_scalar(self, U, V):
         """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
