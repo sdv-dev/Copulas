@@ -140,6 +140,25 @@ class Bivariate(object):
 
         self.check_theta()
 
+    def check_marginal(self, u):
+        """The marginals are supposed to be uniformly distributed.
+
+        Args:
+            u(np.ndarray): Array of datapoints with shape (n,).
+
+        Raises:
+            ValueError: If the data does not appear uniformly distributed.
+        """
+        if min(u) < 0.0 or max(u) > 1.0:
+            raise ValueError("Marginal value out of bounds.")
+
+        emperical_cdf = np.sort(u)
+        uniform_cdf = np.linspace(0.0, 1.0, num=len(u))
+        ks_statistic = max(np.abs(emperical_cdf - uniform_cdf))
+        if ks_statistic > 1.627 / np.sqrt(len(u)):
+            # KS test with significance level 0.01
+            warnings.warn("Data does not appear to be uniform.", category=RuntimeWarning)
+
     def _compute_theta(self):
         """Compute theta, validate it and assign it to self."""
         self.theta = self.compute_theta()
@@ -155,6 +174,8 @@ class Bivariate(object):
             None
         """
         U, V = split_matrix(X)
+        self.check_marginal(U)
+        self.check_marginal(V)
         self.tau = stats.kendalltau(U, V)[0]
         self._compute_theta()
 
@@ -299,9 +320,9 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = 0.0001 * (-2*(X[:,1]>0.5)+1)
+        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
         X_prime = X.copy()
-        X_prime[:,1] += delta
+        X_prime[:, 1] += delta
         f = self.cumulative_distribution(X)
         f_prime = self.cumulative_distribution(X_prime)
         return (f_prime - f) / delta
