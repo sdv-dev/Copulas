@@ -6,8 +6,9 @@ from enum import Enum
 
 import numpy as np
 from scipy import stats
+from scipy.optimize import brentq
 
-from copulas import NotFittedError, random_state
+from copulas import EPSILON, NotFittedError, random_state
 from copulas.bivariate.utils import split_matrix
 
 
@@ -139,6 +140,25 @@ class Bivariate(object):
 
         self.check_theta()
 
+    def check_marginal(self, u):
+        """The marginals are supposed to be uniformly distributed.
+
+        Args:
+            u(np.ndarray): Array of datapoints with shape (n,).
+
+        Raises:
+            ValueError: If the data does not appear uniformly distributed.
+        """
+        if min(u) < 0.0 or max(u) > 1.0:
+            raise ValueError("Marginal value out of bounds.")
+
+        emperical_cdf = np.sort(u)
+        uniform_cdf = np.linspace(0.0, 1.0, num=len(u))
+        ks_statistic = max(np.abs(emperical_cdf - uniform_cdf))
+        if ks_statistic > 1.627 / np.sqrt(len(u)):
+            # KS test with significance level 0.01
+            warnings.warn("Data does not appear to be uniform.", category=RuntimeWarning)
+
     def _compute_theta(self):
         """Compute theta, validate it and assign it to self."""
         self.theta = self.compute_theta()
@@ -154,6 +174,8 @@ class Bivariate(object):
             None
         """
         U, V = split_matrix(X)
+        self.check_marginal(U)
+        self.check_marginal(V)
         self.tau = stats.kendalltau(U, V)[0]
         self._compute_theta()
 
@@ -256,28 +278,39 @@ class Bivariate(object):
         return self.cumulative_distribution(X)
 
     def percent_point(self, y, V):
-        """Compute the inverse of conditional cumulative density :math:`C(u|v)^{-1}`.
+        """Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.
 
         Args:
-            y(np.ndarray): value of :math:`C(u|v)`.
-            V(np.ndarray): given value of V.
-
-        Returns:
-            np.ndarray: Percentiles for the given values.
-
+            y: `np.ndarray` value of :math:`C(u|v)`.
+            v: `np.ndarray` given value of v.
         """
-        raise NotImplementedError
+        self.check_fit()
+        result = []
+        for _y, _v in zip(y, V):
+            def f(u):
+                return self.partial_derivative_scalar(u, _v) - _y
+
+            minimum = brentq(f, EPSILON, 1.0)
+            if isinstance(minimum, np.ndarray):
+                minimum = minimum[0]
+
+            result.append(minimum)
+
+        return np.array(result)
 
     def ppf(self, y, V):
         """Shortcut to :meth:`percent_point`."""
         return self.percent_point(y, V)
 
-    def partial_derivative(self, X, y=0):
+    def partial_derivative(self, X):
         r"""Compute partial derivative of cumulative distribution.
 
-        The partial derivative of the copula(CDF) is the value of the conditional probability.
+        The partial derivative of the copula(CDF) is the conditional CDF.
 
          .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u}
+
+        The base class provides a finite difference approximation of the
+        partial derivative of the CDF with respect to u.
 
         Args:
             X(np.ndarray)
@@ -287,14 +320,19 @@ class Bivariate(object):
             np.ndarray
 
         """
-        raise NotImplementedError
+        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
+        X_prime = X.copy()
+        X_prime[:, 1] += delta
+        f = self.cumulative_distribution(X)
+        f_prime = self.cumulative_distribution(X_prime)
+        return (f_prime - f) / delta
 
-    def partial_derivative_scalar(self, U, V, y=0):
+    def partial_derivative_scalar(self, U, V):
         """Compute partial derivative :math:`C(u|v)` of cumulative density of single values."""
         self.check_fit()
 
         X = np.column_stack((U, V))
-        return self.partial_derivative(X, y)
+        return self.partial_derivative(X)
 
     @random_state
     def sample(self, n_samples):

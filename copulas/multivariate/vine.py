@@ -274,16 +274,14 @@ class VineCopula(Multivariate):
                         copula.theta = current_tree[current_ind].theta
                         derivative = copula.partial_derivative_scalar
 
+                        def f(u, y):
+                            return derivative(u, unis[visited[0]]) - y
+
                         if i == itr - 1:
-                            tmp = optimize.fminbound(
-                                derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], unis[current])
-                            )
+                            tmp = optimize.brentq(f, EPSILON, 1.0, args=(unis[current],))
+
                         else:
-                            tmp = optimize.fminbound(
-                                derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], tmp)
-                            )
+                            tmp = optimize.brentq(f, EPSILON, 1.0, args=(tmp,))
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 

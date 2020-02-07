@@ -226,7 +226,7 @@ class TestVine(TestCase):
 
         uniform_mock.return_value = np.array([0.1, 0.25, 0.5, 0.75])
         randint_mock.return_value = 1
-        expected_result = np.array([-1.63155227, -0.16358589, -1.63155227, -1.62583869])
+        expected_result = np.array([-0.3196499, -0.16358588, 0.418420, 1.5688347])
 
         # Run
         result = instance._sample_row()
@@ -281,7 +281,7 @@ class TestVine(TestCase):
         vine.fit(X)
 
         expected_result = pd.DataFrame(
-            [[-1.6315522689646478, 0.527734420510573, -1.6315522689646478, -1.6315522689646478]],
+            [[0.101933, 0.527734, 0.080266, 0.078328]],
             columns=range(4)
         )
 
@@ -289,4 +289,4 @@ class TestVine(TestCase):
         result = vine.sample(1)
 
         # Check
-        assert result.equals(expected_result)
+        compare_nested_iterables(result, expected_result)
