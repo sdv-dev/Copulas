@@ -11,33 +11,51 @@ class TestClayton(TestCase):
     def setUp(self):
         self.copula = Clayton()
         self.X = np.array([
+            [0.2, 0.1],
             [0.2, 0.3],
-            [0.4, 0.4],
+            [0.4, 0.5],
             [0.6, 0.4],
             [0.8, 0.6],
+            [0.8, 0.9],
         ])
 
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
         self.copula.fit(self.X)
-        self.assertAlmostEqual(self.copula.tau, 0.9128, places=3)
-        self.assertAlmostEqual(self.copula.theta, 20.954, places=3)
+        self.assertAlmostEqual(self.copula.tau, 0.7877, places=3)
+        self.assertAlmostEqual(self.copula.theta, 7.4218, places=3)
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = np.array([0.80285762, 3.50020709])
+        expected_result = np.array([9.5886, 3.2394])
 
         # Run
         result = self.copula.probability_density(np.array([
-            [0.2, 0.25],
-            [0.4, 0.45]
+            [0.2, 0.2],
+            [0.6, 0.65]
         ]))
 
         # Check
         assert isinstance(result, np.ndarray)
-        assert np.isclose(result, expected_result).all()
+        assert np.isclose(result, expected_result, rtol=0.2).all()
+
+    def test_cumulative_distribution(self):
+        """Cumulative_density returns the probability distribution value for a point."""
+        # Setup
+        self.copula.fit(self.X)
+        expected_result = np.array([0.1821, 0.5517])
+
+        # Run
+        result = self.copula.cumulative_distribution(np.array([
+            [0.2, 0.2],
+            [0.6, 0.65]
+        ]))
+
+        # Check
+        assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result, rtol=0.2).all()
 
     def test_partial_derivative(self):
         """Probability_density returns the probability density for the given values."""

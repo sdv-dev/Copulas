@@ -12,54 +12,51 @@ class TestGumbel(TestCase):
     def setUp(self):
         self.copula = Gumbel()
         self.X = np.array([
+            [0.2, 0.1],
             [0.2, 0.3],
-            [0.4, 0.4],
+            [0.4, 0.5],
             [0.6, 0.4],
             [0.8, 0.6],
+            [0.8, 0.9],
         ])
 
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
-        # Setup
-        expected_theta = 11.4772255
-        expected_tau = 0.912870929
-
-        # Run
         self.copula.fit(self.X)
-        actual_theta = self.copula.theta
-        actual_tau = self.copula.tau
-
-        # Check
-        self.assertAlmostEqual(actual_theta, expected_theta, places=3)
-        self.assertAlmostEqual(actual_tau, expected_tau)
+        self.assertAlmostEqual(self.copula.tau, 0.7877, places=3)
+        self.assertAlmostEqual(self.copula.theta, 4.7109, places=3)
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 3.82485305e-05
-        X = np.array([[0.1, 0.5]])
+        expected_result = np.array([3.8870, 3.7559])
 
         # Run
-        result = self.copula.probability_density(X)
+        result = self.copula.probability_density(np.array([
+            [0.2, 0.2],
+            [0.6, 0.65]
+        ]))
 
         # Check
         assert isinstance(result, np.ndarray)
-        assert np.isclose(result, expected_result).all()
+        assert np.isclose(result, expected_result, rtol=0.2).all()
 
     def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = np.array([0.09999998])
-        X = np.array([[0.1, 0.5]])
-        # Run
+        expected_result = np.array([0.1549, 0.5584])
 
-        result = self.copula.cumulative_distribution(X)
+        # Run
+        result = self.copula.cumulative_distribution(np.array([
+            [0.2, 0.2],
+            [0.6, 0.65]
+        ]))
 
         # Check
         assert isinstance(result, np.ndarray)
-        assert np.isclose(result, expected_result).all()
+        assert np.isclose(result, expected_result, rtol=0.2).all()
 
     @patch('copulas.bivariate.base.np.random.uniform')
     def test_sample(self, uniform_mock):

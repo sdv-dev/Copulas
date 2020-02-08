@@ -107,7 +107,7 @@ class Frank(Bivariate):
         """
         self.check_fit()
 
-        if self.theta < 0:
+        if self.theta == 0:
             return V
 
         else:

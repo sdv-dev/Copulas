@@ -11,53 +11,52 @@ class TestFrank(TestCase):
 
     def setUp(self):
         self.X = np.array([
+            [0.2, 0.1],
             [0.2, 0.3],
-            [0.4, 0.4],
+            [0.4, 0.5],
             [0.6, 0.4],
             [0.8, 0.6],
+            [0.8, 0.9],
         ])
         self.copula = Frank()
 
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
-        # Setup
-        expected_theta = 44.2003
-        expected_tau = 0.912870929
-
-        # Run
         self.copula.fit(self.X)
-        actual_theta = self.copula.theta
-        actual_tau = self.copula.tau
-
-        # Check
-        self.assertAlmostEqual(actual_theta, expected_theta, places=3)
-        self.assertAlmostEqual(actual_tau, expected_tau)
+        self.assertAlmostEqual(self.copula.tau, 0.7877, places=3)
+        self.assertAlmostEqual(self.copula.theta, 17.0227, places=3)
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 9.2691074e-07
+        expected_result = np.array([4.4006, 4.2302])
 
         # Run
-        result = self.copula.probability_density(np.array([[0.1, 0.5]]))
+        result = self.copula.probability_density(np.array([
+            [0.2, 0.2],
+            [0.6, 0.65]
+        ]))
 
         # Check
-        assert np.isclose(result, expected_result).all()
         assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result, rtol=0.2).all()
 
     def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
         # Setup
         self.copula.fit(self.X)
-        expected_result = 0.1
+        expected_result = np.array([0.1602, 0.5641])
 
         # Run
-        result = self.copula.cumulative_distribution(np.array([[0.1, 0.5]]))
+        result = self.copula.cumulative_distribution(np.array([
+            [0.2, 0.2],
+            [0.6, 0.65]
+        ]))
 
         # Check
-        assert np.isclose(result, expected_result).all()
         assert isinstance(result, np.ndarray)
+        assert np.isclose(result, expected_result, rtol=0.2).all()
 
     @patch('copulas.bivariate.base.np.random.uniform')
     def test_sample(self, uniform_mock):
