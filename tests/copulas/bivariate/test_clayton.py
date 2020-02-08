@@ -34,12 +34,12 @@ class TestClayton(TestCase):
         # Run
         result = self.copula.probability_density(np.array([
             [0.2, 0.2],
-            [0.6, 0.65]
+            [0.6, 0.61]
         ]))
 
         # Check
         assert isinstance(result, np.ndarray)
-        assert np.isclose(result, expected_result, rtol=0.2).all()
+        assert np.isclose(result, expected_result, rtol=0.05).all()
 
     def test_cumulative_distribution(self):
         """Cumulative_density returns the probability distribution value for a point."""
@@ -50,12 +50,12 @@ class TestClayton(TestCase):
         # Run
         result = self.copula.cumulative_distribution(np.array([
             [0.2, 0.2],
-            [0.6, 0.65]
+            [0.6, 0.61]
         ]))
 
         # Check
         assert isinstance(result, np.ndarray)
-        assert np.isclose(result, expected_result, rtol=0.2).all()
+        assert np.isclose(result, expected_result, rtol=0.05).all()
 
     def test_partial_derivative(self):
         """Probability_density returns the probability density for the given values."""
