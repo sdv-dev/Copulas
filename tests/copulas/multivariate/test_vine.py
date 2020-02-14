@@ -6,7 +6,7 @@ import pandas as pd
 
 from copulas.multivariate.tree import Tree, TreeTypes
 from copulas.multivariate.vine import VineCopula
-from copulas.univariate import KDEUnivariate
+from copulas.univariate import GaussianKDE
 from tests import compare_nested_dicts, compare_nested_iterables
 
 
@@ -75,7 +75,7 @@ class TestVine(TestCase):
         instance.truncated = 3
         tree = Tree('regular')
         instance.trees = [tree]
-        uni = KDEUnivariate()
+        uni = GaussianKDE()
         instance.unis = [uni]
 
         tau_mat = np.array([
@@ -115,7 +115,7 @@ class TestVine(TestCase):
             ],
             'unis': [
                 {
-                    'type': 'copulas.univariate.kde.KDEUnivariate',
+                    'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
                     'fitted': False,
                 }
             ]
@@ -155,7 +155,7 @@ class TestVine(TestCase):
             ],
             'unis': [
                 {
-                    'type': 'copulas.univariate.kde.KDEUnivariate',
+                    'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
                     'fitted': False,
                     'constant_value': None
                 }
