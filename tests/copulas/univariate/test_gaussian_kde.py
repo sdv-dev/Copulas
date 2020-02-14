@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `univariate.kde` module."""
+"""Tests for `univariate.gaussian_kde` module."""
 
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -244,7 +244,7 @@ class TestGaussianKDE(TestCase):
             0.5425600435859647
         ]])).all()
 
-    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
     def test_to_dict(self, kde_mock):
         """To_dict returns the defining parameters of a distribution in a dict."""
         # Setup
@@ -314,7 +314,7 @@ class TestGaussianKDE(TestCase):
         # Check
         assert instance.to_dict() == result.to_dict()
 
-    @patch('copulas.univariate.kde.scipy.stats.gaussian_kde', autospec=True)
+    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
     def test_sample(self, kde_mock):
         """When fitted, we are able to use the model to get samples."""
         # Setup
