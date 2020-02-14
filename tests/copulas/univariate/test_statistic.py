@@ -3,9 +3,8 @@ from unittest import TestCase
 import numpy as np
 from scipy.stats import truncnorm
 
-from copulas.metrics import ks_statistic
 from copulas.univariate import (
-    GaussianKDE, GaussianUnivariate, TruncatedGaussian, select_univariate)
+    GaussianKDE, GaussianUnivariate, TruncatedGaussian, ks_statistic, select_univariate)
 
 
 class TestKSStatistic(TestCase):
