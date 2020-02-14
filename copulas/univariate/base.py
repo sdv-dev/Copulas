@@ -2,6 +2,7 @@ import numpy as np
 import scipy.stats
 
 from copulas import NotFittedError, check_valid_values, get_instance, get_qualified_name
+from copulas.univariate.selection import select_univariate
 
 
 class Univariate(object):
@@ -11,6 +12,7 @@ class Univariate(object):
         self.random_seed = random_seed
         self.fitted = False
         self.constant_value = None
+        self._instance = None
 
     def fit(self, X):
         """Fits the model.
@@ -21,7 +23,7 @@ class Univariate(object):
         Returns:
             None
         """
-        raise NotImplementedError
+        self._instance = select_univariate(X)
 
     def probability_density(self, X):
         """Computes probability density.
@@ -32,6 +34,8 @@ class Univariate(object):
         Returns:
             np.ndarray
         """
+        if self._instance:
+            self._instance.probability_density(X)
         raise NotImplementedError
 
     def log_probability_density(self, X):
@@ -44,6 +48,8 @@ class Univariate(object):
         Returns:
             np.ndarray
         """
+        if self._instance:
+            self._instance.log_probability_density(X)
         return np.log(self.probability_density(X))
 
     def pdf(self, X):
@@ -58,6 +64,8 @@ class Univariate(object):
         Returns:
             np.ndarray: Cumulative density for X.
         """
+        if self._instance:
+            self._instance.cumulative_distribution(X)
         raise NotImplementedError
 
     def cdf(self, X):
@@ -72,6 +80,8 @@ class Univariate(object):
         Returns:
             `np.ndarray`: Estimated values in original space.
         """
+        if self._instance:
+            self._instance.percent_point(U)
         raise NotImplementedError
 
     def ppf(self, U):
@@ -86,6 +96,8 @@ class Univariate(object):
         Returns:
             np.ndarray: Generated samples
         """
+        if self._instance:
+            self._instance.sample(n_samples)
         raise NotImplementedError
 
     def to_dict(self):
@@ -107,6 +119,8 @@ class Univariate(object):
         Returns:
             dict: Parameters to recreate self.model in its current fit status.
         """
+        if self._instance:
+            self._instance._fit_params()
         raise NotImplementedError
 
     @classmethod
