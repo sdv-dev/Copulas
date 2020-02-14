@@ -23,7 +23,11 @@ class Univariate(object):
         Returns:
             None
         """
-        self._instance = select_univariate(X)
+        self.constant_value = self._get_constant_value(X)
+        if self.constant_value is None:
+            self._instance = select_univariate(X)
+        else:
+            self._replace_constant_methods()
 
     def probability_density(self, X):
         """Computes probability density.
@@ -35,7 +39,7 @@ class Univariate(object):
             np.ndarray
         """
         if self._instance:
-            self._instance.probability_density(X)
+            return self._instance.probability_density(X)
         raise NotImplementedError
 
     def log_probability_density(self, X):
@@ -49,7 +53,7 @@ class Univariate(object):
             np.ndarray
         """
         if self._instance:
-            self._instance.log_probability_density(X)
+            return self._instance.log_probability_density(X)
         return np.log(self.probability_density(X))
 
     def pdf(self, X):
@@ -65,7 +69,7 @@ class Univariate(object):
             np.ndarray: Cumulative density for X.
         """
         if self._instance:
-            self._instance.cumulative_distribution(X)
+            return self._instance.cumulative_distribution(X)
         raise NotImplementedError
 
     def cdf(self, X):
@@ -81,7 +85,7 @@ class Univariate(object):
             `np.ndarray`: Estimated values in original space.
         """
         if self._instance:
-            self._instance.percent_point(U)
+            return self._instance.percent_point(U)
         raise NotImplementedError
 
     def ppf(self, U):
@@ -97,7 +101,7 @@ class Univariate(object):
             np.ndarray: Generated samples
         """
         if self._instance:
-            self._instance.sample(n_samples)
+            return self._instance.sample(n_samples)
         raise NotImplementedError
 
     def to_dict(self):
@@ -120,7 +124,7 @@ class Univariate(object):
             dict: Parameters to recreate self.model in its current fit status.
         """
         if self._instance:
-            self._instance._fit_params()
+            return self._instance._fit_params()
         raise NotImplementedError
 
     @classmethod

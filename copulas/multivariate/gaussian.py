@@ -11,7 +11,7 @@ from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
 LOGGER = logging.getLogger(__name__)
-DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
+DEFAULT_DISTRIBUTION = 'copulas.univariate.Univariate'
 
 
 class GaussianMultivariate(Multivariate):
@@ -100,7 +100,13 @@ class GaussianMultivariate(Multivariate):
             X = pd.DataFrame(X)
 
         for column_name, column in X.items():
-            self.distribs[column_name] = get_instance(self.distribution)
+            if isinstance(self.distribution, dict):
+                if column_name in self.distribution:
+                    self.distribs[column_name] = get_instance(self.distribution[column_name])
+                else:
+                    self.distribs[column_name] = get_instance(DEFAULT_DISTRIBUTION)
+            else:
+                self.distribs[column_name] = get_instance(self.distribution)
             self.distribs[column_name].fit(column)
 
         self.covariance = self._get_covariance(X)

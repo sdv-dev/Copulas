@@ -3,11 +3,11 @@ from unittest import TestCase
 import numpy as np
 from scipy.stats import truncnorm
 
-from copulas.univariate import Univariate, GaussianKDE, GaussianUnivariate, TruncatedGaussian
+from copulas.univariate import GaussianKDE, GaussianUnivariate, TruncatedGaussian, Univariate
 from copulas.univariate.selection import ks_statistic, select_univariate
 
 
-class TestKSStatistic(TestCase):
+class TestUnivariateSelection(TestCase):
 
     def setUp(self):
         size = 1000
@@ -35,7 +35,7 @@ class TestKSStatistic(TestCase):
 
     def test_base_univariate(self):
         """
-        Suppose the data follows a bimodal distribution. If we use the base Univariate class 
+        Suppose the data follows a bimodal distribution. If we use the base Univariate class
         to fit the data, it should automatically select the GaussianKDE.
         """
         model = Univariate()
