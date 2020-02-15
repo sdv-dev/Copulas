@@ -18,7 +18,9 @@ class GaussianMultivariate(Multivariate):
     """Class for a gaussian copula model.
 
     Args:
-        distribution (str): Full qualified name of the class to be used as distribution.
+        distribution (str): Fully qualified name of the class to be used for
+        modeling the marginal distributions or a dictionary mapping column
+        names to the fully qualified distribution names.
     """
 
     @store_args

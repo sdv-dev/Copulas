@@ -39,10 +39,7 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         X = np.array([1, 2, 3, 4, 5])
 
-        def sample_method(*args, **kwargs):
-            return X
-
-        kde_instance = MagicMock(evaluate='pdf', resample=sample_method)
+        kde_instance = MagicMock(evaluate='pdf')
         kde_mock.return_value = kde_instance
 
         # Run
@@ -52,7 +49,6 @@ class TestGaussianKDE(TestCase):
         assert instance.model == kde_instance
         assert instance.fitted is True
         assert instance.constant_value is None
-        assert instance.sample == sample_method
         assert instance.probability_density == 'pdf'
         kde_mock.assert_called_once_with(X)
 
@@ -319,7 +315,7 @@ class TestGaussianKDE(TestCase):
         """When fitted, we are able to use the model to get samples."""
         # Setup
         model_mock = kde_mock.return_value
-        model_mock.resample.return_value = np.array([0, 1, 0, 1, 0])
+        model_mock.resample.return_value = np.array([[0, 1, 0, 1, 0]])
 
         instance = GaussianKDE()
         X = np.array([1, 2, 3, 4, 5])
