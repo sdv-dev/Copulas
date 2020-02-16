@@ -68,6 +68,7 @@ docs/copulas.rst
 docs/copulas.*.rst
 docs/modules.rst
 docs/api/
+docs/tutorials/
 
 # PyBuilder
 target/
