@@ -1,14 +1,22 @@
-.. include:: readme.rst
+.. mdinclude:: readme.md
 
 .. toctree::
    :hidden:
+   :titlesonly:
    :maxdepth: 2
 
-   Overview <readme>
+   readme
+
+.. toctree::
+   :caption: Tutorials
+   :glob:
+
+   tutorials/*
 
 .. toctree::
    :caption: Resources
    :hidden:
+   :titlesonly:
 
    API Reference <api/copulas>
    contributing
