@@ -32,6 +32,7 @@ import copulas
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     'm2r',
+    'nbsphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.githubpages',
     'sphinx.ext.viewcode',
@@ -192,3 +193,6 @@ texinfo_documents = [(
     description,
     'Miscellaneous'
 )]
+
+# Jupyter Notebooks
+nbsphinx_execute = 'never'
