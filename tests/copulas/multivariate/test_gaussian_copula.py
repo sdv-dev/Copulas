@@ -50,7 +50,6 @@ class TestGaussianCopula(TestCase):
         # Check
         assert copula.distribs == {}
         assert copula.covariance is None
-        assert copula.means is None
         assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
     def test__init__distribution_arg(self):
@@ -64,7 +63,6 @@ class TestGaussianCopula(TestCase):
         # Check
         assert copula.distribs == {}
         assert copula.covariance is None
-        assert copula.means is None
         assert copula.distribution == 'full.qualified.name.of.distribution'
 
     def test_fit_default_distribution(self):
