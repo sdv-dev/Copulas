@@ -11,14 +11,17 @@ from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
 LOGGER = logging.getLogger(__name__)
-DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
+DEFAULT_DISTRIBUTION = 'copulas.univariate.Univariate'
 
 
 class GaussianMultivariate(Multivariate):
-    """Class for a gaussian copula model.
+    """Class for a Gaussian Multivariate Distribution.
 
     Args:
-        distribution (str): Full qualified name of the class to be used as distribution.
+        distribution (str or dict):
+            Fully qualified name of the class to be used for modeling the marginal
+            distributions or a dictionary mapping column names to the fully qualified
+            distribution names.
     """
 
     @store_args
@@ -27,7 +30,6 @@ class GaussianMultivariate(Multivariate):
 
         self.distribs = OrderedDict()
         self.covariance = None
-        self.means = None
         self.distribution = distribution
 
     def __str__(self):
@@ -100,8 +102,15 @@ class GaussianMultivariate(Multivariate):
             X = pd.DataFrame(X)
 
         for column_name, column in X.items():
-            self.distribs[column_name] = get_instance(self.distribution)
-            self.distribs[column_name].fit(column)
+            if isinstance(self.distribution, dict):
+                distribution = self.distribution.get(column_name, DEFAULT_DISTRIBUTION)
+            else:
+                distribution = self.distribution
+
+            distribution_instance = get_instance(distribution)
+            distribution_instance.fit(column)
+
+            self.distribs[column_name] = distribution_instance
 
         self.covariance = self._get_covariance(X)
         self.fitted = True

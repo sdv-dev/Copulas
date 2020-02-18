@@ -44,12 +44,12 @@ class TestGaussianCopula(TestCase):
     def test___init__default_args(self):
         """On init an instance with None on all attributes except distribs is returned."""
         # Run
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Check
         assert copula.distribs == {}
         assert copula.covariance is None
-        assert copula.means is None
         assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
     def test__init__distribution_arg(self):
@@ -63,14 +63,14 @@ class TestGaussianCopula(TestCase):
         # Check
         assert copula.distribs == {}
         assert copula.covariance is None
-        assert copula.means is None
         assert copula.distribution == 'full.qualified.name.of.distribution'
 
     def test_fit_default_distribution(self):
         """On fit, a distribution is created for each column along the covariance and means"""
 
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Run
         copula.fit(self.data)
@@ -106,10 +106,29 @@ class TestGaussianCopula(TestCase):
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
 
+    def test_fit_distribution_selector(self):
+        """
+        On fit, it should use the correct distributions for those that are
+        specified and default to using the base class otherwise.
+        """
+        copula = GaussianMultivariate(distribution={
+            'column1': 'copulas.univariate.beta.BetaUnivariate',
+            'column2': 'copulas.univariate.gaussian_kde.GaussianKDE',
+        })
+        copula.fit(self.data)
+
+        assert get_qualified_name(
+            copula.distribs['column1'].__class__) == 'copulas.univariate.beta.BetaUnivariate'
+        assert get_qualified_name(
+            copula.distribs['column2'].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
+        assert get_qualified_name(
+            copula.distribs['column3'].__class__) == 'copulas.univariate.base.Univariate'
+
     def test_fit_numpy_array(self):
         """Fit should work indistinctly with numpy arrays and pandas dataframes """
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Run
         copula.fit(self.data.values)
@@ -126,7 +145,8 @@ class TestGaussianCopula(TestCase):
     def test__get_covariance(self):
         """_get_covariance computes the covariance matrix of normalized values."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
 
         expected_covariance = np.array([
@@ -144,7 +164,8 @@ class TestGaussianCopula(TestCase):
     def test_probability_density(self):
         """Probability_density computes probability for the given values."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
         X = np.array([[0., 0., 0.]])
         expected_result = 0.059566912334560594
@@ -158,7 +179,8 @@ class TestGaussianCopula(TestCase):
     def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
         X = np.array([1., 1., 1.])
         expected_result = 0.5822020991592192
@@ -172,7 +194,8 @@ class TestGaussianCopula(TestCase):
     def test_cumulative_distribution_fit_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
         X = np.array([1., 1., 1.])
         expected_result = 0.5822020991592192
@@ -186,7 +209,8 @@ class TestGaussianCopula(TestCase):
     def test_cumulative_distribution_fit_call_pd(self):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
         X = pd.Series([1., 1., 1.])
         expected_result = 0.5822020991592192
@@ -200,7 +224,8 @@ class TestGaussianCopula(TestCase):
     def test_get_lower_bounds(self):
         """get_lower_bounds returns the point from where cut the tail of the infinite integral."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
         expected_result = -3.104256111232535
 
@@ -213,7 +238,8 @@ class TestGaussianCopula(TestCase):
     def test_deprecation_warnings(self):
         """After fitting, Gaussian copula can produce new samples warningless."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         data = pd.read_csv('data/iris.data.csv')
 
         # Run
@@ -229,7 +255,8 @@ class TestGaussianCopula(TestCase):
     def test_sample(self, normal_mock):
         """Sample use the inverse-transform method to generate new samples."""
         # Setup
-        instance = GaussianMultivariate()
+        instance = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         data = pd.DataFrame([
             {'A': 25, 'B': 75, 'C': 100},
             {'A': 30, 'B': 60, 'C': 250},
@@ -270,7 +297,8 @@ class TestGaussianCopula(TestCase):
     def test_sample_random_state(self):
         """When random_state is set the samples are the same."""
         # Setup
-        instance = GaussianMultivariate(random_seed=0)
+        instance = GaussianMultivariate(
+            random_seed=0, distribution='copulas.univariate.gaussian.GaussianUnivariate')
         data = pd.DataFrame([
             {'A': 25, 'B': 75, 'C': 100},
             {'A': 30, 'B': 60, 'C': 250},
@@ -297,7 +325,8 @@ class TestGaussianCopula(TestCase):
     def test_to_dict(self):
         """To_dict returns the parameters to replicate the copula."""
         # Setup
-        copula = GaussianMultivariate()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         data = pd.read_csv('data/iris.data.csv')
         copula.fit(data)
         covariance = [
@@ -404,7 +433,8 @@ class TestGaussianCopula(TestCase):
     def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
         # Setup
-        instance = GaussianMultivariate()
+        instance = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
         data = pd.read_csv('data/iris.data.csv')
         instance.fit(data)
         covariance = [

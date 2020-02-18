@@ -45,6 +45,10 @@ class GaussianKDE(ScipyWrapper):
 
         self.fitted = True
 
+    def sample(self, n_samples=1):
+        self.check_fit()
+        return self.model.resample(size=n_samples)[0]
+
     def cumulative_distribution(self, X):
         """Computes the integral of a 1-D pdf between two bounds
 

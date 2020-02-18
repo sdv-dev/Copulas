@@ -2,6 +2,7 @@ import numpy as np
 import scipy.stats
 
 from copulas import NotFittedError, check_valid_values, get_instance, get_qualified_name
+from copulas.univariate.selection import select_univariate
 
 
 class Univariate(object):
@@ -11,6 +12,15 @@ class Univariate(object):
         self.random_seed = random_seed
         self.fitted = False
         self.constant_value = None
+        self._instance = None
+
+    def check_fit(self):
+        """Assert that the object is fit
+
+        Raises a `NotFittedError` if the model is  not fitted.
+        """
+        if not self.fitted:
+            raise NotFittedError("This model is not fitted.")
 
     def fit(self, X):
         """Fits the model.
@@ -21,7 +31,13 @@ class Univariate(object):
         Returns:
             None
         """
-        raise NotImplementedError
+        self.constant_value = self._get_constant_value(X)
+        if self.constant_value is None:
+            self._instance = select_univariate(X)
+        else:
+            self._replace_constant_methods()
+
+        self.fitted = True
 
     def probability_density(self, X):
         """Computes probability density.
@@ -32,7 +48,8 @@ class Univariate(object):
         Returns:
             np.ndarray
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance.probability_density(X)
 
     def log_probability_density(self, X):
         """Return log probability density of model. It should be overridden
@@ -44,6 +61,10 @@ class Univariate(object):
         Returns:
             np.ndarray
         """
+        self.check_fit()
+        if self._instance:
+            return self._instance.log_probability_density(X)
+
         return np.log(self.probability_density(X))
 
     def pdf(self, X):
@@ -58,7 +79,8 @@ class Univariate(object):
         Returns:
             np.ndarray: Cumulative density for X.
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance.cumulative_distribution(X)
 
     def cdf(self, X):
         return self.cumulative_distribution(X)
@@ -72,7 +94,8 @@ class Univariate(object):
         Returns:
             `np.ndarray`: Estimated values in original space.
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance.percent_point(U)
 
     def ppf(self, U):
         return self.percent_point(U)
@@ -86,7 +109,8 @@ class Univariate(object):
         Returns:
             np.ndarray: Generated samples
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance.sample(n_samples)
 
     def to_dict(self):
         """Returns parameters to replicate the distribution."""
@@ -107,21 +131,14 @@ class Univariate(object):
         Returns:
             dict: Parameters to recreate self.model in its current fit status.
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance._fit_params()
 
     @classmethod
     def from_dict(cls, param_dict):
         """Create new instance from dictionary."""
         distribution_class = get_instance(param_dict['type'])
         return distribution_class.from_dict(param_dict)
-
-    def check_fit(self):
-        """Assert that the object is fit
-
-        Raises a `NotFittedError` if the model is  not fitted.
-        """
-        if not self.fitted:
-            raise NotFittedError("This model is not fitted.")
 
     @staticmethod
     def _get_constant_value(X):

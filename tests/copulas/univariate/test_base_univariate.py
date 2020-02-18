@@ -3,11 +3,35 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 
+from copulas.univariate import GaussianKDE
 from copulas.univariate.base import ScipyWrapper, Univariate
 from tests import compare_nested_iterables
 
 
 class TestUnivariate(TestCase):
+
+    def test_fit(self):
+        """
+        The fit function on the base class should select the best model from the
+        subclasses using the KS statistic.
+        """
+        size = 5000
+        np.random.seed(42)
+        mask = np.random.randint(0, 2, size=size)
+        bimodal_data = np.random.normal(size=size) * mask + \
+            np.random.normal(size=size, loc=10) * (1.0 - mask)
+
+        uni = Univariate()
+        uni.fit(bimodal_data)
+
+        assert isinstance(uni._instance, GaussianKDE)
+        self.assertAlmostEqual(uni.cdf([5.0])[0], 0.5, places=2)
+        self.assertAlmostEqual(uni.pdf([0.3])[0], 0.14, places=2)
+
+        X = uni.sample(size)
+        print(X.shape, bimodal_data.shape)
+        assert len(X) == size
+        self.assertAlmostEqual(np.mean(X), 5.0, places=1)
 
     def test_get_constant_value(self):
         """get_constant_value return the unique value of an array if it exists."""
