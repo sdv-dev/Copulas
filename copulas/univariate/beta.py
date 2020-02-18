@@ -18,6 +18,7 @@ class BetaUnivariate(ScipyWrapper):
     sample = 'rvs'
 
     fitted = False
+    parametric = True
     constant_value = None
 
     def __init__(self):

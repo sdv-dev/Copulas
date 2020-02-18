@@ -25,6 +25,8 @@ class GaussianKDE(ScipyWrapper):
     log_probability_density = 'logpdf'
     sample = 'resample'
 
+    parametric = False
+
     @store_args
     def __init__(self, sample_size=None, *args, **kwargs):
         self.sample_size = sample_size

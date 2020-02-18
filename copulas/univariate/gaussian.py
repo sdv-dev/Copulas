@@ -14,6 +14,7 @@ class GaussianUnivariate(Univariate):
     """Gaussian univariate model."""
 
     fitted = False
+    parametric = True
 
     @store_args
     def __init__(self, *args, **kwargs):

@@ -8,7 +8,8 @@ from copulas.univariate.selection import select_univariate
 class Univariate(object):
     """ Abstract class for representing univariate distributions """
 
-    def __init__(self, random_seed=None):
+    def __init__(self, parametric=None, random_seed=None):
+        self.parametric = parametric
         self.random_seed = random_seed
         self.fitted = False
         self.constant_value = None
@@ -33,7 +34,7 @@ class Univariate(object):
         """
         self.constant_value = self._get_constant_value(X)
         if self.constant_value is None:
-            self._instance = select_univariate(X)
+            self._instance = select_univariate(X, parametric=self.parametric)
         else:
             self._replace_constant_methods()
 

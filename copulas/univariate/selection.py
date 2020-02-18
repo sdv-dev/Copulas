@@ -9,14 +9,21 @@ def ks_statistic(distribution, X):
     return statistic
 
 
-def select_univariate(X):
+def select_univariate(X, parametric=None):
     from copulas.univariate import (
         BetaUnivariate, GammaUnivariate, GaussianUnivariate, GaussianKDE, TruncatedGaussian)
+    models = [
+        BetaUnivariate(),
+        GammaUnivariate(),
+        GaussianUnivariate(),
+        TruncatedGaussian(),
+        GaussianKDE()]
 
     best_ks = np.inf
     best_model = None
-    for model in [BetaUnivariate(), GammaUnivariate(), GaussianUnivariate(),
-                  GaussianKDE(), TruncatedGaussian()]:
+    for model in models:
+        if not (parametric is None or model.parametric == parametric):
+            continue
         ks = ks_statistic(model, X)
         if ks < best_ks:
             best_ks = ks

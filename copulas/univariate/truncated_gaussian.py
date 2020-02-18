@@ -20,6 +20,7 @@ class TruncatedGaussian(ScipyWrapper):
     sample = 'rvs'
 
     fitted = False
+    parametric = True
     constant_value = None
     mean = None
     std = None
