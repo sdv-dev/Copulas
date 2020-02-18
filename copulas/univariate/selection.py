@@ -13,11 +13,13 @@ def select_univariate(X):
     from copulas.univariate import (
         BetaUnivariate, GammaUnivariate, GaussianUnivariate, GaussianKDE, TruncatedGaussian)
 
-    best_ks, best_model = float("inf"), None
+    best_ks = np.inf
+    best_model = None
     for model in [BetaUnivariate(), GammaUnivariate(), GaussianUnivariate(),
                   GaussianKDE(), TruncatedGaussian()]:
         ks = ks_statistic(model, X)
         if ks < best_ks:
             best_ks = ks
             best_model = model
+
     return best_model
