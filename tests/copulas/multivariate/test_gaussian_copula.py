@@ -167,14 +167,14 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
-        X = np.array([[0., 0., 0.]])
-        expected_result = 0.059566912334560594
+        X = np.array([2000., 200., 0.])
+        expected_result = 0.031163598715950383
 
         # Run
         result = copula.probability_density(X)
 
         # Check
-        assert result == expected_result
+        self.assertAlmostEqual(result, expected_result)
 
     def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -182,8 +182,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
-        X = np.array([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -197,8 +197,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
-        X = np.array([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -212,28 +212,14 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
-        X = pd.Series([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
 
         # Check
         assert np.isclose(result, expected_result).all().all()
-
-    def test_get_lower_bounds(self):
-        """get_lower_bounds returns the point from where cut the tail of the infinite integral."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data)
-        expected_result = -3.104256111232535
-
-        # Run
-        result = copula.get_lower_bound()
-
-        # Check
-        assert result == expected_result
 
     def test_deprecation_warnings(self):
         """After fitting, Gaussian copula can produce new samples warningless."""

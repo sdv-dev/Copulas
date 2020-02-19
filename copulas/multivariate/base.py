@@ -17,10 +17,6 @@ class Multivariate(object):
         """Fit a model to the data and update the parameters."""
         raise NotImplementedError
 
-    def infer(self, values):
-        """Predict data from a subset of values."""
-        raise NotImplementedError
-
     def probability_density(self, X):
         """Return probability density of model."""
         raise NotImplementedError

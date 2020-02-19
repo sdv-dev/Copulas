@@ -3,10 +3,9 @@ from collections import OrderedDict
 
 import numpy as np
 import pandas as pd
-from scipy import integrate, stats
+from scipy import stats
 
-from copulas import (
-    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
+from copulas import check_valid_values, get_instance, get_qualified_name, random_state, store_args
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -15,7 +14,7 @@ DEFAULT_DISTRIBUTION = 'copulas.univariate.Univariate'
 
 
 class GaussianMultivariate(Multivariate):
-    """Class for a Gaussian Multivariate Distribution.
+    """Class for a multivariate distribution that uses the Gaussian copula.
 
     Args:
         distribution (str or dict):
@@ -43,21 +42,6 @@ class GaussianMultivariate(Multivariate):
         )
         return '\n'.join(distribs) + covariance
 
-    def get_lower_bound(self):
-        """Compute the lower bound to integrate cumulative density.
-
-        Returns:
-            float: lower bound for cumulative density integral.
-        """
-        lower_bounds = []
-
-        for distribution in self.distribs.values():
-            lower_bound = distribution.percent_point(distribution.mean / 10000)
-            if not pd.isnull(lower_bound):
-                lower_bounds.append(lower_bound)
-
-        return min(lower_bounds)
-
     def _get_covariance(self, X):
         """Compute covariance matrix with transformed data.
 
@@ -68,23 +52,19 @@ class GaussianMultivariate(Multivariate):
             np.ndarray
 
         """
-        result = pd.DataFrame(index=range(len(X)))
-        for column_name, column in X.items():
-            distrib = self.distribs[column_name]
-
-            # get original distrib's cdf of the column
-            cdf = distrib.cumulative_distribution(column)
-
-            if distrib.constant_value is not None:
-                # This is to avoid np.inf in the case the column is constant.
-                cdf = np.ones(column.shape) - EPSILON
-
-            # get inverse cdf using standard normal
-            result[column_name] = stats.norm.ppf(cdf)
-
-        # remove any rows that have infinite values
-        result = result[~result.isin([np.inf, -np.inf]).any(axis=1)]
+        result = self._transform_to_normal(X)
         return pd.DataFrame(data=result).cov().values
+
+    def _transform_to_normal(self, X):
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X)
+        U = X.copy()
+        for (column_name, column), distrib in zip(X.items(), self.distribs.values()):
+            if distrib.constant_value is not None:
+                U[column_name] = np.ones(column.shape) / 2.0
+            else:
+                U[column_name] = distrib.cdf(column)
+        return stats.norm.ppf(U)
 
     @check_valid_values
     def fit(self, X):
@@ -115,23 +95,24 @@ class GaussianMultivariate(Multivariate):
         self.covariance = self._get_covariance(X)
         self.fitted = True
 
-    def probability_density(self, X):
-        """Compute probability density function for given copula family.
+    def probability_density(self, x):
+        """Evaluate the probability density function at `x` after transforming it
+        into the appropriate distribution.
 
         Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`
+            x: `numpy.ndarray` or `pandas.DataFrame`
 
         Returns:
             np.array: Probability density for the input values.
         """
         self.check_fit()
+        transformed = self._transform_to_normal([x])
+        pdf = stats.multivariate_normal.pdf(transformed, cov=self.covariance)
+        return pdf
 
-        # make cov positive semi-definite
-        covariance = self.covariance * np.identity(self.covariance.shape[0])
-        return stats.multivariate_normal.pdf(X, cov=covariance)
-
-    def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula
+    def cumulative_distribution(self, x):
+        """Evaluate the cumulative distribution function at `x` after transforming
+        it into the appropriate distribution.
 
         Args:
             X: `numpy.ndarray` or `pandas.DataFrame`
@@ -140,20 +121,13 @@ class GaussianMultivariate(Multivariate):
             np.array: cumulative probability
         """
         self.check_fit()
-
-        # Wrapper for pdf to accept vector as args
-        def func(*args):
-            return self.probability_density(list(args))
-
-        # Lower bound for integral, to split significant part from tail
-        lower_bound = self.get_lower_bound()
-
-        ranges = [[lower_bound, val] for val in X]
-        return integrate.nquad(func, ranges)[0]
+        transformed = self._transform_to_normal([x])
+        cdf = stats.multivariate_normal.cdf(transformed, cov=self.covariance)
+        return cdf
 
     @random_state
     def sample(self, num_rows=1):
-        """Creates sintentic values stadistically similar to the original dataset.
+        """Creates synthetic values statistically similar to the original dataset.
 
         Args:
             num_rows: `int` amount of samples to generate.
