@@ -42,6 +42,25 @@ class GaussianMultivariate(Multivariate):
         )
         return '\n'.join(distribs) + covariance
 
+    def _transform_to_normal(self, X):
+        if isinstance(X, pd.Series):
+            X = X.to_frame().T
+        elif not isinstance(X, pd.DataFrame):
+            if len(X.shape) == 1:
+                X = [X]
+
+            X = pd.DataFrame(X, columns=self.distribs.keys())
+
+        U = list()
+        for column_name, distrib in self.distribs.items():
+            column = X[column_name]
+            if distrib.constant_value is not None:
+                U.append(np.ones(column.shape) / 2.0)
+            else:
+                U.append(distrib.cdf(column))
+
+        return stats.norm.ppf(np.column_stack(U))
+
     def _get_covariance(self, X):
         """Compute covariance matrix with transformed data.
 
@@ -54,17 +73,6 @@ class GaussianMultivariate(Multivariate):
         """
         result = self._transform_to_normal(X)
         return pd.DataFrame(data=result).cov().values
-
-    def _transform_to_normal(self, X):
-        if not isinstance(X, pd.DataFrame):
-            X = pd.DataFrame(X)
-        U = X.copy()
-        for (column_name, column), distrib in zip(X.items(), self.distribs.values()):
-            if distrib.constant_value is not None:
-                U[column_name] = np.ones(column.shape) / 2.0
-            else:
-                U[column_name] = distrib.cdf(column)
-        return stats.norm.ppf(U)
 
     @check_valid_values
     def fit(self, X):
@@ -95,35 +103,37 @@ class GaussianMultivariate(Multivariate):
         self.covariance = self._get_covariance(X)
         self.fitted = True
 
-    def probability_density(self, x):
-        """Evaluate the probability density function at `x` after transforming it
-        into the appropriate distribution.
+    def probability_density(self, X):
+        """Evaluate the probability density function at `X`.
 
         Args:
-            x: `numpy.ndarray` or `pandas.DataFrame`
+            X (numpy.ndarray or pandas.DataFrame):
+                Points at which the probability density function
+                will be evaluated.
 
         Returns:
-            np.array: Probability density for the input values.
+            numpy.ndarray:
+                Probability density for the input values.
         """
         self.check_fit()
-        transformed = self._transform_to_normal([x])
-        pdf = stats.multivariate_normal.pdf(transformed, cov=self.covariance)
-        return pdf
+        transformed = self._transform_to_normal(X)
+        return stats.multivariate_normal.pdf(transformed, cov=self.covariance)
 
-    def cumulative_distribution(self, x):
-        """Evaluate the cumulative distribution function at `x` after transforming
-        it into the appropriate distribution.
+    def cumulative_distribution(self, X):
+        """Evaluate the cumulative distribution function at `X`.
 
         Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`
+            X (numpy.ndarray or pandas.DataFrame):
+                Points at which the cumulative distribution function
+                will be evaluated.
 
         Returns:
-            np.array: cumulative probability
+            numpy.ndarray:
+                Cumulative Probability
         """
         self.check_fit()
-        transformed = self._transform_to_normal([x])
-        cdf = stats.multivariate_normal.cdf(transformed, cov=self.covariance)
-        return cdf
+        transformed = self._transform_to_normal(X)
+        return stats.multivariate_normal.cdf(transformed, cov=self.covariance)
 
     @random_state
     def sample(self, num_rows=1):
