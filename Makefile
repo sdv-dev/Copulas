@@ -50,7 +50,7 @@ clean-pyc: ## remove Python file artifacts
 .PHONY: clean-docs
 clean-docs: ## remove previously built docs
 	rm -f docs/api/*.rst
-	rm -f docs/tutorials/*
+	rm -rf docs/tutorials/*
 	-$(MAKE) -C docs clean 2>/dev/null  # this fails if sphinx is not yet installed
 
 .PHONY: clean-coverage
@@ -112,7 +112,7 @@ test: ## run tests quickly with the default Python
 
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
-	tox
+	tox -r
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python

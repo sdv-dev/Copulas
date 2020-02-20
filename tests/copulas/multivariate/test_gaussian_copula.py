@@ -1,12 +1,12 @@
 import warnings
+from collections import OrderedDict
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
 import numpy as np
 import pandas as pd
-from scipy import stats
 
-from copulas import EPSILON, get_qualified_name
+from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from tests import compare_nested_dicts
 
@@ -566,20 +566,25 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3])
-        gm.distribs = {
-            'a': dist_a,
-            'b': dist_b,
-        }
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
 
         # Run
-        returned = gm._transform_to_normal(np.array([3, 5]))
+        data = np.array([
+            [3, 5],
+        ])
+        returned = gm._transform_to_normal(data)
 
         # Check
-        data = np.array([
-            [EPSILON, 0.3],
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
         ])
-        expected = stats.norm.ppf(data)
-        np.testing.assert_allclose(expected, returned)
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
         expected = np.array([3])
@@ -598,10 +603,10 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0, 0.5, 1])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
-        gm.distribs = {
-            'a': dist_a,
-            'b': dist_b,
-        }
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
 
         # Run
         data = np.array([
@@ -612,12 +617,15 @@ class TestGaussianCopula(TestCase):
         returned = gm._transform_to_normal(data)
 
         # Check
-        expected = stats.norm.ppf(np.array([
-            [EPSILON, 0.3],
-            [0.5, 0.5],
-            [1 - EPSILON, 0.7]
-        ]))
-        np.testing.assert_allclose(returned, expected)
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+            [0.0, 0.0],
+            [5.166579, 0.524401]
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
         expected = np.array([3, 4, 5])
@@ -636,20 +644,23 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3])
-        gm.distribs = {
-            'a': dist_a,
-            'b': dist_b,
-        }
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
 
         # Run
         data = pd.Series({'a': 3, 'b': 5})
         returned = gm._transform_to_normal(data)
 
         # Check
-        expected = stats.norm.ppf(np.array([
-            [EPSILON, 0.3],
-        ]))
-        np.testing.assert_allclose(expected, returned)
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
         expected = np.array([3])
@@ -668,10 +679,10 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0, 0.5, 1])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
-        gm.distribs = {
-            'a': dist_a,
-            'b': dist_b,
-        }
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
 
         # Run
         data = pd.DataFrame({
@@ -681,12 +692,15 @@ class TestGaussianCopula(TestCase):
         returned = gm._transform_to_normal(data)
 
         # Check
-        expected = stats.norm.ppf(np.array([
-            [EPSILON, 0.3],
-            [0.5, 0.5],
-            [1 - EPSILON, 0.7]
-        ]))
-        np.testing.assert_allclose(returned, expected)
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+            [0.0, 0.0],
+            [5.166579, 0.524401]
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
         expected = np.array([3, 4, 5])
