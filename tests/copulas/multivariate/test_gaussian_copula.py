@@ -1,6 +1,7 @@
 import warnings
+from collections import OrderedDict
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import numpy as np
 import pandas as pd
@@ -167,14 +168,14 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
-        X = np.array([[0., 0., 0.]])
-        expected_result = 0.059566912334560594
+        X = np.array([2000., 200., 0.])
+        expected_result = 0.031163598715950383
 
         # Run
         result = copula.probability_density(X)
 
         # Check
-        assert result == expected_result
+        self.assertAlmostEqual(result, expected_result)
 
     def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -182,8 +183,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data)
-        X = np.array([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -197,8 +198,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
-        X = np.array([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -212,28 +213,14 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
         copula.fit(self.data.values)
-        X = pd.Series([1., 1., 1.])
-        expected_result = 0.5822020991592192
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
 
         # Run
         result = copula.cumulative_distribution(X)
 
         # Check
         assert np.isclose(result, expected_result).all().all()
-
-    def test_get_lower_bounds(self):
-        """get_lower_bounds returns the point from where cut the tail of the infinite integral."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data)
-        expected_result = -3.104256111232535
-
-        # Run
-        result = copula.get_lower_bound()
-
-        # Check
-        assert result == expected_result
 
     def test_deprecation_warnings(self):
         """After fitting, Gaussian copula can produce new samples warningless."""
@@ -571,3 +558,156 @@ class TestGaussianCopula(TestCase):
 
         covariance = instance.covariance
         assert (~pd.isnull(covariance)).all().all()
+
+    def test__transform_to_normal_numpy_1d(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3])
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
+
+        # Run
+        data = np.array([
+            [3, 5],
+        ])
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_numpy_2d(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0, 0.5, 1])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
+
+        # Run
+        data = np.array([
+            [3, 5],
+            [4, 6],
+            [5, 7],
+        ])
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+            [0.0, 0.0],
+            [5.166579, 0.524401]
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3, 4, 5])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5, 6, 7])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_series(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3])
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
+
+        # Run
+        data = pd.Series({'a': 3, 'b': 5})
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_dataframe(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0, 0.5, 1])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        gm.distribs = OrderedDict((
+            ('a', dist_a),
+            ('b', dist_b),
+        ))
+
+        # Run
+        data = pd.DataFrame({
+            'a': [3, 4, 5],
+            'b': [5, 6, 7]
+        })
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        # Failures may occurr on different cpytonn implementations
+        # with different float precision values.
+        # If that happens, atol might need to be increased
+        expected = np.array([
+            [-5.166579, -0.524401],
+            [0.0, 0.0],
+            [5.166579, 0.524401]
+        ])
+        np.testing.assert_allclose(returned, expected, atol=1e-6)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3, 4, 5])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5, 6, 7])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
