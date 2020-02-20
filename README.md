@@ -12,7 +12,7 @@
 # Copulas
 
 * License: [MIT](https://github.com/sdv-dev/Copulas/blob/master/LICENSE)
-* Development Status: [Pre-Alpha](https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow)
+* Development Status: [Pre-Alpha](https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha)
 * Documentation: https://sdv-dev.github.io/Copulas
 * Homepage: https://github.com/sdv-dev/Copulas
 
