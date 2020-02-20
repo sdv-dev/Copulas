@@ -25,8 +25,8 @@ class Univariate(object):
     Args:
         candidates (list[str or type or Univariate]):
             List of candidates to select the best univariate from.
-            It can be a list of distribution FQNs, or a list of
-            Univariate subclasses or a list of instances.
+            It can be a list of strings representing Univariate FQNs,
+            or a list of Univariate subclasses or a list of instances.
         parametric (ParametricType):
             If not ``None``, only select subclasses of this type.
             Ignored if ``candidates`` is passed.

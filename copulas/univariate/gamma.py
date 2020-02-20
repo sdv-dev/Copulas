@@ -32,7 +32,7 @@ class GammaUnivariate(ScipyWrapper):
     def _get_model(self):
         return gamma(self.a, loc=self.loc, scale=self.scale)
 
-    def _fit_expon(self, X):
+    def _fit_gamma(self, X):
         """Fit the gamma parameters to the data."""
         self.a, self.loc, self.scale = gamma.fit(X)
         self.model = self._get_model()
@@ -51,7 +51,7 @@ class GammaUnivariate(ScipyWrapper):
         self.constant_value = self._get_constant_value(X)
 
         if self.constant_value is None:
-            self._fit_expon(X)
+            self._fit_gamma(X)
             self._replace_methods()
         else:
             self._replace_constant_methods()
