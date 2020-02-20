@@ -1,11 +1,12 @@
 import warnings
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import numpy as np
 import pandas as pd
+from scipy import stats
 
-from copulas import get_qualified_name
+from copulas import EPSILON, get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from tests import compare_nested_dicts
 
@@ -557,3 +558,26 @@ class TestGaussianCopula(TestCase):
 
         covariance = instance.covariance
         assert (~pd.isnull(covariance)).all().all()
+
+    def test__transform_to_normal_numpy_1d(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_mock_a = Mock()
+        dist_mock_a.cdf.return_value = np.array([0, 0.5, 1])
+        dist_mock_b = Mock()
+        dist_mock_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        gm.distribs = {
+            'a': dist_mock_a,
+            'b': dist_mock_b,
+        }
+
+        # Run
+        returned = gm._transform_to_normal(np.array([3, 5]))
+
+        # Check
+        expected = stats.norm.ppf(np.array([
+            [EPSILON, 0.3],
+            [0.5, 0.5],
+            [1 - EPSILON, 0.7]
+        ]))
+        np.testing.assert_allclose(returned, expected)

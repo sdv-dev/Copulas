@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from copulas import check_valid_values, get_instance, get_qualified_name, random_state, store_args
+from copulas import (
+    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -54,10 +55,7 @@ class GaussianMultivariate(Multivariate):
         U = list()
         for column_name, distrib in self.distribs.items():
             column = X[column_name]
-            if distrib.constant_value is not None:
-                U.append(np.ones(column.shape) / 2.0)
-            else:
-                U.append(distrib.cdf(column))
+            U.append(distrib.cdf(column).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
