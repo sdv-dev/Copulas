@@ -1,7 +1,7 @@
 from scipy.stats import gamma
 
-from copulas import check_valid_values
-from copulas.univariate.base import ScipyWrapper
+from copulas import check_valid_values, store_args
+from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 
 class GammaUnivariate(ScipyWrapper):
@@ -18,9 +18,12 @@ class GammaUnivariate(ScipyWrapper):
     sample = 'rvs'
 
     fitted = False
-    parametric = True
     constant_value = None
 
+    PARAMETRIC = ParametricType.PARAMETRIC
+    BOUNDED = BoundedType.SEMI_BOUNDED
+
+    @store_args
     def __init__(self):
         self.a = None
         self.loc = None
@@ -30,8 +33,7 @@ class GammaUnivariate(ScipyWrapper):
         return gamma(self.a, loc=self.loc, scale=self.scale)
 
     def _fit_expon(self, X):
-        """Fit the gamma parameters to the data.
-        """
+        """Fit the gamma parameters to the data."""
         self.a, self.loc, self.scale = gamma.fit(X)
         self.model = self._get_model()
 

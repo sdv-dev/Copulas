@@ -5,7 +5,7 @@ import pandas as pd
 from scipy.stats import norm
 
 from copulas import check_valid_values, random_state, store_args
-from copulas.univariate.base import Univariate
+from copulas.univariate.base import BoundedType, ParametricType, Univariate
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +14,9 @@ class GaussianUnivariate(Univariate):
     """Gaussian univariate model."""
 
     fitted = False
-    parametric = True
+
+    PARAMETRIC = ParametricType.PARAMETRIC
+    BOUNDED = BoundedType.UNBOUNDED
 
     @store_args
     def __init__(self, *args, **kwargs):

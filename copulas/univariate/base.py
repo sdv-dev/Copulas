@@ -1,3 +1,6 @@
+from abc import ABC
+from enum import Enum
+
 import numpy as np
 import scipy.stats
 
@@ -5,11 +8,68 @@ from copulas import NotFittedError, check_valid_values, get_instance, get_qualif
 from copulas.univariate.selection import select_univariate
 
 
-class Univariate(object):
-    """ Abstract class for representing univariate distributions """
+class ParametricType(Enum):
+    NON_PARAMETRIC = 0
+    PARAMETRIC = 1
 
-    def __init__(self, parametric=None, random_seed=None):
-        self.parametric = parametric
+
+class BoundedType(Enum):
+    UNBOUNDED = 0
+    SEMI_BOUNDED = 1
+    BOUNDED = 2
+
+
+class Univariate(object):
+    """Univariate Distribution abstraction.
+
+    Args:
+        candidates (list[str or type or Univariate]):
+            List of candidates to select the best univariate from.
+            It can be a list of distribution FQNs, or a list of
+            Univariate subclasses or a list of instances.
+        parametric (ParametricType):
+            If not ``None``, only select subclasses of this type.
+            Ignored if ``candidates`` is passed.
+        bounded (BoundedType):
+            If not ``None``, only select subclasses of this type.
+            Ignored if ``candidates`` is passed.
+        random_seed (int):
+            Random seed to use.
+    """
+
+    PARAMETRIC = ParametricType.NON_PARAMETRIC
+    BOUNDED = BoundedType.UNBOUNDED
+
+    @classmethod
+    def _select_candidates(cls, parametric=None, bounded=None):
+        """Select which subclasses fulfill the specified constriants.
+
+        Args:
+            parametric (ParametricType):
+                If not ``None``, only select subclasses of this type.
+            bounded (BoundedType):
+                If not ``None``, only select subclasses of this type.
+
+        Returns:
+            list:
+                Selected subclasses.
+        """
+        candidates = list()
+        for subclass in cls.__subclasses__():
+            candidates.extend(subclass._select_candidates(parametric, bounded))
+            if ABC in subclass.__bases__:
+                continue
+            if parametric is not None and subclass.PARAMETRIC != parametric:
+                continue
+            if bounded is not None and subclass.BOUNDED != bounded:
+                continue
+
+            candidates.append(subclass)
+
+        return candidates
+
+    def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None):
+        self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_seed = random_seed
         self.fitted = False
         self.constant_value = None
@@ -34,7 +94,8 @@ class Univariate(object):
         """
         self.constant_value = self._get_constant_value(X)
         if self.constant_value is None:
-            self._instance = select_univariate(X, parametric=self.parametric)
+            self._instance = select_univariate(X, self.candidates)
+            self._instance.fit(X)
         else:
             self._replace_constant_methods()
 
@@ -224,7 +285,7 @@ class Univariate(object):
         self.sample = self._constant_sample
 
 
-class ScipyWrapper(Univariate):
+class ScipyWrapper(Univariate, ABC):
     """Wrapper for :attr:`scipy.stats.rv_continous` subclasses.
 
     This class is intended to be used to integrate random variables from :attr:`scipy.stats`
