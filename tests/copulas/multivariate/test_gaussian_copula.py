@@ -562,17 +562,54 @@ class TestGaussianCopula(TestCase):
     def test__transform_to_normal_numpy_1d(self):
         # Setup
         gm = GaussianMultivariate()
-        dist_mock_a = Mock()
-        dist_mock_a.cdf.return_value = np.array([0, 0.5, 1])
-        dist_mock_b = Mock()
-        dist_mock_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3])
         gm.distribs = {
-            'a': dist_mock_a,
-            'b': dist_mock_b,
+            'a': dist_a,
+            'b': dist_b,
         }
 
         # Run
         returned = gm._transform_to_normal(np.array([3, 5]))
+
+        # Check
+        data = np.array([
+            [EPSILON, 0.3],
+        ])
+        expected = stats.norm.ppf(data)
+        np.testing.assert_allclose(expected, returned)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_numpy_2d(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0, 0.5, 1])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        gm.distribs = {
+            'a': dist_a,
+            'b': dist_b,
+        }
+
+        # Run
+        data = np.array([
+            [3, 5],
+            [4, 6],
+            [5, 7],
+        ])
+        returned = gm._transform_to_normal(data)
 
         # Check
         expected = stats.norm.ppf(np.array([
@@ -581,3 +618,82 @@ class TestGaussianCopula(TestCase):
             [1 - EPSILON, 0.7]
         ]))
         np.testing.assert_allclose(returned, expected)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3, 4, 5])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5, 6, 7])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_series(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3])
+        gm.distribs = {
+            'a': dist_a,
+            'b': dist_b,
+        }
+
+        # Run
+        data = pd.Series({'a': 3, 'b': 5})
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        expected = stats.norm.ppf(np.array([
+            [EPSILON, 0.3],
+        ]))
+        np.testing.assert_allclose(expected, returned)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+    def test__transform_to_normal_dataframe(self):
+        # Setup
+        gm = GaussianMultivariate()
+        dist_a = Mock()
+        dist_a.cdf.return_value = np.array([0, 0.5, 1])
+        dist_b = Mock()
+        dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
+        gm.distribs = {
+            'a': dist_a,
+            'b': dist_b,
+        }
+
+        # Run
+        data = pd.DataFrame({
+            'a': [3, 4, 5],
+            'b': [5, 6, 7]
+        })
+        returned = gm._transform_to_normal(data)
+
+        # Check
+        expected = stats.norm.ppf(np.array([
+            [EPSILON, 0.3],
+            [0.5, 0.5],
+            [1 - EPSILON, 0.7]
+        ]))
+        np.testing.assert_allclose(returned, expected)
+
+        assert dist_a.cdf.call_count == 1
+        expected = np.array([3, 4, 5])
+        passed = dist_a.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
+
+        assert dist_b.cdf.call_count == 1
+        expected = np.array([5, 6, 7])
+        passed = dist_b.cdf.call_args[0][0]
+        np.testing.assert_allclose(expected, passed)
