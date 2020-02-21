@@ -3,11 +3,34 @@ from unittest import TestCase
 import numpy as np
 from scipy.stats import truncnorm
 
-from copulas.univariate import GaussianKDE, GaussianUnivariate, TruncatedGaussian, Univariate
+from copulas.univariate import GaussianKDE, GaussianUnivariate, TruncatedGaussian
 from copulas.univariate.selection import ks_statistic, select_univariate
 
 
-class TestUnivariateSelection(TestCase):
+class TestSelectUnivariate(TestCase):
+
+    def setUp(self):
+        size = 1000
+        np.random.seed(42)
+
+        # Mixture of Normals
+        mask = np.random.normal(size=size) > 0.5
+        mode1 = np.random.normal(size=size) * mask
+        mode2 = np.random.normal(size=size, loc=10) * (1.0 - mask)
+        self.bimodal_data = mode1 + mode2
+
+        self.candidates = [GaussianKDE, GaussianUnivariate, TruncatedGaussian]
+
+    def test_select_univariate(self):
+        """
+        Suppose the data follows a bimodal distribution. The model selector should be able to
+        figure out that the GaussianKDE is best.
+        """
+        model = select_univariate(self.bimodal_data, self.candidates)
+        assert isinstance(model, GaussianKDE)
+
+
+class TestKSStatistic(TestCase):
 
     def setUp(self):
         size = 1000
@@ -22,25 +45,9 @@ class TestUnivariateSelection(TestCase):
 
         # Mixture of Normals
         mask = np.random.normal(size=size) > 0.5
-        self.bimodal_data = np.random.normal(size=size) * mask + \
-            np.random.normal(size=size, loc=10) * (1.0 - mask)
-
-    def test_select_univariate(self):
-        """
-        Suppose the data follows a bimodal distribution. The model selector should be able to
-        figure out that the GaussianKDE is best.
-        """
-        model = select_univariate(self.bimodal_data)
-        assert isinstance(model, GaussianKDE)
-
-    def test_base_univariate(self):
-        """
-        Suppose the data follows a bimodal distribution. If we use the base Univariate class
-        to fit the data, it should automatically select the GaussianKDE.
-        """
-        model = Univariate()
-        model.fit(self.bimodal_data)
-        assert isinstance(model._instance, GaussianKDE)
+        mode1 = np.random.normal(size=size) * mask
+        mode2 = np.random.normal(size=size, loc=10) * (1.0 - mask)
+        self.bimodal_data = mode1 + mode2
 
     def test_binary(self):
         """

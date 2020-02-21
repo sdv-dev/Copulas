@@ -1,7 +1,7 @@
 from scipy.stats import beta
 
-from copulas import check_valid_values
-from copulas.univariate.base import ScipyWrapper
+from copulas import check_valid_values, store_args
+from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 
 class BetaUnivariate(ScipyWrapper):
@@ -20,6 +20,10 @@ class BetaUnivariate(ScipyWrapper):
     fitted = False
     constant_value = None
 
+    PARAMETRIC = ParametricType.PARAMETRIC
+    BOUNDED = BoundedType.BOUNDED
+
+    @store_args
     def __init__(self):
         self.a = None
         self.b = None

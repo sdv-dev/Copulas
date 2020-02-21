@@ -1,8 +1,8 @@
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
-from copulas import EPSILON, check_valid_values
-from copulas.univariate.base import ScipyWrapper
+from copulas import EPSILON, check_valid_values, store_args
+from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 
 class TruncatedGaussian(ScipyWrapper):
@@ -24,6 +24,10 @@ class TruncatedGaussian(ScipyWrapper):
     mean = None
     std = None
 
+    PARAMETRIC = ParametricType.PARAMETRIC
+    BOUNDED = BoundedType.BOUNDED
+
+    @store_args
     def __init__(self, min=None, max=None, random_seed=None):
         self.random_seed = random_seed
         self.min = min

@@ -1,37 +1,127 @@
 from unittest import TestCase
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, call, patch
 
 import numpy as np
 
-from copulas.univariate import GaussianKDE
-from copulas.univariate.base import ScipyWrapper, Univariate
+from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper, Univariate
+from copulas.univariate.beta import BetaUnivariate
+from copulas.univariate.gamma import GammaUnivariate
+from copulas.univariate.gaussian import GaussianUnivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from tests import compare_nested_iterables
 
 
 class TestUnivariate(TestCase):
 
-    def test_fit(self):
+    def test__select_candidates(self):
+        # Run
+        candidates = Univariate._select_candidates()
+
+        # Assert
+        assert set(candidates) == {
+            GaussianKDE,
+            GaussianUnivariate,
+            TruncatedGaussian,
+            BetaUnivariate,
+            GammaUnivariate
+        }
+
+    def test__select_candidates_parametric(self):
+        # Run
+        candidates = Univariate._select_candidates(parametric=ParametricType.PARAMETRIC)
+
+        # Assert
+        assert set(candidates) == {
+            GaussianUnivariate,
+            TruncatedGaussian,
+            BetaUnivariate,
+            GammaUnivariate
+        }
+
+    def test__select_candidates_non_parametric(self):
+        # Run
+        candidates = Univariate._select_candidates(parametric=ParametricType.NON_PARAMETRIC)
+
+        # Assert
+        assert candidates == [GaussianKDE]
+
+    def test__select_candidates_bounded(self):
+        # Run
+        candidates = Univariate._select_candidates(bounded=BoundedType.BOUNDED)
+
+        # Assert
+        assert set(candidates) == {
+            TruncatedGaussian,
+            BetaUnivariate,
+        }
+
+    def test__select_candidates_unbounded(self):
+        # Run
+        candidates = Univariate._select_candidates(bounded=BoundedType.UNBOUNDED)
+
+        # Assert
+        assert set(candidates) == {
+            GaussianKDE,
+            GaussianUnivariate,
+        }
+
+    def test__select_candidates_semibounded(self):
+        # Run
+        candidates = Univariate._select_candidates(bounded=BoundedType.SEMI_BOUNDED)
+
+        # Assert
+        assert set(candidates) == {
+            GammaUnivariate,
+        }
+
+    def test_fit_contant(self):
+        """if constant values, replace methods."""
+        # Setup
+        distribution = Univariate()
+        replace_mock = MagicMock()
+        distribution._replace_constant_methods = replace_mock
+
+        # Run
+        distribution.fit(np.array([1, 1, 1, 1, 1]))
+
+        # Assert
+        assert distribution.fitted
+        assert distribution.constant_value == 1
+        replace_mock.assert_called_once_with()
+
+    @patch('copulas.univariate.base.select_univariate')
+    def test_fit_not_contant(self, select_mock):
+        """if not constant call select_univariate and fit the returned instance.
+
+        Check that candidates are passed down to select_univariate
+        and that the returned instance is fitted on the input data.
         """
-        The fit function on the base class should select the best model from the
-        subclasses using the KS statistic.
-        """
-        size = 5000
-        np.random.seed(42)
-        mask = np.random.randint(0, 2, size=size)
-        bimodal_data = np.random.normal(size=size) * mask + \
-            np.random.normal(size=size, loc=10) * (1.0 - mask)
+        # Setup
+        candidate = MagicMock()
+        candidates = [candidate]
+        distribution = Univariate(candidates)
 
-        uni = Univariate()
-        uni.fit(bimodal_data)
+        # Run
+        data = np.array([1, 2, 3, 4, 5])
+        distribution.fit(data)
 
-        assert isinstance(uni._instance, GaussianKDE)
-        self.assertAlmostEqual(uni.cdf([5.0])[0], 0.5, places=2)
-        self.assertAlmostEqual(uni.pdf([0.3])[0], 0.14, places=2)
+        # Assert
+        assert distribution.fitted
+        assert distribution.constant_value is None
 
-        X = uni.sample(size)
-        print(X.shape, bimodal_data.shape)
-        assert len(X) == size
-        self.assertAlmostEqual(np.mean(X), 5.0, places=1)
+        # candidates are passed down
+        assert select_mock.call_count == 1
+        expected_call = call(data, candidates)[1:]
+        actual_call = select_mock.call_args
+        compare_nested_iterables(expected_call, actual_call)
+
+        # the returned instance is fitted
+        instance = select_mock.return_value
+        assert instance.fit.call_count == 1
+        expected_call = call(data)[1:]
+        actual_call = instance.fit.call_args
+        compare_nested_iterables(expected_call, actual_call)
 
     def test_get_constant_value(self):
         """get_constant_value return the unique value of an array if it exists."""

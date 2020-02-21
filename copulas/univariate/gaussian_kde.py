@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 
 from copulas import scalarize, store_args, vectorize
-from copulas.univariate.base import ScipyWrapper
+from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 
 class GaussianKDE(ScipyWrapper):
@@ -24,6 +24,9 @@ class GaussianKDE(ScipyWrapper):
     probability_density = 'evaluate'
     log_probability_density = 'logpdf'
     sample = 'resample'
+
+    PARAMETRIC = ParametricType.NON_PARAMETRIC
+    BOUNDED = BoundedType.UNBOUNDED
 
     @store_args
     def __init__(self, sample_size=None, *args, **kwargs):
