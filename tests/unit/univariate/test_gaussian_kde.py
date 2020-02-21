@@ -165,6 +165,8 @@ class TestGaussianKDE(TestCase):
         # Setup
         parameters = {
             'fitted': True,
+            'lower': -10.0,
+            'upper': 10.0,
             'dataset': [[
                 0.4967141530112327,
                 -0.13826430117118466,
@@ -227,6 +229,8 @@ class TestGaussianKDE(TestCase):
         expected_result = {
             'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
             'fitted': True,
+            'lower': -3.8990040374074275,
+            'upper': 5.008742466979867,
             'dataset': [[
                 0.4967141530112327,
                 -0.13826430117118466,

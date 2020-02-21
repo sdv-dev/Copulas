@@ -134,6 +134,8 @@ class GaussianKDE(ScipyWrapper):
 
             else:
                 instance.model = scipy.stats.gaussian_kde(X)
+                instance.lower = copula_dict['lower']
+                instance.upper = copula_dict['upper']
 
         return instance
 
@@ -144,5 +146,7 @@ class GaussianKDE(ScipyWrapper):
             }
 
         return {
+            'lower': self.lower,
+            'upper': self.upper,
             'dataset': self.model.dataset.tolist(),
         }

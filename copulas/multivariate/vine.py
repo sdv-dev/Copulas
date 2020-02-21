@@ -283,7 +283,7 @@ class VineCopula(Multivariate):
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 
-                new_x = self.ppfs[current](tmp)
+                new_x = self.ppfs[current](np.array([tmp]))
 
             sampled[current] = new_x
 

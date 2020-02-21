@@ -1,4 +1,4 @@
-from copulas.univariate.base import Univariate
+from copulas.univariate.base import BoundedType, ParametricType, Univariate
 from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
 from copulas.univariate.gaussian import GaussianUnivariate
@@ -12,4 +12,6 @@ __all__ = (
     'GaussianUnivariate',
     'TruncatedGaussian',
     'Univariate',
+    'ParametricType',
+    'BoundedType'
 )
