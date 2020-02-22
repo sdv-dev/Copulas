@@ -1,0 +1,35 @@
+{
+    "test": {
+        "class": "copulas.bivariate.clayton.Clayton",
+        "kwargs": {}
+    },
+    "input": "bivariate_fit_1.csv",
+    "output": {
+        "R": {
+            "theta": 7.42180109409347,
+            "tau": 0.787726361443376
+        },
+        "M": {
+            "theta": 7.42180109409347,
+            "tau": 0.787726361443376
+        }
+    },
+    "settings": {
+        "rtol": 1e-7
+    },
+    "metadata": {
+        "test_type": "bivariate_fit",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "input": "bivariate_fit_dataset_1.py",
+            "output": {
+                "R": "bivariate_fit_clayton_1.r",
+                "M": "bivariate_fit_clayton_1.m"
+            }
+        },
+        "description": "Test Clayton on a dataset with X, Y, Z properties.",
+        "parameters": {
+            "description": "here we would put any parameters that define the input data"
+        }
+    }
+}
