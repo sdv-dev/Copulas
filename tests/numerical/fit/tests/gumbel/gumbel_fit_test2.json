@@ -23,13 +23,13 @@
         "scripts": {
             "input": "bivariate_fit_dataset_2.py",
             "output": {
-                "R": "bivariate_fit_gumbel_2.r",
-                "M": "bivariate_fit_gumbel_2.m"
+                "R": "bivariate_fit.r",
+                "M": "bivariate_fit.m"
             }
         },
-        "description": "Test Gumbel on a dataset with X, Y, Z properties.",
+        "description": "Test Gumbel on a weakly correlated dataset.",
         "parameters": {
-            "description": "here we would put any parameters that define the input data"
+            "description": ""
         }
     }
 }

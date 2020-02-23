@@ -45,13 +45,13 @@
         "dataset_type": "handcrafted",
         "scripts": {
             "output": {
-                "R": "bivariate_pdf_frank_1.r",
-                "M": "bivariate_pdf_frank_1.m"
+                "R": "bivariate_pdf.r",
+                "M": "bivariate_pdf.m"
             }
         },
-        "description": "Test Frank on a dataset with X, Y, Z properties.",
+        "description": "Evaluate the Frank PDF with a large theta.",
         "parameters": {
-            "description": "here we would put any parameters that define the input data"
+            "description": ""
         }
     }
 }

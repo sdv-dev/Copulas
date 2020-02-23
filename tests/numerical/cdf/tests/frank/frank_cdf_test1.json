@@ -45,13 +45,13 @@
         "dataset_type": "handcrafted",
         "scripts": {
             "output": {
-                "R": "bivariate_cdf_frank_1.r",
-                "M": "bivariate_cdf_frank_1.m"
+                "R": "bivariate_cdf.r",
+                "M": "bivariate_cdf.m"
             }
         },
-        "description": "Test Frank on a dataset with X, Y, Z properties.",
+        "description": "Evaluate the Frank CDF with a small theta.",
         "parameters": {
-            "description": "here we would put any parameters that define the input data"
+            "description": ""
         }
     }
 }
