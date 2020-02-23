@@ -1,0 +1,57 @@
+{
+    "test": {
+        "class": "copulas.bivariate.frank.Frank",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 3.4,
+        "points": "bivariate_pdf_1.csv"
+    },
+    "output": {
+        "R": [
+            1.34925321734119,
+            1.33013955938218,
+            0.770109992016659,
+            0.478371203250498,
+            1.02570289596729,
+            1.178118868987,
+            1.030119461396,
+            0.732268609744275,
+            0.730419430734283,
+            0.946290140121773,
+            1.2707528930713,
+            1.08989972786017
+        ],
+        "M": [
+            1.34925321734119,
+            1.33013955938218,
+            0.770109992016659,
+            0.478371203250498,
+            1.02570289596729,
+            1.178118868987,
+            1.030119461396,
+            0.732268609744275,
+            0.730419430734283,
+            0.946290140121773,
+            1.2707528930713,
+            1.08989972786017
+        ]
+    },
+    "settings": {
+        "rtol": 1e-3
+    },
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_pdf_frank_1.r",
+                "M": "bivariate_pdf_frank_1.m"
+            }
+        },
+        "description": "Test Frank on a dataset with X, Y, Z properties.",
+        "parameters": {
+            "description": "here we would put any parameters that define the input data"
+        }
+    }
+}

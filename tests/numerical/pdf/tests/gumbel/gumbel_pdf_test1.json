@@ -1,0 +1,57 @@
+{
+    "test": {
+        "class": "copulas.bivariate.gumbel.Gumbel",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 1.6,
+        "points": "bivariate_pdf_1.csv"
+    },
+    "output": {
+        "R": [
+            1.3466603461109,
+            1.33436989228653,
+            0.844034579550222,
+            0.401584644502942,
+            1.10035364987839,
+            1.22397629649902,
+            1.07651272051626,
+            0.574400583179372,
+            0.840259033271954,
+            1.02839689426663,
+            1.33135685092464,
+            0.868366681780188
+        ],
+        "M": [
+            1.3466603461109,
+            1.33436989228653,
+            0.844034579550222,
+            0.401584644502942,
+            1.10035364987839,
+            1.22397629649902,
+            1.07651272051626,
+            0.574400583179372,
+            0.840259033271954,
+            1.02839689426663,
+            1.33135685092464,
+            0.868366681780188
+        ]
+    },
+    "settings": {
+        "rtol": 1e-3
+    },
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_pdf_gumbel_1.r",
+                "M": "bivariate_pdf_gumbel_1.m"
+            }
+        },
+        "description": "Test Gumbel on a dataset with X, Y, Z properties.",
+        "parameters": {
+            "description": "here we would put any parameters that define the input data"
+        }
+    }
+}

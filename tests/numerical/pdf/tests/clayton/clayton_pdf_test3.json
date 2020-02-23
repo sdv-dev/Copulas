@@ -1,0 +1,57 @@
+{
+    "test": {
+        "class": "copulas.bivariate.clayton.Clayton",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 3.4,
+        "points": "bivariate_pdf_1.csv"
+    },
+    "output": {
+        "R": [
+            1.66831295188595,
+            2.79188296185109,
+            0.40874864341373,
+            0.157718422973629,
+            0.457715573846014,
+            1.60410053335096,
+            1.06489873408946,
+            0.498317089542651,
+            0.156090720927004,
+            0.716631904731686,
+            1.68002761624311,
+            1.09146186841411
+        ],
+        "M": [
+            1.66831295188595,
+            2.79188296185109,
+            0.40874864341373,
+            0.157718422973629,
+            0.457715573846014,
+            1.60410053335096,
+            1.06489873408946,
+            0.498317089542651,
+            0.156090720927004,
+            0.716631904731686,
+            1.68002761624311,
+            1.09146186841411
+        ]
+    },
+    "settings": {
+        "rtol": 1e-3
+    },
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_pdf_clayton_1.r",
+                "M": "bivariate_pdf_clayton_1.m"
+            }
+        },
+        "description": "Test Clayton on a dataset with X, Y, Z properties.",
+        "parameters": {
+            "description": "here we would put any parameters that define the input data"
+        }
+    }
+}
