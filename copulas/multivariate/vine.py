@@ -207,7 +207,10 @@ class VineCopula(Multivariate):
             LOGGER.debug('finish building tree: {0}'.format(k))
 
     def get_likelihood(self, uni_matrix):
-        """Compute likelihood of the vine."""
+        """Compute likelihood of the vine.
+
+        TODO: explain what this is supposed to do and make it work
+        """
         num_tree = len(self.trees)
         values = np.empty([1, num_tree])
 
@@ -272,16 +275,13 @@ class VineCopula(Multivariate):
                         copula_type = current_tree[current_ind].name
                         copula = Bivariate(copula_type=CopulaTypes(copula_type))
                         copula.theta = current_tree[current_ind].theta
-                        derivative = copula.partial_derivative_scalar
 
-                        def f(u, y):
-                            return derivative(u, unis[visited[0]]) - y
-
+                        U = np.array([unis[visited[0]]])
                         if i == itr - 1:
-                            tmp = optimize.brentq(f, EPSILON, 1.0, args=(unis[current],))
-
+                            Q = np.array([unis[current]])
                         else:
-                            tmp = optimize.brentq(f, EPSILON, 1.0, args=(tmp,))
+                            Q = np.array([tmp])
+                        tmp = copula.percent_point(Q, U)[0]
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 
