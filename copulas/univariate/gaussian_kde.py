@@ -2,6 +2,7 @@ from functools import partial
 
 import numpy as np
 import scipy
+from scipy.special import ndtr
 
 from copulas import scalarize, store_args, vectorize
 from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
@@ -47,6 +48,8 @@ class GaussianKDE(ScipyWrapper):
             self._replace_constant_methods()
 
         self.fitted = True
+        self.lower = self.model.dataset.min() - (5 * self.model.dataset.std())
+        self.upper = self.model.dataset.max() + (5 * self.model.dataset.std())
 
     def sample(self, n_samples=1):
         self.check_fit()
@@ -61,15 +64,10 @@ class GaussianKDE(ScipyWrapper):
         Returns:
             numpy.array: estimated cumulative distribution.
         """
-        self.check_fit()
-
-        low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
-
-        result = []
-        for value in X:
-            result.append(self.model.integrate_box_1d(low_bounds, value))
-
-        return np.array(result)
+        stdev = np.sqrt(self.model.covariance[0,0])
+        lower = ndtr((self.lower-self.model.dataset) / stdev)[0]
+        uppers = np.vstack([ndtr((x - self.model.dataset) / stdev)[0] for x in X])
+        return (uppers - lower).dot(self.model.weights)
 
     def _brentq_cdf(self, value):
         """Helper function to compute percent_point.
@@ -109,7 +107,7 @@ class GaussianKDE(ScipyWrapper):
         """
         self.check_fit()
 
-        return scipy.optimize.brentq(self._brentq_cdf(U), -1000.0, 1000.0)
+        return scipy.optimize.brentq(self._brentq_cdf(U), self.lower, self.upper)
 
     @classmethod
     def from_dict(cls, copula_dict):

@@ -127,7 +127,7 @@ class TestGaussianKDE(TestCase):
 
         # <kde_mock.assert_called_once_with(fit_data)
         model_mock.evaluate.assert_called_once_with(call_data)
-
+    
     @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
     def test_cumulative_distribution(self, kde_mock):
         """cumulative_distribution evaluates with the model."""

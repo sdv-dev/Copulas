@@ -76,4 +76,4 @@ class Independence(Bivariate):
 
         """
         self.check_fit()
-        return V
+        return y
