@@ -1,0 +1,31 @@
+{
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_cdf.r",
+                "M": "bivariate_cdf.m"
+            }
+        },
+        "description": "Evaluate the Gumbel CDF with a large theta.",
+        "parameters": {
+            "description": ""
+        }
+    },
+    "test": {
+        "class": "copulas.bivariate.gumbel.Gumbel",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 3.4,
+        "points": "bivariate_cdf_input_1.csv"
+    },
+    "output": {
+        "R": "gumbel_cdf_output_test2_R.csv",
+        "M": "gumbel_cdf_output_test2_M.csv"
+    },
+    "settings": {
+        "rtol": 1e-3
+    }
+}

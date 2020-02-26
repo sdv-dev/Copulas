@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 from scipy.special import ndtr
 
-from copulas import scalarize, store_args, vectorize, EPSILON
+from copulas import EPSILON, scalarize, store_args, vectorize
 from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 

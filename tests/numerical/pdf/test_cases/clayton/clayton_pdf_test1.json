@@ -1,0 +1,31 @@
+{
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_pdf.r",
+                "M": "bivariate_pdf.m"
+            }
+        },
+        "description": "Evaluate the Clayton PDF with a small theta.",
+        "parameters": {
+            "description": ""
+        }
+    },
+    "test": {
+        "class": "copulas.bivariate.clayton.Clayton",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 0.7,
+        "points": "bivariate_pdf_input_1.csv"
+    },
+    "output": {
+        "R": "clayton_pdf_output_test1_R.csv",
+        "M": "clayton_pdf_output_test1_M.csv"
+    },
+    "settings": {
+        "rtol": 1e-3
+    }
+}

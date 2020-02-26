@@ -110,6 +110,14 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 test: ## run tests quickly with the default Python
 	python -m pytest --cov=copulas
 
+.PHONY: test-unit
+test-unit: ## run tests quickly with the default Python
+	python -m pytest --cov=copulas tests/unit
+
+.PHONY: test-numerical
+test-numerical: ## run tests quickly with the default Python
+	python -m pytest --cov=copulas tests/numerical
+
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
 	tox -r

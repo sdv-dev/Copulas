@@ -1,0 +1,31 @@
+{
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_cdf.r",
+                "M": "bivariate_cdf.m"
+            }
+        },
+        "description": "Evaluate the Clayton CDF with a medium theta.",
+        "parameters": {
+            "description": ""
+        }
+    },
+    "test": {
+        "class": "copulas.bivariate.clayton.Clayton",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 1.6,
+        "points": "bivariate_cdf_input_1.csv"
+    },
+    "output": {
+        "R": "clayton_cdf_output_test2_R.csv",
+        "M": "clayton_cdf_output_test2_M.csv"
+    },
+    "settings": {
+        "rtol": 1e-3
+    }
+}
