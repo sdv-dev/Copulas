@@ -127,68 +127,29 @@ class TestGaussianKDE(TestCase):
 
         # <kde_mock.assert_called_once_with(fit_data)
         model_mock.evaluate.assert_called_once_with(call_data)
-    
-    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
-    def test_cumulative_distribution(self, kde_mock):
+
+    def test_cumulative_distribution(self):
         """cumulative_distribution evaluates with the model."""
         # Setup
-        model_mock = kde_mock.return_value
-        model_mock.integrate_box_1d.side_effect = [0.0, 0.5, 1.0]
-
-        model_mock.dataset = MagicMock()
-        model_mock.dataset.mean.return_value = 1
-        model_mock.dataset.std.return_value = 0.1
-
-        fit_data = np.array([1, 2, 3, 4, 5])
         instance = GaussianKDE()
-        instance.fit(fit_data)
+        instance.fit(np.array([0.9, 1.0, 1.1]))
+        cdf = instance.cumulative_distribution(np.array([
+            0.0,  # There is no data below this (cdf = 0.0).
+            1.0,  # Half the data is below this (cdf = 0.5).
+            2.0,  # All the data is below this (cdf = 1.0).
+            -1.0  # There is no data below this (cdf = 0).
+        ]))
+        assert np.all(np.isclose(cdf, np.array([0.0, 0.5, 1.0, 0.0]), atol=1e-3))
 
-        call_data = np.array([-10, 0, 10])
-        expected_result = np.array([0.0, 0.5, 1.0])
-
-        expected_integrate_1d_box_call_args_list = [
-            ((0.5, -10), {}),  # The first argument is the lower_bound (1 - 0.1*5)
-            ((0.5, 0), {}),
-            ((0.5, 10), {}),
-        ]
-
-        # Run
-        result = instance.cumulative_distribution(call_data)
-
-        # Check
-        compare_nested_iterables(result, expected_result)
-
-        kde_mock.assert_called_once_with(fit_data)
-        assert (model_mock.integrate_box_1d.call_args_list
-                == expected_integrate_1d_box_call_args_list)
-
-    @patch('copulas.univariate.gaussian_kde.GaussianKDE._brentq_cdf', autospec=True)
-    @patch('copulas.univariate.gaussian_kde.scipy.optimize.brentq', autospec=True)
-    @patch('copulas.univariate.gaussian_kde.scipy.stats.gaussian_kde', autospec=True)
-    def test_percent_point(self, kde_mock, brentq_mock, cdf_mock):
+    def test_percent_point(self):
         """percent_point evaluates with the model."""
         # Setup
-        model_mock = kde_mock.return_value
-        brentq_mock.return_value = -250.0
-        cdf_mock.return_value = 'a nice scalar bounded method'
-
-        fit_data = np.array([1, 2, 3, 4, 5])
         instance = GaussianKDE()
-        instance.fit(fit_data)
-
-        expected_result = np.array([-250.0])
-
-        # Run
-        result = instance.percent_point([0.5])
-
-        # Check
-        assert result == expected_result
-
-        kde_mock.assert_called_once_with(fit_data)
-        model_mock.assert_not_called()
-        assert len(model_mock.method_calls) == 0
-
-        brentq_mock.assert_called_once_with('a nice scalar bounded method', -1000, 1000)
+        instance.fit(np.array([0.5, 1.0, 1.5]))
+        cdf = instance.percent_point(np.array([0.001, 0.5, 0.999]))
+        assert cdf[0] < 0.0, "The 0.001th percentile should be small."
+        assert abs(cdf[1] - 1.0) < 0.1, "The 50% percentile should be the median."
+        assert cdf[2] > 2.0, "The 0.999th percentile should be large."
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
@@ -197,7 +158,7 @@ class TestGaussianKDE(TestCase):
         instance.fit(fit_data)
 
         with self.assertRaises(ValueError):
-            instance.percent_point([2.])
+            instance.percent_point(np.array([2.]))
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""

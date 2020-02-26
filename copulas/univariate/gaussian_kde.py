@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 from scipy.special import ndtr
 
-from copulas import scalarize, store_args, vectorize
+from copulas import scalarize, store_args, vectorize, EPSILON
 from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
 
 
@@ -48,8 +48,8 @@ class GaussianKDE(ScipyWrapper):
             self._replace_constant_methods()
 
         self.fitted = True
-        self.lower = self.model.dataset.min() - (5 * self.model.dataset.std())
-        self.upper = self.model.dataset.max() + (5 * self.model.dataset.std())
+        self.lower = X.min() - (5 * X.std())
+        self.upper = X.max() + (5 * X.std())
 
     def sample(self, n_samples=1):
         self.check_fit()
@@ -64,8 +64,8 @@ class GaussianKDE(ScipyWrapper):
         Returns:
             numpy.array: estimated cumulative distribution.
         """
-        stdev = np.sqrt(self.model.covariance[0,0])
-        lower = ndtr((self.lower-self.model.dataset) / stdev)[0]
+        stdev = np.sqrt(self.model.covariance[0, 0])
+        lower = ndtr((self.lower - self.model.dataset) / stdev)[0]
         uppers = np.vstack([ndtr((x - self.model.dataset) / stdev)[0] for x in X])
         return (uppers - lower).dot(self.model.weights)
 
@@ -106,8 +106,18 @@ class GaussianKDE(ScipyWrapper):
             numpy.array: value in original space
         """
         self.check_fit()
+        if np.any(U > 1.0) or np.any(U < 0.0):
+            raise ValueError("Expected values in range [0.0, 1.0].")
 
-        return scipy.optimize.brentq(self._brentq_cdf(U), self.lower, self.upper)
+        is_one = U >= 1.0 - EPSILON
+        is_zero = U <= EPSILON
+        is_valid = not (is_zero or is_one)
+
+        X = np.zeros(U.shape)
+        X[is_one] = float("inf")
+        X[is_zero] = float("-inf")
+        X[is_valid] = scipy.optimize.brentq(self._brentq_cdf(U[is_valid]), self.lower, self.upper)
+        return X
 
     @classmethod
     def from_dict(cls, copula_dict):

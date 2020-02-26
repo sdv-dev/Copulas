@@ -1,7 +1,8 @@
 import numpy as np
-
 from scipy.stats import kstest
+
 from copulas import get_instance
+
 
 def select_univariate(X, candidates):
     best_ks = np.inf

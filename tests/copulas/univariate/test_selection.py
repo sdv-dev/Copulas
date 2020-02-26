@@ -31,7 +31,9 @@ class TestSelectUnivariate(TestCase):
         Suppose the data follows a bimodal distribution. The model selector should be able to
         figure out that the GaussianKDE is best.
         """
-        model = select_univariate(self.bimodal_data, [GaussianKDE, GaussianUnivariate, TruncatedGaussian])
+        model = select_univariate(
+            self.bimodal_data, [
+                GaussianKDE, GaussianUnivariate, TruncatedGaussian])
         assert isinstance(model, GaussianKDE)
 
     def test_binary(self):

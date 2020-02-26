@@ -2,7 +2,6 @@ import logging
 
 import numpy as np
 import pandas as pd
-from scipy import optimize
 
 from copulas import EPSILON, check_valid_values, get_qualified_name, random_state, store_args
 from copulas.bivariate.base import Bivariate, CopulaTypes
@@ -278,10 +277,9 @@ class VineCopula(Multivariate):
 
                         U = np.array([unis[visited[0]]])
                         if i == itr - 1:
-                            Q = np.array([unis[current]])
+                            tmp = copula.percent_point(np.array([unis[current]]), U)[0]
                         else:
-                            Q = np.array([tmp])
-                        tmp = copula.percent_point(Q, U)[0]
+                            tmp = copula.percent_point(np.array([tmp]), U)[0]
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 
