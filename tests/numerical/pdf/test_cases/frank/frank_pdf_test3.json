@@ -1,0 +1,32 @@
+{
+
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts": {
+            "output": {
+                "R": "bivariate_pdf.r",
+                "M": "bivariate_pdf.m"
+            }
+        },
+        "description": "Evaluate the Frank PDF with a large theta.",
+        "parameters": {
+            "description": ""
+        }
+    },
+    "test": {
+        "class": "copulas.bivariate.frank.Frank",
+        "kwargs": {}
+    },
+    "input": {
+        "theta": 3.4,
+        "points": "bivariate_pdf_input_1.csv"
+    },
+    "output": {
+        "R": "frank_pdf_output_test3_R.csv",
+        "M": "frank_pdf_output_test3_M.csv"
+    },
+    "settings": {
+        "rtol": 1e-3
+    }
+}
