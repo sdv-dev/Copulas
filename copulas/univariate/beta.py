@@ -1,3 +1,4 @@
+import numpy as np
 from scipy.stats import beta
 
 from copulas import check_valid_values, store_args
@@ -36,7 +37,9 @@ class BetaUnivariate(ScipyWrapper):
     def _fit_beta(self, X):
         """Fit the beta parameters to the data.
         """
-        self.a, self.b, self.loc, self.scale = beta.fit(X)
+        self.loc = np.min(X)
+        self.scale = np.max(X) - self.loc
+        self.a, self.b, _, _ = beta.fit(X, loc=self.loc, scale=self.scale)
         self.model = self._get_model()
 
     @check_valid_values
