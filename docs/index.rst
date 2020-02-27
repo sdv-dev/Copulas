@@ -2,16 +2,16 @@
 
 .. toctree::
    :hidden:
-   :titlesonly:
    :maxdepth: 2
 
    readme
+   tutorials/getting_started
 
 .. toctree::
    :caption: Tutorials
    :glob:
 
-   tutorials/*
+   tutorials/[0-9]*_*
 
 .. toctree::
    :caption: Resources

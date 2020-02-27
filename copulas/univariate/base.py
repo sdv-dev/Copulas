@@ -4,7 +4,8 @@ from enum import Enum
 import numpy as np
 import scipy.stats
 
-from copulas import NotFittedError, check_valid_values, get_instance, get_qualified_name
+from copulas import (
+    NotFittedError, check_valid_values, get_instance, get_qualified_name, store_args)
 from copulas.univariate.selection import select_univariate
 
 
@@ -68,6 +69,7 @@ class Univariate(object):
 
         return candidates
 
+    @store_args
     def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_seed = random_seed
@@ -184,6 +186,9 @@ class Univariate(object):
         if not self.fitted:
             return result
 
+        if get_qualified_name(self) == get_qualified_name(Univariate):
+            result['instance_type'] = get_qualified_name(self._instance)
+
         result.update(self._fit_params())
         return result
 
@@ -200,6 +205,12 @@ class Univariate(object):
     def from_dict(cls, param_dict):
         """Create new instance from dictionary."""
         distribution_class = get_instance(param_dict['type'])
+        if get_qualified_name(distribution_class) == get_qualified_name(Univariate):
+            distribution_class.fitted = param_dict['fitted']
+            if distribution_class.fitted:
+                instance_class = get_instance(param_dict['instance_type'])
+                distribution_class._instance = instance_class.from_dict(param_dict)
+            return distribution_class
         return distribution_class.from_dict(param_dict)
 
     @staticmethod
