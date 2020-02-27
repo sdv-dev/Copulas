@@ -190,7 +190,7 @@ class TestGaussianCopula(TestCase):
         result = copula.cumulative_distribution(X)
 
         # Check
-        assert np.isclose(result, expected_result).all().all()
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
 
     def test_cumulative_distribution_fit_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -205,7 +205,7 @@ class TestGaussianCopula(TestCase):
         result = copula.cumulative_distribution(X)
 
         # Check
-        assert np.isclose(result, expected_result).all().all()
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
 
     def test_cumulative_distribution_fit_call_pd(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -220,7 +220,7 @@ class TestGaussianCopula(TestCase):
         result = copula.cumulative_distribution(X)
 
         # Check
-        assert np.isclose(result, expected_result).all().all()
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
 
     def test_deprecation_warnings(self):
         """After fitting, Gaussian copula can produce new samples warningless."""

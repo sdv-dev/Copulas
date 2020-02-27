@@ -1,4 +1,5 @@
 import logging
+import sys
 from collections import OrderedDict
 
 import numpy as np
@@ -70,7 +71,11 @@ class GaussianMultivariate(Multivariate):
 
         """
         result = self._transform_to_normal(X)
-        return pd.DataFrame(data=result).cov().values
+        covariance = pd.DataFrame(data=result).cov().values
+        # If singular, add some noise to the diagonal
+        if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:
+            covariance = covariance + np.identity(covariance.shape[0]) * EPSILON
+        return covariance
 
     @check_valid_values
     def fit(self, X):
@@ -160,16 +165,21 @@ class GaussianMultivariate(Multivariate):
         return pd.DataFrame(data=res)
 
     def to_dict(self):
-        distributions = {
+        distribs = {
             name: distribution.to_dict() for name, distribution in self.distribs.items()
         }
+        distribution = self.distribution
+        if isinstance(self.distribution, dict):
+            distribution = {}
+            for k, v in self.distribution.items():
+                distribution[k] = v.to_dict()
 
         return {
             'covariance': self.covariance.tolist(),
-            'distribs': distributions,
+            'distribs': distribs,
             'type': get_qualified_name(self),
             'fitted': self.fitted,
-            'distribution': self.distribution
+            'distribution': distribution
         }
 
     @classmethod
@@ -184,4 +194,7 @@ class GaussianMultivariate(Multivariate):
         instance.covariance = np.array(copula_dict['covariance'])
         instance.fitted = copula_dict['fitted']
         instance.distribution = copula_dict['distribution']
+        if isinstance(instance.distribution, dict):
+            for k, v in instance.distribution.items():
+                instance.distribution[k] = Univariate.from_dict(v)
         return instance

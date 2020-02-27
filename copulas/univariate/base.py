@@ -180,14 +180,18 @@ class Univariate(object):
         """Returns parameters to replicate the distribution."""
         result = {
             'type': get_qualified_name(self),
-            'fitted': self.fitted,
+            'fitted': self.fitted
         }
 
         if not self.fitted:
             return result
 
         if get_qualified_name(self) == get_qualified_name(Univariate):
-            result['instance_type'] = get_qualified_name(self._instance)
+            if self.constant_value is not None:
+                result["constant_value"] = self.constant_value
+                return result
+            else:
+                result['instance_type'] = get_qualified_name(self._instance)
 
         result.update(self._fit_params())
         return result
@@ -208,8 +212,12 @@ class Univariate(object):
         if get_qualified_name(distribution_class) == get_qualified_name(Univariate):
             distribution_class.fitted = param_dict['fitted']
             if distribution_class.fitted:
-                instance_class = get_instance(param_dict['instance_type'])
-                distribution_class._instance = instance_class.from_dict(param_dict)
+                if param_dict.get("constant_value", None) is not None:
+                    distribution_class.constant_value = param_dict["constant_value"]
+                    distribution_class._replace_constant_methods()
+                else:
+                    instance_class = get_instance(param_dict['instance_type'])
+                    distribution_class._instance = instance_class.from_dict(param_dict)
             return distribution_class
         return distribution_class.from_dict(param_dict)
 
