@@ -1,5 +1,4 @@
 import warnings
-from collections import OrderedDict
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -49,7 +48,8 @@ class TestGaussianCopula(TestCase):
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Check
-        assert copula.distribs == {}
+        assert copula.columns == []
+        assert copula.univariates == []
         assert copula.covariance is None
         assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
@@ -62,7 +62,8 @@ class TestGaussianCopula(TestCase):
         copula = GaussianMultivariate(distribution)
 
         # Check
-        assert copula.distribs == {}
+        assert copula.columns == []
+        assert copula.univariates == []
         assert copula.covariance is None
         assert copula.distribution == 'full.qualified.name.of.distribution'
 
@@ -79,11 +80,11 @@ class TestGaussianCopula(TestCase):
         # Check
         assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
 
-        for key in self.data.columns:
-            assert key in copula.distribs
-            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
-            assert copula.distribs[key].mean == self.data[key].mean()
-            assert copula.distribs[key].std == np.std(self.data[key])
+        for i, key in enumerate(self.data.columns):
+            assert copula.columns[i] == key
+            assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
+            assert copula.univariates[i].mean == self.data[key].mean()
+            assert copula.univariates[i].std == np.std(self.data[key])
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
@@ -100,9 +101,9 @@ class TestGaussianCopula(TestCase):
         # Check
         assert copula.distribution == 'copulas.univariate.gaussian_kde.GaussianKDE'
 
-        for key in self.data.columns:
-            assert key in copula.distribs
-            assert get_qualified_name(copula.distribs[key].__class__) == copula.distribution
+        for i, key in enumerate(self.data.columns):
+            assert copula.columns[i] == key
+            assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
@@ -119,11 +120,11 @@ class TestGaussianCopula(TestCase):
         copula.fit(self.data)
 
         assert get_qualified_name(
-            copula.distribs['column1'].__class__) == 'copulas.univariate.beta.BetaUnivariate'
+            copula.univariates[0].__class__) == 'copulas.univariate.beta.BetaUnivariate'
         assert get_qualified_name(
-            copula.distribs['column2'].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
+            copula.univariates[1].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
         assert get_qualified_name(
-            copula.distribs['column3'].__class__) == 'copulas.univariate.base.Univariate'
+            copula.univariates[2].__class__) == 'copulas.univariate.base.Univariate'
 
     def test_fit_numpy_array(self):
         """Fit should work indistinctly with numpy arrays and pandas dataframes """
@@ -135,10 +136,9 @@ class TestGaussianCopula(TestCase):
         copula.fit(self.data.values)
 
         # Check
-        for key, column in enumerate(self.data.columns):
-            assert copula.distribs[key]
-            assert copula.distribs[key].mean == np.mean(self.data[column])
-            assert copula.distribs[key].std == np.std(self.data[column])
+        for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
+            assert univariate.mean == np.mean(self.data[column])
+            assert univariate.std == np.std(self.data[column])
 
         expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
         assert (copula.covariance == expected_covariance).all().all()
@@ -327,32 +327,33 @@ class TestGaussianCopula(TestCase):
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'distribs': {
-                'feature_01': {
+            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
+            'univariates': [
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
                 },
-                'feature_02': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
                 },
-                'feature_03': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
                 },
-                'feature_04': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
                 }
-            }
+            ]
         }
 
         # Run
@@ -375,32 +376,33 @@ class TestGaussianCopula(TestCase):
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'distribs': {
-                'feature_01': {
+            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
+            'univariates': [
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
                 },
-                'feature_02': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
                 },
-                'feature_03': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
                 },
-                'feature_04': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
                 }
-            }
+            ]
         }
 
         # Run
@@ -409,8 +411,11 @@ class TestGaussianCopula(TestCase):
         # Check
         assert (copula.covariance == covariance).all()
 
-        for name, distrib in copula.distribs.items():
-            assert copula.distribs[name].to_dict() == parameters['distribs'][name]
+        for a, b in zip(parameters['columns'], copula.columns):
+            assert a == b
+
+        for a, b in zip(parameters['univariates'], copula.univariates):
+            assert a == b.to_dict()
 
         # This isn't to check the sampling, but that the copula is able to run.
         assert copula.sample(10).all().all()
@@ -435,32 +440,33 @@ class TestGaussianCopula(TestCase):
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'distribs': {
-                'feature_01': {
+            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
+            'univariates': [
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
                 },
-                'feature_02': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
                 },
-                'feature_03': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
                 },
-                'feature_04': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
                 }
-            }
+            ]
         }
 
         # Run
@@ -486,32 +492,33 @@ class TestGaussianCopula(TestCase):
             'fitted': True,
             'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
             'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'distribs': {
-                'feature_01': {
+            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
+            'univariates': [
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 5.843333333333334,
                     'std': 0.8253012917851409,
                     'fitted': True,
                 },
-                'feature_02': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.0540000000000003,
                     'std': 0.4321465800705435,
                     'fitted': True,
                 },
-                'feature_03': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 3.758666666666666,
                     'std': 1.7585291834055212,
                     'fitted': True,
                 },
-                'feature_04': {
+                {
                     'type': 'copulas.univariate.gaussian.GaussianUnivariate',
                     'mean': 1.1986666666666668,
                     'std': 0.7606126185881716,
                     'fitted': True,
                 }
-            }
+            ]
         }
 
         # Run
@@ -525,8 +532,11 @@ class TestGaussianCopula(TestCase):
             [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
         ])).all()
 
-        for name, distrib in instance.distribs.items():
-            assert instance.distribs[name].to_dict() == json_mock.return_value['distribs'][name]
+        for a, b in zip(json_mock.columns, instance.columns):
+            assert a == b
+
+        for a, b in zip(json_mock.univariates, instance.univariates):
+            assert a.to_dict() == b.to_dict()
 
         assert open_mock.called_once_with('test.json', 'r')
 
@@ -566,10 +576,8 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3])
-        gm.distribs = OrderedDict((
-            ('a', dist_a),
-            ('b', dist_b),
-        ))
+        gm.columns = ['a', 'b']
+        gm.univariates = [dist_a, dist_b]
 
         # Run
         data = np.array([
@@ -603,10 +611,8 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0, 0.5, 1])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
-        gm.distribs = OrderedDict((
-            ('a', dist_a),
-            ('b', dist_b),
-        ))
+        gm.columns = ['a', 'b']
+        gm.univariates = [dist_a, dist_b]
 
         # Run
         data = np.array([
@@ -644,10 +650,8 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3])
-        gm.distribs = OrderedDict((
-            ('a', dist_a),
-            ('b', dist_b),
-        ))
+        gm.columns = ['a', 'b']
+        gm.univariates = [dist_a, dist_b]
 
         # Run
         data = pd.Series({'a': 3, 'b': 5})
@@ -679,10 +683,8 @@ class TestGaussianCopula(TestCase):
         dist_a.cdf.return_value = np.array([0, 0.5, 1])
         dist_b = Mock()
         dist_b.cdf.return_value = np.array([0.3, 0.5, 0.7])
-        gm.distribs = OrderedDict((
-            ('a', dist_a),
-            ('b', dist_b),
-        ))
+        gm.columns = ['a', 'b']
+        gm.univariates = [dist_a, dist_b]
 
         # Run
         data = pd.DataFrame({

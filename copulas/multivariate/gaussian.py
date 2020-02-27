@@ -1,6 +1,5 @@
 import logging
 import sys
-from collections import OrderedDict
 
 import numpy as np
 import pandas as pd
@@ -29,20 +28,21 @@ class GaussianMultivariate(Multivariate):
     def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.distribs = OrderedDict()
+        self.columns = []
+        self.univariates = []
         self.covariance = None
         self.distribution = distribution
 
     def __str__(self):
-        distribs = [
+        univariates = [
             '\n{}\n==============\n{}'.format(key, value)
-            for key, value in self.distribs.items()
+            for key, value in zip(self.columns, self.univariates)
         ]
 
         covariance = (
             '\n\nCovariance:\n{}'.format(self.covariance)
         )
-        return '\n'.join(distribs) + covariance
+        return '\n'.join(univariates) + covariance
 
     def _transform_to_normal(self, X):
         if isinstance(X, pd.Series):
@@ -51,12 +51,12 @@ class GaussianMultivariate(Multivariate):
             if len(X.shape) == 1:
                 X = [X]
 
-            X = pd.DataFrame(X, columns=self.distribs.keys())
+            X = pd.DataFrame(X, columns=self.columns)
 
         U = list()
-        for column_name, distrib in self.distribs.items():
+        for column_name, univariate in zip(self.columns, self.univariates):
             column = X[column_name]
-            U.append(distrib.cdf(column).clip(EPSILON, 1 - EPSILON))
+            U.append(univariate.cdf(column).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
@@ -98,10 +98,11 @@ class GaussianMultivariate(Multivariate):
             else:
                 distribution = self.distribution
 
-            distribution_instance = get_instance(distribution)
-            distribution_instance.fit(column)
+            univariate = get_instance(distribution)
+            univariate.fit(column)
 
-            self.distribs[column_name] = distribution_instance
+            self.columns.append(column_name)
+            self.univariates.append(univariate)
 
         self.covariance = self._get_covariance(X)
         self.fitted = True
@@ -158,16 +159,14 @@ class GaussianMultivariate(Multivariate):
         clean_cov = np.nan_to_num(self.covariance)
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
 
-        for i, (label, distrib) in enumerate(self.distribs.items()):
+        for i, (column_name, univariate) in enumerate(zip(self.columns, self.univariates)):
             cdf = stats.norm.cdf(samples[:, i])
-            res[label] = distrib.percent_point(cdf)
+            res[column_name] = univariate.percent_point(cdf)
 
         return pd.DataFrame(data=res)
 
     def to_dict(self):
-        distribs = {
-            name: distribution.to_dict() for name, distribution in self.distribs.items()
-        }
+        univariates = [univariate.to_dict() for univariate in self.univariates]
         distribution = self.distribution
         if isinstance(self.distribution, dict):
             distribution = {}
@@ -176,7 +175,8 @@ class GaussianMultivariate(Multivariate):
 
         return {
             'covariance': self.covariance.tolist(),
-            'distribs': distribs,
+            'univariates': univariates,
+            'columns': self.columns,
             'type': get_qualified_name(self),
             'fitted': self.fitted,
             'distribution': distribution
@@ -186,10 +186,11 @@ class GaussianMultivariate(Multivariate):
     def from_dict(cls, copula_dict):
         """Set attributes with provided values."""
         instance = cls()
-        instance.distribs = {}
+        instance.univariates = []
+        instance.columns = copula_dict['columns']
 
-        for name, parameters in copula_dict['distribs'].items():
-            instance.distribs[name] = Univariate.from_dict(parameters)
+        for parameters in copula_dict['univariates']:
+            instance.univariates.append(Univariate.from_dict(parameters))
 
         instance.covariance = np.array(copula_dict['covariance'])
         instance.fitted = copula_dict['fitted']

@@ -38,9 +38,13 @@ class TestEndToEnd(TestCase):
         pdf = model.probability_density(sampled_data)
         cdf = model.cumulative_distribution(sampled_data)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
-        model.save(path_to_model)
-        model2 = GaussianMultivariate.load(path_to_model)
+        # Test Save/Load from Dictionary
+        config = model.to_dict()
+        model2 = GaussianMultivariate.from_dict(config)
+
+        print(model.to_dict())
+        print(model2.to_dict())
+
         for N in [10, 1000, 100]:
             assert len(model2.sample(N)) == N
         pdf2 = model2.probability_density(sampled_data)
@@ -48,9 +52,9 @@ class TestEndToEnd(TestCase):
         assert np.all(np.isclose(pdf, pdf2, atol=0.01))
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
 
-        # Test Save/Load from Dictionary
-        config = model.to_dict()
-        model2 = GaussianMultivariate.from_dict(config)
+        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        model.save(path_to_model)
+        model2 = GaussianMultivariate.load(path_to_model)
         for N in [10, 1000, 100]:
             assert len(model2.sample(N)) == N
         pdf2 = model2.probability_density(sampled_data)
