@@ -151,7 +151,7 @@ class Frank(Bivariate):
 
         In order to solve it, we can simplify it as
 
-        .. math:: 0 = 1 + \frac{4(D_1(\theta)}{\theta} - 1) - \tau
+        .. math:: 0 = 1 + \frac{4}{\theta}(D_1(\theta) - 1) - \tau
 
         where the function D is the Debye function of first order, defined as:
 

@@ -5,6 +5,23 @@ from scipy import stats
 from copulas import random_seed
 
 
+def load_age_income(seed=42):
+    """
+    This dataset contains two columns which correspond to the simulated age and
+    income which are positively correlated with outliers.
+    """
+    N = 500
+    with random_seed(seed):
+        age = stats.beta.rvs(a=2.0, b=6.0, loc=18, scale=100, size=N)
+        income = np.log(age) * 100
+        income += np.random.normal(loc=np.log(age) / 100, scale=10, size=N)
+        income[np.random.randint(0, 10, size=N) == 0] /= 1000
+    return pd.DataFrame({
+        "age": age,
+        "income": income
+    })
+
+
 def load_three_dimensional(seed=42):
     """
     This dataset contains 6 columns, each of which corresponds to a different
