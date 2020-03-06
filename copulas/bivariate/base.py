@@ -177,6 +177,10 @@ class Bivariate(object):
         self.check_marginal(U)
         self.check_marginal(V)
         self.tau = stats.kendalltau(U, V)[0]
+        if np.isnan(self.tau):
+            if len(np.unique(U)) == 1 or len(np.unique(V)) == 1:
+                raise ValueError("Constant column.")
+            raise ValueError("Unable to compute tau.")
         self._compute_theta()
 
     def to_dict(self):

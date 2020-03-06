@@ -37,7 +37,7 @@ def load_diverse_univariates(seed=42):
         constant - a constant value
         exponential - an exponential distribution at 3.0 with rate 1.0
     """
-    size = 10000
+    size = 1000
     df = pd.DataFrame()
     with random_seed(seed):
         df["bernoulli"] = (np.random.random(size=size) < 0.3).astype(float)
