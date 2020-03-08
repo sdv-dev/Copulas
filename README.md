@@ -191,11 +191,12 @@ samples = copula.sample(num_samples)
 This will return a DataFrame with the same number of columns as the original data.
 
 ```
-                   0         1         2
-feature_01  7.534814  7.255292  5.723322
-feature_02  2.723615  2.959855  3.282245
-feature_03  6.465199  6.896618  2.658393
-feature_04  2.267646  2.442479  1.109811
+     feature_01  feature_02  feature_03  feature_04
+0      6.855178    2.831508    6.664971    2.636296
+1      5.185542    2.812182    1.906017    0.778288
+2      5.289364    2.670617    4.612196    1.374458
+3      5.055029    3.248253    2.247922    0.062830
+4      5.048349    2.911649    4.704453    1.282351
 ```
 
 The returned object, `samples`, is a `pandas.DataFrame` containing a table of synthetic data with
@@ -245,45 +246,113 @@ copula_params = copula.to_dict()
 This will return a dictionary containing all the copula parameters:
 
 ```
-{'covariance': [[1.006711409395973,
-   -0.11010327176239859,
-   0.877604856347186,
-   0.8234432550696282],
-  [-0.11010327176239859,
-   1.006711409395972,
-   -0.4233383520816992,
-   -0.3589370029669185],
-  [0.877604856347186,
-   -0.4233383520816992,
-   1.006711409395973,
-   0.9692185540781538],
-  [0.8234432550696282,
-   -0.3589370029669185,
-   0.9692185540781538,
-   1.006711409395974]],
- 'distribs': {'feature_01': {'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-   'fitted': True,
-   'constant_value': None,
-   'mean': 5.843333333333334,
-   'std': 0.8253012917851409},
-  'feature_02': {'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-   'fitted': True,
-   'constant_value': None,
-   'mean': 3.0540000000000003,
-   'std': 0.4321465800705435},
-  'feature_03': {'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-   'fitted': True,
-   'constant_value': None,
-   'mean': 3.758666666666666,
-   'std': 1.7585291834055212},
-  'feature_04': {'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-   'fitted': True,
-   'constant_value': None,
-   'mean': 1.1986666666666668,
-   'std': 0.7606126185881716}},
- 'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
- 'fitted': True,
- 'distribution': 'copulas.univariate.gaussian.GaussianUnivariate'}
+{
+  "covariance": [
+    [
+      0.8362770742116029,
+      -0.08653126313887204,
+      0.680824746388168,
+      0.6243889406272886
+    ],
+    [
+      -0.08653126313887204,
+      0.8788019924547759,
+      -0.2489051243517041,
+      -0.22041817349390733
+    ],
+    [
+      0.680824746388168,
+      -0.2489051243517041,
+      0.699554023096054,
+      0.660015366760104
+    ],
+    [
+      0.6243889406272886,
+      -0.22041817349390733,
+      0.660015366760104,
+      0.7215112866475774
+    ]
+  ],
+  "univariates": [
+    {
+      "type": "copulas.univariate.base.Univariate",
+      "fitted": true,
+      "instance_type": "copulas.univariate.gaussian_kde.GaussianKDE",
+      "lower": 0.15966936011068533,
+      "upper": 12.040330639889316,
+      "dataset": [
+        [
+          5.1,
+          4.9,
+          5.0,
+          4.5,
+          ...
+          5.9
+        ]
+      ]
+    },
+    {
+      "type": "copulas.univariate.base.Univariate",
+      "fitted": true,
+      "instance_type": "copulas.univariate.gaussian_kde.GaussianKDE",
+      "lower": -0.16797155681086862,
+      "upper": 6.567971556810869,
+      "dataset": [
+        [
+          3.5,
+          3.0,
+          3.2,
+          3.1,
+          ...
+          3.0
+        ]
+      ]
+    },
+    {
+      "type": "copulas.univariate.base.Univariate",
+      "fitted": true,
+      "instance_type": "copulas.univariate.gaussian_kde.GaussianKDE",
+      "lower": -7.8221020997613095,
+      "upper": 15.72210209976131,
+      "dataset": [
+        [
+          1.4,
+          1.4,
+          1.3,
+          5.4,
+          ...
+          5.1
+        ]
+      ]
+    },
+    {
+      "type": "copulas.univariate.base.Univariate",
+      "fitted": true,
+      "instance_type": "copulas.univariate.gaussian_kde.GaussianKDE",
+      "lower": -3.7158037085042066,
+      "upper": 6.315803708504207,
+      "dataset": [
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.3,
+          ...
+          1.8
+        ]
+      ]
+    }
+  ],
+  "columns": [
+    "feature_01",
+    "feature_02",
+    "feature_03",
+    "feature_04"
+  ],
+  "type": "copulas.multivariate.gaussian.GaussianMultivariate",
+  "fitted": true,
+  "distribution": "copulas.univariate.Univariate"
+}
 ```
 
 Once we have all the parameters we can create a new identical **Copula** instance by using the method `from_dict`:
