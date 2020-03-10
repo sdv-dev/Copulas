@@ -27,7 +27,7 @@ for k0=1:length(x0),
             strMsg = sprintf('%s, %1.1f, %2.2f, %2.2f, %2.5f, %2.5f',...
                 copulafamily,theta(kt),x0(k0),x1(k1),pdf_value,cdf_value);
             disp(strMsg);
-        end      
+        end
         %--gumbel--
         copulafamily = 'Gumbel';
         theta = [1.6, 3.4];
@@ -37,9 +37,6 @@ for k0=1:length(x0),
             strMsg = sprintf('%s, %1.1f, %2.2f, %2.2f, %2.5f, %2.5f',...
                 copulafamily,theta(kt),x0(k0),x1(k1),pdf_value,cdf_value);
             disp(strMsg);
-        end       
+        end
     end
 end
-
-
-
