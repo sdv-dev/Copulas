@@ -1,4 +1,3 @@
-import warnings
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -7,10 +6,10 @@ import pandas as pd
 
 from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
-from tests import compare_nested_dicts
+from copulas.univariate import GaussianUnivariate
 
 
-class TestGaussianCopula(TestCase):
+class TestGaussianMultivariate(TestCase):
 
     def setUp(self):
         """Defines random variable to use on tests. """
@@ -40,534 +39,6 @@ class TestGaussianCopula(TestCase):
                 0.49077378, -0.27428204, 0.45857406, 2.29614033
             ])
         })
-
-    def test___init__default_args(self):
-        """On init an instance with None on all attributes except distribs is returned."""
-        # Run
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-
-        # Check
-        assert copula.columns == []
-        assert copula.univariates == []
-        assert copula.covariance is None
-        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
-
-    def test__init__distribution_arg(self):
-        """On init the distribution argument is set as attribute."""
-        # Setup
-        distribution = 'full.qualified.name.of.distribution'
-
-        # Run
-        copula = GaussianMultivariate(distribution)
-
-        # Check
-        assert copula.columns == []
-        assert copula.univariates == []
-        assert copula.covariance is None
-        assert copula.distribution == 'full.qualified.name.of.distribution'
-
-    def test_fit_default_distribution(self):
-        """On fit, a distribution is created for each column along the covariance and means"""
-
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-
-        # Run
-        copula.fit(self.data)
-
-        # Check
-        assert copula.distribution == 'copulas.univariate.gaussian.GaussianUnivariate'
-
-        for i, key in enumerate(self.data.columns):
-            assert copula.columns[i] == key
-            assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
-            assert copula.univariates[i].mean == self.data[key].mean()
-            assert copula.univariates[i].std == np.std(self.data[key])
-
-        expected_covariance = copula._get_covariance(self.data)
-        assert (copula.covariance == expected_covariance).all().all()
-
-    def test_fit_distribution_arg(self):
-        """On fit, the distributions for each column use instances of copula.distribution."""
-        # Setup
-        distribution = 'copulas.univariate.gaussian_kde.GaussianKDE'
-        copula = GaussianMultivariate(distribution=distribution)
-
-        # Run
-        copula.fit(self.data)
-
-        # Check
-        assert copula.distribution == 'copulas.univariate.gaussian_kde.GaussianKDE'
-
-        for i, key in enumerate(self.data.columns):
-            assert copula.columns[i] == key
-            assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
-
-        expected_covariance = copula._get_covariance(self.data)
-        assert (copula.covariance == expected_covariance).all().all()
-
-    def test_fit_distribution_selector(self):
-        """
-        On fit, it should use the correct distributions for those that are
-        specified and default to using the base class otherwise.
-        """
-        copula = GaussianMultivariate(distribution={
-            'column1': 'copulas.univariate.beta.BetaUnivariate',
-            'column2': 'copulas.univariate.gaussian_kde.GaussianKDE',
-        })
-        copula.fit(self.data)
-
-        assert get_qualified_name(
-            copula.univariates[0].__class__) == 'copulas.univariate.beta.BetaUnivariate'
-        assert get_qualified_name(
-            copula.univariates[1].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
-        assert get_qualified_name(
-            copula.univariates[2].__class__) == 'copulas.univariate.base.Univariate'
-
-    def test_fit_numpy_array(self):
-        """Fit should work indistinctly with numpy arrays and pandas dataframes """
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-
-        # Run
-        copula.fit(self.data.values)
-
-        # Check
-        for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
-            assert univariate.mean == np.mean(self.data[column])
-            assert univariate.std == np.std(self.data[column])
-
-        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
-        assert (copula.covariance == expected_covariance).all().all()
-
-    def test__get_covariance(self):
-        """_get_covariance computes the covariance matrix of normalized values."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data)
-
-        expected_covariance = np.array([
-            [1.04347826, -0.01316681, -0.20683455],
-            [-0.01316681, 1.04347826, -0.176307],
-            [-0.20683455, -0.176307, 1.04347826]
-        ])
-
-        # Run
-        covariance = copula._get_covariance(self.data)
-
-        # Check
-        assert np.isclose(covariance, expected_covariance).all().all()
-
-    def test_probability_density(self):
-        """Probability_density computes probability for the given values."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data)
-        X = np.array([2000., 200., 0.])
-        expected_result = 0.031163598715950383
-
-        # Run
-        result = copula.probability_density(X)
-
-        # Check
-        self.assertAlmostEqual(result, expected_result)
-
-    def test_cumulative_distribution_fit_df_call_np_array(self):
-        """Cumulative_density integrates the probability density along the given values."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data)
-        X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
-
-        # Run
-        result = copula.cumulative_distribution(X)
-
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
-
-    def test_cumulative_distribution_fit_call_np_array(self):
-        """Cumulative_density integrates the probability density along the given values."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data.values)
-        X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
-
-        # Run
-        result = copula.cumulative_distribution(X)
-
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
-
-    def test_cumulative_distribution_fit_call_pd(self):
-        """Cumulative_density integrates the probability density along the given values."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        copula.fit(self.data.values)
-        X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
-
-        # Run
-        result = copula.cumulative_distribution(X)
-
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
-
-    def test_deprecation_warnings(self):
-        """After fitting, Gaussian copula can produce new samples warningless."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        data = pd.read_csv('data/iris.data.csv')
-
-        # Run
-        with warnings.catch_warnings(record=True) as warns:
-            copula.fit(data)
-            result = copula.sample(10)
-
-            # Check
-            assert len(warns) == 0
-            assert len(result) == 10
-
-    @patch('copulas.multivariate.gaussian.np.random.multivariate_normal')
-    def test_sample(self, normal_mock):
-        """Sample use the inverse-transform method to generate new samples."""
-        # Setup
-        instance = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        data = pd.DataFrame([
-            {'A': 25, 'B': 75, 'C': 100},
-            {'A': 30, 'B': 60, 'C': 250},
-            {'A': 10, 'B': 65, 'C': 350},
-            {'A': 20, 'B': 80, 'C': 150},
-            {'A': 25, 'B': 70, 'C': 500}
-        ])
-        instance.fit(data)
-
-        normal_mock.return_value = np.array([
-            [0.1, 0.1, 0.1],
-            [0.2, 0.2, 0.2],
-            [0.4, 0.4, 0.4],
-            [0.6, 0.6, 0.6],
-            [0.8, 0.8, 0.8]
-        ])
-
-        expected_result = pd.DataFrame([
-            {'A': 22.678232998312527, 'B': 70.70710678118655, 'C': 284.35270009440734},
-            {'A': 23.356465996625055, 'B': 71.41421356237309, 'C': 298.7054001888146},
-            {'A': 24.712931993250110, 'B': 72.82842712474618, 'C': 327.4108003776293},
-            {'A': 26.069397989875164, 'B': 74.24264068711929, 'C': 356.116200566444},
-            {'A': 27.425863986500215, 'B': 75.65685424949238, 'C': 384.8216007552586}
-        ])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        assert result.equals(expected_result)
-
-        assert normal_mock.called_once_with(
-            np.zeros(instance.covariance.shape[0]),
-            instance.covariance,
-            5
-        )
-
-    def test_sample_random_state(self):
-        """When random_state is set the samples are the same."""
-        # Setup
-        instance = GaussianMultivariate(
-            random_seed=0, distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        data = pd.DataFrame([
-            {'A': 25, 'B': 75, 'C': 100},
-            {'A': 30, 'B': 60, 'C': 250},
-            {'A': 10, 'B': 65, 'C': 350},
-            {'A': 20, 'B': 80, 'C': 150},
-            {'A': 25, 'B': 70, 'C': 500}
-        ])
-        instance.fit(data)
-
-        expected_result = pd.DataFrame([
-            {'A': 25.566882482769294, 'B': 61.01690157277244, 'C': 575.71068885087790},
-            {'A': 32.624255560452110, 'B': 47.31477394460025, 'C': 447.84049148268970},
-            {'A': 20.117642182744806, 'B': 63.68224998298797, 'C': 397.76402526341593},
-            {'A': 25.357483201156676, 'B': 72.30337152729443, 'C': 433.06766240515134},
-            {'A': 23.202174689737113, 'B': 66.32056962524452, 'C': 405.08384853948280}
-        ])
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        assert result.equals(expected_result)
-
-    def test_to_dict(self):
-        """To_dict returns the parameters to replicate the copula."""
-        # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        data = pd.read_csv('data/iris.data.csv')
-        copula.fit(data)
-        covariance = [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]
-        expected_result = {
-            'covariance': covariance,
-            'fitted': True,
-            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
-            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
-            'univariates': [
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 5.843333333333334,
-                    'std': 0.8253012917851409,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.0540000000000003,
-                    'std': 0.4321465800705435,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.758666666666666,
-                    'std': 1.7585291834055212,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 1.1986666666666668,
-                    'std': 0.7606126185881716,
-                    'fitted': True,
-                }
-            ]
-        }
-
-        # Run
-        result = copula.to_dict()
-
-        # Check
-        compare_nested_dicts(result, expected_result)
-
-    def test_from_dict(self):
-        """from_dict generates a new instance from its parameters."""
-        # Setup
-        covariance = [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]
-        parameters = {
-            'covariance': covariance,
-            'fitted': True,
-            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
-            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
-            'univariates': [
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 5.843333333333334,
-                    'std': 0.8253012917851409,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.0540000000000003,
-                    'std': 0.4321465800705435,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.758666666666666,
-                    'std': 1.7585291834055212,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 1.1986666666666668,
-                    'std': 0.7606126185881716,
-                    'fitted': True,
-                }
-            ]
-        }
-
-        # Run
-        copula = GaussianMultivariate.from_dict(parameters)
-
-        # Check
-        assert (copula.covariance == covariance).all()
-
-        for a, b in zip(parameters['columns'], copula.columns):
-            assert a == b
-
-        for a, b in zip(parameters['univariates'], copula.univariates):
-            assert a == b.to_dict()
-
-        # This isn't to check the sampling, but that the copula is able to run.
-        assert copula.sample(10).all().all()
-
-    @patch("builtins.open")
-    @patch('copulas.multivariate.base.json.dump')
-    def test_save(self, json_mock, open_mock):
-        """Save stores the internal dictionary as a json in a file."""
-        # Setup
-        instance = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
-        data = pd.read_csv('data/iris.data.csv')
-        instance.fit(data)
-        covariance = [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]
-        expected_content = {
-            'covariance': covariance,
-            'fitted': True,
-            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
-            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
-            'univariates': [
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 5.843333333333334,
-                    'std': 0.8253012917851409,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.0540000000000003,
-                    'std': 0.4321465800705435,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.758666666666666,
-                    'std': 1.7585291834055212,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 1.1986666666666668,
-                    'std': 0.7606126185881716,
-                    'fitted': True,
-                }
-            ]
-        }
-
-        # Run
-        instance.save('test.json')
-
-        # Check
-        assert open_mock.called_once_with('test.json', 'w')
-        compare_nested_dicts(json_mock.call_args[0][0], expected_content)
-
-    @patch('builtins.open')
-    @patch('copulas.bivariate.base.json.load')
-    def test_load(self, json_mock, open_mock):
-        """Load can recreate an instance from a saved file."""
-        # Setup
-        covariance = [
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ]
-        json_mock.return_value = {
-            'covariance': covariance,
-            'fitted': True,
-            'type': 'copulas.multivariate.gaussian.GaussianMultivariate',
-            'distribution': 'copulas.univariate.gaussian.GaussianUnivariate',
-            'columns': ['feature_01', 'feature_02', 'feature_03', 'feature_04'],
-            'univariates': [
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 5.843333333333334,
-                    'std': 0.8253012917851409,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.0540000000000003,
-                    'std': 0.4321465800705435,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 3.758666666666666,
-                    'std': 1.7585291834055212,
-                    'fitted': True,
-                },
-                {
-                    'type': 'copulas.univariate.gaussian.GaussianUnivariate',
-                    'mean': 1.1986666666666668,
-                    'std': 0.7606126185881716,
-                    'fitted': True,
-                }
-            ]
-        }
-
-        # Run
-        instance = GaussianMultivariate.load('test.json')
-
-        # Check
-        assert (instance.covariance == np.array([
-            [1.006711409395973, -0.11010327176239865, 0.8776048563471857, 0.823443255069628],
-            [-0.11010327176239865, 1.006711409395972, -0.4233383520816991, -0.3589370029669186],
-            [0.8776048563471857, -0.4233383520816991, 1.006711409395973, 0.9692185540781536],
-            [0.823443255069628, -0.3589370029669186, 0.9692185540781536, 1.0067114093959735]
-        ])).all()
-
-        for a, b in zip(json_mock.columns, instance.columns):
-            assert a == b
-
-        for a, b in zip(json_mock.univariates, instance.univariates):
-            assert a.to_dict() == b.to_dict()
-
-        assert open_mock.called_once_with('test.json', 'r')
-
-    def test_sample_constant_column(self):
-        """Gaussian copula can sample after being fit with a constant column.
-
-        This process will raise warnings when computing the covariance matrix
-        """
-        # Setup
-        instance = GaussianMultivariate()
-        X = np.array([
-            [1, 2],
-            [1, 3],
-            [1, 4],
-            [1, 5]
-        ])
-        instance.fit(X)
-
-        # Run
-        result = instance.sample(5)
-
-        # Check
-        assert result.shape == (5, 2)
-        assert result[~result.isnull()].all().all()
-        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))
-
-        # This is to check that the samples on the non constant column are not constant too.
-        assert len(result.loc[:, 1].unique()) > 1
-
-        covariance = instance.covariance
-        assert (~pd.isnull(covariance)).all().all()
 
     def test__transform_to_normal_numpy_1d(self):
         # Setup
@@ -713,3 +184,282 @@ class TestGaussianCopula(TestCase):
         expected = np.array([5, 6, 7])
         passed = dist_b.cdf.call_args[0][0]
         np.testing.assert_allclose(expected, passed)
+
+    def test__get_covariance(self):
+        """_get_covariance computes the covariance matrix of normalized values."""
+        # Setup
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data)
+
+        expected_covariance = np.array([
+            [1.04347826, -0.01316681, -0.20683455],
+            [-0.01316681, 1.04347826, -0.176307],
+            [-0.20683455, -0.176307, 1.04347826]
+        ])
+
+        # Run
+        covariance = copula._get_covariance(self.data)
+
+        # Check
+        assert np.isclose(covariance, expected_covariance).all().all()
+
+    def test_fit_default_distribution(self):
+        """On fit, a distribution is created for each column along the covariance and means"""
+
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data)
+
+        for i, key in enumerate(self.data.columns):
+            assert copula.columns[i] == key
+            assert copula.univariates[i].__class__ == GaussianUnivariate
+            assert copula.univariates[i].mean == self.data[key].mean()
+            assert copula.univariates[i].std == np.std(self.data[key])
+
+        expected_covariance = copula._get_covariance(self.data)
+        assert (copula.covariance == expected_covariance).all().all()
+
+    def test_fit_distribution_arg(self):
+        """On fit, the distributions for each column use instances of copula.distribution."""
+        # Setup
+        distribution = 'copulas.univariate.gaussian_kde.GaussianKDE'
+        copula = GaussianMultivariate(distribution=distribution)
+
+        # Run
+        copula.fit(self.data)
+
+        # Check
+        assert copula.distribution == 'copulas.univariate.gaussian_kde.GaussianKDE'
+
+        for i, key in enumerate(self.data.columns):
+            assert copula.columns[i] == key
+            assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
+
+        expected_covariance = copula._get_covariance(self.data)
+        assert (copula.covariance == expected_covariance).all().all()
+
+    def test_fit_distribution_selector(self):
+        """
+        On fit, it should use the correct distributions for those that are
+        specified and default to using the base class otherwise.
+        """
+        copula = GaussianMultivariate(distribution={
+            'column1': 'copulas.univariate.beta.BetaUnivariate',
+            'column2': 'copulas.univariate.gaussian_kde.GaussianKDE',
+        })
+        copula.fit(self.data)
+
+        assert get_qualified_name(
+            copula.univariates[0].__class__) == 'copulas.univariate.beta.BetaUnivariate'
+        assert get_qualified_name(
+            copula.univariates[1].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
+        assert get_qualified_name(
+            copula.univariates[2].__class__) == 'copulas.univariate.base.Univariate'
+
+    def test_fit_numpy_array(self):
+        """Fit should work indistinctly with numpy arrays and pandas dataframes """
+        # Setup
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.gaussian.GaussianUnivariate')
+
+        # Run
+        copula.fit(self.data.values)
+
+        # Check
+        for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
+            assert univariate.mean == np.mean(self.data[column])
+            assert univariate.std == np.std(self.data[column])
+
+        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
+        assert (copula.covariance == expected_covariance).all().all()
+
+    def test_probability_density(self):
+        """Probability_density computes probability for the given values."""
+        # Setup
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data)
+        X = np.array([2000., 200., 0.])
+        expected_result = 0.031163598715950383
+
+        # Run
+        result = copula.probability_density(X)
+
+        # Check
+        self.assertAlmostEqual(result, expected_result)
+
+    def test_cumulative_distribution_fit_df_call_np_array(self):
+        """Cumulative_density integrates the probability density along the given values."""
+        # Setup
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data)
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
+
+        # Run
+        result = copula.cumulative_distribution(X)
+
+        # Check
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+
+    def test_cumulative_distribution_fit_call_np_array(self):
+        """Cumulative_density integrates the probability density along the given values."""
+        # Setup
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data.values)
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
+
+        # Run
+        result = copula.cumulative_distribution(X)
+
+        # Check
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+
+    def test_cumulative_distribution_fit_call_pd(self):
+        """Cumulative_density integrates the probability density along the given values."""
+        # Setup
+        copula = GaussianMultivariate(GaussianUnivariate)
+        copula.fit(self.data.values)
+        X = np.array([2000., 200., 1.])
+        expected_result = 0.4460456536217443
+
+        # Run
+        result = copula.cumulative_distribution(X)
+
+        # Check
+        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+
+    @patch('copulas.multivariate.gaussian.np.random.multivariate_normal')
+    def test_sample(self, normal_mock):
+        """Sample use the inverse-transform method to generate new samples."""
+        # Setup
+        instance = GaussianMultivariate(GaussianUnivariate)
+        data = pd.DataFrame([
+            {'A': 25, 'B': 75, 'C': 100},
+            {'A': 30, 'B': 60, 'C': 250},
+            {'A': 10, 'B': 65, 'C': 350},
+            {'A': 20, 'B': 80, 'C': 150},
+            {'A': 25, 'B': 70, 'C': 500}
+        ])
+        instance.fit(data)
+
+        normal_mock.return_value = np.array([
+            [0.1, 0.1, 0.1],
+            [0.2, 0.2, 0.2],
+            [0.4, 0.4, 0.4],
+            [0.6, 0.6, 0.6],
+            [0.8, 0.8, 0.8]
+        ])
+
+        expected_result = pd.DataFrame([
+            {'A': 22.678232998312527, 'B': 70.70710678118655, 'C': 284.35270009440734},
+            {'A': 23.356465996625055, 'B': 71.41421356237309, 'C': 298.7054001888146},
+            {'A': 24.712931993250110, 'B': 72.82842712474618, 'C': 327.4108003776293},
+            {'A': 26.069397989875164, 'B': 74.24264068711929, 'C': 356.116200566444},
+            {'A': 27.425863986500215, 'B': 75.65685424949238, 'C': 384.8216007552586}
+        ])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.equals(expected_result)
+
+        assert normal_mock.called_once_with(
+            np.zeros(instance.covariance.shape[0]),
+            instance.covariance,
+            5
+        )
+
+    def test_sample_random_state(self):
+        """When random_state is set the samples are the same."""
+        # Setup
+        instance = GaussianMultivariate(GaussianUnivariate, random_seed=0)
+        data = pd.DataFrame([
+            {'A': 25, 'B': 75, 'C': 100},
+            {'A': 30, 'B': 60, 'C': 250},
+            {'A': 10, 'B': 65, 'C': 350},
+            {'A': 20, 'B': 80, 'C': 150},
+            {'A': 25, 'B': 70, 'C': 500}
+        ])
+        instance.fit(data)
+
+        expected_result = pd.DataFrame([
+            {'A': 25.566882482769294, 'B': 61.01690157277244, 'C': 575.71068885087790},
+            {'A': 32.624255560452110, 'B': 47.31477394460025, 'C': 447.84049148268970},
+            {'A': 20.117642182744806, 'B': 63.68224998298797, 'C': 397.76402526341593},
+            {'A': 25.357483201156676, 'B': 72.30337152729443, 'C': 433.06766240515134},
+            {'A': 23.202174689737113, 'B': 66.32056962524452, 'C': 405.08384853948280}
+        ])
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.equals(expected_result)
+
+    def test_to_dict(self):
+        """To_dict returns the parameters to replicate the copula."""
+        # Setup
+        copula = GaussianMultivariate()
+        copula.fit(self.data)
+
+        # Run
+        result = copula.to_dict()
+
+        # Asserts
+        assert result['type'] == 'copulas.multivariate.gaussian.GaussianMultivariate'
+        assert result['columns'] == ['column1', 'column2', 'column3']
+        assert len(result['univariates']) == 3
+
+        expected_cov = copula._get_covariance(self.data).tolist()
+        np.testing.assert_equal(result['covariance'], expected_cov)
+
+        for univariate, result_univariate in zip(copula.univariates, result['univariates']):
+            assert univariate.to_dict() == result_univariate
+
+    def test_from_dict(self):
+        """from_dict generates a new instance from its parameters."""
+        # Setup
+        copula = GaussianMultivariate()
+        copula.fit(self.data)
+        copula_dict = copula.to_dict()
+
+        # Run
+        new_copula = GaussianMultivariate.from_dict(copula_dict)
+
+        # Asserts
+        assert isinstance(new_copula, GaussianMultivariate)
+        assert new_copula.columns == ['column1', 'column2', 'column3']
+        assert len(new_copula.univariates) == 3
+
+        for new_univariate, old_univariate in zip(copula.univariates, new_copula.univariates):
+            assert new_univariate.to_dict() == old_univariate.to_dict()
+
+    def test_sample_constant_column(self):
+        """Gaussian copula can sample after being fit with a constant column.
+
+        This process will raise warnings when computing the covariance matrix
+        """
+        # Setup
+        instance = GaussianMultivariate()
+        X = np.array([
+            [1, 2],
+            [1, 3],
+            [1, 4],
+            [1, 5]
+        ])
+        instance.fit(X)
+
+        # Run
+        result = instance.sample(5)
+
+        # Check
+        assert result.shape == (5, 2)
+        assert result[~result.isnull()].all().all()
+        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))
+
+        # This is to check that the samples on the non constant column are not constant too.
+        assert len(result.loc[:, 1].unique()) > 1
+
+        covariance = instance.covariance
+        assert (~pd.isnull(covariance)).all().all()

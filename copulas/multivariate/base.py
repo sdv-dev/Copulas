@@ -1,4 +1,4 @@
-import json
+import pickle
 
 import numpy as np
 
@@ -8,103 +8,181 @@ from copulas import NotFittedError, get_instance
 class Multivariate(object):
     """Abstract class for a multi-variate copula object."""
 
+    fitted = False
+
     def __init__(self, random_seed=None):
-        """Initialize copula object."""
-        self.fitted = False
         self.random_seed = random_seed
 
     def fit(self, X):
-        """Fit a model to the data and update the parameters."""
+        """Fit the model to table with values from multiple random variables.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values of the random variables.
+        """
         raise NotImplementedError
 
     def probability_density(self, X):
-        """Return probability density of model."""
+        """Compute the probability density for each point in X.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the probability density will be computed.
+
+        Returns:
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
         raise NotImplementedError
 
     def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden
-        with numerically stable variants whenever possible.
+        """Compute the log of the probability density for each point in X.
 
         Arguments:
-            X: `np.ndarray` of shape (n, 1).
+            X (pandas.DataFrame):
+                Values for which the log probability density will be computed.
 
         Returns:
-            np.ndarray
+            numpy.ndarray:
+                Log probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         return np.log(self.probability_density(X))
 
     def pdf(self, X):
+        """Compute the probability density for each point in X.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the probability density will be computed.
+
+        Returns:
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
         return self.probability_density(X)
 
     def cumulative_distribution(self, X):
-        """Return cumulative density of model."""
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the cumulative distribution will be computed.
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
         raise NotImplementedError
 
     def cdf(self, X):
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the cumulative distribution will be computed.
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
         return self.cumulative_distribution(X)
 
     def sample(self, num_rows=1):
-        """Return a new data point generated from model."""
+        """Sample values from this model.
+
+        Argument:
+            num_rows (int):
+                Number of rows to sample.
+
+        Returns:
+            numpy.ndarray:
+                Array of shape (n_samples, *) with values randomly
+                sampled from this model distribution.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
         raise NotImplementedError
 
     def to_dict(self):
         """Return a `dict` with the parameters to replicate this object.
 
-        Args:
-            self:
-
         Returns:
-            dict: Parameters of the copula.
+            dict:
+                Parameters of this distribution.
         """
         raise NotImplementedError
 
     @classmethod
-    def from_dict(cls, copula_dict):
-        """Create a new instance from dictionary.
+    def from_dict(cls, params):
+        """Create a new instance from a parameters dictionary.
 
         Args:
-            copula_dict: `dict` with the parameters to replicate the copula.
-            Like the output of `Multivariate.to_dict`
+            params (dict):
+                Parameters of the distribution, in the same format as the one
+                returned by the ``to_dict`` method.
 
         Returns:
-            Multivariate: Instance of the copula defined on the parameters.
+            Multivariate:
+                Instance of the distribution defined on the parameters.
         """
-
-        copula_class = get_instance(copula_dict['type'])
-        return copula_class.from_dict(copula_dict)
+        multivariate_class = get_instance(params['type'])
+        return multivariate_class.from_dict(params)
 
     @classmethod
-    def load(cls, copula_path):
-        """Create a new instance from a file.
+    def load(cls, path):
+        """Load a Multivariate instance from a pickle file.
 
         Args:
-            copula_path: `str` file with the serialized copula.
+            path (str):
+                Path to the pickle file where the distribution has been serialized.
 
         Returns:
-            Bivariate: Instance with the parameters stored in the file.
+            Multivariate:
+                Loaded instance.
         """
-        with open(copula_path) as f:
-            copula_dict = json.load(f)
+        with open(path, 'rb') as pickle_file:
+            return pickle.load(pickle_file)
 
-        return cls.from_dict(copula_dict)
-
-    def save(self, filename):
-        """Save the internal state of a copula in the specified filename.
+    def save(self, path):
+        """Serialize this multivariate instance using pickle.
 
         Args:
-            filename: `str` path to save.
-
-        Returns:
-            None
+            path (str):
+                Path to where this distribution will be serialized.
         """
-        content = self.to_dict()
-        with open(filename, 'w') as f:
-            json.dump(content, f)
+        with open(path, 'wb') as pickle_file:
+            pickle.dump(self, pickle_file)
 
     def check_fit(self):
-        """Assert that the object is fit
+        """Check whether this model has already been fit to a random variable.
 
-        Raises a `NotFittedError` if the model is  not fitted.
+        Raise a ``NotFittedError`` if it has not.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         if not self.fitted:
             raise NotFittedError("This model is not fitted.")

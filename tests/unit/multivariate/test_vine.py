@@ -4,9 +4,8 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-from copulas.multivariate.tree import Tree, TreeTypes
+from copulas.multivariate.tree import TreeTypes
 from copulas.multivariate.vine import VineCopula
-from copulas.univariate import GaussianKDE
 from tests import compare_nested_dicts, compare_nested_iterables
 
 
@@ -63,124 +62,6 @@ class TestVine(TestCase):
         dvalue = self.dvine.get_likelihood(uni_matrix)
         expected = -0.27565584158521045
         assert abs(dvalue - expected) < 10E-3
-
-    def test_to_dict(self):
-        """to_dict returns the internal parameters to replicate one instance."""
-        # Setup
-        instance = VineCopula('regular')
-        instance.fitted = True
-        instance.n_sample = 100
-        instance.n_var = 10
-        instance.depth = 3
-        instance.truncated = 3
-        tree = Tree('regular')
-        instance.trees = [tree]
-        uni = GaussianKDE()
-        instance.unis = [uni]
-
-        tau_mat = np.array([
-            [0, 1],
-            [1, 0]
-        ])
-        instance.tau_mat = tau_mat
-
-        u_matrix = np.array([
-            [0, 1],
-            [1, 0]
-        ])
-        instance.u_matrix = u_matrix
-
-        expected_result = {
-            'type': 'copulas.multivariate.vine.VineCopula',
-            'fitted': True,
-            'vine_type': 'regular',
-            'n_sample': 100,
-            'n_var': 10,
-            'depth': 3,
-            'truncated': 3,
-            'trees': [
-                {
-                    'type': 'copulas.multivariate.tree.RegularTree',
-                    'tree_type': 'regular',
-                    'fitted': False
-                }
-            ],
-            'tau_mat': [
-                [0, 1],
-                [1, 0]
-            ],
-            'u_matrix': [
-                [0, 1],
-                [1, 0]
-            ],
-            'unis': [
-                {
-                    'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
-                    'fitted': False,
-                }
-            ]
-        }
-
-        # Run
-        result = instance.to_dict()
-
-        # Check
-        assert result == expected_result
-
-    def test_from_dict(self):
-        """from_dict creates a new instance from its parameters."""
-        # Setup
-        vine_dict = {
-            'type': 'copulas.multivariate.vine.VineCopula',
-            'vine_type': 'regular',
-            'fitted': True,
-            'n_sample': 100,
-            'n_var': 10,
-            'depth': 3,
-            'truncated': 3,
-            'trees': [
-                {
-                    'type': 'copulas.multivariate.tree.RegularTree',
-                    'tree_type': 'regular',
-                    'fitted': False
-                }
-            ],
-            'tau_mat': [
-                [0, 1],
-                [1, 0]
-            ],
-            'u_matrix': [
-                [0, 1],
-                [1, 0]
-            ],
-            'unis': [
-                {
-                    'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
-                    'fitted': False,
-                    'constant_value': None
-                }
-            ]
-        }
-
-        # Run
-        instance = VineCopula.from_dict(vine_dict)
-
-        # Check
-        assert instance.vine_type == 'regular'
-        assert instance.n_sample == 100
-        assert instance.n_var == 10
-        assert instance.depth == 3
-        assert instance.truncated == 3
-        assert len(instance.trees) == 1
-        assert instance.trees[0].to_dict() == Tree('regular').to_dict()
-        assert (instance.tau_mat == np.array([
-            [0, 1],
-            [1, 0]
-        ])).all()
-        assert (instance.u_matrix == np.array([
-            [0, 1],
-            [1, 0]
-        ])).all()
 
     def test_serialization_unfitted_model(self):
         """An unfitted vine can be serialized and deserialized and kept unchanged."""

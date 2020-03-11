@@ -1,11 +1,10 @@
-import json
 import logging
 from enum import Enum
 
 import numpy as np
 import scipy
 
-from copulas import EPSILON, get_qualified_name, store_args
+from copulas import EPSILON, get_qualified_name
 from copulas.bivariate.base import Bivariate
 from copulas.multivariate.base import Multivariate
 
@@ -22,54 +21,20 @@ class Tree(Multivariate):
     """Helper class to instantiate a single tree in the vine model."""
 
     tree_type = None
-    _subclasses = []
-
-    @classmethod
-    def _get_subclasses(cls):
-        subclasses = []
-        for subclass in cls.__subclasses__():
-            subclasses.append(subclass)
-            subclasses.extend(subclass._get_subclasses())
-
-        return subclasses
-
-    @classmethod
-    def subclasses(cls):
-        if not cls._subclasses:
-            cls._subclasses = cls._get_subclasses()
-
-        return cls._subclasses
-
-    def __new__(cls, tree_type=None):
-        if not isinstance(tree_type, TreeTypes):
-            if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
-                tree_type = TreeTypes[tree_type.upper()]
-            else:
-                raise ValueError('Invalid tree type {}'.format(tree_type))
-
-        for subclass in cls.subclasses():
-            if subclass.tree_type is tree_type:
-                return super(Tree, cls).__new__(subclass)
-
-    @store_args
-    def __init__(self, tree_type=None):
-        """
-        Creates a new instance of any of their subclasses.
-
-        Args:
-            tree_type: `TreeType` or `str` to be compared against  TreeType.
-        """
-        self.tree_type = tree_type
-        self.fitted = False
+    fitted = False
 
     def fit(self, index, n_nodes, tau_matrix, previous_tree, edges=None):
-        """Fits tree object.
+        """Fit this tree object.
 
         Args:
-            index(int): index of the tree.
-            n_nodes(int): number of nodes in the tree.
-            tau_matrix(numpy.array): kendall's tau matrix of the data, shape (n_nodes, n_nodes).
-            previous_tree(Tree): tree object of previous level.
+            index (int):
+                index of the tree.
+            n_nodes (int):
+                number of nodes in the tree.
+            tau_matrix (numpy.array):
+                kendall's tau matrix of the data, shape (n_nodes, n_nodes).
+            previous_tree (Tree):
+                tree object of previous level.
         """
         self.level = index + 1
         self.n_nodes = n_nodes
@@ -89,17 +54,18 @@ class Tree(Multivariate):
 
         self.fitted = True
 
-    def _check_contraint(self, edge1, edge2):
+    def _check_constraint(self, edge1, edge2):
         """Check if two edges satisfy vine constraint.
 
         Args:
-            :param edge1: edge object representing edge1
-            :param edge2: edge object representing edge2
-            :type edge1: Edge object
-            :type edge2: Edge object
+            edge1 (Edge):
+                edge object representing edge1
+            edge2 (Edge):
+                edge object representing edge2
 
         Returns:
-            Boolean True if the two edges satisfy vine constraints
+            bool:
+                True if the two edges satisfy vine constraints
         """
         full_node = set([edge1.L, edge1.R, edge2.L, edge2.R])
         full_node.update(edge1.D)
@@ -119,8 +85,12 @@ class Tree(Multivariate):
         """Sort tau matrix by dependece with variable y.
 
         Args:
-            :param y: index of variable of intrest
-            :type y: int
+            y (int):
+                index of variable of intrest
+
+        Returns:
+            numpy.ndarray:
+                sorted tau matrix.
         """
         # first column is the variable of interest
         tau_y = self.tau_matrix[:, y]
@@ -139,8 +109,8 @@ class Tree(Multivariate):
         """Get tau matrix for adjacent pairs.
 
         Returns:
-            :param tau: tau matrix for the current tree
-            :type tau: np.ndarray
+            tau (numpy.ndarray):
+                tau matrix for the current tree
         """
         num_edges = len(self.edges)
         tau = np.empty([num_edges, num_edges])
@@ -164,8 +134,8 @@ class Tree(Multivariate):
         """Get adjacency matrix.
 
         Returns:
-            :param adj: adjacency matrix
-            :type adj: np.ndarray
+            numpy.ndarray:
+                adjacency matrix
         """
         edges = self.edges
         num_edges = len(edges) + 1
@@ -212,7 +182,8 @@ class Tree(Multivariate):
         """Compute likelihood of the tree given an U matrix.
 
         Args:
-            uni_matrix(numpy.array): univariate matrix to evaluate likelihood on.
+            uni_matrix (numpy.array):
+                univariate matrix to evaluate likelihood on.
 
         Returns:
             tuple[float, numpy.array]:
@@ -251,6 +222,12 @@ class Tree(Multivariate):
         return previous
 
     def to_dict(self):
+        """Return a `dict` with the parameters to replicate this Tree.
+
+        Returns:
+            dict:
+                Parameters of this Tree.
+        """
         fitted = self.fitted
         result = {
             'tree_type': self.tree_type,
@@ -273,8 +250,18 @@ class Tree(Multivariate):
 
     @classmethod
     def from_dict(cls, tree_dict, previous=None):
-        """Create a new instance from a dictionary."""
-        instance = cls(tree_dict['tree_type'])
+        """Create a new instance from a parameters dictionary.
+
+        Args:
+            params (dict):
+                Parameters of the Tree, in the same format as the one
+                returned by the ``to_dict`` method.
+
+        Returns:
+            Tree:
+                Instance of the tree defined on the parameters.
+        """
+        instance = get_tree(tree_dict['tree_type'])
 
         fitted = tree_dict['fitted']
         instance.fitted = fitted
@@ -287,23 +274,8 @@ class Tree(Multivariate):
 
         return instance
 
-    @classmethod
-    def load(cls, tree_path):
-        """Create a new instance from a file."""
-        with open(tree_path) as f:
-            tree_dict = json.load(f)
-
-        return cls.from_dict(tree_dict)
-
-    def save(self, filename):
-        """Save the internal state of a copula in the specified filename."""
-        content = self.to_dict()
-        with open(filename, 'w') as f:
-            json.dump(content, f)
-
 
 class CenterTree(Tree):
-    """Helper Class for instantiate a Center Vine"""
 
     tree_type = TreeTypes.CENTER
 
@@ -333,7 +305,12 @@ class CenterTree(Tree):
             self.edges.append(new_edge)
 
     def get_anchor(self):
-        """Find anchor variable with highest sum of dependence with the rest."""
+        """Find anchor variable with highest sum of dependence with the rest.
+
+        Returns:
+            int:
+                Anchor variable.
+        """
         temp = np.empty([self.n_nodes, 2])
         temp[:, 0] = np.arange(self.n_nodes, dtype=int)
         temp[:, 1] = np.sum(abs(self.tau_matrix), 1)
@@ -342,7 +319,6 @@ class CenterTree(Tree):
 
 
 class DirectTree(Tree):
-    """Helper Class for instantiate a Direct Vine."""
 
     tree_type = TreeTypes.DIRECT
 
@@ -394,7 +370,6 @@ class DirectTree(Tree):
 
 
 class RegularTree(Tree):
-    """Helper class for instantiate Regular Vine."""
 
     tree_type = TreeTypes.REGULAR
 
@@ -434,7 +409,7 @@ class RegularTree(Tree):
             for x in visited:
                 for k in range(self.n_nodes):
                     # check if (x,k) is a valid edge in the vine
-                    if k not in visited and k != x and self._check_contraint(edges[x], edges[k]):
+                    if k not in visited and k != x and self._check_constraint(edges[x], edges[k]):
                         adj_set.add((x, k))
 
             # find edge with maximum tau
@@ -453,16 +428,44 @@ class RegularTree(Tree):
             unvisited.remove(pairs[1])
 
 
+def get_tree(tree_type):
+    """Get a Tree instance of the specified type.
+
+    Args:
+        tree_type (str or TreeTypes):
+            Type of tree of which to get an instance.
+
+    Returns:
+        Tree:
+            Instance of a Tree of the specified type.
+    """
+    if not isinstance(tree_type, TreeTypes):
+        if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
+            tree_type = TreeTypes[tree_type.upper()]
+        else:
+            raise ValueError('Invalid tree type {}'.format(tree_type))
+
+    if tree_type == TreeTypes.CENTER:
+        return CenterTree()
+    if tree_type == TreeTypes.REGULAR:
+        return RegularTree()
+    if tree_type == TreeTypes.DIRECT:
+        return DirectTree()
+
+
 class Edge(object):
     def __init__(self, index, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
 
         Args:
-            :param left: left_node index (smaller)
-            :param right: right_node index (larger)
-            :param copula_name: name of the fitted copula class
-            :param copula_theta: parameters of the fitted copula class
-
+            left (int):
+                left_node index (smaller)
+            right (int):
+                right_node index (larger)
+            copula_name (str):
+                name of the fitted copula class
+            copula_theta (float):
+                parameters of the fitted copula class
         """
         self.index = index
         self.L = left
@@ -482,11 +485,14 @@ class Edge(object):
         """Find nodes connecting adjacent edges.
 
         Args:
-            first(Edge): Edge object representing the first edge.
-            second(Edge): Edge object representing the second edge.
+            first (Edge):
+                Edge object representing the first edge.
+            second (Edge):
+                Edge object representing the second edge.
 
         Returns:
-            tuple[int, int, set[int]]: The first two values represent left and right node
+            tuple[int, int, set[int]]:
+                The first two values represent left and right node
                 indicies of the new edge. The third value is the new dependence set.
         """
         A = set([first.L, first.R])
@@ -504,10 +510,12 @@ class Edge(object):
         """Check if two edges are adjacent.
 
         Args:
-            :param another_edge: edge object of another edge
-            :type another_edge: edge object
+            another_edge (Edge):
+                edge object of another edge
 
-        This function will return true if the two edges are adjacent.
+        Returns:
+            bool:
+                True if the two edges are adjacent.
         """
         return (
             self.L == another_edge.L
@@ -521,10 +529,12 @@ class Edge(object):
         """Sort iterable of edges first by left node indices then right.
 
         Args:
-            edges(list[Edge]): List of edges to be sorted.
+            edges (list[Edge]):
+                List of edges to be sorted.
 
         Returns:
-            list[Edge]: Sorted list by left and right node indices.
+            list[Edge]:
+                Sorted list by left and right node indices.
         """
         return sorted(edges, key=lambda x: (x.L, x.R))
 
@@ -533,11 +543,14 @@ class Edge(object):
         """Identify pair univariate value from parents.
 
         Args:
-            left_parent(Edge): left parent
-            right_parent(Edge): right parent
+            left_parent (Edge):
+                left parent
+            right_parent (Edge):
+                right parent
 
         Returns:
-            tuple[np.ndarray, np.ndarray]: left and right parents univariate.
+            tuple[np.ndarray, np.ndarray]:
+                left and right parents univariate.
         """
         left, right, _ = cls._identify_eds_ing(left_parent, right_parent)
 
@@ -548,7 +561,20 @@ class Edge(object):
 
     @classmethod
     def get_child_edge(cls, index, left_parent, right_parent):
-        """Construct a child edge from two parent edges."""
+        """Construct a child edge from two parent edges.
+
+        Args:
+            index (int):
+                Index of the new Edge.
+            left_parent (Edge):
+                Left parent
+            right_parent (Edge):
+                Right parent
+
+        Returns:
+            Edge:
+                The new child edge.
+        """
         [ed1, ed2, depend_set] = cls._identify_eds_ing(left_parent, right_parent)
         left_u, right_u = cls.get_conditional_uni(left_parent, right_parent)
         X = np.array([[x, y] for x, y in zip(left_u, right_u)])
@@ -563,10 +589,12 @@ class Edge(object):
         """Compute likelihood given a U matrix.
 
         Args:
-            uni_matrix(numpy.array): Matrix to compute the likelihood.
+            uni_matrix (numpy.array):
+                Matrix to compute the likelihood.
 
         Return:
-            tuple(np.ndarray, np.ndarray, np.array): likelihood and conditional values.
+            tuple (np.ndarray, np.ndarray, np.array):
+                likelihood and conditional values.
         """
         if self.parents is None:
             left_u = uni_matrix[:, self.L]
@@ -591,6 +619,12 @@ class Edge(object):
         return value, left_given_right, right_given_left
 
     def to_dict(self):
+        """Return a `dict` with the parameters to replicate this Edge.
+
+        Returns:
+            dict:
+                Parameters of this Edge.
+        """
         parents = None
         if self.parents:
             parents = [parent.to_dict() for parent in self.parents]
@@ -615,6 +649,17 @@ class Edge(object):
 
     @classmethod
     def from_dict(cls, edge_dict):
+        """Create a new instance from a parameters dictionary.
+
+        Args:
+            params (dict):
+                Parameters of the Edge, in the same format as the one
+                returned by the ``to_dict`` method.
+
+        Returns:
+            Edge:
+                Instance of the edge defined on the parameters.
+        """
         instance = cls(
             edge_dict['index'], edge_dict['L'], edge_dict['R'],
             edge_dict['name'], edge_dict['theta']
