@@ -20,7 +20,7 @@ def test_fit(config_path):
     # Setup
     test_obj = config['test']
     instance = get_instance(test_obj['class'], **test_obj['kwargs'])
-    data = pd.read_csv(os.path.join(BASE, 'input', config['input']))
+    data = pd.read_csv(os.path.join(BASE, 'input', config['test_case_inputs']['points']))
 
     # Run
     instance.fit(data.values)
@@ -30,7 +30,7 @@ def test_fit(config_path):
 
     rtol = config['settings']['rtol']
 
-    for other, expected in config['output'].items():
+    for other, expected in config['expected_output'].items():
         for key, exp in expected.items():
             obs = params[key]
             msg = "Mismatch against {} on {}".format(other, config_path)
