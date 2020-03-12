@@ -32,6 +32,7 @@ class GaussianKDE(ScipyWrapper):
     @store_args
     def __init__(self, sample_size=None, *args, **kwargs):
         self.sample_size = sample_size
+        self._sample_size = sample_size
         super().__init__(*args, **kwargs)
 
     def fit(self, X, *args, **kwargs):
@@ -41,10 +42,13 @@ class GaussianKDE(ScipyWrapper):
             if self.sample_size:
                 X = self.sample(self.sample_size)
                 super().fit(X, *args, **kwargs)
+            else:
+                self._sample_size = len(X)
 
             super().fit(X, *args, **kwargs)
 
         else:
+            self._sample_size = self.sample_size or len(X)
             self._replace_constant_methods()
 
         self.fitted = True
@@ -131,18 +135,20 @@ class GaussianKDE(ScipyWrapper):
             uniques = np.unique(X)
             if len(uniques) == 1:
                 instance.constant_value = uniques[0]
+                instance._replace_constant_methods()
 
             else:
                 instance.model = scipy.stats.gaussian_kde(X)
                 instance.lower = copula_dict['lower']
                 instance.upper = copula_dict['upper']
+                instance._replace_methods()
 
         return instance
 
     def _fit_params(self):
         if self.constant_value is not None:
             return {
-                'dataset': [self.constant_value] * self.sample_size,
+                'dataset': [self.constant_value] * self._sample_size,
             }
 
         return {

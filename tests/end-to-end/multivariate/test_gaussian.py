@@ -84,10 +84,19 @@ class TestGaussian(TestCase):
 
         sampled_data = model.sample(10)
 
-        # Test PDF and CDF
+        # Test PDF
         pdf = model.probability_density(sampled_data)
+        assert (0 < pdf).all()
+
+    def test_cdf(self):
+        data = sample_trivariate_xyz()
+        model = GaussianMultivariate()
+        model.fit(data)
+
+        sampled_data = model.sample(10)
+
+        # Test CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 < pdf).all() and (pdf < 1).all()
         assert (0 < cdf).all() and (cdf < 1).all()
 
         # Test CDF increasing function
