@@ -4,7 +4,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from copulas.datasets import load_three_dimensional
+from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import GaussianMultivariate
 from copulas.univariate import BetaUnivariate, GaussianKDE, ParametricType, Univariate
 
@@ -18,7 +18,7 @@ class TestGaussian(TestCase):
         self.test_dir.cleanup()
 
     def test_fit_sample(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate()
         model.fit(data)
 
@@ -32,7 +32,7 @@ class TestGaussian(TestCase):
             assert column in sampled_data
 
     def test_fit_sample_distribution_class(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate(GaussianKDE)
         model.fit(data)
 
@@ -40,7 +40,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_fit_sample_distribution_name(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate('copulas.univariate.gaussian_kde.GaussianKDE')
         model.fit(data)
 
@@ -48,7 +48,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_fit_sample_distribution_instance(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate(distribution=GaussianKDE())
         model.fit(data)
 
@@ -56,7 +56,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_fit_sample_distribution_dict(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate(distribution={
             'x': GaussianKDE()
         })
@@ -66,7 +66,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_fit_sample_distribution_dict_multiple(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate(distribution={
             'x': Univariate(parametric=ParametricType.PARAMETRIC),
             'y': BetaUnivariate(),
@@ -78,7 +78,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_pdf(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate()
         model.fit(data)
 
@@ -103,7 +103,7 @@ class TestGaussian(TestCase):
             assert (np.diff(cdf) >= 0).all()
 
     def test_to_dict_from_dict(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate()
         model.fit(data)
 
@@ -121,7 +121,7 @@ class TestGaussian(TestCase):
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
 
     def test_save_load(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = GaussianMultivariate()
         model.fit(data)
 

@@ -4,7 +4,7 @@ from unittest import TestCase
 
 import pytest
 
-from copulas.datasets import load_three_dimensional
+from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import VineCopula
 
 
@@ -17,7 +17,7 @@ class TestGaussian(TestCase):
         self.test_dir.cleanup()
 
     def test_fit_sample_direct(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = VineCopula('direct')
         model.fit(data)
 
@@ -31,7 +31,7 @@ class TestGaussian(TestCase):
             assert column in sampled_data
 
     def test_fit_sample_regular(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = VineCopula('regular')
         model.fit(data)
 
@@ -39,7 +39,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_fit_sample_center(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = VineCopula('center')
         model.fit(data)
 
@@ -47,7 +47,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (10, 3)
 
     def test_to_dict_from_dict(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = VineCopula('direct')
         model.fit(data)
 
@@ -61,7 +61,7 @@ class TestGaussian(TestCase):
 
     @pytest.mark.xfail
     def test_save_load(self):
-        data = load_three_dimensional()
+        data = sample_trivariate_xyz()
         model = VineCopula('direct')
         model.fit(data)
 
