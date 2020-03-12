@@ -19,18 +19,20 @@ def test_pdf(config_path):
 
     # Setup
     test_obj = config['test']
+    inputs = config['test_case_inputs']
+    outputs = config['expected_output']
     instance = get_instance(test_obj['class'], **test_obj['kwargs'])
-    data = pd.read_csv(os.path.join(BASE, 'input', config['input']['points']))
-    output_R = pd.read_csv(os.path.join(BASE, 'output', config['output']['R']))
-    output_M = pd.read_csv(os.path.join(BASE, 'output', config['output']['M']))
+    data = pd.read_csv(os.path.join(BASE, 'input', inputs['points']))
+    output_r = pd.read_csv(os.path.join(BASE, 'output', outputs['R']))
+    output_matlab = pd.read_csv(os.path.join(BASE, 'output', outputs['Matlab']))
 
     # Run
-    instance.theta = config['input']['theta']
+    instance.theta = inputs['theta']
 
     # Asserts
     pdfs = instance.pdf(data.values)
 
     rtol = config['settings']['rtol']
 
-    assert np.all(np.isclose(output_R["pdf"], pdfs, rtol=rtol)), config_file
-    assert np.all(np.isclose(output_M["pdf"], pdfs, rtol=rtol)), config_file
+    assert np.all(np.isclose(output_r["pdf"], pdfs, rtol=rtol)), config_file
+    assert np.all(np.isclose(output_matlab["pdf"], pdfs, rtol=rtol)), config_file

@@ -1,0 +1,28 @@
+{
+    "metadata": {
+        "test_type": "bivariate_pdf",
+        "dataset_type": "handcrafted",
+        "scripts_to_generate": {
+            "output": {
+                "R": "bivariate_pdf_output.R",
+                "Matlab": "bivariate_pdf_output.m"
+            }
+        },
+        "description": "Evaluate the Gumbel PDF with a small theta."
+    },
+    "test": {
+        "class": "copulas.bivariate.gumbel.Gumbel",
+        "kwargs": {}
+    },
+    "test_case_inputs": {
+        "theta": 1.6,
+        "points": "bivariate_pdf_input.csv"
+    },
+    "expected_output": {
+        "R": "gumbel_pdf_test_case_1_output_R.csv",
+        "Matlab": "gumbel_pdf_test_case_1_output_Matlab.csv"
+    },
+    "settings": {
+        "rtol": 1e-3
+    }
+}

@@ -20,17 +20,20 @@ def test_pdf(config_path):
     # Setup
     test_obj = config['test']
     instance = get_instance(test_obj['class'], **test_obj['kwargs'])
-    input_points = pd.read_csv(os.path.join(BASE, 'input', config['input']['points']))
-    output_R = pd.read_csv(os.path.join(BASE, 'output', config['output']['R']))
-    output_M = pd.read_csv(os.path.join(BASE, 'output', config['output']['M']))
+
+    inputs = config['test_case_inputs']
+    outputs = config['expected_output']
+    input_points = pd.read_csv(os.path.join(BASE, 'input', inputs['points']))
+    output_r = pd.read_csv(os.path.join(BASE, 'output', outputs['R']))
+    output_matlab = pd.read_csv(os.path.join(BASE, 'output', outputs['Matlab']))
 
     # Run
-    instance.theta = config['input']['theta']
+    instance.theta = inputs['theta']
 
     # Asserts
     cdfs = instance.cdf(input_points.values)
 
     rtol = config['settings']['rtol']
 
-    assert np.all(np.isclose(output_R["cdf"], cdfs, rtol=rtol))
-    assert np.all(np.isclose(output_M["cdf"], cdfs, rtol=rtol))
+    assert np.all(np.isclose(output_r["cdf"], cdfs, rtol=rtol))
+    assert np.all(np.isclose(output_matlab["cdf"], cdfs, rtol=rtol))

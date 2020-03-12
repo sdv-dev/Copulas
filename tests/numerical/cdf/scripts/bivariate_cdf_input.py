@@ -11,6 +11,7 @@ def make_dataset():
     for x0 in [0.33, 0.47, 0.61]:
         for x1 in [0.2, 0.33, 0.71, 0.9]:
             rows.append({"x0": x0, "x1": x1})
+
     return pd.DataFrame(rows)
 
 
