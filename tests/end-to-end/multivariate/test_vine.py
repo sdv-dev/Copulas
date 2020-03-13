@@ -2,8 +2,6 @@ import os
 import tempfile
 from unittest import TestCase
 
-import pytest
-
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import VineCopula
 
