@@ -3,7 +3,6 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-import pytest
 
 from copulas.datasets import sample_univariate_bimodal
 from copulas.univariate import GaussianKDE
@@ -37,7 +36,7 @@ class TestGaussian(TestCase):
         assert isinstance(sampled_data, np.ndarray)
         assert sampled_data.shape == (50, )
 
-        assert model.constant_value == 5
+        assert model._constant_value == 5
         np.testing.assert_equal(np.full(50, 5), model.sample(50))
 
     def test_pdf(self):
@@ -88,7 +87,6 @@ class TestGaussian(TestCase):
 
         params = model.to_dict()
 
-        assert params['fitted']
         assert params['type'] == 'copulas.univariate.gaussian_kde.GaussianKDE'
         assert len(params['dataset']) == 10
 
@@ -99,12 +97,10 @@ class TestGaussian(TestCase):
         params = model.to_dict()
 
         assert params == {
-            'fitted': True,
             'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
             'dataset': [5] * 100
         }
 
-    @pytest.mark.xfail
     def test_save_load(self):
         model = GaussianKDE()
         model.fit(self.data)

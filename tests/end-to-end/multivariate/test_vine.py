@@ -59,7 +59,6 @@ class TestGaussian(TestCase):
         sampled_data = model2.sample(10)
         assert sampled_data.shape == (10, 3)
 
-    @pytest.mark.xfail
     def test_save_load(self):
         data = sample_trivariate_xyz()
         model = VineCopula('direct')

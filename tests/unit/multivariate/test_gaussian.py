@@ -212,8 +212,8 @@ class TestGaussianMultivariate(TestCase):
         for i, key in enumerate(self.data.columns):
             assert copula.columns[i] == key
             assert copula.univariates[i].__class__ == GaussianUnivariate
-            assert copula.univariates[i].mean == self.data[key].mean()
-            assert copula.univariates[i].std == np.std(self.data[key])
+            assert copula.univariates[i]._params['loc'] == self.data[key].mean()
+            assert copula.univariates[i]._params['scale'] == np.std(self.data[key])
 
         expected_covariance = copula._get_covariance(self.data)
         assert (copula.covariance == expected_covariance).all().all()
@@ -266,8 +266,8 @@ class TestGaussianMultivariate(TestCase):
 
         # Check
         for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
-            assert univariate.mean == np.mean(self.data[column])
-            assert univariate.std == np.std(self.data[column])
+            assert univariate._params['loc'] == np.mean(self.data[column])
+            assert univariate._params['scale'] == np.std(self.data[column])
 
         expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
         assert (copula.covariance == expected_covariance).all().all()

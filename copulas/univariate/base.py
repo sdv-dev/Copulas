@@ -1,11 +1,10 @@
+import pickle
 from abc import ABC
 from enum import Enum
 
 import numpy as np
-import scipy.stats
 
-from copulas import (
-    NotFittedError, check_valid_values, get_instance, get_qualified_name, store_args)
+from copulas import NotFittedError, get_instance, get_qualified_name, store_args
 from copulas.univariate.selection import select_univariate
 
 
@@ -21,7 +20,7 @@ class BoundedType(Enum):
 
 
 class Univariate(object):
-    """Univariate Distribution abstraction.
+    """Univariate Distribution.
 
     Args:
         candidates (list[str or type or Univariate]):
@@ -40,6 +39,10 @@ class Univariate(object):
 
     PARAMETRIC = ParametricType.NON_PARAMETRIC
     BOUNDED = BoundedType.UNBOUNDED
+
+    fitted = False
+    _constant_value = None
+    _instance = None
 
     @classmethod
     def _select_candidates(cls, parametric=None, bounded=None):
@@ -73,178 +76,31 @@ class Univariate(object):
     def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_seed = random_seed
-        self.fitted = False
-        self.constant_value = None
-        self._instance = None
 
     def check_fit(self):
-        """Assert that the object is fit
+        """Check whether this model has already been fit to a random variable.
 
-        Raises a `NotFittedError` if the model is  not fitted.
+        Raise a ``NotFittedError`` if it has not.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         if not self.fitted:
             raise NotFittedError("This model is not fitted.")
-
-    def fit(self, X):
-        """Fits the model.
-
-        Arguments:
-            X: `np.ndarray` of shape (n, 1).
-
-        Returns:
-            None
-        """
-        self.constant_value = self._get_constant_value(X)
-        if self.constant_value is None:
-            self._instance = select_univariate(X, self.candidates)
-            self._instance.fit(X)
-        else:
-            self._replace_constant_methods()
-
-        self.fitted = True
-
-    def probability_density(self, X):
-        """Computes probability density.
-
-        Arguments:
-            X: `np.ndarray` of shape (n, 1).
-
-        Returns:
-            np.ndarray
-        """
-        self.check_fit()
-        return self._instance.probability_density(X)
-
-    def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden
-        with numerically stable variants whenever possible.
-
-        Arguments:
-            X: `np.ndarray` of shape (n, 1).
-
-        Returns:
-            np.ndarray
-        """
-        self.check_fit()
-        if self._instance:
-            return self._instance.log_probability_density(X)
-
-        return np.log(self.probability_density(X))
-
-    def pdf(self, X):
-        return self.probability_density(X)
-
-    def cumulative_distribution(self, X):
-        """Computes cumulative density.
-
-        Arguments:
-            X: `np.ndarray` of shape (n, 1).
-
-        Returns:
-            np.ndarray: Cumulative density for X.
-        """
-        self.check_fit()
-        return self._instance.cumulative_distribution(X)
-
-    def cdf(self, X):
-        return self.cumulative_distribution(X)
-
-    def percent_point(self, U):
-        """Given a cumulative distribution value, returns a value in original space.
-
-        Arguments:
-            U: `np.ndarray` of shape (n, 1) and values in [0,1]
-
-        Returns:
-            `np.ndarray`: Estimated values in original space.
-        """
-        self.check_fit()
-        return self._instance.percent_point(U)
-
-    def ppf(self, U):
-        return self.percent_point(U)
-
-    def sample(self, n_samples=1):
-        """Returns new data point based on model.
-
-        Argument:
-            n_samples: `int`
-
-        Returns:
-            np.ndarray: Generated samples
-        """
-        self.check_fit()
-        return self._instance.sample(n_samples)
-
-    def to_dict(self):
-        """Returns parameters to replicate the distribution."""
-        result = {
-            'type': get_qualified_name(self),
-            'fitted': self.fitted
-        }
-
-        if not self.fitted:
-            return result
-
-        if get_qualified_name(self) == get_qualified_name(Univariate):
-            if self.constant_value is not None:
-                result["constant_value"] = self.constant_value
-                return result
-            else:
-                result['instance_type'] = get_qualified_name(self._instance)
-
-        result.update(self._fit_params())
-        return result
-
-    def _fit_params(self):
-        """Return attributes from self.model to serialize.
-
-        Returns:
-            dict: Parameters to recreate self.model in its current fit status.
-        """
-        self.check_fit()
-        return self._instance._fit_params()
-
-    @classmethod
-    def from_dict(cls, param_dict):
-        """Create new instance from dictionary."""
-        distribution_class = get_instance(param_dict['type'])
-        if get_qualified_name(distribution_class) == get_qualified_name(Univariate):
-            distribution_class.fitted = param_dict['fitted']
-            if distribution_class.fitted:
-                if param_dict.get("constant_value", None) is not None:
-                    distribution_class.constant_value = param_dict["constant_value"]
-                    distribution_class._replace_constant_methods()
-                else:
-                    instance_class = get_instance(param_dict['instance_type'])
-                    distribution_class._instance = instance_class.from_dict(param_dict)
-            return distribution_class
-        return distribution_class.from_dict(param_dict)
-
-    @staticmethod
-    def _get_constant_value(X):
-        """Checks if a Series or array contains only one unique value.
-
-        Args:
-            X(pandas.Series or numpy.ndarray): Array to check for constantness
-
-        Returns:
-            (float or None): Return the constant value if there is one, else return None.
-        """
-        uniques = np.unique(X)
-        if len(uniques) == 1:
-            return uniques[0]
 
     def _constant_sample(self, num_samples):
         """Sample values for a constant distribution.
 
         Args:
-            num_samples(int): Number of rows to sample
+            num_samples (int):
+                Number of rows to sample
 
         Returns:
-            numpy.ndarray: Sampled values. Array of shape (num_samples,).
+            numpy.ndarray:
+                Sampled values. Array of shape (num_samples,).
         """
-        return np.full(num_samples, self.constant_value)
+        return np.full(num_samples, self._constant_value)
 
     def _constant_cumulative_distribution(self, X):
         """Cumulative distribution for the degenerate case of constant distribution.
@@ -252,14 +108,17 @@ class Univariate(object):
         Note that the output of this method will be an array whose unique values are 0 and 1.
         More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
 
-        Args:
-            X (numpy.ndarray): Values to compute cdf to.
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1).
 
         Returns:
-            numpy.ndarray: Cumulative distribution for the given values.
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
         """
         result = np.ones(X.shape)
-        result[np.nonzero(X < self.constant_value)] = 0
+        result[np.nonzero(X < self._constant_value)] = 0
 
         return result
 
@@ -269,14 +128,17 @@ class Univariate(object):
         Note that the output of this method will be an array whose unique values are 0 and 1.
         More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
 
-        Args:
-            X(numpy.ndarray): Values to compute pdf.
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the probability density will be computed.
+                It must have shape (n, 1).
 
         Returns:
-            numpy.ndarray: Probability densisty for the given values
+            numpy.ndarray:
+                Probability density values for points in X.
         """
         result = np.zeros(X.shape)
-        result[np.nonzero(X == self.constant_value)] = 1
+        result[np.nonzero(X == self._constant_value)] = 1
 
         return result
 
@@ -284,17 +146,19 @@ class Univariate(object):
         """Percent point for the degenerate case of constant distribution.
 
         Note that the output of this method will be an array whose unique values are `np.nan`
-        and self.constant_value.
+        and self._constant_value.
         More information can be found here: https://en.wikipedia.org/wiki/Degenerate_distribution
 
-        Args:
-            X(numpy.ndarray): Percentiles.
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
 
         Returns:
             numpy.ndarray:
-
+                Inverse cumulative distribution values for points in U.
         """
-        return np.full(X.shape, self.constant_value)
+        return np.full(X.shape, self._constant_value)
 
     def _replace_constant_methods(self):
         """Replaces conventional distribution methods by its constant counterparts."""
@@ -303,120 +167,445 @@ class Univariate(object):
         self.probability_density = self._constant_probability_density
         self.sample = self._constant_sample
 
+    def _set_constant_value(self, constant_value):
+        """Set the distribution up to behave as a degenerate distribution.
 
-class ScipyWrapper(Univariate, ABC):
-    """Wrapper for :attr:`scipy.stats.rv_continous` subclasses.
-
-    This class is intended to be used to integrate random variables from :attr:`scipy.stats`
-    into copulas. It contain 5 attributes that control its behavior:
-
-    - :attr:`model_class`: Name of the class to integrate, it must be in the :attr:`scipy.stats`
-      module.
-    - :attr:`probability_density`, :attr:`cumulative_distribution`, :attr:`percent_point`,
-      :attr:`sample` : This attributes contain the information about how to map the methods in the
-      model.
-
-      * If it's of type :attr:`str` it will interpreted as the name of the corresponding method in
-        model.
-
-      * If it's :attr:`None` it will be interpreted as the method doesn't exist in the model and
-        is not implemented and a error message will be displayed.
-
-      * If it's not present it will be interpreted as the method doesn't exist in the model but
-        has been implemented in the integration.
-
-    On fit time it will instantiate the given :attr:`model_class` name, and map its methods to the
-    class, following the values in the attributes for the corresponding method.
-
-    You can subclass :attr:`ScipyWrapper` by:
-
-    1. On a file named after your distribution, create a new subclass.
-
-    2. Set the :attr:`model_class` with the name of the distribution you want to integrate.
-
-    3. Map the methods of your model.
-
-    4. Implement the :attr:`from_dict` and :attr:`_fit_params` methods.
-
-    5. Implement any custom method not mapped.
-
-    For a working example of how to implement subclasses of :attr:`ScipyWraper`, please check the
-    source of :attr:`copulas.univariate.kde`.
-
-    Attributes:
-        model(scipy.stats.rv_continuous): Actual scipy.stats instance we are wrapping.
-        model_class(str): Name of the model to use (Must be found in scipy.stats)
-        probability_density(str): Name of the method of model to map to :attr:`probability_density`
-        percent_point(str): Name of the method of model to map to :attr:`percent_point`
-        sample(str): Name of the method of model to map to :attr:`sample`
-        cumulative_distribution(str):
-            Name of the method of model to map to :attr:`cumulative_distribution`
-        unfittable_model(bool):
-            Wheter or not if the wrapper method needs data to be created or only parameters.
-            (Examaples of both behaviors are :attr:`GaussianKDE` and :attr:`TruncNorm`)
-    Args:
-        None
-    """
-
-    model = None
-    model_class = None
-    unfittable_model = None
-    probability_density = None
-    log_probability_density = None
-    cumulative_distribution = None
-    percent_point = None
-    sample = None
-    METHOD_NAMES = (
-        'sample',
-        'probability_density',
-        'log_probability_density',
-        'cumulative_distribution',
-        'percent_point'
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(ScipyWrapper, self).__init__(*args, **kwargs)
-
-    def _replace_methods(self):
-        for name in self.METHOD_NAMES:
-            attribute = getattr(self.__class__, name)
-            if isinstance(attribute, str):
-                setattr(self, name, getattr(self.model, attribute))
-
-    @check_valid_values
-    def fit(self, X, *args, **kwargs):
-        """Fit scipy model to an array of values.
+        The constant value is stored as ``self._constant_value`` and all
+        the methods are replaced by their degenerate counterparts.
 
         Args:
-            X(`np.ndarray` or `pd.DataFrame`):  Datapoints to be estimated from. Must be 1-d
+            constant_value (float):
+                Value to set as the constant one.
+        """
+        self._constant_value = constant_value
+        self._replace_constant_methods()
+
+    def _check_constant_value(self, X):
+        """Checks if a Series or array contains only one unique value.
+
+        If it contains only one value, set the instance up to behave accordingly.
+
+        Args:
+            X (numpy.ndarray):
+                Data to analyze.
 
         Returns:
-            None
+            float:
+                Whether the input data had only one value or not.
         """
+        uniques = np.unique(X)
+        if len(uniques) == 1:
+            self._set_constant_value(uniques[0])
 
-        self.constant_value = self._get_constant_value(X)
+            return True
 
-        if self.constant_value is None:
-            if self.unfittable_model:
-                self.model = getattr(scipy.stats, self.model_class)(*args, **kwargs)
-            else:
-                self.model = getattr(scipy.stats, self.model_class)(X, *args, **kwargs)
+        return False
 
-            self._replace_methods()
+    def fit(self, X):
+        """Fit the model to a random variable.
 
-        else:
-            self._replace_constant_methods()
+        Arguments:
+            X (numpy.ndarray):
+                Values of the random variable. It must have shape (n, 1).
+        """
+        self._instance = select_univariate(X, self.candidates)
+        self._instance.fit(X)
 
         self.fitted = True
 
-    @classmethod
-    def from_dict(cls, parameters):
-        """Set attributes with provided values.
+    def probability_density(self, X):
+        """Compute the probability density for each point in X.
 
-        Args:
-            parameters(dict): Dictionary containing instance parameters.
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the probability density will be computed.
+                It must have shape (n, 1).
 
         Returns:
-            ScipyWrapper: Instance populated with given parameters.
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
-        raise NotImplementedError
+        self.check_fit()
+        return self._instance.probability_density(X)
+
+    def log_probability_density(self, X):
+        """Compute the log of the probability density for each point in X.
+
+        It should be overridden with numerically stable variants whenever possible.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the log probability density will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Log probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        if self._instance:
+            return self._instance.log_probability_density(X)
+
+        return np.log(self.probability_density(X))
+
+    def pdf(self, X):
+        """Compute the probability density for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the probability density will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Probability density values for points in X.
+        """
+        return self.probability_density(X)
+
+    def cumulative_distribution(self, X):
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._instance.cumulative_distribution(X)
+
+    def cdf(self, X):
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+        """
+        return self.cumulative_distribution(X)
+
+    def percent_point(self, U):
+        """Compute the inverse cumulative distribution value for each point in U.
+
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
+
+        Returns:
+            numpy.ndarray:
+                Inverse cumulative distribution values for points in U.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._instance.percent_point(U)
+
+    def ppf(self, U):
+        """Compute the inverse cumulative distribution value for each point in U.
+
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
+
+        Returns:
+            numpy.ndarray:
+                Inverse cumulative distribution values for points in U.
+        """
+        return self.percent_point(U)
+
+    def sample(self, n_samples=1):
+        """Sample values from this model.
+
+        Argument:
+            n_samples (int):
+                Number of values to sample
+
+        Returns:
+            numpy.ndarray:
+                Array of shape (n_samples, 1) with values randomly
+                sampled from this model distribution.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._instance.sample(n_samples)
+
+    def _get_params(self):
+        """Return attributes from self.model to serialize.
+
+        Returns:
+            dict:
+                Parameters of the underlying distribution.
+        """
+        return self._instance._get_params()
+
+    def _set_params(self, params):
+        """Set the parameters of this univariate.
+
+        Must be implemented in all the subclasses.
+
+        Args:
+            dict:
+                Parameters to recreate this instance.
+        """
+        raise NotImplementedError()
+
+    def to_dict(self):
+        """Return the parameters of this model in a dict.
+
+        Returns:
+            dict:
+                Dictionary containing the distribution type and all
+                the parameters that define the distribution.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+
+        params = self._get_params()
+        if self.__class__ is Univariate:
+            params['type'] = get_qualified_name(self._instance)
+        else:
+            params['type'] = get_qualified_name(self)
+
+        return params
+
+    @classmethod
+    def from_dict(cls, params):
+        """Build a distribution from its params dict.
+
+        Args:
+            params (dict):
+                Dictionary containing the FQN of the distribution and the
+                necessary parameters to rebuild it.
+                The input format is exactly the same that is outputted by
+                the distribution class ``to_dict`` method.
+
+        Returns:
+            Univariate:
+                Distribution instance.
+        """
+        params = params.copy()
+        distribution = get_instance(params.pop('type'))
+        distribution._set_params(params)
+        distribution.fitted = True
+
+        return distribution
+
+    def save(self, path):
+        """Serialize this univariate instance using pickle.
+
+        Args:
+            path (str):
+                Path to where this distribution will be serialized.
+        """
+        with open(path, 'wb') as pickle_file:
+            pickle.dump(self, pickle_file)
+
+    @classmethod
+    def load(cls, path):
+        """Load a Univariate instance from a pickle file.
+
+        Args:
+            path (str):
+                Path to the pickle file where the distribution has been serialized.
+
+        Returns:
+            Univariate:
+                Loaded instance.
+        """
+        with open(path, 'rb') as pickle_file:
+            return pickle.load(pickle_file)
+
+
+class ScipyModel(Univariate, ABC):
+    """Wrapper for scipy models.
+
+    This class makes the probability_density, cumulative_distribution,
+    percent_point and sample point at the underlying pdf, cdf, ppd and rvs
+    methods respectively.
+
+    fit, _get_params and _set_params must be implemented by the subclasses.
+    """
+
+    MODEL_CLASS = None
+
+    _params = None
+
+    def probability_density(self, X):
+        """Compute the probability density for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the probability density will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._model.cdf(X)
+
+    def log_probability_density(self, X):
+        """Compute the log of the probability density for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the log probability density will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Log probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        if hasattr(self._model, 'logpdf'):
+            return self._model.logpdf(X)
+
+        return np.log(self.probability_density(X))
+
+    def cumulative_distribution(self, X):
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._model.cdf(X)
+
+    def percent_point(self, U):
+        """Compute the inverse cumulative distribution value for each point in U.
+
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
+
+        Returns:
+            numpy.ndarray:
+                Inverse cumulative distribution values for points in U.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._model.ppf(U)
+
+    def sample(self, n_samples=1):
+        """Sample values from this model.
+
+        Argument:
+            n_samples (int):
+                Number of values to sample
+
+        Returns:
+            numpy.ndarray:
+                Array of shape (n_samples, 1) with values randomly
+                sampled from this model distribution.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._model.rvs(n_samples)
+
+    def _fit(self, X):
+        """Fit the model to a non-constant random variable.
+
+        Must be implemented in all the subclasses.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values of the random variable. It must have shape (n, 1).
+        """
+        raise NotImplementedError()
+
+    def _get_model(self):
+        return self.MODEL_CLASS(**self._params)
+
+    def fit(self, X):
+        """Fit the model to a random variable.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values of the random variable. It must have shape (n, 1).
+        """
+        if self._check_constant_value(X):
+            self._fit_constant(X)
+        else:
+            self._fit(X)
+            self._model = self._get_model()
+
+        self.fitted = True
+
+    def _get_params(self):
+        """Return attributes from self._model to serialize.
+
+        Must be implemented in all the subclasses.
+
+        Returns:
+            dict:
+                Parameters to recreate self._model in its current fit status.
+        """
+        return self._params.copy()
+
+    def _set_params(self, params):
+        """Set the parameters of this univariate.
+
+        Args:
+            params (dict):
+                Parameters to recreate this instance.
+        """
+        self._params = params.copy()
+        if self._is_constant():
+            self._replace_constant_methods()
+        else:
+            self._model = self._get_model()

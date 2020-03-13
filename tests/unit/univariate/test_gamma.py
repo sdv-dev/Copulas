@@ -8,42 +8,41 @@ from copulas.univariate import GammaUnivariate
 
 class TestGammaUnivariate(TestCase):
 
-    def test___init__(self):
-        """On init, default values are set on instance."""
-        copula = GammaUnivariate()
-        assert copula.a is None
-        assert copula.loc is None
-        assert copula.scale is None
+    def test__fit_constant(self):
+        distribution = GammaUnivariate()
 
-    def test_fit(self):
-        """On fit, stats from fit data are set in the model."""
+        distribution._fit_constant(np.array([1, 1, 1, 1]))
 
-        # Generate data with known parameters
-        a, loc, scale = 1.0, 3.0, 5.0
-        data = gamma.rvs(a, loc, scale, size=100000)
+        assert distribution._params == {
+            'a': 0,
+            'loc': 1,
+            'scale': 0
+        }
 
-        # Fit the model and check parameters
-        copula = GammaUnivariate()
-        copula.fit(data)
-        self.assertAlmostEqual(copula.a, a, places=1)
-        self.assertAlmostEqual(copula.loc, loc, places=1)
-        self.assertAlmostEqual(copula.scale, scale, places=1)
+    def test__fit(self):
+        distribution = GammaUnivariate()
 
-    def test_test_fit_equal_values(self):
-        """If it's fit with constant data, contant_value is set."""
-        instance = GammaUnivariate()
-        instance.fit(np.array([5, 5, 5, 5, 5, 5]))
-        assert instance.constant_value == 5
+        data = gamma.rvs(size=10000, a=1, loc=1, scale=1)
+        distribution._fit(data)
 
-    def test_valid_serialization_unfit_model(self):
-        """For a unfitted model to_dict and from_dict are opposites."""
-        instance = GammaUnivariate()
-        result = GammaUnivariate.from_dict(instance.to_dict())
-        assert instance.to_dict() == result.to_dict()
+        expected = {
+            'loc': 1,
+            'scale': 1,
+            'a': 1,
+        }
+        for key, value in distribution._params.items():
+            np.testing.assert_allclose(value, expected[key], atol=0.1)
 
-    def test_valid_serialization_fit_model(self):
-        """For a fitted model to_dict and from_dict are opposites."""
-        instance = GammaUnivariate()
-        instance.fit(np.array([1, 2, 3, 2, 1]))
-        result = GammaUnivariate.from_dict(instance.to_dict())
-        assert instance.to_dict() == result.to_dict()
+    def test__is_constant_true(self):
+        distribution = GammaUnivariate()
+
+        distribution.fit(np.array([1, 1, 1, 1]))
+
+        assert distribution._is_constant()
+
+    def test__is_constant_false(self):
+        distribution = GammaUnivariate()
+
+        distribution.fit(np.array([1, 2, 3, 4]))
+
+        assert not distribution._is_constant()
