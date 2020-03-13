@@ -7,32 +7,16 @@ import pytest
 
 from copulas import EPSILON
 from copulas.bivariate import CopulaTypes
-from copulas.multivariate.tree import Edge, Tree, TreeTypes
+from copulas.multivariate.tree import Edge, Tree, TreeTypes, get_tree
 from copulas.univariate.gaussian_kde import GaussianKDE
 from tests import compare_nested_dicts, compare_nested_iterables, compare_values_epsilon
 
 
 class TestTree(TestCase):
 
-    def test_to_dict_unfitted_model(self):
-        """to_dict returns a simpler dict when Tree is not fitted."""
-        # Setup
-        instance = Tree(TreeTypes.REGULAR)
-        expected_result = {
-            'type': 'copulas.multivariate.tree.RegularTree',
-            'tree_type': TreeTypes.REGULAR,
-            'fitted': False
-        }
-
-        # Run
-        result = instance.to_dict()
-
-        # Check
-        assert result == expected_result
-
     def test_to_dict_fit_model(self):
         # Setup
-        instance = Tree(TreeTypes.REGULAR)
+        instance = get_tree(TreeTypes.REGULAR)
         X = pd.DataFrame(data=[
             [1, 0, 0],
             [0, 1, 0],
@@ -123,7 +107,7 @@ class TestTree(TestCase):
 
     def test_serialization_unfitted_model(self):
         # Setup
-        instance = Tree(TreeTypes.REGULAR)
+        instance = get_tree(TreeTypes.REGULAR)
 
         # Run
         result = Tree.from_dict(instance.to_dict())
@@ -133,7 +117,7 @@ class TestTree(TestCase):
 
     def test_serialization_fit_model(self):
         # Setup
-        instance = Tree(TreeTypes.REGULAR)
+        instance = get_tree(TreeTypes.REGULAR)
         X = pd.DataFrame(data=[
             [1, 0, 0],
             [0, 1, 0],
@@ -161,7 +145,7 @@ class TestTree(TestCase):
     def test_prepare_next_tree_first_level(self, bivariate_mock):
         """prepare_next_tree computes the conditional U matrices on its edges."""
         # Setup
-        instance = Tree(TreeTypes.REGULAR)
+        instance = get_tree(TreeTypes.REGULAR)
         instance.level = 1
         instance.u_matrix = np.array([
             [0.1, 0.2],
@@ -207,7 +191,7 @@ class TestTree(TestCase):
     def test_prepare_next_tree_regular_level(self, bivariate_mock, conditional_mock):
         """prepare_next_tree computes the conditional U matrices on its edges."""
         # Setup
-        instance = Tree(TreeTypes.REGULAR)
+        instance = get_tree(TreeTypes.REGULAR)
         instance.level = 2
 
         edge = MagicMock(spec=Edge)
@@ -266,7 +250,8 @@ class TestCenterTree(TestCase):
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
-        self.tree = Tree(TreeTypes.CENTER)
+
+        self.tree = get_tree(TreeTypes.CENTER)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
@@ -312,14 +297,14 @@ class TestCenterTree(TestCase):
             uni.fit(data[col])
             u_matrix[:, index] = uni.cumulative_distribution(data[col])
 
-        first_tree = Tree(TreeTypes.CENTER)
+        first_tree = get_tree(TreeTypes.CENTER)
         first_tree.fit(0, 4, tau_mat, u_matrix)
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
         likelihood_first_tree, conditional_uni_first = first_tree.get_likelihood(uni_matrix)
         tau = first_tree.get_tau_matrix()
 
         # Build second tree
-        second_tree = Tree(TreeTypes.CENTER)
+        second_tree = get_tree(TreeTypes.CENTER)
         second_tree.fit(1, 3, tau, first_tree)
         expected_likelihood_second_tree = 0.4888802429313932
 
@@ -341,7 +326,8 @@ class TestRegularTree(TestCase):
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
-        self.tree = Tree(TreeTypes.REGULAR)
+
+        self.tree = get_tree(TreeTypes.REGULAR)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
@@ -387,7 +373,7 @@ class TestRegularTree(TestCase):
     def test_second_tree_likelihood(self):
         """Assert second tree likelihood is correct."""
         tau = self.tree.get_tau_matrix()
-        second_tree = Tree(TreeTypes.REGULAR)
+        second_tree = get_tree(TreeTypes.REGULAR)
         second_tree.fit(1, 3, tau, self.tree)
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])
 
@@ -408,7 +394,8 @@ class TestDirectTree(TestCase):
             uni.fit(self.data[col])
             self.u_matrix[:, count] = uni.cumulative_distribution(self.data[col])
             count += 1
-        self.tree = Tree(TreeTypes.DIRECT)
+
+        self.tree = get_tree(TreeTypes.DIRECT)
         self.tree.fit(0, 4, self.tau_mat, self.u_matrix)
 
     def test_first_tree(self):
@@ -435,7 +422,7 @@ class TestDirectTree(TestCase):
     def test_get_tau_matrix_no_edges_empty(self):
         """get_tau_matrix returns an empty array if there are no edges."""
         # Setup
-        tree = Tree(TreeTypes.DIRECT)
+        tree = get_tree(TreeTypes.DIRECT)
         tree.edges = []
 
         # Run
@@ -457,7 +444,7 @@ class TestDirectTree(TestCase):
         """Assert second tree likelihood is correct."""
         tau = self.tree.get_tau_matrix()
 
-        second_tree = Tree(TreeTypes.DIRECT)
+        second_tree = get_tree(TreeTypes.DIRECT)
         second_tree.fit(1, 3, tau, self.tree)
 
         uni_matrix = np.array([[0.1, 0.2, 0.3, 0.4]])

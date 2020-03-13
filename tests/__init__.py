@@ -15,7 +15,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
         if isinstance(_first, dict):
             compare_nested_dicts(_first, _second, epsilon)
 
-        elif isinstance(_first, (list, np.ndarray, tuple)):
+        elif hasattr(_first, '__len__'):
             compare_nested_iterables(_first, _second, epsilon)
 
         elif isinstance(_first, pd.DataFrame):
