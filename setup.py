@@ -55,6 +55,9 @@ development_requires = [
 
     # Tutorials
     'jupyter>=1.0.0'
+
+    # ATM datasets test
+    'tabulate>=0.8.3,<0.9',
 ]
 
 tests_require = [
