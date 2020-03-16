@@ -156,6 +156,7 @@ class VineCopula(Multivariate):
             truncated (int):
                 Max level to build the vine.
         """
+        LOGGER.info('Fitting VineCopula("%s")', self.vine_type)
         self.n_sample, self.n_var = X.shape
         self.columns = X.columns
         self.tau_mat = X.corr(method='kendall').values
