@@ -89,7 +89,7 @@ class GaussianMultivariate(Multivariate):
             else:
                 distribution = self.distribution
 
-            LOGGER.debug('Fitting column %s to %s', column_name, distribution.__name__)
+            LOGGER.debug('Fitting column %s to %s', column_name, distribution)
 
             univariate = get_instance(distribution)
             univariate.fit(column)
