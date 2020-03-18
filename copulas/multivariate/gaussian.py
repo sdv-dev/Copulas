@@ -33,6 +33,16 @@ class GaussianMultivariate(Multivariate):
         self.random_seed = random_seed
         self.distribution = distribution
 
+    def __repr__(self):
+        if self.distribution == DEFAULT_DISTRIBUTION:
+            distribution = ''
+        elif isinstance(self.distribution, type):
+            distribution = 'distribution="{}"'.format(self.distribution.__name__)
+        else:
+            distribution = 'distribution="{}"'.format(self.distribution)
+
+        return 'GaussianMultivariate({})'.format(distribution)
+
     def _transform_to_normal(self, X):
         if isinstance(X, pd.Series):
             X = X.to_frame().T
@@ -76,7 +86,7 @@ class GaussianMultivariate(Multivariate):
             X (pandas.DataFrame):
                 Values of the random variables.
         """
-        LOGGER.info('Fitting Gaussian Multivariate')
+        LOGGER.info('Fitting %s', self)
 
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
