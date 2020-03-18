@@ -47,14 +47,19 @@ def get_atm_dataset_url(name):
     return urljoin(ATM_DATA_URL, name)
 
 
-def load_data(dataset, max_rows):
-    LOGGER.debug('Loading dataset %s (max_rows: %s)', dataset, max_rows)
+def load_data(dataset, max_rows, max_columns):
+    LOGGER.debug('Loading dataset %s (max_rows: %s, max_columns: %s)',
+                 dataset, max_rows, max_columns)
     url = get_atm_dataset_url(dataset)
-    return pd.read_csv(url, nrows=max_rows)
+    data = pd.read_csv(url, nrows=max_rows)
+    if max_columns:
+        data = data[data.columns[:max_columns]]
+
+    return data
 
 
-def test_dataset(model, dataset, max_rows):
-    data = load_data(dataset, max_rows)
+def test_dataset(model, dataset, max_rows, max_columns):
+    data = load_data(dataset, max_rows, max_columns)
     start = datetime.utcnow()
 
     LOGGER.info('Testing dataset %s (shape: %s)', dataset, data.shape)
@@ -71,6 +76,17 @@ def test_dataset(model, dataset, max_rows):
         sampled = instance.sample(len(data))
         assert sampled.shape == data.shape
 
+        try:
+            LOGGER.info('Computing PDF for dataset %s', dataset)
+            pdf = instance.pdf(sampled)
+            assert (0 <= pdf).all()
+
+            LOGGER.info('Computing CDF for dataset %s', dataset)
+            cdf = instance.cdf(sampled)
+            assert (0 <= cdf).all() and (cdf <= 1).all()
+        except NotImplementedError:
+            pass
+
         LOGGER.info('Evaluating scores for dataset %s', dataset)
         scores = []
         for column in data.columns:
@@ -80,8 +96,8 @@ def test_dataset(model, dataset, max_rows):
         LOGGER.info("Dataset %s score: %s", dataset, score)
 
     except Exception as ex:
-        error = str(ex)
-        LOGGER.error("Dataset %s failed: %s", dataset, ex)
+        error = '{}: {}'.format(ex.__class__, ex)
+        LOGGER.exception("Dataset %s failed: %s", dataset, error)
 
     elapsed = datetime.utcnow() - start
 
@@ -107,12 +123,12 @@ COLUMNS = [
 ]
 
 
-def run_test(models, datasets, max_rows):
+def run_test(models, datasets, max_rows, max_columns):
     start = datetime.utcnow()
     results = []
     for model in models:
         for dataset in datasets:
-            results.append(test_dataset(model, dataset, max_rows))
+            results.append(test_dataset(model, dataset, max_rows, max_columns))
 
         elapsed = datetime.utcnow() - start
         LOGGER.info('%s datasets tested using model %s in %s', len(datasets), model, elapsed)
@@ -146,6 +162,13 @@ def logging_setup(verbosity=1, logfile=None, logger_name=None, stdout=True):
     logging.getLogger("botocore").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.CRITICAL)
 
+def _valid_model(name):
+    if name not in MODELS:
+        msg = 'Unknown model: {}\nValid models are: {}'.format(name, list(MODELS.keys()))
+        raise argparse.ArgumentTypeError(msg)
+
+    return name
+
 
 def _get_parser():
     # Parser
@@ -159,8 +182,10 @@ def _get_parser():
                         help='Limit the test to a sample of datasets for the given size.')
     parser.add_argument('-r', '--max-rows', type=int,
                         help='Limit the number of rows per dataset.')
-    parser.add_argument('-m', '--models', nargs='+', default=MODELS.keys(),
-                        help='Limit the number of rows per dataset.')
+    parser.add_argument('-c', '--max-columns', type=int,
+                        help='Limit the number of columns per dataset.')
+    parser.add_argument('-m', '--model', nargs='+', type=_valid_model,
+                        help='Name of the model to test. Can be passed multiple times.')
     parser.add_argument('datasets', nargs='*', help='Name of the datasets/s to test.')
 
     return parser
@@ -179,9 +204,10 @@ def main():
         if args.sample:
             datasets = random.sample(datasets, args.sample)
 
-    LOGGER.info("Testing datasets %s", datasets)
+    models = args.model or list(MODELS.keys())
+    LOGGER.info("Testing datasets %s on models %s", datasets, models)
 
-    results = run_test(args.models, datasets, args.max_rows)
+    results = run_test(models, datasets, args.max_rows, args.max_columns)
 
     print(tabulate.tabulate(
         results,
