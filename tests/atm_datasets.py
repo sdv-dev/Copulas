@@ -162,6 +162,7 @@ def logging_setup(verbosity=1, logfile=None, logger_name=None, stdout=True):
     logging.getLogger("botocore").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.CRITICAL)
 
+
 def _valid_model(name):
     if name not in MODELS:
         msg = 'Unknown model: {}\nValid models are: {}'.format(name, list(MODELS.keys()))
