@@ -2,8 +2,6 @@ import os
 import tempfile
 from unittest import TestCase
 
-import pytest
-
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import VineCopula
 
@@ -59,7 +57,6 @@ class TestGaussian(TestCase):
         sampled_data = model2.sample(10)
         assert sampled_data.shape == (10, 3)
 
-    @pytest.mark.xfail
     def test_save_load(self):
         data = sample_trivariate_xyz()
         model = VineCopula('direct')

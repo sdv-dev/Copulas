@@ -3,7 +3,6 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-import pytest
 from scipy.stats import truncnorm
 
 from copulas.univariate import TruncatedGaussian
@@ -23,10 +22,10 @@ class TestGaussian(TestCase):
         model = TruncatedGaussian(min=1, max=5)
         model.fit(self.data)
 
-        np.testing.assert_allclose(model.mean, 1.0, atol=0.1)
-        np.testing.assert_allclose(model.std, 1.0, atol=0.1)
-        np.testing.assert_allclose(model.min, 1.0, atol=0.1)
-        np.testing.assert_allclose(model.max, 5.0, atol=0.1)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
+        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.1)
+        np.testing.assert_allclose(model._params['a'], 0.0, atol=0.1)
+        np.testing.assert_allclose(model._params['b'], 4.0, atol=0.1)
 
         sampled_data = model.sample(50)
 
@@ -42,7 +41,7 @@ class TestGaussian(TestCase):
         assert isinstance(sampled_data, np.ndarray)
         assert sampled_data.shape == (50, )
 
-        assert model.constant_value == 5
+        assert model._constant_value == 5
         np.testing.assert_equal(np.full(50, 5), model.sample(50))
 
     def test_pdf(self):
@@ -94,15 +93,13 @@ class TestGaussian(TestCase):
         params = model.to_dict()
 
         assert params == {
-            'fitted': True,
             'type': 'copulas.univariate.truncated_gaussian.TruncatedGaussian',
-            'mean': 5,
-            'std': 0,
-            'min': 5,
-            'max': 5,
+            'loc': 5,
+            'scale': 0,
+            'a': 5,
+            'b': 5,
         }
 
-    @pytest.mark.xfail
     def test_save_load(self):
         model = TruncatedGaussian()
         model.fit(self.data)

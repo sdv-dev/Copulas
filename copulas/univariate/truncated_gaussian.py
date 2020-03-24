@@ -1,31 +1,20 @@
+import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
-from copulas import EPSILON, check_valid_values, store_args
-from copulas.univariate.base import BoundedType, ParametricType, ScipyWrapper
+from copulas import EPSILON, store_args
+from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
-class TruncatedGaussian(ScipyWrapper):
+class TruncatedGaussian(ScipyModel):
     """Wrapper around scipy.stats.truncnorm.
 
     Documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html
     """
 
-    model_class = 'truncnorm'
-    unfittable_model = True
-    probability_density = 'pdf'
-    log_probability_density = 'logpdf'
-    cumulative_distribution = 'cdf'
-    percent_point = 'ppf'
-    sample = 'rvs'
-
-    fitted = False
-    constant_value = None
-    mean = None
-    std = None
-
     PARAMETRIC = ParametricType.PARAMETRIC
     BOUNDED = BoundedType.BOUNDED
+    MODEL_CLASS = truncnorm
 
     @store_args
     def __init__(self, min=None, max=None, random_seed=None):
@@ -33,14 +22,16 @@ class TruncatedGaussian(ScipyWrapper):
         self.min = min
         self.max = max
 
-    def _get_model(self):
-        self.a = (self.min - self.mean) / self.std
-        self.b = (self.max - self.mean) / self.std
-        return truncnorm(self.a, self.b, loc=self.mean, scale=self.std)
+    def _fit_constant(self, X):
+        constant = np.unique(X)[0]
+        self._params = {
+            'a': constant,
+            'b': constant,
+            'loc': constant,
+            'scale': 0.0
+        }
 
-    def _fit_truncnorm(self, X):
-        """Fit the truncnorm parameters to the data.
-        """
+    def _fit(self, X):
         if self.min is None:
             self.min = X.min() - EPSILON
 
@@ -59,76 +50,16 @@ class TruncatedGaussian(ScipyWrapper):
             (0.0, (self.max - self.min)**2)
         ])
 
-        self.mean, self.std = optimal
-        self.model = self._get_model()
+        loc, scale = optimal
+        a = (self.min - loc) / scale
+        b = (self.max - loc) / scale
 
-    @check_valid_values
-    def fit(self, X):
-        """Fit scipy model to an array of values.
-
-        Args:
-            X(`np.ndarray` or `pd.DataFrame`):  Datapoints to be estimated from. Must be 1-d
-
-        Returns:
-            None
-        """
-
-        self.constant_value = self._get_constant_value(X)
-
-        if self.constant_value is None:
-            self._fit_truncnorm(X)
-            self._replace_methods()
-        else:
-            self._replace_constant_methods()
-
-        self.fitted = True
-
-    @classmethod
-    def from_dict(cls, parameters):
-        """Set attributes with provided values.
-
-        Args:
-            parameters(dict): Dictionary containing instance parameters.
-
-        Returns:
-            Truncnorm: Instance populated with given parameters.
-        """
-        instance = cls()
-        instance.fitted = parameters['fitted']
-
-        if instance.fitted:
-            instance.min = parameters['min']
-            instance.max = parameters['max']
-            instance.std = parameters['std']
-            instance.mean = parameters['mean']
-
-            if instance.min == instance.max:
-                instance.constant_value = instance.min
-                instance._replace_constant_methods()
-
-            else:
-                instance.model = instance._get_model()
-                instance._replace_methods()
-
-        return instance
-
-    def _fit_params(self):
-        """Return attributes from self.model to serialize.
-
-        Returns:
-            dict: Parameters to recreate self.model in its current fit status.
-        """
-        if self.constant_value is not None:
-            return {
-                'min': self.constant_value,
-                'max': self.constant_value,
-                'std': 0,
-                'mean': self.constant_value,
-            }
-
-        return {
-            'min': self.min,
-            'max': self.max,
-            'std': self.std,
-            'mean': self.mean,
+        self._params = {
+            'a': a,
+            'b': b,
+            'loc': loc,
+            'scale': scale
         }
+
+    def _is_constant(self):
+        return self._params['a'] == self._params['b']
