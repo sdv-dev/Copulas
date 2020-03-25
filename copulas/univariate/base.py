@@ -458,6 +458,7 @@ class ScipyModel(Univariate, ABC):
     MODEL_CLASS = None
 
     _params = None
+    _model = None
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.
@@ -476,7 +477,7 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.cdf(X)
+        return self._model.pdf(X)
 
     def log_probability_density(self, X):
         """Compute the log of the probability density for each point in X.
