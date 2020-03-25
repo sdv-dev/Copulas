@@ -1,5 +1,5 @@
 """
-Large Scale Copulas Evaluation.
+Large Scale Evaluation of Copulas.
 
 This script is a command line module that evaluates multiple MultiVariate models
 from the Copulas library over a collection of real world datasets stored in an
@@ -21,8 +21,7 @@ Usage:
       -o OUTPUT_PATH, --output-path OUTPUT_PATH
                             Path to the CSV file where the report will be dumped
       -s SAMPLE, --sample SAMPLE
-                            Limit the test to a sample of datasets for the given
-                            size.
+                            Limit the test to a a number of datasets (sampled randomly) specified by SAMPLE.
       -r MAX_ROWS, --max-rows MAX_ROWS
                             Limit the number of rows per dataset.
       -c MAX_COLUMNS, --max-columns MAX_COLUMNS
