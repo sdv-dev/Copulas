@@ -21,7 +21,8 @@ Usage:
       -o OUTPUT_PATH, --output-path OUTPUT_PATH
                             Path to the CSV file where the report will be dumped
       -s SAMPLE, --sample SAMPLE
-                            Limit the test to a a number of datasets (sampled randomly) specified by SAMPLE.
+                            Limit the test to a number of datasets (sampled
+                            randomly) specified by SAMPLE.
       -r MAX_ROWS, --max-rows MAX_ROWS
                             Limit the number of rows per dataset.
       -c MAX_COLUMNS, --max-columns MAX_COLUMNS
@@ -50,10 +51,10 @@ from copulas.univariate import GaussianUnivariate
 
 LOGGER = logging.getLogger(__name__)
 
-BUCKET_NAME = 'atm-data'
+BUCKET_NAME = 'atm-data'  # Bucket where the datasets are stored
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
 
-MODELS = {
+AVAILABLE_MODELS = {
     'GaussianMultivariate(GaussianUnivariate)': GaussianMultivariate(GaussianUnivariate),
     'GaussianMultivariate()': GaussianMultivariate(),
     'VineCopula("center")': VineCopula('center'),
@@ -110,7 +111,7 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
     error_message = None
     score = None
     try:
-        model = MODELS.get(model_name, model_name)
+        model = AVAILABLE_MODELS.get(model_name, model_name)
         instance = get_instance(model)
         LOGGER.info('Fitting dataset %s (shape: %s)', dataset_name, data.shape)
         instance.fit(data)
@@ -174,33 +175,9 @@ def run_evaluation(model_names, dataset_names, max_rows, max_columns):
     return pd.DataFrame(results, columns=OUTPUT_COLUMNS)
 
 
-def logging_setup(verbosity=1, logfile=None, logger_name=None, stdout=True):
-    logger = logging.getLogger(logger_name)
-    log_level = (3 - verbosity) * 10
-    fmt = '%(asctime)s - %(process)d - %(levelname)s - %(name)s - %(module)s - %(message)s'
-    formatter = logging.Formatter(fmt)
-    logger.setLevel(log_level)
-    logger.propagate = False
-
-    if logfile:
-        file_handler = logging.FileHandler(logfile)
-        file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
-
-    if stdout or not logfile:
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(log_level)
-        console_handler.setFormatter(formatter)
-        logger.addHandler(console_handler)
-
-    logging.getLogger("botocore").setLevel(logging.ERROR)
-    logging.getLogger("urllib3").setLevel(logging.CRITICAL)
-
-
 def _valid_model(name):
-    if name not in MODELS:
-        msg = 'Unknown model: {}\nValid models are: {}'.format(name, list(MODELS.keys()))
+    if name not in AVAILABLE_MODELS:
+        msg = 'Unknown model: {}\nValid models are: {}'.format(name, list(AVAILABLE_MODELS.keys()))
         raise argparse.ArgumentTypeError(msg)
 
     return name
@@ -215,7 +192,10 @@ def _get_parser():
     parser.add_argument('-o', '--output-path', type=str, required=False,
                         help='Path to the CSV file where the report will be dumped')
     parser.add_argument('-s', '--sample', type=int,
-                        help='Limit the test to a sample of datasets for the given size.')
+                        help=(
+                            'Limit the test to a number of datasets (sampled randomly)'
+                            ' specified by SAMPLE.'
+                        ))
     parser.add_argument('-r', '--max-rows', type=int,
                         help='Limit the number of rows per dataset.')
     parser.add_argument('-c', '--max-columns', type=int,
@@ -225,7 +205,11 @@ def _get_parser():
                             'Name of the model to test. Can be passed multiple '
                             'times to evaluate more than one model.'
                         ))
-    parser.add_argument('datasets', nargs='*', help='Name of the datasets/s to test.')
+    parser.add_argument('datasets', nargs='*',
+                        help=(
+                            'Name of the datasets/s to test. If no names are given '
+                            'all the available datasets are tested.'
+                        ))
 
     return parser
 
@@ -234,7 +218,9 @@ def main():
     parser = _get_parser()
     args = parser.parse_args()
 
-    logging_setup(args.verbose)
+    log_level = (3 - args.verbose) * 10
+    fmt = '%(asctime)s - %(process)d - %(levelname)s - %(name)s - %(module)s - %(message)s'
+    logging.basicConfig(level=log_level, format=fmt)
 
     if args.datasets:
         dataset_names = args.datasets
@@ -243,7 +229,7 @@ def main():
         if args.sample:
             dataset_names = random.sample(dataset_names, args.sample)
 
-    model_names = args.model or list(MODELS.keys())
+    model_names = args.model or list(AVAILABLE_MODELS.keys())
     LOGGER.info("Testing datasets %s on models %s", dataset_names, model_names)
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
