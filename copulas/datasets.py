@@ -174,6 +174,23 @@ def sample_univariate_exponential(size=1000, seed=42):
         return pd.Series(np.random.exponential(size=size) + 3.0)
 
 
+def sample_univariate_beta(size=1000, seed=42):
+    """Sample from a beta distribution with a=3 and b=1 and loc=4.
+
+    Args:
+        size (int):
+            Amount of samples to generate. Defaults to 1000.
+        seed (int):
+            Random seed to use. Defaults to 42.
+
+    Retruns:
+        pandas.Series:
+            Series with the sampled values.
+    """
+    with random_seed(seed):
+        return pd.Series(stats.beta.rvs(a=3, b=1, loc=4, size=size))
+
+
 def sample_univariates(size=1000, seed=42):
     """Sample from a list of univariate distributions.
 
@@ -194,4 +211,5 @@ def sample_univariates(size=1000, seed=42):
         'normal': sample_univariate_normal(size, seed),
         'degenerate': sample_univariate_degenerate(size, seed),
         'exponential': sample_univariate_exponential(size, seed),
+        'beta': sample_univariate_beta(size, seed),
     })
