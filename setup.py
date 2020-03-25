@@ -52,6 +52,9 @@ development_requires = [
     # Documentation style
     'doc8==0.8.0',
     'pydocstyle==3.0.0',
+
+    # ATM datasets test
+    'tabulate>=0.8.3,<0.9',
 ]
 
 tutorials_require = [

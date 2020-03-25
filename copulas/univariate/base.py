@@ -77,6 +77,10 @@ class Univariate(object):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_seed = random_seed
 
+    @classmethod
+    def __repr__(cls):
+        return cls.__name__
+
     def check_fit(self):
         """Check whether this model has already been fit to a random variable.
 
