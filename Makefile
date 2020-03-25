@@ -50,7 +50,7 @@ clean-pyc: ## remove Python file artifacts
 .PHONY: clean-docs
 clean-docs: ## remove previously built docs
 	rm -f docs/api/*.rst
-	rm -rf docs/tutorials/*
+	rm -rf docs/tutorials
 	-$(MAKE) -C docs clean 2>/dev/null  # this fails if sphinx is not yet installed
 
 .PHONY: clean-coverage
@@ -134,7 +134,7 @@ coverage: ## check code coverage quickly with the default Python
 
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
-	cp -r tutorials/ docs/tutorials
+	cp -r tutorials docs/tutorials
 	sphinx-apidoc --separate -o docs/api/ copulas
 	$(MAKE) -C docs html
 
