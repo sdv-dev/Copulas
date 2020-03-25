@@ -33,6 +33,16 @@ class GaussianMultivariate(Multivariate):
         self.random_seed = random_seed
         self.distribution = distribution
 
+    def __repr__(self):
+        if self.distribution == DEFAULT_DISTRIBUTION:
+            distribution = ''
+        elif isinstance(self.distribution, type):
+            distribution = 'distribution="{}"'.format(self.distribution.__name__)
+        else:
+            distribution = 'distribution="{}"'.format(self.distribution)
+
+        return 'GaussianMultivariate({})'.format(distribution)
+
     def _transform_to_normal(self, X):
         if isinstance(X, pd.Series):
             X = X.to_frame().T
@@ -76,7 +86,7 @@ class GaussianMultivariate(Multivariate):
             X (pandas.DataFrame):
                 Values of the random variables.
         """
-        LOGGER.debug('Fitting Gaussian Copula')
+        LOGGER.info('Fitting %s', self)
 
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
@@ -89,6 +99,8 @@ class GaussianMultivariate(Multivariate):
             else:
                 distribution = self.distribution
 
+            LOGGER.debug('Fitting column %s to %s', column_name, distribution)
+
             univariate = get_instance(distribution)
             univariate.fit(column)
 
@@ -97,8 +109,12 @@ class GaussianMultivariate(Multivariate):
 
         self.columns = columns
         self.univariates = univariates
+
+        LOGGER.debug('Computing covariance')
         self.covariance = self._get_covariance(X)
         self.fitted = True
+
+        LOGGER.debug('GaussianMultivariate fitted successfully')
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.
