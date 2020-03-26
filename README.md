@@ -143,8 +143,8 @@ SDV allows you to easily model and sample relational datasets using Copulas thou
 Other features include anonymization of Personal Identifiable Information (PII) and preserving
 relational integrity on sampled records.
 
-## TGAN
+## CTGAN
 
-[TGAN](https://github.com/sdv-dev/TGAN) is a GAN based model for synthesizing tabular data.
+[CTGAN](https://github.com/sdv-dev/CTGAN) is a GAN based model for synthesizing tabular data.
 It's also developed by the [MIT's Data to AI Lab](https://sdv-dev.github.io/) and is under
 active development.
