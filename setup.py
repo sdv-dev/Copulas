@@ -53,11 +53,13 @@ development_requires = [
     'doc8==0.8.0',
     'pydocstyle==3.0.0',
 
-    # Tutorials
-    'jupyter>=1.0.0',
-
     # ATM datasets test
     'tabulate>=0.8.3,<0.9',
+]
+
+tutorials_require = [
+    'jupyter>=1.0.0',
+    'scikit-learn>=0.22,<0.23'
 ]
 
 tests_require = [
@@ -89,8 +91,9 @@ setup(
         ],
     },
     extras_require={
+        'tutorials': tutorials_require,
         'test': tests_require,
-        'dev': tests_require + development_requires,
+        'dev': tests_require + development_requires + tutorials_require,
     },
     install_requires=install_requires,
     license="MIT license",

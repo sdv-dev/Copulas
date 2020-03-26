@@ -9,6 +9,8 @@
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 
+---
+
 # Copulas
 
 * License: [MIT](https://github.com/sdv-dev/Copulas/blob/master/LICENSE)
@@ -16,7 +18,7 @@
 * Documentation: https://sdv-dev.github.io/Copulas
 * Homepage: https://github.com/sdv-dev/Copulas
 
-# Overview
+## Overview
 
 **Copulas** is a Python library for modeling multivariate distributions and sampling from them
 using [copula functions](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29).
@@ -53,89 +55,9 @@ Some of the features provided by this library include:
 * C-Vine
 * R-Vine
 
-# Install
+## Related Projects
 
-## Requirements
-
-**Copulas** has been developed and tested on [Python 3.5, 3.6 and 3.7](https://www.python.org/downloads/)
-
-Also, although it is not strictly required, the usage of a [virtualenv](https://virtualenv.pypa.io/en/latest/)
-is highly recommended in order to avoid interfering with other software installed in the system where **Copulas**
-is run.
-
-## Install with pip
-
-The easiest and recommended way to install **Copulas** is using [pip](https://pip.pypa.io/en/stable/):
-
-```bash
-pip install copulas
-```
-
-This will pull and install the latest stable release from [PyPi](https://pypi.org/).
-
-If you want to install from source or contribute to the project please read the
-[Contributing Guide](https://sdv-dev.github.io/Copulas/contributing.html#get-started).
-
-
-# Quickstart
-
-In this short quickstart, we show how to model a multivariate dataset and then generate
-synthetic data that resembles it.
-
-```python3
-import warnings
-warnings.filterwarnings('ignore')
-
-from copulas.datasets import sample_trivariate_xyz
-from copulas.multivariate import GaussianMultivariate
-from copulas.visualization import compare_3d
-
-# Load a dataset with 3 columns that are not independent
-real_data = sample_trivariate_xyz()
-
-# Fit a gaussian copula to the data
-copula = GaussianMultivariate()
-copula.fit(real_data)
-
-# Sample synthetic data
-synthetic_data = copula.sample(len(real_data))
-
-# Plot the real and the synthetic data to compare
-compare_3d(real_data, synthetic_data)
-```
-
-The output will be a figure with two plots, showing what both the real and the synthetic
-data that you just generated look like:
-
-![Quickstart](docs/images/quickstart.png)
-
-
-# What's next?
-
-For more details about **Copulas** and all its possibilities and features, please check the
-[documentation site](https://sdv-dev.github.io/Copulas/).
-
-There you can learn more about [how to contribute to Copulas](https://sdv-dev.github.io/Copulas/contributing.html)
-in order to help us developing new features or cool ideas.
-
-# Credits
-
-Copulas is an open source project from the Data to AI Lab at MIT which has been built and maintained
-over the years by the following team:
-
-* Manuel Alvarez <manuel@pythiac.com>
-* Carles Sala <carles@pythiac.com>
-* José David Pérez <jose@pythiac.com>
-* (Alicia)Yi Sun <yis@mit.edu>
-* Andrew Montanez <amontane@mit.edu>
-* Kalyan Veeramachaneni <kalyan@csail.mit.edu>
-* paulolimac <paulolimac@gmail.com>
-* Kevin Alex Zhang <kevz@mit.edu>
-
-
-# Related Projects
-
-## SDV
+### SDV
 
 [SDV](https://github.com/HDI-Project/SDV), for Synthetic Data Vault, is the end-user library for
 synthesizing data in development under the [HDI Project](https://hdi-dai.lids.mit.edu/).
@@ -143,7 +65,7 @@ SDV allows you to easily model and sample relational datasets using Copulas thou
 Other features include anonymization of Personal Identifiable Information (PII) and preserving
 relational integrity on sampled records.
 
-## CTGAN
+### CTGAN
 
 [CTGAN](https://github.com/sdv-dev/CTGAN) is a GAN based model for synthesizing tabular data.
 It's also developed by the [MIT's Data to AI Lab](https://sdv-dev.github.io/) and is under
