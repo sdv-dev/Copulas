@@ -1,6 +1,23 @@
 # History
 
-## 0.2.5 (2019-01-17)
+## 0.3.0 (2020-03-27)
+
+Important revamp of the internal implementation of the project, the testing
+infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
+@csala and Kalyan Veeramachaneni @kveerama
+
+## Enhancements
+
+* Reimplementation of the existing Univariate distributions.
+* Addition of new Beta and Gamma Univariates.
+* New Univariate API with automatic selection of the optimal distribution.
+* Several improvements and fixes on the Bivariate and Multivariate Copulas implementation.
+* New visualization module with simple plotting patterns to visualize probability distributions.
+* New datasets module with toy datasets sampling functions.
+* New testing infrastructure with end-to-end, numerical and large scale testing.
+* Improved tutorials and documentation.
+
+## 0.2.5 (2020-01-17)
 
 ### General Improvements
 
