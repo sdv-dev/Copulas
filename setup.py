@@ -108,6 +108,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.2.6-dev',
+    version='0.3.0.dev0',
     zip_safe=False,
 )
