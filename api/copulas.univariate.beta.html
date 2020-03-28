@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.univariate.beta module &mdash; Copulas 0.3.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="copulas.univariate.gamma module" href="copulas.univariate.gamma.html" />
+    <link rel="prev" title="copulas.univariate.base module" href="copulas.univariate.base.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+          <li><a href="copulas.univariate.html">copulas.univariate package</a> &raquo;</li>
+        
+      <li>copulas.univariate.beta module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.univariate.beta.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-copulas.univariate.beta">
+<span id="copulas-univariate-beta-module"></span><h1>copulas.univariate.beta module<a class="headerlink" href="#module-copulas.univariate.beta" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="copulas.univariate.beta.BetaUnivariate">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.beta.</code><code class="sig-name descname">BetaUnivariate</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/beta.html#BetaUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.beta.BetaUnivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<p>Wrapper around scipy.stats.beta.</p>
+<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html</a></p>
+<dl class="attribute">
+<dt id="copulas.univariate.beta.BetaUnivariate.BOUNDED">
+<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.beta.BetaUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.beta.BetaUnivariate.MODEL_CLASS">
+<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.beta_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.beta.BetaUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.beta.BetaUnivariate.PARAMETRIC">
+<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.beta.BetaUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.univariate.gamma.html" class="btn btn-neutral float-right" title="copulas.univariate.gamma module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.univariate.base.html" class="btn btn-neutral float-left" title="copulas.univariate.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

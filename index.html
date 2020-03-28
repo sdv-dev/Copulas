@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Copulas &mdash; Copulas 0.2.5 documentation</title>
+  <title>Copulas &mdash; Copulas 0.3.0 documentation</title>
   
 
   
@@ -23,11 +23,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -38,7 +40,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Copulas" href="readme.html" /> 
+    <link rel="next" title="Installation" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,119 +84,108 @@
               
             
             
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Copulas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#supported-copulas">Supported Copulas</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#bivariate-copulas">Bivariate copulas</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#multivariate">Multivariate</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-with-pip">Install with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-from-source">Install from source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-for-development">Install for Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#concepts">Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#probability">Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#random-variable">Random variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#distribution">Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#types-of-distributions">Types of distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#id2">Copulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#load-the-data">1. Load the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#fit-the-model">3. Fit the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#sample-new-data">4. Sample new data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#load-and-save-a-model">5. Load and save a model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#what-s-next">What’s next?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#credits">Credits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#related-projects">Related Projects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#sdv">SDV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#tgan">TGAN</a></li>
-</ul>
-</li>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/copulas.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.html">copulas.bivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.html">copulas.multivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#module-copulas">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.2.5 (2019-01-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#general-improvements">General Improvements</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.4 (2019-12-23)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id5">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#bugs-fixed">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id9">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id10">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id12">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id15">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id17">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id18">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id25">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id30">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#unified-api">0.2.0 - Unified API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#first-release">0.1.0 - First Release</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
 </ul>
 
             
@@ -261,360 +252,91 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p align="left">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p align="left">
 <img width=20% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“sdv-dev” />
 <i>An open source project from Data to AI Lab at MIT.</i>
-</p><a class="reference external image-reference" href="https://pypi.python.org/pypi/copulas"><img alt="PyPi Shield" src="https://img.shields.io/pypi/v/copulas.svg" /></a>
+</p><a class="reference external image-reference" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha"><img alt="Development Status" src="https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/copulas"><img alt="PyPi Shield" src="https://img.shields.io/pypi/v/copulas.svg" /></a>
 <a class="reference external image-reference" href="https://travis-ci.org/sdv-dev/Copulas"><img alt="Travis CI Shield" src="https://travis-ci.org/sdv-dev/Copulas.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://codecov.io/gh/sdv-dev/Copulas"><img alt="Coverage Status" src="https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg" /></a>
 <a class="reference external image-reference" href="https://pepy.tech/project/copulas"><img alt="Downloads" src="https://pepy.tech/badge/copulas" /></a>
+<hr class="docutils" />
 <div class="section" id="copulas">
 <h1>Copulas<a class="headerlink" href="#copulas" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>License: <a class="reference external" href="https://github.com/sdv-dev/Copulas/blob/master/LICENSE">MIT</a></p></li>
+<li><p>Development Status: <a class="reference external" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha">Pre-Alpha</a></p></li>
 <li><p>Documentation: <a class="reference external" href="https://sdv-dev.github.io/Copulas">https://sdv-dev.github.io/Copulas</a></p></li>
 <li><p>Homepage: <a class="reference external" href="https://github.com/sdv-dev/Copulas">https://github.com/sdv-dev/Copulas</a></p></li>
 </ul>
-</div>
 <div class="section" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>Copulas is a python library for building multivariate distributuions using
-<a class="reference external" href="https://en.wikipedia.org/wiki/Copula_%28probability_theory%29">copulas</a> and using them
-for sampling. In short, you give a table of numerical data without missing values as a
-2-dimensional <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> and copulas models its distribution and using it to generate
-new records, or analyze its statistical properties.</p>
-<p>This repository contains multiple implementations of bivariate and multivariate copulas,
-further functionality include:</p>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><strong>Copulas</strong> is a Python library for modeling multivariate distributions and sampling from them
+using <a class="reference external" href="https://en.wikipedia.org/wiki/Copula_%28probability_theory%29">copula functions</a>.
+Given a table containing numerical data, we can use Copulas to learn the distribution and
+later on generate new synthetic rows following the same statistical properties.</p>
+<p>Some of the features provided by this library include:</p>
 <ul class="simple">
-<li><p>Most usual statistical functions from the underlying distribution.</p></li>
-<li><p>Built-in inverse-transform sampling method.</p></li>
-<li><p>Easy save and load of models.</p></li>
-<li><p>Create copulas directly from their parameters.</p></li>
+<li><p>A variety of distributions for modeling univariate data.</p></li>
+<li><p>Multiple Archimedean copulas for modeling bivariate data.</p></li>
+<li><p>Gaussian and Vine copulas for modeling multivariate data.</p></li>
+<li><p>Automatic selection of univariate distributions and bivariate copulas.</p></li>
 </ul>
-<div class="section" id="supported-copulas">
-<h2>Supported Copulas<a class="headerlink" href="#supported-copulas" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="bivariate-copulas">
-<h3>Bivariate copulas<a class="headerlink" href="#bivariate-copulas" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="supported-distributions">
+<h2>Supported Distributions<a class="headerlink" href="#supported-distributions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="univariate">
+<h3>Univariate<a class="headerlink" href="#univariate" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Gaussian</p></li>
+<li><p>Beta</p></li>
+<li><p>Gamma</p></li>
+<li><p>Gaussian KDE</p></li>
+<li><p>Truncated Gaussian</p></li>
+</ul>
+</div>
+<div class="section" id="archimedean-copulas-bivariate">
+<h3>Archimedean Copulas (Bivariate)<a class="headerlink" href="#archimedean-copulas-bivariate" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Clayton</p></li>
 <li><p>Frank</p></li>
 <li><p>Gumbel</p></li>
-<li><p>Independence</p></li>
 </ul>
 </div>
 <div class="section" id="multivariate">
 <h3>Multivariate<a class="headerlink" href="#multivariate" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Gaussian <a class="reference external" href="https://en.wikipedia.org/wiki/Copula_%28probability_theory%29#Gaussian_copula">[+ info]</a></p></li>
+<li><p>Gaussian</p></li>
 <li><p>D-Vine</p></li>
 <li><p>C-Vine</p></li>
 <li><p>R-Vine</p></li>
 </ul>
 </div>
 </div>
-</div>
-<div class="section" id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p><strong>Copulas</strong> has been developed and tested on <a class="reference external" href="https://www.python.org/downloads/">Python 3.5, and 3.6</a></p>
-<p>Also, although it is not strictly required, the usage of a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>
-is highly recommended in order to avoid interfering with other software installed in the system where <strong>Copulas</strong>
-is run.</p>
-<p>These are the minimum commands needed to create a virtualenv using python3.6 for <strong>Copulas</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install virtualenv
-virtualenv -p <span class="k">$(</span>which python3.6<span class="k">)</span> copulas-venv
-</pre></div>
-</div>
-<p>Afterwards, you have to execute this command to have the virtualenv activated:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> copulas-venv/bin/activate
-</pre></div>
-</div>
-<p>Remember about executing it every time you start a new console to work on <strong>Copulas</strong>!</p>
-</div>
-<div class="section" id="install-with-pip">
-<h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Permalink to this headline">¶</a></h2>
-<p>After creating the virtualenv and activating it, we recommend using
-<a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> in order to install <strong>Copulas</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install copulas
-</pre></div>
-</div>
-<p>This will pull and install the latest stable release from <a class="reference external" href="https://pypi.org/">PyPi</a>.</p>
-</div>
-<div class="section" id="install-from-source">
-<h2>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this headline">¶</a></h2>
-<p>Alternatively, with your virtualenv activated, you can clone the repository and install it from
-source by running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> on the <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:sdv-dev/Copulas.git
-<span class="nb">cd</span> Copulas
-git checkout stable
-make install
-</pre></div>
-</div>
-</div>
-<div class="section" id="install-for-development">
-<h2>Install for Development<a class="headerlink" href="#install-for-development" title="Permalink to this headline">¶</a></h2>
-<p>If you want to contribute to the project, a few more steps are required to make the project ready
-for development.</p>
-<p>First, please head to <a class="reference external" href="https://github.com/sdv-dev/Copulas">the GitHub page of the project</a>
-and make a fork of the project under you own username by clicking on the <strong>fork</strong> button on the
-upper right corner of the page.</p>
-<p>Afterwards, clone your fork and create a branch from master with a descriptive name that includes
-the number of the issue that you are going to work on:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:<span class="o">{</span>your username<span class="o">}</span>/Copulas.git
-<span class="nb">cd</span> Copulas
-git branch issue-xx-cool-new-feature master
-git checkout issue-xx-cool-new-feature
-</pre></div>
-</div>
-<p>Finally, install the project with the following command, which will install some additional
-dependencies for code linting and testing.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make install-develop
-</pre></div>
-</div>
-<p>Make sure to use them regularly while developing by running the commands <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">lint</span></code> and
-<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>.</p>
-</div>
-</div>
-<div class="section" id="concepts">
-<h1>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="probability">
-<h2>Probability<a class="headerlink" href="#probability" title="Permalink to this headline">¶</a></h2>
-<p>We call <strong>probability</strong> <code class="docutils literal notranslate"><span class="pre">P</span></code> to the measure assigned to the chance of an event happening.
-For example, in a dice, there are 6 sides, each with the same chance of being on top.</p>
-<p>If we consider <code class="docutils literal notranslate"><span class="pre">0</span></code> to be <strong>impossible</strong> and <code class="docutils literal notranslate"><span class="pre">1</span></code> <strong>absolute certain</strong>, we can explain
-its probability like this:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Table of values for probability P
-
- ·    -&gt; 1/6
- :    -&gt; 1/6
- :·   -&gt; 1/6
- ::   -&gt; 1/6
- :·:  -&gt; 1/6
- :::  -&gt; 1/6
-</pre></div>
-</div>
-</div>
-<div class="section" id="random-variable">
-<h2>Random variable<a class="headerlink" href="#random-variable" title="Permalink to this headline">¶</a></h2>
-<p>A <strong>random variable</strong> <code class="docutils literal notranslate"><span class="pre">X</span></code> is a function mapping elements from the sample space
-(in our case, the dice sides) into ℝ.</p>
-<p>In our case we have:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Table of values for random variable X and their probability P
-      X       P
- ·    -&gt;   1  -&gt;  1/6
- :    -&gt;   2  -&gt;  1/6
- :·   -&gt;   3  -&gt;  1/6
- ::   -&gt;   4  -&gt;  1/6
- :·:  -&gt;   5  -&gt;  1/6
- :::  -&gt;   6  -&gt;  1/6
-</pre></div>
-</div>
-</div>
-<div class="section" id="distribution">
-<h2>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
-<p>A <strong>distribution</strong> is a function that describes the behavior of a <strong>random variable</strong>,
-like rolling a dice, and the probability of events related to them.</p>
-<p>Usually a distribution is presented as a function F: ℝ -&gt; [0, 1], called the
-<strong>cumulative distribution function</strong> or <strong>cdf</strong>, that has the following properties:</p>
-<ul class="simple">
-<li><p>Is strictly <strong>non-decreasing</strong></p></li>
-<li><p>Is <strong>right-continous</strong></p></li>
-<li><p>It’s limit to negative infinity exists and is 0.</p></li>
-<li><p>It’s limit to positive infinite exists and is 1.</p></li>
-</ul>
-<p>Below we can see the cdf of the distribution of rolling a standard, 6 sided, dice:</p>
-<p><span class="raw-html-m2r"><img src="docs/images/dice_cdf.png" alt="CDF function of a dice"/></span></p>
-<p>We can see as the cumulative probability raises by steps of 1/6 at each integer between 1 and 6,
-as those are the only values that can appear.</p>
-</div>
-<div class="section" id="types-of-distributions">
-<h2>Types of distributions<a class="headerlink" href="#types-of-distributions" title="Permalink to this headline">¶</a></h2>
-<p>There are as many different distributions as different random phenomenon, but usually we classify
-them using this three aspects:</p>
-<ul class="simple">
-<li><p>Continuity: We call a random variable a <strong>continous random variable</strong> if it’s <code class="docutils literal notranslate"><span class="pre">cdf</span></code> is
-continuous, that it have no steps. Otherwise, we call it <strong>discrete random variable</strong>.
-In the example of the dice, we have discrete random variable.</p></li>
-<li><p>Dimensionality: When a random variable represents the behavior of a single random phenomenon,
-we call it a <strong>univariate distribution</strong>, analogously we define <strong>bivariate</strong> and
-<strong>multivariate</strong> distributions.</p></li>
-<li><p>Type: Most distribution have a type, defined by its behavior, some of the most common types of
-distributions are: <strong>uniform</strong>, <strong>gaussian</strong>, <strong>exponential</strong>,…</p></li>
-</ul>
-</div>
-<div class="section" id="id2">
-<h2>Copulas<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Copulas are multivariate distributions whose marginals are uniform. Using them with distributions
-to model the marginals they allow us to generate <strong>multivariate random variables</strong> for any kind
-of phenomena.</p>
-</div>
-</div>
-<div class="section" id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
-<p>In this short tutorial we will guide you through the a series of steps that will help you getting
-started with the most basic usage of <strong>Copulas</strong> in order to generate samples from a simple
-dataset.</p>
-<p><strong>NOTE:</strong> To be able to run this demo you will need to install the package from its sources.</p>
-<div class="section" id="load-the-data">
-<h2>1. Load the data<a class="headerlink" href="#load-the-data" title="Permalink to this headline">¶</a></h2>
-<p>The first step is to load the data we will use to fit <strong>Copulas</strong>. In order to do so, we will
-first import the module <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and call its function <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> with the path to our
-example dataset.</p>
-<p>In this case, we will load the <code class="docutils literal notranslate"><span class="pre">iris</span></code> dataset into a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/iris.data.csv&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This will be return us a dataframe with 4 columns:</p>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>              0    1    2
-feature_01  5.1  4.9  4.7
-feature_02  3.5  3.0  3.2
-feature_03  1.4  1.4  1.3
-feature_04  0.2  0.2  0.2
-</pre></div>
-</div>
-</div>
-<div class="section" id="create-a-copula-instance">
-<h2>2. Create a Copula instance<a class="headerlink" href="#create-a-copula-instance" title="Permalink to this headline">¶</a></h2>
-<p>The next step is to import Copulas and create an instance of the desired copulas.</p>
-<p>To do so, we need to import the <code class="docutils literal notranslate"><span class="pre">copulas.multivariate.GaussianMultivariate</span></code> and call it, in order
-to create a GaussianMultivariate instance with the default arguments:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copulas.multivariate</span> <span class="kn">import</span> <span class="n">GaussianMultivariate</span>
-<span class="n">copula</span> <span class="o">=</span> <span class="n">GaussianMultivariate</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="fit-the-model">
-<h2>3. Fit the model<a class="headerlink" href="#fit-the-model" title="Permalink to this headline">¶</a></h2>
-<p>Once we have a <strong>Copulas</strong> instance, we can proceed to call its <code class="docutils literal notranslate"><span class="pre">fit</span></code> method passing the <code class="docutils literal notranslate"><span class="pre">data</span></code>
-that we loaded bfore in order to start the fitting process:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">copula</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="sample-new-data">
-<h2>4. Sample new data<a class="headerlink" href="#sample-new-data" title="Permalink to this headline">¶</a></h2>
-<p>After the model has been fitted, we are ready to generate new samples by calling the <code class="docutils literal notranslate"><span class="pre">sample</span></code>
-method of the <code class="docutils literal notranslate"><span class="pre">Copulas</span></code> instance passing it the desired amount of samples:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This will return a DataFrame with the same number of columns as the original data.</p>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>                   0         1         2
-feature_01  7.534814  7.255292  5.723322
-feature_02  2.723615  2.959855  3.282245
-feature_03  6.465199  6.896618  2.658393
-feature_04  2.267646  2.442479  1.109811
-</pre></div>
-</div>
-<p>The returned object, <code class="docutils literal notranslate"><span class="pre">samples</span></code>, is a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> containing a table of synthetic data with
-the same format as the input data and 1000 rows as we requested.</p>
-</div>
-<div class="section" id="load-and-save-a-model">
-<h2>5. Load and save a model<a class="headerlink" href="#load-and-save-a-model" title="Permalink to this headline">¶</a></h2>
-<p>For some copula models the fitting process can take a lot of time, so we probably would like to
-avoid having to fit every we want to generate samples. Instead we can fit a model once, save it,
-and load it every time we want to sample new data.</p>
-<p>If we have a fitted model, we can save it by calling it’s <code class="docutils literal notranslate"><span class="pre">save</span></code> method, that only takes
-as argument the path where the model will be stored. Similarly, the <code class="docutils literal notranslate"><span class="pre">load</span></code> allows to load
-a model stored on disk by passing as argument the path where the model is stored.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;mymodel.pkl&#39;</span>
-<span class="n">copula</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Once the model is saved, it can be loaded back as a <strong>Copulas</strong> instance by using the <code class="docutils literal notranslate"><span class="pre">load</span></code>
-method:</p>
-<p><strong>NOTE</strong>: In order to load a saved model, you need to load it using the same class that was used to save it.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_copula</span> <span class="o">=</span> <span class="n">GaussianMultivariate</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>At this point we could use this model instance to generate more samples.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_samples</span> <span class="o">=</span> <span class="n">new_copula</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="extract-and-set-parameters">
-<h2>6. Extract and set parameters<a class="headerlink" href="#extract-and-set-parameters" title="Permalink to this headline">¶</a></h2>
-<p>In some cases it’s more useful to obtain the parameters from a fitted copula than to save
-and load from disk.</p>
-<p>Once our copula is fitted, we can extract it’s parameters using the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">copula_params</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>This will return a dictionary containing all the copula parameters:</p>
-<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>{&#39;covariance&#39;: [[1.006711409395973,
-   -0.11010327176239859,
-   0.877604856347186,
-   0.8234432550696282],
-  [-0.11010327176239859,
-   1.006711409395972,
-   -0.4233383520816992,
-   -0.3589370029669185],
-  [0.877604856347186,
-   -0.4233383520816992,
-   1.006711409395973,
-   0.9692185540781538],
-  [0.8234432550696282,
-   -0.3589370029669185,
-   0.9692185540781538,
-   1.006711409395974]],
- &#39;distribs&#39;: {&#39;feature_01&#39;: {&#39;type&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;,
-   &#39;fitted&#39;: True,
-   &#39;constant_value&#39;: None,
-   &#39;mean&#39;: 5.843333333333334,
-   &#39;std&#39;: 0.8253012917851409},
-  &#39;feature_02&#39;: {&#39;type&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;,
-   &#39;fitted&#39;: True,
-   &#39;constant_value&#39;: None,
-   &#39;mean&#39;: 3.0540000000000003,
-   &#39;std&#39;: 0.4321465800705435},
-  &#39;feature_03&#39;: {&#39;type&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;,
-   &#39;fitted&#39;: True,
-   &#39;constant_value&#39;: None,
-   &#39;mean&#39;: 3.758666666666666,
-   &#39;std&#39;: 1.7585291834055212},
-  &#39;feature_04&#39;: {&#39;type&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;,
-   &#39;fitted&#39;: True,
-   &#39;constant_value&#39;: None,
-   &#39;mean&#39;: 1.1986666666666668,
-   &#39;std&#39;: 0.7606126185881716}},
- &#39;type&#39;: &#39;copulas.multivariate.gaussian.GaussianMultivariate&#39;,
- &#39;fitted&#39;: True,
- &#39;distribution&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;}
-</pre></div>
-</div>
-<p>Once we have all the parameters we can create a new identical <strong>Copula</strong> instance by using the method <code class="docutils literal notranslate"><span class="pre">from_dict</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_copula</span> <span class="o">=</span> <span class="n">GaussianMultivariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">copula_params</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>At this point we could use this model instance to generate more samples.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_samples</span> <span class="o">=</span> <span class="n">new_copula</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="what-s-next">
-<h1>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h1>
-<p>For more details about <strong>Copulas</strong> and all its possibilities and features, please check the
-<a class="reference external" href="https://sdv-dev.github.io/Copulas/">documentation site</a>.</p>
-<p>There you can learn more about <a class="reference external" href="https://sdv-dev.github.io/Copulas/contributing.html">how to contribute to Copulas</a>
-in order to help us developing new features or cool ideas.</p>
-</div>
-<div class="section" id="credits">
-<h1>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h1>
-<p>Copulas is an open source project from the Data to AI Lab at MIT which has been built and maintained
-over the years by the following team:</p>
-<ul class="simple">
-<li><p>Manuel Alvarez <a class="reference external" href="mailto:manuel&#37;&#52;&#48;pythiac&#46;com">manuel<span>&#64;</span>pythiac<span>&#46;</span>com</a></p></li>
-<li><p>Carles Sala <a class="reference external" href="mailto:carles&#37;&#52;&#48;pythiac&#46;com">carles<span>&#64;</span>pythiac<span>&#46;</span>com</a></p></li>
-<li><p>José David Pérez <a class="reference external" href="mailto:jose&#37;&#52;&#48;pythiac&#46;com">jose<span>&#64;</span>pythiac<span>&#46;</span>com</a></p></li>
-<li><p>(Alicia)Yi Sun <a class="reference external" href="mailto:yis&#37;&#52;&#48;mit&#46;edu">yis<span>&#64;</span>mit<span>&#46;</span>edu</a></p></li>
-<li><p>Andrew Montanez <a class="reference external" href="mailto:amontane&#37;&#52;&#48;mit&#46;edu">amontane<span>&#64;</span>mit<span>&#46;</span>edu</a></p></li>
-<li><p>Kalyan Veeramachaneni <a class="reference external" href="mailto:kalyan&#37;&#52;&#48;csail&#46;mit&#46;edu">kalyan<span>&#64;</span>csail<span>&#46;</span>mit<span>&#46;</span>edu</a></p></li>
-<li><p>paulolimac <a class="reference external" href="mailto:paulolimac&#37;&#52;&#48;gmail&#46;com">paulolimac<span>&#64;</span>gmail<span>&#46;</span>com</a></p></li>
-</ul>
 <div class="section" id="related-projects">
 <h2>Related Projects<a class="headerlink" href="#related-projects" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="sdv">
@@ -625,12 +347,43 @@ SDV allows you to easily model and sample relational datasets using Copulas thou
 Other features include anonymization of Personal Identifiable Information (PII) and preserving
 relational integrity on sampled records.</p>
 </div>
-<div class="section" id="tgan">
-<h3>TGAN<a class="headerlink" href="#tgan" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://github.com/sdv-dev/TGAN">TGAN</a> is a GAN based model for synthesizing tabular data.
+<div class="section" id="ctgan">
+<h3>CTGAN<a class="headerlink" href="#ctgan" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/sdv-dev/CTGAN">CTGAN</a> is a GAN based model for synthesizing tabular data.
 It’s also developed by the <a class="reference external" href="https://sdv-dev.github.io/">MIT’s Data to AI Lab</a> and is under
 active development.</p>
 <div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -654,7 +407,7 @@ active development.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="readme.html" class="btn btn-neutral float-right" title="Copulas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

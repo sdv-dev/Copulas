@@ -1,0 +1,7 @@
+copulas.datasets module
+=======================
+
+.. automodule:: copulas.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -7,9 +7,11 @@ Submodules
 .. toctree::
 
    copulas.univariate.base
+   copulas.univariate.beta
+   copulas.univariate.gamma
    copulas.univariate.gaussian
    copulas.univariate.gaussian_kde
-   copulas.univariate.kde
+   copulas.univariate.selection
    copulas.univariate.truncated_gaussian
 
 Module contents

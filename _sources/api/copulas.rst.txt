@@ -10,6 +10,14 @@ Subpackages
    copulas.multivariate
    copulas.univariate
 
+Submodules
+----------
+
+.. toctree::
+
+   copulas.datasets
+   copulas.visualization
+
 Module contents
 ---------------
 

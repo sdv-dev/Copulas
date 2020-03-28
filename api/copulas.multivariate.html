@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate package &mdash; Copulas 0.2.5 documentation</title>
+  <title>copulas.multivariate package &mdash; Copulas 0.3.0 documentation</title>
   
 
   
@@ -23,11 +23,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -84,118 +86,107 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html">Copulas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#overview">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#supported-copulas">Supported Copulas</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../readme.html#bivariate-copulas">Bivariate copulas</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../readme.html#multivariate">Multivariate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#install">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-with-pip">Install with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-from-source">Install from source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#install-for-development">Install for Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#concepts">Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#probability">Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#random-variable">Random variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#distribution">Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#types-of-distributions">Types of distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#id2">Copulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-the-data">1. Load the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#fit-the-model">3. Fit the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#sample-new-data">4. Sample new data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#what-s-next">What’s next?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#credits">Credits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#related-projects">Related Projects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../readme.html#sdv">SDV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../readme.html#tgan">TGAN</a></li>
-</ul>
-</li>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="copulas.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.multivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-copulas.multivariate">Module contents</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="copulas.html#module-copulas">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#types-of-contributions">Types of Contributions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../contributing.html#report-bugs">Report Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../contributing.html#fix-bugs">Fix Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../contributing.html#implement-features">Implement Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../contributing.html#write-documentation">Write Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../contributing.html#submit-feedback">Submit Feedback</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#get-started">Get Started!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#tips">Tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing.html#release-workflow">Release Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id1">0.2.5 (2019-01-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#general-improvements">General Improvements</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id3">0.2.4 (2019-12-23)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id5">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#bugs-fixed">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id9">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id10">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id12">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id15">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#id17">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id18">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id25">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../history.html#id30">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#unified-api">0.2.0 - Unified API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../history.html#first-release">0.1.0 - First Release</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
 </ul>
 
             
@@ -264,7 +255,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="copulas-multivariate-package">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="copulas-multivariate-package">
 <h1>copulas.multivariate package<a class="headerlink" href="#copulas-multivariate-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
@@ -287,40 +302,82 @@
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.cdf">
 <code class="sig-name descname">cdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.cdf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Compute the cumulative distribution value for each point in X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the cumulative distribution will be computed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cumulative distribution values for points in X.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.check_fit">
 <code class="sig-name descname">check_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.check_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.check_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assert that the object is fit</p>
-<p>Raises a <cite>NotFittedError</cite> if the model is  not fitted.</p>
+<dd><p>Check whether this model has already been fit to a random variable.</p>
+<p>Raise a <code class="docutils literal notranslate"><span class="pre">NotFittedError</span></code> if it has not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.cumulative_distribution">
 <code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return cumulative density of model.</p>
+<dd><p>Compute the cumulative distribution value for each point in X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the cumulative distribution will be computed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cumulative distribution values for points in X.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit a model to the data and update the parameters.</p>
+<dd><p>Fit the model to table with values from multiple random variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values of the random variables.</p>
+</dd>
+</dl>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.Multivariate.fitted">
+<code class="sig-name descname">fitted</code><em class="property"> = False</em><a class="headerlink" href="#copulas.multivariate.Multivariate.fitted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new instance from dictionary.</p>
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new instance from a parameters dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>copula_dict</strong> – <cite>dict</cite> with the parameters to replicate the copula.</p></li>
-<li><p><strong>the output of Multivariate.to_dict</strong> (<em>Like</em>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Parameters of the distribution, in the same format as the one
+returned by the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Instance of the copula defined on the parameters.</p>
+<dd class="field-even"><p>Instance of the distribution defined on the parameters.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#copulas.multivariate.Multivariate" title="copulas.multivariate.Multivariate">Multivariate</a></p>
@@ -329,24 +386,38 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.Multivariate.infer">
-<code class="sig-name descname">infer</code><span class="sig-paren">(</span><em class="sig-param">values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.infer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predict data from a subset of values.</p>
+<dt id="copulas.multivariate.Multivariate.load">
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a Multivariate instance from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the pickle file where the distribution has been serialized.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Loaded instance.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.multivariate.Multivariate" title="copulas.multivariate.Multivariate">Multivariate</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.Multivariate.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">copula_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new instance from a file.</p>
+<dt id="copulas.multivariate.Multivariate.log_probability_density">
+<code class="sig-name descname">log_probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.log_probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.log_probability_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the log of the probability density for each point in X.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>copula_path</strong> – <cite>str</cite> file with the serialized copula.</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the log probability density will be computed.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Instance with the parameters stored in the file.</p>
+<dd class="field-even"><p>Log probability density values for points in X.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a></p>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -354,30 +425,75 @@
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.pdf">
 <code class="sig-name descname">pdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.pdf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Compute the probability density for each point in X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the probability density will be computed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Probability density values for points in X.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.probability_density">
 <code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.probability_density" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return probability density of model.</p>
+<dd><p>Compute the probability density for each point in X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the probability density will be computed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Probability density values for points in X.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.sample">
 <code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">num_rows=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new data point generated from model.</p>
+<dd><p>Sample values from this model.</p>
+<dl class="simple">
+<dt>Argument:</dt><dd><dl class="simple">
+<dt>num_rows (int):</dt><dd><p>Number of rows to sample.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array of shape (n_samples, <a href="#id1"><span class="problematic" id="id2">*</span></a>) with values randomly
+sampled from this model distribution.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.Multivariate.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the internal state of a copula in the specified filename.</p>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize this multivariate instance using pickle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> – <cite>str</cite> path to save.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to where this distribution will be serialized.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -387,14 +503,11 @@
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>self</strong> – </p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters of this distribution.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Parameters of the copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -405,25 +518,40 @@
 <dt id="copulas.multivariate.GaussianMultivariate">
 <em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">GaussianMultivariate</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
-<p>Class for a gaussian copula model.</p>
+<p>Class for a multivariate distribution that uses the Gaussian copula.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>distribution</strong> (<em>str</em>) – Full qualified name of the class to be used as distribution.</p>
+<dd class="field-odd"><p><strong>distribution</strong> (<em>str</em><em> or </em><em>dict</em>) – Fully qualified name of the class to be used for modeling the marginal
+distributions or a dictionary mapping column names to the fully qualified
+distribution names.</p>
 </dd>
 </dl>
+<dl class="attribute">
+<dt id="copulas.multivariate.GaussianMultivariate.columns">
+<code class="sig-name descname">columns</code><em class="property"> = None</em><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.GaussianMultivariate.covariance">
+<code class="sig-name descname">covariance</code><em class="property"> = None</em><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.covariance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="copulas.multivariate.GaussianMultivariate.cumulative_distribution">
 <code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the cumulative distribution function for the copula</p>
+<dd><p>Compute the cumulative distribution value for each point in X.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> – <cite>numpy.ndarray</cite> or <cite>pandas.DataFrame</cite></p>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the cumulative distribution will be computed.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>cumulative probability</p>
+<dd class="field-even"><p>Cumulative distribution values for points in X.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.array</p>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -436,19 +564,17 @@
 <dl class="method">
 <dt id="copulas.multivariate.GaussianMultivariate.from_dict">
 <em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set attributes with provided values.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.GaussianMultivariate.get_lower_bound">
-<code class="sig-name descname">get_lower_bound</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.get_lower_bound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.get_lower_bound" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the lower bound to integrate cumulative density.</p>
+<dd><p>Create a new instance from a parameters dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>lower bound for cumulative density integral.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Parameters of the distribution, in the same format as the one
+returned by the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Instance of the distribution defined on the parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.multivariate.Multivariate" title="copulas.multivariate.Multivariate">Multivariate</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -456,16 +582,19 @@
 <dl class="method">
 <dt id="copulas.multivariate.GaussianMultivariate.probability_density">
 <code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.probability_density" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute probability density function for given copula family.</p>
+<dd><p>Compute the probability density for each point in X.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> – <cite>numpy.ndarray</cite> or <cite>pandas.DataFrame</cite></p>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values for which the probability density will be computed.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Probability density for the input values.</p>
+<dd class="field-even"><p>Probability density values for points in X.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.array</p>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -480,17 +609,19 @@
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>self</strong> – </p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters of this distribution.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Parameters of the copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.multivariate.GaussianMultivariate.univariates">
+<code class="sig-name descname">univariates</code><em class="property"> = None</em><a class="headerlink" href="#copulas.multivariate.GaussianMultivariate.univariates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -513,7 +644,10 @@ one node less than the former. Once all the trees are drawn, the factorization i
 of all the nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>vine_type</strong> (<em>{'center'</em><em>, </em><em>'direct'</em><em>, </em><em>'regular'}</em>) – Type of the vine copula</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vine_type</strong> (<em>str</em>) – type of the vine copula, could be ‘center’,’direct’,’regular’</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em>) – Random seed to use.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="attribute">
@@ -585,7 +719,8 @@ of all the nodes.</p>
 <dl class="attribute">
 <dt id="copulas.multivariate.VineCopula.truncated">
 <code class="sig-name descname">truncated</code><a class="headerlink" href="#copulas.multivariate.VineCopula.truncated" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Max level used to build the vine.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
@@ -595,7 +730,8 @@ of all the nodes.</p>
 <dl class="attribute">
 <dt id="copulas.multivariate.VineCopula.depth">
 <code class="sig-name descname">depth</code><a class="headerlink" href="#copulas.multivariate.VineCopula.depth" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Vine depth.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>int</p>
 </dd>
@@ -605,7 +741,8 @@ of all the nodes.</p>
 <dl class="attribute">
 <dt id="copulas.multivariate.VineCopula.trees">
 <code class="sig-name descname">trees</code><a class="headerlink" href="#copulas.multivariate.VineCopula.trees" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>List of trees used by this vine.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#copulas.multivariate.Tree" title="copulas.multivariate.Tree">Tree</a>]</p>
 </dd>
@@ -613,9 +750,10 @@ of all the nodes.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="copulas.multivariate.VineCopula.self.ppfs">
-<code class="sig-prename descclassname">self.</code><code class="sig-name descname">ppfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.self.ppfs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt id="copulas.multivariate.VineCopula.ppfs">
+<code class="sig-name descname">ppfs</code><a class="headerlink" href="#copulas.multivariate.VineCopula.ppfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>percent point functions from the univariates used by this vine.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>list[callable]</p>
 </dd>
@@ -630,19 +768,17 @@ of all the nodes.</p>
 <dl class="method">
 <dt id="copulas.multivariate.VineCopula.from_dict">
 <em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">vine_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new instance from dictionary.</p>
+<dd><p>Create a new instance from a parameters dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>copula_dict</strong> – <cite>dict</cite> with the parameters to replicate the copula.</p></li>
-<li><p><strong>the output of Multivariate.to_dict</strong> (<em>Like</em>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Parameters of the Vine, in the same format as the one
+returned by the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Instance of the copula defined on the parameters.</p>
+<dd class="field-even"><p>Instance of the Vine defined on the parameters.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#copulas.multivariate.Multivariate" title="copulas.multivariate.Multivariate">Multivariate</a></p>
+<dd class="field-odd"><p>Vine</p>
 </dd>
 </dl>
 </dd></dl>
@@ -661,16 +797,13 @@ of all the nodes.</p>
 <dl class="method">
 <dt id="copulas.multivariate.VineCopula.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
+<dd><p>Return a <cite>dict</cite> with the parameters to replicate this Vine.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>self</strong> – </p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters of this Vine.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Parameters of the copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -706,19 +839,24 @@ set of constraints imposed by tree <span class="math notranslate nohighlight">\(
 instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p></li>
 <li><p>Set <span class="math notranslate nohighlight">\(k = k + 1\)</span> and repeat from (5) until all the trees are constructed.</p></li>
 </ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tree_type</strong> (<em>str</em><em> or </em><a class="reference internal" href="#copulas.multivariate.TreeTypes" title="copulas.multivariate.TreeTypes"><em>TreeTypes</em></a>) – Type of trees to use.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="copulas.multivariate.Tree">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
 <p>Helper class to instantiate a single tree in the vine model.</p>
 <dl class="method">
 <dt id="copulas.multivariate.Tree.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">n_nodes</em>, <em class="sig-param">tau_matrix</em>, <em class="sig-param">previous_tree</em>, <em class="sig-param">edges=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fits tree object.</p>
+<dd><p>Fit this tree object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -731,10 +869,27 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 </dl>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="copulas.multivariate.Tree.fitted">
+<code class="sig-name descname">fitted</code><em class="property"> = False</em><a class="headerlink" href="#copulas.multivariate.Tree.fitted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="copulas.multivariate.Tree.from_dict">
 <em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">tree_dict</em>, <em class="sig-param">previous=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new instance from a dictionary.</p>
+<dd><p>Create a new instance from a parameters dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Parameters of the Tree, in the same format as the one
+returned by the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Instance of the tree defined on the parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.multivariate.Tree" title="copulas.multivariate.Tree">Tree</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -743,8 +898,10 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 <dd><p>Get adjacency matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>param adj: adjacency matrix
-:type adj: np.ndarray</p>
+<dd class="field-odd"><p>adjacency matrix</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -772,16 +929,12 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 <dd><p>Get tau matrix for adjacent pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>param tau: tau matrix for the current tree
-:type tau: np.ndarray</p>
+<dd class="field-odd"><p>tau matrix for the current tree</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tau (numpy.ndarray)</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.Tree.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">tree_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new instance from a file.</p>
 </dd></dl>
 
 <dl class="method">
@@ -791,29 +944,15 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 </dd></dl>
 
 <dl class="method">
-<dt id="copulas.multivariate.Tree.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the internal state of a copula in the specified filename.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="copulas.multivariate.Tree.subclasses">
-<em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.subclasses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="copulas.multivariate.Tree.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
+<dd><p>Return a <cite>dict</cite> with the parameters to replicate this Tree.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>self</strong> – </p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Parameters of this Tree.</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Parameters of the copula.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>

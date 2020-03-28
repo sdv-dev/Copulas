@@ -1,0 +1,7 @@
+copulas.univariate.beta module
+==============================
+
+.. automodule:: copulas.univariate.beta
+   :members:
+   :undoc-members:
+   :show-inheritance:

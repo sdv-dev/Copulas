@@ -1,0 +1,7 @@
+copulas.univariate.selection module
+===================================
+
+.. automodule:: copulas.univariate.selection
+   :members:
+   :undoc-members:
+   :show-inheritance:

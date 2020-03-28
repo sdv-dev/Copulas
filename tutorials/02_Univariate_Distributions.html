@@ -1,0 +1,1410 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Univariate Distributions &mdash; Copulas 0.3.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multivariate Distributions" href="03_Multivariate_Distributions.html" />
+    <link rel="prev" title="Introduction to Copulas" href="01_Introduction_to_Copulas.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Univariate-Families">Univariate Families</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/copulas.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/copulas.visualization.html">copulas.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Univariate Distributions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/tutorials/02_Univariate_Distributions.ipynb" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Univariate-Distributions">
+<h1>Univariate Distributions<a class="headerlink" href="#Univariate-Distributions" title="Permalink to this headline">¶</a></h1>
+<p>All the examples in the introduction focused exclusively on the Normal (or Gaussian) Distribution over a single random variable, but lots of other univariate distributions exist.</p>
+<p>The <strong>Copulas</strong> library supports several of them through the <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclasses defined within the <code class="docutils literal notranslate"><span class="pre">copulas.univariate</span></code> package:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">copulas.univariate.BetaUnivariate</span></code>: Implements a Beta distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copulas.univariate.GammaUnivariate</span></code>: Implements a Gamma distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copulas.univariate.GaussianKDE</span></code>: Implements a Kernel-Density Estimate using a Gaussian kernel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copulas.univariate.GaussianUnivariate</span></code>: Implements a Gaussian (or Normal) distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copulas.univariate.TruncatedGaussian</span></code>: Implements a Truncated Gaussian distribution.</p></li>
+</ul>
+<p>Let’s explore an example of how to use a <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclass.</p>
+<div class="section" id="Univariate-Usage-Example">
+<h2>Univariate Usage Example<a class="headerlink" href="#Univariate-Usage-Example" title="Permalink to this headline">¶</a></h2>
+<p>In this example we will be focusing on the <code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code> class, which implements a <a class="reference external" href="https://en.wikipedia.org/wiki/Beta_distribution">Beta Distribution</a>.</p>
+<p>This distribution is parameterized by two positive shape parameters, <span class="math notranslate nohighlight">\(α\)</span> and <span class="math notranslate nohighlight">\(β\)</span>, which in our implementation are called <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<p>Additionally, our implementation also uses the same <code class="docutils literal notranslate"><span class="pre">loc</span></code> and <code class="docutils literal notranslate"><span class="pre">scale</span></code> arguments as the underlying <code class="docutils literal notranslate"><span class="pre">scipy.stats.beta</span></code> model that we are using.</p>
+<p>For this example, we will be using a simulated dataset that follows the beta distribution with parameters <span class="math notranslate nohighlight">\(a = 3\)</span>, <span class="math notranslate nohighlight">\(b = 1\)</span>, <span class="math notranslate nohighlight">\(loc = 4\)</span> and <span class="math notranslate nohighlight">\(scale = 1\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.datasets</span> <span class="kn">import</span> <span class="n">sample_univariate_beta</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sample_univariate_beta</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0    4.796025
+1    4.935189
+2    4.637677
+3    4.945320
+4    4.726815
+dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.visualization</span> <span class="kn">import</span> <span class="n">hist_1d</span>
+
+<span class="n">hist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2f587b86a0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_4_1.png" src="../_images/tutorials_02_Univariate_Distributions_4_1.png" />
+</div>
+</div>
+<div class="section" id="Fitting-the-model">
+<h3>Fitting the model<a class="headerlink" href="#Fitting-the-model" title="Permalink to this headline">¶</a></h3>
+<p>The first step to use our <code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code> model is to fit it to the data by passing the <code class="docutils literal notranslate"><span class="pre">data</span></code> to its <code class="docutils literal notranslate"><span class="pre">fit</span></code> method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">BetaUnivariate</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="n">BetaUnivariate</span><span class="p">()</span>
+<span class="n">beta</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>After the model has been fitted, we can observe the parameters that it has aproximated from the data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">beta</span><span class="o">.</span><span class="n">_params</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;loc&#39;: 4.095558923695414,
+ &#39;scale&#39;: 0.9044258869808379,
+ &#39;a&#39;: 2.552323190906777,
+ &#39;b&#39;: 0.9041091899047261}
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Sampling-new-data">
+<h3>Sampling new data<a class="headerlink" href="#Sampling-new-data" title="Permalink to this headline">¶</a></h3>
+<p>Once the model is fitted, we can generate new data that follows a similar distribution.</p>
+<p>To do this, we can call the <code class="docutils literal notranslate"><span class="pre">sample</span></code> method of our <code class="docutils literal notranslate"><span class="pre">beta</span></code> object, passing the number of samples that we want to generate.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sampled</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can compare the distribution of the real data to the sampled one by plotting both histograms together.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.visualization</span> <span class="kn">import</span> <span class="n">compare_1d</span>
+
+<span class="n">compare_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sampled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_12_0.png" src="../_images/tutorials_02_Univariate_Distributions_12_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Probability-Density">
+<h3>Probability Density<a class="headerlink" href="#Probability-Density" title="Permalink to this headline">¶</a></h3>
+<p>The probability density of a Beta distribution is defined by</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+\frac{x^{\alpha -1}(1-x)^{\beta -1}}
+     {B(\alpha ,\beta)}
+\end{equation}</div><p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined as</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+B(\alpha, \beta) = \frac{\Gamma (\alpha )\Gamma (\beta )}
+                        {\Gamma (\alpha +\beta )}
+\end{equation}</div><p>and <span class="math notranslate nohighlight">\(\Gamma\)</span> is the Gamma function.</p>
+<p>The probability density can be computed for an array of data points using the <code class="docutils literal notranslate"><span class="pre">probability_density</span></code> method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">probability_density</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">sampled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">probability_density</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3.96772858, 1.67572128, 1.90369638, 3.51125542, 0.71732109])
+</pre></div></div>
+</div>
+<p>If we plot the probability densities sorted by the sampled values we will get a better notion of their behavior.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
+    <span class="s1">&#39;probability_density&#39;</span><span class="p">:</span> <span class="n">probability_density</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2f55d6fd30&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_17_1.png" src="../_images/tutorials_02_Univariate_Distributions_17_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Cumulative-Distribution">
+<h3>Cumulative Distribution<a class="headerlink" href="#Cumulative-Distribution" title="Permalink to this headline">¶</a></h3>
+<p>The cumulative distribution of Beta distribution is defined by:</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+p = F(x, a, b) = \frac{1}{B(a, b)}\int_{0}^{x}t^{a - 1}{(1 - t)}^{b - 1}dt
+\end{equation}</div><p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined above.</p>
+<p>The cumulative distribution can be computed for an array of data points using the <code class="docutils literal notranslate"><span class="pre">cumulative_distribution</span></code> method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cumulative_distribution</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">sampled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cumulative_distribution</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.98185868, 0.4148939 , 0.49927947, 0.95037356, 0.11102835])
+</pre></div></div>
+</div>
+<p>Like with probability densities, if we plot the cumulative distribution values sorted by the input data, we will get a better notion of how it behaves</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
+    <span class="s1">&#39;cumulative distribution&#39;</span><span class="p">:</span> <span class="n">cumulative_distribution</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2f55c3fb70&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_22_1.png" src="../_images/tutorials_02_Univariate_Distributions_22_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="to_dict-and-from_dict">
+<h3>to_dict and from_dict<a class="headerlink" href="#to_dict-and-from_dict" title="Permalink to this headline">¶</a></h3>
+<p>All the <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> classes implement a <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method that allows obtaining all the parameters that define the distribution in a python dictionary.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">parameters</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;loc&#39;: 4.095558923695414,
+ &#39;scale&#39;: 0.9044258869808379,
+ &#39;a&#39;: 2.552323190906777,
+ &#39;b&#39;: 0.9041091899047261,
+ &#39;type&#39;: &#39;copulas.univariate.beta.BetaUnivariate&#39;}
+</pre></div></div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">parameters</span></code> dictionary can be later on passed to the <code class="docutils literal notranslate"><span class="pre">Univariate.from_dict</span></code> class method, which will create an instance of our model with the same parameters as before.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">Univariate</span>
+
+<span class="n">new_beta</span> <span class="o">=</span> <span class="n">Univariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can sample some more data again to see how it still behaves as expected.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">new_sampled</span> <span class="o">=</span> <span class="n">new_beta</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">compare_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">new_sampled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_29_0.png" src="../_images/tutorials_02_Univariate_Distributions_29_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Selecting-the-best-Univariate">
+<h2>Selecting the best Univariate<a class="headerlink" href="#Selecting-the-best-Univariate" title="Permalink to this headline">¶</a></h2>
+<p>A part from the specific <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclasses, <strong>Copulas</strong> allows you to use the <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> parent class as a generic distribution.</p>
+<div class="section" id="Fitting-a-generic-Univariate">
+<h3>Fitting a generic Univariate<a class="headerlink" href="#Fitting-a-generic-Univariate" title="Permalink to this headline">¶</a></h3>
+<p>When this class is used directly and fitted to the data, it will automatically search for the <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclass that better fits to the data.</p>
+<p>Let’s see what happens when we fit it to the data that we were using above.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">Univariate</span>
+
+<span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">()</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>In order to see which subclass has been chosen and with which parameters, we can call the <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">parameters</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;loc&#39;: 4.095558923695414,
+ &#39;scale&#39;: 0.9044258869808379,
+ &#39;a&#39;: 2.552323190906777,
+ &#39;b&#39;: 0.9041091899047261,
+ &#39;type&#39;: &#39;copulas.univariate.beta.BetaUnivariate&#39;}
+</pre></div></div>
+</div>
+<p>We can observe here how the <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> class automatically selected the <code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code> as the best distribution for our data, and how it learned the same parameters as before.</p>
+<p>Let’s go a bit further and see what happens when we fit <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> instances on data with different distributions:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.datasets</span> <span class="kn">import</span> <span class="n">sample_univariates</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sample_univariates</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bernoulli</th>
+      <th>bimodal</th>
+      <th>uniform</th>
+      <th>normal</th>
+      <th>degenerate</th>
+      <th>exponential</th>
+      <th>beta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>11.399355</td>
+      <td>0.498160</td>
+      <td>1.496714</td>
+      <td>0.37454</td>
+      <td>3.469268</td>
+      <td>4.796025</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>10.924634</td>
+      <td>2.802857</td>
+      <td>0.861736</td>
+      <td>0.37454</td>
+      <td>6.010121</td>
+      <td>4.935189</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>10.059630</td>
+      <td>1.927976</td>
+      <td>1.647689</td>
+      <td>0.37454</td>
+      <td>4.316746</td>
+      <td>4.637677</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>9.353063</td>
+      <td>1.394634</td>
+      <td>2.523030</td>
+      <td>0.37454</td>
+      <td>3.912943</td>
+      <td>4.945320</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>-0.234153</td>
+      <td>-0.375925</td>
+      <td>0.765847</td>
+      <td>0.37454</td>
+      <td>3.169625</td>
+      <td>4.726815</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">synth_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">distributions</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+    <span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">()</span>
+    <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+    <span class="n">synth_data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">real_data</span><span class="p">))</span>
+    <span class="n">distributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">synth_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bernoulli</th>
+      <th>bimodal</th>
+      <th>uniform</th>
+      <th>normal</th>
+      <th>degenerate</th>
+      <th>exponential</th>
+      <th>beta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.126054</td>
+      <td>1.950079</td>
+      <td>0.833157</td>
+      <td>1.154327</td>
+      <td>0.37454</td>
+      <td>3.014643</td>
+      <td>4.990397</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.216558</td>
+      <td>13.461737</td>
+      <td>2.131687</td>
+      <td>-0.031510</td>
+      <td>0.37454</td>
+      <td>3.205208</td>
+      <td>4.781987</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.158551</td>
+      <td>1.011978</td>
+      <td>0.274088</td>
+      <td>1.563969</td>
+      <td>0.37454</td>
+      <td>4.097697</td>
+      <td>4.982117</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.151797</td>
+      <td>9.476947</td>
+      <td>0.527291</td>
+      <td>0.698796</td>
+      <td>0.37454</td>
+      <td>3.031567</td>
+      <td>4.809642</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.023261</td>
+      <td>0.982005</td>
+      <td>1.266706</td>
+      <td>0.890644</td>
+      <td>0.37454</td>
+      <td>5.713887</td>
+      <td>4.724303</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">distributions</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;copulas.univariate.gaussian_kde.GaussianKDE&#39;,
+ &#39;copulas.univariate.gaussian_kde.GaussianKDE&#39;,
+ &#39;copulas.univariate.beta.BetaUnivariate&#39;,
+ &#39;copulas.univariate.gaussian_kde.GaussianKDE&#39;,
+ &#39;copulas.univariate.beta.BetaUnivariate&#39;,
+ &#39;copulas.univariate.gamma.GammaUnivariate&#39;,
+ &#39;copulas.univariate.beta.BetaUnivariate&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">compare_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">synth_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_02_Univariate_Distributions_42_0.png" src="../_images/tutorials_02_Univariate_Distributions_42_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Recreating-the-Univariate">
+<h3>Recreating the Univariate<a class="headerlink" href="#Recreating-the-Univariate" title="Permalink to this headline">¶</a></h3>
+<p>As we learned before, the <code class="docutils literal notranslate"><span class="pre">Univariate.from_dict</span></code> class method can be used to recreate our model.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">()</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span>
+<span class="n">new_model</span> <span class="o">=</span> <span class="n">Univariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Notice, though, how in this case the model will not be an instance of the class <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> anymore, but rather an instance of the corresponding subclass, <code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">new_model</span><span class="o">.</span><span class="vm">__class__</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+copulas.univariate.beta.BetaUnivariate
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Univariate-Families">
+<h3>Univariate Families<a class="headerlink" href="#Univariate-Families" title="Permalink to this headline">¶</a></h3>
+<p>In some cases, we might want to add some constraints in order to restrict the search to only some <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> distributions.</p>
+<p>This can be achieved by creating and passing a list of candidate subclasses to our <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> class.</p>
+<p>For example, let’s restrict the search over the <code class="docutils literal notranslate"><span class="pre">bimodal</span></code> column of our dataset restricting the search to only the <code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code>, the <code class="docutils literal notranslate"><span class="pre">GaussianUnivariate</span></code> and the <code class="docutils literal notranslate"><span class="pre">GammaUnivariate</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">GammaUnivariate</span>
+
+<span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">BetaUnivariate</span><span class="p">,</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">GammaUnivariate</span><span class="p">]</span>
+
+<span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">(</span><span class="n">candidates</span><span class="o">=</span><span class="n">candidates</span><span class="p">)</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bimodal&#39;</span><span class="p">])</span>
+
+<span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;loc&#39;: 6.830066099361434,
+ &#39;scale&#39;: 4.811082463652564,
+ &#39;type&#39;: &#39;copulas.univariate.gaussian.GaussianUnivariate&#39;}
+</pre></div></div>
+</div>
+<p>However, the <strong>Copulas</strong> <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclasses are organized in families to make the application of these constraints to the search easier.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> families are organized in ways:</p>
+<ul class="simple">
+<li><p>PARAMETRIC: Distributions can be either non parametric or parametric.</p></li>
+<li><p>BOUNDED: Distributions can be either unbounded, semi-bounded or bounded.</p></li>
+</ul>
+<p>We can see these properties by examining the corresponding attributes of each <code class="docutils literal notranslate"><span class="pre">Univariate</span></code> subclass.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">GaussianKDE</span><span class="p">,</span> <span class="n">TruncatedGaussian</span>
+
+<span class="n">univariates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">BetaUnivariate</span><span class="p">,</span>
+    <span class="n">GammaUnivariate</span><span class="p">,</span>
+    <span class="n">GaussianKDE</span><span class="p">,</span>
+    <span class="n">GaussianUnivariate</span><span class="p">,</span>
+    <span class="n">TruncatedGaussian</span>
+<span class="p">]</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">uni</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">uni</span><span class="o">.</span><span class="n">PARAMETRIC</span><span class="p">,</span> <span class="n">uni</span><span class="o">.</span><span class="n">BOUNDED</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">univariates</span>
+<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Distribution&#39;</span><span class="p">,</span> <span class="s1">&#39;Parametric&#39;</span><span class="p">,</span> <span class="s1">&#39;Bounded&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Distribution</th>
+      <th>Parametric</th>
+      <th>Bounded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BetaUnivariate</td>
+      <td>ParametricType.PARAMETRIC</td>
+      <td>BoundedType.BOUNDED</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GammaUnivariate</td>
+      <td>ParametricType.PARAMETRIC</td>
+      <td>BoundedType.SEMI_BOUNDED</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GaussianKDE</td>
+      <td>ParametricType.NON_PARAMETRIC</td>
+      <td>BoundedType.UNBOUNDED</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>GaussianUnivariate</td>
+      <td>ParametricType.PARAMETRIC</td>
+      <td>BoundedType.UNBOUNDED</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TruncatedGaussian</td>
+      <td>ParametricType.PARAMETRIC</td>
+      <td>BoundedType.BOUNDED</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>When searching for the best distribution, instead of building and passing the list of candidates by hand, we can simply pass the <code class="docutils literal notranslate"><span class="pre">parametric</span></code> or <code class="docutils literal notranslate"><span class="pre">bounded</span></code> value that we want use.</p>
+<p>For example, let’s search again for the best distribution over the <code class="docutils literal notranslate"><span class="pre">bimodal</span></code> column of our dataset, but restricting the search to only <code class="docutils literal notranslate"><span class="pre">PARAMETRIC</span></code> and <code class="docutils literal notranslate"><span class="pre">BOUNDED</span></code> distributions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">BoundedType</span>
+
+<span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">(</span>
+    <span class="n">parametric</span><span class="o">=</span><span class="n">ParametricType</span><span class="o">.</span><span class="n">PARAMETRIC</span><span class="p">,</span>
+    <span class="n">bounded</span><span class="o">=</span><span class="n">BoundedType</span><span class="o">.</span><span class="n">BOUNDED</span>
+<span class="p">)</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bimodal&#39;</span><span class="p">])</span>
+
+<span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;a&#39;: -1.5932065697344446,
+ &#39;b&#39;: 1.2398855571316814e-14,
+ &#39;loc&#39;: 13.193107687054022,
+ &#39;scale&#39;: 10.315282059796969,
+ &#39;type&#39;: &#39;copulas.univariate.truncated_gaussian.TruncatedGaussian&#39;}
+</pre></div></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="03_Multivariate_Distributions.html" class="btn btn-neutral float-right" title="Multivariate Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="01_Introduction_to_Copulas.html" class="btn btn-neutral float-left" title="Introduction to Copulas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

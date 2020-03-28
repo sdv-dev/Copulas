@@ -1,0 +1,7 @@
+copulas.visualization module
+============================
+
+.. automodule:: copulas.visualization
+   :members:
+   :undoc-members:
+   :show-inheritance:

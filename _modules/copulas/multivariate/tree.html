@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.tree &mdash; Copulas 0.2.5 documentation</title>
+  <title>copulas.multivariate.tree &mdash; Copulas 0.3.0 documentation</title>
   
 
   
@@ -23,11 +23,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -82,118 +84,107 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Copulas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#overview">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#supported-copulas">Supported Copulas</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#bivariate-copulas">Bivariate copulas</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#multivariate">Multivariate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#install">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-with-pip">Install with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-from-source">Install from source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#install-for-development">Install for Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#concepts">Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#probability">Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#random-variable">Random variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#distribution">Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#types-of-distributions">Types of distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#id2">Copulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-the-data">1. Load the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#fit-the-model">3. Fit the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#sample-new-data">4. Sample new data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-and-save-a-model">5. Load and save a model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#what-s-next">What’s next?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#credits">Credits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#related-projects">Related Projects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#sdv">SDV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../readme.html#tgan">TGAN</a></li>
-</ul>
-</li>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/copulas.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.bivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.html">copulas.multivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.multivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.html">copulas.univariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.univariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.html#module-copulas">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#report-bugs">Report Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#fix-bugs">Fix Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#implement-features">Implement Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#write-documentation">Write Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../contributing.html#submit-feedback">Submit Feedback</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#get-started">Get Started!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#tips">Tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#release-workflow">Release Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id1">0.2.5 (2019-01-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#general-improvements">General Improvements</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id3">0.2.4 (2019-12-23)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id5">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#bugs-fixed">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id9">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id10">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id12">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id15">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#id17">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id18">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id25">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../history.html#id30">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#unified-api">0.2.0 - Unified API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../history.html#first-release">0.1.0 - First Release</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
 </ul>
 
             
@@ -259,14 +250,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.multivariate.tree</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">store_args</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">get_qualified_name</span>
 <span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
 
@@ -283,54 +273,20 @@
     <span class="sd">&quot;&quot;&quot;Helper class to instantiate a single tree in the vine model.&quot;&quot;&quot;</span>
 
     <span class="n">tree_type</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_subclasses</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_get_subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="n">subclasses</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">subclass</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
-            <span class="n">subclasses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span>
-            <span class="n">subclasses</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">subclass</span><span class="o">.</span><span class="n">_get_subclasses</span><span class="p">())</span>
-
-        <span class="k">return</span> <span class="n">subclasses</span>
-
-<div class="viewcode-block" id="Tree.subclasses"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.subclasses">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_subclasses</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_subclasses</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_subclasses</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_subclasses</span></div>
-
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="n">TreeTypes</span><span class="p">):</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">):</span>
-                <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="p">[</span><span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid tree type </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tree_type</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">subclass</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">subclasses</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">subclass</span><span class="o">.</span><span class="n">tree_type</span> <span class="ow">is</span> <span class="n">tree_type</span><span class="p">:</span>
-                <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Tree</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span>
-
-    <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new instance of any of their subclasses.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tree_type: `TreeType` or `str` to be compared against  TreeType.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree_type</span> <span class="o">=</span> <span class="n">tree_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fitted</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="Tree.fit"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">n_nodes</span><span class="p">,</span> <span class="n">tau_matrix</span><span class="p">,</span> <span class="n">previous_tree</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Fits tree object.</span>
+        <span class="sd">&quot;&quot;&quot;Fit this tree object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            index(int): index of the tree.</span>
-<span class="sd">            n_nodes(int): number of nodes in the tree.</span>
-<span class="sd">            tau_matrix(numpy.array): kendall&#39;s tau matrix of the data, shape (n_nodes, n_nodes).</span>
-<span class="sd">            previous_tree(Tree): tree object of previous level.</span>
+<span class="sd">            index (int):</span>
+<span class="sd">                index of the tree.</span>
+<span class="sd">            n_nodes (int):</span>
+<span class="sd">                number of nodes in the tree.</span>
+<span class="sd">            tau_matrix (numpy.array):</span>
+<span class="sd">                kendall&#39;s tau matrix of the data, shape (n_nodes, n_nodes).</span>
+<span class="sd">            previous_tree (Tree):</span>
+<span class="sd">                tree object of previous level.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span> <span class="o">=</span> <span class="n">n_nodes</span>
@@ -350,17 +306,18 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-    <span class="k">def</span> <span class="nf">_check_contraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge1</span><span class="p">,</span> <span class="n">edge2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge1</span><span class="p">,</span> <span class="n">edge2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if two edges satisfy vine constraint.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            :param edge1: edge object representing edge1</span>
-<span class="sd">            :param edge2: edge object representing edge2</span>
-<span class="sd">            :type edge1: Edge object</span>
-<span class="sd">            :type edge2: Edge object</span>
+<span class="sd">            edge1 (Edge):</span>
+<span class="sd">                edge object representing edge1</span>
+<span class="sd">            edge2 (Edge):</span>
+<span class="sd">                edge object representing edge2</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Boolean True if the two edges satisfy vine constraints</span>
+<span class="sd">            bool:</span>
+<span class="sd">                True if the two edges satisfy vine constraints</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">full_node</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">edge1</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">edge1</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">edge2</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">edge2</span><span class="o">.</span><span class="n">R</span><span class="p">])</span>
         <span class="n">full_node</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">edge1</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
@@ -380,8 +337,12 @@
         <span class="sd">&quot;&quot;&quot;Sort tau matrix by dependece with variable y.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            :param y: index of variable of intrest</span>
-<span class="sd">            :type y: int</span>
+<span class="sd">            y (int):</span>
+<span class="sd">                index of variable of intrest</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray:</span>
+<span class="sd">                sorted tau matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># first column is the variable of interest</span>
         <span class="n">tau_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_matrix</span><span class="p">[:,</span> <span class="n">y</span><span class="p">]</span>
@@ -400,8 +361,8 @@
         <span class="sd">&quot;&quot;&quot;Get tau matrix for adjacent pairs.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :param tau: tau matrix for the current tree</span>
-<span class="sd">            :type tau: np.ndarray</span>
+<span class="sd">            tau (numpy.ndarray):</span>
+<span class="sd">                tau matrix for the current tree</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num_edges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
         <span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">num_edges</span><span class="p">,</span> <span class="n">num_edges</span><span class="p">])</span>
@@ -425,8 +386,8 @@
         <span class="sd">&quot;&quot;&quot;Get adjacency matrix.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :param adj: adjacency matrix</span>
-<span class="sd">            :type adj: np.ndarray</span>
+<span class="sd">            numpy.ndarray:</span>
+<span class="sd">                adjacency matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span>
         <span class="n">num_edges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -473,7 +434,8 @@
         <span class="sd">&quot;&quot;&quot;Compute likelihood of the tree given an U matrix.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            uni_matrix(numpy.array): univariate matrix to evaluate likelihood on.</span>
+<span class="sd">            uni_matrix (numpy.array):</span>
+<span class="sd">                univariate matrix to evaluate likelihood on.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            tuple[float, numpy.array]:</span>
@@ -512,6 +474,12 @@
         <span class="k">return</span> <span class="n">previous</span>
 
 <div class="viewcode-block" id="Tree.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Tree.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict:</span>
+<span class="sd">                Parameters of this Tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fitted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;tree_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_type</span><span class="p">,</span>
@@ -534,8 +502,18 @@
 
 <div class="viewcode-block" id="Tree.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_dict</span><span class="p">,</span> <span class="n">previous</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from a dictionary.&quot;&quot;&quot;</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tree_dict</span><span class="p">[</span><span class="s1">&#39;tree_type&#39;</span><span class="p">])</span>
+        <span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (dict):</span>
+<span class="sd">                Parameters of the Tree, in the same format as the one</span>
+<span class="sd">                returned by the ``to_dict`` method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tree:</span>
+<span class="sd">                Instance of the tree defined on the parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">get_tree</span><span class="p">(</span><span class="n">tree_dict</span><span class="p">[</span><span class="s1">&#39;tree_type&#39;</span><span class="p">])</span>
 
         <span class="n">fitted</span> <span class="o">=</span> <span class="n">tree_dict</span><span class="p">[</span><span class="s1">&#39;fitted&#39;</span><span class="p">]</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="n">fitted</span>
@@ -546,25 +524,10 @@
             <span class="n">instance</span><span class="o">.</span><span class="n">previous_tree</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_deserialize_previous_tree</span><span class="p">(</span><span class="n">tree_dict</span><span class="p">,</span> <span class="n">previous</span><span class="p">)</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">Edge</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">tree_dict</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">]]</span>
 
-        <span class="k">return</span> <span class="n">instance</span></div>
-
-<div class="viewcode-block" id="Tree.load"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.load">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from a file.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tree_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">tree_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">tree_dict</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Tree.save"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Tree.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save the internal state of a copula in the specified filename.&quot;&quot;&quot;</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">instance</span></div></div>
 
 
 <div class="viewcode-block" id="CenterTree"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.CenterTree">[docs]</a><span class="k">class</span> <span class="nc">CenterTree</span><span class="p">(</span><span class="n">Tree</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper Class for instantiate a Center Vine&quot;&quot;&quot;</span>
 
     <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">CENTER</span>
 
@@ -594,7 +557,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_edge</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CenterTree.get_anchor"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.CenterTree.get_anchor">[docs]</a>    <span class="k">def</span> <span class="nf">get_anchor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find anchor variable with highest sum of dependence with the rest.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Find anchor variable with highest sum of dependence with the rest.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int:</span>
+<span class="sd">                Anchor variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
         <span class="n">temp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">temp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_matrix</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
@@ -603,7 +571,6 @@
 
 
 <div class="viewcode-block" id="DirectTree"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.DirectTree">[docs]</a><span class="k">class</span> <span class="nc">DirectTree</span><span class="p">(</span><span class="n">Tree</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper Class for instantiate a Direct Vine.&quot;&quot;&quot;</span>
 
     <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">DIRECT</span>
 
@@ -655,7 +622,6 @@
 
 
 <div class="viewcode-block" id="RegularTree"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.RegularTree">[docs]</a><span class="k">class</span> <span class="nc">RegularTree</span><span class="p">(</span><span class="n">Tree</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper class for instantiate Regular Vine.&quot;&quot;&quot;</span>
 
     <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">REGULAR</span>
 
@@ -695,7 +661,7 @@
             <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">):</span>
                     <span class="c1"># check if (x,k) is a valid edge in the vine</span>
-                    <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_contraint</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="n">k</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_constraint</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="n">k</span><span class="p">]):</span>
                         <span class="n">adj_set</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
 
             <span class="c1"># find edge with maximum tau</span>
@@ -714,16 +680,44 @@
             <span class="n">unvisited</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">pairs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
+<div class="viewcode-block" id="get_tree"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.get_tree">[docs]</a><span class="k">def</span> <span class="nf">get_tree</span><span class="p">(</span><span class="n">tree_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a Tree instance of the specified type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tree_type (str or TreeTypes):</span>
+<span class="sd">            Type of tree of which to get an instance.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tree:</span>
+<span class="sd">            Instance of a Tree of the specified type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="n">TreeTypes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">):</span>
+            <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="p">[</span><span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid tree type </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tree_type</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">tree_type</span> <span class="o">==</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">CENTER</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">CenterTree</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">tree_type</span> <span class="o">==</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">REGULAR</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">RegularTree</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">tree_type</span> <span class="o">==</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">DIRECT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DirectTree</span><span class="p">()</span></div>
+
+
 <div class="viewcode-block" id="Edge"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge">[docs]</a><span class="k">class</span> <span class="nc">Edge</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">copula_name</span><span class="p">,</span> <span class="n">copula_theta</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize an Edge object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            :param left: left_node index (smaller)</span>
-<span class="sd">            :param right: right_node index (larger)</span>
-<span class="sd">            :param copula_name: name of the fitted copula class</span>
-<span class="sd">            :param copula_theta: parameters of the fitted copula class</span>
-
+<span class="sd">            left (int):</span>
+<span class="sd">                left_node index (smaller)</span>
+<span class="sd">            right (int):</span>
+<span class="sd">                right_node index (larger)</span>
+<span class="sd">            copula_name (str):</span>
+<span class="sd">                name of the fitted copula class</span>
+<span class="sd">            copula_theta (float):</span>
+<span class="sd">                parameters of the fitted copula class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">left</span>
@@ -743,11 +737,14 @@
         <span class="sd">&quot;&quot;&quot;Find nodes connecting adjacent edges.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            first(Edge): Edge object representing the first edge.</span>
-<span class="sd">            second(Edge): Edge object representing the second edge.</span>
+<span class="sd">            first (Edge):</span>
+<span class="sd">                Edge object representing the first edge.</span>
+<span class="sd">            second (Edge):</span>
+<span class="sd">                Edge object representing the second edge.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple[int, int, set[int]]: The first two values represent left and right node</span>
+<span class="sd">            tuple[int, int, set[int]]:</span>
+<span class="sd">                The first two values represent left and right node</span>
 <span class="sd">                indicies of the new edge. The third value is the new dependence set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">A</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">first</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">R</span><span class="p">])</span>
@@ -765,10 +762,12 @@
         <span class="sd">&quot;&quot;&quot;Check if two edges are adjacent.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            :param another_edge: edge object of another edge</span>
-<span class="sd">            :type another_edge: edge object</span>
+<span class="sd">            another_edge (Edge):</span>
+<span class="sd">                edge object of another edge</span>
 
-<span class="sd">        This function will return true if the two edges are adjacent.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool:</span>
+<span class="sd">                True if the two edges are adjacent.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">another_edge</span><span class="o">.</span><span class="n">L</span>
@@ -782,10 +781,12 @@
         <span class="sd">&quot;&quot;&quot;Sort iterable of edges first by left node indices then right.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            edges(list[Edge]): List of edges to be sorted.</span>
+<span class="sd">            edges (list[Edge]):</span>
+<span class="sd">                List of edges to be sorted.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list[Edge]: Sorted list by left and right node indices.</span>
+<span class="sd">            list[Edge]:</span>
+<span class="sd">                Sorted list by left and right node indices.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">R</span><span class="p">))</span></div>
 
@@ -794,11 +795,14 @@
         <span class="sd">&quot;&quot;&quot;Identify pair univariate value from parents.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            left_parent(Edge): left parent</span>
-<span class="sd">            right_parent(Edge): right parent</span>
+<span class="sd">            left_parent (Edge):</span>
+<span class="sd">                left parent</span>
+<span class="sd">            right_parent (Edge):</span>
+<span class="sd">                right parent</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple[np.ndarray, np.ndarray]: left and right parents univariate.</span>
+<span class="sd">            tuple[np.ndarray, np.ndarray]:</span>
+<span class="sd">                left and right parents univariate.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_identify_eds_ing</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
 
@@ -809,7 +813,20 @@
 
 <div class="viewcode-block" id="Edge.get_child_edge"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge.get_child_edge">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_child_edge</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Construct a child edge from two parent edges.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Construct a child edge from two parent edges.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int):</span>
+<span class="sd">                Index of the new Edge.</span>
+<span class="sd">            left_parent (Edge):</span>
+<span class="sd">                Left parent</span>
+<span class="sd">            right_parent (Edge):</span>
+<span class="sd">                Right parent</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Edge:</span>
+<span class="sd">                The new child edge.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="p">[</span><span class="n">ed1</span><span class="p">,</span> <span class="n">ed2</span><span class="p">,</span> <span class="n">depend_set</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_identify_eds_ing</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
         <span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_conditional_uni</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">)])</span>
@@ -824,10 +841,12 @@
         <span class="sd">&quot;&quot;&quot;Compute likelihood given a U matrix.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            uni_matrix(numpy.array): Matrix to compute the likelihood.</span>
+<span class="sd">            uni_matrix (numpy.array):</span>
+<span class="sd">                Matrix to compute the likelihood.</span>
 
 <span class="sd">        Return:</span>
-<span class="sd">            tuple(np.ndarray, np.ndarray, np.array): likelihood and conditional values.</span>
+<span class="sd">            tuple (np.ndarray, np.ndarray, np.array):</span>
+<span class="sd">                likelihood and conditional values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parents</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">left_u</span> <span class="o">=</span> <span class="n">uni_matrix</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">]</span>
@@ -852,6 +871,12 @@
         <span class="k">return</span> <span class="n">value</span><span class="p">,</span> <span class="n">left_given_right</span><span class="p">,</span> <span class="n">right_given_left</span></div>
 
 <div class="viewcode-block" id="Edge.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Edge.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict:</span>
+<span class="sd">                Parameters of this Edge.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parents</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
             <span class="n">parents</span> <span class="o">=</span> <span class="p">[</span><span class="n">parent</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parents</span><span class="p">]</span>
@@ -876,6 +901,17 @@
 
 <div class="viewcode-block" id="Edge.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">edge_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (dict):</span>
+<span class="sd">                Parameters of the Edge, in the same format as the one</span>
+<span class="sd">                returned by the ``to_dict`` method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Edge:</span>
+<span class="sd">                Instance of the edge defined on the parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">],</span>
             <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span>

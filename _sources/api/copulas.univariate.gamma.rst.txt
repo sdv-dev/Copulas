@@ -1,0 +1,7 @@
+copulas.univariate.gamma module
+===============================
+
+.. automodule:: copulas.univariate.gamma
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Copulas 0.2.5 documentation</title>
+  <title>Index &mdash; Copulas 0.3.0 documentation</title>
   
 
   
@@ -24,11 +24,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -83,118 +85,107 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">Copulas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#supported-copulas">Supported Copulas</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#bivariate-copulas">Bivariate copulas</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#multivariate">Multivariate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Copulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#stable-release">Stable Release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-with-pip">Install with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-from-source">Install from source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#install-for-development">Install for Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#concepts">Concepts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#probability">Probability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#random-variable">Random variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#distribution">Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#types-of-distributions">Types of distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#id2">Copulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#load-the-data">1. Load the data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#create-a-copula-instance">2. Create a Copula instance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#fit-the-model">3. Fit the model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#sample-new-data">4. Sample new data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#load-and-save-a-model">5. Load and save a model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#extract-and-set-parameters">6. Extract and set parameters</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#what-s-next">What’s next?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html#credits">Credits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#related-projects">Related Projects</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#sdv">SDV</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#tgan">TGAN</a></li>
-</ul>
-</li>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/copulas.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.html">copulas.bivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.html">copulas.multivariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/copulas.html#module-copulas">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="history.html">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id1">0.2.5 (2019-01-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#general-improvements">General Improvements</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id3">0.2.4 (2019-12-23)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#new-features">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id5">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#bugs-fixed">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id9">0.2.3 (2019-09-17)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id10">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id12">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id15">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#id17">0.2.2 (2019-07-31)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id18">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id25">General Improvements</a></li>
-<li class="toctree-l3"><a class="reference internal" href="history.html#id30">Bugs fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#vine-serialization">0.2.1 - Vine serialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#unified-api">0.2.0 - Unified API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#minor-improvements">0.1.1 - Minor Improvements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="history.html#first-release">0.1.0 - First Release</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
 </ul>
 
             
@@ -272,8 +263,8 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -300,10 +291,54 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.univariate.html#copulas.univariate.BetaUnivariate">BetaUnivariate (class in copulas.univariate)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate">(class in copulas.univariate.beta)</a>
+</li>
+      </ul></li>
       <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate">Bivariate (class in copulas.bivariate)</a>
 
       <ul>
         <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate">(class in copulas.bivariate.base)</a>
+</li>
+      </ul></li>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.BoundedType.BOUNDED">BOUNDED (copulas.univariate.base.BoundedType attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.BOUNDED">(copulas.univariate.base.Univariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.BOUNDED">(copulas.univariate.beta.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BetaUnivariate.BOUNDED">(copulas.univariate.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BoundedType.BOUNDED">(copulas.univariate.BoundedType attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.BOUNDED">(copulas.univariate.gamma.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GammaUnivariate.BOUNDED">(copulas.univariate.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.BOUNDED">(copulas.univariate.gaussian.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.BOUNDED">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.BOUNDED">(copulas.univariate.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.BOUNDED">(copulas.univariate.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.BOUNDED">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.BOUNDED">(copulas.univariate.TruncatedGaussian attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.BOUNDED">(copulas.univariate.Univariate attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.univariate.html#copulas.univariate.BoundedType">BoundedType (class in copulas.univariate)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.BoundedType">(class in copulas.univariate.base)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -348,6 +383,12 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.check_fit">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
+      <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.check_marginal">check_marginal() (copulas.bivariate.base.Bivariate method)</a>
+
+      <ul>
+        <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.check_marginal">(copulas.bivariate.Bivariate method)</a>
+</li>
+      </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.check_theta">check_theta() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -368,12 +409,22 @@
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.CopulaTypes.CLAYTON">(copulas.bivariate.CopulaTypes attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.columns">columns (copulas.multivariate.vine.VineCopula attribute)</a>
+      <li><a href="api/copulas.multivariate.gaussian.html#copulas.multivariate.gaussian.GaussianMultivariate.columns">columns (copulas.multivariate.gaussian.GaussianMultivariate attribute)</a>
 
       <ul>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.columns">(copulas.multivariate.GaussianMultivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.columns">(copulas.multivariate.vine.VineCopula attribute)</a>
+</li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.columns">(copulas.multivariate.VineCopula attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.compare_1d">compare_1d() (in module copulas.visualization)</a>
+</li>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.compare_2d">compare_2d() (in module copulas.visualization)</a>
+</li>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.compare_3d">compare_3d() (in module copulas.visualization)</a>
+</li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.compute_theta">compute_theta() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -390,12 +441,6 @@
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.Gumbel.compute_theta">(copulas.bivariate.Gumbel method)</a>
 </li>
         <li><a href="api/copulas.bivariate.gumbel.html#copulas.bivariate.gumbel.Gumbel.compute_theta">(copulas.bivariate.gumbel.Gumbel method)</a>
-</li>
-      </ul></li>
-      <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.constant_value">constant_value (copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.constant_value">(copulas.univariate.TruncatedGaussian attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.copula_type">copula_type (copulas.bivariate.base.Bivariate attribute)</a>, <a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.copula_type">[1]</a>
@@ -418,10 +463,10 @@
         <li><a href="api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.copula_type">(copulas.bivariate.independence.Independence attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.html#module-copulas">copulas (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.html#module-copulas">copulas (module)</a>
+</li>
       <li><a href="api/copulas.bivariate.html#module-copulas.bivariate">copulas.bivariate (module)</a>
 </li>
       <li><a href="api/copulas.bivariate.base.html#module-copulas.bivariate.base">copulas.bivariate.base (module)</a>
@@ -435,6 +480,8 @@
       <li><a href="api/copulas.bivariate.independence.html#module-copulas.bivariate.independence">copulas.bivariate.independence (module)</a>
 </li>
       <li><a href="api/copulas.bivariate.utils.html#module-copulas.bivariate.utils">copulas.bivariate.utils (module)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#module-copulas.datasets">copulas.datasets (module)</a>
 </li>
       <li><a href="api/copulas.multivariate.html#module-copulas.multivariate">copulas.multivariate (module)</a>
 </li>
@@ -450,13 +497,19 @@
 </li>
       <li><a href="api/copulas.univariate.base.html#module-copulas.univariate.base">copulas.univariate.base (module)</a>
 </li>
+      <li><a href="api/copulas.univariate.beta.html#module-copulas.univariate.beta">copulas.univariate.beta (module)</a>
+</li>
+      <li><a href="api/copulas.univariate.gamma.html#module-copulas.univariate.gamma">copulas.univariate.gamma (module)</a>
+</li>
       <li><a href="api/copulas.univariate.gaussian.html#module-copulas.univariate.gaussian">copulas.univariate.gaussian (module)</a>
 </li>
       <li><a href="api/copulas.univariate.gaussian_kde.html#module-copulas.univariate.gaussian_kde">copulas.univariate.gaussian_kde (module)</a>
 </li>
-      <li><a href="api/copulas.univariate.kde.html#module-copulas.univariate.kde">copulas.univariate.kde (module)</a>
+      <li><a href="api/copulas.univariate.selection.html#module-copulas.univariate.selection">copulas.univariate.selection (module)</a>
 </li>
       <li><a href="api/copulas.univariate.truncated_gaussian.html#module-copulas.univariate.truncated_gaussian">copulas.univariate.truncated_gaussian (module)</a>
+</li>
+      <li><a href="api/copulas.visualization.html#module-copulas.visualization">copulas.visualization (module)</a>
 </li>
       <li><a href="api/copulas.bivariate.html#copulas.bivariate.CopulaTypes">CopulaTypes (class in copulas.bivariate)</a>
 
@@ -464,12 +517,10 @@
         <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.CopulaTypes">(class in copulas.bivariate.base)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.cumulative_distribution">cumulative_distribution (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.cumulative_distribution">[1]</a>
+      <li><a href="api/copulas.multivariate.gaussian.html#copulas.multivariate.gaussian.GaussianMultivariate.covariance">covariance (copulas.multivariate.gaussian.GaussianMultivariate attribute)</a>
 
       <ul>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.cumulative_distribution">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.cumulative_distribution">(copulas.univariate.TruncatedGaussian attribute)</a>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.covariance">(copulas.multivariate.GaussianMultivariate attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.cumulative_distribution">cumulative_distribution() (copulas.bivariate.base.Bivariate method)</a>
@@ -499,19 +550,13 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.cumulative_distribution">(copulas.multivariate.Multivariate method)</a>
 </li>
-        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.cumulative_distribution">(copulas.univariate.base.Univariate method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.cumulative_distribution">(copulas.univariate.base.ScipyModel method)</a>
 </li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.cumulative_distribution">(copulas.univariate.gaussian.GaussianUnivariate method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.cumulative_distribution">(copulas.univariate.base.Univariate method)</a>
 </li>
         <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.cumulative_distribution">(copulas.univariate.gaussian_kde.GaussianKDE method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.cumulative_distribution">(copulas.univariate.GaussianKDE method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.cumulative_distribution">(copulas.univariate.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.cumulative_distribution">(copulas.univariate.kde.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.cumulative_distribution">(copulas.univariate.KDEUnivariate method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.cumulative_distribution">(copulas.univariate.Univariate method)</a>
 </li>
@@ -575,37 +620,25 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.fit">(copulas.multivariate.VineCopula method)</a>
 </li>
-        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.fit">(copulas.univariate.base.ScipyWrapper method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.fit">(copulas.univariate.base.ScipyModel method)</a>
 </li>
         <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.fit">(copulas.univariate.base.Univariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.fit">(copulas.univariate.gaussian.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.fit">(copulas.univariate.gaussian_kde.GaussianKDE method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.fit">(copulas.univariate.GaussianKDE method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.fit">(copulas.univariate.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.fit">(copulas.univariate.kde.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.fit">(copulas.univariate.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.fit">(copulas.univariate.truncated_gaussian.TruncatedGaussian method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.fit">(copulas.univariate.TruncatedGaussian method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.fit">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.fitted">fitted (copulas.univariate.gaussian.GaussianUnivariate attribute)</a>
+      <li><a href="api/copulas.multivariate.base.html#copulas.multivariate.base.Multivariate.fitted">fitted (copulas.multivariate.base.Multivariate attribute)</a>
 
       <ul>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.fitted">(copulas.univariate.GaussianUnivariate attribute)</a>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.fitted">(copulas.multivariate.Multivariate attribute)</a>
 </li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.fitted">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.fitted">(copulas.multivariate.Tree attribute)</a>
 </li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.fitted">(copulas.univariate.TruncatedGaussian attribute)</a>
+        <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.fitted">(copulas.multivariate.tree.Tree attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.fitted">(copulas.univariate.base.Univariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.fitted">(copulas.univariate.Univariate attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -645,25 +678,7 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.from_dict">(copulas.multivariate.VineCopula class method)</a>
 </li>
-        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.from_dict">(copulas.univariate.base.ScipyWrapper class method)</a>
-</li>
         <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.from_dict">(copulas.univariate.base.Univariate class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.from_dict">(copulas.univariate.gaussian.GaussianUnivariate class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.from_dict">(copulas.univariate.gaussian_kde.GaussianKDE class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.from_dict">(copulas.univariate.GaussianKDE class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.from_dict">(copulas.univariate.GaussianUnivariate class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.from_dict">(copulas.univariate.kde.KDEUnivariate class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.from_dict">(copulas.univariate.KDEUnivariate class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.from_dict">(copulas.univariate.truncated_gaussian.TruncatedGaussian class method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.from_dict">(copulas.univariate.TruncatedGaussian class method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.from_dict">(copulas.univariate.Univariate class method)</a>
 </li>
@@ -674,6 +689,12 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.univariate.html#copulas.univariate.GammaUnivariate">GammaUnivariate (class in copulas.univariate)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate">(class in copulas.univariate.gamma)</a>
+</li>
+      </ul></li>
       <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE">GaussianKDE (class in copulas.univariate)</a>
 
       <ul>
@@ -740,12 +761,6 @@
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.get_likelihood">(copulas.multivariate.VineCopula method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.multivariate.gaussian.html#copulas.multivariate.gaussian.GaussianMultivariate.get_lower_bound">get_lower_bound() (copulas.multivariate.gaussian.GaussianMultivariate method)</a>
-
-      <ul>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.get_lower_bound">(copulas.multivariate.GaussianMultivariate method)</a>
-</li>
-      </ul></li>
       <li><a href="api/copulas.html#copulas.get_qualified_name">get_qualified_name() (in module copulas)</a>
 </li>
       <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.get_tau_matrix">get_tau_matrix() (copulas.multivariate.Tree method)</a>
@@ -754,6 +769,8 @@
         <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.get_tau_matrix">(copulas.multivariate.tree.Tree method)</a>
 </li>
       </ul></li>
+      <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.get_tree">get_tree() (in module copulas.multivariate.tree)</a>
+</li>
       <li><a href="api/copulas.bivariate.html#copulas.bivariate.Gumbel">Gumbel (class in copulas.bivariate)</a>
 
       <ul>
@@ -766,6 +783,14 @@
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.CopulaTypes.GUMBEL">(copulas.bivariate.CopulaTypes attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.hist_1d">hist_1d() (in module copulas.visualization)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -784,10 +809,6 @@
 
       <ul>
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.infer">(copulas.bivariate.Bivariate method)</a>
-</li>
-        <li><a href="api/copulas.multivariate.base.html#copulas.multivariate.base.Multivariate.infer">(copulas.multivariate.base.Multivariate method)</a>
-</li>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.infer">(copulas.multivariate.Multivariate method)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.invalid_thetas">invalid_thetas (copulas.bivariate.base.Bivariate attribute)</a>, <a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.invalid_thetas">[1]</a>
@@ -815,18 +836,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="K">K</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate">KDEUnivariate (class in copulas.univariate)</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate">(class in copulas.univariate.kde)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -839,9 +848,27 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.load">(copulas.multivariate.Multivariate class method)</a>
 </li>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.load">(copulas.multivariate.Tree class method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.load">(copulas.univariate.base.Univariate class method)</a>
 </li>
-        <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.load">(copulas.multivariate.tree.Tree class method)</a>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.load">(copulas.univariate.Univariate class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.log_probability_density">log_probability_density() (copulas.bivariate.base.Bivariate method)</a>
+
+      <ul>
+        <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.log_probability_density">(copulas.bivariate.Bivariate method)</a>
+</li>
+        <li><a href="api/copulas.multivariate.base.html#copulas.multivariate.base.Multivariate.log_probability_density">(copulas.multivariate.base.Multivariate method)</a>
+</li>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.log_probability_density">(copulas.multivariate.Multivariate method)</a>
+</li>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.log_probability_density">(copulas.univariate.base.ScipyModel method)</a>
+</li>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.log_probability_density">(copulas.univariate.base.Univariate method)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.log_probability_density">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -850,36 +877,38 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.mean">mean (copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.mean">(copulas.univariate.TruncatedGaussian attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.METHOD_NAMES">METHOD_NAMES (copulas.univariate.base.ScipyWrapper attribute)</a>
-</li>
       <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.model">model (copulas.multivariate.vine.VineCopula attribute)</a>
 
       <ul>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.model">(copulas.multivariate.VineCopula attribute)</a>
 </li>
-        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.model">(copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.model">[1]</a>
+      </ul></li>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.MODEL_CLASS">MODEL_CLASS (copulas.univariate.base.ScipyModel attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.MODEL_CLASS">(copulas.univariate.beta.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BetaUnivariate.MODEL_CLASS">(copulas.univariate.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.MODEL_CLASS">(copulas.univariate.gamma.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GammaUnivariate.MODEL_CLASS">(copulas.univariate.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.MODEL_CLASS">(copulas.univariate.gaussian.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.MODEL_CLASS">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.MODEL_CLASS">(copulas.univariate.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.MODEL_CLASS">(copulas.univariate.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.MODEL_CLASS">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.MODEL_CLASS">(copulas.univariate.TruncatedGaussian attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.model_class">model_class (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.model_class">[1]</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.model_class">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.model_class">(copulas.univariate.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.model_class">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.model_class">(copulas.univariate.TruncatedGaussian attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate">Multivariate (class in copulas.multivariate)</a>
 
       <ul>
@@ -898,12 +927,18 @@
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.n_sample">(copulas.multivariate.VineCopula attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.n_var">n_var (copulas.multivariate.vine.VineCopula attribute)</a>
 
       <ul>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.n_var">(copulas.multivariate.VineCopula attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ParametricType.NON_PARAMETRIC">NON_PARAMETRIC (copulas.univariate.base.ParametricType attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.ParametricType.NON_PARAMETRIC">(copulas.univariate.ParametricType attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.html#copulas.NotFittedError">NotFittedError</a>
@@ -914,6 +949,42 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ParametricType.PARAMETRIC">PARAMETRIC (copulas.univariate.base.ParametricType attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.PARAMETRIC">(copulas.univariate.base.Univariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.PARAMETRIC">(copulas.univariate.beta.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BetaUnivariate.PARAMETRIC">(copulas.univariate.BetaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.PARAMETRIC">(copulas.univariate.gamma.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GammaUnivariate.PARAMETRIC">(copulas.univariate.GammaUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.PARAMETRIC">(copulas.univariate.gaussian.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.PARAMETRIC">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.PARAMETRIC">(copulas.univariate.GaussianKDE attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.PARAMETRIC">(copulas.univariate.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.ParametricType.PARAMETRIC">(copulas.univariate.ParametricType attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.PARAMETRIC">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.PARAMETRIC">(copulas.univariate.TruncatedGaussian attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.PARAMETRIC">(copulas.univariate.Univariate attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/copulas.univariate.html#copulas.univariate.ParametricType">ParametricType (class in copulas.univariate)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ParametricType">(class in copulas.univariate.base)</a>
+</li>
+      </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.partial_derivative">partial_derivative() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -954,14 +1025,6 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.pdf">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.percent_point">percent_point (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.percent_point">[1]</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.percent_point">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.percent_point">(copulas.univariate.TruncatedGaussian attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.percent_point">percent_point() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -981,19 +1044,13 @@
 </li>
         <li><a href="api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.percent_point">(copulas.bivariate.independence.Independence method)</a>
 </li>
-        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.percent_point">(copulas.univariate.base.Univariate method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.percent_point">(copulas.univariate.base.ScipyModel method)</a>
 </li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.percent_point">(copulas.univariate.gaussian.GaussianUnivariate method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.percent_point">(copulas.univariate.base.Univariate method)</a>
 </li>
         <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.percent_point">(copulas.univariate.gaussian_kde.GaussianKDE method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.percent_point">(copulas.univariate.GaussianKDE method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.percent_point">(copulas.univariate.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.percent_point">(copulas.univariate.kde.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.percent_point">(copulas.univariate.KDEUnivariate method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.percent_point">(copulas.univariate.Univariate method)</a>
 </li>
@@ -1010,28 +1067,16 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.ppf">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.self.ppfs">ppfs (copulas.multivariate.vine.VineCopula.self attribute)</a>
+      <li><a href="api/copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula.ppfs">ppfs (copulas.multivariate.vine.VineCopula attribute)</a>
 
       <ul>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.self.ppfs">(copulas.multivariate.VineCopula.self attribute)</a>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.ppfs">(copulas.multivariate.VineCopula attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.prepare_next_tree">prepare_next_tree() (copulas.multivariate.Tree method)</a>
 
       <ul>
         <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.prepare_next_tree">(copulas.multivariate.tree.Tree method)</a>
-</li>
-      </ul></li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.probability_density">probability_density (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.probability_density">[1]</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.probability_density">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.probability_density">(copulas.univariate.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.probability_density">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.probability_density">(copulas.univariate.TruncatedGaussian attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.probability_density">probability_density() (copulas.bivariate.base.Bivariate method)</a>
@@ -1061,15 +1106,13 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.probability_density">(copulas.multivariate.Multivariate method)</a>
 </li>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.probability_density">(copulas.univariate.base.ScipyModel method)</a>
+</li>
         <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.probability_density">(copulas.univariate.base.Univariate method)</a>
 </li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.probability_density">(copulas.univariate.gaussian.GaussianUnivariate method)</a>
+        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.probability_density">(copulas.univariate.gaussian_kde.GaussianKDE method)</a>
 </li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.probability_density">(copulas.univariate.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.probability_density">(copulas.univariate.kde.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.probability_density">(copulas.univariate.KDEUnivariate method)</a>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.probability_density">(copulas.univariate.GaussianKDE method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.probability_density">(copulas.univariate.Univariate method)</a>
 </li>
@@ -1080,16 +1123,18 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.html#copulas.random_seed">random_seed() (in module copulas)</a>
+</li>
       <li><a href="api/copulas.html#copulas.random_state">random_state() (in module copulas)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.TreeTypes.REGULAR">REGULAR (copulas.multivariate.tree.TreeTypes attribute)</a>
 
       <ul>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.TreeTypes.REGULAR">(copulas.multivariate.TreeTypes attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.RegularTree">RegularTree (class in copulas.multivariate.tree)</a>
 </li>
   </ul></td>
@@ -1098,18 +1143,6 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.sample">sample (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.sample">[1]</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.sample">(copulas.univariate.gaussian_kde.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.sample">(copulas.univariate.GaussianKDE attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.sample">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.sample">(copulas.univariate.TruncatedGaussian attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.sample">sample() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -1127,21 +1160,39 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.sample">(copulas.multivariate.VineCopula method)</a>
 </li>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel.sample">(copulas.univariate.base.ScipyModel method)</a>
+</li>
         <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.sample">(copulas.univariate.base.Univariate method)</a>
 </li>
-        <li><a href="api/copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.sample">(copulas.univariate.gaussian.GaussianUnivariate method)</a>
+        <li><a href="api/copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.sample">(copulas.univariate.gaussian_kde.GaussianKDE method)</a>
 </li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.sample">(copulas.univariate.GaussianUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.kde.html#copulas.univariate.kde.KDEUnivariate.sample">(copulas.univariate.kde.KDEUnivariate method)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.KDEUnivariate.sample">(copulas.univariate.KDEUnivariate method)</a>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.sample">(copulas.univariate.GaussianKDE method)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.sample">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_bivariate_age_income">sample_bivariate_age_income() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_trivariate_xyz">sample_trivariate_xyz() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_bernoulli">sample_univariate_bernoulli() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_beta">sample_univariate_beta() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_bimodal">sample_univariate_bimodal() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_degenerate">sample_univariate_degenerate() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_exponential">sample_univariate_exponential() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_normal">sample_univariate_normal() (in module copulas.datasets)</a>
+</li>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_uniform">sample_univariate_uniform() (in module copulas.datasets)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariates">sample_univariates() (in module copulas.datasets)</a>
+</li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.save">save() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -1151,14 +1202,18 @@
 </li>
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.Multivariate.save">(copulas.multivariate.Multivariate method)</a>
 </li>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.save">(copulas.multivariate.Tree method)</a>
+        <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate.save">(copulas.univariate.base.Univariate method)</a>
 </li>
-        <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.save">(copulas.multivariate.tree.Tree method)</a>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.save">(copulas.univariate.Univariate method)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.html#copulas.scalarize">scalarize() (in module copulas)</a>
 </li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper">ScipyWrapper (class in copulas.univariate.base)</a>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.scatter_2d">scatter_2d() (in module copulas.visualization)</a>
+</li>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.scatter_3d">scatter_3d() (in module copulas.visualization)</a>
+</li>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyModel">ScipyModel (class in copulas.univariate.base)</a>
 </li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.select_copula">select_copula() (copulas.bivariate.base.Bivariate class method)</a>
 
@@ -1166,26 +1221,26 @@
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.select_copula">(copulas.bivariate.Bivariate class method)</a>
 </li>
       </ul></li>
+      <li><a href="api/copulas.univariate.selection.html#copulas.univariate.selection.select_univariate">select_univariate() (in module copulas.univariate.selection)</a>
+</li>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.BoundedType.SEMI_BOUNDED">SEMI_BOUNDED (copulas.univariate.base.BoundedType attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BoundedType.SEMI_BOUNDED">(copulas.univariate.BoundedType attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/copulas.visualization.html#copulas.visualization.side_by_side">side_by_side() (in module copulas.visualization)</a>
+</li>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Edge.sort_edge">sort_edge() (copulas.multivariate.tree.Edge static method)</a>
 </li>
       <li><a href="api/copulas.bivariate.utils.html#copulas.bivariate.utils.split_matrix">split_matrix() (in module copulas.bivariate.utils)</a>
 </li>
-      <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.std">std (copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-
-      <ul>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.std">(copulas.univariate.TruncatedGaussian attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api/copulas.html#copulas.store_args">store_args() (in module copulas)</a>
 </li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.subclasses">subclasses() (copulas.bivariate.base.Bivariate class method)</a>
 
       <ul>
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.subclasses">(copulas.bivariate.Bivariate class method)</a>
-</li>
-        <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.subclasses">(copulas.multivariate.Tree class method)</a>
-</li>
-        <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Tree.subclasses">(copulas.multivariate.tree.Tree class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1320,12 +1375,10 @@
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.u_matrix">(copulas.multivariate.VineCopula attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.unfittable_model">unfittable_model (copulas.univariate.base.ScipyWrapper attribute)</a>, <a href="api/copulas.univariate.base.html#copulas.univariate.base.ScipyWrapper.unfittable_model">[1]</a>
+      <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.BoundedType.UNBOUNDED">UNBOUNDED (copulas.univariate.base.BoundedType attribute)</a>
 
       <ul>
-        <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.unfittable_model">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
-</li>
-        <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.unfittable_model">(copulas.univariate.TruncatedGaussian attribute)</a>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.BoundedType.UNBOUNDED">(copulas.univariate.BoundedType attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1334,6 +1387,12 @@
 
       <ul>
         <li><a href="api/copulas.univariate.base.html#copulas.univariate.base.Univariate">(class in copulas.univariate.base)</a>
+</li>
+      </ul></li>
+      <li><a href="api/copulas.multivariate.gaussian.html#copulas.multivariate.gaussian.GaussianMultivariate.univariates">univariates (copulas.multivariate.gaussian.GaussianMultivariate attribute)</a>
+
+      <ul>
+        <li><a href="api/copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.univariates">(copulas.multivariate.GaussianMultivariate attribute)</a>
 </li>
       </ul></li>
   </ul></td>
