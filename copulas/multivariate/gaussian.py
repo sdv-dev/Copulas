@@ -1,9 +1,9 @@
 import logging
-from collections import OrderedDict
+import sys
 
 import numpy as np
 import pandas as pd
-from scipy import integrate, stats
+from scipy import stats
 
 from copulas import (
     EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
@@ -11,147 +11,165 @@ from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
 LOGGER = logging.getLogger(__name__)
-DEFAULT_DISTRIBUTION = 'copulas.univariate.gaussian.GaussianUnivariate'
+DEFAULT_DISTRIBUTION = Univariate
 
 
 class GaussianMultivariate(Multivariate):
-    """Class for a gaussian copula model.
+    """Class for a multivariate distribution that uses the Gaussian copula.
 
     Args:
-        distribution (str): Full qualified name of the class to be used as distribution.
+        distribution (str or dict):
+            Fully qualified name of the class to be used for modeling the marginal
+            distributions or a dictionary mapping column names to the fully qualified
+            distribution names.
     """
 
-    @store_args
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    covariance = None
+    columns = None
+    univariates = None
 
-        self.distribs = OrderedDict()
-        self.covariance = None
-        self.means = None
+    @store_args
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_seed=None):
+        self.random_seed = random_seed
         self.distribution = distribution
 
-    def __str__(self):
-        distribs = [
-            '\n{}\n==============\n{}'.format(key, value)
-            for key, value in self.distribs.items()
-        ]
+    def __repr__(self):
+        if self.distribution == DEFAULT_DISTRIBUTION:
+            distribution = ''
+        elif isinstance(self.distribution, type):
+            distribution = 'distribution="{}"'.format(self.distribution.__name__)
+        else:
+            distribution = 'distribution="{}"'.format(self.distribution)
 
-        covariance = (
-            '\n\nCovariance:\n{}'.format(self.covariance)
-        )
-        return '\n'.join(distribs) + covariance
+        return 'GaussianMultivariate({})'.format(distribution)
 
-    def get_lower_bound(self):
-        """Compute the lower bound to integrate cumulative density.
+    def _transform_to_normal(self, X):
+        if isinstance(X, pd.Series):
+            X = X.to_frame().T
+        elif not isinstance(X, pd.DataFrame):
+            if len(X.shape) == 1:
+                X = [X]
 
-        Returns:
-            float: lower bound for cumulative density integral.
-        """
-        lower_bounds = []
+            X = pd.DataFrame(X, columns=self.columns)
 
-        for distribution in self.distribs.values():
-            lower_bound = distribution.percent_point(distribution.mean / 10000)
-            if not pd.isnull(lower_bound):
-                lower_bounds.append(lower_bound)
+        U = list()
+        for column_name, univariate in zip(self.columns, self.univariates):
+            column = X[column_name]
+            U.append(univariate.cdf(column).clip(EPSILON, 1 - EPSILON))
 
-        return min(lower_bounds)
+        return stats.norm.ppf(np.column_stack(U))
 
     def _get_covariance(self, X):
         """Compute covariance matrix with transformed data.
 
         Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`.
+            X (numpy.ndarray):
+                Data for which the covariance needs to be computed.
 
         Returns:
-            np.ndarray
-
+            numpy.ndarray:
+                computed covariance matrix.
         """
-        result = pd.DataFrame(index=range(len(X)))
-        for column_name, column in X.items():
-            distrib = self.distribs[column_name]
+        result = self._transform_to_normal(X)
+        covariance = pd.DataFrame(data=result).cov().values
+        # If singular, add some noise to the diagonal
+        if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:
+            covariance = covariance + np.identity(covariance.shape[0]) * EPSILON
 
-            # get original distrib's cdf of the column
-            cdf = distrib.cumulative_distribution(column)
-
-            if distrib.constant_value is not None:
-                # This is to avoid np.inf in the case the column is constant.
-                cdf = np.ones(column.shape) - EPSILON
-
-            # get inverse cdf using standard normal
-            result[column_name] = stats.norm.ppf(cdf)
-
-        # remove any rows that have infinite values
-        result = result[~result.isin([np.inf, -np.inf]).any(axis=1)]
-        return pd.DataFrame(data=result).cov().values
+        return covariance
 
     @check_valid_values
     def fit(self, X):
         """Compute the distribution for each variable and then its covariance matrix.
 
-        Args:
-            X(numpy.ndarray or pandas.DataFrame): Data to model.
-
-        Returns:
-            None
+        Arguments:
+            X (pandas.DataFrame):
+                Values of the random variables.
         """
-        LOGGER.debug('Fitting Gaussian Copula')
+        LOGGER.info('Fitting %s', self)
 
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
 
+        columns = []
+        univariates = []
         for column_name, column in X.items():
-            self.distribs[column_name] = get_instance(self.distribution)
-            self.distribs[column_name].fit(column)
+            if isinstance(self.distribution, dict):
+                distribution = self.distribution.get(column_name, DEFAULT_DISTRIBUTION)
+            else:
+                distribution = self.distribution
 
+            LOGGER.debug('Fitting column %s to %s', column_name, distribution)
+
+            univariate = get_instance(distribution)
+            univariate.fit(column)
+
+            columns.append(column_name)
+            univariates.append(univariate)
+
+        self.columns = columns
+        self.univariates = univariates
+
+        LOGGER.debug('Computing covariance')
         self.covariance = self._get_covariance(X)
         self.fitted = True
 
-    def probability_density(self, X):
-        """Compute probability density function for given copula family.
+        LOGGER.debug('GaussianMultivariate fitted successfully')
 
-        Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`
+    def probability_density(self, X):
+        """Compute the probability density for each point in X.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the probability density will be computed.
 
         Returns:
-            np.array: Probability density for the input values.
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         self.check_fit()
-
-        # make cov positive semi-definite
-        covariance = self.covariance * np.identity(self.covariance.shape[0])
-        return stats.multivariate_normal.pdf(X, cov=covariance)
+        transformed = self._transform_to_normal(X)
+        return stats.multivariate_normal.pdf(transformed, cov=self.covariance)
 
     def cumulative_distribution(self, X):
-        """Computes the cumulative distribution function for the copula
+        """Compute the cumulative distribution value for each point in X.
 
-        Args:
-            X: `numpy.ndarray` or `pandas.DataFrame`
+        Arguments:
+            X (pandas.DataFrame):
+                Values for which the cumulative distribution will be computed.
 
         Returns:
-            np.array: cumulative probability
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         self.check_fit()
-
-        # Wrapper for pdf to accept vector as args
-        def func(*args):
-            return self.probability_density(list(args))
-
-        # Lower bound for integral, to split significant part from tail
-        lower_bound = self.get_lower_bound()
-
-        ranges = [[lower_bound, val] for val in X]
-        return integrate.nquad(func, ranges)[0]
+        transformed = self._transform_to_normal(X)
+        return stats.multivariate_normal.cdf(transformed, cov=self.covariance)
 
     @random_state
     def sample(self, num_rows=1):
-        """Creates sintentic values stadistically similar to the original dataset.
+        """Sample values from this model.
 
-        Args:
-            num_rows: `int` amount of samples to generate.
+        Argument:
+            num_rows (int):
+                Number of rows to sample.
 
         Returns:
-            np.ndarray: Sampled data.
+            numpy.ndarray:
+                Array of shape (n_samples, *) with values randomly
+                sampled from this model distribution.
 
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         self.check_fit()
 
@@ -162,35 +180,50 @@ class GaussianMultivariate(Multivariate):
         clean_cov = np.nan_to_num(self.covariance)
         samples = np.random.multivariate_normal(means, clean_cov, size=size)
 
-        for i, (label, distrib) in enumerate(self.distribs.items()):
+        for i, (column_name, univariate) in enumerate(zip(self.columns, self.univariates)):
             cdf = stats.norm.cdf(samples[:, i])
-            res[label] = distrib.percent_point(cdf)
+            res[column_name] = univariate.percent_point(cdf)
 
         return pd.DataFrame(data=res)
 
     def to_dict(self):
-        distributions = {
-            name: distribution.to_dict() for name, distribution in self.distribs.items()
-        }
+        """Return a `dict` with the parameters to replicate this object.
+
+        Returns:
+            dict:
+                Parameters of this distribution.
+        """
+        self.check_fit()
+        univariates = [univariate.to_dict() for univariate in self.univariates]
 
         return {
             'covariance': self.covariance.tolist(),
-            'distribs': distributions,
+            'univariates': univariates,
+            'columns': self.columns,
             'type': get_qualified_name(self),
-            'fitted': self.fitted,
-            'distribution': self.distribution
         }
 
     @classmethod
     def from_dict(cls, copula_dict):
-        """Set attributes with provided values."""
-        instance = cls()
-        instance.distribs = {}
+        """Create a new instance from a parameters dictionary.
 
-        for name, parameters in copula_dict['distribs'].items():
-            instance.distribs[name] = Univariate.from_dict(parameters)
+        Args:
+            params (dict):
+                Parameters of the distribution, in the same format as the one
+                returned by the ``to_dict`` method.
+
+        Returns:
+            Multivariate:
+                Instance of the distribution defined on the parameters.
+        """
+        instance = cls()
+        instance.univariates = []
+        instance.columns = copula_dict['columns']
+
+        for parameters in copula_dict['univariates']:
+            instance.univariates.append(Univariate.from_dict(parameters))
 
         instance.covariance = np.array(copula_dict['covariance'])
-        instance.fitted = copula_dict['fitted']
-        instance.distribution = copula_dict['distribution']
+        instance.fitted = True
+
         return instance

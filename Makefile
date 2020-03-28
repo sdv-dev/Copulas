@@ -50,6 +50,7 @@ clean-pyc: ## remove Python file artifacts
 .PHONY: clean-docs
 clean-docs: ## remove previously built docs
 	rm -f docs/api/*.rst
+	rm -rf docs/tutorials
 	-$(MAKE) -C docs clean 2>/dev/null  # this fails if sphinx is not yet installed
 
 .PHONY: clean-coverage
@@ -86,8 +87,8 @@ install-develop: clean-build clean-pyc ## install the package in editable mode a
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 copulas tests examples
-	isort -c --recursive copulas tests examples
+	flake8 copulas tests
+	isort -c --recursive copulas tests
 
 lint-docs: ## check docs formatting with doc8 and pydocstyle
 	doc8 . docs/
@@ -103,19 +104,23 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 	autopep8 --in-place --recursive --aggressive tests
 	isort --apply --atomic --recursive tests
 
-	find examples -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive examples
-	isort --apply --atomic --recursive examples
-
 # TEST TARGETS
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	python -m pytest --cov=copulas
+	python -m pytest --disable-warnings --cov=copulas
+
+.PHONY: test-unit
+test-unit: ## run tests quickly with the default Python
+	python -m pytest --disable-warnings --cov=copulas tests/unit
+
+.PHONY: test-numerical
+test-numerical: ## run tests quickly with the default Python
+	python -m pytest --disable-warnings --cov=copulas tests/numerical
 
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
-	tox
+	tox -r
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
@@ -129,6 +134,7 @@ coverage: ## check code coverage quickly with the default Python
 
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
+	cp -r tutorials docs/tutorials
 	sphinx-apidoc --separate -o docs/api/ copulas
 	$(MAKE) -C docs html
 
@@ -171,6 +177,10 @@ bumpversion-patch: ## Merge stable to master and bumpversion patch
 	bumpversion --no-tag patch
 	git push
 
+.PHONY: bumpversion-candidate
+bumpversion-candidate: ## Bump the version to the next candidate
+	bumpversion candidate --no-tag
+
 .PHONY: bumpversion-minor
 bumpversion-minor: ## Bump the version the next minor skipping the release
 	bumpversion --no-tag minor
@@ -180,21 +190,29 @@ bumpversion-major: ## Bump the version the next major skipping the release
 	bumpversion --no-tag major
 
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
-￼CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
+CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
-.PHONY: check-release
-check-release: ## Check if the release can be made
+.PHONY: check-master
+check-master: ## Check if we are in master branch
 ifneq ($(CURRENT_BRANCH),master)
 	$(error Please make the release from master branch\n)
 endif
+
+.PHONY: check-history
+check-history: ## Check if HISTORY.md has been modified
 ifeq ($(CHANGELOG_LINES),0)
 	$(error Please insert the release notes in HISTORY.md before releasing)
-else
-	@echo "A new release can be made"
 endif
+
+.PHONY: check-release
+check-release: check-master check-history ## Check if the release can be made
+	@echo "A new release can be made"
 
 .PHONY: release
 release: check-release bumpversion-release publish bumpversion-patch
+
+.PHONY: release-candidate
+release-candidate: check-master publish bumpversion-candidate
 
 .PHONY: release-minor
 release-minor: check-release bumpversion-minor release

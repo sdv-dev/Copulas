@@ -1,0 +1,33 @@
+{
+    "metadata": {
+        "test_type": "bivariate_fit",
+        "dataset_type": "handcrafted",
+        "scripts_to_generate": {
+            "output": {
+                "R": "bivariate_fit_output.R",
+                "Matlab": "bivariate_fit_output.m"
+            }
+        },
+        "description": "Test Gumbel on a weakly correlated dataset."
+    },
+    "test": {
+        "class": "copulas.bivariate.gumbel.Gumbel",
+        "kwargs": {}
+    },
+    "test_case_inputs": {
+        "points": "bivariate_fit_test_case_2_input.csv"
+    },
+    "expected_output": {
+        "R": {
+            "theta": 1.16666666666667,
+            "tau": 0.142857142857143
+        },
+        "Matlab": {
+            "theta": 1.16666666666667,
+            "tau": 0.142857142857143
+        }
+    },
+    "settings": {
+        "rtol": 1e-7
+    }
+}

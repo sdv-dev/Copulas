@@ -14,7 +14,7 @@ with open('HISTORY.md') as history_file:
 install_requires = [
     'numpy>=1.13.1,<1.17',
     'pandas>=0.22.0,<0.25',
-    'scipy>=0.19.1,<1.3',
+    'scipy>=1.2,<1.3',
     'exrex>=0.10.5,<0.11',
     'matplotlib>=2.2.2,<4',
     'boto3>=1.7.47,<1.10',
@@ -29,6 +29,7 @@ development_requires = [
 
     # docs
     'm2r>=0.2.0',
+    'nbsphinx>=0.5.0',
     'Sphinx>=1.7.1',
     'sphinx_rtd_theme>=0.2.4',
 
@@ -50,8 +51,15 @@ development_requires = [
 
     # Documentation style
     'doc8==0.8.0',
-    'pydocstyle==3.0.0'
+    'pydocstyle==3.0.0',
 
+    # ATM datasets test
+    'tabulate>=0.8.3,<0.9',
+]
+
+tutorials_require = [
+    'jupyter>=1.0.0',
+    'scikit-learn>=0.22,<0.23'
 ]
 
 tests_require = [
@@ -83,8 +91,9 @@ setup(
         ],
     },
     extras_require={
+        'tutorials': tutorials_require,
         'test': tests_require,
-        'dev': tests_require + development_requires,
+        'dev': tests_require + development_requires + tutorials_require,
     },
     install_requires=install_requires,
     license="MIT license",
@@ -99,6 +108,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.2.5',
+    version='0.3.0.dev1',
     zip_safe=False,
 )

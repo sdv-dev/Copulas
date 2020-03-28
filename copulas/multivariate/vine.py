@@ -2,12 +2,11 @@ import logging
 
 import numpy as np
 import pandas as pd
-from scipy import optimize
 
 from copulas import EPSILON, check_valid_values, get_qualified_name, random_state, store_args
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
-from copulas.multivariate.tree import Tree
+from copulas.multivariate.tree import Tree, get_tree
 from copulas.univariate.gaussian_kde import GaussianKDE
 
 LOGGER = logging.getLogger(__name__)
@@ -33,30 +32,37 @@ class VineCopula(Multivariate):
     of all the nodes.
 
     Args:
-        vine_type ({'center', 'direct', 'regular'}): Type of the vine copula
+        vine_type (str):
+            type of the vine copula, could be 'center','direct','regular'
+        random_seed (int):
+            Random seed to use.
 
 
     Attributes:
-        model (copulas.univariate.Univariate): Distribution to compute univariates.
-        u_matrix(numpy.array): Univariates.
-        n_sample(int): Number of samples.
-        n_var(int): Number of variables.
-        columns(pandas.Series): Names of the variables.
-        tau_mat(numpy.array): Kendall correlation parameters for data.
-        truncated(int):
-        depth(int):
-        trees(list[Tree]):
-        self.ppfs(list[callable]):
-
+        model (copulas.univariate.Univariate):
+            Distribution to compute univariates.
+        u_matrix (numpy.array):
+            Univariates.
+        n_sample (int):
+            Number of samples.
+        n_var (int):
+            Number of variables.
+        columns (pandas.Series):
+            Names of the variables.
+        tau_mat (numpy.array):
+            Kendall correlation parameters for data.
+        truncated (int):
+            Max level used to build the vine.
+        depth (int):
+            Vine depth.
+        trees (list[Tree]):
+            List of trees used by this vine.
+        ppfs (list[callable]):
+            percent point functions from the univariates used by this vine.
     """
     @store_args
-    def __init__(self, vine_type, *args, **kwargs):
-        """Instantiate a vine copula.
-
-        Args:
-            vine_type(str): type of the vine copula, could be 'center','direct','regular'
-        """
-        super().__init__(*args, **kwargs)
+    def __init__(self, vine_type, random_seed=None):
+        self.random_seed = random_seed
         self.vine_type = vine_type
         self.u_matrix = None
 
@@ -75,6 +81,12 @@ class VineCopula(Multivariate):
         return trees
 
     def to_dict(self):
+        """Return a `dict` with the parameters to replicate this Vine.
+
+        Returns:
+            dict:
+                Parameters of this Vine.
+        """
         result = {
             'type': get_qualified_name(self),
             'vine_type': self.vine_type,
@@ -93,11 +105,23 @@ class VineCopula(Multivariate):
             'tau_mat': self.tau_mat.tolist(),
             'u_matrix': self.u_matrix.tolist(),
             'unis': [distribution.to_dict() for distribution in self.unis],
+            'columns': self.columns
         })
         return result
 
     @classmethod
     def from_dict(cls, vine_dict):
+        """Create a new instance from a parameters dictionary.
+
+        Args:
+            params (dict):
+                Parameters of the Vine, in the same format as the one
+                returned by the ``to_dict`` method.
+
+        Returns:
+            Vine:
+                Instance of the Vine defined on the parameters.
+        """
         instance = cls(vine_dict['vine_type'])
         fitted = vine_dict['fitted']
         if fitted:
@@ -108,6 +132,8 @@ class VineCopula(Multivariate):
             instance.depth = vine_dict['depth']
             instance.trees = cls._deserialize_trees(vine_dict['trees'])
             instance.unis = [GaussianKDE.from_dict(uni) for uni in vine_dict['unis']]
+            instance.ppfs = [uni.percent_point for uni in instance.unis]
+            instance.columns = vine_dict['columns']
             instance.tau_mat = np.array(vine_dict['tau_mat'])
             instance.u_matrix = np.array(vine_dict['u_matrix'])
 
@@ -124,12 +150,13 @@ class VineCopula(Multivariate):
 
         and compose the matrix :math:`u = u_1, ..., u_n,` where :math:`u_i` are their columns.
 
-
-
         Args:
-            X(numpy.ndarray): data to be fitted.
-            truncated(int): max level to build the vine.
+            X (numpy.ndarray):
+                Data to be fitted to.
+            truncated (int):
+                Max level to build the vine.
         """
+        LOGGER.info('Fitting VineCopula("%s")', self.vine_type)
         self.n_sample, self.n_var = X.shape
         self.columns = X.columns
         self.tau_mat = X.corr(method='kendall').values
@@ -187,11 +214,13 @@ class VineCopula(Multivariate):
 
         9. Set :math:`k = k + 1` and repeat from (5) until all the trees are constructed.
 
-
+        Args:
+            tree_type (str or TreeTypes):
+                Type of trees to use.
         """
         LOGGER.debug('start building tree : 0')
         # 1
-        tree_1 = Tree(tree_type)
+        tree_1 = get_tree(tree_type)
         tree_1.fit(0, self.n_var, self.tau_mat, self.u_matrix)
         self.trees.append(tree_1)
         LOGGER.debug('finish building tree : 0')
@@ -201,13 +230,15 @@ class VineCopula(Multivariate):
             self.trees[k - 1]._get_constraints()
             tau = self.trees[k - 1].get_tau_matrix()
             LOGGER.debug('start building tree: {0}'.format(k))
-            tree_k = Tree(tree_type)
+            tree_k = get_tree(tree_type)
             tree_k.fit(k, self.n_var - k, tau, self.trees[k - 1])
             self.trees.append(tree_k)
             LOGGER.debug('finish building tree: {0}'.format(k))
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the vine."""
+        # TODO: explain what this is supposed to do and make it work
+        # TODO: Alternatively, remove it.
         num_tree = len(self.trees)
         values = np.empty([1, num_tree])
 
@@ -272,22 +303,16 @@ class VineCopula(Multivariate):
                         copula_type = current_tree[current_ind].name
                         copula = Bivariate(copula_type=CopulaTypes(copula_type))
                         copula.theta = current_tree[current_ind].theta
-                        derivative = copula.partial_derivative_scalar
 
+                        U = np.array([unis[visited[0]]])
                         if i == itr - 1:
-                            tmp = optimize.fminbound(
-                                derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], unis[current])
-                            )
+                            tmp = copula.percent_point(np.array([unis[current]]), U)[0]
                         else:
-                            tmp = optimize.fminbound(
-                                derivative, EPSILON, 1.0,
-                                args=(unis[visited[0]], tmp)
-                            )
+                            tmp = copula.percent_point(np.array([tmp]), U)[0]
 
                         tmp = min(max(tmp, EPSILON), 0.99)
 
-                new_x = self.ppfs[current](tmp)
+                new_x = self.ppfs[current](np.array([tmp]))
 
             sampled[current] = new_x
 
@@ -305,12 +330,13 @@ class VineCopula(Multivariate):
         """Sample new rows.
 
         Args:
-            num_rows(int): Number of rows to sample
+            num_rows (int):
+                Number of rows to sample
 
         Returns:
-            pandas.DataFrame
+            pandas.DataFrame:
+                sampled rows.
         """
-
         sampled_values = []
         for i in range(num_rows):
             sampled_values.append(self._sample_row())

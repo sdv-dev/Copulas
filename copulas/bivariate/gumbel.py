@@ -1,8 +1,6 @@
 
 import numpy as np
-from scipy.optimize import brentq
 
-from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.bivariate.utils import split_matrix
 
@@ -23,10 +21,15 @@ class Gumbel(Bivariate):
 
         The probability density(PDF) for the Gumbel family of copulas correspond to the formula:
 
-        .. math:: c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u} =
-            \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
-            {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
-            + (-\ln v)^\theta\big)^{-1/\theta})
+        .. math::
+
+            \begin{align}
+                c(U,V)
+                    &= \frac{\partial^2 C(u,v)}{\partial v \partial u} \\
+                    &= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
+                {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
+                + (-\ln v)^\theta\big)^{-1/\theta})
+            \end{align}
 
         Args:
             X (numpy.ndarray)
@@ -92,20 +95,12 @@ class Gumbel(Bivariate):
             return y
 
         else:
-            result = []
-            for _y, _V in zip(y, V):
-                minimum = brentq(self.partial_derivative_scalar, EPSILON, 1.0, args=(_y, _V))
-                if isinstance(minimum, np.ndarray):
-                    minimum = minimum[0]
+            return super().percent_point(y, V)
 
-                result.append(minimum)
-
-            return np.array(result)
-
-    def partial_derivative(self, X, y=0):
+    def partial_derivative(self, X):
         r"""Compute partial derivative of cumulative distribution.
 
-        The partial derivative of the copula(CDF) is the value of the conditional probability.
+        The partial derivative of the copula(CDF) is the conditional CDF.
 
         .. math:: F(v|u) = \frac{\partial C(u,v)}{\partial u} =
             C(u,v)\frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta} - 1}}
@@ -132,7 +127,7 @@ class Gumbel(Bivariate):
             p1 = self.cumulative_distribution(X)
             p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
             p3 = np.power(-np.log(V), self.theta - 1)
-            return np.divide(np.multiply(np.multiply(p1, p2), p3), V) - y
+            return np.divide(np.multiply(np.multiply(p1, p2), p3), V)
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.

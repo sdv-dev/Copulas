@@ -1,13 +1,15 @@
 from functools import partial
 
 import numpy as np
-import scipy
+from scipy.optimize import brentq
+from scipy.special import ndtr
+from scipy.stats import gaussian_kde
 
-from copulas import scalarize, store_args, vectorize
-from copulas.univariate.base import ScipyWrapper
+from copulas import EPSILON, scalarize, store_args
+from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
-class GaussianKDE(ScipyWrapper):
+class GaussianKDE(ScipyModel):
     """A wrapper for gaussian Kernel density estimation implemented
     in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
@@ -20,48 +22,86 @@ class GaussianKDE(ScipyWrapper):
         sample_size(int): amount of parameters to sample
     """
 
-    model_class = 'gaussian_kde'
-    probability_density = 'evaluate'
-    sample = 'resample'
+    PARAMETRIC = ParametricType.NON_PARAMETRIC
+    BOUNDED = BoundedType.UNBOUNDED
+    MODEL_CLASS = gaussian_kde
 
     @store_args
-    def __init__(self, sample_size=None, *args, **kwargs):
-        self.sample_size = sample_size
-        super().__init__(*args, **kwargs)
+    def __init__(self, sample_size=None, random_seed=None):
+        self.random_seed = random_seed
+        self._sample_size = sample_size
 
-    def fit(self, X, *args, **kwargs):
-        self.constant_value = self._get_constant_value(X)
+    def _get_model(self):
+        dataset = self._params['dataset']
+        self._sample_size = self._sample_size or len(dataset)
+        return gaussian_kde(dataset)
 
-        if self.constant_value is None:
-            if self.sample_size:
-                X = self.sample(self.sample_size)
-                super().fit(X, *args, **kwargs)
+    def _get_bounds(self):
+        X = self._params['dataset']
+        lower = np.min(X) - (5 * np.std(X))
+        upper = np.max(X) + (5 * np.std(X))
 
-            super().fit(X, *args, **kwargs)
+        return lower, upper
 
-        else:
-            self._replace_constant_methods()
+    def probability_density(self, X):
+        """Compute the probability density for each point in X.
 
-        self.fitted = True
-
-    def cumulative_distribution(self, X):
-        """Computes the integral of a 1-D pdf between two bounds
-
-        Args:
-            X(numpy.array): Shaped (1, n), containing the datapoints.
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the probability density will be computed.
+                It must have shape (n, 1).
 
         Returns:
-            numpy.array: estimated cumulative distribution.
+            numpy.ndarray:
+                Probability density values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         self.check_fit()
+        return self._model.evaluate(X)
 
-        low_bounds = self.model.dataset.mean() - (5 * self.model.dataset.std())
+    def sample(self, n_samples=1):
+        """Sample values from this model.
 
-        result = []
-        for value in X:
-            result.append(self.model.integrate_box_1d(low_bounds, value))
+        Argument:
+            n_samples (int):
+                Number of values to sample
 
-        return np.array(result)
+        Returns:
+            numpy.ndarray:
+                Array of shape (n_samples, 1) with values randomly
+                sampled from this model distribution.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        return self._model.resample(size=n_samples)[0]
+
+    def cumulative_distribution(self, X):
+        """Compute the cumulative distribution value for each point in X.
+
+        Arguments:
+            X (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1).
+
+        Returns:
+            numpy.ndarray:
+                Cumulative distribution values for points in X.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+        stdev = np.sqrt(self._model.covariance[0, 0])
+        lower = ndtr((self._get_bounds()[0] - self._model.dataset) / stdev)[0]
+        uppers = np.vstack([ndtr((x - self._model.dataset) / stdev)[0] for x in X])
+        return (uppers - lower).dot(self._model.weights)
 
     def _brentq_cdf(self, value):
         """Helper function to compute percent_point.
@@ -76,10 +116,12 @@ class GaussianKDE(ScipyWrapper):
         cdf(x) - cdf(z) = 0 => (becasue cdf is monotonous and continous) x = z
 
         Args:
-            value(float): cdf value, that is, in [0,1]
+            value (float):
+                cdf value, that is, in [0,1]
 
         Returns:
-            callable: function whose zero is the ppf of value.
+            callable:
+                function whose zero is the ppf of value.
         """
         # The decorator expects an instance method, but usually are decorated before being bounded
         bound_cdf = partial(scalarize(GaussianKDE.cumulative_distribution), self)
@@ -89,44 +131,67 @@ class GaussianKDE(ScipyWrapper):
 
         return f
 
-    @vectorize
     def percent_point(self, U):
-        """Given a cdf value, returns a value in original space.
+        """Compute the inverse cumulative distribution value for each point in U.
 
-        Args:
-            U(numpy.array): cdf values in [0,1]
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
 
         Returns:
-            numpy.array: value in original space
+            numpy.ndarray:
+                Inverse cumulative distribution values for points in U.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
         """
         self.check_fit()
 
-        return scipy.optimize.brentq(self._brentq_cdf(U), -1000.0, 1000.0)
+        if isinstance(U, np.ndarray):
+            if len(U.shape) == 1:
+                U = U.reshape([-1, 1])
 
-    @classmethod
-    def from_dict(cls, copula_dict):
-        """Set attributes with provided values."""
-        instance = cls()
-
-        instance.fitted = copula_dict['fitted']
-
-        if instance.fitted:
-            X = np.array(copula_dict['dataset'])
-            uniques = np.unique(X)
-            if len(uniques) == 1:
-                instance.constant_value = uniques[0]
+            if len(U.shape) == 2:
+                return np.fromiter(
+                    (self.percent_point(u[0]) for u in U),
+                    np.dtype('float64')
+                )
 
             else:
-                instance.model = scipy.stats.gaussian_kde(X)
+                raise ValueError('Arrays of dimensionality higher than 2 are not supported.')
 
-        return instance
+        if np.any(U > 1.0) or np.any(U < 0.0):
+            raise ValueError("Expected values in range [0.0, 1.0].")
 
-    def _fit_params(self):
-        if self.constant_value is not None:
-            return {
-                'dataset': [self.constant_value] * self.sample_size,
-            }
+        is_one = U >= 1.0 - EPSILON
+        is_zero = U <= EPSILON
+        is_valid = not (is_zero or is_one)
 
-        return {
-            'dataset': self.model.dataset.tolist(),
+        lower, upper = self._get_bounds()
+
+        X = np.zeros(U.shape)
+        X[is_one] = float("inf")
+        X[is_zero] = float("-inf")
+        X[is_valid] = brentq(self._brentq_cdf(U[is_valid]), lower, upper)
+
+        return X
+
+    def _fit_constant(self, X):
+        sample_size = self._sample_size or len(X)
+        constant = np.unique(X)[0]
+        self._params = {
+            'dataset': [constant] * sample_size,
         }
+
+    def _fit(self, X):
+        if self._sample_size:
+            X = gaussian_kde(X).resample(self._sample_size)
+
+        self._params = {
+            'dataset': X.tolist()
+        }
+
+    def _is_constant(self):
+        return len(np.unique(self._params['dataset'])) == 1
