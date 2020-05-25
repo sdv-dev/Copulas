@@ -1,5 +1,11 @@
 # History
 
+## 0.3.1 (2020-26-05)
+
+### New Features
+
+* Implementation of Student T univariate - Issue [#172](https://github.com/sdv-dev/Copulas/issues/172) by @gbonomib
+
 ## 0.3.0 (2020-03-27)
 
 Important revamp of the internal implementation of the project, the testing

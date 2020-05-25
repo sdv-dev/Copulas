@@ -41,6 +41,7 @@ Some of the features provided by this library include:
 * Gamma
 * Gaussian KDE
 * Truncated Gaussian
+* Student T
 
 ### Archimedean Copulas (Bivariate)
 
