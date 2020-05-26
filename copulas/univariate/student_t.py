@@ -3,6 +3,7 @@ from scipy.stats import t
 
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
+
 class StudentTUnivariate(ScipyModel):
     """Wrapper around scipy.stats.t.
 
