@@ -40,7 +40,7 @@ class TestStudentT(TestCase):
         assert isinstance(sampled_data, np.ndarray)
         assert sampled_data.shape == (50, )
 
-        assert model._constant_value == None
+        assert model._constant_value is None
         np.testing.assert_allclose(np.full(50, 5), model.sample(50), atol=0.1)
 
     def test_pdf(self):
