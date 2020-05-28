@@ -26,9 +26,9 @@ class TestStudentTUnivariate(TestCase):
         distribution._fit(data)
 
         assert distribution._params == {
-            'df': t.fit(data)[0],
-            'loc': t.fit(data)[1],
-            'scale': t.fit(data)[2],
+            'df': 2.8331725136645227,
+            'loc': 1.0151500951225847,
+            'scale': 1.000966233180422,
         }
 
     def test__is_constant_true(self):
