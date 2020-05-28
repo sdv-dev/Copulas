@@ -15,6 +15,9 @@ class StudentTUnivariate(ScipyModel):
 
     MODEL_CLASS = t
 
+    def _fit_constant(self, X):
+        return self._fit(X)
+
     def _fit(self, X):
         df, loc, scale = t.fit(X)
         self._params = {
@@ -22,9 +25,6 @@ class StudentTUnivariate(ScipyModel):
             'loc': loc,
             'scale': scale
         }
-
+ 
     def _is_constant(self):
-        return False
-
-    def _check_constant_value(self, *args, **kwargs):
         return False
