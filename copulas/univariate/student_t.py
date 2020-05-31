@@ -1,4 +1,3 @@
-import numpy as np
 from scipy.stats import t
 
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
@@ -25,6 +24,6 @@ class StudentTUnivariate(ScipyModel):
             'loc': loc,
             'scale': scale
         }
- 
+
     def _is_constant(self):
         return False
