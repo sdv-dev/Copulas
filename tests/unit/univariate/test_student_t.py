@@ -27,7 +27,7 @@ class TestStudentTUnivariate(TestCase):
 
         distribution.fit(np.array([1, 1, 1, 1]))
 
-        assert not distribution._is_constant()
+        assert distribution._is_constant()
 
     def test__is_constant_false(self):
         distribution = StudentTUnivariate()

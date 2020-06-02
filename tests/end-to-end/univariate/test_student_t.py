@@ -91,12 +91,14 @@ class TestStudentT(TestCase):
 
         params = model.to_dict()
 
-        assert len(params) == 4
-        assert isinstance(params, dict)
-        assert isinstance(params['df'], float)
-        assert isinstance(params['scale'], float)
-        assert params['type'] == 'copulas.univariate.student_t.StudentTUnivariate'
-        assert params['loc'] == 5
+        df = params.pop('df')
+        assert np.isclose(df, 152801, atol=1)
+
+        assert params == {
+            'type': 'copulas.univariate.student_t.StudentTUnivariate',
+            'loc': 5,
+            'scale': 0,
+        }
 
     def test_save_load(self):
         model = StudentTUnivariate()
