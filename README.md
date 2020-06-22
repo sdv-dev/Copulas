@@ -35,6 +35,7 @@ Some of the features provided by this library include:
 ### Univariate
 
 * Gaussian
+* Student T
 * Beta
 * Gamma
 * Gaussian KDE
@@ -131,7 +132,7 @@ over the years by the following team:
 * Kalyan Veeramachaneni <kalyan@csail.mit.edu>
 * paulolimac <paulolimac@gmail.com>
 * Kevin Alex Zhang <kevz@mit.edu>
-
+* Gabriele Bonomi <gbonomib@gmail.com>
 
 # Related Projects
 

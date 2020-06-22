@@ -9,3 +9,4 @@ Credits
 * Andrew Montanez <amontane@mit.edu>
 * Kalyan Veeramachaneni <kalyan@csail.mit.edu>
 * paulolimac <paulolimac@gmail.com>
+* Gabriele Bonomi <gbonomib@gmail.com>
