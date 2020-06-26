@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from mpl_toolkits import mplot3d  # noqa: importing this fixes import error in py35
 
 
 def scatter_3d(data, columns=None, fig=None, title=None, position=None):
