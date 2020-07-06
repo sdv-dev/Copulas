@@ -11,7 +11,7 @@ from copulas.univariate import GaussianUnivariate
 class TestGaussian(TestCase):
 
     def setUp(self):
-        self.data = norm.rvs(loc=1.0, scale=0.5, size=10000)
+        self.data = norm.rvs(loc=1.0, scale=0.5, size=50000)
         self.constant = np.full(100, fill_value=5)
         self.test_dir = tempfile.TemporaryDirectory()
 
