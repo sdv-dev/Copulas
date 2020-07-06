@@ -30,6 +30,7 @@
    API Reference <api/copulas>
    contributing
    history
+   authors
 
 Indices and tables
 ==================

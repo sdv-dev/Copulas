@@ -15,10 +15,7 @@ install_requires = [
     'numpy>=1.13.1,<1.17',
     'pandas>=0.22.0,<0.25',
     'scipy>=1.2,<1.3',
-    'exrex>=0.10.5,<0.11',
-    'matplotlib>=2.2.2,<4',
-    'boto3>=1.7.47,<1.10',
-    'docutils>=0.10,<0.15'
+    'matplotlib>=2.2.2,<3.2.2',
 ]
 
 development_requires = [
@@ -50,21 +47,24 @@ development_requires = [
     'tox>=2.9.1,<4',
 
     # Documentation style
-    'doc8==0.8.0,<0.9',
-    'pydocstyle==3.0.0,<4',
+    'doc8>=0.8.0,<0.9',
+    'pydocstyle>=3.0.0,<4',
 
-    # ATM datasets test
+    # Large scale evaluation
     'tabulate>=0.8.3,<0.9',
+    'boto3>=1.7.47,<1.10',
+    'docutils>=0.10,<0.15'
 ]
 
 tutorials_require = [
+    'scikit-learn>=0.22,<0.23',
     'jupyter>=1.0.0,<2',
-    'scikit-learn>=0.22,<0.23'
 ]
 
 tests_require = [
     'pytest>=3.4.2,<6',
     'pytest-cov>=2.6.0,<3',
+    'rundoc>=0.4.3,<0.5',
 ]
 
 setup_requires = [
@@ -92,7 +92,7 @@ setup(
     },
     extras_require={
         'tutorials': tutorials_require,
-        'test': tests_require,
+        'test': tests_require + tutorials_require,
         'dev': tests_require + development_requires + tutorials_require,
     },
     install_requires=install_requires,
@@ -103,7 +103,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.5',
+    python_requires='>=3.5,<3.8',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,

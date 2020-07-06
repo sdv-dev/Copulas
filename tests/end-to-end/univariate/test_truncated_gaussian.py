@@ -11,7 +11,7 @@ from copulas.univariate import TruncatedGaussian
 class TestGaussian(TestCase):
 
     def setUp(self):
-        self.data = truncnorm.rvs(a=0.0, b=4.0, loc=1.0, scale=1.0, size=10000)
+        self.data = truncnorm.rvs(a=0.0, b=4.0, loc=1.0, scale=1.0, size=50000)
         self.constant = np.full(100, fill_value=5)
         self.test_dir = tempfile.TemporaryDirectory()
 
@@ -22,10 +22,10 @@ class TestGaussian(TestCase):
         model = TruncatedGaussian(min=1, max=5)
         model.fit(self.data)
 
-        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['a'], 0.0, atol=0.1)
-        np.testing.assert_allclose(model._params['b'], 4.0, atol=0.1)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['a'], 0.0, atol=0.2)
+        np.testing.assert_allclose(model._params['b'], 4.0, atol=0.2)
 
         sampled_data = model.sample(50)
 

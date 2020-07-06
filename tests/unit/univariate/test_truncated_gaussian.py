@@ -33,7 +33,7 @@ class TestTruncatedGaussian(TestCase):
             'b': 3
         }
         for key, value in distribution._params.items():
-            np.testing.assert_allclose(value, expected[key], atol=0.1)
+            np.testing.assert_allclose(value, expected[key], atol=0.2)
 
     def test__is_constant_true(self):
         distribution = TruncatedGaussian()

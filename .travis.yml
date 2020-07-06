@@ -11,6 +11,7 @@ addons:
   apt:
     packages:
       - pandoc
+
 install: pip install -U tox-travis codecov
 
 # Command to run tests
@@ -19,7 +20,6 @@ script: tox
 after_success: codecov
 
 deploy:
-
   - provider: pages
     skip-cleanup: true
     github-token: "$GITHUB_TOKEN"

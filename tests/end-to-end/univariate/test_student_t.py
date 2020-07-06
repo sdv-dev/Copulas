@@ -22,9 +22,9 @@ class TestStudentT(TestCase):
         model = StudentTUnivariate()
         model.fit(self.data)
 
-        np.testing.assert_allclose(model._params['df'], 3.0, rtol=0.1)
-        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['scale'], 0.5, atol=0.1)
+        np.testing.assert_allclose(model._params['df'], 3.0, rtol=0.2)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 0.5, atol=0.2)
 
         sampled_data = model.sample(50)
 
@@ -41,7 +41,7 @@ class TestStudentT(TestCase):
         assert sampled_data.shape == (50, )
 
         assert model._constant_value == 5
-        np.testing.assert_allclose(np.full(50, 5), model.sample(50), atol=0.1)
+        np.testing.assert_allclose(np.full(50, 5), model.sample(50), atol=0.2)
 
     def test_pdf(self):
         model = StudentTUnivariate()
