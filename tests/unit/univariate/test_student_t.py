@@ -20,7 +20,7 @@ class TestStudentTUnivariate(TestCase):
             'scale': 1,
         }
         for key, value in distribution._params.items():
-            np.testing.assert_allclose(value, expected[key], rtol=0.1)
+            np.testing.assert_allclose(value, expected[key], rtol=0.2)
 
     def test__is_constant_true(self):
         distribution = StudentTUnivariate()

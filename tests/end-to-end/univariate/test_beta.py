@@ -22,10 +22,10 @@ class TestGaussian(TestCase):
         model = BetaUnivariate()
         model.fit(self.data)
 
-        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['a'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['b'], 1.0, atol=0.1)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['a'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['b'], 1.0, atol=0.2)
 
         sampled_data = model.sample(50)
 

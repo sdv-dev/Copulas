@@ -22,8 +22,8 @@ class TestGaussian(TestCase):
         model = GaussianUnivariate()
         model.fit(self.data)
 
-        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['scale'], 0.5, atol=0.1)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 0.5, atol=0.2)
 
         sampled_data = model.sample(50)
 
