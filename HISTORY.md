@@ -1,12 +1,26 @@
 # History
 
+## 0.3.1 (2020-07-09)
+
+### General Improvements
+
+* Raise numpy version upper bound to 2 - Issue [#178](https://github.com/sdv-dev/Copulas/issues/178) by @csala
+
+### New Features
+
+* Add Student T Univariate - Issue [#172](https://github.com/sdv-dev/Copulas/issues/172) by @gbonomib
+
+### Bug Fixes
+
+* Error in Quickstarts : Unknown projection '3d' - Issue [#174](https://github.com/sdv-dev/Copulas/issues/174) by @csala
+
 ## 0.3.0 (2020-03-27)
 
 Important revamp of the internal implementation of the project, the testing
 infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 @csala and Kalyan Veeramachaneni @kveerama
 
-## Enhancements
+### Enhancements
 
 * Reimplementation of the existing Univariate distributions.
 * Addition of new Beta and Gamma Univariates.

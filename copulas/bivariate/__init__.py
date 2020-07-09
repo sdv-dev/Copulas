@@ -153,14 +153,14 @@ def select_copula(X):
 
     empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
     candidate_auts = [
-        np.concatenate((l, r)) for l, r in zip(
+        np.concatenate((left, right)) for left, right in zip(
             candidate_left_auts, candidate_right_auts
         )
     ]
 
     # compute L2 distance from empirical distribution
-    diff_left = [np.sum((empirical_left_aut - l) ** 2) for l in candidate_left_auts]
-    diff_right = [np.sum((empirical_right_aut - r) ** 2) for r in candidate_right_auts]
+    diff_left = [np.sum((empirical_left_aut - left) ** 2) for left in candidate_left_auts]
+    diff_right = [np.sum((empirical_right_aut - right) ** 2) for right in candidate_right_auts]
     diff_both = [np.sum((empirical_aut - candidate) ** 2) for candidate in candidate_auts]
 
     # calcule ranks

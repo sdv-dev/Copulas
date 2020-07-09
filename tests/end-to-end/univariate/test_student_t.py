@@ -3,15 +3,15 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import beta
+from scipy.stats import t
 
-from copulas.univariate import BetaUnivariate
+from copulas.univariate import StudentTUnivariate
 
 
-class TestGaussian(TestCase):
+class TestStudentT(TestCase):
 
     def setUp(self):
-        self.data = beta.rvs(a=1.0, b=1.0, loc=1.0, scale=1.0, size=50000)
+        self.data = t.rvs(df=3.0, loc=1.0, scale=0.5, size=50000)
         self.constant = np.full(100, fill_value=5)
         self.test_dir = tempfile.TemporaryDirectory()
 
@@ -19,13 +19,12 @@ class TestGaussian(TestCase):
         self.test_dir.cleanup()
 
     def test_fit_sample(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.data)
 
+        np.testing.assert_allclose(model._params['df'], 3.0, rtol=0.2)
         np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
-        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.2)
-        np.testing.assert_allclose(model._params['a'], 1.0, atol=0.2)
-        np.testing.assert_allclose(model._params['b'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 0.5, atol=0.2)
 
         sampled_data = model.sample(50)
 
@@ -33,7 +32,7 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (50, )
 
     def test_fit_sample_constant(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.constant)
 
         sampled_data = model.sample(50)
@@ -42,10 +41,10 @@ class TestGaussian(TestCase):
         assert sampled_data.shape == (50, )
 
         assert model._constant_value == 5
-        np.testing.assert_equal(np.full(50, 5), model.sample(50))
+        np.testing.assert_allclose(np.full(50, 5), model.sample(50), atol=0.2)
 
     def test_pdf(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.data)
 
         sampled_data = model.sample(50)
@@ -55,12 +54,12 @@ class TestGaussian(TestCase):
         assert (0 < pdf).all()
 
     def test_cdf(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.data)
 
         sampled_data = model.sample(50)
 
-        # Test the CDF
+        # Test CDF
         cdf = model.cumulative_distribution(sampled_data)
         assert (0 < cdf).all() and (cdf < 1).all()
 
@@ -70,13 +69,13 @@ class TestGaussian(TestCase):
         assert (np.diff(cdf) >= 0).all()
 
     def test_to_dict_from_dict(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.data)
 
         sampled_data = model.sample(50)
 
         params = model.to_dict()
-        model2 = BetaUnivariate.from_dict(params)
+        model2 = StudentTUnivariate.from_dict(params)
 
         pdf = model.probability_density(sampled_data)
         pdf2 = model2.probability_density(sampled_data)
@@ -87,28 +86,29 @@ class TestGaussian(TestCase):
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
 
     def test_to_dict_constant(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.constant)
 
         params = model.to_dict()
 
+        df = params.pop('df')
+        assert np.isclose(df, 152801, atol=1)
+
         assert params == {
-            'type': 'copulas.univariate.beta.BetaUnivariate',
+            'type': 'copulas.univariate.student_t.StudentTUnivariate',
             'loc': 5,
             'scale': 0,
-            'a': 1,
-            'b': 1
         }
 
     def test_save_load(self):
-        model = BetaUnivariate()
+        model = StudentTUnivariate()
         model.fit(self.data)
 
         sampled_data = model.sample(50)
 
         path_to_model = os.path.join(self.test_dir.name, "model.pkl")
         model.save(path_to_model)
-        model2 = BetaUnivariate.load(path_to_model)
+        model2 = StudentTUnivariate.load(path_to_model)
 
         pdf = model.probability_density(sampled_data)
         pdf2 = model2.probability_density(sampled_data)

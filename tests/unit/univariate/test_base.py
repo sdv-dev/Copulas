@@ -7,6 +7,7 @@ from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
 from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from tests import compare_nested_iterables
 
@@ -23,7 +24,8 @@ class TestUnivariate(TestCase):
             GaussianUnivariate,
             TruncatedGaussian,
             BetaUnivariate,
-            GammaUnivariate
+            GammaUnivariate,
+            StudentTUnivariate
         }
 
     def test__select_candidates_parametric(self):
@@ -35,7 +37,8 @@ class TestUnivariate(TestCase):
             GaussianUnivariate,
             TruncatedGaussian,
             BetaUnivariate,
-            GammaUnivariate
+            GammaUnivariate,
+            StudentTUnivariate
         }
 
     def test__select_candidates_non_parametric(self):
@@ -63,6 +66,7 @@ class TestUnivariate(TestCase):
         assert set(candidates) == {
             GaussianKDE,
             GaussianUnivariate,
+            StudentTUnivariate
         }
 
     def test__select_candidates_semibounded(self):
@@ -74,7 +78,7 @@ class TestUnivariate(TestCase):
             GammaUnivariate,
         }
 
-    def test_fit_contant(self):
+    def test_fit_constant(self):
         """if constant values, replace methods."""
         # Setup
         distribution = Univariate()
