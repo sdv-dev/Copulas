@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.selection module &mdash; Copulas 0.3.1 documentation</title>
+  <title>copulas.univariate.student_t module &mdash; Copulas 0.3.1 documentation</title>
   
 
   
@@ -40,8 +40,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="copulas.univariate.student_t module" href="copulas.univariate.student_t.html" />
-    <link rel="prev" title="copulas.univariate.gaussian_kde module" href="copulas.univariate.gaussian_kde.html" /> 
+    <link rel="next" title="copulas.univariate.truncated_gaussian module" href="copulas.univariate.truncated_gaussian.html" />
+    <link rel="prev" title="copulas.univariate.selection module" href="copulas.univariate.selection.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -177,8 +177,8 @@
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.univariate.selection module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
@@ -238,14 +238,14 @@
         
           <li><a href="copulas.univariate.html">copulas.univariate package</a> &raquo;</li>
         
-      <li>copulas.univariate.selection module</li>
+      <li>copulas.univariate.student_t module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.univariate.selection.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.univariate.student_t.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -283,26 +283,29 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="module-copulas.univariate.selection">
-<span id="copulas-univariate-selection-module"></span><h1>copulas.univariate.selection module<a class="headerlink" href="#module-copulas.univariate.selection" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="copulas.univariate.selection.select_univariate">
-<code class="sig-prename descclassname">copulas.univariate.selection.</code><code class="sig-name descname">select_univariate</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">candidates</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/selection.html#select_univariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.selection.select_univariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Select the best univariate class for this data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Data for which be best univariate must be found.</p></li>
-<li><p><strong>candidates</strong> (<em>list</em><em>[</em><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate" title="copulas.univariate.Univariate"><em>Univariate</em></a><em>]</em>) – List of Univariate subclasses (or instances of those) to choose from.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Instance of the selected candidate.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate" title="copulas.univariate.Univariate">Univariate</a></p>
-</dd>
-</dl>
+<div class="section" id="module-copulas.univariate.student_t">
+<span id="copulas-univariate-student-t-module"></span><h1>copulas.univariate.student_t module<a class="headerlink" href="#module-copulas.univariate.student_t" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="copulas.univariate.student_t.StudentTUnivariate">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.student_t.</code><code class="sig-name descname">StudentTUnivariate</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/student_t.html#StudentTUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.student_t.StudentTUnivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<p>Wrapper around scipy.stats.t.</p>
+<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.t.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.t.html</a></p>
+<dl class="attribute">
+<dt id="copulas.univariate.student_t.StudentTUnivariate.BOUNDED">
+<code class="sig-name descname">BOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.student_t.StudentTUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.student_t.StudentTUnivariate.MODEL_CLASS">
+<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.t_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.student_t.StudentTUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.univariate.student_t.StudentTUnivariate.PARAMETRIC">
+<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.student_t.StudentTUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -315,10 +318,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="copulas.univariate.student_t.html" class="btn btn-neutral float-right" title="copulas.univariate.student_t module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="copulas.univariate.truncated_gaussian.html" class="btn btn-neutral float-right" title="copulas.univariate.truncated_gaussian module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="copulas.univariate.gaussian_kde.html" class="btn btn-neutral float-left" title="copulas.univariate.gaussian_kde module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="copulas.univariate.selection.html" class="btn btn-neutral float-left" title="copulas.univariate.selection module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

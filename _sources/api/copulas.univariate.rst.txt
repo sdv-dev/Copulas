@@ -12,6 +12,7 @@ Submodules
    copulas.univariate.gaussian
    copulas.univariate.gaussian_kde
    copulas.univariate.selection
+   copulas.univariate.student_t
    copulas.univariate.truncated_gaussian
 
 Module contents

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Copulas 0.3.0 documentation</title>
+  <title>Index &mdash; Copulas 0.3.1 documentation</title>
   
 
   
@@ -177,6 +177,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
@@ -186,6 +187,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -325,6 +327,10 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianKDE.BOUNDED">(copulas.univariate.GaussianKDE attribute)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.BOUNDED">(copulas.univariate.GaussianUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.BOUNDED">(copulas.univariate.student_t.StudentTUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.StudentTUnivariate.BOUNDED">(copulas.univariate.StudentTUnivariate attribute)</a>
 </li>
         <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.BOUNDED">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
 </li>
@@ -506,6 +512,8 @@
       <li><a href="api/copulas.univariate.gaussian_kde.html#module-copulas.univariate.gaussian_kde">copulas.univariate.gaussian_kde (module)</a>
 </li>
       <li><a href="api/copulas.univariate.selection.html#module-copulas.univariate.selection">copulas.univariate.selection (module)</a>
+</li>
+      <li><a href="api/copulas.univariate.student_t.html#module-copulas.univariate.student_t">copulas.univariate.student_t (module)</a>
 </li>
       <li><a href="api/copulas.univariate.truncated_gaussian.html#module-copulas.univariate.truncated_gaussian">copulas.univariate.truncated_gaussian (module)</a>
 </li>
@@ -902,6 +910,10 @@
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.MODEL_CLASS">(copulas.univariate.GaussianUnivariate attribute)</a>
 </li>
+        <li><a href="api/copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.MODEL_CLASS">(copulas.univariate.student_t.StudentTUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.StudentTUnivariate.MODEL_CLASS">(copulas.univariate.StudentTUnivariate attribute)</a>
+</li>
         <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.MODEL_CLASS">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.TruncatedGaussian.MODEL_CLASS">(copulas.univariate.TruncatedGaussian attribute)</a>
@@ -971,6 +983,10 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.GaussianUnivariate.PARAMETRIC">(copulas.univariate.GaussianUnivariate attribute)</a>
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.ParametricType.PARAMETRIC">(copulas.univariate.ParametricType attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.PARAMETRIC">(copulas.univariate.student_t.StudentTUnivariate attribute)</a>
+</li>
+        <li><a href="api/copulas.univariate.html#copulas.univariate.StudentTUnivariate.PARAMETRIC">(copulas.univariate.StudentTUnivariate attribute)</a>
 </li>
         <li><a href="api/copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.PARAMETRIC">(copulas.univariate.truncated_gaussian.TruncatedGaussian attribute)</a>
 </li>
@@ -1189,10 +1205,10 @@
 </li>
       <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariate_uniform">sample_univariate_uniform() (in module copulas.datasets)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.datasets.html#copulas.datasets.sample_univariates">sample_univariates() (in module copulas.datasets)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.save">save() (copulas.bivariate.base.Bivariate method)</a>
 
       <ul>
@@ -1237,6 +1253,12 @@
 </li>
       <li><a href="api/copulas.html#copulas.store_args">store_args() (in module copulas)</a>
 </li>
+      <li><a href="api/copulas.univariate.html#copulas.univariate.StudentTUnivariate">StudentTUnivariate (class in copulas.univariate)</a>
+
+      <ul>
+        <li><a href="api/copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate">(class in copulas.univariate.student_t)</a>
+</li>
+      </ul></li>
       <li><a href="api/copulas.bivariate.base.html#copulas.bivariate.base.Bivariate.subclasses">subclasses() (copulas.bivariate.base.Bivariate class method)</a>
 
       <ul>

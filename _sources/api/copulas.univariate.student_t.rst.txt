@@ -1,0 +1,7 @@
+copulas.univariate.student\_t module
+====================================
+
+.. automodule:: copulas.univariate.student_t
+   :members:
+   :undoc-members:
+   :show-inheritance:

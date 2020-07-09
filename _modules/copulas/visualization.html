@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization &mdash; Copulas 0.3.0 documentation</title>
+  <title>copulas.visualization &mdash; Copulas 0.3.1 documentation</title>
   
 
   
@@ -176,6 +176,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
 </ul>
 </li>
@@ -185,6 +186,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -250,8 +252,12 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.visualization</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits</span> <span class="kn">import</span> <span class="n">mplot3d</span>  <span class="c1"># noqa: importing this fixes import error in py35</span>
+
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;PS&#39;</span><span class="p">)</span>   <span class="c1"># Avoid crash on macos</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>   <span class="c1"># noqa isort:skip</span>
 
 
 <div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
