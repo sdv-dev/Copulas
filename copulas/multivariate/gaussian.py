@@ -55,7 +55,7 @@ class GaussianMultivariate(Multivariate):
         U = list()
         for column_name, univariate in zip(self.columns, self.univariates):
             column = X[column_name]
-            U.append(univariate.cdf(column).clip(EPSILON, 1 - EPSILON))
+            U.append(univariate.cdf(column.values).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
