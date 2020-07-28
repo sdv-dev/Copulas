@@ -7,8 +7,9 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-from scipy.stats import gaussian_kde
+from scipy.stats import gaussian_kde, ks_2samp, norm, randint
 
+from copulas.multivariate import GaussianMultivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
 
 
@@ -20,7 +21,8 @@ class TestGaussianKDE(TestCase):
         self._params = {
             'dataset': np.array([1, 2, 3, 4, 5])
         }
-
+        self.bw_method = None
+        self.weights = None
         model = GaussianKDE._get_model(self)
 
         assert isinstance(model, gaussian_kde)
@@ -33,7 +35,8 @@ class TestGaussianKDE(TestCase):
         self._params = {
             'dataset': np.array([1, 2, 3, 4, 5])
         }
-
+        self.bw_method = None
+        self.weights = None
         model = GaussianKDE._get_model(self)
 
         assert isinstance(model, gaussian_kde)
@@ -192,3 +195,14 @@ class TestGaussianKDE(TestCase):
         input_array = instance._model.evaluate.call_args[0][0]
         np.testing.assert_equal(input_array, np.array([1, 2, 3]))
         np.testing.assert_equal(pdf, np.array([0.1, 0.2, 0.3]))
+
+    def test_gaussiankde_arguments(self):
+        size = 1000
+        low = 0
+        high = 9
+        data = randint.rvs(low, high, size=size) + norm.rvs(0, 0.1, size=size)
+        dist = GaussianMultivariate(distribution=GaussianKDE(bw_method=0.01))
+        dist.fit(data)
+        samples = dist.sample(size).to_numpy()[0]
+        d, p = ks_2samp(data, samples)
+        assert p >= 0.05
