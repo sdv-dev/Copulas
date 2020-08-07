@@ -109,7 +109,8 @@ class TestGaussian(TestCase):
                 sorted_data[column] = row[column]
 
             cdf = model.cumulative_distribution(sorted_data)
-            assert (np.diff(cdf) >= 0).all()
+            diffs = np.diff(cdf) + 0.001  # Add tolerance to avoid floating precision issues.
+            assert (diffs >= 0).all()
 
     def test_to_dict_from_dict(self):
         data = sample_trivariate_xyz()
