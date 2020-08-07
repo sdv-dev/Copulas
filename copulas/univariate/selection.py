@@ -20,11 +20,15 @@ def select_univariate(X, candidates):
     best_ks = np.inf
     best_model = None
     for model in candidates:
-        instance = get_instance(model)
-        instance.fit(X)
-        ks, _ = kstest(X, instance.cdf)
-        if ks < best_ks:
-            best_ks = ks
-            best_model = model
+        try:
+            instance = get_instance(model)
+            instance.fit(X)
+            ks, _ = kstest(X, instance.cdf)
+            if ks < best_ks:
+                best_ks = ks
+                best_model = model
+        except ValueError:
+            # Distribution not supported
+            pass
 
     return get_instance(best_model)

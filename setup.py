@@ -83,6 +83,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
     entry_points={
@@ -103,11 +104,11 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.5,<3.8',
+    python_requires='>=3.5,<3.9',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.3.2.dev1',
+    version='0.3.2.dev2',
     zip_safe=False,
 )

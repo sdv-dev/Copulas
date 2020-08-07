@@ -26,7 +26,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
             assert compare_values_epsilon(_first, _second, epsilon), message
 
         else:
-            assert _first == _second, "{} doesn't equal {}".format(_first, _second)
+            assert _first == _second, "{}: {} doesn't equal {}".format(key, _first, _second)
 
 
 def compare_values_epsilon(first, second, epsilon=10E-6,):
