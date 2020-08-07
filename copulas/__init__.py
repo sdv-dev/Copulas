@@ -4,7 +4,7 @@
 
 __author__ = 'MIT Data To AI Lab'
 __email__ = 'dailabmit@gmail.com',
-__version__ = '0.3.2.dev2'
+__version__ = '0.3.2'
 
 import contextlib
 import importlib
