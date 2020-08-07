@@ -1,5 +1,16 @@
 # History
 
+## 0.3.2 (2020-08-08)
+
+### General Improvements
+
+* Support Python 3.8 - Issue [#185](https://github.com/sdv-dev/Copulas/issues/185) by @csala
+* Support scipy <1.3 - Issue [#180](https://github.com/sdv-dev/Copulas/issues/180) by @csala
+
+# New Features
+
+* Add Uniform Univariate - Issue [#179](https://github.com/sdv-dev/Copulas/issues/179) by @rollervan
+
 ## 0.3.1 (2020-07-09)
 
 ### General Improvements
