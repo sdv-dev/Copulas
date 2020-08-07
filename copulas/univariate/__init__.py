@@ -5,6 +5,7 @@ from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
+from copulas.univariate.uniform import UniformUnivariate
 
 __all__ = (
     'BetaUnivariate',
@@ -15,5 +16,6 @@ __all__ = (
     'StudentTUnivariate',
     'Univariate',
     'ParametricType',
-    'BoundedType'
+    'BoundedType',
+    'UniformUnivariate'
 )

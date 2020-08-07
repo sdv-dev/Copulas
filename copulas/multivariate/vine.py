@@ -1,4 +1,6 @@
 import logging
+import sys
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -62,6 +64,12 @@ class VineCopula(Multivariate):
     """
     @store_args
     def __init__(self, vine_type, random_seed=None):
+        if sys.version_info > (3, 8):
+            warnings.warn(
+                'Vines have not been fully tested on Python 3.8 and might '
+                'produce wrong results. Please use Python 3.5, 3.6 or 3.7'
+            )
+
         self.random_seed = random_seed
         self.vine_type = vine_type
         self.u_matrix = None

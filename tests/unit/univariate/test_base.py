@@ -9,6 +9,7 @@ from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
+from copulas.univariate.uniform import UniformUnivariate
 from tests import compare_nested_iterables
 
 
@@ -25,7 +26,8 @@ class TestUnivariate(TestCase):
             TruncatedGaussian,
             BetaUnivariate,
             GammaUnivariate,
-            StudentTUnivariate
+            StudentTUnivariate,
+            UniformUnivariate
         }
 
     def test__select_candidates_parametric(self):
@@ -38,7 +40,8 @@ class TestUnivariate(TestCase):
             TruncatedGaussian,
             BetaUnivariate,
             GammaUnivariate,
-            StudentTUnivariate
+            StudentTUnivariate,
+            UniformUnivariate
         }
 
     def test__select_candidates_non_parametric(self):
@@ -56,6 +59,7 @@ class TestUnivariate(TestCase):
         assert set(candidates) == {
             TruncatedGaussian,
             BetaUnivariate,
+            UniformUnivariate
         }
 
     def test__select_candidates_unbounded(self):

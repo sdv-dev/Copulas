@@ -105,7 +105,7 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 .PHONY: test-unit
 test-unit: ## run unit tests using pytest
-	python -m pytest --basetemp=${ENVTMPDIR} --disable-warnings --cov=copulas tests/unit
+	python -m pytest --disable-warnings --cov=copulas tests/unit
 
 .PHONY: test-numerical
 test-numerical: ## run numerical tests using pytest
@@ -114,6 +114,10 @@ test-numerical: ## run numerical tests using pytest
 .PHONY: test-end-to-end
 test-end-to-end: ## run end-to-end tests using pytest
 	python -m pytest --disable-warnings --cov=copulas tests/end-to-end
+
+.PHONY: test-pytest
+test-pytest: ## run all the tests using pytest
+	python -m pytest --disable-warnings --cov=copulas
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
@@ -126,7 +130,7 @@ test-tutorials: ## run the tutorial notebooks
 	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
 
 .PHONY: test
-test: test-unit test-end-to-end test-numerical test-readme test-tutorials ## test everything that needs test dependencies
+test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
 
 .PHONY: test-devel
 test-devel: lint docs ## test everything that needs development dependencies
