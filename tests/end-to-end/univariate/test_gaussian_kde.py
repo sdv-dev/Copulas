@@ -57,7 +57,7 @@ class TestGaussian(TestCase):
 
         # Test the CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 < cdf).all() and (cdf < 1).all()
+        assert (0 <= cdf).all() and (cdf <= 1).all()
 
         # Test CDF increasing function
         sorted_data = sorted(sampled_data)
