@@ -1,0 +1,7 @@
+copulas.univariate.uniform module
+=================================
+
+.. automodule:: copulas.univariate.uniform
+   :members:
+   :undoc-members:
+   :show-inheritance:

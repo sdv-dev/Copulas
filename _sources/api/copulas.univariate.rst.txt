@@ -14,6 +14,7 @@ Submodules
    copulas.univariate.selection
    copulas.univariate.student_t
    copulas.univariate.truncated_gaussian
+   copulas.univariate.uniform
 
 Module contents
 ---------------

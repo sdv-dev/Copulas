@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats.kde &mdash; Copulas 0.3.1 documentation</title>
+  <title>scipy.stats.kde &mdash; Copulas 0.3.2 documentation</title>
   
 
   
@@ -178,6 +178,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.uniform.html">copulas.univariate.uniform module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
@@ -186,6 +187,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
@@ -261,7 +263,7 @@
 <span class="c1">#  Date: 2004-08-09</span>
 <span class="c1">#</span>
 <span class="c1">#  Modified: 2005-02-10 by Robert Kern.</span>
-<span class="c1">#              Contributed to Scipy</span>
+<span class="c1">#              Contributed to SciPy</span>
 <span class="c1">#            2005-10-07 by Robert Kern.</span>
 <span class="c1">#              Some fixes to match the new scipy_core</span>
 <span class="c1">#</span>
@@ -269,24 +271,22 @@
 <span class="c1">#</span>
 <span class="c1">#-------------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
-
 <span class="c1"># Standard library imports.</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="c1"># Scipy imports.</span>
-<span class="kn">from</span> <span class="nn">scipy._lib.six</span> <span class="kn">import</span> <span class="n">callable</span><span class="p">,</span> <span class="n">string_types</span>
+<span class="c1"># SciPy imports.</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span><span class="p">,</span> <span class="n">special</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logsumexp</span>
-<span class="kn">from</span> <span class="nn">scipy._lib._numpy_compat</span> <span class="kn">import</span> <span class="n">cov</span>
+<span class="kn">from</span> <span class="nn">scipy._lib._util</span> <span class="kn">import</span> <span class="n">check_random_state</span>
 
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="p">(</span><span class="n">atleast_2d</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span>
-                   <span class="n">ravel</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">atleast_1d</span><span class="p">,</span> <span class="n">squeeze</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span> <span class="n">ones</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="p">(</span><span class="n">asarray</span><span class="p">,</span> <span class="n">atleast_2d</span><span class="p">,</span> <span class="n">reshape</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span>
+                   <span class="n">sqrt</span><span class="p">,</span> <span class="n">ravel</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">atleast_1d</span><span class="p">,</span> <span class="n">squeeze</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">transpose</span><span class="p">,</span>
+                   <span class="n">ones</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">multivariate_normal</span>
 
 <span class="c1"># Local imports.</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">mvn</span>
+<span class="kn">from</span> <span class="nn">._stats</span> <span class="kn">import</span> <span class="n">gaussian_kernel_estimate</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gaussian_kde&#39;</span><span class="p">]</span>
@@ -442,7 +442,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">atleast_2d</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">atleast_2d</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`dataset` input should have multiple elements.&quot;</span><span class="p">)</span>
 
@@ -479,7 +479,7 @@
 <span class="sd">                     the dimensionality of the KDE.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">points</span> <span class="o">=</span> <span class="n">atleast_2d</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">atleast_2d</span><span class="p">(</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">))</span>
 
         <span class="n">d</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
@@ -492,28 +492,20 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-
-        <span class="n">whitening</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inv_cov</span><span class="p">)</span>
-        <span class="n">scaled_dataset</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">whitening</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="n">scaled_points</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">whitening</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
-            <span class="c1"># there are more points than data, so loop over data</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
-                <span class="n">diff</span> <span class="o">=</span> <span class="n">scaled_dataset</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="n">scaled_points</span>
-                <span class="n">energy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-                <span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">)</span>
+        <span class="n">output_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">common_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
+        <span class="n">itemsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">output_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span>
+        <span class="k">if</span> <span class="n">itemsize</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;float&#39;</span>
+        <span class="k">elif</span> <span class="n">itemsize</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
+        <span class="k">elif</span> <span class="n">itemsize</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;long double&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># loop over points</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-                <span class="n">diff</span> <span class="o">=</span> <span class="n">scaled_dataset</span> <span class="o">-</span> <span class="n">scaled_points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span>
-                <span class="n">energy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span>
-
-        <span class="k">return</span> <span class="n">result</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> has unexpected item size </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span>
+                            <span class="p">(</span><span class="n">output_dtype</span><span class="p">,</span> <span class="n">itemsize</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">gaussian_kernel_estimate</span><span class="p">[</span><span class="n">spec</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span>
+                                                <span class="n">points</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inv_cov</span><span class="p">,</span> <span class="n">output_dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
 
     <span class="fm">__call__</span> <span class="o">=</span> <span class="n">evaluate</span>
 
@@ -688,7 +680,7 @@
 
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Randomly sample a dataset from the estimated pdf.</span>
 
@@ -698,6 +690,16 @@
 <span class="sd">            The number of samples to draw.  If not provided, then the size is</span>
 <span class="sd">            the same as the effective number of samples in the underlying</span>
 <span class="sd">            dataset.</span>
+<span class="sd">        seed : {None, int, `~np.random.RandomState`, `~np.random.Generator`}, optional</span>
+<span class="sd">            This parameter defines the object to use for drawing random</span>
+<span class="sd">            variates.</span>
+<span class="sd">            If `seed` is `None` the `~np.random.RandomState` singleton is used.</span>
+<span class="sd">            If `seed` is an int, a new ``RandomState`` instance is used, seeded</span>
+<span class="sd">            with seed.</span>
+<span class="sd">            If `seed` is already a ``RandomState`` or ``Generator`` instance,</span>
+<span class="sd">            then that object is used.</span>
+<span class="sd">            Default is None.</span>
+<span class="sd">            Specify `seed` for reproducible drawing of random variates.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -708,17 +710,33 @@
         <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neff</span><span class="p">)</span>
 
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,),</span> <span class="nb">float</span><span class="p">),</span>
-                         <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">))</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">random_state</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+            <span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,),</span> <span class="nb">float</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span>
+        <span class="p">))</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
         <span class="n">means</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:,</span> <span class="n">indices</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">means</span> <span class="o">+</span> <span class="n">norm</span>
 
     <span class="k">def</span> <span class="nf">scotts_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute Scott&#39;s factor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        s : float</span>
+<span class="sd">            Scott&#39;s factor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neff</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">4</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">silverman_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the Silverman factor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        s : float</span>
+<span class="sd">            The silverman factor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neff</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mf">2.0</span><span class="p">)</span><span class="o">/</span><span class="mf">4.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">4</span><span class="p">))</span>
 
     <span class="c1">#  Default method to calculate bandwidth, can be overwritten by subclass</span>
@@ -763,7 +781,7 @@
 
 <span class="sd">        &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">        &gt;&gt;&gt; fig, ax = plt.subplots()</span>
-<span class="sd">        &gt;&gt;&gt; ax.plot(x1, np.ones(x1.shape) / (4. * x1.size), &#39;bo&#39;,</span>
+<span class="sd">        &gt;&gt;&gt; ax.plot(x1, np.full(x1.shape, 1 / (4. * x1.size)), &#39;bo&#39;,</span>
 <span class="sd">        ...         label=&#39;Data points (rescaled)&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; ax.plot(xs, y1, label=&#39;Scott (default)&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; ax.plot(xs, y2, label=&#39;Silverman&#39;)</span>
@@ -778,7 +796,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">covariance_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scotts_factor</span>
         <span class="k">elif</span> <span class="n">bw_method</span> <span class="o">==</span> <span class="s1">&#39;silverman&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">covariance_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">silverman_factor</span>
-        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">bw_method</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bw_method</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">bw_method</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bw_method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_bw_method</span> <span class="o">=</span> <span class="s1">&#39;use constant&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">covariance_factor</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">bw_method</span>
         <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">bw_method</span><span class="p">):</span>
@@ -805,7 +823,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_covariance</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="o">**</span><span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inv_cov</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_inv_cov</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="o">**</span><span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -837,8 +855,6 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
             <span class="c1"># there are more points than data, so loop over data</span>
             <span class="n">energy</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -846,17 +862,17 @@
                 <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="n">points</span>
                 <span class="n">tdiff</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inv_cov</span><span class="p">,</span> <span class="n">diff</span><span class="p">)</span>
                 <span class="n">energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span><span class="o">*</span><span class="n">tdiff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">,</span>
-                               <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span><span class="p">,</span>
-                               <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                               <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># loop over points</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
                 <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">-</span> <span class="n">points</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">]</span>
                 <span class="n">tdiff</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inv_cov</span><span class="p">,</span> <span class="n">diff</span><span class="p">)</span>
                 <span class="n">energy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">diff</span> <span class="o">*</span> <span class="n">tdiff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">,</span>
-                                      <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span><span class="p">)</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="o">-</span><span class="n">energy</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">/</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">_norm_factor</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization module &mdash; Copulas 0.3.2 documentation</title>
+  <title>copulas.univariate.uniform module &mdash; Copulas 0.3.2 documentation</title>
   
 
   
@@ -40,8 +40,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Contributing" href="../contributing.html" />
-    <link rel="prev" title="copulas.datasets module" href="copulas.datasets.html" /> 
+    <link rel="next" title="copulas.datasets module" href="copulas.datasets.html" />
+    <link rel="prev" title="copulas.univariate.truncated_gaussian module" href="copulas.univariate.truncated_gaussian.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -171,7 +171,7 @@
 <li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l2 current"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
@@ -180,11 +180,11 @@
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">copulas.univariate.uniform module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">copulas.visualization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
@@ -238,14 +238,16 @@
         
           <li><a href="copulas.html">copulas package</a> &raquo;</li>
         
-      <li>copulas.visualization module</li>
+          <li><a href="copulas.univariate.html">copulas.univariate package</a> &raquo;</li>
+        
+      <li>copulas.univariate.uniform module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.visualization.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/api/copulas.univariate.uniform.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -283,45 +285,29 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="module-copulas.visualization">
-<span id="copulas-visualization-module"></span><h1>copulas.visualization module<a class="headerlink" href="#module-copulas.visualization" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="copulas.visualization.compare_1d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_1d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_1d" title="Permalink to this definition">¶</a></dt>
+<div class="section" id="module-copulas.univariate.uniform">
+<span id="copulas-univariate-uniform-module"></span><h1>copulas.univariate.uniform module<a class="headerlink" href="#module-copulas.univariate.uniform" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="copulas.univariate.uniform.UniformUnivariate">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.uniform.</code><code class="sig-name descname">UniformUnivariate</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/uniform.html#UniformUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.uniform.UniformUnivariate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<p>Uniform univariate model.</p>
+<dl class="attribute">
+<dt id="copulas.univariate.uniform.UniformUnivariate.BOUNDED">
+<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.uniform.UniformUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="copulas.visualization.compare_2d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_2d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_2d" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="copulas.univariate.uniform.UniformUnivariate.MODEL_CLASS">
+<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.uniform_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.uniform.UniformUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="copulas.visualization.compare_3d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_3d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=(10</em>, <em class="sig-param">4)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_3d" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="copulas.univariate.uniform.UniformUnivariate.PARAMETRIC">
+<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.uniform.UniformUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="copulas.visualization.hist_1d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">hist_1d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em>, <em class="sig-param">bins=20</em>, <em class="sig-param">label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#hist_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.hist_1d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot 1 dimensional data in a histogram.</p>
 </dd></dl>
-
-<dl class="function">
-<dt id="copulas.visualization.scatter_2d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_2d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot 2 dimensional data in a scatter plot.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="copulas.visualization.scatter_3d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_3d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot 3 dimensional data in a scatter plot.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="copulas.visualization.side_by_side">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">side_by_side</code><span class="sig-paren">(</span><em class="sig-param">plotting_func</em>, <em class="sig-param">arrays</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#side_by_side"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.side_by_side" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 
@@ -333,10 +319,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="copulas.datasets.html" class="btn btn-neutral float-right" title="copulas.datasets module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="copulas.datasets.html" class="btn btn-neutral float-left" title="copulas.datasets module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="copulas.univariate.truncated_gaussian.html" class="btn btn-neutral float-left" title="copulas.univariate.truncated_gaussian module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
