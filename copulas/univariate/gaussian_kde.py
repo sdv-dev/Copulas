@@ -27,14 +27,16 @@ class GaussianKDE(ScipyModel):
     MODEL_CLASS = gaussian_kde
 
     @store_args
-    def __init__(self, sample_size=None, random_seed=None):
+    def __init__(self, sample_size=None, random_seed=None, bw_method=None, weights=None):
         self.random_seed = random_seed
         self._sample_size = sample_size
+        self.bw_method = bw_method
+        self.weights = weights
 
     def _get_model(self):
         dataset = self._params['dataset']
         self._sample_size = self._sample_size or len(dataset)
-        return gaussian_kde(dataset)
+        return gaussian_kde(dataset, bw_method=self.bw_method, weights=self.weights)
 
     def _get_bounds(self):
         X = self._params['dataset']
@@ -187,8 +189,8 @@ class GaussianKDE(ScipyModel):
 
     def _fit(self, X):
         if self._sample_size:
-            X = gaussian_kde(X).resample(self._sample_size)
-
+            X = gaussian_kde(X, bw_method=self.bw_method,
+                             weights=self.weights).resample(self._sample_size)
         self._params = {
             'dataset': X.tolist()
         }

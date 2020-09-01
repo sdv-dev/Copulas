@@ -20,7 +20,8 @@ class TestGaussianKDE(TestCase):
         self._params = {
             'dataset': np.array([1, 2, 3, 4, 5])
         }
-
+        self.bw_method = None
+        self.weights = None
         model = GaussianKDE._get_model(self)
 
         assert isinstance(model, gaussian_kde)
@@ -33,7 +34,8 @@ class TestGaussianKDE(TestCase):
         self._params = {
             'dataset': np.array([1, 2, 3, 4, 5])
         }
-
+        self.bw_method = None
+        self.weights = None
         model = GaussianKDE._get_model(self)
 
         assert isinstance(model, gaussian_kde)
