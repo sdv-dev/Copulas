@@ -118,3 +118,14 @@ class TestGaussian(TestCase):
         cdf = model.cumulative_distribution(sampled_data)
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
+
+    def test_gaussiankde_arguments(self):
+        size = 1000
+        low = 0
+        high = 9
+        data = randint.rvs(low, high, size=size) + norm.rvs(0, 0.1, size=size)
+        dist = GaussianMultivariate(distribution=GaussianKDE(bw_method=0.01))
+        dist.fit(data)
+        samples = dist.sample(size).to_numpy()[0]
+        d, p = ks_2samp(data, samples)
+        assert p >= 0.05
