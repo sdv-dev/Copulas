@@ -127,7 +127,8 @@ test-readme: ## run the readme snippets
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	for f in tutorials/*.ipynb; do jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 --stdout $$f > /dev/null; done
+	find tutorials -maxdepth 1 -name "*.ipynb" -exec \
+		jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 --stdout {} > /dev/null \;
 
 .PHONY: test
 test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
