@@ -7,9 +7,8 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-from scipy.stats import gaussian_kde, ks_2samp, norm, randint
+from scipy.stats import gaussian_kde
 
-from copulas.multivariate import GaussianMultivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
 
 
@@ -195,5 +194,3 @@ class TestGaussianKDE(TestCase):
         input_array = instance._model.evaluate.call_args[0][0]
         np.testing.assert_equal(input_array, np.array([1, 2, 3]))
         np.testing.assert_equal(pdf, np.array([0.1, 0.2, 0.3]))
-
-
