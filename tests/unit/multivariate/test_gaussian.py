@@ -192,9 +192,9 @@ class TestGaussianMultivariate(TestCase):
         copula.fit(self.data)
 
         expected_covariance = np.array([
-            [1.04347826, -0.01316681, -0.20683455],
-            [-0.01316681, 1.04347826, -0.176307],
-            [-0.20683455, -0.176307, 1.04347826]
+            [1., -0.01261819, -0.19821644],
+            [-0.01261819, 1., -0.16896087],
+            [-0.19821644, -0.16896087, 1.]
         ])
 
         # Run
@@ -278,7 +278,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
         X = np.array([2000., 200., 0.])
-        expected_result = 0.031163598715950383
+        expected_result = 0.032245296420409846
 
         # Run
         result = copula.probability_density(X)
@@ -292,7 +292,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -306,7 +306,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.values)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -320,7 +320,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.values)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -383,13 +383,16 @@ class TestGaussianMultivariate(TestCase):
         ])
         instance.fit(data)
 
-        expected_result = pd.DataFrame([
-            {'A': 25.566882482769294, 'B': 61.01690157277244, 'C': 575.71068885087790},
-            {'A': 32.624255560452110, 'B': 47.31477394460025, 'C': 447.84049148268970},
-            {'A': 20.117642182744806, 'B': 63.68224998298797, 'C': 397.76402526341593},
-            {'A': 25.357483201156676, 'B': 72.30337152729443, 'C': 433.06766240515134},
-            {'A': 23.202174689737113, 'B': 66.32056962524452, 'C': 405.08384853948280}
-        ])
+        expected_result = pd.DataFrame(
+            np.array([
+                [25.19031668, 61.96527251, 543.43595269],
+                [31.50262306, 49.70971698, 429.06537124],
+                [20.31636799, 64.3492326, 384.27561823],
+                [25.00302427, 72.06019812, 415.85215123],
+                [23.07525773, 66.70901743, 390.8226672]
+            ]),
+            columns=['A', 'B', 'C']
+        )
 
         # Run
         result = instance.sample(5)

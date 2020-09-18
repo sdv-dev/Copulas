@@ -1,5 +1,6 @@
 import logging
 import sys
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -71,7 +72,8 @@ class GaussianMultivariate(Multivariate):
                 computed covariance matrix.
         """
         result = self._transform_to_normal(X)
-        covariance = pd.DataFrame(data=result).cov().values
+        covariance = pd.DataFrame(data=result).corr().values
+        covariance = np.nan_to_num(covariance, nan=0.0)
         # If singular, add some noise to the diagonal
         if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:
             covariance = covariance + np.identity(covariance.shape[0]) * EPSILON
@@ -195,6 +197,8 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
         univariates = [univariate.to_dict() for univariate in self.univariates]
+        warnings.warn('`covariance` will be renamed to `correlation` in v0.4.0',
+                      DeprecationWarning)
 
         return {
             'covariance': self.covariance.tolist(),
@@ -225,5 +229,7 @@ class GaussianMultivariate(Multivariate):
 
         instance.covariance = np.array(copula_dict['covariance'])
         instance.fitted = True
+        warnings.warn('`covariance` will be renamed to `correlation` in v0.4.0',
+                      DeprecationWarning)
 
         return instance
