@@ -7,6 +7,7 @@ from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
 from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.univariate.log_laplace import LogLaplace
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from copulas.univariate.uniform import UniformUnivariate
@@ -27,7 +28,8 @@ class TestUnivariate(TestCase):
             BetaUnivariate,
             GammaUnivariate,
             StudentTUnivariate,
-            UniformUnivariate
+            UniformUnivariate,
+            LogLaplace
         }
 
     def test__select_candidates_parametric(self):
@@ -41,7 +43,8 @@ class TestUnivariate(TestCase):
             BetaUnivariate,
             GammaUnivariate,
             StudentTUnivariate,
-            UniformUnivariate
+            UniformUnivariate,
+            LogLaplace
         }
 
     def test__select_candidates_non_parametric(self):
@@ -80,6 +83,7 @@ class TestUnivariate(TestCase):
         # Assert
         assert set(candidates) == {
             GammaUnivariate,
+            LogLaplace
         }
 
     def test_fit_constant(self):
