@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.3.2 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.3.3 documentation</title>
   
 
   
@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
@@ -187,7 +188,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#id9">New Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
@@ -256,6 +257,7 @@
   <h1>Source code for copulas.multivariate.gaussian</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -327,7 +329,8 @@
 <span class="sd">                computed covariance matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">cov</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="c1"># If singular, add some noise to the diagonal</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
             <span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">covariance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">EPSILON</span>
@@ -451,6 +454,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="n">univariates</span> <span class="o">=</span> <span class="p">[</span><span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">univariate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">]</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`covariance` will be renamed to `correlation` in v0.4.0&#39;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span>
             <span class="s1">&#39;covariance&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
@@ -481,6 +486,8 @@
 
         <span class="n">instance</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;covariance&#39;</span><span class="p">])</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`covariance` will be renamed to `correlation` in v0.4.0&#39;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">instance</span></div></div>
 </pre></div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.3.2 documentation</title>
+  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.3.3 documentation</title>
   
 
   
@@ -175,6 +175,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
@@ -187,7 +188,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../history.html#new-features">New Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html#id9">New Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
@@ -283,14 +284,16 @@
     <span class="n">MODEL_CLASS</span> <span class="o">=</span> <span class="n">gaussian_kde</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span> <span class="o">=</span> <span class="n">sample_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bw_method</span> <span class="o">=</span> <span class="n">bw_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
 
     <span class="k">def</span> <span class="nf">_get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bw_method</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
@@ -443,8 +446,8 @@
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span><span class="p">:</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span><span class="p">)</span>
-
+            <span class="n">X</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bw_method</span><span class="p">,</span>
+                             <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="p">}</span>

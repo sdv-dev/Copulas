@@ -1,0 +1,7 @@
+copulas.univariate.log\_laplace module
+======================================
+
+.. automodule:: copulas.univariate.log_laplace
+   :members:
+   :undoc-members:
+   :show-inheritance:
