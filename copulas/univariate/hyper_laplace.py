@@ -93,7 +93,7 @@ class HyperLaplace(Univariate):
 
     Documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gamma.html
 
-    Math derivation: HyperLaplace(k, alpha) = 
+    Math derivation: HyperLaplace(k, alpha) =
     (gamma(loc = 0, scale = 1/k, a = 1/alpha))**(1/alpha) * Unif({-1,1})
     """
 
@@ -125,7 +125,7 @@ class HyperLaplace(Univariate):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.pdf(abs(X) ** self.alpha) * 0.5 * self.alpha * abs(X) ** (self.alpha - 1)
+        return self._model.pdf(abs(X) ** self.alpha) / 2 * self.alpha * abs(X) ** (self.alpha - 1)
 
     def log_probability_density(self, X):
         """Compute the log of the probability density for each point in X.
@@ -225,7 +225,7 @@ class HyperLaplace(Univariate):
     def _fit(self, X):
         """Fit the model to a non-constant random variable.
 
-        This fitting method is implemented by matching the theoritical mean 
+        This fitting method is implemented by matching the theoritical mean
         and variance with the emperical mean and variance.
 
         Arguments:
