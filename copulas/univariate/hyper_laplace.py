@@ -1,7 +1,8 @@
-import numpy as np
-import scipy.stats
 from random import random
+
+import numpy as np
 from scipy.special import gamma, psi
+import scipy.stats
 
 from copulas.univariate.base import BoundedType, ParametricType, Univariate
 
