@@ -1,9 +1,9 @@
 import numpy as np
 import scipy.stats
 from random import random
+from scipy.special import gamma, psi
 
 from copulas.univariate.base import BoundedType, ParametricType, Univariate
-from scipy.special import gamma, psi
 
 
 def gamma_d(x):

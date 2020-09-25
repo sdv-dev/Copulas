@@ -3,11 +3,11 @@ from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
 from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.univariate.hyper_laplace import HyperLaplace
 from copulas.univariate.log_laplace import LogLaplace
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from copulas.univariate.uniform import UniformUnivariate
-from copulas.univariate.hyper_laplace import HyperLaplace
 
 __all__ = (
     'BetaUnivariate',
