@@ -7,6 +7,7 @@ from copulas.univariate.log_laplace import LogLaplace
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from copulas.univariate.uniform import UniformUnivariate
+from copulas.univariate.hyper_laplace import HyperLaplace
 
 __all__ = (
     'BetaUnivariate',
@@ -19,5 +20,6 @@ __all__ = (
     'ParametricType',
     'BoundedType',
     'UniformUnivariate',
-    'LogLaplace'
+    'LogLaplace',
+    'HyperLaplace'
 )
