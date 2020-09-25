@@ -1,9 +1,7 @@
 import numpy as np
-from scipy.optimize import fmin_slsqp
 import scipy.stats
 from random import random
 
-from copulas import EPSILON, store_args
 from copulas.univariate.base import BoundedType, ParametricType, Univariate
 from scipy.special import gamma, psi
 
@@ -18,7 +16,7 @@ def gamma_d(x):
             float:
                 The derivative of gamma function at x
     """
-    return gamma(x)*psi(x)
+    return gamma(x) * psi(x)
 
 def g3g1_over_g22(x):
     """
@@ -31,7 +29,7 @@ def g3g1_over_g22(x):
             float:
                 The value of Gamma(3x)Gamma(x)/Gamma^2(2x)
     """
-    return gamma(3*x)*gamma(x)/gamma(2*x)**2
+    return gamma(3 * x) * gamma(x) / gamma(2 * x) ** 2
 
 def g3g1_over_g22_d(x):
     """
@@ -45,15 +43,15 @@ def g3g1_over_g22_d(x):
                 The derivative of Gamma(3x)Gamma(x)/Gamma^2(2x) at x
     """
     x1 = gamma(x)
-    x2 = gamma(2*x)
-    x3 = gamma(3*x)
+    x2 = gamma(2 * x)
+    x3 = gamma(3 * x)
     
-    x3_d = 3*gamma_d(3*x)*x1*(x2**2)
-    x1_d = x3*gamma_d(x)*(x2**2)
-    x2_d = 4*x3*x1*gamma_d(2*x)*x2
-    return (x3_d + x1_d - x2_d)/(x2**4)
+    x3_d = 3 * gamma_d(3 * x) * x1 * (x2 ** 2)
+    x1_d = x3 * gamma_d(x) * (x2 ** 2)
+    x2_d = 4 * x3 * x1 * gamma_d(2 * x) * x2
+    return (x3_d + x1_d - x2_d) / (x2 ** 4)
 
-def solve_gamma_equation(y, num_iter = 10, upper_threshold = 2, lower_threshold = 1/2):
+def solve_gamma_equation(y, num_iter = 10, upper_threshold = 2, lower_threshold = 0.5):
     """
     Solve for the equation Gamma(3x)Gamma(x)/Gamma^2(2x) = y using Newton's method
 
@@ -75,11 +73,11 @@ def solve_gamma_equation(y, num_iter = 10, upper_threshold = 2, lower_threshold 
     """
     x = 1
     for i in range(num_iter):
-        x_new = x + (y - g3g1_over_g22(x))/g3g1_over_g22_d(x)
-        if x_new > upper_threshold*x:
-            x = upper_threshold*x
-        elif x_new < lower_threshold*x:
-            x = lower_threshold*x
+        x_new = x + (y - g3g1_over_g22(x)) / g3g1_over_g22_d(x)
+        if x_new > upper_threshold * x:
+            x = upper_threshold * x
+        elif x_new < lower_threshold * x:
+            x = lower_threshold * x
         else:
             x = x_new
     return x
@@ -122,7 +120,7 @@ class HyperLaplace(Univariate):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.pdf(abs(X)**self.alpha)*0.5*alpha*abs(X)**(self.alpha - 1)
+        return self._model.pdf(abs(X) ** self.alpha) * 0.5 * alpha * abs(X) ** (self.alpha - 1)
 
     def log_probability_density(self, X):
         """Compute the log of the probability density for each point in X.
@@ -161,13 +159,13 @@ class HyperLaplace(Univariate):
                 if the model is not fitted.
         """
         self.check_fit()
-        gamma_cdf = self._model.cdf(abs(X)**self.alpha)
+        gamma_cdf = self._model.cdf(abs(X) ** self.alpha)
         for i in range(len(X)):
             cd, x = gamma_cdf[i], X[i]
             if x > 0:
-                gamma_cdf[i] = (cd + 1)/2
+                gamma_cdf[i] = (cd + 1) / 2
             else:
-                gamma_cdf[i] = (1-cd)/2
+                gamma_cdf[i] = (1 - cd) / 2
 
         return gamma_cdf
 
@@ -188,15 +186,15 @@ class HyperLaplace(Univariate):
                 if the model is not fitted.
         """
         self.check_fit()
-        gamma_ppf = self._model.ppf(abs(U-0.5)*2)**(1/self.alpha)
+        gamma_ppf = self._model.ppf(abs(U - 0.5) * 2) ** (1 / self.alpha)
         for i in range(len(U)):
             pp, u = gamma_ppf[i], U[i]
             if u < 0.5:
-                gamma_ppf[i] = -pp
+                gamma_ppf[i] = - pp
 
         return gamma_ppf
 
-    def sample(self, n_samples=1):
+    def sample(self, n_samples = 1):
         """Sample values from this model.
 
         Argument:
@@ -213,10 +211,10 @@ class HyperLaplace(Univariate):
                 if the model is not fitted.
         """
         self.check_fit()
-        gamma_rvs = self._model.rvs(n_samples)**(1/self.alpha)
+        gamma_rvs = self._model.rvs(n_samples) ** (1 / self.alpha)
         for i in range(n_samples):
             if random() > 0.5:
-                gamma_rvs[i] = -gamma_rvs[i]
+                gamma_rvs[i] = - gamma_rvs[i]
         return gamma_rvs
 
     def _fit(self, X):
@@ -229,20 +227,19 @@ class HyperLaplace(Univariate):
                 Values of the random variable. It must have shape (n, 1).
         """
         mean = np.mean(abs(X))
-        square = np.mean(X**2)
-        a = solve_gamma_equation(square/(mean**2))
-        self.alpha = 1/a
-        self.k = (gamma(2*a)/(gamma(a)*mean))**self.alpha
+        square = np.mean(X ** 2)
+        a = solve_gamma_equation(square / (mean **2 ))
+        self.alpha = 1 / a
+        self.k = (gamma(2 * a) / (gamma(a) * mean)) ** self.alpha
 
         self._params = {
             'loc': 0,
-            'scale': 1/self.k,
+            'scale': 1 / self.k,
             'a': a
         }
 
     def _get_model(self):
         return self.MODEL_CLASS(**self._params)
-
 
     def _fit_constant(self, X):
         self._params = {
@@ -253,7 +250,7 @@ class HyperLaplace(Univariate):
 
     def _is_constant(self):
         return self._params['scale'] == 0
-        
+
     def fit(self, X):
         """Fit the model to a random variable.
 
@@ -288,8 +285,8 @@ class HyperLaplace(Univariate):
                 Parameters to recreate this instance.
         """
         self._params = params.copy()
-        self.k = 1/self._params['scale']
-        self.alpha = 1/self._params['a']
+        self.k = 1 / self._params['scale']
+        self.alpha = 1 / self._params['a']
         if self._is_constant():
             self._replace_constant_methods()
         else:
