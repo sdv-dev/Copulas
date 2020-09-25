@@ -11,6 +11,7 @@ from copulas.univariate.log_laplace import LogLaplace
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from copulas.univariate.uniform import UniformUnivariate
+from copulas.univariate.hyper_laplace import HyperLaplace
 from tests import compare_nested_iterables
 
 
@@ -29,7 +30,8 @@ class TestUnivariate(TestCase):
             GammaUnivariate,
             StudentTUnivariate,
             UniformUnivariate,
-            LogLaplace
+            LogLaplace,
+            HyperLaplace
         }
 
     def test__select_candidates_parametric(self):
@@ -44,7 +46,8 @@ class TestUnivariate(TestCase):
             GammaUnivariate,
             StudentTUnivariate,
             UniformUnivariate,
-            LogLaplace
+            LogLaplace,
+            HyperLaplace
         }
 
     def test__select_candidates_non_parametric(self):
@@ -73,7 +76,8 @@ class TestUnivariate(TestCase):
         assert set(candidates) == {
             GaussianKDE,
             GaussianUnivariate,
-            StudentTUnivariate
+            StudentTUnivariate,
+            HyperLaplace
         }
 
     def test__select_candidates_semibounded(self):

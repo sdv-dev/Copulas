@@ -94,6 +94,9 @@ class HyperLaplace(Univariate):
     Math derivation: HyperLaplace(k, alpha) = (gamma(loc = 0, scale = 1/k, a = 1/alpha))**(1/alpha) * Unif({-1,1})
     """
 
+    PARAMETRIC = ParametricType.PARAMETRIC
+    BOUNDED = BoundedType.UNBOUNDED
+
     MODEL_CLASS = scipy.stats.gamma
 
     _params = None
@@ -240,6 +243,17 @@ class HyperLaplace(Univariate):
     def _get_model(self):
         return self.MODEL_CLASS(**self._params)
 
+
+    def _fit_constant(self, X):
+        self._params = {
+            'loc': np.unique(X)[0],
+            'scale': 0,
+            'a': 1
+        }
+
+    def _is_constant(self):
+        return self._params['scale'] == 0
+        
     def fit(self, X):
         """Fit the model to a random variable.
 
