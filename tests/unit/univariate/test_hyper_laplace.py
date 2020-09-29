@@ -19,7 +19,7 @@ class TestHyperLaplace(TestCase):
             'a': 1
         }
 
-    def test__fit(self): 
+    def test__fit(self):
         distribution = HyperLaplace()
 
         data = norm.rvs(size=100000, loc=0, scale=1)
