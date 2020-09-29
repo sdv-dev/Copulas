@@ -23,7 +23,7 @@ def gamma_d(x):
 
 def g3g1_over_g22(x):
     """
-    Commute the value of Gamma(3x)Gamma(x)/Gamma^2(2x)
+    Compute the value of Gamma(3x)Gamma(x)/Gamma^2(2x)
 
     Arguments:
             x (float)
