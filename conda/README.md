@@ -1,8 +1,29 @@
-1. Build the package.
+## Instructions
 
-> conda build -c conda-forge .
+These are instructions to deploy the latest version of **Copulas** to [conda](https://docs.conda.io/en/latest/).
+It should be done after every new release.
 
-2. Upload to anaconda.
+## Update the recipe
+Prior to making the release on PyPI, you should update the meta.yaml to reflect any changes in the dependencies.
+Note that you do not need to edit the version number as that is managed by bumpversion.
 
-> anaconda login
-> anaconda upload .......
+## Make the PyPI release
+Follow the standard release instructions to make a PyPI release. Then, return here to make the conda release.
+
+## Build a package
+As part of the PyPI release, you will have updated the stable branch. You should now check out the stable 
+branch and build the conda package.
+
+```bash
+git checkout stable
+cd Copulas/conda
+conda build -c conda-forge .
+```
+
+## Upload to Anaconda
+Finally, you can upload the resulting package to Anaconda.
+
+```bash
+anaconda login
+anaconda upload <PATH_TO_PACKAGE>
+```
