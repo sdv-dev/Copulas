@@ -77,6 +77,16 @@ This will pull and install the latest stable release from [PyPi](https://pypi.or
 If you want to install from source or contribute to the project please read the
 [Contributing Guide](https://sdv-dev.github.io/Copulas/contributing.html#get-started).
 
+## Install with conda
+
+**Copulas** can also be installed using [conda](https://docs.conda.io/en/latest/):
+
+```bash
+conda install -c sdv-dev copulas
+```
+
+This will pull and install the latest stable release from [Anaconda](https://anaconda.org/).
+
 
 # Quickstart
 
