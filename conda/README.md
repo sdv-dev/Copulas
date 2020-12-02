@@ -16,8 +16,8 @@ branch and build the conda package.
 
 ```bash
 git checkout stable
-cd Copulas/conda
-conda build -c conda-forge .
+cd conda
+conda build .
 ```
 
 ## Upload to Anaconda
@@ -25,5 +25,5 @@ Finally, you can upload the resulting package to Anaconda.
 
 ```bash
 anaconda login
-anaconda upload <PATH_TO_PACKAGE>
+anaconda upload -u sdv-dev <PATH_TO_PACKAGE>
 ```
