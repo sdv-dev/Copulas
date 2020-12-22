@@ -1,7 +1,7 @@
 from functools import partial
 
 import numpy as np
-from scipy.optimize import brentq
+from scipy.optimize import brentq, newton
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
@@ -99,10 +99,11 @@ class GaussianKDE(ScipyModel):
             NotFittedError:
                 if the model is not fitted.
         """
+        X = np.array(X)
         self.check_fit()
         stdev = np.sqrt(self._model.covariance[0, 0])
         lower = ndtr((self._get_bounds()[0] - self._model.dataset) / stdev)[0]
-        uppers = np.vstack([ndtr((x - self._model.dataset) / stdev)[0] for x in X])
+        uppers = ndtr((X[:,None] - self._model.dataset) / stdev)
         return (uppers - lower).dot(self._model.weights)
 
     def _brentq_cdf(self, value):
@@ -177,6 +178,45 @@ class GaussianKDE(ScipyModel):
         X[is_one] = float("inf")
         X[is_zero] = float("-inf")
         X[is_valid] = brentq(self._brentq_cdf(U[is_valid]), lower, upper)
+
+        return X
+
+    def percent_point_fast(self, U):
+        """Compute the inverse cumulative distribution value for each point in U.
+
+        Arguments:
+            U (numpy.ndarray):
+                Values for which the cumulative distribution will be computed.
+                It must have shape (n, 1) and values must be in [0,1].
+
+        Returns:
+            numpy.ndarray:
+                Inverse cumulative distribution values for points in U.
+
+        Raises:
+            NotFittedError:
+                if the model is not fitted.
+        """
+        self.check_fit()
+
+        assert len(U.shape) == 1
+
+        if np.any(U > 1.0) or np.any(U < 0.0):
+            raise ValueError("Expected values in range [0.0, 1.0].")
+
+        is_one = U >= 1.0 - EPSILON
+        is_zero = U <= EPSILON
+        is_valid = np.logical_not(np.logical_or(is_zero, is_one))
+
+        lower, upper = self._get_bounds()
+
+        def _f(X):
+            return U[is_valid] - self.cumulative_distribution(X)
+
+        X = np.zeros(U.shape)
+        X[is_one] = float("inf")
+        X[is_zero] = float("-inf")
+        X[is_valid] = newton(_f, np.zeros(U[is_valid].shape) + (lower+upper)/2.0)
 
         return X
 
