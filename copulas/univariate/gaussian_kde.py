@@ -103,7 +103,7 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
         stdev = np.sqrt(self._model.covariance[0, 0])
         lower = ndtr((self._get_bounds()[0] - self._model.dataset) / stdev)[0]
-        uppers = ndtr((X[:,None] - self._model.dataset) / stdev)
+        uppers = ndtr((X[:,  None] - self._model.dataset) / stdev)
         return (uppers - lower).dot(self._model.weights)
 
     def _brentq_cdf(self, value):
@@ -216,7 +216,7 @@ class GaussianKDE(ScipyModel):
         X = np.zeros(U.shape)
         X[is_one] = float("inf")
         X[is_zero] = float("-inf")
-        X[is_valid] = newton(_f, np.zeros(U[is_valid].shape) + (lower+upper)/2.0)
+        X[is_valid] = newton(_f, np.zeros(U[is_valid].shape) + (lower + upper) / 2.0)
 
         return X
 
