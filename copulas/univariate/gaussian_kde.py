@@ -9,7 +9,7 @@ from copulas import EPSILON, scalarize, store_args
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
-def _bisect(f, xmin, xmax, tol=1e-6, verbose=False):
+def _bisect(f, xmin, xmax, tol=1e-8, maxiter=50):
     a, b = xmin, xmax
 
     fa = f(a)
@@ -17,11 +17,13 @@ def _bisect(f, xmin, xmax, tol=1e-6, verbose=False):
     assert (fa <= 0.0).all()
     assert (fb >= 0.0).all()
 
-    while (b - a).max() > tol:
+    for _ in range(maxiter):
         c = (a + b) / 2.0  # proposal
         fc = f(c)
         a[fc <= 0] = c[fc <= 0]
         b[fc >= 0] = c[fc >= 0]
+        if (b - a).max() < tol:
+            break
 
     return (a + b) / 2.0
 
