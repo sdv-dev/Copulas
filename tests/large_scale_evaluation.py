@@ -37,14 +37,14 @@ import random
 from datetime import datetime
 from urllib.parse import urljoin
 
+import boto3
 import numpy as np
 import pandas as pd
-from scipy.stats import ks_2samp
-
-import boto3
 import tabulate
 from botocore import UNSIGNED
 from botocore.client import Config
+from scipy.stats import ks_2samp
+
 from copulas import get_instance
 from copulas.multivariate import GaussianMultivariate, VineCopula
 from copulas.univariate import GaussianUnivariate

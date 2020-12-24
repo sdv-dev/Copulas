@@ -9,6 +9,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 from scipy.stats import gaussian_kde
 
+from copulas.datasets import sample_univariate_bimodal
 from copulas.univariate.gaussian_kde import GaussianKDE
 
 
@@ -164,6 +165,19 @@ class TestGaussianKDE(TestCase):
 
         with self.assertRaises(ValueError):
             instance.percent_point(np.array([2.]))
+
+    def test_percent_point_convergence(self):
+        instance = GaussianKDE()
+        instance.fit(sample_univariate_bimodal())
+        x = instance.percent_point(np.array([0.5]))
+        assert abs(instance.cumulative_distribution(x) - 0.5) < 0.01
+
+    def test_percent_point_boundary_values(self):
+        instance = GaussianKDE()
+        instance.fit(np.array([0.0, 0.5, 1.0]))
+        x = instance.percent_point(np.array([0.0, 1.0]))
+        assert x[0] == float("-inf")
+        assert x[1] == float("inf")
 
     @patch('copulas.univariate.gaussian_kde.gaussian_kde', autospec=True)
     def test_sample(self, kde_mock):
