@@ -87,8 +87,7 @@ install-develop: clean-build clean-pyc ## install the package in editable mode a
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 copulas tests
-	isort -c --recursive copulas tests
+	invoke lint
 
 lint-docs: ## check docs formatting with doc8 and pydocstyle
 	doc8 . docs/
@@ -117,18 +116,15 @@ test-end-to-end: ## run end-to-end tests using pytest
 
 .PHONY: test-pytest
 test-pytest: ## run all the tests using pytest
-	python -m pytest --disable-warnings --cov=copulas
+	invoke pytest
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
-	rm -rf tests/readme_test && mkdir tests/readme_test
-	cd tests/readme_test && rundoc run --single-session python3 -t python3 ../../README.md
-	rm -rf tests/readme_test
+	invoke readme
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	find tutorials -path "*/.ipynb_checkpoints" -prune -false -o -name "*.ipynb" -exec \
-		jupyter nbconvert --execute --ExecutePreprocessor.timeout=3600 --to=html --stdout {} > /dev/null \;
+	invoke tutorials
 
 .PHONY: test
 test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
