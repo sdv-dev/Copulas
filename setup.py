@@ -12,8 +12,8 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    'numpy>=1.13.1,<2',
-    'pandas>=0.22.0,<1.1.5',
+    'numpy>=1.18.0,<2',
+    'pandas>=1.1,<1.1.5',
     'scipy>=1.2,<2',
     'matplotlib>=2.2.2,<3.2.2',
 ]
