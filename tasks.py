@@ -10,7 +10,7 @@ from invoke import task
 
 @task
 def pytest(c):
-    c.run('python -m pytest --cov=copulas')
+    c.run('python -m pytest --cov=copulas --reruns 3')
 
 
 @task
@@ -41,7 +41,7 @@ def install_minimum(c):
 def minimum(c):
     install_minimum(c)
     c.run('python -m pip check')
-    c.run('python -m pytest')
+    c.run('python -m pytest --reruns 3')
 
 
 @task

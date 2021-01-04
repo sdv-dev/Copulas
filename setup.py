@@ -65,6 +65,7 @@ tutorials_require = [
 tests_require = [
     'pytest>=3.4.2,<6',
     'pytest-cov>=2.6.0,<3',
+    'pytest-rerunfailures>=9.0.0,<10',
     'rundoc>=0.4.3,<0.5',
 ]
 
