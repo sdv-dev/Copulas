@@ -446,10 +446,10 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         instance = GaussianMultivariate()
         X = np.array([
-            [1, 2],
-            [1, 3],
-            [1, 4],
-            [1, 5]
+            [1.0, 2.0],
+            [1.0, 3.0],
+            [1.0, 4.0],
+            [1.0, 5.0]
         ])
         instance.fit(X)
 
@@ -459,7 +459,7 @@ class TestGaussianMultivariate(TestCase):
         # Check
         assert result.shape == (5, 2)
         assert result[~result.isnull()].all().all()
-        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))
+        assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 
         # This is to check that the samples on the non constant column are not constant too.
         assert len(result.loc[:, 1].unique()) > 1
