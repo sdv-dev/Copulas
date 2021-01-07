@@ -5,16 +5,16 @@
 
 from setuptools import setup, find_packages
 
-with open('README.md') as readme_file:
+with open('README.md', encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.md') as history_file:
+with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    'numpy>=1.13.1,<2',
-    'pandas>=0.22.0,<1.1.5',
-    'scipy>=1.2,<2',
+    'numpy>=1.18.0,<2',
+    'pandas>=1.1,<1.1.5',
+    'scipy>=1.4,<2',
     'matplotlib>=2.2.2,<3.2.2',
 ]
 
@@ -45,6 +45,7 @@ development_requires = [
     # Advanced testing
     'coverage>=4.5.1,<6',
     'tox>=2.9.1,<4',
+    'invoke',
 
     # Documentation style
     'doc8>=0.8.0,<0.9',
@@ -64,6 +65,7 @@ tutorials_require = [
 tests_require = [
     'pytest>=3.4.2,<6',
     'pytest-cov>=2.6.0,<3',
+    'pytest-rerunfailures>=9.0.0,<10',
     'rundoc>=0.4.3,<0.5',
 ]
 
