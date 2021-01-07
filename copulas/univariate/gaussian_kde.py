@@ -1,11 +1,9 @@
-from functools import partial
 
 import numpy as np
-from scipy.optimize import brentq
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
-from copulas import EPSILON, scalarize, store_args
+from copulas import EPSILON, store_args
 from copulas.optimize import bisect, chandrupatla
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 

@@ -5,7 +5,7 @@ def bisect(f, xmin, xmax, tol=1e-8, maxiter=50):
     """Bisection method for finding roots.
 
     This method implements a simple vectorized routine for identifying
-    the root (of a monotonically increasing function) given a bracketing 
+    the root (of a monotonically increasing function) given a bracketing
     interval.
 
     Arguments:
