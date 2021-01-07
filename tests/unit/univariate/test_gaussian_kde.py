@@ -104,34 +104,6 @@ class TestGaussianKDE(TestCase):
 
         assert not distribution._is_constant()
 
-    @patch('copulas.univariate.gaussian_kde.scalarize', autospec=True)
-    @patch('copulas.univariate.gaussian_kde.partial', autospec=True)
-    def test__brentq_cdf(self, partial_mock, scalarize_mock):
-        """_brentq_cdf returns a function that computes the cdf of a scalar minus its argument."""
-        # Setup
-        instance = GaussianKDE()
-
-        def mock_partial_return_value(x):
-            return x
-
-        scalarize_mock.return_value = 'scalar_function'
-        partial_mock.return_value = mock_partial_return_value
-
-        # Run
-        result = instance._brentq_cdf(0.5)
-
-        # Check
-        assert callable(result)
-
-        # result uses the return_value of partial_mock, so every value returned
-        # is (x - 0.5)
-        assert result(1.0) == 0.5
-        assert result(0.5) == 0
-        assert result(0.0) == -0.5
-
-        scalarize_mock.assert_called_once_with(GaussianKDE.cumulative_distribution)
-        partial_mock.assert_called_once_with('scalar_function', instance)
-
     def test_cumulative_distribution(self):
         """cumulative_distribution evaluates with the model."""
         instance = GaussianKDE()
@@ -157,6 +129,17 @@ class TestGaussianKDE(TestCase):
         assert abs(cdf[1] - 1.0) < 0.1, "The 50% percentile should be the median."
         assert cdf[2] > 2.0, "The 0.999th percentile should be large."
 
+    def test_percent_point_bisect(self):
+        """percent_point evaluates with the model."""
+        instance = GaussianKDE()
+        instance.fit(np.array([0.5, 1.0, 1.5]))
+
+        cdf = instance.percent_point(np.array([0.001, 0.5, 0.999]), method='bisect')
+
+        assert cdf[0] < 0.0, "The 0.001th percentile should be small."
+        assert abs(cdf[1] - 1.0) < 0.1, "The 50% percentile should be the median."
+        assert cdf[2] > 2.0, "The 0.999th percentile should be large."
+
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
         fit_data = np.array([1, 2, 3, 4, 5])
@@ -166,11 +149,12 @@ class TestGaussianKDE(TestCase):
         with self.assertRaises(ValueError):
             instance.percent_point(np.array([2.]))
 
-    def test_percent_point_convergence(self):
+    def test_percent_point_invertibility(self):
         instance = GaussianKDE()
         instance.fit(sample_univariate_bimodal())
-        x = instance.percent_point(np.array([0.5]))
-        assert abs(instance.cumulative_distribution(x) - 0.5) < 0.01
+        cdf = np.random.random(size=1000)
+        x = instance.percent_point(cdf)
+        assert np.abs(instance.cumulative_distribution(x) - cdf).max() < 1e-6
 
     def test_percent_point_boundary_values(self):
         instance = GaussianKDE()
