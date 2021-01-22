@@ -87,7 +87,7 @@ class TestUnivariate:
         }
 
     def test_fit_constant(self):
-        """if constant values, replace methods."""
+        """If constant values, replace methods."""
         # Setup
         distribution = Univariate()
 
@@ -99,7 +99,7 @@ class TestUnivariate:
         assert distribution._instance._is_constant()
 
     def test_fit_not_constant(self):
-        """if constant values, replace methods."""
+        """If constant values, replace methods."""
         # Setup
         distribution = Univariate()
 

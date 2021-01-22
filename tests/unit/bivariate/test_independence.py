@@ -18,7 +18,7 @@ class TestIndependence(TestCase):
         assert instance.tau is None
 
     def test_fit(self):
-        """fit checks that the given values are independent."""
+        """Fit checks that the given values are independent."""
         # Setup
         instance = Independence()
         data = np.array([
