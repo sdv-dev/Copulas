@@ -1,6 +1,5 @@
 .. highlight:: shell
 
-============
 Contributing
 ============
 
@@ -15,7 +14,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/HDI-Project/Copulas/issues.
+Report bugs at https://github.com/sdv-dev/Copulas/issues.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +44,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/HDI-Project/Copulas/issues.
+The best way to send feedback is to file an issue at https://github.com/sdv-dev/Copulas/issues.
 
 If you are proposing a feature:
 
@@ -90,12 +89,12 @@ Ready to contribute? Here's how to set up `Copulas` for local development.
     $ make test-all
 
 7. Make also sure to include the necessary documentation in the code as docstrings following
-   the [google](https://google.github.io/styleguide/pyguide.html?showone=Comments#Comments)
-   or the [numpy](https://numpydoc.readthedocs.io/en/latest/format.html) docstring style.
-   If you want to view how your documentation will look like when it is published, you can
-   generate and view the docs with this command::
+   the [google](https://google.github.io/styleguide/pyguide.html?showone=Comments#38-comments-and-docstrings)
+   docstring style. If you want to view how your documentation will look like when it is
+   published, you can generate and view the docs with this commands::
 
-    $ make viewdocs
+    $ make docs
+    $ make view-docs
 
 8. Commit your changes and push your branch to GitHub::
 
@@ -118,9 +117,8 @@ Before you submit a pull request, check that it meets these guidelines:
 4. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-5. The pull request should work for Python2.7, 3.4, 3.5 and 3.6. Check
-   https://travis-ci.org/HDI-Project/Copulas/pull_requests
-   and make sure that all the checks pass.
+5. The pull request should work for all the supported Python versions. Check
+   https://github.com/sdv-dev/Copulas/actions and make sure that all the checks pass.
 
 Unit Testing Guidelines
 -----------------------

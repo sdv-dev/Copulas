@@ -1,4 +1,5 @@
-.. mdinclude:: index.md
+.. mdinclude:: ../README.md
+   :end-line: 62
 
 .. toctree::
    :hidden:
