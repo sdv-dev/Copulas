@@ -1,5 +1,16 @@
 # History
 
+## v0.4.0 - 2021-01-27
+
+This release introduces a few changes to optimize processing speed by re-implementing
+the Gaussian KDE pdf to use vectorized root finding methods and also adding the option
+to subsample the data during univariate selection.
+
+### General Improvements
+
+* Make `gaussian_kde` faster - Issue [#200](https://github.com/sdv-dev/Copulas/issues/200) by @k15z and @fealho
+* Use sub-sampling in `select_univariate` - Issue [#183](https://github.com/sdv-dev/Copulas/issues/183) by @csala
+
 ## v0.3.3 - 2020-09-18
 
 ### General Improvements
