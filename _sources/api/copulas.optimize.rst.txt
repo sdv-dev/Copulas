@@ -1,0 +1,10 @@
+copulas.optimize package
+========================
+
+Module contents
+---------------
+
+.. automodule:: copulas.optimize
+   :members:
+   :undoc-members:
+   :show-inheritance:

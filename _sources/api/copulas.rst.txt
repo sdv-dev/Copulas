@@ -8,6 +8,7 @@ Subpackages
 
    copulas.bivariate
    copulas.multivariate
+   copulas.optimize
    copulas.univariate
 
 Submodules

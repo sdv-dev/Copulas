@@ -8,12 +8,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; Copulas 0.3.3 documentation</title>
+  <title>Installing Copulas &mdash; Copulas 0.4.0 documentation</title>
   
 
   
   
-    <link rel="shortcut icon" href="_static/dai-logo-white.ico"/>
+    <link rel="shortcut icon" href="_static/copulas.ico"/>
   
   
   
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quickstart" href="tutorials/00_Quickstart.html" />
-    <link rel="prev" title="Copulas" href="index.html" /> 
+    <link rel="prev" title="Overview" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +60,7 @@
 
           
             
-            <img src="_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+            <img src="_static/copulas-200.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -86,10 +86,13 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Copulas</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#stable-release">Stable Release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#from-source">From source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-with-conda">Install with conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-for-development">Install for development</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/00_Quickstart.html">Quickstart</a><ul>
@@ -171,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.optimize.html">copulas.optimize package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/copulas.univariate.html">copulas.univariate package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.base.html">copulas.univariate.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
@@ -190,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#id9">New Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
@@ -237,7 +240,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Installation</li>
+      <li>Installing Copulas</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -282,37 +285,55 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p><strong>Copulas</strong> can be installed in two ways:</p>
-<ul class="simple">
-<li><p>From stable release</p></li>
-<li><p>From source</p></li>
-</ul>
-<div class="section" id="stable-release">
-<h2>Stable Release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h2>
-<p>To install <strong>Copulas</strong>, run the following command in your terminal <cite>pip</cite>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install copulas</span>
+<div class="section" id="installing-copulas">
+<h1>Installing Copulas<a class="headerlink" href="#installing-copulas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p><strong>Copulas</strong> has been developed and tested on <a class="reference external" href="https://www.python.org/downloads/">Python 3.6, 3.7 and 3.8</a></p>
+<p>Also, although it is not strictly required, the usage of a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> is highly recommended in order to avoid
+interfering with other software installed in the system where <strong>Copulas</strong> is run.</p>
+</div>
+<div class="section" id="install-with-pip">
+<h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Permalink to this headline">¶</a></h2>
+<p>The easiest and recommended way to install <strong>Copulas</strong> is using <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install copulas
 </pre></div>
 </div>
-<p>This is the preffered method to install <strong>Copulas</strong>, as it will always install the most recent
-and stable release.</p>
-<p>If you don’t have <a class="reference external" href="https://pip.pypa.io">pip</a> installed, this <a class="reference external" href="http://docs.python-guide.org/en/latest/starting/installation/">Python installation guide</a> can guide
-you through the process.</p>
+<p>This will pull and install the latest stable release from <a class="reference external" href="https://pypi.org/">PyPi</a>.</p>
 </div>
-<div class="section" id="from-source">
-<h2>From source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h2>
-<p>The source code of <strong>Copulas</strong> can be downloaded from the <a class="reference external" href="https://github.com/sdv-dev/Copulas">Github repository</a></p>
-<p>You can clone the repository and install with the following command in your terminal:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone git://github.com/sdv-dev/Copulas</span>
-<span class="go">cd Copulas</span>
-<span class="go">make install</span>
+<div class="section" id="install-with-conda">
+<h2>Install with conda<a class="headerlink" href="#install-with-conda" title="Permalink to this headline">¶</a></h2>
+<p><strong>Copulas</strong> can also be installed using <a class="reference external" href="https://docs.conda.io/en/latest/">conda</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c sdv-dev -c conda-forge copulas
 </pre></div>
 </div>
-<p>If you are installing <strong>Copulas</strong> in order to modify its code, the installation must be done
-from its sources, in the editable mode, and also including some additional dependencies in
-order to be able to run the tests and build the documentation. Instructions about this process
-can be found in the <a class="reference external" href="../contributing.html#get-started">Contributing guide</a>.</p>
+<p>This will pull and install the latest stable release from <a class="reference external" href="https://anaconda.org/">Anaconda</a>.</p>
+</div>
+<div class="section" id="install-from-source">
+<h2>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this headline">¶</a></h2>
+<p>If you want to install <strong>Copulas</strong> from source you need to first clone the repository
+and then execute the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> command inside the <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch. Note that this
+command works only on Unix based systems like GNU/Linux and macOS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/sdv-dev/Copulas
+<span class="nb">cd</span> Copulas
+git checkout stable
+make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-for-development">
+<h2>Install for development<a class="headerlink" href="#install-for-development" title="Permalink to this headline">¶</a></h2>
+<p>If you intend to modify the source code or contribute to the project you will need to
+install it from the source using the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install-develop</span></code> command. In this case, we
+recommend you to branch from <code class="docutils literal notranslate"><span class="pre">master</span></code> first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:sdv-dev/Copulas
+<span class="nb">cd</span> Copulas
+git checkout master
+git checkout -b &lt;your-branch-name&gt;
+make install-develp
+</pre></div>
+</div>
+<p>For more details about how to contribute to the project please visit the <a class="reference external" href="CONTRIBUTING.rst">Contributing Guide</a>.</p>
 </div>
 </div>
 
@@ -327,7 +348,7 @@ can be found in the <a class="reference external" href="../contributing.html#get
         <a href="tutorials/00_Quickstart.html" class="btn btn-neutral float-right" title="Quickstart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Copulas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
