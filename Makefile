@@ -87,8 +87,7 @@ install-develop: clean-build clean-pyc ## install the package in editable mode a
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 copulas tests
-	isort -c --recursive copulas tests
+	invoke lint
 
 lint-docs: ## check docs formatting with doc8 and pydocstyle
 	doc8 . docs/
@@ -117,18 +116,15 @@ test-end-to-end: ## run end-to-end tests using pytest
 
 .PHONY: test-pytest
 test-pytest: ## run all the tests using pytest
-	python -m pytest --disable-warnings --cov=copulas
+	invoke pytest
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
-	rm -rf tests/readme_test && mkdir tests/readme_test
-	cd tests/readme_test && rundoc run --single-session python3 -t python3 ../../README.md
-	rm -rf tests/readme_test
+	invoke readme
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	find tutorials -path "*/.ipynb_checkpoints" -prune -false -o -name "*.ipynb" -exec \
-		jupyter nbconvert --execute --ExecutePreprocessor.timeout=3600 --to=html --stdout {} > /dev/null \;
+	invoke tutorials
 
 .PHONY: test
 test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
@@ -157,11 +153,11 @@ docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 
 .PHONY: view-docs
-view-docs: docs ## view docs in browser
+view-docs: ## view docs in browser
 	$(BROWSER) docs/_build/html/index.html
 
 .PHONY: serve-docs
-serve-docs: view-docs ## compile the docs watching for changes
+serve-docs: ## compile the docs watching for changes
 	watchmedo shell-command -W -R -D -p '*.rst;*.md' -c '$(MAKE) -C docs html' docs
 
 
@@ -228,6 +224,7 @@ bumpversion-revert: ## Undo a previous bumpversion-release
 
 CLEAN_DIR := $(shell git status --short | grep -v ??)
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
+CURRENT_VERSION := $(shell grep "^current_version" setup.cfg | grep -o "dev[0-9]*")
 CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-clean
@@ -242,6 +239,12 @@ ifneq ($(CURRENT_BRANCH),master)
 	$(error Please make the release from master branch\n)
 endif
 
+.PHONY: check-candidate
+check-candidate: ## Check if a release candidate has been made
+ifeq ($(CURRENT_VERSION),dev0)
+	$(error Please make a release candidate and test it before atempting a release)
+endif
+
 .PHONY: check-history
 check-history: ## Check if HISTORY.md has been modified
 ifeq ($(CHANGELOG_LINES),0)
@@ -249,7 +252,7 @@ ifeq ($(CHANGELOG_LINES),0)
 endif
 
 .PHONY: check-release
-check-release: check-clean check-master check-history ## Check if the release can be made
+check-release: check-clean check-candidate check-master check-history ## Check if the release can be made
 	@echo "A new release can be made"
 
 .PHONY: release
@@ -263,9 +266,3 @@ release-candidate: check-master publish bumpversion-candidate
 
 .PHONY: release-candidate-test
 release-candidate-test: check-clean check-master publish-test
-
-.PHONY: release-minor
-release-minor: check-release bumpversion-minor release
-
-.PHONY: release-major
-release-major: check-release bumpversion-major release

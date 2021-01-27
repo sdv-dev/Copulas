@@ -1,6 +1,17 @@
 # History
 
-## 0.3.3 (2020-09-18)
+## v0.4.0 - 2021-01-27
+
+This release introduces a few changes to optimize processing speed by re-implementing
+the Gaussian KDE pdf to use vectorized root finding methods and also adding the option
+to subsample the data during univariate selection.
+
+### General Improvements
+
+* Make `gaussian_kde` faster - Issue [#200](https://github.com/sdv-dev/Copulas/issues/200) by @k15z and @fealho
+* Use sub-sampling in `select_univariate` - Issue [#183](https://github.com/sdv-dev/Copulas/issues/183) by @csala
+
+## v0.3.3 - 2020-09-18
 
 ### General Improvements
 
@@ -11,18 +22,18 @@
 
 * Log Laplace Distribution - Issue [#188](https://github.com/sdv-dev/Copulas/issues/188) by @rollervan
 
-## 0.3.2 (2020-08-08)
+## v0.3.2 - 2020-08-08
 
 ### General Improvements
 
 * Support Python 3.8 - Issue [#185](https://github.com/sdv-dev/Copulas/issues/185) by @csala
-* Support scipy <1.3 - Issue [#180](https://github.com/sdv-dev/Copulas/issues/180) by @csala
+* Support scipy >1.3 - Issue [#180](https://github.com/sdv-dev/Copulas/issues/180) by @csala
 
-# New Features
+### New Features
 
 * Add Uniform Univariate - Issue [#179](https://github.com/sdv-dev/Copulas/issues/179) by @rollervan
 
-## 0.3.1 (2020-07-09)
+## v0.3.1 - 2020-07-09
 
 ### General Improvements
 
@@ -36,7 +47,7 @@
 
 * Error in Quickstarts : Unknown projection '3d' - Issue [#174](https://github.com/sdv-dev/Copulas/issues/174) by @csala
 
-## 0.3.0 (2020-03-27)
+## v0.3.0 - 2020-03-27
 
 Important revamp of the internal implementation of the project, the testing
 infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
@@ -53,13 +64,13 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 * New testing infrastructure with end-to-end, numerical and large scale testing.
 * Improved tutorials and documentation.
 
-## 0.2.5 (2020-01-17)
+## v0.2.5 - 2020-01-17
 
 ### General Improvements
 
 * Convert import_object to get_instance - Issue [#114](https://github.com/sdv-dev/Copulas/issues/114) by @JDTheRipperPC
 
-## 0.2.4 (2019-12-23)
+## v0.2.4 - 2019-12-23
 
 ### New Features
 
@@ -68,14 +79,13 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 ### General Improvements
 
 * Remove `select_copula` from `Bivariate` - Issue [#118](https://github.com/sdv-dev/Copulas/issues/118) by @csala
-
 * Rename TruncNorm to TruncGaussian and make it non standard - Issue [#102](https://github.com/sdv-dev/Copulas/issues/102) by @csala @JDTheRipperPC
 
 ### Bugs fixed
 
 * Error on Frank and Gumble sampling - Issue [#112](https://github.com/sdv-dev/Copulas/issues/112) by @csala
 
-## 0.2.3 (2019-09-17)
+## v0.2.3 - 2019-09-17
 
 ### New Features
 
@@ -84,14 +94,13 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 ### General Improvements
 
 * Document RELEASE workflow - Issue [#105](https://github.com/sdv-dev/Copulas/issues/105) by @JDTheRipperPC
-
 * Improve serialization of univariate distributions - Issue [#99](https://github.com/sdv-dev/Copulas/issues/99) by @ManuelAlvarezC and @JDTheRipperPC
 
 ### Bugs fixed
 
 * The method 'select_copula' of Bivariate return wrong CopulaType - Issue [#101](https://github.com/sdv-dev/Copulas/issues/101) by @JDTheRipperPC
 
-## 0.2.2 (2019-07-31)
+## v0.2.2 - 2019-07-31
 
 ### New Features
 
@@ -111,7 +120,7 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 
 * Fix bug on Vine copulas, that made it crash during the bivariate copula selection - Issue [#64](https://github.com/sdv-dev/Copulas/issues/64) by @echo66 and @ManuelAlvarezC
 
-## 0.2.1 - Vine serialization
+## v0.2.1 - Vine serialization
 
 * Add serialization to Vine copulas.
 * Add `distribution` as argument for the Gaussian Copula.
@@ -120,7 +129,7 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 * Improve code documentation.
 * Improve code style and linting tools configuration.
 
-## 0.2.0 - Unified API
+## v0.2.0 - Unified API
 
 * New API for stats methods.
 * Standarize input and output to `numpy.ndarray`.
@@ -128,7 +137,7 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 * Add methods to load/save copulas.
 * Improve Gaussian copula sampling accuracy.
 
-## 0.1.1 - Minor Improvements
+## v0.1.1 - Minor Improvements
 
 * Different Copula types separated in subclasses
 * Extensive Unit Testing
@@ -138,6 +147,6 @@ infrastructure and the documentation by Kevin Alex Zhang @k15z, Carles Sala
 * New KDE Univariate copula
 * Improved examples with additional demo data.
 
-## 0.1.0 - First Release
+## v0.1.0 - First Release
 
 * First release on PyPI.

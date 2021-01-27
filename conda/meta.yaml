@@ -1,0 +1,43 @@
+{% set name = 'copulas' %}
+{% set version = '0.4.0.dev1' %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+
+build:
+  number: 0
+  noarch: python
+  script: "{{ PYTHON }} -m pip install ."
+
+requirements:
+  host:
+    - matplotlib >=2.2.2,<3.2.2
+    - numpy >=1.13.1,<2
+    - pandas >=0.22.0,<1.1.5
+    - pip
+    - python
+    - scipy >=1.2,<2
+    - pytest-runner
+  run:
+    - matplotlib >=2.2.2,<3.2.2
+    - numpy >=1.13.1,<2
+    - pandas >=0.22.0,<1.1.5
+    - python
+    - scipy >=1.2,<2
+
+about:
+  home: "https://github.com/sdv-dev/Copulas"
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: "A python library for building different types of copulas and using them for sampling."
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - sdv-dev
