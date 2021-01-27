@@ -224,6 +224,7 @@ bumpversion-revert: ## Undo a previous bumpversion-release
 
 CLEAN_DIR := $(shell git status --short | grep -v ??)
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
+CURRENT_VERSION := $(shell grep "^current_version" setup.cfg | grep -o "dev[0-9]*")
 CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-clean
@@ -238,6 +239,12 @@ ifneq ($(CURRENT_BRANCH),master)
 	$(error Please make the release from master branch\n)
 endif
 
+.PHONY: check-candidate
+check-candidate: ## Check if a release candidate has been made
+ifeq ($(CURRENT_VERSION),dev0)
+	$(error Please make a release candidate and test it before atempting a release)
+endif
+
 .PHONY: check-history
 check-history: ## Check if HISTORY.md has been modified
 ifeq ($(CHANGELOG_LINES),0)
@@ -245,7 +252,7 @@ ifeq ($(CHANGELOG_LINES),0)
 endif
 
 .PHONY: check-release
-check-release: check-clean check-master check-history ## Check if the release can be made
+check-release: check-clean check-candidate check-master check-history ## Check if the release can be made
 	@echo "A new release can be made"
 
 .PHONY: release
@@ -259,9 +266,3 @@ release-candidate: check-master publish bumpversion-candidate
 
 .PHONY: release-candidate-test
 release-candidate-test: check-clean check-master publish-test
-
-.PHONY: release-minor
-release-minor: check-release bumpversion-minor release
-
-.PHONY: release-major
-release-major: check-release bumpversion-major release
