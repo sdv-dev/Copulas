@@ -55,8 +55,9 @@ class GaussianMultivariate(Multivariate):
 
         U = list()
         for column_name, univariate in zip(self.columns, self.univariates):
-            column = X[column_name]
-            U.append(univariate.cdf(column.values).clip(EPSILON, 1 - EPSILON))
+            if column_name in X:
+                column = X[column_name]
+                U.append(univariate.cdf(column.values).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
@@ -78,7 +79,7 @@ class GaussianMultivariate(Multivariate):
         if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:
             covariance = covariance + np.identity(covariance.shape[0]) * EPSILON
 
-        return covariance
+        return pd.DataFrame(covariance, index=self.columns, columns=self.columns)
 
     @check_valid_values
     def fit(self, X):
@@ -156,8 +157,46 @@ class GaussianMultivariate(Multivariate):
         transformed = self._transform_to_normal(X)
         return stats.multivariate_normal.cdf(transformed, cov=self.covariance)
 
+    def _get_conditional_distribution(self, conditions):
+        """Compute the parameters of a condinal multivariate normal distribution.
+
+        The parameters are computed as specified at
+        https://en.wikipedia.org/wiki/Multivariate_normal_distribution#Conditional_distributions
+        """
+        conditions = pd.Series(conditions)
+        normal_conditions = self._transform_to_normal(conditions)[0]
+
+        c2 = conditions.index
+        c1 = self.covariance.columns.difference(c2)
+
+        e11 = self.covariance.loc[c1, c1].to_numpy()
+        e12 = self.covariance.loc[c1, c2].to_numpy()
+        e21 = self.covariance.loc[c2, c1].to_numpy()
+        e22 = self.covariance.loc[c2, c2].to_numpy()
+
+        mu1 = np.zeros(len(c1))
+        mu2 = np.zeros(len(c2))
+
+        e12e22inv = e12 @ np.linalg.inv(e22)
+
+        means = mu1 + e12e22inv @ (normal_conditions - mu2)
+        covariance = e11 - e12e22inv @ e21
+
+        return means, covariance, c1
+
+    def _get_normal_samples(self, num_rows, conditions):
+        if conditions is None:
+            covariance = self.covariance
+            columns = self.columns
+            means = np.zeros(len(columns))
+        else:
+            means, covariance, columns = self._get_conditional_distribution(conditions)
+
+        samples = np.random.multivariate_normal(means, covariance, size=num_rows)
+        return pd.DataFrame(samples, columns=columns)
+
     @random_state
-    def sample(self, num_rows=1):
+    def sample(self, num_rows=1, conditions=None):
         """Sample values from this model.
 
         Argument:
@@ -175,18 +214,17 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
 
-        res = {}
-        means = np.zeros(self.covariance.shape[0])
-        size = (num_rows,)
+        samples = self._get_normal_samples(num_rows, conditions)
 
-        clean_cov = np.nan_to_num(self.covariance)
-        samples = np.random.multivariate_normal(means, clean_cov, size=size)
+        output = {}
+        for column_name, univariate in zip(self.columns, self.univariates):
+            if conditions and column_name in conditions:
+                output[column_name] = np.full(num_rows, conditions[column_name])
+            else:
+                cdf = stats.norm.cdf(samples[column_name])
+                output[column_name] = univariate.percent_point(cdf)
 
-        for i, (column_name, univariate) in enumerate(zip(self.columns, self.univariates)):
-            cdf = stats.norm.cdf(samples[:, i])
-            res[column_name] = univariate.percent_point(cdf)
-
-        return pd.DataFrame(data=res)
+        return pd.DataFrame(data=output)
 
     def to_dict(self):
         """Return a `dict` with the parameters to replicate this object.
@@ -201,7 +239,7 @@ class GaussianMultivariate(Multivariate):
                       DeprecationWarning)
 
         return {
-            'covariance': self.covariance.tolist(),
+            'covariance': self.covariance.to_numpy().tolist(),
             'univariates': univariates,
             'columns': self.columns,
             'type': get_qualified_name(self),
@@ -222,12 +260,14 @@ class GaussianMultivariate(Multivariate):
         """
         instance = cls()
         instance.univariates = []
-        instance.columns = copula_dict['columns']
+        columns = copula_dict['columns']
+        instance.columns = columns
 
         for parameters in copula_dict['univariates']:
             instance.univariates.append(Univariate.from_dict(parameters))
 
-        instance.covariance = np.array(copula_dict['covariance'])
+        covariance = copula_dict['covariance']
+        instance.covariance = pd.DataFrame(covariance, index=columns, columns=columns)
         instance.fitted = True
         warnings.warn('`covariance` will be renamed to `correlation` in v0.4.0',
                       DeprecationWarning)

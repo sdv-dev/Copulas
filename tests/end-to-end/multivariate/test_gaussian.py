@@ -3,10 +3,36 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
+import pandas as pd
 
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import GaussianMultivariate
 from copulas.univariate import BetaUnivariate, GaussianKDE, ParametricType, Univariate
+
+
+def test_conditional_sampling():
+    condition = np.random.randint(1, 4, size=3000)
+    conditioned = np.random.normal(loc=1, scale=1, size=3000) * condition
+    data = pd.DataFrame({
+        'a': condition,
+        'b': condition,
+        'c': conditioned,
+    })
+
+    gm = GaussianMultivariate()
+    gm.fit(data)
+
+    sampled = gm.sample(3000, conditions={'b': 1})
+
+    np.testing.assert_allclose(sampled['a'].mean(), 1, atol=.5)
+    np.testing.assert_allclose(sampled['b'].mean(), 1, atol=.5)
+    np.testing.assert_allclose(sampled['c'].mean(), 1, atol=.5)
+
+    sampled = gm.sample(3000, conditions={'a': 3, 'b': 3})
+
+    np.testing.assert_allclose(sampled['a'].mean(), 3, atol=.5)
+    np.testing.assert_allclose(sampled['b'].mean(), 3, atol=.5)
+    np.testing.assert_allclose(sampled['c'].mean(), 3, atol=.5)
 
 
 class TestGaussian(TestCase):
