@@ -158,14 +158,23 @@ class GaussianMultivariate(Multivariate):
         return stats.multivariate_normal.cdf(transformed, cov=self.covariance)
 
     def _get_conditional_distribution(self, conditions):
-        """Compute the parameters of a condinal multivariate normal distribution.
+        """Compute the parameters of a conditional multivariate normal distribution.
 
-        The parameters are computed as specified at
+        The parameters of the conditioned distribution are computed as specified here:
         https://en.wikipedia.org/wiki/Multivariate_normal_distribution#Conditional_distributions
-        """
-        conditions = pd.Series(conditions)
-        normal_conditions = self._transform_to_normal(conditions)[0]
 
+        Args:
+            conditions (pandas.Series):
+                Mapping of the column names and column values to condition on.
+                The input values have already been transformed to their normal distribution.
+
+        Returns:
+            tuple:
+                * means (numpy.array): mean values to use for the conditioned multivariate normal.
+                * covariance (numpy.array): covariance matrix to use for the conditioned
+                  multivariate normal.
+                * columns (list): names of the columns that will be sampled conditionally.
+        """
         c2 = conditions.index
         c1 = self.covariance.columns.difference(c2)
 
@@ -179,18 +188,30 @@ class GaussianMultivariate(Multivariate):
 
         e12e22inv = e12 @ np.linalg.inv(e22)
 
-        means = mu1 + e12e22inv @ (normal_conditions - mu2)
+        means = mu1 + e12e22inv @ (conditions - mu2)
         covariance = e11 - e12e22inv @ e21
 
         return means, covariance, c1
 
     def _get_normal_samples(self, num_rows, conditions):
+        """Get random rows in the standard normal space.
+
+        If no conditions are given, the values are sampled from a standard normal
+        multivariate.
+
+        If conditions are given, they are transformed to their equivalent standard
+        normal values using their marginals and then the values are sampled from
+        a standard normal multivariate conditioned on the given condition values.
+        """
         if conditions is None:
             covariance = self.covariance
             columns = self.columns
             means = np.zeros(len(columns))
         else:
-            means, covariance, columns = self._get_conditional_distribution(conditions)
+            conditions = pd.Series(conditions)
+            normal_conditions = self._transform_to_normal(conditions)[0]
+            normal_conditions = pd.Series(normal_conditions, index=conditions.index)
+            means, covariance, columns = self._get_conditional_distribution(normal_conditions)
 
         samples = np.random.multivariate_normal(means, covariance, size=num_rows)
         return pd.DataFrame(samples, columns=columns)
@@ -202,11 +223,15 @@ class GaussianMultivariate(Multivariate):
         Argument:
             num_rows (int):
                 Number of rows to sample.
+            conditions (dict or pd.Series):
+                Mapping of the column names and column values to condition on.
 
         Returns:
             numpy.ndarray:
                 Array of shape (n_samples, *) with values randomly
-                sampled from this model distribution.
+                sampled from this model distribution. If conditions have been
+                given, the output array also contains the corresponding columns
+                populated with the given values.
 
         Raises:
             NotFittedError:
@@ -219,6 +244,7 @@ class GaussianMultivariate(Multivariate):
         output = {}
         for column_name, univariate in zip(self.columns, self.univariates):
             if conditions and column_name in conditions:
+                # Use the values that were given as conditions in the original space.
                 output[column_name] = np.full(num_rows, conditions[column_name])
             else:
                 cdf = stats.norm.cdf(samples[column_name])
