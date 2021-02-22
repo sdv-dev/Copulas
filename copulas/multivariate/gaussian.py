@@ -170,28 +170,31 @@ class GaussianMultivariate(Multivariate):
 
         Returns:
             tuple:
-                * means (numpy.array): mean values to use for the conditioned multivariate normal.
-                * covariance (numpy.array): covariance matrix to use for the conditioned
+                * means (numpy.array):
+                    mean values to use for the conditioned multivariate normal.
+                * covariance (numpy.array):
+                    covariance matrix to use for the conditioned
                   multivariate normal.
-                * columns (list): names of the columns that will be sampled conditionally.
+                * columns (list):
+                    names of the columns that will be sampled conditionally.
         """
-        c2 = conditions.index
-        c1 = self.covariance.columns.difference(c2)
+        columns2 = conditions.index
+        columns1 = self.covariance.columns.difference(columns2)
 
-        e11 = self.covariance.loc[c1, c1].to_numpy()
-        e12 = self.covariance.loc[c1, c2].to_numpy()
-        e21 = self.covariance.loc[c2, c1].to_numpy()
-        e22 = self.covariance.loc[c2, c2].to_numpy()
+        sigma11 = self.covariance.loc[columns1, columns1].to_numpy()
+        sigma12 = self.covariance.loc[columns1, columns2].to_numpy()
+        sigma21 = self.covariance.loc[columns2, columns1].to_numpy()
+        sigma22 = self.covariance.loc[columns2, columns2].to_numpy()
 
-        mu1 = np.zeros(len(c1))
-        mu2 = np.zeros(len(c2))
+        mu1 = np.zeros(len(columns1))
+        mu2 = np.zeros(len(columns2))
 
-        e12e22inv = e12 @ np.linalg.inv(e22)
+        sigma12sigma22inv = sigma12 @ np.linalg.inv(sigma22)
 
-        means = mu1 + e12e22inv @ (conditions - mu2)
-        covariance = e11 - e12e22inv @ e21
+        mu_bar = mu1 + sigma12sigma22inv @ (conditions - mu2)
+        sigma_bar = sigma11 - sigma12sigma22inv @ sigma21
 
-        return means, covariance, c1
+        return mu_bar, sigma_bar, columns1
 
     def _get_normal_samples(self, num_rows, conditions):
         """Get random rows in the standard normal space.
