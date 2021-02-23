@@ -621,6 +621,7 @@ class ScipyModel(Univariate, ABC):
         """
         self._params = params.copy()
         if self._is_constant():
-            self._replace_constant_methods()
+            constant = self._extract_constant()
+            self._set_constant_value(constant)
         else:
             self._model = self._get_model()

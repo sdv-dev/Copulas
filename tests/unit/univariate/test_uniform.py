@@ -44,3 +44,14 @@ class TestUniformUnivariate(TestCase):
         distribution.fit(np.array([1, 2, 3, 4]))
 
         assert not distribution._is_constant()
+
+    def test__extract_constant(self):
+        distribution = UniformUnivariate()
+        distribution._params = {
+            'loc': 1,
+            'scale': 0
+        }
+
+        constant = distribution._extract_constant()
+
+        assert 1 == constant

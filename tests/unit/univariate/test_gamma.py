@@ -46,3 +46,15 @@ class TestGammaUnivariate(TestCase):
         distribution.fit(np.array([1, 2, 3, 4]))
 
         assert not distribution._is_constant()
+
+    def test__extract_constant(self):
+        distribution = GammaUnivariate()
+        distribution._params = {
+            'loc': 1,
+            'scale': 1,
+            'a': 1,
+        }
+
+        constant = distribution._extract_constant()
+
+        assert 1 == constant

@@ -170,3 +170,6 @@ class GaussianKDE(ScipyModel):
 
     def _is_constant(self):
         return len(np.unique(self._params['dataset'])) == 1
+
+    def _extract_constant(self):
+        return self._params['dataset'][0]

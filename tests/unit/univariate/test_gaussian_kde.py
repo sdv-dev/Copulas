@@ -192,3 +192,13 @@ class TestGaussianKDE(TestCase):
         input_array = instance._model.evaluate.call_args[0][0]
         np.testing.assert_equal(input_array, np.array([1, 2, 3]))
         np.testing.assert_equal(pdf, np.array([0.1, 0.2, 0.3]))
+
+    def test__extract_constant(self):
+        distribution = GaussianKDE()
+        distribution._params = {
+            'dataset': [1, 1, 1, 1],
+        }
+
+        constant = distribution._extract_constant()
+
+        assert 1 == constant
