@@ -63,3 +63,6 @@ class TruncatedGaussian(ScipyModel):
 
     def _is_constant(self):
         return self._params['a'] == self._params['b']
+
+    def _extract_constant(self):
+        return self._params['loc']

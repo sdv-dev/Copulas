@@ -98,6 +98,24 @@ class TestGaussian(TestCase):
             'a': 0,
         }
 
+    def test_to_dict_from_dict_constant(self):
+        model = GammaUnivariate()
+        model.fit(self.constant)
+
+        sampled_data = model.sample(50)
+        pdf = model.probability_density(sampled_data)
+        cdf = model.cumulative_distribution(sampled_data)
+
+        params = model.to_dict()
+        model2 = GammaUnivariate.from_dict(params)
+
+        np.testing.assert_equal(np.full(50, 5), sampled_data)
+        np.testing.assert_equal(np.full(50, 5), model2.sample(50))
+        np.testing.assert_equal(np.full(50, 1), pdf)
+        np.testing.assert_equal(np.full(50, 1), model2.probability_density(sampled_data))
+        np.testing.assert_equal(np.full(50, 1), cdf)
+        np.testing.assert_equal(np.full(50, 1), model2.cumulative_distribution(sampled_data))
+
     def test_save_load(self):
         model = GammaUnivariate()
         model.fit(self.data)
