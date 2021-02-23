@@ -85,6 +85,24 @@ class TestStudentT(TestCase):
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
 
+    def test_to_dict_from_dict_constant(self):
+        model = StudentTUnivariate()
+        model.fit(self.constant)
+
+        sampled_data = model.sample(50)
+        pdf = model.probability_density(sampled_data)
+        cdf = model.cumulative_distribution(sampled_data)
+
+        params = model.to_dict()
+        model2 = StudentTUnivariate.from_dict(params)
+
+        np.testing.assert_equal(np.full(50, 5), sampled_data)
+        np.testing.assert_equal(np.full(50, 5), model2.sample(50))
+        np.testing.assert_equal(np.full(50, 1), pdf)
+        np.testing.assert_equal(np.full(50, 1), model2.probability_density(sampled_data))
+        np.testing.assert_equal(np.full(50, 1), cdf)
+        np.testing.assert_equal(np.full(50, 1), model2.cumulative_distribution(sampled_data))
+
     def test_to_dict_constant(self):
         model = StudentTUnivariate()
         model.fit(self.constant)
