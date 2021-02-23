@@ -414,7 +414,7 @@ class TestGaussianMultivariate(TestCase):
         assert result['columns'] == ['column1', 'column2', 'column3']
         assert len(result['univariates']) == 3
 
-        expected_cov = copula._get_covariance(self.data).tolist()
+        expected_cov = copula._get_covariance(self.data).to_numpy().tolist()
         np.testing.assert_equal(result['covariance'], expected_cov)
 
         for univariate, result_univariate in zip(copula.univariates, result['univariates']):
@@ -466,3 +466,23 @@ class TestGaussianMultivariate(TestCase):
 
         covariance = instance.covariance
         assert (~pd.isnull(covariance)).all().all()
+
+    def test__get_conditional_distribution(self):
+        gm = GaussianMultivariate()
+        gm.covariance = pd.DataFrame({
+            'a': [1, 0.2, 0.3],
+            'b': [0.2, 1, 0.4],
+            'c': [0.3, 0.4, 1],
+        }, index=['a', 'b', 'c'])
+
+        conditions = pd.Series({
+            'b': 1
+        })
+        means, covariance, columns = gm._get_conditional_distribution(conditions)
+
+        np.testing.assert_allclose(means, [0.2, 0.4])
+        np.testing.assert_allclose(covariance, [
+            [0.96, 0.22],
+            [0.22, 0.84]
+        ])
+        assert columns.tolist() == ['a', 'c']
