@@ -33,7 +33,7 @@ class TestBetaUnivariate(TestCase):
             'b': 1
         }
         for key, value in distribution._params.items():
-            np.testing.assert_allclose(value, expected[key], atol=0.1)
+            np.testing.assert_allclose(value, expected[key], atol=0.3)
 
     def test__is_constant_true(self):
         distribution = BetaUnivariate()
@@ -48,3 +48,16 @@ class TestBetaUnivariate(TestCase):
         distribution.fit(np.array([1, 2, 3, 4]))
 
         assert not distribution._is_constant()
+
+    def test__extract_constant(self):
+        distribution = BetaUnivariate()
+        distribution._params = {
+            'loc': 1,
+            'scale': 1,
+            'a': 1,
+            'b': 1
+        }
+
+        constant = distribution._extract_constant()
+
+        assert 1 == constant

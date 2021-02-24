@@ -4,7 +4,7 @@
 
 __author__ = 'MIT Data To AI Lab'
 __email__ = 'dailabmit@gmail.com',
-__version__ = '0.3.0'
+__version__ = '0.5.0.dev2'
 
 import contextlib
 import importlib
@@ -207,7 +207,7 @@ def check_valid_values(function):
         if not len(W):
             raise ValueError('Your dataset is empty.')
 
-        if W.dtype not in [np.dtype('float64'), np.dtype('int64')]:
+        if not (np.issubdtype(W.dtype, np.floating) or np.issubdtype(W.dtype, np.integer)):
             raise ValueError('There are non-numerical values in your data.')
 
         if np.isnan(W).any().any():

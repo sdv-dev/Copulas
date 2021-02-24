@@ -2,30 +2,19 @@
 dist: bionic
 language: python
 python:
+  - 3.8
   - 3.7
   - 3.6
-  - 3.5
 
 # Command to install dependencies
 addons:
   apt:
     packages:
       - pandoc
+
 install: pip install -U tox-travis codecov
 
 # Command to run tests
 script: tox
 
 after_success: codecov
-
-deploy:
-
-  - provider: pages
-    skip-cleanup: true
-    github-token: "$GITHUB_TOKEN"
-    keep-history: true
-    local-dir: docs/_build/html
-    target-branch: gh-pages
-    on:
-      branch: stable
-      python: 3.7

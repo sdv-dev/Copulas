@@ -26,3 +26,6 @@ class GaussianUnivariate(ScipyModel):
 
     def _is_constant(self):
         return self._params['scale'] == 0
+
+    def _extract_constant(self):
+        return self._params['loc']

@@ -1,4 +1,5 @@
-.. mdinclude:: index.md
+.. mdinclude:: ../README.md
+   :end-line: 62
 
 .. toctree::
    :hidden:
@@ -30,6 +31,7 @@
    API Reference <api/copulas>
    contributing
    history
+   authors
 
 Indices and tables
 ==================

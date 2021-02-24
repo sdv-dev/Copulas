@@ -192,9 +192,9 @@ class TestGaussianMultivariate(TestCase):
         copula.fit(self.data)
 
         expected_covariance = np.array([
-            [1.04347826, -0.01316681, -0.20683455],
-            [-0.01316681, 1.04347826, -0.176307],
-            [-0.20683455, -0.176307, 1.04347826]
+            [1., -0.01261819, -0.19821644],
+            [-0.01261819, 1., -0.16896087],
+            [-0.19821644, -0.16896087, 1.]
         ])
 
         # Run
@@ -278,7 +278,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
         X = np.array([2000., 200., 0.])
-        expected_result = 0.031163598715950383
+        expected_result = 0.032245296420409846
 
         # Run
         result = copula.probability_density(X)
@@ -292,7 +292,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -306,7 +306,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.values)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -320,7 +320,7 @@ class TestGaussianMultivariate(TestCase):
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.values)
         X = np.array([2000., 200., 1.])
-        expected_result = 0.4460456536217443
+        expected_result = 0.4550595153746892
 
         # Run
         result = copula.cumulative_distribution(X)
@@ -383,19 +383,22 @@ class TestGaussianMultivariate(TestCase):
         ])
         instance.fit(data)
 
-        expected_result = pd.DataFrame([
-            {'A': 25.566882482769294, 'B': 61.01690157277244, 'C': 575.71068885087790},
-            {'A': 32.624255560452110, 'B': 47.31477394460025, 'C': 447.84049148268970},
-            {'A': 20.117642182744806, 'B': 63.68224998298797, 'C': 397.76402526341593},
-            {'A': 25.357483201156676, 'B': 72.30337152729443, 'C': 433.06766240515134},
-            {'A': 23.202174689737113, 'B': 66.32056962524452, 'C': 405.08384853948280}
-        ])
+        expected_result = pd.DataFrame(
+            np.array([
+                [25.19031668, 61.96527251, 543.43595269],
+                [31.50262306, 49.70971698, 429.06537124],
+                [20.31636799, 64.3492326, 384.27561823],
+                [25.00302427, 72.06019812, 415.85215123],
+                [23.07525773, 66.70901743, 390.8226672]
+            ]),
+            columns=['A', 'B', 'C']
+        )
 
         # Run
         result = instance.sample(5)
 
         # Check
-        assert result.equals(expected_result)
+        pd.testing.assert_frame_equal(result, expected_result, check_less_precise=True)
 
     def test_to_dict(self):
         """To_dict returns the parameters to replicate the copula."""
@@ -411,7 +414,7 @@ class TestGaussianMultivariate(TestCase):
         assert result['columns'] == ['column1', 'column2', 'column3']
         assert len(result['univariates']) == 3
 
-        expected_cov = copula._get_covariance(self.data).tolist()
+        expected_cov = copula._get_covariance(self.data).to_numpy().tolist()
         np.testing.assert_equal(result['covariance'], expected_cov)
 
         for univariate, result_univariate in zip(copula.univariates, result['univariates']):
@@ -443,10 +446,10 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         instance = GaussianMultivariate()
         X = np.array([
-            [1, 2],
-            [1, 3],
-            [1, 4],
-            [1, 5]
+            [1.0, 2.0],
+            [1.0, 3.0],
+            [1.0, 4.0],
+            [1.0, 5.0]
         ])
         instance.fit(X)
 
@@ -456,10 +459,30 @@ class TestGaussianMultivariate(TestCase):
         # Check
         assert result.shape == (5, 2)
         assert result[~result.isnull()].all().all()
-        assert result.loc[:, 0].equals(pd.Series([1, 1, 1, 1, 1], name=0))
+        assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 
         # This is to check that the samples on the non constant column are not constant too.
         assert len(result.loc[:, 1].unique()) > 1
 
         covariance = instance.covariance
         assert (~pd.isnull(covariance)).all().all()
+
+    def test__get_conditional_distribution(self):
+        gm = GaussianMultivariate()
+        gm.covariance = pd.DataFrame({
+            'a': [1, 0.2, 0.3],
+            'b': [0.2, 1, 0.4],
+            'c': [0.3, 0.4, 1],
+        }, index=['a', 'b', 'c'])
+
+        conditions = pd.Series({
+            'b': 1
+        })
+        means, covariance, columns = gm._get_conditional_distribution(conditions)
+
+        np.testing.assert_allclose(means, [0.2, 0.4])
+        np.testing.assert_allclose(covariance, [
+            [0.96, 0.22],
+            [0.22, 0.84]
+        ])
+        assert columns.tolist() == ['a', 'c']

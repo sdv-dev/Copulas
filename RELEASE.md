@@ -181,7 +181,7 @@ pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
 Clone the project and install the development requirements. Alternatively, with your virtualenv activated.
 
 ```bash
-git clone https://github.com/HDI-Project/SDV
+git clone https://github.com/sdv-dev/SDV
 cd SDV
 git checkout master
 make install-develop

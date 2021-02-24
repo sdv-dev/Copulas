@@ -3,9 +3,11 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
+from scipy.stats import ks_2samp, norm, randint
 
 from copulas.datasets import sample_univariate_bimodal
-from copulas.univariate import GaussianKDE
+from copulas.multivariate import GaussianMultivariate
+from copulas.univariate.gaussian_kde import GaussianKDE
 
 
 class TestGaussian(TestCase):
@@ -57,7 +59,7 @@ class TestGaussian(TestCase):
 
         # Test the CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 < cdf).all() and (cdf < 1).all()
+        assert (0 <= cdf).all() and (cdf <= 1).all()
 
         # Test CDF increasing function
         sorted_data = sorted(sampled_data)
@@ -101,6 +103,24 @@ class TestGaussian(TestCase):
             'dataset': [5] * 100
         }
 
+    def test_to_dict_from_dict_constant(self):
+        model = GaussianKDE()
+        model.fit(self.constant)
+
+        sampled_data = model.sample(50)
+        pdf = model.probability_density(sampled_data)
+        cdf = model.cumulative_distribution(sampled_data)
+
+        params = model.to_dict()
+        model2 = GaussianKDE.from_dict(params)
+
+        np.testing.assert_equal(np.full(50, 5), sampled_data)
+        np.testing.assert_equal(np.full(50, 5), model2.sample(50))
+        np.testing.assert_equal(np.full(50, 1), pdf)
+        np.testing.assert_equal(np.full(50, 1), model2.probability_density(sampled_data))
+        np.testing.assert_equal(np.full(50, 1), cdf)
+        np.testing.assert_equal(np.full(50, 1), model2.cumulative_distribution(sampled_data))
+
     def test_save_load(self):
         model = GaussianKDE()
         model.fit(self.data)
@@ -118,3 +138,14 @@ class TestGaussian(TestCase):
         cdf = model.cumulative_distribution(sampled_data)
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
+
+    def test_gaussiankde_arguments(self):
+        size = 1000
+        low = 0
+        high = 9
+        data = randint.rvs(low, high, size=size) + norm.rvs(0, 0.1, size=size)
+        dist = GaussianMultivariate(distribution=GaussianKDE(bw_method=0.01))
+        dist.fit(data)
+        samples = dist.sample(size).to_numpy()[0]
+        d, p = ks_2samp(data, samples)
+        assert p >= 0.05

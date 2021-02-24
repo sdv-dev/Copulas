@@ -11,7 +11,7 @@ from copulas.univariate import TruncatedGaussian
 class TestGaussian(TestCase):
 
     def setUp(self):
-        self.data = truncnorm.rvs(a=0.0, b=4.0, loc=1.0, scale=1.0, size=10000)
+        self.data = truncnorm.rvs(a=0.0, b=4.0, loc=1.0, scale=1.0, size=50000)
         self.constant = np.full(100, fill_value=5)
         self.test_dir = tempfile.TemporaryDirectory()
 
@@ -22,10 +22,10 @@ class TestGaussian(TestCase):
         model = TruncatedGaussian(min=1, max=5)
         model.fit(self.data)
 
-        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.1)
-        np.testing.assert_allclose(model._params['a'], 0.0, atol=0.1)
-        np.testing.assert_allclose(model._params['b'], 4.0, atol=0.1)
+        np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['scale'], 1.0, atol=0.2)
+        np.testing.assert_allclose(model._params['a'], 0.0, atol=0.2)
+        np.testing.assert_allclose(model._params['b'], 4.0, atol=0.2)
 
         sampled_data = model.sample(50)
 
@@ -62,7 +62,7 @@ class TestGaussian(TestCase):
 
         # Test the CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 < cdf).all() and (cdf < 1).all()
+        assert (0 <= cdf).all() and (cdf <= 1).all()
 
         # Test CDF increasing function
         sorted_data = sorted(sampled_data)
@@ -85,6 +85,24 @@ class TestGaussian(TestCase):
         cdf = model.cumulative_distribution(sampled_data)
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
+
+    def test_to_dict_from_dict_constant(self):
+        model = TruncatedGaussian()
+        model.fit(self.constant)
+
+        sampled_data = model.sample(50)
+        pdf = model.probability_density(sampled_data)
+        cdf = model.cumulative_distribution(sampled_data)
+
+        params = model.to_dict()
+        model2 = TruncatedGaussian.from_dict(params)
+
+        np.testing.assert_equal(np.full(50, 5), sampled_data)
+        np.testing.assert_equal(np.full(50, 5), model2.sample(50))
+        np.testing.assert_equal(np.full(50, 1), pdf)
+        np.testing.assert_equal(np.full(50, 1), model2.probability_density(sampled_data))
+        np.testing.assert_equal(np.full(50, 1), cdf)
+        np.testing.assert_equal(np.full(50, 1), model2.cumulative_distribution(sampled_data))
 
     def test_to_dict_constant(self):
         model = TruncatedGaussian(min=1, max=5)

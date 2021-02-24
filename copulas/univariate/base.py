@@ -35,6 +35,9 @@ class Univariate(object):
             Ignored if ``candidates`` is passed.
         random_seed (int):
             Random seed to use.
+        selection_sample_size (int):
+            Size of the subsample to use for candidate selection.
+            If ``None``, all the data is used.
     """
 
     PARAMETRIC = ParametricType.NON_PARAMETRIC
@@ -73,9 +76,11 @@ class Univariate(object):
         return candidates
 
     @store_args
-    def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None):
+    def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None,
+                 selection_sample_size=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_seed = random_seed
+        self.selection_sample_size = selection_sample_size
 
     @classmethod
     def __repr__(cls):
@@ -212,7 +217,12 @@ class Univariate(object):
             X (numpy.ndarray):
                 Values of the random variable. It must have shape (n, 1).
         """
-        self._instance = select_univariate(X, self.candidates)
+        if self.selection_sample_size and self.selection_sample_size < len(X):
+            selection_sample = np.random.choice(X, size=self.selection_sample_size)
+        else:
+            selection_sample = X
+
+        self._instance = select_univariate(selection_sample, self.candidates)
         self._instance.fit(X)
 
         self.fitted = True
@@ -611,6 +621,7 @@ class ScipyModel(Univariate, ABC):
         """
         self._params = params.copy()
         if self._is_constant():
-            self._replace_constant_methods()
+            constant = self._extract_constant()
+            self._set_constant_value(constant)
         else:
             self._model = self._get_model()

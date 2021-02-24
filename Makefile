@@ -87,8 +87,7 @@ install-develop: clean-build clean-pyc ## install the package in editable mode a
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 copulas tests
-	isort -c --recursive copulas tests
+	invoke lint
 
 lint-docs: ## check docs formatting with doc8 and pydocstyle
 	doc8 . docs/
@@ -96,30 +95,45 @@ lint-docs: ## check docs formatting with doc8 and pydocstyle
 
 .PHONY: fix-lint
 fix-lint: ## fix lint issues using autoflake, autopep8, and isort
-	find copulas -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive copulas
-	isort --apply --atomic --recursive copulas
+	find copulas tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
+	autopep8 --in-place --recursive --aggressive copulas tests
+	isort --apply --atomic --recursive copulas tests
 
-	find tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive tests
-	isort --apply --atomic --recursive tests
 
 # TEST TARGETS
 
-.PHONY: test
-test: ## run tests quickly with the default Python
-	python -m pytest --disable-warnings --cov=copulas
-
 .PHONY: test-unit
-test-unit: ## run tests quickly with the default Python
+test-unit: ## run unit tests using pytest
 	python -m pytest --disable-warnings --cov=copulas tests/unit
 
 .PHONY: test-numerical
-test-numerical: ## run tests quickly with the default Python
+test-numerical: ## run numerical tests using pytest
 	python -m pytest --disable-warnings --cov=copulas tests/numerical
 
+.PHONY: test-end-to-end
+test-end-to-end: ## run end-to-end tests using pytest
+	python -m pytest --disable-warnings --cov=copulas tests/end-to-end
+
+.PHONY: test-pytest
+test-pytest: ## run all the tests using pytest
+	invoke pytest
+
+.PHONY: test-readme
+test-readme: ## run the readme snippets
+	invoke readme
+
+.PHONY: test-tutorials
+test-tutorials: ## run the tutorial notebooks
+	invoke tutorials
+
+.PHONY: test
+test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
+
+.PHONY: test-devel
+test-devel: lint docs ## test everything that needs development dependencies
+
 .PHONY: test-all
-test-all: ## run tests on every Python version with tox
+test-all: ## test using tox
 	tox -r
 
 .PHONY: coverage
@@ -139,11 +153,11 @@ docs: clean-docs ## generate Sphinx HTML documentation, including API docs
 	$(MAKE) -C docs html
 
 .PHONY: view-docs
-view-docs: docs ## view docs in browser
+view-docs: ## view docs in browser
 	$(BROWSER) docs/_build/html/index.html
 
 .PHONY: serve-docs
-serve-docs: view-docs ## compile the docs watching for changes
+serve-docs: ## compile the docs watching for changes
 	watchmedo shell-command -W -R -D -p '*.rst;*.md' -c '$(MAKE) -C docs html' docs
 
 
@@ -155,12 +169,19 @@ dist: clean ## builds source and wheel package
 	python setup.py bdist_wheel
 	ls -l dist
 
-.PHONY: test-publish
-test-publish: dist ## package and upload a release on TestPyPI
+.PHONY: publish-confirm
+publish-confirm:
+	@echo "WARNING: This will irreversibly upload a new version to PyPI!"
+	@echo -n "Please type 'confirm' to proceed: " \
+		&& read answer \
+		&& [ "$${answer}" = "confirm" ]
+
+.PHONY: publish-test
+publish-test: dist publish-confirm ## package and upload a release on TestPyPI
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 .PHONY: publish
-publish: dist ## package and upload a release
+publish: dist publish-confirm ## package and upload a release
 	twine upload dist/*
 
 .PHONY: bumpversion-release
@@ -169,6 +190,13 @@ bumpversion-release: ## Merge master to stable and bumpversion release
 	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
 	bumpversion release
 	git push --tags origin stable
+
+.PHONY: bumpversion-release-test
+bumpversion-release-test: ## Merge master to stable and bumpversion release
+	git checkout stable || git checkout -b stable
+	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
+	bumpversion release --no-tag
+	@echo git push --tags origin stable
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Merge stable to master and bumpversion patch
@@ -189,13 +217,32 @@ bumpversion-minor: ## Bump the version the next minor skipping the release
 bumpversion-major: ## Bump the version the next major skipping the release
 	bumpversion --no-tag major
 
+.PHONY: bumpversion-revert
+bumpversion-revert: ## Undo a previous bumpversion-release
+	git checkout master
+	git branch -D stable
+
+CLEAN_DIR := $(shell git status --short | grep -v ??)
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
+CURRENT_VERSION := $(shell grep "^current_version" setup.cfg | grep -o "dev[0-9]*")
 CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
+
+.PHONY: check-clean
+check-clean: ## Check if the directory has uncommitted changes
+ifneq ($(CLEAN_DIR),)
+	$(error There are uncommitted changes)
+endif
 
 .PHONY: check-master
 check-master: ## Check if we are in master branch
 ifneq ($(CURRENT_BRANCH),master)
 	$(error Please make the release from master branch\n)
+endif
+
+.PHONY: check-candidate
+check-candidate: ## Check if a release candidate has been made
+ifeq ($(CURRENT_VERSION),dev0)
+	$(error Please make a release candidate and test it before atempting a release)
 endif
 
 .PHONY: check-history
@@ -205,17 +252,17 @@ ifeq ($(CHANGELOG_LINES),0)
 endif
 
 .PHONY: check-release
-check-release: check-master check-history ## Check if the release can be made
+check-release: check-clean check-candidate check-master check-history ## Check if the release can be made
 	@echo "A new release can be made"
 
 .PHONY: release
 release: check-release bumpversion-release publish bumpversion-patch
 
+.PHONY: release-test
+release-test: check-release bumpversion-release-test publish-test bumpversion-revert
+
 .PHONY: release-candidate
 release-candidate: check-master publish bumpversion-candidate
 
-.PHONY: release-minor
-release-minor: check-release bumpversion-minor release
-
-.PHONY: release-major
-release-major: check-release bumpversion-major release
+.PHONY: release-candidate-test
+release-candidate-test: check-clean check-master publish-test

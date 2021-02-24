@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 
@@ -7,11 +7,14 @@ from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
 from copulas.univariate.gaussian import GaussianUnivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.univariate.log_laplace import LogLaplace
+from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
+from copulas.univariate.uniform import UniformUnivariate
 from tests import compare_nested_iterables
 
 
-class TestUnivariate(TestCase):
+class TestUnivariate:
 
     def test__select_candidates(self):
         # Run
@@ -23,7 +26,10 @@ class TestUnivariate(TestCase):
             GaussianUnivariate,
             TruncatedGaussian,
             BetaUnivariate,
-            GammaUnivariate
+            GammaUnivariate,
+            StudentTUnivariate,
+            UniformUnivariate,
+            LogLaplace
         }
 
     def test__select_candidates_parametric(self):
@@ -35,7 +41,10 @@ class TestUnivariate(TestCase):
             GaussianUnivariate,
             TruncatedGaussian,
             BetaUnivariate,
-            GammaUnivariate
+            GammaUnivariate,
+            StudentTUnivariate,
+            UniformUnivariate,
+            LogLaplace
         }
 
     def test__select_candidates_non_parametric(self):
@@ -53,6 +62,7 @@ class TestUnivariate(TestCase):
         assert set(candidates) == {
             TruncatedGaussian,
             BetaUnivariate,
+            UniformUnivariate
         }
 
     def test__select_candidates_unbounded(self):
@@ -63,6 +73,7 @@ class TestUnivariate(TestCase):
         assert set(candidates) == {
             GaussianKDE,
             GaussianUnivariate,
+            StudentTUnivariate
         }
 
     def test__select_candidates_semibounded(self):
@@ -72,10 +83,11 @@ class TestUnivariate(TestCase):
         # Assert
         assert set(candidates) == {
             GammaUnivariate,
+            LogLaplace
         }
 
-    def test_fit_contant(self):
-        """if constant values, replace methods."""
+    def test_fit_constant(self):
+        """If constant values, replace methods."""
         # Setup
         distribution = Univariate()
 
@@ -87,7 +99,7 @@ class TestUnivariate(TestCase):
         assert distribution._instance._is_constant()
 
     def test_fit_not_constant(self):
-        """if constant values, replace methods."""
+        """If constant values, replace methods."""
         # Setup
         distribution = Univariate()
 
@@ -97,6 +109,46 @@ class TestUnivariate(TestCase):
         # Assert
         assert distribution.fitted
         assert not distribution._instance._is_constant()
+
+    @patch('copulas.univariate.base.select_univariate')
+    def test_fit_selection_sample_size_small(self, select_mock):
+        """if selection_sample_size is smaller than data, subsample the data before selecting."""
+        # Setup
+        distribution = Univariate(selection_sample_size=3)
+
+        # Run
+        distribution.fit(np.array([1, 1, 1, 1, 1]))
+
+        # Assert
+        assert distribution.fitted
+        assert distribution._instance == select_mock.return_value
+
+        call_args = select_mock.call_args_list
+        selection_sample = call_args[0][0][0]
+        np.testing.assert_array_equal(selection_sample, np.array([1, 1, 1]))
+
+        fit_call_args = select_mock.return_value.fit.call_args_list
+        np.testing.assert_array_equal(fit_call_args[0][0][0], np.array([1, 1, 1, 1, 1]))
+
+    @patch('copulas.univariate.base.select_univariate')
+    def test_fit_selection_sample_size_large(self, select_mock):
+        """if selection_sample_size is smaller than data, subsample the data before selecting."""
+        # Setup
+        distribution = Univariate(selection_sample_size=10)
+
+        # Run
+        distribution.fit(np.array([1, 1, 1, 1, 1]))
+
+        # Assert
+        assert distribution.fitted
+        assert distribution._instance == select_mock.return_value
+
+        call_args = select_mock.call_args_list
+        selection_sample = call_args[0][0][0]
+        np.testing.assert_array_equal(selection_sample, np.array([1, 1, 1, 1, 1]))
+
+        fit_call_args = select_mock.return_value.fit.call_args_list
+        np.testing.assert_array_equal(fit_call_args[0][0][0], np.array([1, 1, 1, 1, 1]))
 
     def test_check_constant_value(self):
         """check_constant_value return True if the array is constant."""
