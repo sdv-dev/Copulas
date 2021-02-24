@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.base &mdash; Copulas 0.4.0 documentation</title>
+  <title>copulas.univariate.base &mdash; Copulas 0.5.0 documentation</title>
   
 
   
@@ -881,7 +881,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_constant</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_replace_constant_methods</span><span class="p">()</span>
+            <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_constant</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_constant_value</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_model</span><span class="p">()</span></div>
 </pre></div>

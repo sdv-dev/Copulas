@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.4.0 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.5.0 documentation</title>
   
 
   
@@ -315,8 +315,9 @@
 
         <span class="n">U</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">univariate</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">):</span>
-            <span class="n">column</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
-            <span class="n">U</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
+                <span class="n">U</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
@@ -338,7 +339,7 @@
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
             <span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">covariance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">EPSILON</span>
 
-        <span class="k">return</span> <span class="n">covariance</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
     <span class="nd">@check_valid_values</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -416,18 +417,84 @@
         <span class="n">transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">_get_conditional_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the parameters of a conditional multivariate normal distribution.</span>
+
+<span class="sd">        The parameters of the conditioned distribution are computed as specified here:</span>
+<span class="sd">        https://en.wikipedia.org/wiki/Multivariate_normal_distribution#Conditional_distributions</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            conditions (pandas.Series):</span>
+<span class="sd">                Mapping of the column names and column values to condition on.</span>
+<span class="sd">                The input values have already been transformed to their normal distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple:</span>
+<span class="sd">                * means (numpy.array):</span>
+<span class="sd">                    mean values to use for the conditioned multivariate normal.</span>
+<span class="sd">                * covariance (numpy.array):</span>
+<span class="sd">                    covariance matrix to use for the conditioned</span>
+<span class="sd">                  multivariate normal.</span>
+<span class="sd">                * columns (list):</span>
+<span class="sd">                    names of the columns that will be sampled conditionally.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns2</span> <span class="o">=</span> <span class="n">conditions</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">columns1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">columns2</span><span class="p">)</span>
+
+        <span class="n">sigma11</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma21</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma22</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+        <span class="n">mu1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns1</span><span class="p">))</span>
+        <span class="n">mu2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns2</span><span class="p">))</span>
+
+        <span class="n">sigma12sigma22inv</span> <span class="o">=</span> <span class="n">sigma12</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">sigma22</span><span class="p">)</span>
+
+        <span class="n">mu_bar</span> <span class="o">=</span> <span class="n">mu1</span> <span class="o">+</span> <span class="n">sigma12sigma22inv</span> <span class="o">@</span> <span class="p">(</span><span class="n">conditions</span> <span class="o">-</span> <span class="n">mu2</span><span class="p">)</span>
+        <span class="n">sigma_bar</span> <span class="o">=</span> <span class="n">sigma11</span> <span class="o">-</span> <span class="n">sigma12sigma22inv</span> <span class="o">@</span> <span class="n">sigma21</span>
+
+        <span class="k">return</span> <span class="n">mu_bar</span><span class="p">,</span> <span class="n">sigma_bar</span><span class="p">,</span> <span class="n">columns1</span>
+
+    <span class="k">def</span> <span class="nf">_get_normal_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get random rows in the standard normal space.</span>
+
+<span class="sd">        If no conditions are given, the values are sampled from a standard normal</span>
+<span class="sd">        multivariate.</span>
+
+<span class="sd">        If conditions are given, they are transformed to their equivalent standard</span>
+<span class="sd">        normal values using their marginals and then the values are sampled from</span>
+<span class="sd">        a standard normal multivariate conditioned on the given condition values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">conditions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+            <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">conditions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
+            <span class="n">normal_conditions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">conditions</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">normal_conditions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">normal_conditions</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">conditions</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">means</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_conditional_distribution</span><span class="p">(</span><span class="n">normal_conditions</span><span class="p">)</span>
+
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rows</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+
     <span class="nd">@random_state</span>
-    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
 <span class="sd">        Argument:</span>
 <span class="sd">            num_rows (int):</span>
 <span class="sd">                Number of rows to sample.</span>
+<span class="sd">            conditions (dict or pd.Series):</span>
+<span class="sd">                Mapping of the column names and column values to condition on.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numpy.ndarray:</span>
 <span class="sd">                Array of shape (n_samples, *) with values randomly</span>
-<span class="sd">                sampled from this model distribution.</span>
+<span class="sd">                sampled from this model distribution. If conditions have been</span>
+<span class="sd">                given, the output array also contains the corresponding columns</span>
+<span class="sd">                populated with the given values.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
@@ -435,18 +502,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_rows</span><span class="p">,)</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_normal_samples</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">conditions</span><span class="p">)</span>
 
-        <span class="n">clean_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span>
-        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">clean_cov</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">univariate</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">conditions</span><span class="p">:</span>
+                <span class="c1"># Use the values that were given as conditions in the original space.</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">conditions</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">univariate</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">)):</span>
-            <span class="n">cdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">samples</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-            <span class="n">res</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GaussianMultivariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
@@ -461,7 +528,7 @@
                       <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;covariance&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s1">&#39;covariance&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s1">&#39;univariates&#39;</span><span class="p">:</span> <span class="n">univariates</span><span class="p">,</span>
             <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
@@ -482,12 +549,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">univariates</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">]</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
 
         <span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;univariates&#39;</span><span class="p">]:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">univariates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Univariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
 
-        <span class="n">instance</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;covariance&#39;</span><span class="p">])</span>
+        <span class="n">covariance</span> <span class="o">=</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;covariance&#39;</span><span class="p">]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`covariance` will be renamed to `correlation` in v0.4.0&#39;</span><span class="p">,</span>
                       <span class="ne">DeprecationWarning</span><span class="p">)</span>

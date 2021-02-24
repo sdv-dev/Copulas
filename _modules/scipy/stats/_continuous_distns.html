@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._continuous_distns &mdash; Copulas 0.4.0 documentation</title>
+  <title>scipy.stats._continuous_distns &mdash; Copulas 0.5.0 documentation</title>
   
 
   
@@ -1864,12 +1864,14 @@
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
         <span class="n">invK</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">K</span>
         <span class="n">expval</span> <span class="o">=</span> <span class="n">invK</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">invK</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">expval</span><span class="p">)</span> <span class="o">*</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">invK</span><span class="p">)</span>
+        <span class="n">logprod</span> <span class="o">=</span> <span class="n">expval</span> <span class="o">+</span> <span class="n">_norm_logcdf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">invK</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logprod</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
         <span class="n">invK</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">K</span>
         <span class="n">expval</span> <span class="o">=</span> <span class="n">invK</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">invK</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">expval</span><span class="p">)</span> <span class="o">*</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">invK</span><span class="p">)</span>
+        <span class="n">logprod</span> <span class="o">=</span> <span class="n">expval</span> <span class="o">+</span> <span class="n">_norm_logcdf</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">invK</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_norm_cdf</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logprod</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
         <span class="n">K2</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">K</span>
