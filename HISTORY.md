@@ -1,5 +1,22 @@
 # History
 
+## v0.5.0 - 2021-01-24
+
+This release introduces conditional sampling for the GaussianMultivariate modeling.
+The new conditioning feature allows passing a dictionary with the values to use to condition
+the rest of the columns.
+
+It also fixes a bug that prevented constant distributions to be restored from a dictionary
+and updates some dependencies.
+
+### New Features
+
+* Conditional sampling from Gaussian copula - Issue [#154](https://github.com/sdv-dev/Copulas/issues/154) by @csala
+
+### Bug Fixes
+
+* ScipyModel subclasses fail to restore constant values when using `from_dict` - Issue [#212](https://github.com/sdv-dev/Copulas/issues/212) by @csala
+
 ## v0.4.0 - 2021-01-27
 
 This release introduces a few changes to optimize processing speed by re-implementing
