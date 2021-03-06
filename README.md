@@ -92,6 +92,8 @@ synthetic data that resembles it.
 import warnings
 warnings.filterwarnings('ignore')
 
+from matplotlib.pyplot import show
+
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import GaussianMultivariate
 from copulas.visualization import compare_3d
@@ -108,6 +110,7 @@ synthetic_data = copula.sample(len(real_data))
 
 # Plot the real and the synthetic data to compare
 compare_3d(real_data, synthetic_data)
+show()
 ```
 
 The output will be a figure with two plots, showing what both the real and the synthetic
