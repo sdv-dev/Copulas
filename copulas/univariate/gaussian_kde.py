@@ -1,5 +1,6 @@
 
 import numpy as np
+import pandas as pd
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
@@ -101,9 +102,17 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
         X = np.array(X)
         stdev = np.sqrt(self._model.covariance[0, 0])
-        lower = ndtr((self._get_bounds()[0] - self._model.dataset) / stdev)[0]
-        uppers = ndtr((X[:, None] - self._model.dataset) / stdev)
-        return (uppers - lower).dot(self._model.weights)
+        # lower = ndtr((self._get_bounds()[0] - self._model.dataset) / stdev)[0]
+        # uppers = ndtr((X[:, None] - self._model.dataset) / stdev)
+        # return (uppers - lower).dot(self._model.weights)
+
+        data_flatten = pd.Series(self._model.dataset.flatten())
+        v_c = data_flatten.value_counts()
+        weights = v_c.values / data_flatten.__len__()
+        dataset_weighted = np.array(v_c.index).reshape(1, -1)
+        lower = ndtr((self._get_bounds()[0] - dataset_weighted) / stdev)[0]
+        uppers = ndtr((X[:, None] - dataset_weighted) / stdev)
+        return (uppers - lower).dot(weights)
 
     def percent_point(self, U, method="chandrupatla"):
         """Compute the inverse cumulative distribution value for each point in U.
