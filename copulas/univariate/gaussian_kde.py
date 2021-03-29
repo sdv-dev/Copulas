@@ -106,9 +106,9 @@ class GaussianKDE(ScipyModel):
         # uppers = ndtr((X[:, None] - self._model.dataset) / stdev)
         # return (uppers - lower).dot(self._model.weights)
 
-        l = pd.Series(self._model.dataset.flatten())
-        v_c = l.value_counts()
-        weights = v_c.values / l.__len__()
+        data_flatten = pd.Series(self._model.dataset.flatten())
+        v_c = data_flatten.value_counts()
+        weights = v_c.values / data_flatten.__len__()
         dataset_weighted = np.array(v_c.index).reshape(1, -1)
         lower = ndtr((self._get_bounds()[0] - dataset_weighted) / stdev)[0]
         uppers = ndtr((X[:, None] - dataset_weighted) / stdev)
