@@ -177,10 +177,13 @@ class GaussianKDE(ScipyModel):
 
     def _set_params(self, params):
         """Set the parameters of this univariate.
-
         Args:
             params (dict):
                 Parameters to recreate this instance.
         """
-        super()._set_params(params)
-        self._model = self._get_model()
+        self._params = params.copy()
+        if self._is_constant():
+            constant = self._extract_constant()
+            self._set_constant_value(constant)
+        else:
+            self._model = self._get_model()
