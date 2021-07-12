@@ -59,7 +59,7 @@ def get_instance(obj, **kwargs):
             instance = obj.__class__(**kwargs)
         else:
             args = getattr(obj, '__args__', tuple())
-            kwargs = getattr(obj, '__kwargs__', tuple())
+            kwargs = getattr(obj, '__kwargs__', {})
             instance = obj.__class__(*args, **kwargs)
 
     return instance
