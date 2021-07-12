@@ -167,9 +167,20 @@ class GaussianKDE(ScipyModel):
         self._params = {
             'dataset': X.tolist()
         }
+        self._model = self._get_model()
 
     def _is_constant(self):
         return len(np.unique(self._params['dataset'])) == 1
 
     def _extract_constant(self):
         return self._params['dataset'][0]
+
+    def _set_params(self, params):
+        """Set the parameters of this univariate.
+
+        Args:
+            params (dict):
+                Parameters to recreate this instance.
+        """
+        super()._set_params(params)
+        self._model = self._get_model()
