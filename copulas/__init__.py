@@ -52,16 +52,15 @@ def get_instance(obj, **kwargs):
     if isinstance(obj, str):
         package, name = obj.rsplit('.', 1)
         instance = getattr(importlib.import_module(package), name)(**kwargs)
-
     elif isinstance(obj, type):
         instance = obj(**kwargs)
-
     else:
-        if kwargs != dict():
+        if kwargs:
             instance = obj.__class__(**kwargs)
-
         else:
-            instance = obj.__class__(*obj.__args__, **obj.__kwargs__)
+            args = getattr(obj, '__args__', tuple())
+            kwargs = getattr(obj, '__kwargs__', {})
+            instance = obj.__class__(*args, **kwargs)
 
     return instance
 
