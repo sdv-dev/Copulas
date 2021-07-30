@@ -27,7 +27,7 @@ def select_univariate(X, candidates):
             if ks < best_ks:
                 best_ks = ks
                 best_model = model
-        except ValueError:
+        except Exception:
             # Distribution not supported
             pass
 
