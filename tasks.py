@@ -10,7 +10,7 @@ from invoke import task
 
 @task
 def pytest(c):
-    c.run('python -m pytest --cov=copulas --reruns 3')
+    c.run('python -m pytest --cov=copulas --reruns 3 --cov-report=xml')
 
 
 @task
