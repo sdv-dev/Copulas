@@ -472,7 +472,10 @@ class ScipyModel(Univariate, ABC):
     MODEL_CLASS = None
 
     _params = None
-    _model = None
+
+    def __init__(self):
+        # Overwrite Univariate __init__ to skip candiate initialization
+        pass
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.
@@ -491,7 +494,7 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.pdf(X)
+        return self.MODEL_CLASS.pdf(X, **self._params)
 
     def log_probability_density(self, X):
         """Compute the log of the probability density for each point in X.
@@ -510,8 +513,8 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        if hasattr(self._model, 'logpdf'):
-            return self._model.logpdf(X)
+        if hasattr(self.MODEL_CLASS, 'logpdf'):
+            return self.MODEL_CLASS.logpdf(X, **self._params)
 
         return np.log(self.probability_density(X))
 
@@ -532,7 +535,7 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.cdf(X)
+        return self.MODEL_CLASS.cdf(X, **self._params)
 
     def percent_point(self, U):
         """Compute the inverse cumulative distribution value for each point in U.
@@ -551,7 +554,7 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.ppf(U)
+        return self.MODEL_CLASS.ppf(U, **self._params)
 
     def sample(self, n_samples=1):
         """Sample values from this model.
@@ -570,7 +573,7 @@ class ScipyModel(Univariate, ABC):
                 if the model is not fitted.
         """
         self.check_fit()
-        return self._model.rvs(n_samples)
+        return self.MODEL_CLASS.rvs(size=n_samples, **self._params)
 
     def _fit(self, X):
         """Fit the model to a non-constant random variable.
@@ -583,9 +586,6 @@ class ScipyModel(Univariate, ABC):
         """
         raise NotImplementedError()
 
-    def _get_model(self):
-        return self.MODEL_CLASS(**self._params)
-
     def fit(self, X):
         """Fit the model to a random variable.
 
@@ -597,7 +597,6 @@ class ScipyModel(Univariate, ABC):
             self._fit_constant(X)
         else:
             self._fit(X)
-            self._model = self._get_model()
 
         self.fitted = True
 
@@ -623,5 +622,3 @@ class ScipyModel(Univariate, ABC):
         if self._is_constant():
             constant = self._extract_constant()
             self._set_constant_value(constant)
-        else:
-            self._model = self._get_model()

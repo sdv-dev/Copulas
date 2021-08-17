@@ -1,5 +1,17 @@
 # History
 
+## v0.5.1 - 2021-08-13
+
+This release improves performance by changing the way scipy stats is used,
+calling their methods directly without creating intermediate instances.
+
+It also fixes a bug introduced by the scipy 1.7.0 release where some
+distributions fail to fit because scipy validates the learned parameters.
+
+### Issues Closed
+ * Exception: Optimization converged to parameters that are outside the range allowed by the distribution. - Issue [#264](https://github.com/sdv-dev/Copulas/issues/264) by @csala
+ * Use scipy stats models directly without creating instances - Issue [#261](https://github.com/sdv-dev/Copulas/issues/261) by @csala
+
 ## v0.5.0 - 2021-01-24
 
 This release introduces conditional sampling for the GaussianMultivariate modeling.
