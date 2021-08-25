@@ -30,6 +30,9 @@ development_requires = [
     'Sphinx>=1.7.1,<3',
     'sphinx_rtd_theme>=0.2.4,<0.5',
 
+    # Jinja2>=3 makes the sphinx theme fail
+    'Jinja2>=2,<3',
+
     # style check
     'flake8>=3.7.7,<4',
     'isort>=4.3.4,<5',
