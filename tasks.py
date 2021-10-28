@@ -20,12 +20,12 @@ def unit(c):
 
 @task
 def end_to_end(c):
-    c.run('python -m pytest ./tests/end-to-end')
+    c.run('python -m pytest ./tests/end-to-end --reruns 3')
 
 
 @task
 def numerical(c):
-    c.run('python -m pytest ./tests/numerical')
+    c.run('python -m pytest ./tests/numerical --reruns 3')
 
 
 @task
