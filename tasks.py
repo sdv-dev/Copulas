@@ -9,8 +9,23 @@ from invoke import task
 
 
 @task
-def pytest(c):
-    c.run('python -m pytest --cov=copulas --reruns 3 --cov-report=xml')
+def check_dependencies(c):
+    c.run('python -m pip check')
+
+
+@task
+def unit(c):
+    c.run('python -m pytest ./tests/unit --cov=copulas --reruns 3 --cov-report=xml')
+
+
+@task
+def end_to_end(c):
+    c.run('python -m pytest ./tests/end-to-end')
+
+
+@task
+def numerical(c):
+    c.run('python -m pytest ./tests/numerical')
 
 
 @task
@@ -39,9 +54,11 @@ def install_minimum(c):
 
 @task
 def minimum(c):
+    check_dependencies(c)
     install_minimum(c)
-    c.run('python -m pip check')
-    c.run('python -m pytest --reruns 3')
+    unit(c)
+    end_to_end(c)
+    numerical(c)
 
 
 @task
@@ -71,6 +88,7 @@ def tutorials(c):
 
 @task
 def lint(c):
+    check_dependencies(c)
     c.run('flake8 copulas')
     c.run('flake8 tests --ignore=D,SFS2')
     c.run('isort -c --recursive copulas tests')
@@ -87,4 +105,4 @@ def rmdir(c, path):
     try:
         shutil.rmtree(path, onerror=remove_readonly)
     except PermissionError:
-        pass 
+        pass
