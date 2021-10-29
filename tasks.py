@@ -15,7 +15,7 @@ def check_dependencies(c):
 
 @task
 def unit(c):
-    c.run('python -m pytest ./tests/unit --cov=copulas --reruns 3 --cov-report=xml')
+    c.run('python -m pytest ./tests/unit --cov=copulas --cov-report=xml')
 
 
 @task
@@ -25,7 +25,7 @@ def end_to_end(c):
 
 @task
 def numerical(c):
-    c.run('python -m pytest ./tests/numerical --reruns 3')
+    c.run('python -m pytest ./tests/numerical')
 
 
 @task
