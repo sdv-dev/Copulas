@@ -39,7 +39,7 @@ development_requires = [
 
     # fix style issues
     'autoflake>=1.1,<2',
-    'autopep8>=1.4.3,<2',
+    'autopep8>=1.4.3,<1.6',
 
     # distribute on PyPI
     'twine>=1.10.0,<4',
@@ -55,6 +55,7 @@ development_requires = [
     'pydocstyle>=3.0.0,<4',
 
     # Large scale evaluation
+    'urllib3>=1.20,<1.26',
     'tabulate>=0.8.3,<0.9',
     'boto3>=1.7.47,<1.10',
     'docutils>=0.10,<0.15'
