@@ -13,9 +13,9 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
 
 install_requires = [
     'matplotlib>=3.2.0,<4',
-    'numpy>=1.18.0,<2',
-    'pandas>=1.1,<2',
-    'scipy>=1.4.1,<2',
+    'numpy>=1.20.0,<2',
+    'pandas>=1.1.3,<2',
+    'scipy>=1.5.4,<2',
 ]
 
 development_requires = [
@@ -62,7 +62,7 @@ development_requires = [
 ]
 
 tutorials_require = [
-    'scikit-learn>=0.22,<0.23',
+    'scikit-learn>=0.24,<0.25',
     'jupyter>=1.0.0,<2',
 ]
 
@@ -89,6 +89,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
     extras_require={
@@ -104,7 +105,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.6,<3.9',
+    python_requires='>=3.6,<3.10',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
