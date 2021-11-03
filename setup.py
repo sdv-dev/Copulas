@@ -91,11 +91,6 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
-    entry_points={
-        'console_scripts': [
-            'copulas=copulas.cli:main',
-        ],
-    },
     extras_require={
         'tutorials': tutorials_require,
         'test': tests_require + tutorials_require,
