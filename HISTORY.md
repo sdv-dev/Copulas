@@ -1,6 +1,6 @@
 # History
 
-## v0.5.2 - 2021-04-13
+## v0.6.0 - 2021-05-13
 
 This release makes Copulas compatible with Python 3.9! It also improves library maintenance by
 updating dependencies, reorganizing the CI workflows, adding pip check to the workflows and
