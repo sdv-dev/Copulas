@@ -13,9 +13,10 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
 
 install_requires = [
     'matplotlib>=3.2.0,<4',
-    'numpy>=1.18.0,<2',
-    'pandas>=1.0,<1.1.5',
-    'scipy>=1.4.1,<2',
+    "numpy>=1.18.0,<1.20.0;python_version<'3.7'",
+    "numpy>=1.20.0,<2;python_version>='3.7'",
+    'pandas>=1.1.3,<2',
+    'scipy>=1.5.4,<2',
 ]
 
 development_requires = [
@@ -30,13 +31,16 @@ development_requires = [
     'Sphinx>=1.7.1,<3',
     'sphinx_rtd_theme>=0.2.4,<0.5',
 
+    # Jinja2>=3 makes the sphinx theme fail
+    'Jinja2>=2,<3',
+
     # style check
     'flake8>=3.7.7,<4',
     'isort>=4.3.4,<5',
 
     # fix style issues
     'autoflake>=1.1,<2',
-    'autopep8>=1.4.3,<2',
+    'autopep8>=1.4.3,<1.6',
 
     # distribute on PyPI
     'twine>=1.10.0,<4',
@@ -52,13 +56,14 @@ development_requires = [
     'pydocstyle>=3.0.0,<4',
 
     # Large scale evaluation
+    'urllib3>=1.20,<1.26',
     'tabulate>=0.8.3,<0.9',
     'boto3>=1.7.47,<1.10',
     'docutils>=0.10,<0.15'
 ]
 
 tutorials_require = [
-    'scikit-learn>=0.22,<0.23',
+    'scikit-learn>=0.24,<2',
     'jupyter>=1.0.0,<2',
 ]
 
@@ -85,13 +90,9 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
-    entry_points={
-        'console_scripts': [
-            'copulas=copulas.cli:main',
-        ],
-    },
     extras_require={
         'tutorials': tutorials_require,
         'test': tests_require + tutorials_require,
@@ -105,11 +106,11 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.6,<3.9',
+    python_requires='>=3.6,<3.10',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.5.1',
+    version='0.6.0.dev1',
     zip_safe=False,
 )

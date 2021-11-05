@@ -1,5 +1,5 @@
 {% set name = 'copulas' %}
-{% set version = '0.5.1' %}
+{% set version = '0.6.0.dev1' %}
 
 package:
   name: "{{ name|lower }}"
@@ -20,13 +20,13 @@ requirements:
     - pytest-runner
     - matplotlib >=3.2.0,<4
     - numpy >=1.18.0,<2
-    - pandas >=1.0,<1.1.5
+    - pandas >=1.1,<2
     - scipy >=1.4.1,<2
   run:
     - python >=3.6,<3.9
     - matplotlib >=3.2.0,<4
     - numpy >=1.18.0,<2
-    - pandas >=1.0,<1.1.5
+    - pandas >=1.1,<2
     - scipy >=1.4.1,<2
 
 about:

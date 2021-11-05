@@ -1,5 +1,21 @@
 # History
 
+## v0.6.0 - 2021-05-13
+
+This release makes Copulas compatible with Python 3.9! It also improves library maintenance by
+updating dependencies, reorganizing the CI workflows, adding pip check to the workflows and
+removing unused files.
+
+### General Improvements
+
+* Add support for Python 3.9 - Issue[#282](https://github.com/sdv-dev/Copulas/issues/282) by @amontanez24
+* Remove entry point in setup.py - Issue[#280](https://github.com/sdv-dev/Copulas/issues/280) by @amontanez24
+* Update pandas dependency range - Issue[#266](https://github.com/sdv-dev/Copulas/issues/266) by @katxiao
+* Fix repository language - Issue[#272](https://github.com/sdv-dev/Copulas/issues/272) by @pvk-developer
+* Add pip check to CI workflows - Issue[#274](https://github.com/sdv-dev/Copulas/issues/274) by @pvk-developer
+* Reorganize workflows and add codecov - PR[#267](https://github.com/sdv-dev/Copulas/pull/267) by @csala
+* Constrain jinja2 versions - PR[#269](https://github.com/sdv-dev/Copulas/pull/269/files) by @fealho
+
 ## v0.5.1 - 2021-08-13
 
 This release improves performance by changing the way scipy stats is used,
