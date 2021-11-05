@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Univariate Distributions &mdash; Copulas 0.5.0 documentation</title>
+  <title>Univariate Distributions &mdash; Copulas 0.6.0 documentation</title>
   
 
   
@@ -656,16 +656,20 @@ dtype: float64
 <div class="section" id="Probability-Density">
 <h3>Probability Density<a class="headerlink" href="#Probability-Density" title="Permalink to this headline">¶</a></h3>
 <p>The probability density of a Beta distribution is defined by</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
-\frac{x^{\alpha -1}(1-x)^{\beta -1}}
-     {B(\alpha ,\beta)}
-\end{equation}</div><p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined as</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
-B(\alpha, \beta) = \frac{\Gamma (\alpha )\Gamma (\beta )}
-                        {\Gamma (\alpha +\beta )}
-\end{equation}</div><p>and <span class="math notranslate nohighlight">\(\Gamma\)</span> is the Gamma function.</p>
+<p>:nbsphinx-math:<a href="#id1"><span class="problematic" id="id2">`</span></a>begin{equation}
+frac{x^{alpha -1}(1-x)^{beta -1}}</p>
+<blockquote>
+<div><p>{B(alpha ,beta)}</p>
+</div></blockquote>
+<p>end{equation}`</p>
+<p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined as</p>
+<p>:nbsphinx-math:<a href="#id3"><span class="problematic" id="id4">`</span></a>begin{equation}
+B(alpha, beta) = frac{Gamma (alpha )Gamma (beta )}</p>
+<blockquote>
+<div><p>{Gamma (alpha +beta )}</p>
+</div></blockquote>
+<p>end{equation}`</p>
+<p>and <span class="math notranslate nohighlight">\(\Gamma\)</span> is the Gamma function.</p>
 <p>The probability density can be computed for an array of data points using the <code class="docutils literal notranslate"><span class="pre">probability_density</span></code> method.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -729,10 +733,10 @@ array([3.96772858, 1.67572128, 1.90369638, 3.51125542, 0.71732109])
 <div class="section" id="Cumulative-Distribution">
 <h3>Cumulative Distribution<a class="headerlink" href="#Cumulative-Distribution" title="Permalink to this headline">¶</a></h3>
 <p>The cumulative distribution of Beta distribution is defined by:</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
+<p><span class="math">\begin{equation}
 p = F(x, a, b) = \frac{1}{B(a, b)}\int_{0}^{x}t^{a - 1}{(1 - t)}^{b - 1}dt
-\end{equation}</div><p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined above.</p>
+\end{equation}</span></p>
+<p>where <span class="math notranslate nohighlight">\(B(\alpha,\beta)\)</span> is the Beta function defined above.</p>
 <p>The cumulative distribution can be computed for an array of data points using the <code class="docutils literal notranslate"><span class="pre">cumulative_distribution</span></code> method.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:

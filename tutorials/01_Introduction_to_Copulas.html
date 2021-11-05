@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction to Copulas &mdash; Copulas 0.5.0 documentation</title>
+  <title>Introduction to Copulas &mdash; Copulas 0.6.0 documentation</title>
   
 
   
@@ -512,18 +512,18 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Probability-Density-Function">
 <h3>Probability Density Function<a class="headerlink" href="#Probability-Density-Function" title="Permalink to this headline">¶</a></h3>
 <p>A probability density function <span class="math notranslate nohighlight">\(f(x)\)</span> captures the likelihood that a random sample from the distribution is equal to <span class="math notranslate nohighlight">\(x\)</span>. For example, the probability density function for the standard normal distribution is given by</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
+<p><span class="math">\begin{equation}
 f(x) = \frac{1}{2 \pi} e^{-x^2/2}
-\end{equation}</div><p>Note that the probability density function does <strong>not</strong> return a probability but rather a “relative likelihood” which can take on values in the interval <span class="math notranslate nohighlight">\([0, \infty)\)</span>; however, the integral over the probability density function from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> must be equal to one.</p>
+\end{equation}</span></p>
+<p>Note that the probability density function does <strong>not</strong> return a probability but rather a “relative likelihood” which can take on values in the interval <span class="math notranslate nohighlight">\([0, \infty)\)</span>; however, the integral over the probability density function from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(\infty\)</span> must be equal to one.</p>
 </div>
 <div class="section" id="Cumulative-Distribution-Function">
 <h3>Cumulative Distribution Function<a class="headerlink" href="#Cumulative-Distribution-Function" title="Permalink to this headline">¶</a></h3>
 <p>In many cases, the probability density function can be hard to work with directly. Instead, we will use the cumulative distribution function <span class="math notranslate nohighlight">\(F(x)\)</span> which is defined as the integral of the probability density function</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
+<p><span class="math">\begin{equation}
 F(x) = \int_{-\infty}^x f(x)
-\end{equation}</div><p>The below figure shows the probability density function <span class="math notranslate nohighlight">\(f(x)\)</span> and the cumulative distribution function <span class="math notranslate nohighlight">\(F(x)\)</span> for a normal standard distribution with mean <span class="math notranslate nohighlight">\(0.0\)</span> and variance <span class="math notranslate nohighlight">\(1\)</span>.</p>
+\end{equation}</span></p>
+<p>The below figure shows the probability density function <span class="math notranslate nohighlight">\(f(x)\)</span> and the cumulative distribution function <span class="math notranslate nohighlight">\(F(x)\)</span> for a normal standard distribution with mean <span class="math notranslate nohighlight">\(0.0\)</span> and variance <span class="math notranslate nohighlight">\(1\)</span>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -544,10 +544,10 @@ F(x) = \int_{-\infty}^x f(x)
 <div class="section" id="Probability-Integral-Transform">
 <h3>Probability Integral Transform<a class="headerlink" href="#Probability-Integral-Transform" title="Permalink to this headline">¶</a></h3>
 <p>The probability integral transform is a key component in our toolkit for working with probability distributions. Suppose we have a random variable <span class="math notranslate nohighlight">\(X\)</span> that comes from a distribution with cumulative density function <span class="math notranslate nohighlight">\(F(X)\)</span>. Then, we can define a random variable <span class="math notranslate nohighlight">\(Y\)</span> as</p>
-<div class="math notranslate nohighlight">
-\begin{equation}
+<p><span class="math">\begin{equation}
 Y = F(X)
-\end{equation}</div><p>and prove that <span class="math notranslate nohighlight">\(Y\)</span> follows a uniform distribution over the interval <span class="math notranslate nohighlight">\([0.0, 1.0]\)</span>.</p>
+\end{equation}</span></p>
+<p>and prove that <span class="math notranslate nohighlight">\(Y\)</span> follows a uniform distribution over the interval <span class="math notranslate nohighlight">\([0.0, 1.0]\)</span>.</p>
 <p>The figure below shows an example of this. We sample some data from a normal distribution and plot it on the left. Then, we use the CDF of the normal distribution to transform the data, plot it on the right, and observe that it resembles an uniform distribution.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
