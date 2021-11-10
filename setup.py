@@ -37,6 +37,9 @@ development_requires = [
     # style check
     'flake8>=3.7.7,<4',
     'isort>=4.3.4,<5',
+    'flake8-debugger>=4.0.0,<4.1',
+    'flake8-mock>=0.3,<0.4',
+    'flake8-mutable>=1.2.0,<1.3',
 
     # fix style issues
     'autoflake>=1.1,<2',
