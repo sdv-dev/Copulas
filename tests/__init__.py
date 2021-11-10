@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
+COMPARE_VALUES_ERROR = "Values don't match at index {}\n {} != {}"
 NUMPY_NUMERICAL_DTYPES = set('buifc')
 
 
@@ -38,7 +38,7 @@ def compare_values_epsilon(first, second, epsilon=10E-6,):
 
 def compare_nested_iterables(first, second, epsilon=10E-6):
 
-    assert len(first) == len(second), "Iterables should have the same length to be compared."
+    assert len(first) == len(second), 'Iterables should have the same length to be compared.'
 
     for index, (_first, _second) in enumerate(zip(first, second)):
 
