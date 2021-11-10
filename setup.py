@@ -40,6 +40,7 @@ development_requires = [
     'flake8-debugger>=4.0.0,<4.1',
     'flake8-mock>=0.3,<0.4',
     'flake8-mutable>=1.2.0,<1.3',
+    'pep8-naming>=0.12.1,<0.13',
 
     # fix style issues
     'autoflake>=1.1,<2',
