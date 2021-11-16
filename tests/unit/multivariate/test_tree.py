@@ -655,18 +655,18 @@ class TestEdge(TestCase):
 
         expected_partial_derivative_call_args = [
             (
-                (np.array([[
+                (np.array([[  # noqa: JS101
                     [0.25, 0.75],
                     [0.50, 0.50],
                 ]]),), {}
             ),
             (
-                (np.array([[
+                (np.array([[  # noqa: JS101
                     [0.50, 0.50],
                     [0.25, 0.75]
                 ]]), ), {}
             )
-        ]
+        ]   # noqa: JS102
 
         # Run
         result = instance.get_likelihood(univariates)
@@ -715,18 +715,18 @@ class TestEdge(TestCase):
 
         expected_partial_derivative_call_args = [
             (
-                (np.array([[
+                (np.array([[  # noqa: JS101
                     [0.25, 0.75],
                     [0.50, 0.50],
                 ]]),), {}
             ),
             (
-                (np.array([[
+                (np.array([[  # noqa: JS101
                     [0.50, 0.50],
                     [0.25, 0.75]
                 ]]), ), {}
             )
-        ]
+        ]  # noqa: JS102
 
         # Run
         result = instance.get_likelihood(univariates)
