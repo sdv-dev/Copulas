@@ -53,7 +53,7 @@ class GaussianMultivariate(Multivariate):
 
             X = pd.DataFrame(X, columns=self.columns)
 
-        U = list()
+        U = []
         for column_name, univariate in zip(self.columns, self.univariates):
             if column_name in X:
                 column = X[column_name]
