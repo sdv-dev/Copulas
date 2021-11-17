@@ -1,3 +1,4 @@
+"""GaussianKDE module."""
 
 import numpy as np
 from scipy.special import ndtr
@@ -9,8 +10,9 @@ from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
 class GaussianKDE(ScipyModel):
-    """A wrapper for gaussian Kernel density estimation implemented
-    in scipy.stats toolbox. gaussian_kde is slower than statsmodels
+    """A wrapper for gaussian Kernel density estimation.
+
+    It was implemented in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
 
     When a sample_size is provided the fit method will sample the

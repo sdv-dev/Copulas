@@ -1,3 +1,5 @@
+"""Base Multivariate class."""
+
 import pickle
 
 import numpy as np

@@ -1,3 +1,5 @@
+"""StudentTUnivariate module."""
+
 from scipy.stats import t
 
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel

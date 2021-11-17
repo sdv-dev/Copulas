@@ -1,3 +1,5 @@
+"""Multivariate trees module."""
+
 import logging
 from enum import Enum
 
@@ -12,6 +14,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TreeTypes(Enum):
+    """TreeTypes class."""
+
     CENTER = 0
     DIRECT = 1
     REGULAR = 2
@@ -204,6 +208,7 @@ class Tree(Multivariate):
         return np.sum(values), new_uni_matrix
 
     def __str__(self):
+        """Produce printable representation of the class."""
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
                           for edge in self.edges])
@@ -276,6 +281,7 @@ class Tree(Multivariate):
 
 
 class CenterTree(Tree):
+    """CenterTree class."""
 
     tree_type = TreeTypes.CENTER
 
@@ -319,6 +325,7 @@ class CenterTree(Tree):
 
 
 class DirectTree(Tree):
+    """DirectTree class."""
 
     tree_type = TreeTypes.DIRECT
 
@@ -370,6 +377,7 @@ class DirectTree(Tree):
 
 
 class RegularTree(Tree):
+    """RegularTree class."""
 
     tree_type = TreeTypes.REGULAR
 
@@ -384,7 +392,7 @@ class RegularTree(Tree):
             for x in X:
                 for k in range(self.n_nodes):
                     if k not in X and k != x:
-                        adj_set.add((x, k))
+                        adj_set.add((x, k))  # noqa: PD005
 
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
@@ -395,7 +403,7 @@ class RegularTree(Tree):
             new_edge = Edge(len(X) - 1, left, right, name, theta)
             new_edge.tau = self.tau_matrix[edge[0], edge[1]]
             self.edges.append(new_edge)
-            X.add(edge[1])
+            X.add(edge[1])  # noqa: PD005
 
     def _build_kth_tree(self):
         """Build tree for level k."""
@@ -410,11 +418,11 @@ class RegularTree(Tree):
                 for k in range(self.n_nodes):
                     # check if (x,k) is a valid edge in the vine
                     if k not in visited and k != x and self._check_constraint(edges[x], edges[k]):
-                        adj_set.add((x, k))
+                        adj_set.add((x, k))  # noqa: PD005
 
             # find edge with maximum tau
             if len(adj_set) == 0:
-                visited.add(list(unvisited)[0])
+                visited.add(list(unvisited)[0])  # noqa: PD005
                 continue
 
             pairs = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
@@ -424,7 +432,7 @@ class RegularTree(Tree):
             new_edge.tau = self.tau_matrix[pairs[0], pairs[1]]
             self.edges.append(new_edge)
 
-            visited.add(pairs[1])
+            visited.add(pairs[1])  # noqa: PD005
             unvisited.remove(pairs[1])
 
 
@@ -454,6 +462,8 @@ def get_tree(tree_type):
 
 
 class Edge(object):
+    """Edge class."""
+
     def __init__(self, index, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
 
