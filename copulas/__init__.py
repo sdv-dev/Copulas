@@ -17,11 +17,14 @@ EPSILON = np.finfo(np.float32).eps
 
 
 class NotFittedError(Exception):
+    """NotFittedError class."""
+
     pass
 
 
 @contextlib.contextmanager
 def random_seed(seed):
+    """Produce random seed."""
     state = np.random.get_state()
     np.random.seed(seed)
     try:
@@ -31,6 +34,7 @@ def random_seed(seed):
 
 
 def random_state(function):
+    """Produce random wrapper."""
     def wrapper(self, *args, **kwargs):
         if self.random_seed is None:
             return function(self, *args, **kwargs)
@@ -74,7 +78,6 @@ def store_args(__init__):
     Returns:
         callable: Decorated ``__init__`` function.
     """
-
     def new__init__(self, *args, **kwargs):
         args_copy = deepcopy(args)
         kwargs_copy = deepcopy(kwargs)
@@ -135,7 +138,6 @@ def vectorize(function):
         callable: Decorated function that can accept and return :attr:`numpy.array`.
 
     """
-
     def decorated(self, X, *args, **kwargs):
         if not isinstance(X, np.ndarray):
             return function(self, X, *args, **kwargs)
@@ -165,7 +167,6 @@ def scalarize(function):
     Returns:
         callable: Decorated function that accepts and returns scalars.
     """
-
     def decorated(self, X, *args, **kwargs):
         scalar = not isinstance(X, np.ndarray)
 
@@ -183,7 +184,7 @@ def scalarize(function):
 
 
 def check_valid_values(function):
-    """Raises an exception if the given values are not supported.
+    """Raise an exception if the given values are not supported.
 
     Args:
         function(callable): Method whose unique argument is a numpy.array-like object.
@@ -194,7 +195,6 @@ def check_valid_values(function):
     Raises:
         ValueError: If there are missing or invalid values or if the dataset is empty.
     """
-
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):

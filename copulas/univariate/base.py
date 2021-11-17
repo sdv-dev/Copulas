@@ -1,3 +1,5 @@
+"""Base Univariate class."""
+
 import pickle
 from abc import ABC
 from enum import Enum
@@ -9,11 +11,15 @@ from copulas.univariate.selection import select_univariate
 
 
 class ParametricType(Enum):
+    """Parametric Enum."""
+
     NON_PARAMETRIC = 0
     PARAMETRIC = 1
 
 
 class BoundedType(Enum):
+    """Bounded Enum."""
+
     UNBOUNDED = 0
     SEMI_BOUNDED = 1
     BOUNDED = 2
@@ -84,6 +90,7 @@ class Univariate(object):
 
     @classmethod
     def __repr__(cls):
+        """Return class name."""
         return cls.__name__
 
     def check_fit(self):
@@ -170,7 +177,7 @@ class Univariate(object):
         return np.full(X.shape, self._constant_value)
 
     def _replace_constant_methods(self):
-        """Replaces conventional distribution methods by its constant counterparts."""
+        """Replace conventional distribution methods by its constant counterparts."""
         self.cumulative_distribution = self._constant_cumulative_distribution
         self.percent_point = self._constant_percent_point
         self.probability_density = self._constant_probability_density
@@ -190,7 +197,7 @@ class Univariate(object):
         self._replace_constant_methods()
 
     def _check_constant_value(self, X):
-        """Checks if a Series or array contains only one unique value.
+        """Check if a Series or array contains only one unique value.
 
         If it contains only one value, set the instance up to behave accordingly.
 

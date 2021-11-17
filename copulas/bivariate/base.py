@@ -141,7 +141,7 @@ class Bivariate(object):
         self.check_theta()
 
     def check_marginal(self, u):
-        """The marginals are supposed to be uniformly distributed.
+        """Check that the marginals are uniformly distributed.
 
         Args:
             u(np.ndarray): Array of datapoints with shape (n,).
@@ -250,14 +250,17 @@ class Bivariate(object):
         raise NotImplementedError
 
     def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden
-        with numerically stable variants whenever possible.
+        """Return log probability density of model.
+
+        The log probability should be overridden with numerically stable
+        variants whenever possible.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
 
         Returns:
             np.ndarray
+
         """
         return np.log(self.probability_density(X))
 
