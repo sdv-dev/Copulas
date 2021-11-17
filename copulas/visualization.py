@@ -111,7 +111,7 @@ def compare_1d(real, synth, columns=None, figsize=None):
     fig = plt.figure(figsize=figsize)
 
     for idx, column in enumerate(columns):
-        position = prefix + str(idx + 1)
+        position = int(prefix + str(idx + 1))
         hist_1d(real[column], fig=fig, position=position, title=column, label='Real')
         hist_1d(synth[column], fig=fig, position=position, title=column, label='Synthetic')
 
