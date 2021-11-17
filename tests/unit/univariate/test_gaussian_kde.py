@@ -8,6 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 from scipy.stats import gaussian_kde
+import pytest
 
 from copulas.datasets import sample_univariate_bimodal
 from copulas.univariate.gaussian_kde import GaussianKDE
@@ -146,7 +147,8 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         instance.fit(fit_data)
 
-        with self.assertRaises(ValueError):
+        error_msg = 'too many values to unpack (expected 2)'
+        with pytest.raises(ValueError, match=error_msg):
             instance.percent_point(np.array([2.]))
 
     def test_percent_point_invertibility(self):

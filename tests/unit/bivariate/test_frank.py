@@ -23,8 +23,8 @@ class TestFrank(TestCase):
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
         self.copula.fit(self.X)
-        self.assertAlmostEqual(self.copula.tau, 0.7877, places=3)
-        self.assertAlmostEqual(self.copula.theta, 17.0227, places=3)
+        assert self.copula.tau == 0.7877
+        assert self.copula.theta == 17.0227
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""

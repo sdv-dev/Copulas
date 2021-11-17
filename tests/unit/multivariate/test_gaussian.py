@@ -284,7 +284,7 @@ class TestGaussianMultivariate(TestCase):
         result = copula.probability_density(X)
 
         # Check
-        self.assertAlmostEqual(result, expected_result)
+        assert result == expected_result
 
     def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
