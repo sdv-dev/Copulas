@@ -115,8 +115,9 @@ def tutorials(c):
 @task
 def lint(c):
     check_dependencies(c)
-    c.run('flake8 copulas')
-    c.run('flake8 tests --ignore=D,SFS2')
+    c.run('flake8 copulas --ignore-names=X,U,V,W,A,B,T1,X_left_right,X_right_left,' \
+           'tau_T1,valL,valR,X_left,X_right,X_prime,L,R,N')
+    c.run('flake8 tests --ignore=D,SFS2 --ignore-names=N,setUp,U,V,tearDown,X,U_inferred')
     c.run('isort -c --recursive copulas tests')
 
 
