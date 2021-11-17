@@ -30,7 +30,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
 
 
 def compare_values_epsilon(first, second, epsilon=10E-6,):
-    if pd.isnull(first) and pd.isnull(second):
+    if pd.isna(first) and pd.isna(second):
         return True
 
     return abs(first - second) < epsilon
