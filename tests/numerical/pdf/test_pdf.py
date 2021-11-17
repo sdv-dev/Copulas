@@ -30,7 +30,7 @@ def test_pdf(config_path):
     instance.theta = inputs['theta']
 
     # Asserts
-    pdfs = instance.pdf(data.values)
+    pdfs = instance.pdf(data.to_numpy())
 
     rtol = config['settings']['rtol']
 
