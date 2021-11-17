@@ -41,6 +41,7 @@ development_requires = [
     'flake8-mock>=0.3,<0.4',
     'flake8-mutable>=1.2.0,<1.3',
     'flake8-docstrings>=1.5.0,<2',
+    'pydocstyle>=6.1.1,<6.2',
 
     # fix style issues
     'autoflake>=1.1,<2',
@@ -57,7 +58,6 @@ development_requires = [
 
     # Documentation style
     'doc8>=0.8.0,<0.9',
-    'pydocstyle>=3.0.0,<4',
 
     # Large scale evaluation
     'urllib3>=1.20,<1.26',

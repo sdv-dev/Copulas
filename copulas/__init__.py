@@ -19,8 +19,6 @@ EPSILON = np.finfo(np.float32).eps
 class NotFittedError(Exception):
     """NotFittedError class."""
 
-    pass
-
 
 @contextlib.contextmanager
 def random_seed(seed):
@@ -35,6 +33,7 @@ def random_seed(seed):
 
 def random_state(function):
     """Produce random wrapper."""
+
     def wrapper(self, *args, **kwargs):
         if self.random_seed is None:
             return function(self, *args, **kwargs)
@@ -78,6 +77,7 @@ def store_args(__init__):
     Returns:
         callable: Decorated ``__init__`` function.
     """
+
     def new__init__(self, *args, **kwargs):
         args_copy = deepcopy(args)
         kwargs_copy = deepcopy(kwargs)
@@ -138,6 +138,7 @@ def vectorize(function):
         callable: Decorated function that can accept and return :attr:`numpy.array`.
 
     """
+
     def decorated(self, X, *args, **kwargs):
         if not isinstance(X, np.ndarray):
             return function(self, X, *args, **kwargs)
@@ -167,6 +168,7 @@ def scalarize(function):
     Returns:
         callable: Decorated function that accepts and returns scalars.
     """
+
     def decorated(self, X, *args, **kwargs):
         scalar = not isinstance(X, np.ndarray)
 
@@ -195,6 +197,7 @@ def check_valid_values(function):
     Raises:
         ValueError: If there are missing or invalid values or if the dataset is empty.
     """
+
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):
