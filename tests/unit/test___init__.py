@@ -3,8 +3,8 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
-from numpy.testing import assert_array_equal
 import pytest
+from numpy.testing import assert_array_equal
 
 from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
 from copulas.multivariate import GaussianMultivariate

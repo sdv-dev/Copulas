@@ -1,5 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
+import pytest
 
 import numpy as np
 
@@ -23,8 +24,8 @@ class TestFrank(TestCase):
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
         self.copula.fit(self.X)
-        assert self.copula.tau == 0.7877
-        assert self.copula.theta == 17.0227
+        assert 0.7877 <= self.copula.tau < 0.7878
+        assert 17.0227 <= self.copula.theta < 17.0228
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""

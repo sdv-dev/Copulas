@@ -7,8 +7,8 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-from scipy.stats import gaussian_kde
 import pytest
+from scipy.stats import gaussian_kde
 
 from copulas.datasets import sample_univariate_bimodal
 from copulas.univariate.gaussian_kde import GaussianKDE
@@ -147,7 +147,7 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         instance.fit(fit_data)
 
-        error_msg = 'too many values to unpack (expected 2)'
+        error_msg = r'Expected values in range \[0.0, 1.0\].'
         with pytest.raises(ValueError, match=error_msg):
             instance.percent_point(np.array([2.]))
 
