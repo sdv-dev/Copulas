@@ -19,6 +19,8 @@ EPSILON = np.finfo(np.float32).eps
 class NotFittedError(Exception):
     """NotFittedError class."""
 
+    pass
+
 
 @contextlib.contextmanager
 def random_seed(seed):
