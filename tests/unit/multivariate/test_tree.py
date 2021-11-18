@@ -478,7 +478,7 @@ class TestEdge(TestCase):
         # To show they are no going to be used in the scope of this test.
 
         # left, right and dependence set
-        expected_result = (2, 4, {[1, 3, 5]})
+        expected_result = (2, 4, set([1, 3, 5]))
 
         # Run
         result = Edge._identify_eds_ing(first, second)
