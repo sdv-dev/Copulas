@@ -22,7 +22,12 @@ class NotFittedError(Exception):
 
 @contextlib.contextmanager
 def random_seed(seed):
-    """Produce random seed."""
+    """Context manager for managing the random seed.
+
+    Args:
+        seed(int):
+            The random seed.
+    """
     state = np.random.get_state()
     np.random.seed(seed)
     try:
@@ -32,7 +37,12 @@ def random_seed(seed):
 
 
 def random_state(function):
-    """Produce random wrapper."""
+    """Set the random state before calling the function.
+
+    Args:
+        function (Callable):
+            The function to wrap around.
+    """
 
     def wrapper(self, *args, **kwargs):
         if self.random_seed is None:

@@ -70,7 +70,14 @@ def hist_1d(data, fig=None, title=None, position=None, bins=20, label=None):
 
 
 def side_by_side(plotting_func, arrays):
-    """Plot images side by side."""
+    """Plot side-by-side figures.
+
+    Args:
+        plotting_func (callable):
+            A matplotlib function which takes in the standard plot kwargs.
+        arrays (dict[str, np.ndarray]):
+            A mapping from the name of the subplot to the values.
+    """
     fig = plt.figure(figsize=(10, 4))
 
     position_base = '1{}'.format(len(arrays))
@@ -82,7 +89,18 @@ def side_by_side(plotting_func, arrays):
 
 
 def compare_3d(real, synth, columns=None, figsize=(10, 4)):
-    """Plot comparison of real and synthetic 3d data."""
+    """Generate a 3d scatter plot comparing real/synthetic data.
+
+    Args:
+        real (pd.DataFrame):
+            The real data.
+        synth (pd.DataFrame):
+            The synthetic data.
+        columns (list):
+            The name of the columns to plot.
+        figsize:
+            Figure size, passed to matplotlib.
+    """
     columns = columns or real.columns
     fig = plt.figure(figsize=figsize)
 
@@ -93,7 +111,18 @@ def compare_3d(real, synth, columns=None, figsize=(10, 4)):
 
 
 def compare_2d(real, synth, columns=None, figsize=None):
-    """Plot comparison of real and synthetic 2d data."""
+    """Generate a 2d scatter plot comparing real/synthetic data.
+
+    Args:
+        real (pd.DataFrame):
+            The real data.
+        synth (pd.DataFrame):
+            The synthetic data.
+        columns (list):
+            The name of the columns to plot.
+        figsize:
+            Figure size, passed to matplotlib.
+    """
     x, y = columns or real.columns
     ax = real.plot.scatter(x, y, color='blue', alpha=0.5, figsize=figsize)
     ax = synth.plot.scatter(x, y, ax=ax, color='orange', alpha=0.5, figsize=figsize)
@@ -101,7 +130,18 @@ def compare_2d(real, synth, columns=None, figsize=None):
 
 
 def compare_1d(real, synth, columns=None, figsize=None):
-    """Plot comparison of real and synthetic 1d data."""
+    """Generate a 1d scatter plot comparing real/synthetic data.
+
+    Args:
+        real (pd.DataFrame):
+            The real data.
+        synth (pd.DataFrame):
+            The synthetic data.
+        columns (list):
+            The name of the columns to plot.
+        figsize:
+            Figure size, passed to matplotlib.
+    """
     if len(real.shape) == 1:
         real = pd.DataFrame({'': real})
         synth = pd.DataFrame({'': synth})

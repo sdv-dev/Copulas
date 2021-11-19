@@ -189,7 +189,7 @@ class VineCopula(Multivariate):
         self.fitted = True
 
     def train_vine(self, tree_type):
-        r"""Build the wine.
+        r"""Build the vine.
 
         1. For the construction of the first tree :math:`T_1`, assign one node to each variable
            and then couple them by maximizing the measure of association considered.

@@ -281,7 +281,7 @@ class Tree(Multivariate):
 
 
 class CenterTree(Tree):
-    """A Tree of type center."""
+    """Tree for a C-vine copula."""
 
     tree_type = TreeTypes.CENTER
 
@@ -462,7 +462,7 @@ def get_tree(tree_type):
 
 
 class Edge(object):
-    """Edge class."""
+    """Represents an edge in the copula."""
 
     def __init__(self, index, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
