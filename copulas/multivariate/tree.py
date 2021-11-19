@@ -281,7 +281,7 @@ class Tree(Multivariate):
 
 
 class CenterTree(Tree):
-    """A tree """
+    """A Tree of type center."""
 
     tree_type = TreeTypes.CENTER
 
