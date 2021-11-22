@@ -126,7 +126,7 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
 
         if len(U.shape) > 1:
-            raise ValueError('Expected 1d array, got %s.' % (U, ))
+            raise ValueError(f'Expected 1d array, got {(U, )}.')
 
         if np.any(U > 1.0) or np.any(U < 0.0):
             raise ValueError('Expected values in range [0.0, 1.0].')
