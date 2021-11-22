@@ -52,8 +52,8 @@ class TestBivariate(TestCase):
 
         expected_result = {
             'copula_type': 'FRANK',
-            "tau": 0.9128709291752769,
-            "theta": 44.2003852484162
+            'tau': 0.9128709291752769,
+            'theta': 44.2003852484162
         }
 
         # Run
@@ -62,7 +62,7 @@ class TestBivariate(TestCase):
         # Check
         assert result == expected_result
 
-    @mock.patch("builtins.open")
+    @mock.patch('builtins.open')
     @mock.patch('copulas.bivariate.base.json.dump')
     def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
@@ -71,9 +71,9 @@ class TestBivariate(TestCase):
         instance.fit(self.X)
 
         expected_content = {
-            "copula_type": "FRANK",
-            "tau": 0.9128709291752769,
-            "theta": 44.2003852484162
+            'copula_type': 'FRANK',
+            'tau': 0.9128709291752769,
+            'theta': 44.2003852484162
         }
 
         # Run

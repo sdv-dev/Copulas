@@ -136,7 +136,7 @@ class Bivariate(object):
 
         """
         if not self.theta:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')
 
         self.check_theta()
 
@@ -150,14 +150,14 @@ class Bivariate(object):
             ValueError: If the data does not appear uniformly distributed.
         """
         if min(u) < 0.0 or max(u) > 1.0:
-            raise ValueError("Marginal value out of bounds.")
+            raise ValueError('Marginal value out of bounds.')
 
         emperical_cdf = np.sort(u)
         uniform_cdf = np.linspace(0.0, 1.0, num=len(u))
         ks_statistic = max(np.abs(emperical_cdf - uniform_cdf))
         if ks_statistic > 1.627 / np.sqrt(len(u)):
             # KS test with significance level 0.01
-            warnings.warn("Data does not appear to be uniform.", category=RuntimeWarning)
+            warnings.warn('Data does not appear to be uniform.', category=RuntimeWarning)
 
     def _compute_theta(self):
         """Compute theta, validate it and assign it to self."""
@@ -179,8 +179,8 @@ class Bivariate(object):
         self.tau = stats.kendalltau(U, V)[0]
         if np.isnan(self.tau):
             if len(np.unique(U)) == 1 or len(np.unique(V)) == 1:
-                raise ValueError("Constant column.")
-            raise ValueError("Unable to compute tau.")
+                raise ValueError('Constant column.')
+            raise ValueError('Unable to compute tau.')
         self._compute_theta()
 
     def to_dict(self):
@@ -352,7 +352,7 @@ class Bivariate(object):
 
         """
         if self.tau > 1 or self.tau < -1:
-            raise ValueError("The range for correlation measure is [-1,1].")
+            raise ValueError('The range for correlation measure is [-1,1].')
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)
