@@ -19,10 +19,10 @@ class TruncatedGaussian(ScipyModel):
     MODEL_CLASS = truncnorm
 
     @store_args
-    def __init__(self, min=None, max=None, random_seed=None):
+    def __init__(self, minimum=None, maximum=None, random_seed=None):
         self.random_seed = random_seed
-        self.min = min
-        self.max = max
+        self.min = minimum
+        self.max = maximum
 
     def _fit_constant(self, X):
         constant = np.unique(X)[0]

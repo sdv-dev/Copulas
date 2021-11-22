@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
+COMPARE_VALUES_ERROR = "Values don't match at index {}\n {} != {}"
 NUMPY_NUMERICAL_DTYPES = set('buifc')
 
 
@@ -32,7 +32,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
 
 def compare_values_epsilon(first, second, epsilon=10E-6,):
     """Compare epsilons."""
-    if pd.isnull(first) and pd.isnull(second):
+    if pd.isna(first) and pd.isna(second):
         return True
 
     return abs(first - second) < epsilon

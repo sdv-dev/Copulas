@@ -54,7 +54,7 @@ class Independence(Bivariate):
 
         """
         U, V = split_matrix(X)
-        return np.multiply(U, V)
+        return U * V
 
     def partial_derivative(self, X):
         """Compute the conditional probability of one event conditiones to the other.

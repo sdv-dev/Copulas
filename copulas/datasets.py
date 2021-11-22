@@ -30,8 +30,8 @@ def sample_bivariate_age_income(size=1000, seed=42):
         income[np.random.randint(0, 10, size=size) == 0] /= 1000
 
     return pd.DataFrame({
-        "age": age,
-        "income": income
+        'age': age,
+        'income': income
     })
 
 

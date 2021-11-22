@@ -21,9 +21,9 @@ class StudentTUnivariate(ScipyModel):
         self._params['scale'] = 0
 
     def _fit(self, X):
-        df, loc, scale = t.fit(X)
+        dataframe, loc, scale = t.fit(X)
         self._params = {
-            'df': df,
+            'df': dataframe,
             'loc': loc,
             'scale': scale
         }

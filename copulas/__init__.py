@@ -211,7 +211,7 @@ def check_valid_values(function):
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):
-            W = X.values
+            W = X.to_numpy()
 
         else:
             W = X

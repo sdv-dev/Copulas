@@ -103,7 +103,7 @@ class Univariate(object):
                 if the model is not fitted.
         """
         if not self.fitted:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')
 
     def _constant_sample(self, num_samples):
         """Sample values for a constant distribution.

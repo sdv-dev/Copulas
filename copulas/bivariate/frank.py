@@ -38,7 +38,7 @@ class Frank(Bivariate):
             np.ndarray
 
         """
-        return np.exp(np.multiply(-self.theta, z)) - 1
+        return np.exp(-self.theta * z) - 1
 
     def probability_density(self, X):
         r"""Compute probability density function for given copula family.
@@ -64,11 +64,11 @@ class Frank(Bivariate):
         U, V = split_matrix(X)
 
         if self.theta == 0:
-            return np.multiply(U, V)
+            return U * V
 
         else:
-            num = np.multiply(np.multiply(-self.theta, self._g(1)), 1 + self._g(np.add(U, V)))
-            aux = np.multiply(self._g(U), self._g(V)) + self._g(1)
+            num = (-self.theta * self._g(1)) * (1 + self._g(U + V))
+            aux = self._g(U) * self._g(V) + self._g(1)
             den = np.power(aux, 2)
             return num / den
 
@@ -92,10 +92,7 @@ class Frank(Bivariate):
 
         U, V = split_matrix(X)
 
-        num = np.multiply(
-            np.exp(np.multiply(-self.theta, U)) - 1,
-            np.exp(np.multiply(-self.theta, V)) - 1
-        )
+        num = (np.exp(-self.theta * U) - 1) * (np.exp(-self.theta * V) - 1)
         den = np.exp(-self.theta) - 1
 
         return -1.0 / self.theta * np.log(1 + num / den)
@@ -139,8 +136,8 @@ class Frank(Bivariate):
             return V
 
         else:
-            num = np.multiply(self._g(U), self._g(V)) + self._g(U)
-            den = np.multiply(self._g(U), self._g(V)) + self._g(1)
+            num = self._g(U) * self._g(V) + self._g(U)
+            den = self._g(U) * self._g(V) + self._g(1)
             return num / den
 
     def compute_theta(self):
