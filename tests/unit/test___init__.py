@@ -33,17 +33,17 @@ class TestVectorize(TestCase):
             ((instance, 3, 'positional', 'arguments'), {'keyword': 'arguments'})
         ]
 
-        # Run (Decorator)
+        # Run Decorator
         vectorized_function = vectorize(function)
 
-        # Check (Decorator)
+        # Check Decorator
         assert callable(vectorized_function)
         assert vectorized_function.__doc__ == 'Docstring of the original function.'
 
-        # Run (Decorated function)
+        # Run decorated function
         result = vectorized_function(instance, vector, *args, **kwargs)
 
-        # Check (Result of decorated function call)
+        # Check result of decorated function call
         assert result.shape == (3,)
         assert_array_equal(result, expected_result)
 
@@ -78,17 +78,17 @@ class TestVectorize(TestCase):
             ((instance, 7, 8, 9, 'positional', 'arguments'), {'keyword': 'arguments'})
         ]
 
-        # Run (Decorator)
+        # Run Decorator
         vectorized_function = vectorize(function)
 
-        # Check (Decorator)
+        # Check Decorator
         assert callable(vectorized_function)
         assert vectorized_function.__doc__ == 'Docstring of the original function.'
 
-        # Run (Decorated function)
+        # Run decorated function
         result = vectorized_function(instance, vector, *args, **kwargs)
 
-        # Check (Result of decorated function call)
+        # Check result of decorated function call
         assert result.shape == (3,)
         assert_array_equal(result, expected_result)
 
@@ -133,17 +133,17 @@ class TestScalarize(TestCase):
 
         expected_result = 'return_value'
 
-        # Run (Decorator)
+        # Run Decorator
         scalarized_function = scalarize(function)
 
-        # Check (Decorator)
+        # Check Decorator
         assert callable(scalarized_function)
         assert scalarized_function.__doc__ == 'Docstring of the original function.'
 
-        # Run (Decorated function)
+        # Run decorated function
         result = scalarized_function(instance, 0, *args, **kwargs)
 
-        # Check (Decorated function)
+        # Check decorated function
         assert result == expected_result
 
         function.assert_called_once_with(instance, np.array([0]), *args, **kwargs)
