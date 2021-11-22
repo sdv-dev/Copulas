@@ -169,10 +169,10 @@ class TestTree(TestCase):
             [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON]
         ])
 
-        u_matrix_instance = instance.u_matrix[:, np.argsort([1, 0])]
+        flipped_u_matrix = instance.u_matrix[:, [1, 0]]
         expected_partial_derivative_call_args = [
             ((instance.u_matrix,), {}),
-            ((u_matrix_instance,), {})
+            ((flipped_u_matrix,), {})
         ]
 
         # Run
@@ -221,10 +221,10 @@ class TestTree(TestCase):
             ['left_u_2', 'right_u_2']
         ])
 
-        sorted_univariate = conditional_univariates[:, np.argsort([1, 0])]
+        flipped_conditional_univariates = conditional_univariates[:, [1, 0]]
         expected_partial_derivative_call_args = [
             ((conditional_univariates,), {}),
-            ((sorted_univariate,), {})
+            ((flipped_conditional_univariates,), {})
         ]
 
         # Run
