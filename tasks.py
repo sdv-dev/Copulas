@@ -115,8 +115,8 @@ def tutorials(c):
 @task
 def lint(c):
     check_dependencies(c)
-    c.run('flake8 copulas --max-expression-complexity=8')
-    c.run('flake8 tests --ignore=D,SFS2 --max-expression-complexity=8')
+    c.run('flake8 copulas')
+    c.run('flake8 tests --ignore=D,SFS2')
     c.run('isort -c --recursive copulas tests')
 
 

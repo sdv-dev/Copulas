@@ -169,9 +169,10 @@ class TestTree(TestCase):
             [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON]
         ])
 
+        u_matrix_instance = instance.u_matrix[:, np.argsort([1, 0])]
         expected_partial_derivative_call_args = [
             ((instance.u_matrix,), {}),
-            ((instance.u_matrix[:, np.argsort([1, 0])],), {})
+            ((u_matrix_instance,), {})
         ]
 
         # Run
@@ -219,9 +220,11 @@ class TestTree(TestCase):
             ['left_u_1', 'right_u_1'],
             ['left_u_2', 'right_u_2']
         ])
+
+        sorted_univariate = conditional_univariates[:, np.argsort([1, 0])]
         expected_partial_derivative_call_args = [
             ((conditional_univariates,), {}),
-            ((conditional_univariates[:, np.argsort([1, 0])],), {})
+            ((sorted_univariate,), {})
         ]
 
         # Run
@@ -651,22 +654,20 @@ class TestEdge(TestCase):
 
         instance_mock = bivariate_mock.return_value
         instance_mock.probability_density.return_value = [0]
-        instance_mock.partial_derivative.return_value = 'partial_derivative'
+        s = 'partial_derivative'
+        instance_mock.partial_derivative.return_value = s
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([[
+            [0.25, 0.75],
+            [0.50, 0.50],
+        ]])
+
+        array2 = np.array([[
+            [0.50, 0.50],
+            [0.25, 0.75]
+        ]])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)
@@ -713,20 +714,17 @@ class TestEdge(TestCase):
         instance_mock.probability_density.return_value = [0]
         instance_mock.partial_derivative.return_value = 'partial_derivative'
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([[
+            [0.25, 0.75],
+            [0.50, 0.50],
+        ]])
+
+        array2 = np.array([[
+            [0.50, 0.50],
+            [0.25, 0.75]
+        ]])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)

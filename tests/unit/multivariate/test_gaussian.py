@@ -458,7 +458,8 @@ class TestGaussianMultivariate(TestCase):
 
         # Check
         assert result.shape == (5, 2)
-        assert result[~result.isnull()].all().all()
+        results = result[~result.isnull()].all()
+        assert results.all()
         assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 
         # This is to check that the samples on the non constant column are not constant too.
