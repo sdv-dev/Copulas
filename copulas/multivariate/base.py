@@ -185,4 +185,4 @@ class Multivariate(object):
                 if the model is not fitted.
         """
         if not self.fitted:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')

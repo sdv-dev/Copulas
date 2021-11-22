@@ -137,11 +137,11 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
             scores.append(ks_2samp(sampled[column].to_numpy(), data[column].to_numpy()))
 
         score = np.mean(scores)
-        LOGGER.info("Dataset %s score: %s", dataset_name, score)
+        LOGGER.info('Dataset %s score: %s', dataset_name, score)
 
     except Exception as ex:
         error_message = '{}: {}'.format(ex.__class__.__name__, ex)
-        LOGGER.exception("Dataset %s failed: %s", dataset_name, error_message)
+        LOGGER.exception('Dataset %s failed: %s', dataset_name, error_message)
 
     elapsed_time = datetime.utcnow() - start
 
@@ -230,7 +230,7 @@ def main():
             dataset_names = random.sample(dataset_names, args.sample)
 
     model_names = args.model or list(AVAILABLE_MODELS.keys())
-    LOGGER.info("Testing datasets %s on models %s", dataset_names, model_names)
+    LOGGER.info('Testing datasets %s on models %s', dataset_names, model_names)
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
 

@@ -163,7 +163,7 @@ class TestGaussian(TestCase):
 
         sampled_data = model.sample(10)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        path_to_model = os.path.join(self.test_dir.name, 'model.pkl')
         model.save(path_to_model)
         model2 = GaussianMultivariate.load(path_to_model)
 
