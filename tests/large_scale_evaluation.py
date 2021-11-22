@@ -234,7 +234,7 @@ def main():
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
 
-    print(tabulate.tabulate(  # noqa: T001
+    print(tabulate.tabulate(
         results,
         tablefmt='github',
         headers=results.columns,
