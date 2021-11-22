@@ -502,7 +502,7 @@ class Edge(object):
         B.update(second.D)
 
         depend_set = A & B
-        left, right = sorted(list(A ^ B))  # noqa: C414
+        left, right = sorted(A ^ B)
 
         return left, right, depend_set
 
