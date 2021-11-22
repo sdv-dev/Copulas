@@ -41,6 +41,10 @@ development_requires = [
     'flake8-mock>=0.3,<0.4',
     'flake8-mutable>=1.2.0,<1.3',
     'flake8-print>=4.0.0,<4.1',
+    'pandas-vet>=0.2.2,<0.3',
+    'flake8-builtins>=1.5.3,<1.6',
+    'flake8-eradicate>=1.1.0,<1.2',
+    'flake8-quotes>=3.3.0,<4',
 
     # fix style issues
     'autoflake>=1.1,<2',

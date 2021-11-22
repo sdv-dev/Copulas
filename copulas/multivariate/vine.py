@@ -167,7 +167,7 @@ class VineCopula(Multivariate):
         LOGGER.info('Fitting VineCopula("%s")', self.vine_type)
         self.n_sample, self.n_var = X.shape
         self.columns = X.columns
-        self.tau_mat = X.corr(method='kendall').values
+        self.tau_mat = X.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty([self.n_sample, self.n_var])
 
         self.truncated = truncated
@@ -296,11 +296,11 @@ class VineCopula(Multivariate):
                         else:
                             if edge.L == current or edge.R == current:
                                 condition = set(edge.D)
-                                condition.add(edge.L)
-                                condition.add(edge.R)
+                                condition.add(edge.L)  # noqa: PD005
+                                condition.add(edge.R)  # noqa: PD005
 
                                 visit_set = set(visited)
-                                visit_set.add(current)
+                                visit_set.add(current)  # noqa: PD005
 
                                 if condition.issubset(visit_set):
                                     current_ind = edge.index

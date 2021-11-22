@@ -71,7 +71,7 @@ def _compute_tail(c, z):
         numpy.ndarray
 
     """
-    return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
+    return (1.0 - 2 * np.asarray(z) + c) / (np.power(1.0 - np.asarray(z), 2))
 
 
 def _compute_candidates(copulas, left_tail, right_tail):
@@ -170,5 +170,5 @@ def select_copula(X):
 
     score = score_left + score_right + score_both
 
-    selected_copula = np.argmax(score.values)
+    selected_copula = np.argmax(score.to_numpy())
     return copula_candidates[selected_copula]
