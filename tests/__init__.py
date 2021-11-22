@@ -31,7 +31,7 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
 
 
 def compare_values_epsilon(first, second, epsilon=10E-6,):
-    """Comprae epsilons."""
+    """Compare epsilons."""
     if pd.isnull(first) and pd.isnull(second):
         return True
 

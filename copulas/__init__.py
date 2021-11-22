@@ -25,7 +25,7 @@ def random_seed(seed):
     """Context manager for managing the random seed.
 
     Args:
-        seed(int):
+        seed (int):
             The random seed.
     """
     state = np.random.get_state()
