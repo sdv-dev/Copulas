@@ -23,7 +23,7 @@ def test_fit(config_path):
     data = pd.read_csv(os.path.join(BASE, 'input', config['test_case_inputs']['points']))
 
     # Run
-    instance.fit(data.values)
+    instance.fit(data.to_numpy())
 
     # Asserts
     params = instance.to_dict()

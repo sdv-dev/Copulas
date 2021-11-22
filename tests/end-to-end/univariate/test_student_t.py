@@ -109,8 +109,8 @@ class TestStudentT(TestCase):
 
         params = model.to_dict()
 
-        df = params.pop('df')
-        assert np.isclose(df, 152801, atol=1)
+        dataframe = params.pop('df')
+        assert np.isclose(dataframe, 152801, atol=1)
 
         assert params == {
             'type': 'copulas.univariate.student_t.StudentTUnivariate',

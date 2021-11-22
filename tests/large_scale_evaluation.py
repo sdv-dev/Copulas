@@ -134,7 +134,7 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
         LOGGER.info('Evaluating scores for dataset %s', dataset_name)
         scores = []
         for column in data.columns:
-            scores.append(ks_2samp(sampled[column].values, data[column].values))
+            scores.append(ks_2samp(sampled[column].to_numpy(), data[column].to_numpy()))
 
         score = np.mean(scores)
         LOGGER.info('Dataset %s score: %s', dataset_name, score)

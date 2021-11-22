@@ -57,7 +57,7 @@ class GaussianMultivariate(Multivariate):
         for column_name, univariate in zip(self.columns, self.univariates):
             if column_name in X:
                 column = X[column_name]
-                U.append(univariate.cdf(column.values).clip(EPSILON, 1 - EPSILON))
+                U.append(univariate.cdf(column.to_numpy()).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
@@ -73,7 +73,7 @@ class GaussianMultivariate(Multivariate):
                 computed covariance matrix.
         """
         result = self._transform_to_normal(X)
-        covariance = pd.DataFrame(data=result).corr().values
+        covariance = pd.DataFrame(data=result).corr().to_numpy()
         covariance = np.nan_to_num(covariance, nan=0.0)
         # If singular, add some noise to the diagonal
         if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:

@@ -31,7 +31,7 @@ def test_pdf(config_path):
     instance.theta = inputs['theta']
 
     # Asserts
-    cdfs = instance.cdf(input_points.values)
+    cdfs = instance.cdf(input_points.to_numpy())
 
     rtol = config['settings']['rtol']
 
