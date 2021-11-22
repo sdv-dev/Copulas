@@ -228,7 +228,7 @@ class TestRandomStateDecorator(TestCase):
         args = ('some', 'args')
         kwargs = {'keyword': 'value'}
 
-        random_mock.get_state.return_value = "random state"
+        random_mock.get_state.return_value = 'random state'
 
         # Run
         decorated_function = random_state(my_function)
@@ -240,7 +240,7 @@ class TestRandomStateDecorator(TestCase):
         instance.assert_not_called
         random_mock.get_state.assert_called_once_with()
         random_mock.seed.assert_called_once_with(42)
-        random_mock.set_state.assert_called_once_with("random state")
+        random_mock.set_state.assert_called_once_with('random state')
 
     @patch('copulas.np.random')
     def test_no_random_state(self, random_mock):
@@ -253,7 +253,7 @@ class TestRandomStateDecorator(TestCase):
         args = ('some', 'args')
         kwargs = {'keyword': 'value'}
 
-        random_mock.get_state.return_value = "random state"
+        random_mock.get_state.return_value = 'random state'
 
         # Run
         decorated_function = random_state(my_function)
