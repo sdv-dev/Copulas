@@ -653,20 +653,21 @@ class TestEdge(TestCase):
         instance_mock.probability_density.return_value = [0]
         instance_mock.partial_derivative.return_value = 'partial_derivative'
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([
+            [
+                [0.25, 0.75],
+                [0.50, 0.50],
+            ]
+        ])
+
+        array2 = np.array([
+            [
+                [0.50, 0.50],
+                [0.25, 0.75]
+            ]
+        ])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)
@@ -713,20 +714,21 @@ class TestEdge(TestCase):
         instance_mock.probability_density.return_value = [0]
         instance_mock.partial_derivative.return_value = 'partial_derivative'
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([
+            [
+                [0.25, 0.75],
+                [0.50, 0.50],
+            ]
+        ])
+
+        array2 = np.array([
+            [
+                [0.50, 0.50],
+                [0.25, 0.75]
+            ]
+        ])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)

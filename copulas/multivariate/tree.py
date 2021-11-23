@@ -205,8 +205,10 @@ class Tree(Multivariate):
 
     def __str__(self):
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
-        return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
-                          for edge in self.edges])
+        return '\n'.join([
+            template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
+            for edge in self.edges
+        ])
 
     def _serialize_previous_tree(self):
         if self.level == 1:
