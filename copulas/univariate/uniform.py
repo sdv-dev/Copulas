@@ -1,3 +1,5 @@
+"""UniformUnivariate module."""
+
 import numpy as np
 from scipy.stats import uniform
 

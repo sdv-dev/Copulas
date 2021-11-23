@@ -1,3 +1,5 @@
+"""Frank module."""
+
 import sys
 
 import numpy as np
@@ -25,7 +27,7 @@ class Frank(Bivariate):
         return -np.log(a)
 
     def _g(self, z):
-        r"""Helper function to solve Frank copula.
+        r"""Assist in solving the Frank copula.
 
         This functions encapsulates :math:`g(z) = e^{-\theta z} - 1` used on Frank copulas.
 

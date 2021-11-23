@@ -1,3 +1,5 @@
+"""Sample datasets for the Copulas library."""
+
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -17,7 +19,7 @@ def sample_bivariate_age_income(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with two columns, ``age`` and ``income``.
     """
@@ -48,7 +50,7 @@ def sample_trivariate_xyz(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with three columns, ``x``, ``y`` and ``z``.
     """
@@ -74,7 +76,7 @@ def sample_univariate_bernoulli(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -94,7 +96,7 @@ def sample_univariate_bimodal(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -115,7 +117,7 @@ def sample_univariate_uniform(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -132,7 +134,7 @@ def sample_univariate_normal(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -149,7 +151,7 @@ def sample_univariate_degenerate(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -166,7 +168,7 @@ def sample_univariate_exponential(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -183,7 +185,7 @@ def sample_univariate_beta(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
@@ -200,7 +202,7 @@ def sample_univariates(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with the sampled distributions.
     """

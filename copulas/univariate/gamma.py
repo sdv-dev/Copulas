@@ -1,3 +1,5 @@
+"""GammaUnivariate module."""
+
 import numpy as np
 from scipy.stats import gamma
 

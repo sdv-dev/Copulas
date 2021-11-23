@@ -1,3 +1,5 @@
+"""Copulas numerical pdf scripts module."""
+
 import os
 
 import pandas as pd

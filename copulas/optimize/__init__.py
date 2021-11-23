@@ -1,3 +1,5 @@
+"""Copulas optimization functions."""
+
 import numpy as np
 
 

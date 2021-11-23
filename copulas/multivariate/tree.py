@@ -1,3 +1,5 @@
+"""Multivariate trees module."""
+
 import logging
 from enum import Enum
 
@@ -12,6 +14,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TreeTypes(Enum):
+    """The available types of trees."""
+
     CENTER = 0
     DIRECT = 1
     REGULAR = 2
@@ -67,7 +71,7 @@ class Tree(Multivariate):
             bool:
                 True if the two edges satisfy vine constraints
         """
-        full_node = set([edge1.L, edge1.R, edge2.L, edge2.R])
+        full_node = {edge1.L, edge1.R, edge2.L, edge2.R}
         full_node.update(edge1.D)
         full_node.update(edge2.D)
         return len(full_node) == (self.level + 1)
@@ -205,6 +209,7 @@ class Tree(Multivariate):
         return np.sum(values), new_uni_matrix
 
     def __str__(self):
+        """Produce printable representation of the class."""
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([
             template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
@@ -279,6 +284,7 @@ class Tree(Multivariate):
 
 
 class CenterTree(Tree):
+    """Tree for a C-vine copula."""
 
     tree_type = TreeTypes.CENTER
 
@@ -322,6 +328,7 @@ class CenterTree(Tree):
 
 
 class DirectTree(Tree):
+    """DirectTree class."""
 
     tree_type = TreeTypes.DIRECT
 
@@ -373,6 +380,7 @@ class DirectTree(Tree):
 
 
 class RegularTree(Tree):
+    """RegularTree class."""
 
     tree_type = TreeTypes.REGULAR
 
@@ -404,7 +412,7 @@ class RegularTree(Tree):
         """Build tree for level k."""
         neg_tau = -1.0 * abs(self.tau_matrix)
         edges = self.previous_tree.edges
-        visited = set([0])
+        visited = {0}
         unvisited = set(range(self.n_nodes))
 
         while len(visited) != self.n_nodes:
@@ -457,6 +465,8 @@ def get_tree(tree_type):
 
 
 class Edge(object):
+    """Represents an edge in the copula."""
+
     def __init__(self, index, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
 
@@ -498,14 +508,14 @@ class Edge(object):
                 The first two values represent left and right node
                 indicies of the new edge. The third value is the new dependence set.
         """
-        A = set([first.L, first.R])
+        A = {first.L, first.R}
         A.update(first.D)
 
-        B = set([second.L, second.R])
+        B = {second.L, second.R}
         B.update(second.D)
 
         depend_set = A & B
-        left, right = sorted(list(A ^ B))
+        left, right = sorted(A ^ B)
 
         return left, right, depend_set
 
