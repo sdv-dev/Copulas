@@ -1,3 +1,5 @@
+"""Clayton module."""
+
 import numpy as np
 
 from copulas.bivariate.base import Bivariate, CopulaTypes

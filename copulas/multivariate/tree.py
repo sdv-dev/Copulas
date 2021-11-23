@@ -1,3 +1,5 @@
+"""Multivariate trees module."""
+
 import logging
 from enum import Enum
 
@@ -12,6 +14,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TreeTypes(Enum):
+    """The available types of trees."""
+
     CENTER = 0
     DIRECT = 1
     REGULAR = 2
@@ -205,6 +209,7 @@ class Tree(Multivariate):
         return np.sum(values), new_uni_matrix
 
     def __str__(self):
+        """Produce printable representation of the class."""
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([
             template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
@@ -279,6 +284,7 @@ class Tree(Multivariate):
 
 
 class CenterTree(Tree):
+    """Tree for a C-vine copula."""
 
     tree_type = TreeTypes.CENTER
 
@@ -322,6 +328,7 @@ class CenterTree(Tree):
 
 
 class DirectTree(Tree):
+    """DirectTree class."""
 
     tree_type = TreeTypes.DIRECT
 
@@ -373,6 +380,7 @@ class DirectTree(Tree):
 
 
 class RegularTree(Tree):
+    """RegularTree class."""
 
     tree_type = TreeTypes.REGULAR
 
@@ -457,6 +465,8 @@ def get_tree(tree_type):
 
 
 class Edge(object):
+    """Represents an edge in the copula."""
+
     def __init__(self, index, left, right, copula_name, copula_theta):
         """Initialize an Edge object.
 

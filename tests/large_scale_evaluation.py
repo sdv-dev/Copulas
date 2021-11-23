@@ -1,5 +1,4 @@
-"""
-Large Scale Evaluation of Copulas.
+"""Large Scale Evaluation of Copulas.
 
 This script is a command line module that evaluates multiple MultiVariate models
 from the Copulas library over a collection of real world datasets stored in an
@@ -73,6 +72,11 @@ OUTPUT_COLUMNS = [
 
 
 def get_available_datasets_list():
+    """Get available datasets from AWS S3.
+
+    Returns (list[str]):
+        A list of dataset names.
+    """
     client = boto3.client('s3', config=Config(signature_version=UNSIGNED))
     available_datasets = [
         obj['Key']
@@ -84,6 +88,11 @@ def get_available_datasets_list():
 
 
 def get_dataset_url(name):
+    """Get dataset url.
+
+    Returns (str):
+        The URL to download the dataset from.
+    """
     if not name.endswith('.csv'):
         name = name + '.csv'
 
@@ -91,6 +100,7 @@ def get_dataset_url(name):
 
 
 def load_data(dataset_name, max_rows, max_columns):
+    """Load the data."""
     LOGGER.debug('Loading dataset %s (max_rows: %s, max_columns: %s)',
                  dataset_name, max_rows, max_columns)
     dataset_url = get_dataset_url(dataset_name)
@@ -102,6 +112,7 @@ def load_data(dataset_name, max_rows, max_columns):
 
 
 def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
+    """Evaluate the models."""
     data = load_data(dataset_name, max_rows, max_columns)
     start = datetime.utcnow()
 
@@ -158,6 +169,21 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
 
 
 def run_evaluation(model_names, dataset_names, max_rows, max_columns):
+    """Evaluate the specified models on the specified datasets.
+
+    Args:
+        model_names (List[str]):
+            A list of models to use.
+        dataset_names (List[str]):
+            A list of datasets to evaluate.
+        max_rows (int):
+            The maximum number of rows to load in the dataset.
+        max_columns (int):
+            The maximum number of columns to load in the dataset.
+
+    Returns (pd.DataFrame):
+        A summary of the model performance on the datasets.
+    """
     start = datetime.utcnow()
     results = []
     for model_name in model_names:
@@ -216,6 +242,7 @@ def _get_parser():
 
 
 def main():
+    """Main function."""
     parser = _get_parser()
     args = parser.parse_args()
 

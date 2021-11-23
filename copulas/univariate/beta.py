@@ -1,3 +1,5 @@
+"""BetaUnivariate module."""
+
 import numpy as np
 from scipy.stats import beta
 

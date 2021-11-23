@@ -1,3 +1,5 @@
+"""Multivariate copulas module."""
+
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.gaussian import GaussianMultivariate
 from copulas.multivariate.tree import Tree, TreeTypes

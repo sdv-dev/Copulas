@@ -1,3 +1,5 @@
+"""Utilities for bivariate copulas."""
+
 import numpy as np
 
 

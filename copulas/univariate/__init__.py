@@ -1,3 +1,5 @@
+"""Univariate copulas module."""
+
 from copulas.univariate.base import BoundedType, ParametricType, Univariate
 from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate

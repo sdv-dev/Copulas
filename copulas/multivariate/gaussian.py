@@ -1,3 +1,5 @@
+"""GaussianMultivariate module."""
+
 import logging
 import sys
 import warnings
@@ -35,6 +37,7 @@ class GaussianMultivariate(Multivariate):
         self.distribution = distribution
 
     def __repr__(self):
+        """Produce printable representation of the object."""
         if self.distribution == DEFAULT_DISTRIBUTION:
             distribution = ''
         elif isinstance(self.distribution, type):
