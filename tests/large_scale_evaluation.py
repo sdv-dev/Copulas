@@ -127,7 +127,8 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
 
             LOGGER.info('Computing CDF for dataset %s', dataset_name)
             cdf = instance.cdf(sampled)
-            assert (0 <= cdf).all() and (cdf <= 1).all()
+            assert (0 <= cdf).all()
+            assert (cdf <= 1).all()
         except NotImplementedError:
             pass
 
