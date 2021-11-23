@@ -98,7 +98,7 @@ class Bivariate(object):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
             else:
-                raise ValueError('Invalid copula type {}'.format(copula_type))
+                raise ValueError(f'Invalid copula type {copula_type}')
 
         for subclass in cls.subclasses():
             if subclass.copula_type is copula_type:
