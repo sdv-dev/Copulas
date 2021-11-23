@@ -45,13 +45,13 @@ class Gumbel(Bivariate):
         U, V = split_matrix(X)
 
         if self.theta == 1:
-            return np.multiply(U, V)
+            return U * V
 
         else:
-            a = np.power(np.multiply(U, V), -1)
+            a = np.power(U * V, -1)
             tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
             b = np.power(tmp, -2 + 2.0 / self.theta)
-            c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
+            c = np.power(np.log(U) * np.log(V), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
             return self.cumulative_distribution(X) * a * b * c * d
 
@@ -75,7 +75,7 @@ class Gumbel(Bivariate):
         U, V = split_matrix(X)
 
         if self.theta == 1:
-            return np.multiply(U, V)
+            return U * V
 
         else:
             h = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
@@ -129,7 +129,7 @@ class Gumbel(Bivariate):
             p1 = self.cumulative_distribution(X)
             p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
             p3 = np.power(-np.log(V), self.theta - 1)
-            return np.divide(np.multiply(np.multiply(p1, p2), p3), V)
+            return p1 * p2 * p3 / V
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.

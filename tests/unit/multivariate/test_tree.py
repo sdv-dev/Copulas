@@ -15,7 +15,7 @@ from tests import compare_nested_dicts, compare_nested_iterables, compare_values
 
 class TestTree(TestCase):
 
-    @pytest.mark.skipif(sys.version_info > (3, 8), reason="Fails on py38. To be reviewed.")
+    @pytest.mark.skipif(sys.version_info > (3, 8), reason='Fails on py38. To be reviewed.')
     def test_to_dict_fit_model(self):
         # Setup
         instance = get_tree(TreeTypes.REGULAR)
@@ -26,7 +26,7 @@ class TestTree(TestCase):
         ])
         index = 0
         n_nodes = X.shape[1]
-        tau_matrix = X.corr(method='kendall').values
+        tau_matrix = X.corr(method='kendall').to_numpy()
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
@@ -127,7 +127,7 @@ class TestTree(TestCase):
         ])
         index = 0
         n_nodes = X.shape[1]
-        tau_matrix = X.corr(method='kendall').values
+        tau_matrix = X.corr(method='kendall').to_numpy()
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
@@ -244,7 +244,7 @@ class TestTree(TestCase):
 class TestCenterTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
@@ -291,7 +291,7 @@ class TestCenterTree(TestCase):
         # Setup
         # Build first tree
         data = pd.read_csv('data/iris.data.csv')
-        tau_mat = data.corr(method='kendall').values
+        tau_mat = data.corr(method='kendall').to_numpy()
         u_matrix = np.empty(data.shape)
 
         for index, col in enumerate(data):
@@ -320,7 +320,7 @@ class TestCenterTree(TestCase):
 class TestRegularTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
@@ -388,7 +388,7 @@ class TestRegularTree(TestCase):
 class TestDirectTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
