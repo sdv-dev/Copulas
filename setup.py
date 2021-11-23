@@ -40,6 +40,7 @@ development_requires = [
     'flake8-debugger>=4.0.0,<4.1',
     'flake8-mock>=0.3,<0.4',
     'flake8-mutable>=1.2.0,<1.3',
+    'flake8-comprehensions>=3.6.1,<3.7',
     'flake8-print>=4.0.0,<4.1',
     'flake8-expression-complexity>=0.0.9,<0.1',
     'flake8-multiline-containers>=0.0.18,<0.1',
