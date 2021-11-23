@@ -1,3 +1,5 @@
+"""Bivariate copulas."""
+
 import numpy as np
 import pandas as pd
 
@@ -153,9 +155,8 @@ def select_copula(X):
 
     empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
     candidate_auts = [
-        np.concatenate((left, right)) for left, right in zip(
-            candidate_left_auts, candidate_right_auts
-        )
+        np.concatenate((left, right))
+        for left, right in zip(candidate_left_auts, candidate_right_auts)
     ]
 
     # compute L2 distance from empirical distribution

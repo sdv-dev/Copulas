@@ -141,7 +141,7 @@ class Bivariate(object):
         self.check_theta()
 
     def check_marginal(self, u):
-        """The marginals are supposed to be uniformly distributed.
+        """Check that the marginals are uniformly distributed.
 
         Args:
             u(np.ndarray): Array of datapoints with shape (n,).
@@ -220,9 +220,10 @@ class Bivariate(object):
     def generator(self, t):
         r"""Compute the generator function for Archimedian copulas.
 
-        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
-        that given an Archimedian copula fulills:
+        The generator is a function
+        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101
 
+        that given an Archimedian copula fulfills:
         .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
 
 
@@ -250,14 +251,17 @@ class Bivariate(object):
         raise NotImplementedError
 
     def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden
-        with numerically stable variants whenever possible.
+        """Return log probability density of model.
+
+        The log probability should be overridden with numerically stable
+        variants whenever possible.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
 
         Returns:
             np.ndarray
+
         """
         return np.log(self.probability_density(X))
 
@@ -324,7 +328,8 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
+        delta = (-2 * (X[:, 1] > 0.5) + 1)
+        delta = 0.0001 * delta
         X_prime = X.copy()
         X_prime[:, 1] += delta
         f = self.cumulative_distribution(X)
