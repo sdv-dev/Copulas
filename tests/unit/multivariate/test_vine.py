@@ -95,7 +95,7 @@ class TestVine(TestCase):
 
     @patch('copulas.multivariate.vine.np.random.randint', autospec=True)
     @patch('copulas.multivariate.vine.np.random.uniform', autospec=True)
-    @pytest.mark.skipif(sys.version_info > (3, 8), reason="Fails on py38. To be reviewed.")
+    @pytest.mark.skipif(sys.version_info > (3, 8), reason='Fails on py38. To be reviewed.')
     def test_sample_row(self, uniform_mock, randint_mock):
         """After being fit, a vine can sample new data."""
         # Setup

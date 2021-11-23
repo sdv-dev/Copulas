@@ -105,7 +105,7 @@ class GaussianKDE(ScipyModel):
         uppers = ndtr((X[:, None] - self._model.dataset) / stdev)
         return (uppers - lower).dot(self._model.weights)
 
-    def percent_point(self, U, method="chandrupatla"):
+    def percent_point(self, U, method='chandrupatla'):
         """Compute the inverse cumulative distribution value for each point in U.
 
         Arguments:
@@ -126,10 +126,10 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
 
         if len(U.shape) > 1:
-            raise ValueError("Expected 1d array, got %s." % (U, ))
+            raise ValueError(f'Expected 1d array, got {(U, )}.')
 
         if np.any(U > 1.0) or np.any(U < 0.0):
-            raise ValueError("Expected values in range [0.0, 1.0].")
+            raise ValueError('Expected values in range [0.0, 1.0].')
 
         is_one = U >= 1.0 - EPSILON
         is_zero = U <= EPSILON
@@ -141,12 +141,12 @@ class GaussianKDE(ScipyModel):
             return self.cumulative_distribution(X) - U[is_valid]
 
         X = np.zeros(U.shape)
-        X[is_one] = float("inf")
-        X[is_zero] = float("-inf")
+        X[is_one] = float('inf')
+        X[is_zero] = float('-inf')
         if is_valid.any():
             lower = np.full(U[is_valid].shape, lower)
             upper = np.full(U[is_valid].shape, upper)
-            if method == "bisect":
+            if method == 'bisect':
                 X[is_valid] = bisect(_f, lower, upper)
             else:
                 X[is_valid] = chandrupatla(_f, lower, upper)

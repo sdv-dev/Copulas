@@ -19,7 +19,7 @@ class TestGaussian(TestCase):
         self.test_dir.cleanup()
 
     def test_fit_sample(self):
-        model = TruncatedGaussian(min=1, max=5)
+        model = TruncatedGaussian(minimum=1, maximum=5)
         model.fit(self.data)
 
         np.testing.assert_allclose(model._params['loc'], 1.0, atol=0.2)
@@ -105,7 +105,7 @@ class TestGaussian(TestCase):
         np.testing.assert_equal(np.full(50, 1), model2.cumulative_distribution(sampled_data))
 
     def test_to_dict_constant(self):
-        model = TruncatedGaussian(min=1, max=5)
+        model = TruncatedGaussian(minimum=1, maximum=5)
         model.fit(self.constant)
 
         params = model.to_dict()
@@ -124,7 +124,7 @@ class TestGaussian(TestCase):
 
         sampled_data = model.sample(50)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        path_to_model = os.path.join(self.test_dir.name, 'model.pkl')
         model.save(path_to_model)
         model2 = TruncatedGaussian.load(path_to_model)
 
