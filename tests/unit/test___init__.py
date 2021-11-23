@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
+import pytest
 from numpy.testing import assert_array_equal
 
 from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
@@ -112,7 +113,8 @@ class TestVectorize(TestCase):
         vectorized_function = vectorize(function)
 
         # Check
-        with self.assertRaises(ValueError):
+        error_msg = 'Arrays of dimensionality higher than 2 are not supported.'
+        with pytest.raises(ValueError, match=error_msg):
             vectorized_function(instance, X, *args, **kwargs)
 
 
@@ -169,7 +171,8 @@ class TestCheckValidValues(TestCase):
         decorated_function = check_valid_values(function_mock)
 
         # Check:
-        with self.assertRaises(ValueError):
+        error_msg = 'There are nan values in your data.'
+        with pytest.raises(ValueError, match=error_msg):
             decorated_function(instance_mock, X)
 
         function_mock.assert_not_called()
@@ -190,7 +193,8 @@ class TestCheckValidValues(TestCase):
         decorated_function = check_valid_values(function_mock)
 
         # Check:
-        with self.assertRaises(ValueError):
+        error_msg = 'There are non-numerical values in your data.'
+        with pytest.raises(ValueError, match=error_msg):
             decorated_function(instance_mock, X)
 
         function_mock.assert_not_called()
@@ -208,7 +212,8 @@ class TestCheckValidValues(TestCase):
         decorated_function = check_valid_values(function_mock)
 
         # Check:
-        with self.assertRaises(ValueError):
+        error_msg = 'Your dataset is empty.'
+        with pytest.raises(ValueError, match=error_msg):
             decorated_function(instance_mock, X)
 
         function_mock.assert_not_called()

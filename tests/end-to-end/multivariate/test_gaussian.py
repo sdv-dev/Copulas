@@ -123,7 +123,8 @@ class TestGaussian(TestCase):
 
         # Test CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 <= cdf).all() and (cdf <= 1).all()
+        assert (0 <= cdf).all()
+        assert (cdf <= 1).all()
 
         # Test CDF increasing function
         for column in sampled_data.columns:

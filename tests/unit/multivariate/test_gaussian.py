@@ -284,7 +284,7 @@ class TestGaussianMultivariate(TestCase):
         result = copula.probability_density(X)
 
         # Check
-        self.assertAlmostEqual(result, expected_result)
+        assert expected_result - 1e-16 < result < expected_result + 1e-16
 
     def test_cumulative_distribution_fit_df_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -458,7 +458,8 @@ class TestGaussianMultivariate(TestCase):
 
         # Check
         assert result.shape == (5, 2)
-        assert result[~result.isna()].all().all()
+        results = result[~result.is()].all()
+        assert results.all()
         assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 
         # This is to check that the samples on the non constant column are not constant too.

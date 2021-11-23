@@ -133,8 +133,9 @@ def chandrupatla(f, xmin, xmax, eps_m=None, eps_a=None, maxiter=50):
             # scalar case
             if iqi:
                 # inverse quadratic interpolation
-                t = fa / (fb - fa) * fc / (fb - fc) + (c - a) / \
-                    (b - a) * fa / (fc - fa) * fb / (fc - fb)
+                eq1 = fa / (fb - fa) * fc / (fb - fc)
+                eq2 = (c - a) / (b - a) * fa / (fc - fa) * fb / (fc - fb)
+                t = eq1 + eq2
             else:
                 # bisection
                 t = 0.5

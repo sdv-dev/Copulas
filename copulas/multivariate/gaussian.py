@@ -41,11 +41,11 @@ class GaussianMultivariate(Multivariate):
         if self.distribution == DEFAULT_DISTRIBUTION:
             distribution = ''
         elif isinstance(self.distribution, type):
-            distribution = 'distribution="{}"'.format(self.distribution.__name__)
+            distribution = f'distribution="{self.distribution.__name__}"'
         else:
-            distribution = 'distribution="{}"'.format(self.distribution)
+            distribution = f'distribution="{self.distribution}"'
 
-        return 'GaussianMultivariate({})'.format(distribution)
+        return f'GaussianMultivariate({distribution})'
 
     def _transform_to_normal(self, X):
         if isinstance(X, pd.Series):
@@ -56,7 +56,7 @@ class GaussianMultivariate(Multivariate):
 
             X = pd.DataFrame(X, columns=self.columns)
 
-        U = list()
+        U = []
         for column_name, univariate in zip(self.columns, self.univariates):
             if column_name in X:
                 column = X[column_name]

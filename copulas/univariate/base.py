@@ -67,7 +67,7 @@ class Univariate(object):
             list:
                 Selected subclasses.
         """
-        candidates = list()
+        candidates = []
         for subclass in cls.__subclasses__():
             candidates.extend(subclass._select_candidates(parametric, bounded))
             if ABC in subclass.__bases__:

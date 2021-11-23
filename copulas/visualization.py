@@ -80,7 +80,7 @@ def side_by_side(plotting_func, arrays):
     """
     fig = plt.figure(figsize=(10, 4))
 
-    position_base = '1{}'.format(len(arrays))
+    position_base = f'1{len(arrays)}'
     for index, (title, array) in enumerate(arrays.items()):
         position = int(position_base + str(index + 1))
         plotting_func(array, fig=fig, title=title, position=position)
@@ -151,7 +151,7 @@ def compare_1d(real, synth, columns=None, figsize=None):
     num_cols = len(columns)
     fig_cols = min(2, num_cols)
     fig_rows = (num_cols // fig_cols) + 1
-    prefix = '{}{}'.format(fig_rows, fig_cols)
+    prefix = f'{fig_rows}{fig_cols}'
 
     figsize = figsize or (5 * fig_cols, 3 * fig_rows)
     fig = plt.figure(figsize=figsize)
