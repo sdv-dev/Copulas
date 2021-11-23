@@ -98,7 +98,7 @@ class Bivariate(object):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
             else:
-                raise ValueError('Invalid copula type {}'.format(copula_type))
+                raise ValueError(f'Invalid copula type {copula_type}')
 
         for subclass in cls.subclasses():
             if subclass.copula_type is copula_type:
@@ -220,9 +220,10 @@ class Bivariate(object):
     def generator(self, t):
         r"""Compute the generator function for Archimedian copulas.
 
-        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
-        that given an Archimedian copula fulills:
+        The generator is a function
+        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101
 
+        that given an Archimedian copula fulfills:
         .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
 
 
@@ -324,7 +325,8 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
+        delta = (-2 * (X[:, 1] > 0.5) + 1)
+        delta = 0.0001 * delta
         X_prime = X.copy()
         X_prime[:, 1] += delta
         f = self.cumulative_distribution(X)

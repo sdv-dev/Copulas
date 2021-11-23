@@ -101,7 +101,8 @@ class Tree(Multivariate):
         temp[:, 1] = tau_y
         temp[:, 2] = abs(tau_y)
         temp[np.isnan(temp)] = -10
-        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
+        sort_temp = temp[:, 2].argsort()[::-1]
+        tau_sorted = temp[sort_temp]
 
         return tau_sorted
 
@@ -205,8 +206,10 @@ class Tree(Multivariate):
 
     def __str__(self):
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
-        return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
-                          for edge in self.edges])
+        return '\n'.join([
+            template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
+            for edge in self.edges
+        ])
 
     def _serialize_previous_tree(self):
         if self.level == 1:
@@ -443,7 +446,7 @@ def get_tree(tree_type):
         if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
             tree_type = TreeTypes[tree_type.upper()]
         else:
-            raise ValueError('Invalid tree type {}'.format(tree_type))
+            raise ValueError(f'Invalid tree type {tree_type}')
 
     if tree_type == TreeTypes.CENTER:
         return CenterTree()
