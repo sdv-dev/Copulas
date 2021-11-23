@@ -262,14 +262,14 @@ class TestGaussianMultivariate(TestCase):
             distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Run
-        copula.fit(self.data.values)
+        copula.fit(self.data.to_numpy())
 
         # Check
         for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
             assert univariate._params['loc'] == np.mean(self.data[column])
             assert univariate._params['scale'] == np.std(self.data[column])
 
-        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.values))
+        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.to_numpy()))
         assert (copula.covariance == expected_covariance).all().all()
 
     def test_probability_density(self):
@@ -304,7 +304,7 @@ class TestGaussianMultivariate(TestCase):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
-        copula.fit(self.data.values)
+        copula.fit(self.data.to_numpy())
         X = np.array([2000., 200., 1.])
         expected_result = 0.4550595153746892
 
@@ -318,7 +318,7 @@ class TestGaussianMultivariate(TestCase):
         """Cumulative_density integrates the probability density along the given values."""
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
-        copula.fit(self.data.values)
+        copula.fit(self.data.to_numpy())
         X = np.array([2000., 200., 1.])
         expected_result = 0.4550595153746892
 
@@ -458,7 +458,7 @@ class TestGaussianMultivariate(TestCase):
 
         # Check
         assert result.shape == (5, 2)
-        results = result[~result.isnull()].all()
+        results = result[~result.is()].all()
         assert results.all()
         assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 
@@ -466,7 +466,7 @@ class TestGaussianMultivariate(TestCase):
         assert len(result.loc[:, 1].unique()) > 1
 
         covariance = instance.covariance
-        assert (~pd.isnull(covariance)).all().all()
+        assert (~pd.isna(covariance)).all().all()
 
     def test__get_conditional_distribution(self):
         gm = GaussianMultivariate()

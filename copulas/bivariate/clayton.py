@@ -14,9 +14,10 @@ class Clayton(Bivariate):
     def generator(self, t):
         r"""Compute the generator function for Clayton copula family.
 
-        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
-        that given an Archimedian copula fulills:
+        The generator is a function
+        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101
 
+        that given an Archimedian copula fulfills:
         .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
 
         Args:
@@ -50,7 +51,7 @@ class Clayton(Bivariate):
 
         U, V = split_matrix(X)
 
-        a = (self.theta + 1) * np.power(np.multiply(U, V), -(self.theta + 1))
+        a = (self.theta + 1) * np.power(U * V, -(self.theta + 1))
         b = np.power(U, -self.theta) + np.power(V, -self.theta) - 1
         c = -(2 * self.theta + 1) / self.theta
         return a * np.power(b, c)
@@ -141,7 +142,7 @@ class Clayton(Bivariate):
 
         B = np.power(V, -self.theta) + np.power(U, -self.theta) - 1
         h = np.power(B, (-1 - self.theta) / self.theta)
-        return np.multiply(A, h)
+        return A * h
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.
