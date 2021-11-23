@@ -458,7 +458,7 @@ class TestGaussianMultivariate(TestCase):
 
         # Check
         assert result.shape == (5, 2)
-        results = result[~result.is()].all()
+        results = result[~result.isna()].all()
         assert results.all()
         assert result.loc[:, 0].equals(pd.Series([1.0, 1.0, 1.0, 1.0, 1.0], name=0))
 

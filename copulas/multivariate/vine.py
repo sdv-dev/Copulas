@@ -248,8 +248,6 @@ class VineCopula(Multivariate):
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the vine."""
-        # TODO: explain what this is supposed to do and make it work
-        # TODO: Alternatively, remove it.
         num_tree = len(self.trees)
         values = np.empty([1, num_tree])
 

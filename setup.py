@@ -40,6 +40,7 @@ development_requires = [
     'flake8-debugger>=4.0.0,<4.1',
     'flake8-mock>=0.3,<0.4',
     'flake8-mutable>=1.2.0,<1.3',
+    'flake8-fixme>=1.1.1,<1.2',
     'pep8-naming>=0.12.1,<0.13',
     'dlint>=0.11.0,<0.12',
     'flake8-docstrings>=1.5.0,<2',
