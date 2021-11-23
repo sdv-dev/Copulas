@@ -25,9 +25,11 @@ class Gumbel(Bivariate):
 
             \begin{align}
                 c(U,V)
-                    &= \frac{\partial^2 C(u,v)}{\partial v \partial u} \\
-                    &= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
-                {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
+                    &= \frac{\partial^2 C(u,v)}{\partial v \partial u}
+                    &= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta}  # noqa: JS101
+                    + (-\ln v)^{\theta})^{\frac{2}  # noqa: JS101
+                {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}}  # noqa: JS101
+                ( 1 + (\theta-1) \big((-\ln u)^\theta
                 + (-\ln v)^\theta\big)^{-1/\theta})
             \end{align}
 
@@ -43,13 +45,13 @@ class Gumbel(Bivariate):
         U, V = split_matrix(X)
 
         if self.theta == 1:
-            return np.multiply(U, V)
+            return U * V
 
         else:
-            a = np.power(np.multiply(U, V), -1)
+            a = np.power(U * V, -1)
             tmp = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
             b = np.power(tmp, -2 + 2.0 / self.theta)
-            c = np.power(np.multiply(np.log(U), np.log(V)), self.theta - 1)
+            c = np.power(np.log(U) * np.log(V), self.theta - 1)
             d = 1 + (self.theta - 1) * np.power(tmp, -1.0 / self.theta)
             return self.cumulative_distribution(X) * a * b * c * d
 
@@ -73,7 +75,7 @@ class Gumbel(Bivariate):
         U, V = split_matrix(X)
 
         if self.theta == 1:
-            return np.multiply(U, V)
+            return U * V
 
         else:
             h = np.power(-np.log(U), self.theta) + np.power(-np.log(V), self.theta)
@@ -127,7 +129,7 @@ class Gumbel(Bivariate):
             p1 = self.cumulative_distribution(X)
             p2 = np.power(t1 + t2, -1 + 1.0 / self.theta)
             p3 = np.power(-np.log(V), self.theta - 1)
-            return np.divide(np.multiply(np.multiply(p1, p2), p3), V)
+            return p1 * p2 * p3 / V
 
     def compute_theta(self):
         r"""Compute theta parameter using Kendall's tau.
