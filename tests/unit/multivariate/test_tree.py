@@ -15,7 +15,7 @@ from tests import compare_nested_dicts, compare_nested_iterables, compare_values
 
 class TestTree(TestCase):
 
-    @pytest.mark.skipif(sys.version_info > (3, 8), reason="Fails on py38. To be reviewed.")
+    @pytest.mark.skipif(sys.version_info > (3, 8), reason='Fails on py38. To be reviewed.')
     def test_to_dict_fit_model(self):
         # Setup
         instance = get_tree(TreeTypes.REGULAR)
@@ -26,7 +26,7 @@ class TestTree(TestCase):
         ])
         index = 0
         n_nodes = X.shape[1]
-        tau_matrix = X.corr(method='kendall').values
+        tau_matrix = X.corr(method='kendall').to_numpy()
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
@@ -127,7 +127,7 @@ class TestTree(TestCase):
         ])
         index = 0
         n_nodes = X.shape[1]
-        tau_matrix = X.corr(method='kendall').values
+        tau_matrix = X.corr(method='kendall').to_numpy()
 
         univariates_matrix = np.empty(X.shape)
         for i, column in enumerate(X):
@@ -169,9 +169,10 @@ class TestTree(TestCase):
             [EPSILON, 0.25, 0.50, 0.75, 1 - EPSILON]
         ])
 
+        flipped_u_matrix = instance.u_matrix[:, [1, 0]]
         expected_partial_derivative_call_args = [
             ((instance.u_matrix,), {}),
-            ((instance.u_matrix[:, np.argsort([1, 0])],), {})
+            ((flipped_u_matrix,), {})
         ]
 
         # Run
@@ -219,9 +220,11 @@ class TestTree(TestCase):
             ['left_u_1', 'right_u_1'],
             ['left_u_2', 'right_u_2']
         ])
+
+        flipped_conditional_univariates = conditional_univariates[:, [1, 0]]
         expected_partial_derivative_call_args = [
             ((conditional_univariates,), {}),
-            ((conditional_univariates[:, np.argsort([1, 0])],), {})
+            ((flipped_conditional_univariates,), {})
         ]
 
         # Run
@@ -244,7 +247,7 @@ class TestTree(TestCase):
 class TestCenterTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
@@ -291,7 +294,7 @@ class TestCenterTree(TestCase):
         # Setup
         # Build first tree
         data = pd.read_csv('data/iris.data.csv')
-        tau_mat = data.corr(method='kendall').values
+        tau_mat = data.corr(method='kendall').to_numpy()
         u_matrix = np.empty(data.shape)
 
         for index, col in enumerate(data):
@@ -320,7 +323,7 @@ class TestCenterTree(TestCase):
 class TestRegularTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
@@ -388,7 +391,7 @@ class TestRegularTree(TestCase):
 class TestDirectTree(TestCase):
     def setUp(self):
         self.data = pd.read_csv('data/iris.data.csv')
-        self.tau_mat = self.data.corr(method='kendall').values
+        self.tau_mat = self.data.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty(self.data.shape)
         count = 0
         for col in self.data:
@@ -651,22 +654,24 @@ class TestEdge(TestCase):
 
         instance_mock = bivariate_mock.return_value
         instance_mock.probability_density.return_value = [0]
-        instance_mock.partial_derivative.return_value = 'partial_derivative'
+        s = 'partial_derivative'
+        instance_mock.partial_derivative.return_value = s
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([
+            [
+                [0.25, 0.75],
+                [0.50, 0.50],
+            ]
+        ])
+
+        array2 = np.array([
+            [
+                [0.50, 0.50],
+                [0.25, 0.75]
+            ]
+        ])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)
@@ -713,20 +718,21 @@ class TestEdge(TestCase):
         instance_mock.probability_density.return_value = [0]
         instance_mock.partial_derivative.return_value = 'partial_derivative'
 
-        expected_partial_derivative_call_args = [
-            (
-                (np.array([[
-                    [0.25, 0.75],
-                    [0.50, 0.50],
-                ]]),), {}
-            ),
-            (
-                (np.array([[
-                    [0.50, 0.50],
-                    [0.25, 0.75]
-                ]]), ), {}
-            )
-        ]
+        array1 = np.array([
+            [
+                [0.25, 0.75],
+                [0.50, 0.50],
+            ]
+        ])
+
+        array2 = np.array([
+            [
+                [0.50, 0.50],
+                [0.25, 0.75]
+            ]
+        ])
+
+        expected_partial_derivative_call_args = [((array1,), {}), ((array2,), {})]
 
         # Run
         result = instance.get_likelihood(univariates)

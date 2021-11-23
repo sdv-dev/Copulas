@@ -101,7 +101,8 @@ class Tree(Multivariate):
         temp[:, 1] = tau_y
         temp[:, 2] = abs(tau_y)
         temp[np.isnan(temp)] = -10
-        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
+        sort_temp = temp[:, 2].argsort()[::-1]
+        tau_sorted = temp[sort_temp]
 
         return tau_sorted
 
@@ -205,8 +206,10 @@ class Tree(Multivariate):
 
     def __str__(self):
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
-        return '\n'.join([template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
-                          for edge in self.edges])
+        return '\n'.join([
+            template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
+            for edge in self.edges
+        ])
 
     def _serialize_previous_tree(self):
         if self.level == 1:
@@ -384,7 +387,7 @@ class RegularTree(Tree):
             for x in X:
                 for k in range(self.n_nodes):
                     if k not in X and k != x:
-                        adj_set.add((x, k))
+                        adj_set.add((x, k))  # noqa: PD005
 
             # find edge with maximum
             edge = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
@@ -395,7 +398,7 @@ class RegularTree(Tree):
             new_edge = Edge(len(X) - 1, left, right, name, theta)
             new_edge.tau = self.tau_matrix[edge[0], edge[1]]
             self.edges.append(new_edge)
-            X.add(edge[1])
+            X.add(edge[1])  # noqa: PD005
 
     def _build_kth_tree(self):
         """Build tree for level k."""
@@ -410,11 +413,11 @@ class RegularTree(Tree):
                 for k in range(self.n_nodes):
                     # check if (x,k) is a valid edge in the vine
                     if k not in visited and k != x and self._check_constraint(edges[x], edges[k]):
-                        adj_set.add((x, k))
+                        adj_set.add((x, k))  # noqa: PD005
 
             # find edge with maximum tau
             if len(adj_set) == 0:
-                visited.add(list(unvisited)[0])
+                visited.add(list(unvisited)[0])  # noqa: PD005
                 continue
 
             pairs = sorted(adj_set, key=lambda e: neg_tau[e[0]][e[1]])[0]
@@ -424,7 +427,7 @@ class RegularTree(Tree):
             new_edge.tau = self.tau_matrix[pairs[0], pairs[1]]
             self.edges.append(new_edge)
 
-            visited.add(pairs[1])
+            visited.add(pairs[1])  # noqa: PD005
             unvisited.remove(pairs[1])
 
 
@@ -443,7 +446,7 @@ def get_tree(tree_type):
         if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
             tree_type = TreeTypes[tree_type.upper()]
         else:
-            raise ValueError('Invalid tree type {}'.format(tree_type))
+            raise ValueError(f'Invalid tree type {tree_type}')
 
     if tree_type == TreeTypes.CENTER:
         return CenterTree()

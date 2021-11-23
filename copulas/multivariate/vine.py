@@ -167,7 +167,7 @@ class VineCopula(Multivariate):
         LOGGER.info('Fitting VineCopula("%s")', self.vine_type)
         self.n_sample, self.n_var = X.shape
         self.columns = X.columns
-        self.tau_mat = X.corr(method='kendall').values
+        self.tau_mat = X.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty([self.n_sample, self.n_var])
 
         self.truncated = truncated
@@ -237,11 +237,11 @@ class VineCopula(Multivariate):
             # get constraints from previous tree
             self.trees[k - 1]._get_constraints()
             tau = self.trees[k - 1].get_tau_matrix()
-            LOGGER.debug('start building tree: {0}'.format(k))
+            LOGGER.debug(f'start building tree: {k}')
             tree_k = get_tree(tree_type)
             tree_k.fit(k, self.n_var - k, tau, self.trees[k - 1])
             self.trees.append(tree_k)
-            LOGGER.debug('finish building tree: {0}'.format(k))
+            LOGGER.debug(f'finish building tree: {k}')
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the vine."""
@@ -274,7 +274,8 @@ class VineCopula(Multivariate):
         itr = 0
         while explore:
             current = explore.pop(0)
-            neighbors = np.where(adj[current, :] == 1)[0].tolist()
+            adj_is_one = adj[current, :] == 1
+            neighbors = np.where(adj_is_one)[0].tolist()
             if itr == 0:
                 new_x = self.ppfs[current](unis[current])
 
@@ -296,11 +297,11 @@ class VineCopula(Multivariate):
                         else:
                             if edge.L == current or edge.R == current:
                                 condition = set(edge.D)
-                                condition.add(edge.L)
-                                condition.add(edge.R)
+                                condition.add(edge.L)  # noqa: PD005
+                                condition.add(edge.R)  # noqa: PD005
 
                                 visit_set = set(visited)
-                                visit_set.add(current)
+                                visit_set.add(current)  # noqa: PD005
 
                                 if condition.issubset(visit_set):
                                     current_ind = edge.index
