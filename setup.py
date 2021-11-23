@@ -45,6 +45,7 @@ development_requires = [
     'flake8-eradicate>=1.1.0,<1.2',
     'flake8-quotes>=3.3.0,<4',
     'flake8-sfs>=0.0.3,<0.1',
+    'flake8-absolute-import>=1.0,<2',
 
     # fix style issues
     'autoflake>=1.1,<2',
