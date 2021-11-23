@@ -274,7 +274,8 @@ class VineCopula(Multivariate):
         itr = 0
         while explore:
             current = explore.pop(0)
-            neighbors = np.where(adj[current, :] == 1)[0].tolist()
+            adj_is_one = adj[current, :] == 1
+            neighbors = np.where(adj_is_one)[0].tolist()
             if itr == 0:
                 new_x = self.ppfs[current](unis[current])
 

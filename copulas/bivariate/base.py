@@ -325,7 +325,8 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
+        delta = (-2 * (X[:, 1] > 0.5) + 1)
+        delta = 0.0001 * delta
         X_prime = X.copy()
         X_prime[:, 1] += delta
         f = self.cumulative_distribution(X)

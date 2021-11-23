@@ -101,7 +101,8 @@ class Tree(Multivariate):
         temp[:, 1] = tau_y
         temp[:, 2] = abs(tau_y)
         temp[np.isnan(temp)] = -10
-        tau_sorted = temp[temp[:, 2].argsort()[::-1]]
+        sort_temp = temp[:, 2].argsort()[::-1]
+        tau_sorted = temp[sort_temp]
 
         return tau_sorted
 
