@@ -58,7 +58,7 @@ def get_instance(obj, **kwargs):
         if kwargs:
             instance = obj.__class__(**kwargs)
         else:
-            args = getattr(obj, '__args__', tuple())
+            args = getattr(obj, '__args__', ())
             kwargs = getattr(obj, '__kwargs__', {})
             instance = obj.__class__(*args, **kwargs)
 
@@ -198,7 +198,7 @@ def check_valid_values(function):
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):
-            W = X.values
+            W = X.to_numpy()
 
         else:
             W = X

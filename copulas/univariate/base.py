@@ -61,7 +61,7 @@ class Univariate(object):
             list:
                 Selected subclasses.
         """
-        candidates = list()
+        candidates = []
         for subclass in cls.__subclasses__():
             candidates.extend(subclass._select_candidates(parametric, bounded))
             if ABC in subclass.__bases__:
@@ -96,7 +96,7 @@ class Univariate(object):
                 if the model is not fitted.
         """
         if not self.fitted:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')
 
     def _constant_sample(self, num_samples):
         """Sample values for a constant distribution.

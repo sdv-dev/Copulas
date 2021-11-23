@@ -126,9 +126,9 @@ class TestGaussianKDE(TestCase):
 
         cdf = instance.percent_point(np.array([0.001, 0.5, 0.999]))
 
-        assert cdf[0] < 0.0, "The 0.001th percentile should be small."
-        assert abs(cdf[1] - 1.0) < 0.1, "The 50% percentile should be the median."
-        assert cdf[2] > 2.0, "The 0.999th percentile should be large."
+        assert cdf[0] < 0.0, 'The 0.001th percentile should be small.'
+        assert abs(cdf[1] - 1.0) < 0.1, 'The 50% percentile should be the median.'
+        assert cdf[2] > 2.0, 'The 0.999th percentile should be large.'
 
     def test_percent_point_bisect(self):
         """percent_point evaluates with the model."""
@@ -137,9 +137,9 @@ class TestGaussianKDE(TestCase):
 
         cdf = instance.percent_point(np.array([0.001, 0.5, 0.999]), method='bisect')
 
-        assert cdf[0] < 0.0, "The 0.001th percentile should be small."
-        assert abs(cdf[1] - 1.0) < 0.1, "The 50% percentile should be the median."
-        assert cdf[2] > 2.0, "The 0.999th percentile should be large."
+        assert cdf[0] < 0.0, 'The 0.001th percentile should be small.'
+        assert abs(cdf[1] - 1.0) < 0.1, 'The 50% percentile should be the median.'
+        assert cdf[2] > 2.0, 'The 0.999th percentile should be large.'
 
     def test_percent_point_invalid_value(self):
         """Evaluating an invalid value will raise ValueError."""
@@ -162,8 +162,8 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         instance.fit(np.array([0.0, 0.5, 1.0]))
         x = instance.percent_point(np.array([0.0, 1.0]))
-        assert x[0] == float("-inf")
-        assert x[1] == float("inf")
+        assert x[0] == float('-inf')
+        assert x[1] == float('inf')
 
     @patch('copulas.univariate.gaussian_kde.gaussian_kde', autospec=True)
     def test_sample(self, kde_mock):

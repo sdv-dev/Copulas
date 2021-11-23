@@ -110,8 +110,8 @@ class TestStudentT(TestCase):
 
         params = model.to_dict()
 
-        df = params.pop('df')
-        assert np.isclose(df, 152801, atol=1)
+        dataframe = params.pop('df')
+        assert np.isclose(dataframe, 152801, atol=1)
 
         assert params == {
             'type': 'copulas.univariate.student_t.StudentTUnivariate',
@@ -125,7 +125,7 @@ class TestStudentT(TestCase):
 
         sampled_data = model.sample(50)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        path_to_model = os.path.join(self.test_dir.name, 'model.pkl')
         model.save(path_to_model)
         model2 = StudentTUnivariate.load(path_to_model)
 
