@@ -1,3 +1,5 @@
+"""Univariate selection function."""
+
 import numpy as np
 from scipy.stats import kstest
 

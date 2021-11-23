@@ -1,3 +1,5 @@
+"""VineCopula module."""
+
 import logging
 import sys
 import warnings
@@ -62,6 +64,7 @@ class VineCopula(Multivariate):
         ppfs (list[callable]):
             percent point functions from the univariates used by this vine.
     """
+
     @store_args
     def __init__(self, vine_type, random_seed=None):
         if sys.version_info > (3, 8):
@@ -186,7 +189,7 @@ class VineCopula(Multivariate):
         self.fitted = True
 
     def train_vine(self, tree_type):
-        """Build the wine.
+        r"""Build the vine.
 
         1. For the construction of the first tree :math:`T_1`, assign one node to each variable
            and then couple them by maximizing the measure of association considered.
@@ -274,7 +277,8 @@ class VineCopula(Multivariate):
         itr = 0
         while explore:
             current = explore.pop(0)
-            neighbors = np.where(adj[current, :] == 1)[0].tolist()
+            adj_is_one = adj[current, :] == 1
+            neighbors = np.where(adj_is_one)[0].tolist()
             if itr == 0:
                 new_x = self.ppfs[current](unis[current])
 

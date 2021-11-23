@@ -1,3 +1,4 @@
+"""Gumbel module."""
 
 import numpy as np
 
@@ -25,9 +26,11 @@ class Gumbel(Bivariate):
 
             \begin{align}
                 c(U,V)
-                    &= \frac{\partial^2 C(u,v)}{\partial v \partial u} \\
-                    &= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
-                {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
+                    &= \frac{\partial^2 C(u,v)}{\partial v \partial u}
+                    &= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta}  # noqa: JS101
+                    + (-\ln v)^{\theta})^{\frac{2}  # noqa: JS101
+                {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}}  # noqa: JS101
+                ( 1 + (\theta-1) \big((-\ln u)^\theta
                 + (-\ln v)^\theta\big)^{-1/\theta})
             \end{align}
 
