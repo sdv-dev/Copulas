@@ -237,11 +237,11 @@ class VineCopula(Multivariate):
             # get constraints from previous tree
             self.trees[k - 1]._get_constraints()
             tau = self.trees[k - 1].get_tau_matrix()
-            LOGGER.debug('start building tree: {0}'.format(k))
+            LOGGER.debug(f'start building tree: {k}')
             tree_k = get_tree(tree_type)
             tree_k.fit(k, self.n_var - k, tau, self.trees[k - 1])
             self.trees.append(tree_k)
-            LOGGER.debug('finish building tree: {0}'.format(k))
+            LOGGER.debug(f'finish building tree: {k}')
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the vine."""

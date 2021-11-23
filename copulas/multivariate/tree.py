@@ -443,7 +443,7 @@ def get_tree(tree_type):
         if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
             tree_type = TreeTypes[tree_type.upper()]
         else:
-            raise ValueError('Invalid tree type {}'.format(tree_type))
+            raise ValueError(f'Invalid tree type {tree_type}')
 
     if tree_type == TreeTypes.CENTER:
         return CenterTree()
