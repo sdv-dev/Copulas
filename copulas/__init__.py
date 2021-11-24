@@ -17,11 +17,17 @@ EPSILON = np.finfo(np.float32).eps
 
 
 class NotFittedError(Exception):
-    pass
+    """NotFittedError class."""
 
 
 @contextlib.contextmanager
 def random_seed(seed):
+    """Context manager for managing the random seed.
+
+    Args:
+        seed (int):
+            The random seed.
+    """
     state = np.random.get_state()
     np.random.seed(seed)
     try:
@@ -31,6 +37,13 @@ def random_seed(seed):
 
 
 def random_state(function):
+    """Set the random state before calling the function.
+
+    Args:
+        function (Callable):
+            The function to wrap around.
+    """
+
     def wrapper(self, *args, **kwargs):
         if self.random_seed is None:
             return function(self, *args, **kwargs)
@@ -58,7 +71,7 @@ def get_instance(obj, **kwargs):
         if kwargs:
             instance = obj.__class__(**kwargs)
         else:
-            args = getattr(obj, '__args__', tuple())
+            args = getattr(obj, '__args__', ())
             kwargs = getattr(obj, '__kwargs__', {})
             instance = obj.__class__(*args, **kwargs)
 
@@ -183,7 +196,7 @@ def scalarize(function):
 
 
 def check_valid_values(function):
-    """Raises an exception if the given values are not supported.
+    """Raise an exception if the given values are not supported.
 
     Args:
         function(callable): Method whose unique argument is a numpy.array-like object.
@@ -198,7 +211,7 @@ def check_valid_values(function):
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):
-            W = X.values
+            W = X.to_numpy()
 
         else:
             W = X

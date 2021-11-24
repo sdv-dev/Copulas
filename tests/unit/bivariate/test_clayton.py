@@ -22,8 +22,8 @@ class TestClayton(TestCase):
     def test_fit(self):
         """On fit, theta and tau attributes are set."""
         self.copula.fit(self.X)
-        self.assertAlmostEqual(self.copula.tau, 0.7877, places=3)
-        self.assertAlmostEqual(self.copula.theta, 7.4218, places=3)
+        assert 0.7877 <= self.copula.tau < 0.7878
+        assert 7.4218 <= self.copula.theta < 7.4219
 
     def test_probability_density(self):
         """Probability_density returns the probability density for the given values."""

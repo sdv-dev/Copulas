@@ -12,7 +12,7 @@ BASE = os.path.dirname(__file__)
 TESTS = glob.glob(BASE + '/test_cases/*/*.json')
 
 
-@pytest.mark.parametrize("config_path", TESTS)
+@pytest.mark.parametrize('config_path', TESTS)
 def test_pdf(config_path):
     with open(config_path, 'r') as config_file:
         config = json.load(config_file)
@@ -31,9 +31,9 @@ def test_pdf(config_path):
     instance.theta = inputs['theta']
 
     # Asserts
-    cdfs = instance.cdf(input_points.values)
+    cdfs = instance.cdf(input_points.to_numpy())
 
     rtol = config['settings']['rtol']
 
-    assert np.all(np.isclose(output_r["cdf"], cdfs, rtol=rtol))
-    assert np.all(np.isclose(output_matlab["cdf"], cdfs, rtol=rtol))
+    assert np.all(np.isclose(output_r['cdf'], cdfs, rtol=rtol))
+    assert np.all(np.isclose(output_matlab['cdf'], cdfs, rtol=rtol))

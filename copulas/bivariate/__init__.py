@@ -1,3 +1,5 @@
+"""Bivariate copulas."""
+
 import numpy as np
 import pandas as pd
 
@@ -71,7 +73,7 @@ def _compute_tail(c, z):
         numpy.ndarray
 
     """
-    return np.divide(1.0 - 2 * np.asarray(z) + c, np.power(1.0 - np.asarray(z), 2))
+    return (1.0 - 2 * np.asarray(z) + c) / (np.power(1.0 - np.asarray(z), 2))
 
 
 def _compute_candidates(copulas, left_tail, right_tail):
@@ -153,9 +155,8 @@ def select_copula(X):
 
     empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
     candidate_auts = [
-        np.concatenate((left, right)) for left, right in zip(
-            candidate_left_auts, candidate_right_auts
-        )
+        np.concatenate((left, right))
+        for left, right in zip(candidate_left_auts, candidate_right_auts)
     ]
 
     # compute L2 distance from empirical distribution
@@ -170,5 +171,5 @@ def select_copula(X):
 
     score = score_left + score_right + score_both
 
-    selected_copula = np.argmax(score.values)
+    selected_copula = np.argmax(score.to_numpy())
     return copula_candidates[selected_copula]

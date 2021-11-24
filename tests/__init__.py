@@ -1,13 +1,14 @@
+"""Copulas testing module."""
+
 import numpy as np
 import pandas as pd
 
-COMPARE_VALUES_ERROR = 'Values don\'t match at index {}\n {} != {}'
+COMPARE_VALUES_ERROR = "Values don't match at index {}\n {} != {}"
 NUMPY_NUMERICAL_DTYPES = set('buifc')
 
 
 def compare_nested_dicts(first, second, epsilon=10E-6):
-    """Compares two dictionaries. Raises an assertion error when a difference is found."""
-
+    """Compare two dictionaries. Raises an assertion error when a difference is found."""
     assert first.keys() == second.keys()
 
     for key, _first in first.items():
@@ -30,15 +31,16 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
 
 
 def compare_values_epsilon(first, second, epsilon=10E-6,):
-    if pd.isnull(first) and pd.isnull(second):
+    """Compare epsilons."""
+    if pd.isna(first) and pd.isna(second):
         return True
 
     return abs(first - second) < epsilon
 
 
 def compare_nested_iterables(first, second, epsilon=10E-6):
-
-    assert len(first) == len(second), "Iterables should have the same length to be compared."
+    """Compare iterables."""
+    assert len(first) == len(second), 'Iterables should have the same length to be compared.'
 
     for index, (_first, _second) in enumerate(zip(first, second)):
 

@@ -62,7 +62,8 @@ class TestGaussian(TestCase):
 
         # Test the CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 <= cdf).all() and (cdf <= 1).all()
+        assert (0 <= cdf).all()
+        assert (cdf <= 1).all()
 
         # Test CDF increasing function
         sorted_data = sorted(sampled_data)
@@ -124,7 +125,7 @@ class TestGaussian(TestCase):
 
         sampled_data = model.sample(50)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        path_to_model = os.path.join(self.test_dir.name, 'model.pkl')
         model.save(path_to_model)
         model2 = BetaUnivariate.load(path_to_model)
 
