@@ -1,6 +1,6 @@
 <p align="left">
   <a href="https://dai.lids.mit.edu">
-    <img alt="DAI-Lab" width=15% src="docs/images/dai-logo-white.png" onerror="this.onerror=null;this.src='_static/dai-logo-white.png';"/>
+    <img width=15% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt="DAI-Lab" />
   </a>
   <i>An Open Source Project from the <a href="https://dai.lids.mit.edu">Data to AI Lab, at MIT</a></i>
 </p>
@@ -11,7 +11,7 @@
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 
-<img alt="Copulas" width=30% src="docs/images/copulas.png" onerror="this.onerror=null;this.src='_static/copulas.png';">
+<img alt="Copulas" width=30% src="https://user-images.githubusercontent.com/41479552/146217310-48af6390-3761-4313-b067-ac535eb6a71b.png" onerror="this.onerror=null;this.src='_static/copulas.png';">
 
 # Overview
 
