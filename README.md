@@ -1,8 +1,7 @@
-<p align="left">
-  <a href="https://dai.lids.mit.edu">
-    <img alt="DAI-Lab" width=15% src="docs/images/dai-logo-white.png" onerror="this.onerror=null;this.src='_static/dai-logo-white.png';"/>
-  </a>
-  <i>An Open Source Project from the <a href="https://dai.lids.mit.edu">Data to AI Lab, at MIT</a></i>
+<div align="center">
+<br/>
+<p align="center">
+    <i>This repository is part of <a href="https://sdv.dev">The Synthetic Data Vault Project</a>, a project from <a href="https://datacebo.com">DataCebo</a>.</i>
 </p>
 
 [![Development Status](https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow)](https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha)
@@ -11,20 +10,43 @@
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 
-<img alt="Copulas" width=30% src="docs/images/copulas.png" onerror="this.onerror=null;this.src='_static/copulas.png';">
+<div align="left">
+<br/>
+<p align="center">
+<img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png"></img>
+</p>
+</div>
+
+</div>
 
 # Overview
-
-* Website: https://sdv.dev
-* Documentation: https://sdv.dev/Copulas
-* Repository: https://github.com/sdv-dev/Copulas
-* License: [MIT](https://github.com/sdv-dev/Copulas/blob/master/LICENSE)
-* Development Status: [Pre-Alpha](https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha)
 
 **Copulas** is a Python library for modeling multivariate distributions and sampling from them
 using [copula functions](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29).
 Given a table containing numerical data, we can use Copulas to learn the distribution and
 later on generate new synthetic rows following the same statistical properties.
+
+| Important Links            |                                                                |
+| -------------------------- | -------------------------------------------------------------- |
+| :computer: **[Website]**        | Check out the SDV Website for more information about the project. |
+| :orange_book: **[SDV Blog]**        | Regular publshing of useful content about Synthetic Data Generation. |
+| :book: **[Documentation]**      | Quickstarts, User and Development Guides, and API Reference. |
+| :octocat: **[Repository]**            | The link to the Github Repository of this library. |
+| :scroll: **[License]**        | The entire ecosystem is published under the MIT License. |
+| :keyboard: **[Development Status]** | This software is in its Pre-Alpha stage. |
+| ![](slack.png) **[Community]** | Join our Slack Workspace for announcements and discussions. |
+| ![](mybinder.png) **[Tutorials]** | Run the SDV Tutorials in a Binder environment. |
+
+[Website]: https://sdv.dev
+[SDV Blog]: https://sdv.dev/blog
+[Documentation]: https://sdv.dev/SDV
+[Repository]: https://github.com/sdv-dev/Copulas
+[License]: https://github.com/sdv-dev/Copulas/blob/master/LICENSE
+[Development Status]: https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha
+[Community]: https://join.slack.com/t/sdv-space/shared_invite/zt-gdsfcb5w-0QQpFMVoyB2Yd6SRiMplcw
+[Tutorials]: https://mybinder.org/v2/gh/sdv-dev/SDV/master?filepath=tutorials
+
+# Features
 
 Some of the features provided by this library include:
 
@@ -61,8 +83,6 @@ Some of the features provided by this library include:
 
 # Install
 
-## Requirements
-
 **Copulas** is part of the **SDV** project and is automatically installed alongside it. For
 details about this process please visit the [SDV Installation Guide](
 https://sdv.dev/SDV/getting_started/install.html)
@@ -78,7 +98,7 @@ pip install copulas
 **Using `conda`:**
 
 ```bash
-conda install -c sdv-dev -c conda-forge copulas
+conda install -c conda-forge copulas
 ```
 
 For more installation options please visit the [Copulas installation Guide](INSTALL.md)
@@ -142,14 +162,25 @@ maintained over the years by the following team:
 * paulolimac <paulolimac@gmail.com>
 * nazar-ivantsiv <nazar.ivantsiv@gmail.com>
 
-# The Synthetic Data Vault
+---
 
-<p>
-  <a href="https://sdv.dev">
-    <img width=30% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/SDV-Logo-Color-Tagline.png?raw=true">
-  </a>
-  <p><i>This repository is part of <a href="https://sdv.dev">The Synthetic Data Vault Project</a></i></p>
-</p>
 
-* Website: https://sdv.dev
-* Documentation: https://sdv.dev/SDV
+<div align="center">
+<a href="https://datacebo.com"><img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/DataCebo.png"></img></a>
+</div>
+<br/>
+<br/>
+
+The [DataCebo team](https://datacebo.com) is the proud developer of [The Synthetic Data Vault Project](
+https://sdv.dev), the largest open source ecosystem for synthetic data generation & evaluation.
+The ecosystem is home to multiple libraries that support synthetic data, including:
+
+* 🔄 Data discovery & transformation. Reverse the transforms to reproduce realistic data.
+* 🧠 Multiple machine learning models -- ranging from Copulas to Deep Learning -- to create tabular,
+  multi table and time series data.
+* 📊 Measuring quality and privacy of synthetic data, and comparing different synthetic data
+  generation models.
+
+[Get started using the SDV package](https://sdv.dev/SDV/getting_started/install.html) -- a fully
+integrated solution and your one-stop shop for synthetic data.Or, use the standalone libraries
+for specific needs.
