@@ -120,3 +120,14 @@ class TestBivariate(TestCase):
         expected_args = ((np.array([[0.5, 0.1]]), 0), {})
         assert len(expected_args) == len(derivative_mock.call_args)
         assert (derivative_mock.call_args[0][0] == expected_args[0][0]).all()
+
+    def test_set_random_seed(self):
+        """Test `set_random_seed` works as expected"""
+        # Setup
+        instance = Bivariate()
+
+        # Run
+        instance.set_random_seed(3)
+
+        # Check
+        assert instance.random_seed == 3

@@ -111,7 +111,7 @@ class Multivariate(object):
 
     def set_random_seed(self, random_seed):
         """Set the random seed.
-            
+
         Args:
             random_seed (int or None): Seed for the random generator.
         """
