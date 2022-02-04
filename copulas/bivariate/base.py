@@ -343,6 +343,14 @@ class Bivariate(object):
         X = np.column_stack((U, V))
         return self.partial_derivative(X)
 
+    def set_random_seed(self, random_seed):
+        """Set the random seed.
+            
+        Args:
+            random_seed (int or None): Seed for the random generator.
+        """
+        self.random_seed = random_seed
+
     @random_state
     def sample(self, n_samples):
         """Generate specified `n_samples` of new data from model.

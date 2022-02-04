@@ -109,6 +109,14 @@ class Multivariate(object):
         """
         return self.cumulative_distribution(X)
 
+    def set_random_seed(self, random_seed):
+        """Set the random seed.
+            
+        Args:
+            random_seed (int or None): Seed for the random generator.
+        """
+        self.random_seed = random_seed
+
     def sample(self, num_rows=1):
         """Sample values from this model.
 
