@@ -373,7 +373,7 @@ class TestGaussianMultivariate(TestCase):
     def test_sample_random_state(self):
         """When random_state is set the samples are the same."""
         # Setup
-        instance = GaussianMultivariate(GaussianUnivariate, random_seed=0)
+        instance = GaussianMultivariate(GaussianUnivariate, random_state=0)
         data = pd.DataFrame([
             {'A': 25, 'B': 75, 'C': 100},
             {'A': 30, 'B': 60, 'C': 250},

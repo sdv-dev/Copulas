@@ -233,13 +233,13 @@ class TestUnivariate:
         # Check
         compare_nested_iterables(result, expected_result)
 
-    def test_set_random_seed(self):
-        """Test `set_random_seed` works as expected"""
+    def test_set_random_state(self):
+        """Test `set_random_state` works as expected"""
         # Setup
         instance = Univariate()
 
         # Run
-        instance.set_random_seed(3)
+        instance.set_random_state(3)
 
         # Check
-        assert instance.random_seed == 3
+        assert instance.random_state == 3
