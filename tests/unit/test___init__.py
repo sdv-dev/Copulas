@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import call, MagicMock, patch
+from unittest.mock import MagicMock, call, patch
 
 import numpy as np
 import pandas as pd
@@ -218,6 +218,7 @@ class TestCheckValidValues(TestCase):
 
         function_mock.assert_not_called()
         instance_mock.assert_not_called()
+
 
 class TestRandomStateDecorator(TestCase):
 
