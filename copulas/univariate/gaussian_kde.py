@@ -28,8 +28,8 @@ class GaussianKDE(ScipyModel):
     MODEL_CLASS = gaussian_kde
 
     @store_args
-    def __init__(self, sample_size=None, random_seed=None, bw_method=None, weights=None):
-        self.random_seed = random_seed
+    def __init__(self, sample_size=None, random_state=None, bw_method=None, weights=None):
+        self.random_state = random_state
         self._sample_size = sample_size
         self.bw_method = bw_method
         self.weights = weights

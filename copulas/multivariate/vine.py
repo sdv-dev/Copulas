@@ -38,8 +38,8 @@ class VineCopula(Multivariate):
     Args:
         vine_type (str):
             type of the vine copula, could be 'center','direct','regular'
-        random_seed (int):
-            Random seed to use.
+        random_state (int or np.random.RandomState):
+            Random seed or RandomState to use.
 
 
     Attributes:
@@ -66,14 +66,14 @@ class VineCopula(Multivariate):
     """
 
     @store_args
-    def __init__(self, vine_type, random_seed=None):
+    def __init__(self, vine_type, random_state=None):
         if sys.version_info > (3, 8):
             warnings.warn(
                 'Vines have not been fully tested on Python 3.8 and might '
                 'produce wrong results. Please use Python 3.5, 3.6 or 3.7'
             )
 
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.vine_type = vine_type
         self.u_matrix = None
 

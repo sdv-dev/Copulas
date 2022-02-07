@@ -19,8 +19,8 @@ class TruncatedGaussian(ScipyModel):
     MODEL_CLASS = truncnorm
 
     @store_args
-    def __init__(self, minimum=None, maximum=None, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, minimum=None, maximum=None, random_state=None):
+        self.random_state = random_state
         self.min = minimum
         self.max = maximum
 

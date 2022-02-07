@@ -12,8 +12,8 @@ class Multivariate(object):
 
     fitted = False
 
-    def __init__(self, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, random_state=None):
+        self.random_state = random_state
 
     def fit(self, X):
         """Fit the model to table with values from multiple random variables.
@@ -109,13 +109,14 @@ class Multivariate(object):
         """
         return self.cumulative_distribution(X)
 
-    def set_random_seed(self, random_seed):
-        """Set the random seed.
+    def set_random_state(self, random_state):
+        """Set the random state.
 
         Args:
-            random_seed (int or None): Seed for the random generator.
+            random_state (int, np.random.RandomState, or None):
+                Seed or RandomState for the random generator.
         """
-        self.random_seed = random_seed
+        self.random_state = random_state
 
     def sample(self, num_rows=1):
         """Sample values from this model.

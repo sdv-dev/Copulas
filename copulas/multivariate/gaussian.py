@@ -32,8 +32,8 @@ class GaussianMultivariate(Multivariate):
     univariates = None
 
     @store_args
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_state=None):
+        self.random_state = random_state
         self.distribution = distribution
 
     def __repr__(self):

@@ -21,19 +21,29 @@ class NotFittedError(Exception):
 
 
 @contextlib.contextmanager
-def random_seed(seed):
+def set_random_state(random_state, set_model_random_state):
     """Context manager for managing the random seed.
 
     Args:
-        seed (int):
-            The random seed.
+        random_state (int or np.random.RandomState):
+            The random seed or RandomState.
+        set_model_random_state (function):
+            Function to set the random state on the model.
     """
-    state = np.random.get_state()
-    np.random.seed(seed)
+    original_state = np.random.get_state()
+
+    if isinstance(random_state, int):
+        desired_state = np.random.RandomState(seed=random_state)
+    else:
+        desired_state = random_state
+
+    np.random.set_state(desired_state.get_state())
+
     try:
         yield
     finally:
-        np.random.set_state(state)
+        set_model_random_state(desired_state)
+        np.random.set_state(original_state)
 
 
 def random_state(function):
@@ -45,11 +55,11 @@ def random_state(function):
     """
 
     def wrapper(self, *args, **kwargs):
-        if self.random_seed is None:
+        if self.random_state is None:
             return function(self, *args, **kwargs)
 
         else:
-            with random_seed(self.random_seed):
+            with set_random_state(self.random_state, self.set_random_state):
                 return function(self, *args, **kwargs)
 
     return wrapper

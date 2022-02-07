@@ -36,7 +36,8 @@ class Bivariate(object):
 
     Args:
         copula_type (Union[CopulaType, str]): Subtype of the copula.
-        random_seed (Union[int, None]): Seed for the random generator.
+        random_state (Union[int, np.random.RandomState, None]): Seed or RandomState
+            for the random generator.
 
     Attributes:
         copula_type(CopulaTypes): Family of the copula a subclass belongs to.
@@ -104,14 +105,15 @@ class Bivariate(object):
             if subclass.copula_type is copula_type:
                 return super(Bivariate, cls).__new__(subclass)
 
-    def __init__(self, copula_type=None, random_seed=None):
+    def __init__(self, copula_type=None, random_state=None):
         """Initialize Bivariate object.
 
         Args:
             copula_type (CopulaType or str): Subtype of the copula.
-            random_seed (int or None): Seed for the random generator.
+            random_state (int, np.random.RandomState, or None): Seed or RandomState
+                for the random generator.
         """
-        self.random_seed = random_seed
+        self.random_state = random_state
 
     def check_theta(self):
         """Validate the computed theta against the copula specification.
@@ -343,13 +345,14 @@ class Bivariate(object):
         X = np.column_stack((U, V))
         return self.partial_derivative(X)
 
-    def set_random_seed(self, random_seed):
+    def set_random_state(self, random_state):
         """Set the random seed.
 
         Args:
-            random_seed (int or None): Seed for the random generator.
+            random_state (int, np.random.RandomState, or None): Seed or RandomState
+                for the random generator.
         """
-        self.random_seed = random_seed
+        self.random_state = random_state
 
     @random_state
     def sample(self, n_samples):

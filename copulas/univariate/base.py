@@ -39,8 +39,8 @@ class Univariate(object):
         bounded (BoundedType):
             If not ``None``, only select subclasses of this type.
             Ignored if ``candidates`` is passed.
-        random_seed (int):
-            Random seed to use.
+        random_state (int or np.random.RandomState):
+            Random seed or RandomState to use.
         selection_sample_size (int):
             Size of the subsample to use for candidate selection.
             If ``None``, all the data is used.
@@ -82,10 +82,10 @@ class Univariate(object):
         return candidates
 
     @store_args
-    def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None,
+    def __init__(self, candidates=None, parametric=None, bounded=None, random_state=None,
                  selection_sample_size=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.selection_sample_size = selection_sample_size
 
     @classmethod
@@ -357,13 +357,14 @@ class Univariate(object):
         """
         return self.percent_point(U)
 
-    def set_random_seed(self, random_seed):
+    def set_random_state(self, random_state):
         """Set the random seed.
 
         Args:
-            random_seed (int or None): Seed for the random generator.
+            random_state (int, np.random.RandomState, or None):
+                Seed or RandomState for the random generator.
         """
-        self.random_seed = random_seed
+        self.random_state = random_state
 
     def sample(self, n_samples=1):
         """Sample values from this model.
