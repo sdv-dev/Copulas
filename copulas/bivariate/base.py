@@ -346,7 +346,7 @@ class Bivariate(object):
         return self.partial_derivative(X)
 
     def set_random_state(self, random_state):
-        """Set the random seed.
+        """Set the random state.
 
         Args:
             random_state (int, np.random.RandomState, or None): Seed or RandomState

@@ -234,7 +234,7 @@ class TestUnivariate:
         compare_nested_iterables(result, expected_result)
 
     def test_set_random_state(self):
-        """Test `set_random_state` works as expected"""
+        """Test `set_random_state` works as expected."""
         # Setup
         instance = Univariate()
 

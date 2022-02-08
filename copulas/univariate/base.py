@@ -6,7 +6,7 @@ from enum import Enum
 
 import numpy as np
 
-from copulas import NotFittedError, get_instance, get_qualified_name, store_args
+from copulas import NotFittedError, get_instance, get_qualified_name, random_state, store_args
 from copulas.univariate.selection import select_univariate
 
 
@@ -358,7 +358,7 @@ class Univariate(object):
         return self.percent_point(U)
 
     def set_random_state(self, random_state):
-        """Set the random seed.
+        """Set the random state.
 
         Args:
             random_state (int, np.random.RandomState, or None):
@@ -572,6 +572,7 @@ class ScipyModel(Univariate, ABC):
         self.check_fit()
         return self.MODEL_CLASS.ppf(U, **self._params)
 
+    @random_state
     def sample(self, n_samples=1):
         """Sample values from this model.
 

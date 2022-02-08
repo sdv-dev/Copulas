@@ -22,7 +22,7 @@ class NotFittedError(Exception):
 
 @contextlib.contextmanager
 def set_random_state(random_state, set_model_random_state):
-    """Context manager for managing the random seed.
+    """Context manager for managing the random state.
 
     Args:
         random_state (int or np.random.RandomState):

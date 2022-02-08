@@ -274,7 +274,7 @@ class TestRandomStateDecorator(TestCase):
 
         instance.assert_not_called
         random_mock.get_state.assert_not_called()
-        random_mock.seed.assert_not_called()
+        random_mock.RandomState.assert_not_called()
         random_mock.set_state.assert_not_called()
 
 
