@@ -489,9 +489,16 @@ class ScipyModel(Univariate, ABC):
 
     _params = None
 
-    def __init__(self):
-        # Overwrite Univariate __init__ to skip candiate initialization
-        pass
+    def __init__(self, random_state=None):
+        """Initialize Scipy model.
+
+        Overwrite Univariate __init__ to skip candidate initialization.
+
+        Args:
+            random_state (int, np.random.RandomState, or None): seed
+                or RandomState for random generator.
+        """
+        self.random_state = random_state
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.
