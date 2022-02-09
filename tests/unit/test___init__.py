@@ -246,7 +246,8 @@ class TestRandomStateDecorator(TestCase):
         my_function.assert_called_once_with(instance, *args, **kwargs)
 
         instance.assert_not_called
-        random_mock.get_state.assert_called_once_with()
+        random_mock.get_state.assert_has_calls([call(), call()])
+        random_mock.get_state.call_count == 2
         random_mock.RandomState.assert_called_once_with(seed=42)
         random_mock.set_state.assert_has_calls(
             [call('desired random state'), call('random state')])

@@ -33,16 +33,19 @@ def set_random_state(random_state, set_model_random_state):
     original_state = np.random.get_state()
 
     if isinstance(random_state, int):
-        desired_state = np.random.RandomState(seed=random_state)
-    else:
-        desired_state = random_state
+        random_state = np.random.RandomState(seed=random_state).get_state()
+    elif isinstance(random_state, np.random.RandomState):
+        random_state = random_state.get_state()
+    elif not isinstance(random_state, tuple):
+        raise TypeError(f'RandomState {random_state} is an unexpected type. '
+                        'Expected to be int, np.random.RandomState, or tuple.')
 
-    np.random.set_state(desired_state.get_state())
+    np.random.set_state(random_state)
 
     try:
         yield
     finally:
-        set_model_random_state(desired_state)
+        set_model_random_state(np.random.get_state())
         np.random.set_state(original_state)
 
 
