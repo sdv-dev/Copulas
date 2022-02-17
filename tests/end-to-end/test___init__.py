@@ -49,7 +49,7 @@ def test_random_state_decorator():
 
     # Run
     instance = TestRandomState()
-    instance.set_random_state(0)
+    instance.set_random_state(np.random.RandomState(10))
     instance.sample()
 
     second_sequence = np.random.random(size=2)

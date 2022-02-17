@@ -32,20 +32,14 @@ def set_random_state(random_state, set_model_random_state):
     """
     original_state = np.random.get_state()
 
-    if isinstance(random_state, int):
-        random_state = np.random.RandomState(seed=random_state).get_state()
-    elif isinstance(random_state, np.random.RandomState):
-        random_state = random_state.get_state()
-    elif not isinstance(random_state, tuple):
-        raise TypeError(f'RandomState {random_state} is an unexpected type. '
-                        'Expected to be int, np.random.RandomState, or tuple.')
-
-    np.random.set_state(random_state)
+    np.random.set_state(random_state.get_state())
 
     try:
         yield
     finally:
-        set_model_random_state(np.random.get_state())
+        current_random_state = np.random.RandomState()
+        current_random_state.set_state(np.random.get_state())
+        set_model_random_state(current_random_state)
         np.random.set_state(original_state)
 
 
@@ -66,6 +60,29 @@ def random_state(function):
                 return function(self, *args, **kwargs)
 
     return wrapper
+
+
+def validate_random_state(random_state):
+    """Validate random state argument.
+
+    Args:
+        random_state (int, numpy.random.RandomState, tuple, or None):
+            Seed or RandomState for the random generator.
+
+    Output:
+        numpy.random.RandomState
+    """
+    if random_state is None:
+        return None
+
+    if isinstance(random_state, int):
+        return np.random.RandomState(seed=random_state)
+    elif isinstance(random_state, np.random.RandomState):
+        return random_state
+    else:
+        raise TypeError(
+            f'`random_state` {random_state} expected to be an int '
+            'or `np.random.RandomState` object.')
 
 
 def get_instance(obj, **kwargs):

@@ -6,7 +6,9 @@ from enum import Enum
 
 import numpy as np
 
-from copulas import NotFittedError, get_instance, get_qualified_name, random_state, store_args
+from copulas import (
+    NotFittedError, get_instance, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.univariate.selection import select_univariate
 
 
@@ -85,7 +87,7 @@ class Univariate(object):
     def __init__(self, candidates=None, parametric=None, bounded=None, random_state=None,
                  selection_sample_size=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
         self.selection_sample_size = selection_sample_size
 
     @classmethod
@@ -364,7 +366,7 @@ class Univariate(object):
             random_state (int, np.random.RandomState, or None):
                 Seed or RandomState for the random generator.
         """
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
 
     def sample(self, n_samples=1):
         """Sample values from this model.
@@ -498,7 +500,7 @@ class ScipyModel(Univariate, ABC):
             random_state (int, np.random.RandomState, or None): seed
                 or RandomState for random generator.
         """
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.

@@ -8,7 +8,7 @@ import numpy as np
 from scipy import stats
 from scipy.optimize import brentq
 
-from copulas import EPSILON, NotFittedError, random_state
+from copulas import EPSILON, NotFittedError, random_state, validate_random_state
 from copulas.bivariate.utils import split_matrix
 
 
@@ -113,7 +113,7 @@ class Bivariate(object):
             random_state (int, np.random.RandomState, or None): Seed or RandomState
                 for the random generator.
         """
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
 
     def check_theta(self):
         """Validate the computed theta against the copula specification.
@@ -352,7 +352,7 @@ class Bivariate(object):
             random_state (int, np.random.RandomState, or None): Seed or RandomState
                 for the random generator.
         """
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
 
     @random_state
     def sample(self, n_samples):

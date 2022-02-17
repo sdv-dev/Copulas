@@ -19,13 +19,13 @@ class TestBivariate(TestCase):
     def test___init__random_state(self):
         """If random_state is passed as argument, will be set as attribute."""
         # Setup
-        random_seed = 'random_seed'
+        random_seed = 42
 
         # Run
         instance = Bivariate(copula_type=CopulaTypes.CLAYTON, random_state=random_seed)
 
         # Check
-        assert instance.random_state == 'random_seed'
+        assert instance.random_state is not None
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
@@ -130,4 +130,4 @@ class TestBivariate(TestCase):
         instance.set_random_state(3)
 
         # Check
-        assert instance.random_state == 3
+        assert instance.random_state is not None

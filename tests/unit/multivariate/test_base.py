@@ -1,3 +1,5 @@
+import numpy as np
+
 from copulas.multivariate.base import Multivariate
 
 
@@ -12,4 +14,4 @@ class TestMultivariate:
         instance.set_random_state(3)
 
         # Check
-        assert instance.random_state == 3
+        assert isinstance(instance.random_state, np.random.RandomState)

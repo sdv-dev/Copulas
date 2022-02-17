@@ -6,7 +6,8 @@ import pandas as pd
 import pytest
 from numpy.testing import assert_array_equal
 
-from copulas import check_valid_values, get_instance, random_state, scalarize, vectorize
+from copulas import (
+    check_valid_values, get_instance, random_state, scalarize, validate_random_state, vectorize)
 from copulas.multivariate import GaussianMultivariate
 
 
@@ -228,15 +229,14 @@ class TestRandomStateDecorator(TestCase):
         # Setup
         my_function = MagicMock()
         instance = MagicMock()
-        instance.random_state = 42
+        random_state_mock = MagicMock()
+        random_state_mock.get_state.return_value = 'desired random state'
+        instance.random_state = random_state_mock
 
         args = ('some', 'args')
         kwargs = {'keyword': 'value'}
 
         random_mock.get_state.return_value = 'random state'
-        desired_state_mock = MagicMock()
-        desired_state_mock.get_state.return_value = 'desired random state'
-        random_mock.RandomState.return_value = desired_state_mock
 
         # Run
         decorated_function = random_state(my_function)
@@ -248,7 +248,8 @@ class TestRandomStateDecorator(TestCase):
         instance.assert_not_called
         random_mock.get_state.assert_has_calls([call(), call()])
         random_mock.get_state.call_count == 2
-        random_mock.RandomState.assert_called_once_with(seed=42)
+        random_mock.RandomState.assert_has_calls(
+            [call(), call().set_state('random state')])
         random_mock.set_state.assert_has_calls(
             [call('desired random state'), call('random state')])
         assert random_mock.set_state.call_count == 2
@@ -277,6 +278,83 @@ class TestRandomStateDecorator(TestCase):
         random_mock.get_state.assert_not_called()
         random_mock.RandomState.assert_not_called()
         random_mock.set_state.assert_not_called()
+
+    def test_validate_random_state_int(self):
+        """Test `validate_random_state` with an int.
+
+        Expect that the int is used to seed the RandomState object.
+
+        Input:
+            - integer seed
+        Output:
+            - np.Random.RandomState
+        """
+        # Setup
+        state = 4
+
+        # Run
+        out = validate_random_state(state)
+
+        # Assert
+        assert isinstance(out, np.random.RandomState)
+
+    def test_validate_random_state_none(self):
+        """Test `validate_random_state` with an input of None.
+
+        Expect that None is also returned.
+
+        Input:
+            - state of None
+        Output:
+            - None
+        """
+        # Setup
+        state = None
+
+        # Run
+        validate_random_state(state)
+
+        # Assert
+        assert not state
+
+    def test_validate_random_state_object(self):
+        """Test `validate_random_state` with a `np.random.RandomState` object.
+
+        Expect that the same object is returned.
+
+        Input:
+            - np.random.RandomState object
+        Output:
+            - state
+        """
+        # Setup
+        state = np.random.RandomState(0)
+
+        # Run
+        out = validate_random_state(state)
+
+        # Assert
+        assert out == state
+
+    def test_validate_random_state_invalid(self):
+        """Test `validate_random_state` with an invalid input type.
+
+        Expect a TypeError to be thrown.
+
+        Input:
+            - invalid input
+        Side Effect:
+            - TypeError
+        """
+        # Setup
+        state = 'invalid input'
+
+        # Run
+        with pytest.raises(
+                TypeError,
+                match=f'`random_state` {state} expected to be an int or '
+                '`np.random.RandomState` object.'):
+            validate_random_state(state)
 
 
 class TestGetInstance(TestCase):

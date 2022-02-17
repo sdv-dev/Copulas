@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
-from copulas import EPSILON, store_args
+from copulas import EPSILON, store_args, validate_random_state
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
@@ -20,7 +20,7 @@ class TruncatedGaussian(ScipyModel):
 
     @store_args
     def __init__(self, minimum=None, maximum=None, random_state=None):
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
         self.min = minimum
         self.max = maximum
 

@@ -242,4 +242,4 @@ class TestUnivariate:
         instance.set_random_state(3)
 
         # Check
-        assert instance.random_state == 3
+        assert isinstance(instance.random_state, np.random.RandomState)

@@ -7,7 +7,9 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from copulas import EPSILON, check_valid_values, get_qualified_name, random_state, store_args
+from copulas import (
+    EPSILON, check_valid_values, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree, get_tree
@@ -73,7 +75,7 @@ class VineCopula(Multivariate):
                 'produce wrong results. Please use Python 3.5, 3.6 or 3.7'
             )
 
-        self.random_state = random_state
+        self.random_state = validate_random_state(random_state)
         self.vine_type = vine_type
         self.u_matrix = None
 
