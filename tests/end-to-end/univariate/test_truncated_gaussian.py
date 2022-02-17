@@ -136,3 +136,26 @@ class TestGaussian(TestCase):
         cdf = model.cumulative_distribution(sampled_data)
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
+
+    def test_fixed_random_state(self):
+        """Test that the univariate models work with a fixed seed.
+        Expect that fixing the seed generates a reproducable sequence
+        of samples. Expect that these samples are different from randomly
+        sampled results.
+        """
+        model = TruncatedGaussian()
+        model.fit(self.data)
+
+        sampled_random = model.sample(10)
+        model.set_random_state(0)
+        sampled_0_0 = model.sample(10)
+        sampled_0_1 = model.sample(10)
+
+        model.set_random_state(0)
+        sampled_1_0 = model.sample(10)
+        sampled_1_1 = model.sample(10)
+
+        assert not np.array_equal(sampled_random, sampled_0_0)
+        assert not np.array_equal(sampled_0_0, sampled_0_1)
+        np.testing.assert_array_equal(sampled_0_0, sampled_1_0)
+        np.testing.assert_array_equal(sampled_0_1, sampled_1_1)

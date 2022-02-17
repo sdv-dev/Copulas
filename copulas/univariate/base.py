@@ -81,23 +81,6 @@ class Univariate(object):
 
         return candidates
 
-    @classmethod
-    def _get_subclasses(cls):
-        """Recursively find subclasses of Univariate.
-
-        Returns:
-            list:
-                List of all subclasses of this class.
-        """
-        subclasses = []
-        for subclass in cls.__subclasses__():
-            if ABC not in subclass.__bases__:
-                subclasses.append(subclass)
-
-            subclasses += subclass._get_subclasses()
-
-        return subclasses
-
     @store_args
     def __init__(self, candidates=None, parametric=None, bounded=None, random_state=None,
                  selection_sample_size=None):

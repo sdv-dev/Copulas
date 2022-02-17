@@ -6,7 +6,7 @@ from copulas.bivariate import Bivariate
 
 class TestBivariate():
 
-    @pytest.mark.parametrize('model', Bivariate._get_subclasses())
+    @pytest.mark.parametrize('model', Bivariate.subclasses())
     def test_fixed_random_state(self, model):
         """Test that the bivariate models work with a fixed seed.
 
