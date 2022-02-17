@@ -151,7 +151,7 @@ class TestGaussian(TestCase):
         d, p = ks_2samp(data, samples)
         assert p >= 0.05
 
-    def test_fixed_random_state(self, model):
+    def test_fixed_random_state(self):
         """Test that the univariate models work with a fixed seed.
         Expect that fixing the seed generates a reproducable sequence
         of samples. Expect that these samples are different from randomly

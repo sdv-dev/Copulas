@@ -7,7 +7,7 @@ from copulas.multivariate import GaussianMultivariate, VineCopula
 
 class TestMultivariate():
 
-    @pytest.mark.parametrize('model', [GaussianMultivariate, VineCopula('direct')])
+    @pytest.mark.parametrize('model', [GaussianMultivariate(), VineCopula('direct')])
     def test_fixed_random_state(self, model):
         """Test that the multivariate models work with a fixed seed.
 
@@ -16,7 +16,6 @@ class TestMultivariate():
         sampled results.
         """
         data = sample_trivariate_xyz()
-        model = model()
         model.fit(data)
 
         sampled_random = model.sample(10)
