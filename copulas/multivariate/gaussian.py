@@ -9,7 +9,8 @@ import pandas as pd
 from scipy import stats
 
 from copulas import (
-    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
+    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -32,8 +33,8 @@ class GaussianMultivariate(Multivariate):
     univariates = None
 
     @store_args
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_state=None):
+        self.random_state = validate_random_state(random_state)
         self.distribution = distribution
 
     def __repr__(self):

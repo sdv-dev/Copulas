@@ -150,3 +150,26 @@ class TestGaussian(TestCase):
         samples = dist.sample(size).to_numpy()[0]
         d, p = ks_2samp(data, samples)
         assert p >= 0.05
+
+    def test_fixed_random_state(self):
+        """Test that the univariate models work with a fixed seed.
+        Expect that fixing the seed generates a reproducable sequence
+        of samples. Expect that these samples are different from randomly
+        sampled results.
+        """
+        model = GaussianKDE()
+        model.fit(self.data)
+
+        sampled_random = model.sample(10)
+        model.set_random_state(0)
+        sampled_0_0 = model.sample(10)
+        sampled_0_1 = model.sample(10)
+
+        model.set_random_state(0)
+        sampled_1_0 = model.sample(10)
+        sampled_1_1 = model.sample(10)
+
+        assert not np.array_equal(sampled_random, sampled_0_0)
+        assert not np.array_equal(sampled_0_0, sampled_0_1)
+        np.testing.assert_array_equal(sampled_0_0, sampled_1_0)
+        np.testing.assert_array_equal(sampled_0_1, sampled_1_1)

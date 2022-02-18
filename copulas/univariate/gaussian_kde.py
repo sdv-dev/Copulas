@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
-from copulas import EPSILON, store_args
+from copulas import EPSILON, random_state, store_args, validate_random_state
 from copulas.optimize import bisect, chandrupatla
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
@@ -28,8 +28,8 @@ class GaussianKDE(ScipyModel):
     MODEL_CLASS = gaussian_kde
 
     @store_args
-    def __init__(self, sample_size=None, random_seed=None, bw_method=None, weights=None):
-        self.random_seed = random_seed
+    def __init__(self, sample_size=None, random_state=None, bw_method=None, weights=None):
+        self.random_state = validate_random_state(random_state)
         self._sample_size = sample_size
         self.bw_method = bw_method
         self.weights = weights
@@ -65,6 +65,7 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
         return self._model.evaluate(X)
 
+    @random_state
     def sample(self, n_samples=1):
         """Sample values from this model.
 

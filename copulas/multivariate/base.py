@@ -4,7 +4,7 @@ import pickle
 
 import numpy as np
 
-from copulas import NotFittedError, get_instance
+from copulas import NotFittedError, get_instance, validate_random_state
 
 
 class Multivariate(object):
@@ -12,8 +12,8 @@ class Multivariate(object):
 
     fitted = False
 
-    def __init__(self, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, random_state=None):
+        self.random_state = validate_random_state(random_state)
 
     def fit(self, X):
         """Fit the model to table with values from multiple random variables.
@@ -108,6 +108,15 @@ class Multivariate(object):
                 if the model is not fitted.
         """
         return self.cumulative_distribution(X)
+
+    def set_random_state(self, random_state):
+        """Set the random state.
+
+        Args:
+            random_state (int, np.random.RandomState, or None):
+                Seed or RandomState for the random generator.
+        """
+        self.random_state = validate_random_state(random_state)
 
     def sample(self, num_rows=1):
         """Sample values from this model.

@@ -155,7 +155,7 @@ class TestVine(TestCase):
     def test_sample_random_state(self):
         """When random_state is set, the generated samples are always the same."""
         # Setup
-        vine = VineCopula(TreeTypes.REGULAR, random_seed=0)
+        vine = VineCopula(TreeTypes.REGULAR, random_state=0)
         X = pd.DataFrame([
             [1, 0, 0, 0],
             [0, 1, 0, 0],
