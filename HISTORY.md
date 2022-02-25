@@ -1,5 +1,14 @@
 # History
 
+## v0.6.1 - 2022-02-25
+
+This release improves the `random_state` functionality by taking in RandomState objects in addition to
+random seeds.
+
+### General Improvements
+
+* Use random_state instead of random_seed - Issue[#113](https://github.com/sdv-dev/Copulas/issues/113) by @katxiao
+
 ## v0.6.0 - 2021-05-13
 
 This release makes Copulas compatible with Python 3.9! It also improves library maintenance by
