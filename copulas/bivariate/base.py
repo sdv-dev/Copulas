@@ -8,7 +8,7 @@ import numpy as np
 from scipy import stats
 from scipy.optimize import brentq
 
-from copulas import EPSILON, NotFittedError, random_state
+from copulas import EPSILON, NotFittedError, random_state, validate_random_state
 from copulas.bivariate.utils import split_matrix
 
 
@@ -36,7 +36,8 @@ class Bivariate(object):
 
     Args:
         copula_type (Union[CopulaType, str]): Subtype of the copula.
-        random_seed (Union[int, None]): Seed for the random generator.
+        random_state (Union[int, np.random.RandomState, None]): Seed or RandomState
+            for the random generator.
 
     Attributes:
         copula_type(CopulaTypes): Family of the copula a subclass belongs to.
@@ -98,20 +99,21 @@ class Bivariate(object):
             if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
                 copula_type = CopulaTypes[copula_type.upper()]
             else:
-                raise ValueError('Invalid copula type {}'.format(copula_type))
+                raise ValueError(f'Invalid copula type {copula_type}')
 
         for subclass in cls.subclasses():
             if subclass.copula_type is copula_type:
                 return super(Bivariate, cls).__new__(subclass)
 
-    def __init__(self, copula_type=None, random_seed=None):
+    def __init__(self, copula_type=None, random_state=None):
         """Initialize Bivariate object.
 
         Args:
             copula_type (CopulaType or str): Subtype of the copula.
-            random_seed (int or None): Seed for the random generator.
+            random_state (int, np.random.RandomState, or None): Seed or RandomState
+                for the random generator.
         """
-        self.random_seed = random_seed
+        self.random_state = validate_random_state(random_state)
 
     def check_theta(self):
         """Validate the computed theta against the copula specification.
@@ -136,12 +138,12 @@ class Bivariate(object):
 
         """
         if not self.theta:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')
 
         self.check_theta()
 
     def check_marginal(self, u):
-        """The marginals are supposed to be uniformly distributed.
+        """Check that the marginals are uniformly distributed.
 
         Args:
             u(np.ndarray): Array of datapoints with shape (n,).
@@ -150,14 +152,14 @@ class Bivariate(object):
             ValueError: If the data does not appear uniformly distributed.
         """
         if min(u) < 0.0 or max(u) > 1.0:
-            raise ValueError("Marginal value out of bounds.")
+            raise ValueError('Marginal value out of bounds.')
 
         emperical_cdf = np.sort(u)
         uniform_cdf = np.linspace(0.0, 1.0, num=len(u))
         ks_statistic = max(np.abs(emperical_cdf - uniform_cdf))
         if ks_statistic > 1.627 / np.sqrt(len(u)):
             # KS test with significance level 0.01
-            warnings.warn("Data does not appear to be uniform.", category=RuntimeWarning)
+            warnings.warn('Data does not appear to be uniform.', category=RuntimeWarning)
 
     def _compute_theta(self):
         """Compute theta, validate it and assign it to self."""
@@ -179,8 +181,8 @@ class Bivariate(object):
         self.tau = stats.kendalltau(U, V)[0]
         if np.isnan(self.tau):
             if len(np.unique(U)) == 1 or len(np.unique(V)) == 1:
-                raise ValueError("Constant column.")
-            raise ValueError("Unable to compute tau.")
+                raise ValueError('Constant column.')
+            raise ValueError('Unable to compute tau.')
         self._compute_theta()
 
     def to_dict(self):
@@ -220,9 +222,10 @@ class Bivariate(object):
     def generator(self, t):
         r"""Compute the generator function for Archimedian copulas.
 
-        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`
-        that given an Archimedian copula fulills:
+        The generator is a function
+        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101
 
+        that given an Archimedian copula fulfills:
         .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))
 
 
@@ -250,14 +253,17 @@ class Bivariate(object):
         raise NotImplementedError
 
     def log_probability_density(self, X):
-        """Return log probability density of model. It should be overridden
-        with numerically stable variants whenever possible.
+        """Return log probability density of model.
+
+        The log probability should be overridden with numerically stable
+        variants whenever possible.
 
         Arguments:
             X: `np.ndarray` of shape (n, 1).
 
         Returns:
             np.ndarray
+
         """
         return np.log(self.probability_density(X))
 
@@ -324,7 +330,8 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = 0.0001 * (-2 * (X[:, 1] > 0.5) + 1)
+        delta = (-2 * (X[:, 1] > 0.5) + 1)
+        delta = 0.0001 * delta
         X_prime = X.copy()
         X_prime[:, 1] += delta
         f = self.cumulative_distribution(X)
@@ -337,6 +344,15 @@ class Bivariate(object):
 
         X = np.column_stack((U, V))
         return self.partial_derivative(X)
+
+    def set_random_state(self, random_state):
+        """Set the random state.
+
+        Args:
+            random_state (int, np.random.RandomState, or None): Seed or RandomState
+                for the random generator.
+        """
+        self.random_state = validate_random_state(random_state)
 
     @random_state
     def sample(self, n_samples):
@@ -352,7 +368,7 @@ class Bivariate(object):
 
         """
         if self.tau > 1 or self.tau < -1:
-            raise ValueError("The range for correlation measure is [-1,1].")
+            raise ValueError('The range for correlation measure is [-1,1].')
 
         v = np.random.uniform(0, 1, n_samples)
         c = np.random.uniform(0, 1, n_samples)

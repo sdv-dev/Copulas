@@ -1,16 +1,18 @@
+"""GaussianKDE module."""
 
 import numpy as np
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
-from copulas import EPSILON, store_args
+from copulas import EPSILON, random_state, store_args, validate_random_state
 from copulas.optimize import bisect, chandrupatla
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
 class GaussianKDE(ScipyModel):
-    """A wrapper for gaussian Kernel density estimation implemented
-    in scipy.stats toolbox. gaussian_kde is slower than statsmodels
+    """A wrapper for gaussian Kernel density estimation.
+
+    It was implemented in scipy.stats toolbox. gaussian_kde is slower than statsmodels
     but allows more flexibility.
 
     When a sample_size is provided the fit method will sample the
@@ -26,8 +28,8 @@ class GaussianKDE(ScipyModel):
     MODEL_CLASS = gaussian_kde
 
     @store_args
-    def __init__(self, sample_size=None, random_seed=None, bw_method=None, weights=None):
-        self.random_seed = random_seed
+    def __init__(self, sample_size=None, random_state=None, bw_method=None, weights=None):
+        self.random_state = validate_random_state(random_state)
         self._sample_size = sample_size
         self.bw_method = bw_method
         self.weights = weights
@@ -63,6 +65,7 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
         return self._model.evaluate(X)
 
+    @random_state
     def sample(self, n_samples=1):
         """Sample values from this model.
 
@@ -105,7 +108,7 @@ class GaussianKDE(ScipyModel):
         uppers = ndtr((X[:, None] - self._model.dataset) / stdev)
         return (uppers - lower).dot(self._model.weights)
 
-    def percent_point(self, U, method="chandrupatla"):
+    def percent_point(self, U, method='chandrupatla'):
         """Compute the inverse cumulative distribution value for each point in U.
 
         Arguments:
@@ -126,10 +129,10 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
 
         if len(U.shape) > 1:
-            raise ValueError("Expected 1d array, got %s." % (U, ))
+            raise ValueError(f'Expected 1d array, got {(U, )}.')
 
         if np.any(U > 1.0) or np.any(U < 0.0):
-            raise ValueError("Expected values in range [0.0, 1.0].")
+            raise ValueError('Expected values in range [0.0, 1.0].')
 
         is_one = U >= 1.0 - EPSILON
         is_zero = U <= EPSILON
@@ -141,12 +144,12 @@ class GaussianKDE(ScipyModel):
             return self.cumulative_distribution(X) - U[is_valid]
 
         X = np.zeros(U.shape)
-        X[is_one] = float("inf")
-        X[is_zero] = float("-inf")
+        X[is_one] = float('inf')
+        X[is_zero] = float('-inf')
         if is_valid.any():
             lower = np.full(U[is_valid].shape, lower)
             upper = np.full(U[is_valid].shape, upper)
-            if method == "bisect":
+            if method == 'bisect':
                 X[is_valid] = bisect(_f, lower, upper)
             else:
                 X[is_valid] = chandrupatla(_f, lower, upper)

@@ -1,3 +1,5 @@
+"""GaussianMultivariate module."""
+
 import logging
 import sys
 import warnings
@@ -7,7 +9,8 @@ import pandas as pd
 from scipy import stats
 
 from copulas import (
-    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args)
+    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import Univariate
 
@@ -30,19 +33,20 @@ class GaussianMultivariate(Multivariate):
     univariates = None
 
     @store_args
-    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_seed=None):
-        self.random_seed = random_seed
+    def __init__(self, distribution=DEFAULT_DISTRIBUTION, random_state=None):
+        self.random_state = validate_random_state(random_state)
         self.distribution = distribution
 
     def __repr__(self):
+        """Produce printable representation of the object."""
         if self.distribution == DEFAULT_DISTRIBUTION:
             distribution = ''
         elif isinstance(self.distribution, type):
-            distribution = 'distribution="{}"'.format(self.distribution.__name__)
+            distribution = f'distribution="{self.distribution.__name__}"'
         else:
-            distribution = 'distribution="{}"'.format(self.distribution)
+            distribution = f'distribution="{self.distribution}"'
 
-        return 'GaussianMultivariate({})'.format(distribution)
+        return f'GaussianMultivariate({distribution})'
 
     def _transform_to_normal(self, X):
         if isinstance(X, pd.Series):
@@ -53,11 +57,11 @@ class GaussianMultivariate(Multivariate):
 
             X = pd.DataFrame(X, columns=self.columns)
 
-        U = list()
+        U = []
         for column_name, univariate in zip(self.columns, self.univariates):
             if column_name in X:
                 column = X[column_name]
-                U.append(univariate.cdf(column.values).clip(EPSILON, 1 - EPSILON))
+                U.append(univariate.cdf(column.to_numpy()).clip(EPSILON, 1 - EPSILON))
 
         return stats.norm.ppf(np.column_stack(U))
 
@@ -73,7 +77,7 @@ class GaussianMultivariate(Multivariate):
                 computed covariance matrix.
         """
         result = self._transform_to_normal(X)
-        covariance = pd.DataFrame(data=result).corr().values
+        covariance = pd.DataFrame(data=result).corr().to_numpy()
         covariance = np.nan_to_num(covariance, nan=0.0)
         # If singular, add some noise to the diagonal
         if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:

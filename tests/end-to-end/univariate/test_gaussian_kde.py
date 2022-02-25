@@ -59,7 +59,8 @@ class TestGaussian(TestCase):
 
         # Test the CDF
         cdf = model.cumulative_distribution(sampled_data)
-        assert (0 <= cdf).all() and (cdf <= 1).all()
+        assert (0 <= cdf).all()
+        assert (cdf <= 1).all()
 
         # Test CDF increasing function
         sorted_data = sorted(sampled_data)
@@ -127,7 +128,7 @@ class TestGaussian(TestCase):
 
         sampled_data = model.sample(50)
 
-        path_to_model = os.path.join(self.test_dir.name, "model.pkl")
+        path_to_model = os.path.join(self.test_dir.name, 'model.pkl')
         model.save(path_to_model)
         model2 = GaussianKDE.load(path_to_model)
 
@@ -149,3 +150,26 @@ class TestGaussian(TestCase):
         samples = dist.sample(size).to_numpy()[0]
         d, p = ks_2samp(data, samples)
         assert p >= 0.05
+
+    def test_fixed_random_state(self):
+        """Test that the univariate models work with a fixed seed.
+        Expect that fixing the seed generates a reproducable sequence
+        of samples. Expect that these samples are different from randomly
+        sampled results.
+        """
+        model = GaussianKDE()
+        model.fit(self.data)
+
+        sampled_random = model.sample(10)
+        model.set_random_state(0)
+        sampled_0_0 = model.sample(10)
+        sampled_0_1 = model.sample(10)
+
+        model.set_random_state(0)
+        sampled_1_0 = model.sample(10)
+        sampled_1_1 = model.sample(10)
+
+        assert not np.array_equal(sampled_random, sampled_0_0)
+        assert not np.array_equal(sampled_0_0, sampled_0_1)
+        np.testing.assert_array_equal(sampled_0_0, sampled_1_0)
+        np.testing.assert_array_equal(sampled_0_1, sampled_1_1)

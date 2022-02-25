@@ -12,7 +12,8 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    'matplotlib>=3.2.0,<4',
+    "matplotlib>=3.2.0,<3.4;python_version<'3.7'",
+    "matplotlib>=3.4.0,<4;python_version>='3.7'",
     "numpy>=1.18.0,<1.20.0;python_version<'3.7'",
     "numpy>=1.20.0,<2;python_version>='3.7'",
     'pandas>=1.1.3,<2',
@@ -37,6 +38,26 @@ development_requires = [
     # style check
     'flake8>=3.7.7,<4',
     'isort>=4.3.4,<5',
+    'flake8-debugger>=4.0.0,<4.1',
+    'flake8-mock>=0.3,<0.4',
+    'flake8-mutable>=1.2.0,<1.3',
+    'flake8-fixme>=1.1.1,<1.2',
+    'pep8-naming>=0.12.1,<0.13',
+    'dlint>=0.11.0,<0.12',
+    'flake8-docstrings>=1.5.0,<2',
+    'pydocstyle>=6.1.1,<6.2',
+    'flake8-pytest-style>=1.5.0,<2',
+    'flake8-comprehensions>=3.6.1,<3.7',
+    'flake8-print>=4.0.0,<4.1',
+    'flake8-expression-complexity>=0.0.9,<0.1',
+    'flake8-multiline-containers>=0.0.18,<0.1',
+    'pandas-vet>=0.2.2,<0.3',
+    'flake8-builtins>=1.5.3,<1.6',
+    'flake8-eradicate>=1.1.0,<1.2',
+    'flake8-quotes>=3.3.0,<4',
+    'flake8-variables-names>=0.0.4,<0.1',
+    'flake8-sfs>=0.0.3,<0.1',
+    'flake8-absolute-import>=1.0,<2',
 
     # fix style issues
     'autoflake>=1.1,<2',
@@ -53,7 +74,6 @@ development_requires = [
 
     # Documentation style
     'doc8>=0.8.0,<0.9',
-    'pydocstyle>=3.0.0,<4',
 
     # Large scale evaluation
     'urllib3>=1.20,<1.26',
@@ -111,6 +131,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.6.0',
+    version='0.6.1.dev1',
     zip_safe=False,
 )

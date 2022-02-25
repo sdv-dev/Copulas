@@ -1,8 +1,10 @@
+"""TruncatedGaussian module."""
+
 import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
-from copulas import EPSILON, store_args
+from copulas import EPSILON, store_args, validate_random_state
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
 
 
@@ -17,10 +19,10 @@ class TruncatedGaussian(ScipyModel):
     MODEL_CLASS = truncnorm
 
     @store_args
-    def __init__(self, min=None, max=None, random_seed=None):
-        self.random_seed = random_seed
-        self.min = min
-        self.max = max
+    def __init__(self, minimum=None, maximum=None, random_state=None):
+        self.random_state = validate_random_state(random_state)
+        self.min = minimum
+        self.max = maximum
 
     def _fit_constant(self, X):
         constant = np.unique(X)[0]

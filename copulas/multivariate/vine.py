@@ -1,3 +1,5 @@
+"""VineCopula module."""
+
 import logging
 import sys
 import warnings
@@ -5,7 +7,9 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from copulas import EPSILON, check_valid_values, get_qualified_name, random_state, store_args
+from copulas import (
+    EPSILON, check_valid_values, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree, get_tree
@@ -36,8 +40,8 @@ class VineCopula(Multivariate):
     Args:
         vine_type (str):
             type of the vine copula, could be 'center','direct','regular'
-        random_seed (int):
-            Random seed to use.
+        random_state (int or np.random.RandomState):
+            Random seed or RandomState to use.
 
 
     Attributes:
@@ -62,15 +66,16 @@ class VineCopula(Multivariate):
         ppfs (list[callable]):
             percent point functions from the univariates used by this vine.
     """
+
     @store_args
-    def __init__(self, vine_type, random_seed=None):
+    def __init__(self, vine_type, random_state=None):
         if sys.version_info > (3, 8):
             warnings.warn(
                 'Vines have not been fully tested on Python 3.8 and might '
                 'produce wrong results. Please use Python 3.5, 3.6 or 3.7'
             )
 
-        self.random_seed = random_seed
+        self.random_state = validate_random_state(random_state)
         self.vine_type = vine_type
         self.u_matrix = None
 
@@ -167,7 +172,7 @@ class VineCopula(Multivariate):
         LOGGER.info('Fitting VineCopula("%s")', self.vine_type)
         self.n_sample, self.n_var = X.shape
         self.columns = X.columns
-        self.tau_mat = X.corr(method='kendall').values
+        self.tau_mat = X.corr(method='kendall').to_numpy()
         self.u_matrix = np.empty([self.n_sample, self.n_var])
 
         self.truncated = truncated
@@ -186,7 +191,7 @@ class VineCopula(Multivariate):
         self.fitted = True
 
     def train_vine(self, tree_type):
-        """Build the wine.
+        r"""Build the vine.
 
         1. For the construction of the first tree :math:`T_1`, assign one node to each variable
            and then couple them by maximizing the measure of association considered.
@@ -237,16 +242,14 @@ class VineCopula(Multivariate):
             # get constraints from previous tree
             self.trees[k - 1]._get_constraints()
             tau = self.trees[k - 1].get_tau_matrix()
-            LOGGER.debug('start building tree: {0}'.format(k))
+            LOGGER.debug(f'start building tree: {k}')
             tree_k = get_tree(tree_type)
             tree_k.fit(k, self.n_var - k, tau, self.trees[k - 1])
             self.trees.append(tree_k)
-            LOGGER.debug('finish building tree: {0}'.format(k))
+            LOGGER.debug(f'finish building tree: {k}')
 
     def get_likelihood(self, uni_matrix):
         """Compute likelihood of the vine."""
-        # TODO: explain what this is supposed to do and make it work
-        # TODO: Alternatively, remove it.
         num_tree = len(self.trees)
         values = np.empty([1, num_tree])
 
@@ -274,7 +277,8 @@ class VineCopula(Multivariate):
         itr = 0
         while explore:
             current = explore.pop(0)
-            neighbors = np.where(adj[current, :] == 1)[0].tolist()
+            adj_is_one = adj[current, :] == 1
+            neighbors = np.where(adj_is_one)[0].tolist()
             if itr == 0:
                 new_x = self.ppfs[current](unis[current])
 
@@ -296,11 +300,11 @@ class VineCopula(Multivariate):
                         else:
                             if edge.L == current or edge.R == current:
                                 condition = set(edge.D)
-                                condition.add(edge.L)
-                                condition.add(edge.R)
+                                condition.add(edge.L)  # noqa: PD005
+                                condition.add(edge.R)  # noqa: PD005
 
                                 visit_set = set(visited)
-                                visit_set.add(current)
+                                visit_set.add(current)  # noqa: PD005
 
                                 if condition.issubset(visit_set):
                                     current_ind = edge.index

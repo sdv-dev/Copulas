@@ -1,8 +1,14 @@
+"""Sample datasets for the Copulas library."""
+
 import numpy as np
 import pandas as pd
 from scipy import stats
 
-from copulas import random_seed
+from copulas import set_random_state, validate_random_state
+
+
+def _dummy_fn(state):
+    pass
 
 
 def sample_bivariate_age_income(size=1000, seed=42):
@@ -17,19 +23,19 @@ def sample_bivariate_age_income(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with two columns, ``age`` and ``income``.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         age = stats.beta.rvs(a=2.0, b=6.0, loc=18, scale=100, size=size)
         income = np.log(age) * 100
         income += np.random.normal(loc=np.log(age) / 100, scale=10, size=size)
         income[np.random.randint(0, 10, size=size) == 0] /= 1000
 
     return pd.DataFrame({
-        "age": age,
-        "income": income
+        'age': age,
+        'income': income
     })
 
 
@@ -48,11 +54,11 @@ def sample_trivariate_xyz(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with three columns, ``x``, ``y`` and ``z``.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         x = stats.beta.rvs(a=0.1, b=0.1, size=size)
         y = stats.beta.rvs(a=0.1, b=0.5, size=size)
         return pd.DataFrame({
@@ -74,11 +80,11 @@ def sample_univariate_bernoulli(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(np.random.random(size=size) < 0.3).astype(float)
 
 
@@ -94,11 +100,11 @@ def sample_univariate_bimodal(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         bernoulli = sample_univariate_bernoulli(size, seed)
         mode1 = np.random.normal(size=size) * bernoulli
         mode2 = np.random.normal(size=size, loc=10) * (1.0 - bernoulli)
@@ -115,11 +121,11 @@ def sample_univariate_uniform(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(4.0 * np.random.random(size=size) - 1.0)
 
 
@@ -132,11 +138,11 @@ def sample_univariate_normal(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(np.random.normal(size=size, loc=1.0))
 
 
@@ -149,11 +155,11 @@ def sample_univariate_degenerate(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(np.full(size, np.random.random()))
 
 
@@ -166,11 +172,11 @@ def sample_univariate_exponential(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(np.random.exponential(size=size) + 3.0)
 
 
@@ -183,11 +189,11 @@ def sample_univariate_beta(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.Series:
             Series with the sampled values.
     """
-    with random_seed(seed):
+    with set_random_state(validate_random_state(seed), _dummy_fn):
         return pd.Series(stats.beta.rvs(a=3, b=1, loc=4, size=size))
 
 
@@ -200,7 +206,7 @@ def sample_univariates(size=1000, seed=42):
         seed (int):
             Random seed to use. Defaults to 42.
 
-    Retruns:
+    Returns:
         pandas.DataFrame:
             DataFrame with the sampled distributions.
     """

@@ -95,7 +95,7 @@ class TestVine(TestCase):
 
     @patch('copulas.multivariate.vine.np.random.randint', autospec=True)
     @patch('copulas.multivariate.vine.np.random.uniform', autospec=True)
-    @pytest.mark.skipif(sys.version_info > (3, 8), reason="Fails on py38. To be reviewed.")
+    @pytest.mark.skipif(sys.version_info > (3, 8), reason='Fails on py38. To be reviewed.')
     def test_sample_row(self, uniform_mock, randint_mock):
         """After being fit, a vine can sample new data."""
         # Setup
@@ -155,7 +155,7 @@ class TestVine(TestCase):
     def test_sample_random_state(self):
         """When random_state is set, the generated samples are always the same."""
         # Setup
-        vine = VineCopula(TreeTypes.REGULAR, random_seed=0)
+        vine = VineCopula(TreeTypes.REGULAR, random_state=0)
         X = pd.DataFrame([
             [1, 0, 0, 0],
             [0, 1, 0, 0],

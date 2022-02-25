@@ -16,16 +16,16 @@ class TestBivariate(TestCase):
             [0.8, 0.6],
         ])
 
-    def test___init__random_seed(self):
-        """If random_seed is passed as argument, will be set as attribute."""
+    def test___init__random_state(self):
+        """If random_state is passed as argument, will be set as attribute."""
         # Setup
-        random_seed = 'random_seed'
+        random_seed = 42
 
         # Run
-        instance = Bivariate(copula_type=CopulaTypes.CLAYTON, random_seed=random_seed)
+        instance = Bivariate(copula_type=CopulaTypes.CLAYTON, random_state=random_seed)
 
         # Check
-        assert instance.random_seed == 'random_seed'
+        assert instance.random_state is not None
 
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
@@ -52,8 +52,8 @@ class TestBivariate(TestCase):
 
         expected_result = {
             'copula_type': 'FRANK',
-            "tau": 0.9128709291752769,
-            "theta": 44.2003852484162
+            'tau': 0.9128709291752769,
+            'theta': 44.2003852484162
         }
 
         # Run
@@ -62,7 +62,7 @@ class TestBivariate(TestCase):
         # Check
         assert result == expected_result
 
-    @mock.patch("builtins.open")
+    @mock.patch('builtins.open')
     @mock.patch('copulas.bivariate.base.json.dump')
     def test_save(self, json_mock, open_mock):
         """Save stores the internal dictionary as a json in a file."""
@@ -71,9 +71,9 @@ class TestBivariate(TestCase):
         instance.fit(self.X)
 
         expected_content = {
-            "copula_type": "FRANK",
-            "tau": 0.9128709291752769,
-            "theta": 44.2003852484162
+            'copula_type': 'FRANK',
+            'tau': 0.9128709291752769,
+            'theta': 44.2003852484162
         }
 
         # Run
@@ -120,3 +120,14 @@ class TestBivariate(TestCase):
         expected_args = ((np.array([[0.5, 0.1]]), 0), {})
         assert len(expected_args) == len(derivative_mock.call_args)
         assert (derivative_mock.call_args[0][0] == expected_args[0][0]).all()
+
+    def test_set_random_state(self):
+        """Test `set_random_state` works as expected"""
+        # Setup
+        instance = Bivariate()
+
+        # Run
+        instance.set_random_state(3)
+
+        # Check
+        assert instance.random_state is not None

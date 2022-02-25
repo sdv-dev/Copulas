@@ -4,7 +4,7 @@
 
 __author__ = 'MIT Data To AI Lab'
 __email__ = 'dailabmit@gmail.com',
-__version__ = '0.6.0'
+__version__ = '0.6.1.dev1'
 
 import contextlib
 import importlib
@@ -17,29 +17,72 @@ EPSILON = np.finfo(np.float32).eps
 
 
 class NotFittedError(Exception):
-    pass
+    """NotFittedError class."""
 
 
 @contextlib.contextmanager
-def random_seed(seed):
-    state = np.random.get_state()
-    np.random.seed(seed)
+def set_random_state(random_state, set_model_random_state):
+    """Context manager for managing the random state.
+
+    Args:
+        random_state (int or np.random.RandomState):
+            The random seed or RandomState.
+        set_model_random_state (function):
+            Function to set the random state on the model.
+    """
+    original_state = np.random.get_state()
+
+    np.random.set_state(random_state.get_state())
+
     try:
         yield
     finally:
-        np.random.set_state(state)
+        current_random_state = np.random.RandomState()
+        current_random_state.set_state(np.random.get_state())
+        set_model_random_state(current_random_state)
+        np.random.set_state(original_state)
 
 
 def random_state(function):
+    """Set the random state before calling the function.
+
+    Args:
+        function (Callable):
+            The function to wrap around.
+    """
+
     def wrapper(self, *args, **kwargs):
-        if self.random_seed is None:
+        if self.random_state is None:
             return function(self, *args, **kwargs)
 
         else:
-            with random_seed(self.random_seed):
+            with set_random_state(self.random_state, self.set_random_state):
                 return function(self, *args, **kwargs)
 
     return wrapper
+
+
+def validate_random_state(random_state):
+    """Validate random state argument.
+
+    Args:
+        random_state (int, numpy.random.RandomState, tuple, or None):
+            Seed or RandomState for the random generator.
+
+    Output:
+        numpy.random.RandomState
+    """
+    if random_state is None:
+        return None
+
+    if isinstance(random_state, int):
+        return np.random.RandomState(seed=random_state)
+    elif isinstance(random_state, np.random.RandomState):
+        return random_state
+    else:
+        raise TypeError(
+            f'`random_state` {random_state} expected to be an int '
+            'or `np.random.RandomState` object.')
 
 
 def get_instance(obj, **kwargs):
@@ -58,7 +101,7 @@ def get_instance(obj, **kwargs):
         if kwargs:
             instance = obj.__class__(**kwargs)
         else:
-            args = getattr(obj, '__args__', tuple())
+            args = getattr(obj, '__args__', ())
             kwargs = getattr(obj, '__kwargs__', {})
             instance = obj.__class__(*args, **kwargs)
 
@@ -183,7 +226,7 @@ def scalarize(function):
 
 
 def check_valid_values(function):
-    """Raises an exception if the given values are not supported.
+    """Raise an exception if the given values are not supported.
 
     Args:
         function(callable): Method whose unique argument is a numpy.array-like object.
@@ -198,7 +241,7 @@ def check_valid_values(function):
     def decorated(self, X, *args, **kwargs):
 
         if isinstance(X, pd.DataFrame):
-            W = X.values
+            W = X.to_numpy()
 
         else:
             W = X

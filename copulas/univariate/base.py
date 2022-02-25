@@ -1,19 +1,27 @@
+"""Base Univariate class."""
+
 import pickle
 from abc import ABC
 from enum import Enum
 
 import numpy as np
 
-from copulas import NotFittedError, get_instance, get_qualified_name, store_args
+from copulas import (
+    NotFittedError, get_instance, get_qualified_name, random_state, store_args,
+    validate_random_state)
 from copulas.univariate.selection import select_univariate
 
 
 class ParametricType(Enum):
+    """Parametric Enum."""
+
     NON_PARAMETRIC = 0
     PARAMETRIC = 1
 
 
 class BoundedType(Enum):
+    """Bounded Enum."""
+
     UNBOUNDED = 0
     SEMI_BOUNDED = 1
     BOUNDED = 2
@@ -33,8 +41,8 @@ class Univariate(object):
         bounded (BoundedType):
             If not ``None``, only select subclasses of this type.
             Ignored if ``candidates`` is passed.
-        random_seed (int):
-            Random seed to use.
+        random_state (int or np.random.RandomState):
+            Random seed or RandomState to use.
         selection_sample_size (int):
             Size of the subsample to use for candidate selection.
             If ``None``, all the data is used.
@@ -61,7 +69,7 @@ class Univariate(object):
             list:
                 Selected subclasses.
         """
-        candidates = list()
+        candidates = []
         for subclass in cls.__subclasses__():
             candidates.extend(subclass._select_candidates(parametric, bounded))
             if ABC in subclass.__bases__:
@@ -76,14 +84,15 @@ class Univariate(object):
         return candidates
 
     @store_args
-    def __init__(self, candidates=None, parametric=None, bounded=None, random_seed=None,
+    def __init__(self, candidates=None, parametric=None, bounded=None, random_state=None,
                  selection_sample_size=None):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
-        self.random_seed = random_seed
+        self.random_state = validate_random_state(random_state)
         self.selection_sample_size = selection_sample_size
 
     @classmethod
     def __repr__(cls):
+        """Return class name."""
         return cls.__name__
 
     def check_fit(self):
@@ -96,7 +105,7 @@ class Univariate(object):
                 if the model is not fitted.
         """
         if not self.fitted:
-            raise NotFittedError("This model is not fitted.")
+            raise NotFittedError('This model is not fitted.')
 
     def _constant_sample(self, num_samples):
         """Sample values for a constant distribution.
@@ -170,7 +179,7 @@ class Univariate(object):
         return np.full(X.shape, self._constant_value)
 
     def _replace_constant_methods(self):
-        """Replaces conventional distribution methods by its constant counterparts."""
+        """Replace conventional distribution methods by its constant counterparts."""
         self.cumulative_distribution = self._constant_cumulative_distribution
         self.percent_point = self._constant_percent_point
         self.probability_density = self._constant_probability_density
@@ -190,7 +199,7 @@ class Univariate(object):
         self._replace_constant_methods()
 
     def _check_constant_value(self, X):
-        """Checks if a Series or array contains only one unique value.
+        """Check if a Series or array contains only one unique value.
 
         If it contains only one value, set the instance up to behave accordingly.
 
@@ -350,6 +359,15 @@ class Univariate(object):
         """
         return self.percent_point(U)
 
+    def set_random_state(self, random_state):
+        """Set the random state.
+
+        Args:
+            random_state (int, np.random.RandomState, or None):
+                Seed or RandomState for the random generator.
+        """
+        self.random_state = validate_random_state(random_state)
+
     def sample(self, n_samples=1):
         """Sample values from this model.
 
@@ -473,9 +491,16 @@ class ScipyModel(Univariate, ABC):
 
     _params = None
 
-    def __init__(self):
-        # Overwrite Univariate __init__ to skip candiate initialization
-        pass
+    def __init__(self, random_state=None):
+        """Initialize Scipy model.
+
+        Overwrite Univariate __init__ to skip candidate initialization.
+
+        Args:
+            random_state (int, np.random.RandomState, or None): seed
+                or RandomState for random generator.
+        """
+        self.random_state = validate_random_state(random_state)
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.
@@ -556,6 +581,7 @@ class ScipyModel(Univariate, ABC):
         self.check_fit()
         return self.MODEL_CLASS.ppf(U, **self._params)
 
+    @random_state
     def sample(self, n_samples=1):
         """Sample values from this model.
 
