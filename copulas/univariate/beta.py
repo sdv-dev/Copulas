@@ -27,7 +27,7 @@ class BetaUnivariate(ScipyModel):
     def _fit(self, X):
         loc = np.min(X)
         scale = np.max(X) - loc
-        a, b = beta.fit(X, loc=loc, scale=scale)[0:2]
+        a, b, loc, scale = beta.fit(X, loc=loc, scale=scale)
         self._params = {
             'loc': loc,
             'scale': scale,
