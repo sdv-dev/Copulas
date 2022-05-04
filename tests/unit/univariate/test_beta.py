@@ -84,7 +84,7 @@ class TestBetaUnivariate(TestCase):
         mock_beta.fit.return_value = (1, 2, 3, 4)
 
         # Run
-        distribution.fit(np.array([1, 2, 3, 4]))
+        distribution._fit(np.array([1, 2, 3, 4]))
 
         # Assert
         assert distribution._params == {
