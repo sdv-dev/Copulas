@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 from scipy.stats import beta
@@ -61,3 +62,34 @@ class TestBetaUnivariate(TestCase):
         constant = distribution._extract_constant()
 
         assert 1 == constant
+
+    @patch('copulas.univariate.beta.beta')
+    def test__fit_loc_scale_from_beta(self, mock_beta):
+        """Test that the fitted values for ``loc`` and ``scale`` are from ``scipy``.
+
+        Test that when fitting the ``beta`` distribution, the learned ``loc`` and ``scale``
+        are being the ones that the distribution returns from the ``scipy`` model.
+
+        Setup:
+            - Instanciate a ``BetaUnivariate``.
+
+        Mock:
+            - Mock the ``beta``.
+
+        Side Effect:
+            - The distribution has to learn the return values from the ``beta`` fit.
+        """
+        # Setup
+        distribution = BetaUnivariate()
+        mock_beta.fit.return_value = (1, 2, 3, 4)
+
+        # Run
+        distribution._fit(np.array([1, 2, 3, 4]))
+
+        # Assert
+        assert distribution._params == {
+            'a': 1,
+            'b': 2,
+            'loc': 3,
+            'scale': 4,
+        }
