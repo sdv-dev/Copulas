@@ -283,7 +283,8 @@ class TestGaussianMultivariate(TestCase):
         )
 
         # Run
-        copula.fit(self.data['column1'])
+        data = self.data['column1']
+        copula.fit(data)
 
         # Check
         expected_warnings_msg = (
@@ -291,6 +292,10 @@ class TestGaussianMultivariate(TestCase):
             'distribution for column column1. Using a Gaussian distribution instead.'
         )
         warnings_mock.warn.assert_called_once_with(expected_warnings_msg)
+
+        assert len(copula.univariates) == 1
+        assert isinstance(copula.univariates[0], GaussianUnivariate)
+        assert copula.univariates[0]._params == {'loc': np.mean(data), 'scale': np.std(data)}
 
     def test_probability_density(self):
         """Probability_density computes probability for the given values."""

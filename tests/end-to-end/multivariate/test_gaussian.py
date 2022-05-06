@@ -1,6 +1,7 @@
 import os
 import tempfile
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -175,3 +176,39 @@ class TestGaussian(TestCase):
         cdf = model.cumulative_distribution(sampled_data)
         cdf2 = model2.cumulative_distribution(sampled_data)
         assert np.all(np.isclose(cdf, cdf2, atol=0.01))
+
+
+@patch('copulas.univariate.truncated_gaussian.TruncatedGaussian._fit')
+@patch('copulas.multivariate.gaussian.warnings')
+def test_broken_distribution(warnings_mock, truncated_mock):
+    """Fit should use a gaussian if the passed distribution crashes."""
+    # Setup
+    truncated_mock.side_effect = ValueError()
+    data = sample_trivariate_xyz()
+    model = GaussianMultivariate(
+        distribution={'y': 'copulas.univariate.truncated_gaussian.TruncatedGaussian'}
+    )
+
+    # Run
+    model.fit(data)
+    samples = model.sample()
+
+    # Asserts
+    expected_warnings_msg = (
+        'Unable to fit to a copulas.univariate.truncated_gaussian.TruncatedGaussian '
+        'distribution for column y. Using a Gaussian distribution instead.'
+    )
+    warnings_mock.warn.assert_called_once_with(expected_warnings_msg)
+
+    expected_model = GaussianMultivariate(
+        distribution={'y': 'copulas.univariate.truncated_gaussian.TruncatedGaussian'}
+    )
+    expected_model.fit(data)
+
+    pdf = model.probability_density(samples)
+    expected_pdf = expected_model.probability_density(samples)
+    assert np.all(np.isclose(pdf, expected_pdf, atol=0.01))
+
+    cdf = model.cumulative_distribution(samples)
+    expected_cdf = expected_model.cumulative_distribution(samples)
+    assert np.all(np.isclose(cdf, expected_cdf, atol=0.01))
