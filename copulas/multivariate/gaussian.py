@@ -12,7 +12,7 @@ from copulas import (
     EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args,
     validate_random_state)
 from copulas.multivariate.base import Multivariate
-from copulas.univariate import Univariate
+from copulas.univariate import GaussianUnivariate, Univariate
 
 LOGGER = logging.getLogger(__name__)
 DEFAULT_DISTRIBUTION = Univariate
@@ -109,7 +109,16 @@ class GaussianMultivariate(Multivariate):
             LOGGER.debug('Fitting column %s to %s', column_name, distribution)
 
             univariate = get_instance(distribution)
-            univariate.fit(column)
+            try:
+                univariate.fit(column)
+            except BaseException:
+                warning_message = (
+                    f'Unable to fit to a {distribution} distribution for column {column_name}. '
+                    'Using a Gaussian distribution instead.'
+                )
+                warnings.warn(warning_message)
+                univariate = GaussianUnivariate()
+                univariate.fit(column)
 
             columns.append(column_name)
             univariates.append(univariate)

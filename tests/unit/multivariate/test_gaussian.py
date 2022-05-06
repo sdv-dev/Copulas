@@ -272,6 +272,26 @@ class TestGaussianMultivariate(TestCase):
         expected_covariance = copula._get_covariance(pd.DataFrame(self.data.to_numpy()))
         assert (copula.covariance == expected_covariance).all().all()
 
+    @patch('copulas.univariate.truncated_gaussian.TruncatedGaussian._fit')
+    @patch('copulas.multivariate.gaussian.warnings')
+    def test_fit_broken_distribution(self, warnings_mock, truncated_mock):
+        """Fit should use a gaussian if the passed distribution crashes."""
+        # Setup
+        truncated_mock.side_effect = ValueError()
+        copula = GaussianMultivariate(
+            distribution='copulas.univariate.truncated_gaussian.TruncatedGaussian'
+        )
+
+        # Run
+        copula.fit(self.data['column1'])
+
+        # Check
+        expected_warnings_msg = (
+            'Unable to fit to a copulas.univariate.truncated_gaussian.TruncatedGaussian '
+            'distribution for column column1. Using a Gaussian distribution instead.'
+        )
+        warnings_mock.warn.assert_called_once_with(expected_warnings_msg)
+
     def test_probability_density(self):
         """Probability_density computes probability for the given values."""
         # Setup
