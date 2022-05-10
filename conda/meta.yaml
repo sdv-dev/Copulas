@@ -1,5 +1,5 @@
 {% set name = 'copulas' %}
-{% set version = '0.6.2.dev0' %}
+{% set version = '0.7.0.dev0' %}
 
 package:
   name: "{{ name|lower }}"
