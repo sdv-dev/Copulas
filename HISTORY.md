@@ -1,5 +1,14 @@
 # History
 
+## v0.7.0 - 2022-05-10
+
+This release adds `gaussian` as a fallback distribution in case the user specified one fails. It also improves the `fit` of the `beta` distribution by properly estimatig the `loc` and `scale` parameters.
+
+### General Improvements
+
+* Add gaussian as fallback - Issue[#320](https://github.com/sdv-dev/Copulas/issues/320) by @fealho
+* Improve the fit of the Beta distribution: Use the new loc and scale - Issue[#317](https://github.com/sdv-dev/Copulas/issues/317) by @pvk-developer
+
 ## v0.6.1 - 2022-02-25
 
 This release improves the `random_state` functionality by taking in RandomState objects in addition to
