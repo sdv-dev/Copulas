@@ -1,5 +1,8 @@
+"""Scipy class that acts as a bridge between copulas and scipy."""
+
 import importlib
 import inspect
+
 
 class ScipyDistribution:
     """Special class that wraps any given scipy distribution.
