@@ -46,7 +46,7 @@ later on generate new synthetic rows following the same statistical properties.
 [License]: https://github.com/sdv-dev/Copulas/blob/master/LICENSE
 [Development Status]: https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha
 [Slack Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/slack.png
-[Community]: https://join.slack.com/t/sdv-space/shared_invite/zt-gdsfcb5w-0QQpFMVoyB2Yd6SRiMplcw
+[Community]: https://bit.ly/sdv-slack-invite
 [MyBinder Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/mybinder.png
 [Tutorials]: https://mybinder.org/v2/gh/sdv-dev/SDV/master?filepath=tutorials
 
