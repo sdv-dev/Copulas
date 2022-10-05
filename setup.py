@@ -16,7 +16,7 @@ install_requires = [
     "matplotlib>=3.4.0,<4;python_version>='3.7'",
     "numpy>=1.18.0,<1.20.0;python_version>='3.6' and python_version<'3.7'",
     "numpy>=1.20.0,<2;python_version>='3.7' and python_version<'3.10'",
-    "numpy>=1.22.0,<2;python_version>='3.10' and python_version<'3.11'",
+    "numpy>=1.23.0,<2;python_version>='3.10' and python_version<'3.11'",
     'pandas>=1.1.3,<2',
     'scipy>=1.5.4,<2',
 ]
