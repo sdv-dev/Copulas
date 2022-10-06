@@ -15,13 +15,13 @@ install_requires = [
     "matplotlib>=3.2.0,<3.4;python_version<'3.7'",
     "matplotlib>=3.4.0,<4;python_version>='3.7' and python_version<'3.10'",
     "matplotlib>=3.6.0,<4;python_version>='3.10'",
-    "numpy>=1.18.0,<1.20.0;python_version>='3.6' and python_version<'3.7'",
+    "numpy>=1.18.0,<1.20.0;python_version<'3.7'",
     "numpy>=1.20.0,<2;python_version>='3.7' and python_version<'3.10'",
-    "numpy>=1.22.0,<2;python_version>='3.10' and python_version<'3.11'",
-    "pandas>=1.1.3,<2;python_version>='3.6' and python_version<'3.10'",
-    "pandas>=1.3.4,<2;python_version>='3.10' and python_version<'3.11'",
-    "scipy>=1.5.4,<2;python_version>='3.6' and python_version<'3.10'",
-    "scipy>=1.8.0,<2;python_version>='3.10' and python_version<'3.11'",
+    "numpy>=1.22.0,<2;python_version>='3.10'",
+    "pandas>=1.1.3,<2;python_version<'3.10'",
+    "pandas>=1.3.4,<2;python_version>='3.10'",
+    "scipy>=1.5.4,<2;python_version<'3.10'",
+    "scipy>=1.8.0,<2;python_version>='3.10'",
 ]
 
 development_requires = [
