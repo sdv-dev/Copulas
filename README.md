@@ -54,12 +54,19 @@ generate new synthetic data following the same statistical properties.
 
 The Copulas library includes a variety of features for modeling multivariate data and using it to sample synthetic data. Key features include:
 
-* Modeling univariate, bivariate and multivariate data. Choose from a variety of univariate distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas. The library includes tools to automatically select the best distribution for accurate modeling.
-* Comparing real and synthetic data visually after building your model. Visualizations are available as 1D histograms, 2D scatterplots and 3D scatterplots.
-* Accessing & manipulating learned parameters. With complete access to the internals of the model, advanced users can set or tune parameters to their choosing.
+* **Modeling univariate, bivariate and multivariate data.** Choose from a variety of univariate
+distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas.
+The library includes tools to automatically select the best distribution for accurate modeling.
+
+* **Comparing real and synthetic data visually** after building your model. Visualizations
+are available as 1D histograms, 2D scatterplots and 3D scatterplots.
+
+* **Accessing & manipulating learned parameters.** With complete access to the internals
+of the model, advanced users can set or tune parameters to their choosing.
 
 ## Supported Distributions
-
+| Distribution Type          | Supported Distributions                                                                  |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
 | Univariate Distributions   | Beta, Gamma, Gaussian, Gaussian KDE, Log-Laplace, Student T, Truncated Gaussian, Uniform |
 | Bivariate Distributions    | Archimedian Copulas: Clayton, Frank, Gumbel                                              |
 | Multivariate Distributions | Gaussian Copula, Vine Copulas: D-Vine, C-Vine, R-Vine                                    |
@@ -81,13 +88,15 @@ conda install -c conda-forge copulas
 
 For more installation options please visit the [Copulas installation Guide](INSTALL.md)
 
-:warning: If you'd like to create synthetic data end-to-end, we recommend getting started with the SDV library which provides user-friendly APIs for Copulas modeling. :warning: 
+:warning: If you'd like to create synthetic data end-to-end, we recommend getting started with
+the **SDV library** which provides user-friendly APIs for Copulas modeling. :warning:
 
 The SDV library provides wrappers for preprocessing your data as well as additional usability features like constraints. See the [SDV documentation](https://bit.ly/sdv-docs) to get started.
 
 # Usage
 
-In this example, we'll load a dataset with 3 columns and model it using a multivariate, Gaussian Copula.
+In this example, we'll load a dataset with 3 columns and model it using a multivariate,
+Gaussian Copula.
 
 ```python3
 from copulas.datasets import sample_trivariate_xyz
@@ -126,7 +135,8 @@ If you find a bug or have a feature request, you can also
 
 # Credits
 
-The Copulas open source project first started at the Data to AI Lab at MIT in 2018. Thank you to our team of contributors who have built and maintained the library over the years!
+The Copulas open source project first started at the Data to AI Lab at MIT in 2018.
+Thank you to our team of contributors who have built and maintained the library over the years!
 
 [View Contributors](https://github.com/sdv-dev/Copulas/graphs/contributors)
 
