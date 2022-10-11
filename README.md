@@ -48,7 +48,7 @@ generate new synthetic data following the same statistical properties.
 [Slack Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/slack.png
 [Community]: https://bit.ly/sdv-slack-invite
 [Google Colab Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/google_colab.png
-[Tutorials]: https://colab.research.google.com/drive/19ltc9ZDfh4ZXpsarNuQNd0Y-TY5zrIcL?usp=sharing
+[Tutorials]: https://bit.ly/copulas-demo
 
 # Features
 
