@@ -9,6 +9,7 @@
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
+[![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
 
 <div align="left">
 <br/>
@@ -24,109 +25,79 @@
 # Overview
 
 **Copulas** is a Python library for modeling multivariate distributions and sampling from them
-using [copula functions](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29).
-Given a table containing numerical data, we can use Copulas to learn the distribution and
+using copula functions.
+Given a table of numerical data, use Copulas to learn the distribution and
 generate new synthetic data following the same statistical properties.
 
-| Important Links                                   |                                                                      |
-| --------------------------------------------- | -------------------------------------------------------------------- |
-| :computer: **[Website]**                          | Check out the SDV Website for more information about the project.    |
-| :orange_book: **[Blog]**                          | A deeper look at open source, synthetic data creation and evaluation.|
-| :book: **[Documentation]**                        | Quickstarts, User and Development Guides, and API Reference.         |
-| :octocat: **[Repository]**                        | The link to the Github Repository of this library.                   |
-| :scroll: **[License]**                            | The library is published under the MIT License.                      |
-| :keyboard: **[Development Status]**               | This software is in its Pre-Alpha stage.                             |
-| [![][Slack Logo] **Community**][Community]        | Join our Slack Workspace for announcements and discussions.          |
-| [![][Google Colab Logo] **Tutorials**][Tutorials] | Get started with SDMetrics in a notebook.                            |
-
-[Website]: https://sdv.dev
-[Blog]: https://datacebo.com/blog
-[Documentation]: https://sdv.dev/Copulas/
-[Repository]: https://github.com/sdv-dev/Copulas
-[License]: https://github.com/sdv-dev/Copulas/blob/master/LICENSE
-[Development Status]: https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha
-[Slack Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/slack.png
-[Community]: https://bit.ly/sdv-slack-invite
-[Google Colab Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/google_colab.png
-[Tutorials]: https://bit.ly/copulas-demo
-
-# Features
+**Key Features:**
 
 The Copulas library includes a variety of features for modeling multivariate data and using it to sample synthetic data. Key features include:
 
-* **Modeling univariate, bivariate and multivariate data.** Choose from a variety of univariate
+* **Model multivariate data.** Choose from a variety of univariate
 distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas.
-The library includes tools to automatically select the best distribution for accurate modeling.
 
-* **Comparing real and synthetic data visually** after building your model. Visualizations
+* **Compare real and synthetic data visually** after building your model. Visualizations
 are available as 1D histograms, 2D scatterplots and 3D scatterplots.
 
-* **Accessing & manipulating learned parameters.** With complete access to the internals
-of the model, advanced users can set or tune parameters to their choosing.
+* **Access & manipulate learned parameters.** With complete access to the internals
+of the model, set or tune parameters to your choosing.
 
-## Supported Distributions
-| Distribution Type          | Supported Distributions                                                                  |
-| -------------------------- | ---------------------------------------------------------------------------------------- |
-| Univariate Distributions   | Beta, Gamma, Gaussian, Gaussian KDE, Log-Laplace, Student T, Truncated Gaussian, Uniform |
-| Bivariate Distributions    | Archimedian Copulas: Clayton, Frank, Gumbel                                              |
-| Multivariate Distributions | Gaussian Copula, Vine Copulas: D-Vine, C-Vine, R-Vine                                    |
 # Install
 
-Install Copulas to use as a standalone library:
-
-**Using `pip`:**
+Install the Copulas library using pip or conda.
 
 ```bash
 pip install copulas
 ```
 
-**Using `conda`:**
-
 ```bash
 conda install -c conda-forge copulas
 ```
 
-For more installation options please visit the [Copulas installation Guide](INSTALL.md)
-
-:warning: If you'd like to create synthetic data end-to-end, we recommend getting started with
-the **SDV library** which provides user-friendly APIs for Copulas modeling. :warning:
-
-The SDV library provides wrappers for preprocessing your data as well as additional usability features like constraints. See the [SDV documentation](https://bit.ly/sdv-docs) to get started.
-
 # Usage
 
-In this example, we'll load a dataset with 3 columns and model it using a multivariate,
-Gaussian Copula.
+Get started using a demo dataset. This dataset contains 3 numerical columns.
 
-```python3
+```python
 from copulas.datasets import sample_trivariate_xyz
-from copulas.multivariate import GaussianMultivariate
-from copulas.visualization import compare_3d
 
-# Load a dataset with 3 columns
 real_data = sample_trivariate_xyz()
+real_data.head()
+```
 
-# Fit a gaussian copula to the data
+<img src="docs/images/copulas_sample_dataset.png" width="300">
+
+Model the data using a copula and use it to create synthetic data.
+The Copulas library offers many options including Gaussian Copula,
+Vine Copulas and Archimedian Copulas.
+
+```python
+from copulas.multivariate import GaussianMultivariate
+
 copula = GaussianMultivariate()
 copula.fit(real_data)
 
-# Sample synthetic data
 synthetic_data = copula.sample(len(real_data))
+```
 
-# Plot the real and the synthetic data to compare
+Visualize the real and synthetic data side-by-side. Let's do this in 3D so see our full dataset.
+
+```python
+from copulas.visualization import compare_3d
+
 compare_3d(real_data, synthetic_data)
 ```
 
-The output will be a figure with two plots, showing both the real and the synthetic side-by-side.
-
 ![Quickstart](docs/images/quickstart.png)
 
+Run this code using our [Colab Notebook](https://bit.ly/copulas-demo).
 
-For more details about **Copulas**, see the [documentation](https://sdv.dev/Copulas/).
+# Community & Support
 
-# Join our community
-Join our [Slack channel](https://bit.ly/sdv-slack-invite) to discuss more about Copulas
-and synthetic data.
+Learn more about Copulas library from our [documentation](https://sdv.dev/Copulas/) site.
+
+**Questions or issues?** Join our [Slack channel](https://bit.ly/sdv-slack-invite)
+to discuss more about Copulas and synthetic data.
 If you find a bug or have a feature request, you can also
 [open an issue](https://github.com/sdv-dev/Copulas/issues/new/choose) on our GitHub.
 
