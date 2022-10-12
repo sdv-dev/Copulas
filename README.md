@@ -88,7 +88,10 @@ compare_3d(real_data, synthetic_data)
 
 ![Quickstart](docs/images/quickstart.png)
 
-Run this code using our [Colab Notebook](https://bit.ly/copulas-demo).
+# Tutorials
+Click below to run the code yourself on a Colab Notebook and discover new features.
+
+[![Tutorial Notebook](https://img.shields.io/badge/Tutorial-Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)](https://bit.ly/copulas-demo)
 
 # Community & Support
 
