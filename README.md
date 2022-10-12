@@ -31,8 +31,6 @@ generate new synthetic data following the same statistical properties.
 
 **Key Features:**
 
-The Copulas library includes a variety of features for modeling multivariate data and using it to sample synthetic data. Key features include:
-
 * **Model multivariate data.** Choose from a variety of univariate
 distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas.
 
