@@ -116,6 +116,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
     description="A python library for building different types of copulas and using them for sampling.",
     extras_require={
@@ -131,7 +132,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.6,<3.11',
+    python_requires='>=3.6,<3.12',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
