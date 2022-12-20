@@ -59,8 +59,8 @@ nbsphinx_execute = 'never'
 project = 'Copulas'
 slug = 'copulas'
 title = project + ' Documentation',
-copyright = '2018, MIT Data To AI Lab'
-author = 'MIT Data To AI Lab'
+copyright = '2022, DataCebo Inc.'
+author = 'DataCebo, Inc.'
 description = 'A library to model multivariate data using copulas.'
 user = 'sdv-dev'
 

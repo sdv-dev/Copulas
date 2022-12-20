@@ -103,12 +103,12 @@ setup_requires = [
 ]
 
 setup(
-    author="MIT Data To AI Lab",
-    author_email='dailabmit@gmail.com',
+    author='DataCebo, Inc.',
+    author_email='info@sdv.dev',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: Free for non-commercial use',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
@@ -116,15 +116,16 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
-    description="A python library for building different types of copulas and using them for sampling.",
+    description='Create tabular synthetic data using copulas-based modeling.',
     extras_require={
         'tutorials': tutorials_require,
         'test': tests_require + tutorials_require,
         'dev': tests_require + development_requires + tutorials_require,
     },
     install_requires=install_requires,
-    license="MIT license",
+    license='BSL-1.1',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     include_package_data=True,
