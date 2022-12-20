@@ -61,7 +61,7 @@ slug = 'copulas'
 title = project + ' Documentation',
 copyright = '2022, DataCebo, Inc.'
 author = 'DataCebo, Inc.'
-description = 'A library to model multivariate data using copulas.'
+description = 'Create tabular synthetic data using copulas-based modeling.'
 user = 'sdv-dev'
 
 # The version info for the project you're documenting, acts as replacement
