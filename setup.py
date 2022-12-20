@@ -87,7 +87,7 @@ development_requires = [
 ]
 
 tutorials_require = [
-    'scikit-learn>=0.24,<2',
+    'scikit-learn>=0.24,<1.2',
     'jupyter>=1.0.0,<2',
 ]
 
