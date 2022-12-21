@@ -59,9 +59,9 @@ nbsphinx_execute = 'never'
 project = 'Copulas'
 slug = 'copulas'
 title = project + ' Documentation',
-copyright = '2018, MIT Data To AI Lab'
-author = 'MIT Data To AI Lab'
-description = 'A library to model multivariate data using copulas.'
+copyright = '2022, DataCebo, Inc.'
+author = 'DataCebo, Inc.'
+description = 'Create tabular synthetic data using copulas-based modeling.'
 user = 'sdv-dev'
 
 # The version info for the project you're documenting, acts as replacement
