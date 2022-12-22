@@ -12,10 +12,8 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    "matplotlib>=3.2.0,<3.4;python_version<'3.7'",
     "matplotlib>=3.4.0,<4;python_version>='3.7' and python_version<'3.10'",
     "matplotlib>=3.6.0,<4;python_version>='3.10'",
-    "numpy>=1.18.0,<1.20.0;python_version<'3.7'",
     "numpy>=1.20.0,<2;python_version>='3.7' and python_version<'3.10'",
     "numpy>=1.22.0,<2;python_version>='3.10'",
     "pandas>=1.1.3,<2;python_version<'3.10'",
@@ -87,6 +85,7 @@ development_requires = [
 ]
 
 tutorials_require = [
+    'markupsafe<=2.0.1',
     'scikit-learn>=0.24,<1.2',
     'jupyter>=1.0.0,<2',
 ]
@@ -111,11 +110,11 @@ setup(
         'License :: Free for non-commercial use',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
     description='Create tabular synthetic data using copulas-based modeling.',
@@ -132,7 +131,7 @@ setup(
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.6,<3.11',
+    python_requires='>=3.7,<4',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
