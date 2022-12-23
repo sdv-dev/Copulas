@@ -103,15 +103,15 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 # TEST TARGETS
 
 .PHONY: test-end-to-end
-test-end-to-end: ## run tests quickly with the default Python
+test-end-to-end: ## Tests to certify that all the functionalities from the library work as expected
 	invoke end-to-end
 
 .PHONY: test-numerical
-test-numerical: ## run tests quickly with the default Python
+test-numerical: ## Test that validate the functionality for the library from a numerical point of view
 	invoke numerical
 
 .PHONY: test-unit
-test-unit: ## run tests quickly with the default Python
+test-unit: ## run the unit tests for copulas
 	invoke unit
 
 .PHONY: test-readme
@@ -119,14 +119,14 @@ test-readme: ## run the readme snippets
 	invoke readme
 
 .PHONY: test-tutorials
-test-tutorials: ## run the readme snippets
+test-tutorials: ## run the tutorials notebooks
 	invoke tutorials
 
 .PHONY: test
-test: test-unit test-numerical test-tutorials test-end-to-end test-readme ## test everything that needs test dependencies
+test: test-unit test-numerical test-end-to-end test-tutorials test-readme ## run all the tests
 
 .PHONY: test-all
-test-all: ## test using tox
+test-all: ## test everything using tox
 	tox -r
 
 .PHONY: coverage
