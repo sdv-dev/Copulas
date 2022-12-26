@@ -2,7 +2,8 @@
 
 ## Requirements
 
-**Copulas** has been developed and tested on [Python 3.6, 3.7 and 3.8](https://www.python.org/downloads/)
+**Copulas** has been developed and tested on
+[Python 3.7, 3.8, 3.9, 3.10 and 3.11](https://www.python.org/downloads/)
 
 Also, although it is not strictly required, the usage of a [virtualenv](
 https://virtualenv.pypa.io/en/latest/) is highly recommended in order to avoid

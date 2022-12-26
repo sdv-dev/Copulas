@@ -1,4 +1,5 @@
 import glob
+import inspect
 import operator
 import os
 import re
@@ -18,6 +19,11 @@ COMPARISONS = {
     '<=': operator.le,
     '==': operator.eq,
 }
+
+
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
+
 
 @task
 def check_dependencies(c):
