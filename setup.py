@@ -12,12 +12,15 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    "matplotlib>=3.2.0,<3.4;python_version<'3.7'",
-    "matplotlib>=3.4.0,<4;python_version>='3.7'",
-    "numpy>=1.18.0,<1.20.0;python_version<'3.7'",
-    "numpy>=1.20.0,<2;python_version>='3.7'",
-    'pandas>=1.1.3,<2',
-    'scipy>=1.5.4,<2',
+    "matplotlib>=3.4.0,<4;python_version>='3.7' and python_version<'3.10'",
+    "matplotlib>=3.6.0,<4;python_version>='3.10'",
+    "numpy>=1.20.0,<2;python_version<'3.10'",
+    "numpy>=1.23.3,<2;python_version>='3.10'",
+    "pandas>=1.1.3,<2;python_version<'3.10'",
+    "pandas>=1.3.4,<2;python_version>='3.10' and python_version<'3.11'",
+    "pandas>=1.5.0,<2;python_version>='3.11'",
+    "scipy>=1.5.4,<2;python_version<'3.10'",
+    "scipy>=1.9.2,<2;python_version>='3.10'",
 ]
 
 development_requires = [
@@ -83,12 +86,13 @@ development_requires = [
 ]
 
 tutorials_require = [
-    'scikit-learn>=0.24,<2',
+    'markupsafe<=2.0.1',
+    'scikit-learn>=0.24,<1.2',
     'jupyter>=1.0.0,<2',
 ]
 
 tests_require = [
-    'pytest>=3.4.2,<6',
+    'pytest>=6.2.5,<7',
     'pytest-cov>=2.6.0,<3',
     'pytest-rerunfailures>=9.0.0,<10',
     'rundoc>=0.4.3,<0.5',
@@ -99,38 +103,40 @@ setup_requires = [
 ]
 
 setup(
-    author="MIT Data To AI Lab",
-    author_email='dailabmit@gmail.com',
+    author='DataCebo, Inc.',
+    author_email='info@sdv.dev',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: Free for non-commercial use',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
-    description="A python library for building different types of copulas and using them for sampling.",
+    description='Create tabular synthetic data using copulas-based modeling.',
     extras_require={
         'tutorials': tutorials_require,
         'test': tests_require + tutorials_require,
         'dev': tests_require + development_requires + tutorials_require,
     },
     install_requires=install_requires,
-    license="MIT license",
+    license='BSL-1.1',
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     include_package_data=True,
     keywords='copulas',
     name='copulas',
     packages=find_packages(include=['copulas', 'copulas.*']),
-    python_requires='>=3.6,<3.10',
+    python_requires='>=3.7,<3.12',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/sdv-dev/Copulas',
-    version='0.7.0',
+    version='0.8.0.dev1',
     zip_safe=False,
 )

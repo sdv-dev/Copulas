@@ -2,9 +2,9 @@
 
 """Top-level package for Copulas."""
 
-__author__ = 'MIT Data To AI Lab'
-__email__ = 'dailabmit@gmail.com',
-__version__ = '0.7.0'
+__author__ = 'DataCebo, Inc.'
+__email__ = 'info@sdv.dev'
+__version__ = '0.8.0.dev1'
 
 import contextlib
 import importlib

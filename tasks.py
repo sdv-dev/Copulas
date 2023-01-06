@@ -1,7 +1,9 @@
 import glob
+import inspect
 import operator
 import os
 import re
+import pkg_resources
 import platform
 import shutil
 import stat
@@ -14,8 +16,14 @@ COMPARISONS = {
     '>=': operator.ge,
     '>': operator.gt,
     '<': operator.lt,
-    '<=': operator.le
+    '<=': operator.le,
+    '==': operator.eq,
 }
+
+
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
+
 
 @task
 def check_dependencies(c):
@@ -38,15 +46,18 @@ def numerical(c):
 
 
 def _validate_python_version(line):
-    python_version_match = re.search(r"python_version(<=?|>=?)\'(\d\.?)+\'", line)
-    if python_version_match:
+    is_valid = True
+    for python_version_match in re.finditer(r"python_version(<=?|>=?|==)\'(\d\.?)+\'", line):
         python_version = python_version_match.group(0)
-        comparison = re.search(r'(>=?|<=?)', python_version).group(0)
+        comparison = re.search(r'(>=?|<=?|==)', python_version).group(0)
         version_number = python_version.split(comparison)[-1].replace("'", "")
         comparison_function = COMPARISONS[comparison]
-        return comparison_function(platform.python_version(), version_number)
+        is_valid = is_valid and comparison_function(
+            pkg_resources.parse_version(platform.python_version()),
+            pkg_resources.parse_version(version_number),
+        )
 
-    return True
+    return is_valid
 
 
 @task

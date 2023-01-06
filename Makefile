@@ -102,38 +102,31 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 # TEST TARGETS
 
-.PHONY: test-unit
-test-unit: ## run unit tests using pytest
-	python -m pytest --disable-warnings --cov=copulas tests/unit
+.PHONY: test-end-to-end
+test-end-to-end: ## Tests to certify that all the functionalities from the library work as expected
+	invoke end-to-end
 
 .PHONY: test-numerical
-test-numerical: ## run numerical tests using pytest
-	python -m pytest --disable-warnings --cov=copulas tests/numerical
+test-numerical: ## Test that validate the functionality for the library from a numerical point of view
+	invoke numerical
 
-.PHONY: test-end-to-end
-test-end-to-end: ## run end-to-end tests using pytest
-	python -m pytest --disable-warnings --cov=copulas tests/end-to-end
-
-.PHONY: test-pytest
-test-pytest: ## run all the tests using pytest
-	invoke pytest
+.PHONY: test-unit
+test-unit: ## run the unit tests for copulas
+	invoke unit
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
 	invoke readme
 
 .PHONY: test-tutorials
-test-tutorials: ## run the tutorial notebooks
+test-tutorials: ## run the tutorials notebooks
 	invoke tutorials
 
 .PHONY: test
-test: test-pytest test-readme test-tutorials ## test everything that needs test dependencies
-
-.PHONY: test-devel
-test-devel: lint docs ## test everything that needs development dependencies
+test: test-unit test-numerical test-end-to-end test-tutorials test-readme ## run all the tests
 
 .PHONY: test-all
-test-all: ## test using tox
+test-all: ## test everything using tox
 	tox -r
 
 .PHONY: coverage

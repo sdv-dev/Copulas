@@ -9,6 +9,7 @@
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
+[![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
 
 <div align="left">
 <br/>
@@ -24,147 +25,92 @@
 # Overview
 
 **Copulas** is a Python library for modeling multivariate distributions and sampling from them
-using [copula functions](https://en.wikipedia.org/wiki/Copula_%28probability_theory%29).
-Given a table containing numerical data, we can use Copulas to learn the distribution and
-later on generate new synthetic rows following the same statistical properties.
+using copula functions.
+Given a table of numerical data, use Copulas to learn the distribution and
+generate new synthetic data following the same statistical properties.
 
-| Important Links                               |                                                                      |
-| --------------------------------------------- | -------------------------------------------------------------------- |
-| :computer: **[Website]**                      | Check out the SDV Website for more information about the project.    |
-| :orange_book: **[SDV Blog]**                  | Regular publshing of useful content about Synthetic Data Generation. |
-| :book: **[Documentation]**                    | Quickstarts, User and Development Guides, and API Reference.         |
-| :octocat: **[Repository]**                    | The link to the Github Repository of this library.                   |
-| :scroll: **[License]**                        | The entire ecosystem is published under the MIT License.             |
-| :keyboard: **[Development Status]**           | This software is in its Pre-Alpha stage.                             |
-| [![][Slack Logo] **Community**][Community]    | Join our Slack Workspace for announcements and discussions.          |
-| [![][MyBinder Logo] **Tutorials**][Tutorials] | Run the SDV Tutorials in a Binder environment.                       |
+**Key Features:**
 
-[Website]: https://sdv.dev
-[SDV Blog]: https://sdv.dev/blog
-[Documentation]: https://sdv.dev/SDV
-[Repository]: https://github.com/sdv-dev/Copulas
-[License]: https://github.com/sdv-dev/Copulas/blob/master/LICENSE
-[Development Status]: https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha
-[Slack Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/slack.png
-[Community]: https://join.slack.com/t/sdv-space/shared_invite/zt-gdsfcb5w-0QQpFMVoyB2Yd6SRiMplcw
-[MyBinder Logo]: https://github.com/sdv-dev/SDV/blob/master/docs/images/mybinder.png
-[Tutorials]: https://mybinder.org/v2/gh/sdv-dev/SDV/master?filepath=tutorials
+* **Model multivariate data.** Choose from a variety of univariate
+distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas.
 
-# Features
+* **Compare real and synthetic data visually** after building your model. Visualizations
+are available as 1D histograms, 2D scatterplots and 3D scatterplots.
 
-Some of the features provided by this library include:
-
-* A variety of distributions for modeling univariate data.
-* Multiple Archimedean copulas for modeling bivariate data.
-* Gaussian and Vine copulas for modeling multivariate data.
-* Automatic selection of univariate distributions and bivariate copulas.
-
-## Supported Distributions
-
-### Univariate
-
-* Beta
-* Gamma
-* Gaussian
-* Gaussian KDE
-* Log-Laplace
-* Student T
-* Truncated Gaussian
-* Uniform
-
-### Archimedean Copulas (Bivariate)
-
-* Clayton
-* Frank
-* Gumbel
-
-### Multivariate
-
-* Gaussian Copula
-* D-Vine
-* C-Vine
-* R-Vine
+* **Access & manipulate learned parameters.** With complete access to the internals
+of the model, set or tune parameters to your choosing.
 
 # Install
 
-**Copulas** is part of the **SDV** project and is automatically installed alongside it. For
-details about this process please visit the [SDV Installation Guide](
-https://sdv.dev/SDV/getting_started/install.html)
-
-Optionally, **Copulas** can also be installed as a standalone library using the following commands:
-
-**Using `pip`:**
+Install the Copulas library using pip or conda.
 
 ```bash
 pip install copulas
 ```
 
-**Using `conda`:**
-
 ```bash
 conda install -c conda-forge copulas
 ```
 
-For more installation options please visit the [Copulas installation Guide](INSTALL.md)
+# Usage
 
-# Quickstart
+Get started using a demo dataset. This dataset contains 3 numerical columns.
 
-In this short quickstart, we show how to model a multivariate dataset and then generate
-synthetic data that resembles it.
-
-```python3
-import warnings
-warnings.filterwarnings('ignore')
-
+```python
 from copulas.datasets import sample_trivariate_xyz
-from copulas.multivariate import GaussianMultivariate
-from copulas.visualization import compare_3d
 
-# Load a dataset with 3 columns that are not independent
 real_data = sample_trivariate_xyz()
+real_data.head()
+```
 
-# Fit a gaussian copula to the data
+<img src="docs/images/copulas_sample_dataset.png" width="300">
+
+Model the data using a copula and use it to create synthetic data.
+The Copulas library offers many options including Gaussian Copula,
+Vine Copulas and Archimedian Copulas.
+
+```python
+from copulas.multivariate import GaussianMultivariate
+
 copula = GaussianMultivariate()
 copula.fit(real_data)
 
-# Sample synthetic data
 synthetic_data = copula.sample(len(real_data))
+```
 
-# Plot the real and the synthetic data to compare
+Visualize the real and synthetic data side-by-side. Let's do this in 3D so see our full dataset.
+
+```python
+from copulas.visualization import compare_3d
+
 compare_3d(real_data, synthetic_data)
 ```
 
-The output will be a figure with two plots, showing what both the real and the synthetic
-data that you just generated look like:
-
 ![Quickstart](docs/images/quickstart.png)
 
+# Tutorials
+Click below to run the code yourself on a Colab Notebook and discover new features.
 
-# What's next?
+[![Tutorial Notebook](https://img.shields.io/badge/Tutorial-Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)](https://bit.ly/copulas-demo)
 
-For more details about **Copulas** and all its possibilities and features, please check the
-[documentation site](https://sdv.dev/Copulas/).
+# Community & Support
 
-There you can learn more about [how to contribute to Copulas](https://sdv.dev/Copulas/contributing.html)
-in order to help us developing new features or cool ideas.
+Learn more about Copulas library from our [documentation](https://sdv.dev/Copulas/) site.
+
+**Questions or issues?** Join our [Slack channel](https://bit.ly/sdv-slack-invite)
+to discuss more about Copulas and synthetic data.
+If you find a bug or have a feature request, you can also
+[open an issue](https://github.com/sdv-dev/Copulas/issues/new/choose) on our GitHub.
+
+**Interested in contributing to Copulas?** Read our
+[Contribution Guide](https://sdv.dev/Copulas/contributing.html) to get started.
 
 # Credits
 
-Copulas is an open source project from the Data to AI Lab at MIT which has been built and
-maintained over the years by the following team:
+The Copulas open source project first started at the Data to AI Lab at MIT in 2018.
+Thank you to our team of contributors who have built and maintained the library over the years!
 
-* Manuel Alvarez <manuel@pythiac.com>
-* Carles Sala <csala@mit.edu>
-* (Alicia) Yi Sun <yis@mit.edu>
-* José David Pérez <jose@pythiac.com>
-* Kevin Alex Zhang <kevz@mit.edu>
-* Andrew Montanez <amontane@mit.edu>
-* Gabriele Bonomi <gbonomib@gmail.com>
-* Kalyan Veeramachaneni <kalyan@csail.mit.edu>
-* Iván Ramírez <rollervan@gmail.com>
-* Felipe Alex Hofmann <fealho@gmail.com>
-* paulolimac <paulolimac@gmail.com>
-* nazar-ivantsiv <nazar.ivantsiv@gmail.com>
+[View Contributors](https://github.com/sdv-dev/Copulas/graphs/contributors)
 
 ---
 
