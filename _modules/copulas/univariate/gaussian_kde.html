@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,19 +257,21 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.univariate.gaussian_kde</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="sd">&quot;&quot;&quot;GaussianKDE module.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">ndtr</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">store_args</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span> <span class="n">validate_random_state</span>
 <span class="kn">from</span> <span class="nn">copulas.optimize</span> <span class="kn">import</span> <span class="n">bisect</span><span class="p">,</span> <span class="n">chandrupatla</span>
 <span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
 
 
 <div class="viewcode-block" id="GaussianKDE"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE">[docs]</a><span class="k">class</span> <span class="nc">GaussianKDE</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A wrapper for gaussian Kernel density estimation implemented</span>
-<span class="sd">    in scipy.stats toolbox. gaussian_kde is slower than statsmodels</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper for gaussian Kernel density estimation.</span>
+
+<span class="sd">    It was implemented in scipy.stats toolbox. gaussian_kde is slower than statsmodels</span>
 <span class="sd">    but allows more flexibility.</span>
 
 <span class="sd">    When a sample_size is provided the fit method will sample the</span>
@@ -286,8 +287,8 @@
     <span class="n">MODEL_CLASS</span> <span class="o">=</span> <span class="n">gaussian_kde</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_size</span> <span class="o">=</span> <span class="n">sample_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bw_method</span> <span class="o">=</span> <span class="n">bw_method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
@@ -305,7 +306,7 @@
         <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
 
 <div class="viewcode-block" id="GaussianKDE.probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (numpy.ndarray):</span>
@@ -323,8 +324,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianKDE.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
+    <span class="nd">@random_state</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
 <span class="sd">        Argument:</span>
 <span class="sd">            n_samples (int):</span>
@@ -340,10 +342,10 @@
 <span class="sd">                if the model is not fitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <div class="viewcode-block" id="GaussianKDE.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (numpy.ndarray):</span>
@@ -365,8 +367,8 @@
         <span class="n">uppers</span> <span class="o">=</span> <span class="n">ndtr</span><span class="p">((</span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span> <span class="o">/</span> <span class="n">stdev</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">uppers</span> <span class="o">-</span> <span class="n">lower</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianKDE.percent_point"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;chandrupatla&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the inverse cumulative distribution value for each point in U.</span>
+<div class="viewcode-block" id="GaussianKDE.percent_point"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;chandrupatla&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse cumulative distribution value for each point in U.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            U (numpy.ndarray):</span>
@@ -386,10 +388,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected 1d array, got </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Expected 1d array, got </span><span class="si">{</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">U</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">U</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected values in range [0.0, 1.0].&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected values in range [0.0, 1.0].&#39;</span><span class="p">)</span>
 
         <span class="n">is_one</span> <span class="o">=</span> <span class="n">U</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">EPSILON</span>
         <span class="n">is_zero</span> <span class="o">=</span> <span class="n">U</span> <span class="o">&lt;=</span> <span class="n">EPSILON</span>
@@ -401,12 +403,12 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="n">U</span><span class="p">[</span><span class="n">is_valid</span><span class="p">]</span>
 
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">X</span><span class="p">[</span><span class="n">is_one</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
-        <span class="n">X</span><span class="p">[</span><span class="n">is_zero</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">is_one</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">is_zero</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">is_valid</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">is_valid</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">lower</span><span class="p">)</span>
             <span class="n">upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">is_valid</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bisect&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;bisect&#39;</span><span class="p">:</span>
                 <span class="n">X</span><span class="p">[</span><span class="n">is_valid</span><span class="p">]</span> <span class="o">=</span> <span class="n">bisect</span><span class="p">(</span><span class="n">_f</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">X</span><span class="p">[</span><span class="n">is_valid</span><span class="p">]</span> <span class="o">=</span> <span class="n">chandrupatla</span><span class="p">(</span><span class="n">_f</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
@@ -436,7 +438,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the parameters of this univariate.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the parameters of this univariate.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params (dict):</span>
@@ -460,7 +462,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; Copulas 0.6.0 documentation</title>
+  <title>Contributing &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -336,20 +335,20 @@ are welcome :)</p></li>
 <ol class="arabic">
 <li><p>Fork the <cite>Copulas</cite> repo on GitHub.</p></li>
 <li><p>Clone your fork locally:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/Copulas.git
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:your_name_here/Copulas.git
 </pre></div>
 </div>
 </li>
 <li><p>Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed,
 this is how you set up your fork for local development:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv Copulas
-$ <span class="nb">cd</span> Copulas/
-$ make install-develop
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkvirtualenv<span class="w"> </span>Copulas
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Copulas/
+$<span class="w"> </span>make<span class="w"> </span>install-develop
 </pre></div>
 </div>
 </li>
 <li><p>Create a branch for local development:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git checkout -b name-of-your-bugfix-or-feature
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 <p>Now you can make your changes locally.</p>
@@ -357,14 +356,14 @@ $ make install-develop
 <li><p>While hacking your changes, make sure to cover all your developments with the required
 unit tests, and that none of the old tests fail as a consequence of your changes.
 For this, make sure to run the tests suite and check the code coverage:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ make <span class="nb">test</span>       <span class="c1"># Run the tests</span>
-$ make coverage   <span class="c1"># Get the coverage report</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nb">test</span><span class="w">       </span><span class="c1"># Run the tests</span>
+$<span class="w"> </span>make<span class="w"> </span>coverage<span class="w">   </span><span class="c1"># Get the coverage report</span>
 </pre></div>
 </div>
 </li>
 <li><p>When you’re done making changes, check that your changes pass flake8 and the
 tests, including testing other Python versions with tox:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ make test-all
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>test-all
 </pre></div>
 </div>
 </li>
@@ -372,15 +371,15 @@ tests, including testing other Python versions with tox:</p>
 the [google](<a class="reference external" href="https://google.github.io/styleguide/pyguide.html?showone=Comments#38-comments-and-docstrings">https://google.github.io/styleguide/pyguide.html?showone=Comments#38-comments-and-docstrings</a>)
 docstring style. If you want to view how your documentation will look like when it is
 published, you can generate and view the docs with this commands:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ make docs
-$ make view-docs
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>docs
+$<span class="w"> </span>make<span class="w"> </span>view-docs
 </pre></div>
 </div>
 </li>
 <li><p>Commit your changes and push your branch to GitHub:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git add .
-$ git commit -m <span class="s2">&quot;Your detailed description of your changes.&quot;</span>
-$ git push origin name-of-your-bugfix-or-feature
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Your detailed description of your changes.&quot;</span>
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>name-of-your-bugfix-or-feature
 </pre></div>
 </div>
 </li>
@@ -433,7 +432,7 @@ mocked.</p></li>
 <div class="section" id="tips">
 <h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
 <p>To run a subset of tests:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ pytest tests.test_copulas
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pytest<span class="w"> </span>tests.test_copulas
 </pre></div>
 </div>
 </div>
@@ -456,17 +455,17 @@ Normally this is just a list of the Pull Requests that have been merged since th
 <p>Once this is done, run of the following commands:</p>
 <ol class="arabic">
 <li><p>If you are releasing a patch version:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make release
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>release
 </pre></div>
 </div>
 </li>
 <li><p>If you are releasing a minor version:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make release-minor
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>release-minor
 </pre></div>
 </div>
 </li>
 <li><p>If you are releasing a major version:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make release-major
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>release-major
 </pre></div>
 </div>
 </li>
@@ -494,7 +493,7 @@ Normally this is just a list of the Pull Requests that have been merged since th
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

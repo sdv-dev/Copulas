@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.frank &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.bivariate.frank &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,7 +257,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.bivariate.frank</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span></span><span class="sd">&quot;&quot;&quot;Frank module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">integrate</span>
@@ -273,19 +274,19 @@
 
 
 <div class="viewcode-block" id="Frank"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank">[docs]</a><span class="k">class</span> <span class="nc">Frank</span><span class="p">(</span><span class="n">Bivariate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for Frank copula model.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for Frank copula model.&quot;&quot;&quot;</span>
 
     <span class="n">copula_type</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">FRANK</span>
     <span class="n">theta_interval</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span>
     <span class="n">invalid_thetas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Frank.generator"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.generator">[docs]</a>    <span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the generator function.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the generator function.&quot;&quot;&quot;</span>
         <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_g</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Helper function to solve Frank copula.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Assist in solving the Frank copula.</span>
 
 <span class="sd">        This functions encapsulates :math:`g(z) = e^{-\theta z} - 1` used on Frank copulas.</span>
 
@@ -296,10 +297,10 @@
 <span class="sd">            np.ndarray</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="Frank.probability_density"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
 
 <span class="sd">        The probability density(PDF) for the Frank family of copulas correspond to the formula:</span>
 
@@ -322,16 +323,16 @@
         <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">U</span> <span class="o">*</span> <span class="n">V</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)))</span>
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span> <span class="o">+</span> <span class="n">V</span><span class="p">))</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">aux</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span></div>
 
 <div class="viewcode-block" id="Frank.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the Frank copula.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the Frank copula.</span>
 
 <span class="sd">        The cumulative density(cdf), or distribution function for the Frank family of copulas</span>
 <span class="sd">        correspond to the formula:</span>
@@ -350,16 +351,13 @@
 
         <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">U</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">U</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Frank.percent_point"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            y: `np.ndarray` value of :math:`C(u|v)`.</span>
@@ -374,7 +372,7 @@
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Frank.partial_derivative"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.partial_derivative">[docs]</a>    <span class="k">def</span> <span class="nf">partial_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
 
 <span class="sd">        The partial derivative of the copula(CDF) is the conditional CDF.</span>
 
@@ -397,12 +395,12 @@
             <span class="k">return</span> <span class="n">V</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
-            <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+            <span class="n">den</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">U</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span></div>
 
 <div class="viewcode-block" id="Frank.compute_theta"><a class="viewcode-back" href="../../../api/copulas.bivariate.frank.html#copulas.bivariate.Frank.compute_theta">[docs]</a>    <span class="k">def</span> <span class="nf">compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
 
 <span class="sd">        On Frank copula, the relationship between tau and theta is defined by:</span>
 
@@ -422,7 +420,7 @@
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="nf">_tau_to_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Relationship between tau and theta as a solvable equation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Relationship between tau and theta as a solvable equation.&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">debye</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">t</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -440,7 +438,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

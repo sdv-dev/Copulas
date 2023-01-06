@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.datasets &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.datasets &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,15 +257,21 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.datasets</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;Sample datasets for the Copulas library.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">random_seed</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">set_random_state</span><span class="p">,</span> <span class="n">validate_random_state</span>
+
+
+<span class="k">def</span> <span class="nf">_dummy_fn</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="sample_bivariate_age_income"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_bivariate_age_income">[docs]</a><span class="k">def</span> <span class="nf">sample_bivariate_age_income</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a bivariate toy dataset.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a bivariate toy dataset.</span>
 
 <span class="sd">    This dataset contains two columns which correspond to the simulated age and</span>
 <span class="sd">    income which are positively correlated with outliers.</span>
@@ -277,24 +282,24 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.DataFrame:</span>
 <span class="sd">            DataFrame with two columns, ``age`` and ``income``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="n">age</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">6.0</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="n">income</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
         <span class="n">income</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="n">income</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">1000</span>
 
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
-        <span class="s2">&quot;income&quot;</span><span class="p">:</span> <span class="n">income</span>
+        <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
+        <span class="s1">&#39;income&#39;</span><span class="p">:</span> <span class="n">income</span>
     <span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="sample_trivariate_xyz"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_trivariate_xyz">[docs]</a><span class="k">def</span> <span class="nf">sample_trivariate_xyz</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from three dimensional toy dataset.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from three dimensional toy dataset.</span>
 
 <span class="sd">    The output is a DataFrame containing three columns:</span>
 
@@ -308,11 +313,11 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.DataFrame:</span>
 <span class="sd">            DataFrame with three columns, ``x``, ``y`` and ``z``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
@@ -323,7 +328,7 @@
 
 
 <div class="viewcode-block" id="sample_univariate_bernoulli"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_bernoulli">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_bernoulli</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a Bernoulli distribution with p=0.3.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a Bernoulli distribution with p=0.3.</span>
 
 <span class="sd">    The distribution is built by sampling a uniform random and then setting</span>
 <span class="sd">    0 or 1 depending on whether the value is above or below 0.3.</span>
@@ -334,16 +339,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.3</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="sample_univariate_bimodal"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_bimodal">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_bimodal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a bimodal distribution which mixes two Gaussians at 0.0 and 10.0 with stdev=1.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a bimodal distribution which mixes two Gaussians at 0.0 and 10.0 with stdev=1.</span>
 
 <span class="sd">    The distribution is built by sampling a standard normal and a normal with mean ``10``</span>
 <span class="sd">    and then selecting one or the other based on a bernoulli distribution.</span>
@@ -354,11 +359,11 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="n">bernoulli</span> <span class="o">=</span> <span class="n">sample_univariate_bernoulli</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
         <span class="n">mode1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="n">bernoulli</span>
         <span class="n">mode2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">bernoulli</span><span class="p">)</span>
@@ -367,7 +372,7 @@
 
 
 <div class="viewcode-block" id="sample_univariate_uniform"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_uniform">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a uniform distribution in [-1.0, 3.0].</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a uniform distribution in [-1.0, 3.0].</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -375,16 +380,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="sample_univariate_normal"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_normal">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a normal distribution with mean 1 and stdev 1.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a normal distribution with mean 1 and stdev 1.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -392,16 +397,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="sample_univariate_degenerate"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_degenerate">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_degenerate</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a degenerate distribution that only takes one random value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a degenerate distribution that only takes one random value.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -409,16 +414,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()))</span></div>
 
 
 <div class="viewcode-block" id="sample_univariate_exponential"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_exponential">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from an exponential distribution at 3.0 with rate 1.0.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from an exponential distribution at 3.0 with rate 1.0.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -426,16 +431,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="sample_univariate_beta"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariate_beta">[docs]</a><span class="k">def</span> <span class="nf">sample_univariate_beta</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a beta distribution with a=3 and b=1 and loc=4.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a beta distribution with a=3 and b=1 and loc=4.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -443,16 +448,16 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.Series:</span>
 <span class="sd">            Series with the sampled values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="n">validate_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">_dummy_fn</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="sample_univariates"><a class="viewcode-back" href="../../api/copulas.datasets.html#copulas.datasets.sample_univariates">[docs]</a><span class="k">def</span> <span class="nf">sample_univariates</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sample from a list of univariate distributions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample from a list of univariate distributions.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        size (int):</span>
@@ -460,7 +465,7 @@
 <span class="sd">        seed (int):</span>
 <span class="sd">            Random seed to use. Defaults to 42.</span>
 
-<span class="sd">    Retruns:</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        pandas.DataFrame:</span>
 <span class="sd">            DataFrame with the sampled distributions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -485,7 +490,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.gumbel module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.bivariate.gumbel module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -291,9 +290,10 @@
 </style>
 <div class="section" id="module-copulas.bivariate.gumbel">
 <span id="copulas-bivariate-gumbel-module"></span><h1>copulas.bivariate.gumbel module<a class="headerlink" href="#module-copulas.bivariate.gumbel" title="Permalink to this headline">¶</a></h1>
+<p>Gumbel module.</p>
 <dl class="class">
 <dt id="copulas.bivariate.gumbel.Gumbel">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.gumbel.</code><code class="sig-name descname">Gumbel</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.gumbel.Gumbel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.gumbel.</code><code class="sig-name descname">Gumbel</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/gumbel.html#Gumbel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.gumbel.Gumbel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
 <p>Class for clayton copula model.</p>
 <dl class="method">
@@ -383,13 +383,15 @@ C(u,v)\frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta} - 1}}
 <dd><p>Compute probability density function for given copula family.</p>
 <p>The probability density(PDF) for the Gumbel family of copulas correspond to the formula:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align}
+\[\begin{align}
     c(U,V)
-        &amp;= \frac{\partial^2 C(u,v)}{\partial v \partial u} \\
-        &amp;= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{2}
-    {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}} ( 1 + (\theta-1) \big((-\ln u)^\theta
+        &amp;= \frac{\partial^2 C(u,v)}{\partial v \partial u}
+        &amp;= \frac{C(u,v)}{uv} \frac{((-\ln u)^{\theta}  # noqa: JS101
+        + (-\ln v)^{\theta})^{\frac{2}  # noqa: JS101
+    {\theta} - 2 }}{(\ln u \ln v)^{1 - \theta}}  # noqa: JS101
+    ( 1 + (\theta-1) \big((-\ln u)^\theta
     + (-\ln v)^\theta\big)^{-1/\theta})
-\end{align}\end{split}\]</div>
+\end{align}\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
@@ -429,7 +431,7 @@ C(u,v)\frac{((-\ln u)^{\theta} + (-\ln v)^{\theta})^{\frac{1}{\theta} - 1}}
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

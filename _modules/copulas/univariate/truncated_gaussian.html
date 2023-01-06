@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.truncated_gaussian &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.univariate.truncated_gaussian &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,16 +257,18 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.univariate.truncated_gaussian</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;TruncatedGaussian module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin_slsqp</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">truncnorm</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">store_args</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span> <span class="n">validate_random_state</span>
 <span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
 
 
 <div class="viewcode-block" id="TruncatedGaussian"><a class="viewcode-back" href="../../../api/copulas.univariate.truncated_gaussian.html#copulas.univariate.TruncatedGaussian">[docs]</a><span class="k">class</span> <span class="nc">TruncatedGaussian</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wrapper around scipy.stats.truncnorm.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper around scipy.stats.truncnorm.</span>
 
 <span class="sd">    Documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -277,10 +278,10 @@
     <span class="n">MODEL_CLASS</span> <span class="o">=</span> <span class="n">truncnorm</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maximum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">minimum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">maximum</span>
 
     <span class="k">def</span> <span class="nf">_fit_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="n">constant</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -338,7 +339,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

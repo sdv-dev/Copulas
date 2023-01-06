@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.gaussian_kde module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.univariate.gaussian_kde module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -291,12 +290,13 @@
 </style>
 <div class="section" id="module-copulas.univariate.gaussian_kde">
 <span id="copulas-univariate-gaussian-kde-module"></span><h1>copulas.univariate.gaussian_kde module<a class="headerlink" href="#module-copulas.univariate.gaussian_kde" title="Permalink to this headline">¶</a></h1>
+<p>GaussianKDE module.</p>
 <dl class="class">
 <dt id="copulas.univariate.gaussian_kde.GaussianKDE">
 <em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.gaussian_kde.</code><code class="sig-name descname">GaussianKDE</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian_kde.GaussianKDE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
-<p>A wrapper for gaussian Kernel density estimation implemented
-in scipy.stats toolbox. gaussian_kde is slower than statsmodels
+<p>A wrapper for gaussian Kernel density estimation.</p>
+<p>It was implemented in scipy.stats toolbox. gaussian_kde is slower than statsmodels
 but allows more flexibility.</p>
 <p>When a sample_size is provided the fit method will sample the
 data, and mask the real information. Also, ensure the number of
@@ -314,7 +314,7 @@ entries will be always the value of sample_size.</p>
 <dl class="attribute">
 <dt id="copulas.univariate.gaussian_kde.GaussianKDE.MODEL_CLASS">
 <code class="sig-name descname">MODEL_CLASS</code><a class="headerlink" href="#copulas.univariate.gaussian_kde.GaussianKDE.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.stats.kde.gaussian_kde</span></code></p>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.stats._kde.gaussian_kde</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
@@ -390,28 +390,8 @@ It must have shape (n, 1).</p>
 
 <dl class="method">
 <dt id="copulas.univariate.gaussian_kde.GaussianKDE.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">n_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.gaussian_kde.GaussianKDE.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sample values from this model.</p>
-<dl class="simple">
-<dt>Argument:</dt><dd><dl class="simple">
-<dt>n_samples (int):</dt><dd><p>Number of values to sample</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Array of shape (n_samples, 1) with values randomly
-sampled from this model distribution.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>numpy.ndarray</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
-</dd>
-</dl>
-</dd></dl>
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.univariate.gaussian_kde.GaussianKDE.sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -437,7 +417,7 @@ sampled from this model distribution.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

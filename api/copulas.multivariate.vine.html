@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.multivariate.vine module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -291,6 +290,7 @@
 </style>
 <div class="section" id="module-copulas.multivariate.vine">
 <span id="copulas-multivariate-vine-module"></span><h1>copulas.multivariate.vine module<a class="headerlink" href="#module-copulas.multivariate.vine" title="Permalink to this headline">¶</a></h1>
+<p>VineCopula module.</p>
 <dl class="class">
 <dt id="copulas.multivariate.vine.VineCopula">
 <em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.vine.</code><code class="sig-name descname">VineCopula</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula" title="Permalink to this definition">¶</a></dt>
@@ -312,7 +312,7 @@ of all the nodes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vine_type</strong> (<em>str</em>) – type of the vine copula, could be ‘center’,’direct’,’regular’</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em>) – Random seed to use.</p></li>
+<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>np.random.RandomState</em>) – Random seed or RandomState to use.</p></li>
 </ul>
 </dd>
 </dl>
@@ -477,7 +477,7 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 <dl class="method">
 <dt id="copulas.multivariate.vine.VineCopula.train_vine">
 <code class="sig-name descname">train_vine</code><span class="sig-paren">(</span><em class="sig-param">tree_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.train_vine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build the wine.</p>
+<dd><p>Build the vine.</p>
 <ol class="arabic">
 <li><p>For the construction of the first tree <span class="math notranslate nohighlight">\(T_1\)</span>, assign one node to each variable
 and then couple them by maximizing the measure of association considered.
@@ -488,7 +488,7 @@ applied different trees are achieved at this level.</p></li>
 <li><p>Let <span class="math notranslate nohighlight">\(C_{ij}(u_i , u_j )\)</span> be the copula for a given edge <span class="math notranslate nohighlight">\((u_i, u_j)\)</span>
 in <span class="math notranslate nohighlight">\(T_1\)</span>. Then for every edge in <span class="math notranslate nohighlight">\(T_1\)</span>, compute either</p>
 <div class="math notranslate nohighlight">
-\[{v^1}_{j|i} = \frac{\partial C_{ij}(u_i, u_j)}{\partial u_j}\]</div>
+\[\begin{split}{v^1}_{j|i} = \\frac{\\partial C_{ij}(u_i, u_j)}{\\partial u_j}\end{split}\]</div>
 <p>or similarly <span class="math notranslate nohighlight">\({v^1}_{i|j}\)</span>, which are conditional cdfs. When finished with
 all the edges, construct the new matrix with <span class="math notranslate nohighlight">\(v^1\)</span> that has one less column u.</p>
 </li>
@@ -536,7 +536,7 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

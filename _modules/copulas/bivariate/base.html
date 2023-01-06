@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.base &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.bivariate.base &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -268,12 +267,12 @@
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">brentq</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">NotFittedError</span><span class="p">,</span> <span class="n">random_state</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">NotFittedError</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">validate_random_state</span>
 <span class="kn">from</span> <span class="nn">copulas.bivariate.utils</span> <span class="kn">import</span> <span class="n">split_matrix</span>
 
 
 <div class="viewcode-block" id="CopulaTypes"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.CopulaTypes">[docs]</a><span class="k">class</span> <span class="nc">CopulaTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Available copula families.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Available copula families.&quot;&quot;&quot;</span>
 
     <span class="n">CLAYTON</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">FRANK</span> <span class="o">=</span> <span class="mi">1</span>
@@ -282,7 +281,7 @@
 
 
 <div class="viewcode-block" id="Bivariate"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate">[docs]</a><span class="k">class</span> <span class="nc">Bivariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for bivariate copulas.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for bivariate copulas.</span>
 
 <span class="sd">    This class allows to instantiate all its subclasses and serves as a unique entry point for</span>
 <span class="sd">    the bivariate copulas classes.</span>
@@ -296,7 +295,8 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        copula_type (Union[CopulaType, str]): Subtype of the copula.</span>
-<span class="sd">        random_seed (Union[int, None]): Seed for the random generator.</span>
+<span class="sd">        random_state (Union[int, np.random.RandomState, None]): Seed or RandomState</span>
+<span class="sd">            for the random generator.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        copula_type(CopulaTypes): Family of the copula a subclass belongs to.</span>
@@ -318,7 +318,7 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_get_subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find recursively subclasses for the current class object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find recursively subclasses for the current class object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list[Bivariate]: List of subclass objects.</span>
@@ -333,7 +333,7 @@
 
 <div class="viewcode-block" id="Bivariate.subclasses"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.subclasses">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">subclasses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a list of subclasses for the current class object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of subclasses for the current class object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list[Bivariate]: Subclasses for given class.</span>
@@ -345,7 +345,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_subclasses</span></div>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create and return a new object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create and return a new object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Bivariate: New object.</span>
@@ -358,23 +358,24 @@
             <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">copula_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">copula_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">):</span>
                 <span class="n">copula_type</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="p">[</span><span class="n">copula_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid copula type </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">copula_type</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid copula type </span><span class="si">{</span><span class="n">copula_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">subclass</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">subclasses</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">subclass</span><span class="o">.</span><span class="n">copula_type</span> <span class="ow">is</span> <span class="n">copula_type</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Bivariate</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">subclass</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">copula_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize Bivariate object.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">copula_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Bivariate object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            copula_type (CopulaType or str): Subtype of the copula.</span>
-<span class="sd">            random_seed (int or None): Seed for the random generator.</span>
+<span class="sd">            random_state (int, np.random.RandomState, or None): Seed or RandomState</span>
+<span class="sd">                for the random generator.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Bivariate.check_theta"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.check_theta">[docs]</a>    <span class="k">def</span> <span class="nf">check_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Validate the computed theta against the copula specification.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the computed theta against the copula specification.</span>
 
 <span class="sd">        This method is used to assert the computed theta is in the valid range for the copula.</span>
 
@@ -388,7 +389,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">copula_type</span><span class="o">.</span><span class="n">name</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Bivariate.check_fit"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.check_fit">[docs]</a>    <span class="k">def</span> <span class="nf">check_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Assert that the model is fit and the computed `theta` is valid.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert that the model is fit and the computed `theta` is valid.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError: if the model is  not fitted.</span>
@@ -396,12 +397,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s2">&quot;This model is not fitted.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s1">&#39;This model is not fitted.&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">check_theta</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Bivariate.check_marginal"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.check_marginal">[docs]</a>    <span class="k">def</span> <span class="nf">check_marginal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;The marginals are supposed to be uniformly distributed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that the marginals are uniformly distributed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            u(np.ndarray): Array of datapoints with shape (n,).</span>
@@ -410,22 +411,22 @@
 <span class="sd">            ValueError: If the data does not appear uniformly distributed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Marginal value out of bounds.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Marginal value out of bounds.&#39;</span><span class="p">)</span>
 
         <span class="n">emperical_cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
         <span class="n">uniform_cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
         <span class="n">ks_statistic</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">emperical_cdf</span> <span class="o">-</span> <span class="n">uniform_cdf</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">ks_statistic</span> <span class="o">&gt;</span> <span class="mf">1.627</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)):</span>
             <span class="c1"># KS test with significance level 0.01</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Data does not appear to be uniform.&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span></div>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Data does not appear to be uniform.&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute theta, validate it and assign it to self.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute theta, validate it and assign it to self.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_theta</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_theta</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Bivariate.fit"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Fit a model to the data updating the parameters.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a model to the data updating the parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X(np.ndarray): Array of datapoints with shape (n,2).</span>
@@ -439,12 +440,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kendalltau</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">V</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Constant column.&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to compute tau.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Constant column.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unable to compute tau.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_compute_theta</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Bivariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: Parameters of the copula.</span>
@@ -458,7 +459,7 @@
 
 <div class="viewcode-block" id="Bivariate.from_dict"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copula_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from the given parameters.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from the given parameters.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            copula_dict: `dict` with the parameters to replicate the copula.</span>
@@ -474,15 +475,16 @@
         <span class="k">return</span> <span class="n">instance</span></div>
 
 <div class="viewcode-block" id="Bivariate.infer"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.infer">[docs]</a>    <span class="k">def</span> <span class="nf">infer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Take in subset of values and predicts the rest.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Take in subset of values and predicts the rest.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Bivariate.generator"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.generator">[docs]</a>    <span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the generator function for Archimedian copulas.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the generator function for Archimedian copulas.</span>
 
-<span class="sd">        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`</span>
-<span class="sd">        that given an Archimedian copula fulills:</span>
+<span class="sd">        The generator is a function</span>
+<span class="sd">        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101</span>
 
+<span class="sd">        that given an Archimedian copula fulfills:</span>
 <span class="sd">        .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))</span>
 
 
@@ -494,7 +496,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Bivariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
 
 <span class="sd">        The probability density(pdf) for a given copula is defined as:</span>
 
@@ -510,23 +512,26 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Bivariate.log_probability_density"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.log_probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return log probability density of model. It should be overridden</span>
-<span class="sd">        with numerically stable variants whenever possible.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return log probability density of model.</span>
+
+<span class="sd">        The log probability should be overridden with numerically stable</span>
+<span class="sd">        variants whenever possible.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X: `np.ndarray` of shape (n, 1).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Bivariate.pdf"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.pdf">[docs]</a>    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Shortcut to :meth:`probability_density`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut to :meth:`probability_density`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bivariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the copula, :math:`C(u, v)`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the copula, :math:`C(u, v)`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X(np.ndarray):</span>
@@ -538,11 +543,11 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Bivariate.cdf"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.cdf">[docs]</a>    <span class="k">def</span> <span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Shortcut to :meth:`cumulative_distribution`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut to :meth:`cumulative_distribution`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bivariate.percent_point"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            y: `np.ndarray` value of :math:`C(u|v)`.</span>
@@ -563,11 +568,11 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bivariate.ppf"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.ppf">[docs]</a>    <span class="k">def</span> <span class="nf">ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Shortcut to :meth:`percent_point`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut to :meth:`percent_point`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bivariate.partial_derivative"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.partial_derivative">[docs]</a>    <span class="k">def</span> <span class="nf">partial_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
 
 <span class="sd">        The partial derivative of the copula(CDF) is the conditional CDF.</span>
 
@@ -584,7 +589,8 @@
 <span class="sd">            np.ndarray</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.0001</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="mf">0.0001</span> <span class="o">*</span> <span class="n">delta</span>
         <span class="n">X_prime</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">X_prime</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">delta</span>
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -592,15 +598,24 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">f_prime</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span></div>
 
 <div class="viewcode-block" id="Bivariate.partial_derivative_scalar"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.partial_derivative_scalar">[docs]</a>    <span class="k">def</span> <span class="nf">partial_derivative_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute partial derivative :math:`C(u|v)` of cumulative density of single values.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute partial derivative :math:`C(u|v)` of cumulative density of single values.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
 
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial_derivative</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Bivariate.set_random_state"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.set_random_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the random state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            random_state (int, np.random.RandomState, or None): Seed or RandomState</span>
+<span class="sd">                for the random generator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span></div>
+
     <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generate specified `n_samples` of new data from model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate specified `n_samples` of new data from model.</span>
 
 <span class="sd">        The sampled are generated using the inverse transform method `v~U[0,1],v~C^-1(u|v)`</span>
 
@@ -612,7 +627,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The range for correlation measure is [-1,1].&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The range for correlation measure is [-1,1].&#39;</span><span class="p">)</span>
 
         <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
@@ -621,12 +636,12 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Bivariate.compute_theta"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.compute_theta">[docs]</a>    <span class="k">def</span> <span class="nf">compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Bivariate.select_copula"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.select_copula">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">select_copula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Select best copula function based on likelihood.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Select best copula function based on likelihood.</span>
 
 <span class="sd">        Given out candidate copulas the procedure proposed for selecting the one</span>
 <span class="sd">        that best fit to a dataset of pairs :math:`\{(u_j, v_j )\}, j=1,2,...n` , is as follows:</span>
@@ -663,7 +678,7 @@
         <span class="k">return</span> <span class="n">select_copula</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Bivariate.save"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save the internal state of a copula in the specified filename.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the internal state of a copula in the specified filename.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename(str): Path to save.</span>
@@ -678,7 +693,7 @@
 
 <div class="viewcode-block" id="Bivariate.load"><a class="viewcode-back" href="../../../api/copulas.bivariate.base.html#copulas.bivariate.Bivariate.load">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copula_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from a file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            copula_path(str): Path to file with the serialized copula.</span>
@@ -703,7 +718,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

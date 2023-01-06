@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,14 +257,18 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.multivariate.vine</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="sd">&quot;&quot;&quot;VineCopula module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span>
+<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span>
+    <span class="n">validate_random_state</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
@@ -275,7 +278,7 @@
 
 
 <div class="viewcode-block" id="VineCopula"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula">[docs]</a><span class="k">class</span> <span class="nc">VineCopula</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Vine copula model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Vine copula model.</span>
 
 <span class="sd">    A :math:`vine` is a graphical representation of one factorization of the n-variate probability</span>
 <span class="sd">    distribution in terms of :math:`n(n − 1)/2` bivariate copulas by means of the chain rule.</span>
@@ -296,8 +299,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        vine_type (str):</span>
 <span class="sd">            type of the vine copula, could be &#39;center&#39;,&#39;direct&#39;,&#39;regular&#39;</span>
-<span class="sd">        random_seed (int):</span>
-<span class="sd">            Random seed to use.</span>
+<span class="sd">        random_state (int or np.random.RandomState):</span>
+<span class="sd">            Random seed or RandomState to use.</span>
 
 
 <span class="sd">    Attributes:</span>
@@ -322,15 +325,16 @@
 <span class="sd">        ppfs (list[callable]):</span>
 <span class="sd">            percent point functions from the univariates used by this vine.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s1">&#39;Vines have not been fully tested on Python 3.8 and might &#39;</span>
                 <span class="s1">&#39;produce wrong results. Please use Python 3.5, 3.6 or 3.7&#39;</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span> <span class="o">=</span> <span class="n">vine_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -349,7 +353,7 @@
         <span class="k">return</span> <span class="n">trees</span>
 
 <div class="viewcode-block" id="VineCopula.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Vine.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Vine.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
@@ -379,7 +383,7 @@
 
 <div class="viewcode-block" id="VineCopula.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vine_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params (dict):</span>
@@ -409,7 +413,7 @@
 
     <span class="nd">@check_valid_values</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">truncated</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Fit a vine model to the data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a vine model to the data.</span>
 
 <span class="sd">        1. Transform all the variables by means of their marginals.</span>
 <span class="sd">        In other words, compute</span>
@@ -427,7 +431,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Fitting VineCopula(&quot;</span><span class="si">%s</span><span class="s1">&quot;)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kendall&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kendall&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">truncated</span>
@@ -446,7 +450,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="VineCopula.train_vine"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.train_vine">[docs]</a>    <span class="k">def</span> <span class="nf">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Build the wine.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build the vine.</span>
 
 <span class="sd">        1. For the construction of the first tree :math:`T_1`, assign one node to each variable</span>
 <span class="sd">           and then couple them by maximizing the measure of association considered.</span>
@@ -497,16 +501,14 @@
             <span class="c1"># get constraints from previous tree</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_get_constraints</span><span class="p">()</span>
             <span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_tau_matrix</span><span class="p">()</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;start building tree: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;start building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">tree_k</span> <span class="o">=</span> <span class="n">get_tree</span><span class="p">(</span><span class="n">tree_type</span><span class="p">)</span>
             <span class="n">tree_k</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_k</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;finish building tree: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span></div>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;finish building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="VineCopula.get_likelihood"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.get_likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">get_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uni_matrix</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute likelihood of the vine.&quot;&quot;&quot;</span>
-        <span class="c1"># TODO: explain what this is supposed to do and make it work</span>
-        <span class="c1"># TODO: Alternatively, remove it.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute likelihood of the vine.&quot;&quot;&quot;</span>
         <span class="n">num_tree</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">)</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_tree</span><span class="p">])</span>
 
@@ -518,7 +520,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_sample_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generate a single sampled row from vine model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a single sampled row from vine model.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numpy.ndarray</span>
@@ -534,7 +536,8 @@
         <span class="n">itr</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">explore</span><span class="p">:</span>
             <span class="n">current</span> <span class="o">=</span> <span class="n">explore</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">adj</span><span class="p">[</span><span class="n">current</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">adj_is_one</span> <span class="o">=</span> <span class="n">adj</span><span class="p">[</span><span class="n">current</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="n">neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">adj_is_one</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">itr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">new_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ppfs</span><span class="p">[</span><span class="n">current</span><span class="p">](</span><span class="n">unis</span><span class="p">[</span><span class="n">current</span><span class="p">])</span>
 
@@ -556,11 +559,11 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">current</span> <span class="ow">or</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">current</span><span class="p">:</span>
                                 <span class="n">condition</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">D</span><span class="p">)</span>
-                                <span class="n">condition</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>
-                                <span class="n">condition</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+                                <span class="n">condition</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>  <span class="c1"># noqa: PD005</span>
+                                <span class="n">condition</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>  <span class="c1"># noqa: PD005</span>
 
                                 <span class="n">visit_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">visited</span><span class="p">)</span>
-                                <span class="n">visit_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+                                <span class="n">visit_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>  <span class="c1"># noqa: PD005</span>
 
                                 <span class="k">if</span> <span class="n">condition</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">visit_set</span><span class="p">):</span>
                                     <span class="n">current_ind</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">index</span>
@@ -595,7 +598,7 @@
 
     <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sample new rows.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample new rows.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            num_rows (int):</span>
@@ -622,7 +625,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

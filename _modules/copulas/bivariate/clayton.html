@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.clayton &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.bivariate.clayton &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,25 +257,28 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.bivariate.clayton</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;Clayton module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
 <span class="kn">from</span> <span class="nn">copulas.bivariate.utils</span> <span class="kn">import</span> <span class="n">split_matrix</span>
 
 
 <div class="viewcode-block" id="Clayton"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton">[docs]</a><span class="k">class</span> <span class="nc">Clayton</span><span class="p">(</span><span class="n">Bivariate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for clayton copula model.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for clayton copula model.&quot;&quot;&quot;</span>
 
     <span class="n">copula_type</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">CLAYTON</span>
     <span class="n">theta_interval</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span>
     <span class="n">invalid_thetas</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Clayton.generator"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.generator">[docs]</a>    <span class="k">def</span> <span class="nf">generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the generator function for Clayton copula family.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the generator function for Clayton copula family.</span>
 
-<span class="sd">        The generator is a function :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`</span>
-<span class="sd">        that given an Archimedian copula fulills:</span>
+<span class="sd">        The generator is a function</span>
+<span class="sd">        :math:`\psi: [0,1]\times\Theta \rightarrow [0, \infty)`  # noqa: JS101</span>
 
+<span class="sd">        that given an Archimedian copula fulfills:</span>
 <span class="sd">        .. math:: C(u,v) = \psi^{-1}(\psi(u) + \psi(v))</span>
 
 <span class="sd">        Args:</span>
@@ -291,7 +293,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Clayton.probability_density"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute probability density function for given copula family.</span>
 
 <span class="sd">        The probability density(PDF) for the Clayton family of copulas correspond to the formula:</span>
 
@@ -310,13 +312,13 @@
 
         <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span> <span class="o">*</span> <span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span>
         <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Clayton.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the clayton copula.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution function for the clayton copula.</span>
 
 <span class="sd">        The cumulative density(cdf), or distribution function for the Clayton family of copulas</span>
 <span class="sd">        correspond to the formula:</span>
@@ -350,7 +352,7 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cdfs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Clayton.percent_point"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.percent_point">[docs]</a>    <span class="k">def</span> <span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`C(u|v)^{-1}`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            y (numpy.ndarray): Value of :math:`C(u|v)`.</span>
@@ -373,7 +375,7 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Clayton.partial_derivative"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.partial_derivative">[docs]</a>    <span class="k">def</span> <span class="nf">partial_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute partial derivative of cumulative distribution.</span>
 
 <span class="sd">        The partial derivative of the copula(CDF) is the conditional CDF.</span>
 
@@ -401,10 +403,10 @@
 
         <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">h</span></div>
 
 <div class="viewcode-block" id="Clayton.compute_theta"><a class="viewcode-back" href="../../../api/copulas.bivariate.clayton.html#copulas.bivariate.Clayton.compute_theta">[docs]</a>    <span class="k">def</span> <span class="nf">compute_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute theta parameter using Kendall&#39;s tau.</span>
 
 <span class="sd">        On Clayton copula this is</span>
 
@@ -429,7 +431,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

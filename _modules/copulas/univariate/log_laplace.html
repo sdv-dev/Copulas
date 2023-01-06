@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.log_laplace &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.univariate.log_laplace &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,14 +257,16 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.univariate.log_laplace</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;LogLaplace module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">loglaplace</span>
 
 <span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
 
 
 <div class="viewcode-block" id="LogLaplace"><a class="viewcode-back" href="../../../api/copulas.univariate.log_laplace.html#copulas.univariate.LogLaplace">[docs]</a><span class="k">class</span> <span class="nc">LogLaplace</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wrapper around scipy.stats.loglaplace.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper around scipy.stats.loglaplace.</span>
 
 <span class="sd">    Documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.loglaplace.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -306,7 +307,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>History &mdash; Copulas 0.6.0 documentation</title>
+  <title>History &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Credits" href="authors.html" />
+    <link rel="next" title="&lt;no title&gt;" href="authors.html" />
     <link rel="prev" title="Contributing" href="contributing.html" /> 
 </head>
 
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -287,13 +286,47 @@
 </style>
 <div class="section" id="history">
 <h1>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v0-8-0-2023-01-06">
+<h2>v0.8.0 - 2023-01-06<a class="headerlink" href="#v0-8-0-2023-01-06" title="Permalink to this headline">¶</a></h2>
+<p>This release adds support for python 3.10 and 3.11. Additionally, it drops support for python 3.6.</p>
+<div class="section" id="maintenance">
+<h3>Maintenance<a class="headerlink" href="#maintenance" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Support python 3.10 and above - PR<a class="reference external" href="https://github.com/sdv-dev/Copulas/pull/338">#338</a> by &#64;pvk-developer</p></li>
+<li><p>Copulas Package Maintenance Updates - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/336">#336</a> by &#64;pvk-developer</p></li>
+<li><p>Add support for python 3.10 - PR<a class="reference external" href="https://github.com/sdv-dev/Copulas/pull/329">#329</a> by &#64;katxiao</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-7-0-2022-05-10">
+<h2>v0.7.0 - 2022-05-10<a class="headerlink" href="#v0-7-0-2022-05-10" title="Permalink to this headline">¶</a></h2>
+<p>This release adds <code class="docutils literal notranslate"><span class="pre">gaussian</span></code> as a fallback distribution in case the user specified one fails. It also improves the <code class="docutils literal notranslate"><span class="pre">fit</span></code> of the <code class="docutils literal notranslate"><span class="pre">beta</span></code> distribution by properly estimatig the <code class="docutils literal notranslate"><span class="pre">loc</span></code> and <code class="docutils literal notranslate"><span class="pre">scale</span></code> parameters.</p>
+<div class="section" id="general-improvements">
+<h3>General Improvements<a class="headerlink" href="#general-improvements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add gaussian as fallback - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/320">#320</a> by &#64;fealho</p></li>
+<li><p>Improve the fit of the Beta distribution: Use the new loc and scale - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/317">#317</a> by &#64;pvk-developer</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="v0-6-1-2022-02-25">
+<h2>v0.6.1 - 2022-02-25<a class="headerlink" href="#v0-6-1-2022-02-25" title="Permalink to this headline">¶</a></h2>
+<p>This release improves the <code class="docutils literal notranslate"><span class="pre">random_state</span></code> functionality by taking in RandomState objects in addition to
+random seeds.</p>
+<div class="section" id="id6">
+<h3>General Improvements<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Use random_state instead of random_seed - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/113">#113</a> by &#64;katxiao</p></li>
+</ul>
+</div>
+</div>
 <div class="section" id="v0-6-0-2021-05-13">
 <h2>v0.6.0 - 2021-05-13<a class="headerlink" href="#v0-6-0-2021-05-13" title="Permalink to this headline">¶</a></h2>
 <p>This release makes Copulas compatible with Python 3.9! It also improves library maintenance by
 updating dependencies, reorganizing the CI workflows, adding pip check to the workflows and
 removing unused files.</p>
-<div class="section" id="general-improvements">
-<h3>General Improvements<a class="headerlink" href="#general-improvements" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>General Improvements<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add support for Python 3.9 - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/282">#282</a> by &#64;amontanez24</p></li>
 <li><p>Remove entry point in setup.py - Issue<a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/280">#280</a> by &#64;amontanez24</p></li>
@@ -344,8 +377,8 @@ and updates some dependencies.</p>
 <p>This release introduces a few changes to optimize processing speed by re-implementing
 the Gaussian KDE pdf to use vectorized root finding methods and also adding the option
 to subsample the data during univariate selection.</p>
-<div class="section" id="id12">
-<h3>General Improvements<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>General Improvements<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Make <code class="docutils literal notranslate"><span class="pre">gaussian_kde</span></code> faster - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/200">#200</a> by &#64;k15z and &#64;fealho</p></li>
 <li><p>Use sub-sampling in <code class="docutils literal notranslate"><span class="pre">select_univariate</span></code> - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/183">#183</a> by &#64;csala</p></li>
@@ -354,15 +387,15 @@ to subsample the data during univariate selection.</p>
 </div>
 <div class="section" id="v0-3-3-2020-09-18">
 <h2>v0.3.3 - 2020-09-18<a class="headerlink" href="#v0-3-3-2020-09-18" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id15">
-<h3>General Improvements<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>General Improvements<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">corr</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cov</span></code> in the GaussianMultivariate - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/195">#195</a> by &#64;rollervan</p></li>
 <li><p>Add arguments to GaussianKDE - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/181">#181</a> by &#64;rollervan</p></li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>New Features<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Log Laplace Distribution - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/188">#188</a> by &#64;rollervan</p></li>
 </ul>
@@ -370,15 +403,15 @@ to subsample the data during univariate selection.</p>
 </div>
 <div class="section" id="v0-3-2-2020-08-08">
 <h2>v0.3.2 - 2020-08-08<a class="headerlink" href="#v0-3-2-2020-08-08" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id20">
-<h3>General Improvements<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>General Improvements<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Support Python 3.8 - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/185">#185</a> by &#64;csala</p></li>
 <li><p>Support scipy &gt;1.3 - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/180">#180</a> by &#64;csala</p></li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>New Features<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>New Features<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add Uniform Univariate - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/179">#179</a> by &#64;rollervan</p></li>
 </ul>
@@ -386,20 +419,20 @@ to subsample the data during univariate selection.</p>
 </div>
 <div class="section" id="v0-3-1-2020-07-09">
 <h2>v0.3.1 - 2020-07-09<a class="headerlink" href="#v0-3-1-2020-07-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id25">
-<h3>General Improvements<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>General Improvements<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Raise numpy version upper bound to 2 - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/178">#178</a> by &#64;csala</p></li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>New Features<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>New Features<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add Student T Univariate - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/172">#172</a> by &#64;gbonomib</p></li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>Bug Fixes<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id37">
+<h3>Bug Fixes<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Error in Quickstarts : Unknown projection ‘3d’ - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/174">#174</a> by &#64;csala</p></li>
 </ul>
@@ -426,8 +459,8 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 </div>
 <div class="section" id="v0-2-5-2020-01-17">
 <h2>v0.2.5 - 2020-01-17<a class="headerlink" href="#v0-2-5-2020-01-17" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id31">
-<h3>General Improvements<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h3>General Improvements<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Convert import_object to get_instance - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/114">#114</a> by &#64;JDTheRipperPC</p></li>
 </ul>
@@ -435,14 +468,14 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 </div>
 <div class="section" id="v0-2-4-2019-12-23">
 <h2>v0.2.4 - 2019-12-23<a class="headerlink" href="#v0-2-4-2019-12-23" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id33">
-<h3>New Features<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h3>New Features<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Allow creating copula classes directly - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/117">#117</a> by &#64;csala</p></li>
 </ul>
 </div>
-<div class="section" id="id35">
-<h3>General Improvements<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id43">
+<h3>General Improvements<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Remove <code class="docutils literal notranslate"><span class="pre">select_copula</span></code> from <code class="docutils literal notranslate"><span class="pre">Bivariate</span></code> - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/118">#118</a> by &#64;csala</p></li>
 <li><p>Rename TruncNorm to TruncGaussian and make it non standard - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/102">#102</a> by &#64;csala &#64;JDTheRipperPC</p></li>
@@ -457,21 +490,21 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 </div>
 <div class="section" id="v0-2-3-2019-09-17">
 <h2>v0.2.3 - 2019-09-17<a class="headerlink" href="#v0-2-3-2019-09-17" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id39">
-<h3>New Features<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id47">
+<h3>New Features<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Add support to Python 3.7 - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/53">#53</a> by &#64;JDTheRipperPC</p></li>
 </ul>
 </div>
-<div class="section" id="id41">
-<h3>General Improvements<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id49">
+<h3>General Improvements<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Document RELEASE workflow - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/105">#105</a> by &#64;JDTheRipperPC</p></li>
 <li><p>Improve serialization of univariate distributions - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/99">#99</a> by &#64;ManuelAlvarezC and &#64;JDTheRipperPC</p></li>
 </ul>
 </div>
-<div class="section" id="id44">
-<h3>Bugs fixed<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id52">
+<h3>Bugs fixed<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The method ‘select_copula’ of Bivariate return wrong CopulaType - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/101">#101</a> by &#64;JDTheRipperPC</p></li>
 </ul>
@@ -479,8 +512,8 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 </div>
 <div class="section" id="v0-2-2-2019-07-31">
 <h2>v0.2.2 - 2019-07-31<a class="headerlink" href="#v0-2-2-2019-07-31" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id46">
-<h3>New Features<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id54">
+<h3>New Features<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">truncnorm</span></code> distribution and a generic wrapper for <code class="docutils literal notranslate"><span class="pre">scipy.rv_continous</span></code> distributions - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/27">#27</a> by &#64;amontanez, &#64;csala and &#64;ManuelAlvarezC</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Independence</span></code> bivariate copulas - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/46">#46</a> by &#64;aliciasun, &#64;csala and &#64;ManuelAlvarezC</p></li>
@@ -489,16 +522,16 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 <li><p>Make copulas accept both scalars and arrays as arguments - Issues <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/85">#85</a> and <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/90">#90</a> by &#64;ManuelAlvarezC</p></li>
 </ul>
 </div>
-<div class="section" id="id53">
-<h3>General Improvements<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id61">
+<h3>General Improvements<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Ability to properly handle constant data - Issues <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/57">#57</a> and <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/82">#82</a> by &#64;csala and &#64;ManuelAlvarezC</p></li>
 <li><p>Tests for analytics properties of copulas - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/61">#61</a> by &#64;ManuelAlvarezC</p></li>
 <li><p>Improved documentation - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/96">#96</a> by &#64;ManuelAlvarezC</p></li>
 </ul>
 </div>
-<div class="section" id="id58">
-<h3>Bugs fixed<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id66">
+<h3>Bugs fixed<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fix bug on Vine copulas, that made it crash during the bivariate copula selection - Issue <a class="reference external" href="https://github.com/sdv-dev/Copulas/issues/64">#64</a> by &#64;echo66 and &#64;ManuelAlvarezC</p></li>
 </ul>
@@ -553,7 +586,7 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="authors.html" class="btn btn-neutral float-right" title="Credits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="authors.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="contributing.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -565,7 +598,7 @@ infrastructure and the documentation by Kevin Alex Zhang &#64;k15z, Carles Sala
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

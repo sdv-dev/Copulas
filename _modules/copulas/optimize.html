@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.optimize &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.optimize &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,11 +257,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.optimize</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;Copulas optimization functions.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="bisect"><a class="viewcode-back" href="../../api/copulas.optimize.html#copulas.optimize.bisect">[docs]</a><span class="k">def</span> <span class="nf">bisect</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Bisection method for finding roots.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bisection method for finding roots.</span>
 
 <span class="sd">    This method implements a simple vectorized routine for identifying</span>
 <span class="sd">    the root (of a monotonically increasing function) given a bracketing</span>
@@ -296,7 +297,7 @@
 
 
 <div class="viewcode-block" id="chandrupatla"><a class="viewcode-back" href="../../api/copulas.optimize.html#copulas.optimize.chandrupatla">[docs]</a><span class="k">def</span> <span class="nf">chandrupatla</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">eps_m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps_a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Chandrupatla&#39;s algorithm.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chandrupatla&#39;s algorithm.</span>
 
 <span class="sd">    This is adapted from [1] which implements Chandrupatla&#39;s algorithm [2]</span>
 <span class="sd">    which starts from a bracketing interval and, conditionally, swaps between</span>
@@ -391,8 +392,9 @@
             <span class="c1"># scalar case</span>
             <span class="k">if</span> <span class="n">iqi</span><span class="p">:</span>
                 <span class="c1"># inverse quadratic interpolation</span>
-                <span class="n">t</span> <span class="o">=</span> <span class="n">fa</span> <span class="o">/</span> <span class="p">(</span><span class="n">fb</span> <span class="o">-</span> <span class="n">fa</span><span class="p">)</span> <span class="o">*</span> <span class="n">fc</span> <span class="o">/</span> <span class="p">(</span><span class="n">fb</span> <span class="o">-</span> <span class="n">fc</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> \
-                    <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">fa</span> <span class="o">/</span> <span class="p">(</span><span class="n">fc</span> <span class="o">-</span> <span class="n">fa</span><span class="p">)</span> <span class="o">*</span> <span class="n">fb</span> <span class="o">/</span> <span class="p">(</span><span class="n">fc</span> <span class="o">-</span> <span class="n">fb</span><span class="p">)</span>
+                <span class="n">eq1</span> <span class="o">=</span> <span class="n">fa</span> <span class="o">/</span> <span class="p">(</span><span class="n">fb</span> <span class="o">-</span> <span class="n">fa</span><span class="p">)</span> <span class="o">*</span> <span class="n">fc</span> <span class="o">/</span> <span class="p">(</span><span class="n">fb</span> <span class="o">-</span> <span class="n">fc</span><span class="p">)</span>
+                <span class="n">eq2</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">fa</span> <span class="o">/</span> <span class="p">(</span><span class="n">fc</span> <span class="o">-</span> <span class="n">fa</span><span class="p">)</span> <span class="o">*</span> <span class="n">fb</span> <span class="o">/</span> <span class="p">(</span><span class="n">fc</span> <span class="o">-</span> <span class="n">fb</span><span class="p">)</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">eq1</span> <span class="o">+</span> <span class="n">eq2</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># bisection</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -420,7 +422,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

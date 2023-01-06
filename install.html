@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing Copulas &mdash; Copulas 0.6.0 documentation</title>
+  <title>Installing Copulas &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -289,14 +288,15 @@
 <h1>Installing Copulas<a class="headerlink" href="#installing-copulas" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<p><strong>Copulas</strong> has been developed and tested on <a class="reference external" href="https://www.python.org/downloads/">Python 3.6, 3.7 and 3.8</a></p>
+<p><strong>Copulas</strong> has been developed and tested on
+<a class="reference external" href="https://www.python.org/downloads/">Python 3.7, 3.8, 3.9, 3.10 and 3.11</a></p>
 <p>Also, although it is not strictly required, the usage of a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> is highly recommended in order to avoid
 interfering with other software installed in the system where <strong>Copulas</strong> is run.</p>
 </div>
 <div class="section" id="install-with-pip">
 <h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Permalink to this headline">¶</a></h2>
 <p>The easiest and recommended way to install <strong>Copulas</strong> is using <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install copulas
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copulas
 </pre></div>
 </div>
 <p>This will pull and install the latest stable release from <a class="reference external" href="https://pypi.org/">PyPi</a>.</p>
@@ -304,7 +304,7 @@ interfering with other software installed in the system where <strong>Copulas</s
 <div class="section" id="install-with-conda">
 <h2>Install with conda<a class="headerlink" href="#install-with-conda" title="Permalink to this headline">¶</a></h2>
 <p><strong>Copulas</strong> can also be installed using <a class="reference external" href="https://docs.conda.io/en/latest/">conda</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install -c sdv-dev -c conda-forge copulas
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>sdv-dev<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>copulas
 </pre></div>
 </div>
 <p>This will pull and install the latest stable release from <a class="reference external" href="https://anaconda.org/">Anaconda</a>.</p>
@@ -314,10 +314,10 @@ interfering with other software installed in the system where <strong>Copulas</s
 <p>If you want to install <strong>Copulas</strong> from source you need to first clone the repository
 and then execute the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> command inside the <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch. Note that this
 command works only on Unix based systems like GNU/Linux and macOS:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/sdv-dev/Copulas
-<span class="nb">cd</span> Copulas
-git checkout stable
-make install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/sdv-dev/Copulas
+<span class="nb">cd</span><span class="w"> </span>Copulas
+git<span class="w"> </span>checkout<span class="w"> </span>stable
+make<span class="w"> </span>install
 </pre></div>
 </div>
 </div>
@@ -326,11 +326,11 @@ make install
 <p>If you intend to modify the source code or contribute to the project you will need to
 install it from the source using the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install-develop</span></code> command. In this case, we
 recommend you to branch from <code class="docutils literal notranslate"><span class="pre">master</span></code> first:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:sdv-dev/Copulas
-<span class="nb">cd</span> Copulas
-git checkout master
-git checkout -b &lt;your-branch-name&gt;
-make install-develp
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:sdv-dev/Copulas
+<span class="nb">cd</span><span class="w"> </span>Copulas
+git<span class="w"> </span>checkout<span class="w"> </span>master
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;your-branch-name&gt;
+make<span class="w"> </span>install-develp
 </pre></div>
 </div>
 <p>For more details about how to contribute to the project please visit the <a class="reference external" href="CONTRIBUTING.rst">Contributing Guide</a>.</p>
@@ -357,7 +357,7 @@ make install-develp
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

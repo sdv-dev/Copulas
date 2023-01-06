@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas package &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas package &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -355,12 +354,13 @@
 <dt id="copulas.NotFittedError">
 <em class="property">exception </em><code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">NotFittedError</code><a class="reference internal" href="../_modules/copulas.html#NotFittedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.NotFittedError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>NotFittedError class.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="copulas.check_valid_values">
 <code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">check_valid_values</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#check_valid_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.check_valid_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raises an exception if the given values are not supported.</p>
+<dd><p>Raise an exception if the given values are not supported.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>function</strong> (<em>callable</em>) – Method whose unique argument is a numpy.array-like object.</p>
@@ -395,14 +395,15 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="copulas.random_seed">
-<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">random_seed</code><span class="sig-paren">(</span><em class="sig-param">seed</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#random_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.random_seed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="copulas.random_state">
 <code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">random_state</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.random_state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the random state before calling the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>Callable</em>) – The function to wrap around.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="copulas.scalarize">
@@ -422,6 +423,20 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="copulas.set_random_state">
+<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em>, <em class="sig-param">set_model_random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager for managing the random state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>np.random.RandomState</em>) – The random seed or RandomState.</p></li>
+<li><p><strong>set_model_random_state</strong> (<em>function</em>) – Function to set the random state on the model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="copulas.store_args">
 <code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">store_args</code><span class="sig-paren">(</span><em class="sig-param">__init__</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#store_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.store_args" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> used in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> of a copula.</p>
@@ -434,6 +449,21 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.validate_random_state">
+<code class="sig-prename descclassname">copulas.</code><code class="sig-name descname">validate_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas.html#validate_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.validate_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate random state argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>numpy.random.RandomState</em><em>, </em><em>tuple</em><em>, or </em><em>None</em>) – Seed or RandomState for the random generator.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Output:</dt><dd><p>numpy.random.RandomState</p>
 </dd>
 </dl>
 </dd></dl>
@@ -498,7 +528,7 @@ shape (n, j), the output a shape of (n,)</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

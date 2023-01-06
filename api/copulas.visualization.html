@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.visualization module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -289,20 +288,54 @@
 </style>
 <div class="section" id="module-copulas.visualization">
 <span id="copulas-visualization-module"></span><h1>copulas.visualization module<a class="headerlink" href="#module-copulas.visualization" title="Permalink to this headline">¶</a></h1>
+<p>Visualization utilities for the Copulas library.</p>
 <dl class="function">
 <dt id="copulas.visualization.compare_1d">
 <code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_1d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_1d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a 1d scatter plot comparing real/synthetic data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
+<li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
+<li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
+<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.compare_2d">
 <code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_2d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_2d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a 2d scatter plot comparing real/synthetic data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
+<li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
+<li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
+<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.compare_3d">
 <code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_3d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=(10</em>, <em class="sig-param">4)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_3d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a 3d scatter plot comparing real/synthetic data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
+<li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
+<li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
+<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.hist_1d">
@@ -325,7 +358,16 @@
 <dl class="function">
 <dt id="copulas.visualization.side_by_side">
 <code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">side_by_side</code><span class="sig-paren">(</span><em class="sig-param">plotting_func</em>, <em class="sig-param">arrays</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#side_by_side"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.side_by_side" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plot side-by-side figures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plotting_func</strong> (<em>callable</em>) – A matplotlib function which takes in the standard plot kwargs.</p></li>
+<li><p><strong>arrays</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em>) – A mapping from the name of the subplot to the values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 
@@ -349,7 +391,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

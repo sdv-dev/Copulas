@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.base module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.multivariate.base module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -291,9 +290,10 @@
 </style>
 <div class="section" id="module-copulas.multivariate.base">
 <span id="copulas-multivariate-base-module"></span><h1>copulas.multivariate.base module<a class="headerlink" href="#module-copulas.multivariate.base" title="Permalink to this headline">¶</a></h1>
+<p>Base Multivariate class.</p>
 <dl class="class">
 <dt id="copulas.multivariate.base.Multivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.base.</code><code class="sig-name descname">Multivariate</code><span class="sig-paren">(</span><em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.base.</code><code class="sig-name descname">Multivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract class for a multi-variate copula object.</p>
 <dl class="method">
@@ -496,6 +496,17 @@ sampled from this model distribution.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="copulas.multivariate.base.Multivariate.set_random_state">
+<code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the random state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>np.random.RandomState</em><em>, or </em><em>None</em>) – Seed or RandomState for the random generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.multivariate.base.Multivariate.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.base.Multivariate.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
@@ -533,7 +544,7 @@ sampled from this model distribution.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -260,9 +259,9 @@
 
 <span class="sd">&quot;&quot;&quot;Top-level package for Copulas.&quot;&quot;&quot;</span>
 
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;MIT Data To AI Lab&#39;</span>
-<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;dailabmit@gmail.com&#39;</span><span class="p">,</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.6.0&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;DataCebo, Inc.&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;info@sdv.dev&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.8.0&#39;</span>
 
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
@@ -275,33 +274,76 @@
 
 
 <div class="viewcode-block" id="NotFittedError"><a class="viewcode-back" href="../api/copulas.html#copulas.NotFittedError">[docs]</a><span class="k">class</span> <span class="nc">NotFittedError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">pass</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;NotFittedError class.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="random_seed"><a class="viewcode-back" href="../api/copulas.html#copulas.random_seed">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">random_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<div class="viewcode-block" id="set_random_state"><a class="viewcode-back" href="../api/copulas.html#copulas.set_random_state">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">set_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">set_model_random_state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for managing the random state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        random_state (int or np.random.RandomState):</span>
+<span class="sd">            The random seed or RandomState.</span>
+<span class="sd">        set_model_random_state (function):</span>
+<span class="sd">            Function to set the random state on the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">original_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">get_state</span><span class="p">())</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="k">yield</span>
     <span class="k">finally</span><span class="p">:</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+        <span class="n">current_random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">()</span>
+        <span class="n">current_random_state</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">get_state</span><span class="p">())</span>
+        <span class="n">set_model_random_state</span><span class="p">(</span><span class="n">current_random_state</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">original_state</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="random_state"><a class="viewcode-back" href="../api/copulas.html#copulas.random_state">[docs]</a><span class="k">def</span> <span class="nf">random_state</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the random state before calling the function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function (Callable):</span>
+<span class="sd">            The function to wrap around.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">random_seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">set_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_random_state</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
+<div class="viewcode-block" id="validate_random_state"><a class="viewcode-back" href="../api/copulas.html#copulas.validate_random_state">[docs]</a><span class="k">def</span> <span class="nf">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate random state argument.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        random_state (int, numpy.random.RandomState, tuple, or None):</span>
+<span class="sd">            Seed or RandomState for the random generator.</span>
+
+<span class="sd">    Output:</span>
+<span class="sd">        numpy.random.RandomState</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">random_state</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;`random_state` </span><span class="si">{</span><span class="n">random_state</span><span class="si">}</span><span class="s1"> expected to be an int &#39;</span>
+            <span class="s1">&#39;or `np.random.RandomState` object.&#39;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="get_instance"><a class="viewcode-back" href="../api/copulas.html#copulas.get_instance">[docs]</a><span class="k">def</span> <span class="nf">get_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create new instance of the ``obj`` argument.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new instance of the ``obj`` argument.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        obj (str, type, instance):</span>
@@ -316,7 +358,7 @@
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__args__&#39;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">())</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__args__&#39;</span><span class="p">,</span> <span class="p">())</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__kwargs__&#39;</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -324,7 +366,7 @@
 
 
 <div class="viewcode-block" id="store_args"><a class="viewcode-back" href="../api/copulas.html#copulas.store_args">[docs]</a><span class="k">def</span> <span class="nf">store_args</span><span class="p">(</span><span class="fm">__init__</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        __init__(callable): ``__init__`` function to store their arguments.</span>
@@ -344,7 +386,7 @@
 
 
 <div class="viewcode-block" id="get_qualified_name"><a class="viewcode-back" href="../api/copulas.html#copulas.get_qualified_name">[docs]</a><span class="k">def</span> <span class="nf">get_qualified_name</span><span class="p">(</span><span class="n">_object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the Fully Qualified Name from an instance or class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the Fully Qualified Name from an instance or class.&quot;&quot;&quot;</span>
     <span class="n">module</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__module__</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_object</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
         <span class="n">_class</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__name__</span>
@@ -356,7 +398,7 @@
 
 
 <div class="viewcode-block" id="vectorize"><a class="viewcode-back" href="../api/copulas.html#copulas.vectorize">[docs]</a><span class="k">def</span> <span class="nf">vectorize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Allow a method that only accepts scalars to accept vectors too.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow a method that only accepts scalars to accept vectors too.</span>
 
 <span class="sd">    This decorator has two different behaviors depending on the dimensionality of the</span>
 <span class="sd">    array passed as an argument:</span>
@@ -415,7 +457,7 @@
 
 
 <div class="viewcode-block" id="scalarize"><a class="viewcode-back" href="../api/copulas.html#copulas.scalarize">[docs]</a><span class="k">def</span> <span class="nf">scalarize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Allow methods that only accepts 1-d vectors to work with scalars.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow methods that only accepts 1-d vectors to work with scalars.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function(callable): Function that accepts and returns vectors.</span>
@@ -441,7 +483,7 @@
 
 
 <div class="viewcode-block" id="check_valid_values"><a class="viewcode-back" href="../api/copulas.html#copulas.check_valid_values">[docs]</a><span class="k">def</span> <span class="nf">check_valid_values</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raises an exception if the given values are not supported.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise an exception if the given values are not supported.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function(callable): Method whose unique argument is a numpy.array-like object.</span>
@@ -456,7 +498,7 @@
     <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">W</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">W</span> <span class="o">=</span> <span class="n">X</span>
@@ -485,7 +527,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

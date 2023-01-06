@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -192,7 +192,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Credits</a></li>
 </ul>
 
             
@@ -258,7 +257,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for copulas.multivariate.gaussian</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="sd">&quot;&quot;&quot;GaussianMultivariate module.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -267,16 +268,17 @@
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
 <span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_instance</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">)</span>
+    <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_instance</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span>
+    <span class="n">validate_random_state</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">Univariate</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">Univariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">DEFAULT_DISTRIBUTION</span> <span class="o">=</span> <span class="n">Univariate</span>
 
 
 <div class="viewcode-block" id="GaussianMultivariate"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate">[docs]</a><span class="k">class</span> <span class="nc">GaussianMultivariate</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class for a multivariate distribution that uses the Gaussian copula.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for a multivariate distribution that uses the Gaussian copula.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        distribution (str or dict):</span>
@@ -290,19 +292,20 @@
     <span class="n">univariates</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="n">DEFAULT_DISTRIBUTION</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="n">DEFAULT_DISTRIBUTION</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">distribution</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce printable representation of the object.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="n">DEFAULT_DISTRIBUTION</span><span class="p">:</span>
             <span class="n">distribution</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
-            <span class="n">distribution</span> <span class="o">=</span> <span class="s1">&#39;distribution=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;distribution=&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">distribution</span> <span class="o">=</span> <span class="s1">&#39;distribution=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;distribution=&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
 
-        <span class="k">return</span> <span class="s1">&#39;GaussianMultivariate(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;GaussianMultivariate(</span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s1">)&#39;</span>
 
     <span class="k">def</span> <span class="nf">_transform_to_normal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
@@ -313,16 +316,16 @@
 
             <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
-        <span class="n">U</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">univariate</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
                 <span class="n">column</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
-                <span class="n">U</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">))</span>
+                <span class="n">U</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">EPSILON</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">EPSILON</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute covariance matrix with transformed data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute covariance matrix with transformed data.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (numpy.ndarray):</span>
@@ -333,7 +336,7 @@
 <span class="sd">                computed covariance matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="c1"># If singular, add some noise to the diagonal</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
@@ -343,7 +346,7 @@
 
     <span class="nd">@check_valid_values</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its covariance matrix.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its covariance matrix.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -365,7 +368,16 @@
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting column </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
 
             <span class="n">univariate</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
-            <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+                <span class="n">warning_message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Unable to fit to a </span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s1"> distribution for column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">. &#39;</span>
+                    <span class="s1">&#39;Using a Gaussian distribution instead.&#39;</span>
+                <span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+                <span class="n">univariate</span> <span class="o">=</span> <span class="n">GaussianUnivariate</span><span class="p">()</span>
+                <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 
             <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
             <span class="n">univariates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="p">)</span>
@@ -380,7 +392,7 @@
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;GaussianMultivariate fitted successfully&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GaussianMultivariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -399,7 +411,7 @@
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianMultivariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -418,7 +430,7 @@
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_conditional_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the parameters of a conditional multivariate normal distribution.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the parameters of a conditional multivariate normal distribution.</span>
 
 <span class="sd">        The parameters of the conditioned distribution are computed as specified here:</span>
 <span class="sd">        https://en.wikipedia.org/wiki/Multivariate_normal_distribution#Conditional_distributions</span>
@@ -457,7 +469,7 @@
         <span class="k">return</span> <span class="n">mu_bar</span><span class="p">,</span> <span class="n">sigma_bar</span><span class="p">,</span> <span class="n">columns1</span>
 
     <span class="k">def</span> <span class="nf">_get_normal_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get random rows in the standard normal space.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get random rows in the standard normal space.</span>
 
 <span class="sd">        If no conditions are given, the values are sampled from a standard normal</span>
 <span class="sd">        multivariate.</span>
@@ -481,7 +493,7 @@
 
     <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
 <span class="sd">        Argument:</span>
 <span class="sd">            num_rows (int):</span>
@@ -516,7 +528,7 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GaussianMultivariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
@@ -536,7 +548,7 @@
 
 <div class="viewcode-block" id="GaussianMultivariate.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copula_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params (dict):</span>
@@ -574,7 +586,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

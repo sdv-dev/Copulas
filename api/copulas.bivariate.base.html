@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate.base module &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.bivariate.base module &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -294,7 +293,7 @@
 <p>This module contains a base class for bivariate copulas.</p>
 <dl class="class">
 <dt id="copulas.bivariate.base.Bivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.base.</code><code class="sig-name descname">Bivariate</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.base.</code><code class="sig-name descname">Bivariate</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for bivariate copulas.</p>
 <p>This class allows to instantiate all its subclasses and serves as a unique entry point for
@@ -311,7 +310,8 @@ the bivariate copulas classes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>copula_type</strong> (<em>Union</em><em>[</em><em>CopulaType</em><em>, </em><em>str</em><em>]</em>) – Subtype of the copula.</p></li>
-<li><p><strong>random_seed</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>None</em><em>]</em>) – Seed for the random generator.</p></li>
+<li><p><strong>random_state</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>np.random.RandomState</em><em>, </em><em>None</em><em>]</em>) – Seed or RandomState
+for the random generator.</p></li>
 </ul>
 </dd>
 </dl>
@@ -405,7 +405,7 @@ the bivariate copulas classes.</p>
 <dl class="method">
 <dt id="copulas.bivariate.base.Bivariate.check_marginal">
 <code class="sig-name descname">check_marginal</code><span class="sig-paren">(</span><em class="sig-param">u</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_marginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_marginal" title="Permalink to this definition">¶</a></dt>
-<dd><p>The marginals are supposed to be uniformly distributed.</p>
+<dd><p>Check that the marginals are uniformly distributed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>u</strong> (<em>np.ndarray</em>) – Array of datapoints with shape (n,).</p>
@@ -492,10 +492,10 @@ Like the output of <cite>Bivariate.to_dict</cite></p>
 <dt id="copulas.bivariate.base.Bivariate.generator">
 <code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.generator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the generator function for Archimedian copulas.</p>
-<p>The generator is a function <span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>
-that given an Archimedian copula fulills:</p>
-<div class="math notranslate nohighlight">
-\[C(u,v) = \psi^{-1}(\psi(u) + \psi(v))\]</div>
+<p>The generator is a function
+<span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>  # noqa: JS101</p>
+<p>that given an Archimedian copula fulfills:
+.. math:: C(u,v) = psi^{-1}(psi(u) + psi(v))</p>
 <p>In a more generic way:</p>
 <div class="math notranslate nohighlight">
 \[C(u_1, u_2, ..., u_n;\theta) = \psi^-1(\sum_0^n{\psi(u_i;\theta)}; \theta)\]</div>
@@ -532,8 +532,9 @@ that given an Archimedian copula fulills:</p>
 <dl class="method">
 <dt id="copulas.bivariate.base.Bivariate.log_probability_density">
 <code class="sig-name descname">log_probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.log_probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.log_probability_density" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return log probability density of model. It should be overridden
-with numerically stable variants whenever possible.</p>
+<dd><p>Return log probability density of model.</p>
+<p>The log probability should be overridden with numerically stable
+variants whenever possible.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</p>
@@ -672,6 +673,18 @@ highest value is selected.</p></li>
 </dd></dl>
 
 <dl class="method">
+<dt id="copulas.bivariate.base.Bivariate.set_random_state">
+<code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the random state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>np.random.RandomState</em><em>, or </em><em>None</em>) – Seed or RandomState
+for the random generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.bivariate.base.Bivariate.subclasses">
 <em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.subclasses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of subclasses for the current class object.</p>
@@ -765,7 +778,7 @@ highest value is selected.</p></li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

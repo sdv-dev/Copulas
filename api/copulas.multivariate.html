@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate package &mdash; Copulas 0.6.0 documentation</title>
+  <title>copulas.multivariate package &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -194,7 +194,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Credits</a></li>
 </ul>
 
             
@@ -302,9 +301,10 @@
 </div>
 <div class="section" id="module-copulas.multivariate">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.multivariate" title="Permalink to this headline">¶</a></h2>
+<p>Multivariate copulas module.</p>
 <dl class="class">
 <dt id="copulas.multivariate.Multivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Multivariate</code><span class="sig-paren">(</span><em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Multivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstract class for a multi-variate copula object.</p>
 <dl class="method">
@@ -507,6 +507,17 @@ sampled from this model distribution.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="copulas.multivariate.Multivariate.set_random_state">
+<code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the random state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>np.random.RandomState</em><em>, or </em><em>None</em>) – Seed or RandomState for the random generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="copulas.multivariate.Multivariate.to_dict">
 <code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/base.html#Multivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Multivariate.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
@@ -654,7 +665,7 @@ of all the nodes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vine_type</strong> (<em>str</em>) – type of the vine copula, could be ‘center’,’direct’,’regular’</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em>) – Random seed to use.</p></li>
+<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>np.random.RandomState</em>) – Random seed or RandomState to use.</p></li>
 </ul>
 </dd>
 </dl>
@@ -819,7 +830,7 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 <dl class="method">
 <dt id="copulas.multivariate.VineCopula.train_vine">
 <code class="sig-name descname">train_vine</code><span class="sig-paren">(</span><em class="sig-param">tree_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.train_vine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.VineCopula.train_vine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build the wine.</p>
+<dd><p>Build the vine.</p>
 <ol class="arabic">
 <li><p>For the construction of the first tree <span class="math notranslate nohighlight">\(T_1\)</span>, assign one node to each variable
 and then couple them by maximizing the measure of association considered.
@@ -830,7 +841,7 @@ applied different trees are achieved at this level.</p></li>
 <li><p>Let <span class="math notranslate nohighlight">\(C_{ij}(u_i , u_j )\)</span> be the copula for a given edge <span class="math notranslate nohighlight">\((u_i, u_j)\)</span>
 in <span class="math notranslate nohighlight">\(T_1\)</span>. Then for every edge in <span class="math notranslate nohighlight">\(T_1\)</span>, compute either</p>
 <div class="math notranslate nohighlight">
-\[{v^1}_{j|i} = \frac{\partial C_{ij}(u_i, u_j)}{\partial u_j}\]</div>
+\[\begin{split}{v^1}_{j|i} = \\frac{\\partial C_{ij}(u_i, u_j)}{\\partial u_j}\end{split}\]</div>
 <p>or similarly <span class="math notranslate nohighlight">\({v^1}_{i|j}\)</span>, which are conditional cdfs. When finished with
 all the edges, construct the new matrix with <span class="math notranslate nohighlight">\(v^1\)</span> that has one less column u.</p>
 </li>
@@ -858,7 +869,7 @@ instead of <span class="math notranslate nohighlight">\(T_1\)</span> and u.</p><
 
 <dl class="class">
 <dt id="copulas.multivariate.Tree">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.Tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
 <p>Helper class to instantiate a single tree in the vine model.</p>
 <dl class="method">
@@ -976,7 +987,7 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 <dt id="copulas.multivariate.TreeTypes">
 <em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.</code><code class="sig-name descname">TreeTypes</code><a class="reference internal" href="../_modules/copulas/multivariate/tree.html#TreeTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.TreeTypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
+<p>The available types of trees.</p>
 <dl class="attribute">
 <dt id="copulas.multivariate.TreeTypes.CENTER">
 <code class="sig-name descname">CENTER</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.multivariate.TreeTypes.CENTER" title="Permalink to this definition">¶</a></dt>
@@ -1017,7 +1028,7 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>

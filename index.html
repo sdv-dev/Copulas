@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; Copulas 0.6.0 documentation</title>
+  <title>Overview &mdash; Copulas 0.8.0 documentation</title>
   
 
   
@@ -193,7 +193,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -284,73 +283,59 @@
     text-align: unset;
 }
 </style>
-<p align="left">
-  <a href="https://dai.lids.mit.edu">
-    <img alt="DAI-Lab" width=15% src="docs/images/dai-logo-white.png" onerror="this.onerror=null;this.src='_static/dai-logo-white.png';"/>
-  </a>
-  <i>An Open Source Project from the <a href="https://dai.lids.mit.edu">Data to AI Lab, at MIT</a></i>
-</p><a class="reference external image-reference" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha"><img alt="Development Status" src="https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow" /></a>
-<a class="reference external image-reference" href="https://pypi.python.org/pypi/copulas"><img alt="PyPi Shield" src="https://img.shields.io/pypi/v/copulas.svg" /></a>
-<a class="reference external image-reference" href="https://pepy.tech/project/copulas"><img alt="Downloads" src="https://pepy.tech/badge/copulas" /></a>
-<a class="reference external image-reference" href="https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml"><img alt="Unit Tests" src="https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg" /></a>
-<a class="reference external image-reference" href="https://codecov.io/gh/sdv-dev/Copulas"><img alt="Coverage Status" src="https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg" /></a>
-<p><span class="raw-html-m2r"><img alt="Copulas" width=30% src="docs/images/copulas.png" onerror="this.onerror=null;this.src='_static/copulas.png';"></span></p>
+<div align="center">
+<br/>
+<p align="center">
+    <i>This repository is part of <a href="https://sdv.dev">The Synthetic Data Vault Project</a>, a project from <a href="https://datacebo.com">DataCebo</a>.</i>
+</p>
+
+[![Development Status](https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow)](https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha)
+[![PyPi Shield](https://img.shields.io/pypi/v/copulas.svg)](https://pypi.python.org/pypi/copulas)
+[![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
+[![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
+[![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
+[![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
+
+<div align="left">
+<br/>
+<p align="center">
+<a href="https://github.com/sdv-dev/Copulas">
+<img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png"></img>
+</a>
+</p>
+</div><p>&lt;/div&gt;</p>
 <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><p>Website: <a class="reference external" href="https://sdv.dev">https://sdv.dev</a></p></li>
-<li><p>Documentation: <a class="reference external" href="https://sdv.dev/Copulas">https://sdv.dev/Copulas</a></p></li>
-<li><p>Repository: <a class="reference external" href="https://github.com/sdv-dev/Copulas">https://github.com/sdv-dev/Copulas</a></p></li>
-<li><p>License: <a class="reference external" href="https://github.com/sdv-dev/Copulas/blob/master/LICENSE">MIT</a></p></li>
-<li><p>Development Status: <a class="reference external" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha">Pre-Alpha</a></p></li>
-</ul>
 <p><strong>Copulas</strong> is a Python library for modeling multivariate distributions and sampling from them
-using <a class="reference external" href="https://en.wikipedia.org/wiki/Copula_%28probability_theory%29">copula functions</a>.
-Given a table containing numerical data, we can use Copulas to learn the distribution and
-later on generate new synthetic rows following the same statistical properties.</p>
-<p>Some of the features provided by this library include:</p>
+using copula functions.
+Given a table of numerical data, use Copulas to learn the distribution and
+generate new synthetic data following the same statistical properties.</p>
+<p><strong>Key Features:</strong></p>
 <ul class="simple">
-<li><p>A variety of distributions for modeling univariate data.</p></li>
-<li><p>Multiple Archimedean copulas for modeling bivariate data.</p></li>
-<li><p>Gaussian and Vine copulas for modeling multivariate data.</p></li>
-<li><p>Automatic selection of univariate distributions and bivariate copulas.</p></li>
+<li><p><strong>Model multivariate data.</strong> Choose from a variety of univariate
+distributions and copulas – including Archimedian Copulas, Gaussian Copulas and Vine Copulas.</p></li>
+<li><p><strong>Compare real and synthetic data visually</strong> after building your model. Visualizations
+are available as 1D histograms, 2D scatterplots and 3D scatterplots.</p></li>
+<li><p><strong>Access &amp; manipulate learned parameters.</strong> With complete access to the internals
+of the model, set or tune parameters to your choosing.</p></li>
 </ul>
-<div class="section" id="supported-distributions">
-<h2>Supported Distributions<a class="headerlink" href="#supported-distributions" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="univariate">
-<h3>Univariate<a class="headerlink" href="#univariate" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Beta</p></li>
-<li><p>Gamma</p></li>
-<li><p>Gaussian</p></li>
-<li><p>Gaussian KDE</p></li>
-<li><p>Log-Laplace</p></li>
-<li><p>Student T</p></li>
-<li><p>Truncated Gaussian</p></li>
-<li><p>Uniform</p></li>
-</ul>
-</div>
-<div class="section" id="archimedean-copulas-bivariate">
-<h3>Archimedean Copulas (Bivariate)<a class="headerlink" href="#archimedean-copulas-bivariate" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Clayton</p></li>
-<li><p>Frank</p></li>
-<li><p>Gumbel</p></li>
-</ul>
-</div>
-<div class="section" id="multivariate">
-<h3>Multivariate<a class="headerlink" href="#multivariate" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Gaussian Copula</p></li>
-<li><p>D-Vine</p></li>
-<li><p>C-Vine</p></li>
-<li><p>R-Vine</p></li>
-</ul>
-</div>
-</div>
 </div>
 <div class="section" id="install">
 <h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<p>Install the Copulas library using pip or conda.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copulas
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>copulas
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>Get started using a demo dataset. This dataset contains 3 numerical columns.</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from copulas.datasets import sample_trivariate_xyz</p>
+<p>real_data = sample_trivariate_xyz()</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -414,7 +399,7 @@ later on generate new synthetic rows following the same statistical properties.<
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, MIT Data To AI Lab
+        &copy; Copyright 2022, DataCebo, Inc.
 
     </p>
   </div>
