@@ -1,5 +1,15 @@
 # History
 
+## v0.8.0 - 2023-01-06
+
+This release adds support for python 3.10 and 3.11. Additionally, it drops support for python 3.6.
+
+### Maintenance
+
+* Support python 3.10 and above - PR[#338](https://github.com/sdv-dev/Copulas/pull/338) by @pvk-developer
+* Copulas Package Maintenance Updates - Issue[#336](https://github.com/sdv-dev/Copulas/issues/336) by @pvk-developer
+* Add support for python 3.10 - PR[#329](https://github.com/sdv-dev/Copulas/pull/329) by @katxiao
+
 ## v0.7.0 - 2022-05-10
 
 This release adds `gaussian` as a fallback distribution in case the user specified one fails. It also improves the `fit` of the `beta` distribution by properly estimatig the `loc` and `scale` parameters.
