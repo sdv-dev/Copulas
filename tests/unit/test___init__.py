@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import MagicMock, call, patch, Mock
+from unittest.mock import MagicMock, Mock, call, patch
 
 import numpy as np
 import pandas as pd
@@ -7,8 +7,8 @@ import pytest
 from numpy.testing import assert_array_equal
 
 from copulas import (
-    check_valid_values, get_instance, random_state, scalarize, validate_random_state, vectorize,
-    _add_version)
+    _add_version, check_valid_values, get_instance, random_state, scalarize, validate_random_state,
+    vectorize)
 from copulas.multivariate import GaussianMultivariate
 
 
