@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, call, patch, Mock
 
 import numpy as np
 import pandas as pd
@@ -7,7 +7,8 @@ import pytest
 from numpy.testing import assert_array_equal
 
 from copulas import (
-    check_valid_values, get_instance, random_state, scalarize, validate_random_state, vectorize)
+    check_valid_values, get_instance, random_state, scalarize, validate_random_state, vectorize,
+    _add_version)
 from copulas.multivariate import GaussianMultivariate
 
 
@@ -421,3 +422,38 @@ class TestGetInstance(TestCase):
         assert not instance.fitted
         assert isinstance(instance, GaussianMultivariate)
         assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'
+
+
+@patch('copulas.iter_entry_points')
+def test__add_version(entry_points_mock):
+    # Setup
+    entry_point = Mock()
+    entry_points_mock.return_value = [entry_point]
+
+    # Run
+    _add_version()
+
+    # Assert
+    entry_points_mock.assert_called_once_with(name='version', group='copulas_modules')
+
+
+@patch('copulas.warnings.warn')
+@patch('copulas.iter_entry_points')
+def test__add_version_bad_addon(entry_points_mock, warning_mock):
+    # Setup
+    def entry_point_error():
+        raise ValueError()
+
+    bad_entry_point = Mock()
+    bad_entry_point.name = 'bad_entry_point'
+    bad_entry_point.module = 'bad_module'
+    bad_entry_point.load.side_effect = entry_point_error
+    entry_points_mock.return_value = [bad_entry_point]
+    msg = 'Failed to load "bad_entry_point" from "bad_module".'
+
+    # Run
+    _add_version()
+
+    # Assert
+    entry_points_mock.assert_called_once_with(name='version', group='copulas_modules')
+    warning_mock.assert_called_once_with(msg)
