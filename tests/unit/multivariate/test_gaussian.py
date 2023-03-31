@@ -185,26 +185,26 @@ class TestGaussianMultivariate(TestCase):
         passed = dist_b.cdf.call_args[0][0]
         np.testing.assert_allclose(expected, passed)
 
-    def test__get_covariance(self):
-        """_get_covariance computes the covariance matrix of normalized values."""
+    def test__get_correlation(self):
+        """_get_correlation computes the correlation matrix of normalized values."""
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
 
-        expected_covariance = np.array([
+        expected_correlation = np.array([
             [1., -0.01261819, -0.19821644],
             [-0.01261819, 1., -0.16896087],
             [-0.19821644, -0.16896087, 1.]
         ])
 
         # Run
-        covariance = copula._get_covariance(self.data)
+        correlation = copula._get_correlation(self.data)
 
         # Check
-        assert np.isclose(covariance, expected_covariance).all().all()
+        assert np.isclose(correlation, expected_correlation).all().all()
 
     def test_fit_default_distribution(self):
-        """On fit, a distribution is created for each column along the covariance and means"""
+        """On fit, a distribution is created for each column along the correlation and means"""
 
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
@@ -215,8 +215,8 @@ class TestGaussianMultivariate(TestCase):
             assert copula.univariates[i]._params['loc'] == self.data[key].mean()
             assert copula.univariates[i]._params['scale'] == np.std(self.data[key])
 
-        expected_covariance = copula._get_covariance(self.data)
-        assert (copula.covariance == expected_covariance).all().all()
+        expected_correlation = copula._get_correlation(self.data)
+        assert (copula.correlation == expected_correlation).all().all()
 
     def test_fit_distribution_arg(self):
         """On fit, the distributions for each column use instances of copula.distribution."""
@@ -234,8 +234,8 @@ class TestGaussianMultivariate(TestCase):
             assert copula.columns[i] == key
             assert get_qualified_name(copula.univariates[i].__class__) == copula.distribution
 
-        expected_covariance = copula._get_covariance(self.data)
-        assert (copula.covariance == expected_covariance).all().all()
+        expected_correlation = copula._get_correlation(self.data)
+        assert (copula.correlation == expected_correlation).all().all()
 
     def test_fit_distribution_selector(self):
         """
@@ -269,8 +269,8 @@ class TestGaussianMultivariate(TestCase):
             assert univariate._params['loc'] == np.mean(self.data[column])
             assert univariate._params['scale'] == np.std(self.data[column])
 
-        expected_covariance = copula._get_covariance(pd.DataFrame(self.data.to_numpy()))
-        assert (copula.covariance == expected_covariance).all().all()
+        expected_correlation = copula._get_correlation(pd.DataFrame(self.data.to_numpy()))
+        assert (copula.correlation == expected_correlation).all().all()
 
     @patch('copulas.univariate.truncated_gaussian.TruncatedGaussian._fit')
     @patch('copulas.multivariate.gaussian.warnings')
@@ -390,8 +390,8 @@ class TestGaussianMultivariate(TestCase):
         assert result.equals(expected_result)
 
         assert normal_mock.called_once_with(
-            np.zeros(instance.covariance.shape[0]),
-            instance.covariance,
+            np.zeros(instance.correlation.shape[0]),
+            instance.correlation,
             5
         )
 
@@ -439,8 +439,8 @@ class TestGaussianMultivariate(TestCase):
         assert result['columns'] == ['column1', 'column2', 'column3']
         assert len(result['univariates']) == 3
 
-        expected_cov = copula._get_covariance(self.data).to_numpy().tolist()
-        np.testing.assert_equal(result['covariance'], expected_cov)
+        expected_cov = copula._get_correlation(self.data).to_numpy().tolist()
+        np.testing.assert_equal(result['correlation'], expected_cov)
 
         for univariate, result_univariate in zip(copula.univariates, result['univariates']):
             assert univariate.to_dict() == result_univariate
@@ -466,7 +466,7 @@ class TestGaussianMultivariate(TestCase):
     def test_sample_constant_column(self):
         """Gaussian copula can sample after being fit with a constant column.
 
-        This process will raise warnings when computing the covariance matrix
+        This process will raise warnings when computing the correlation matrix
         """
         # Setup
         instance = GaussianMultivariate()
@@ -490,12 +490,12 @@ class TestGaussianMultivariate(TestCase):
         # This is to check that the samples on the non constant column are not constant too.
         assert len(result.loc[:, 1].unique()) > 1
 
-        covariance = instance.covariance
-        assert (~pd.isna(covariance)).all().all()
+        correlation = instance.correlation
+        assert (~pd.isna(correlation)).all().all()
 
     def test__get_conditional_distribution(self):
         gm = GaussianMultivariate()
-        gm.covariance = pd.DataFrame({
+        gm.correlation = pd.DataFrame({
             'a': [1, 0.2, 0.3],
             'b': [0.2, 1, 0.4],
             'c': [0.3, 0.4, 1],
@@ -504,10 +504,10 @@ class TestGaussianMultivariate(TestCase):
         conditions = pd.Series({
             'b': 1
         })
-        means, covariance, columns = gm._get_conditional_distribution(conditions)
+        means, correlation, columns = gm._get_conditional_distribution(conditions)
 
         np.testing.assert_allclose(means, [0.2, 0.4])
-        np.testing.assert_allclose(covariance, [
+        np.testing.assert_allclose(correlation, [
             [0.96, 0.22],
             [0.22, 0.84]
         ])
