@@ -13,6 +13,10 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 
+from copulas._addons import _find_addons
+
+_find_addons(group='copulas_modules', parent_globals=globals())
+
 EPSILON = np.finfo(np.float32).eps
 
 
