@@ -504,10 +504,10 @@ class TestGaussianMultivariate(TestCase):
         conditions = pd.Series({
             'b': 1
         })
-        means, correlation, columns = gm._get_conditional_distribution(conditions)
+        means, covariance, columns = gm._get_conditional_distribution(conditions)
 
         np.testing.assert_allclose(means, [0.2, 0.4])
-        np.testing.assert_allclose(correlation, [
+        np.testing.assert_allclose(covariance, [
             [0.96, 0.22],
             [0.22, 0.84]
         ])

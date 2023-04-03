@@ -185,8 +185,8 @@ class GaussianMultivariate(Multivariate):
             tuple:
                 * means (numpy.array):
                     mean values to use for the conditioned multivariate normal.
-                * correlation (numpy.array):
-                    correlation matrix to use for the conditioned
+                * covariance (numpy.array):
+                    covariance matrix to use for the conditioned
                   multivariate normal.
                 * columns (list):
                     names of the columns that will be sampled conditionally.
@@ -220,16 +220,16 @@ class GaussianMultivariate(Multivariate):
         a standard normal multivariate conditioned on the given condition values.
         """
         if conditions is None:
-            correlation = self.correlation
+            covariance = self.correlation
             columns = self.columns
             means = np.zeros(len(columns))
         else:
             conditions = pd.Series(conditions)
             normal_conditions = self._transform_to_normal(conditions)[0]
             normal_conditions = pd.Series(normal_conditions, index=conditions.index)
-            means, correlation, columns = self._get_conditional_distribution(normal_conditions)
+            means, covariance, columns = self._get_conditional_distribution(normal_conditions)
 
-        samples = np.random.multivariate_normal(means, correlation, size=num_rows)
+        samples = np.random.multivariate_normal(means, covariance, size=num_rows)
         return pd.DataFrame(samples, columns=columns)
 
     @random_state
