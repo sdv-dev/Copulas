@@ -423,7 +423,7 @@ class TestGaussianMultivariate(TestCase):
         result = instance.sample(5)
 
         # Check
-        pd.testing.assert_frame_equal(result, expected_result, check_less_precise=True)
+        pd.testing.assert_frame_equal(result, expected_result)
 
     def test_to_dict(self):
         """To_dict returns the parameters to replicate the copula."""
