@@ -1,5 +1,16 @@
 # History
 
+## v0.9.0 - 2023-04-26
+
+This release adds support for pandas 2.0 and above. Additionally adds a functionality to find
+version add-ons and renames ``covariance`` to ``correlation``.
+
+### Maintenance
+
+* Remove upper bound for pandas - Issue[#349](https://github.com/sdv-dev/Copulas/issues/349) by @pvk-developer
+* Rename covariance to correlation - PR[#346](https://github.com/sdv-dev/Copulas/pull/346) by @frances-h
+* Add functionality to find version add-on - Issue[#349](https://github.com/sdv-dev/Copulas/issues/349) by @frances-h
+
 ## v0.8.0 - 2023-01-06
 
 This release adds support for python 3.10 and 3.11. Additionally, it drops support for python 3.6.
@@ -12,7 +23,7 @@ This release adds support for python 3.10 and 3.11. Additionally, it drops suppo
 
 ## v0.7.0 - 2022-05-10
 
-This release adds `gaussian` as a fallback distribution in case the user specified one fails. It also improves the `fit` of the `beta` distribution by properly estimatig the `loc` and `scale` parameters.
+This release adds `gaussian` as a fallback distribution in case the user specified one fails. It also improves the `fit` of the `beta` distribution by properly estimating the `loc` and `scale` parameters.
 
 ### General Improvements
 

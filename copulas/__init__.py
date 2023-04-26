@@ -4,7 +4,7 @@
 
 __author__ = 'DataCebo, Inc.'
 __email__ = 'info@sdv.dev'
-__version__ = '0.8.0'
+__version__ = '0.9.0.dev1'
 
 import contextlib
 import importlib
@@ -12,6 +12,10 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
+
+from copulas._addons import _find_addons
+
+_find_addons(group='copulas_modules', parent_globals=globals())
 
 EPSILON = np.finfo(np.float32).eps
 
