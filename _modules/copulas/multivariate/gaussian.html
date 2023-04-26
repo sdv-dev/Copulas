@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.8.0 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.9.0 documentation</title>
   
 
   
@@ -287,7 +287,7 @@
 <span class="sd">            distribution names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">covariance</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">correlation</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">univariates</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -324,29 +324,29 @@
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute covariance matrix with transformed data.</span>
+    <span class="k">def</span> <span class="nf">_get_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute correlation matrix with transformed data.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (numpy.ndarray):</span>
-<span class="sd">                Data for which the covariance needs to be computed.</span>
+<span class="sd">                Data for which the correlation needs to be computed.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numpy.ndarray:</span>
-<span class="sd">                computed covariance matrix.</span>
+<span class="sd">                computed correlation matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">correlation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">correlation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="c1"># If singular, add some noise to the diagonal</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
-            <span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">covariance</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">EPSILON</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">correlation</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
+            <span class="n">correlation</span> <span class="o">=</span> <span class="n">correlation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">correlation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">EPSILON</span>
 
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
     <span class="nd">@check_valid_values</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its covariance matrix.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its correlation matrix.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -385,8 +385,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span> <span class="o">=</span> <span class="n">univariates</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computing covariance&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_covariance</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computing correlation&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_correlation</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;GaussianMultivariate fitted successfully&#39;</span><span class="p">)</span>
@@ -408,7 +408,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="n">transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianMultivariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
@@ -427,7 +427,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="n">transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_conditional_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the parameters of a conditional multivariate normal distribution.</span>
@@ -451,12 +451,12 @@
 <span class="sd">                    names of the columns that will be sampled conditionally.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">columns2</span> <span class="o">=</span> <span class="n">conditions</span><span class="o">.</span><span class="n">index</span>
-        <span class="n">columns1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">columns2</span><span class="p">)</span>
+        <span class="n">columns1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">columns2</span><span class="p">)</span>
 
-        <span class="n">sigma11</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="n">sigma12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="n">sigma21</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="n">sigma22</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma11</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma12</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns1</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma21</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">sigma22</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">columns2</span><span class="p">,</span> <span class="n">columns2</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
         <span class="n">mu1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns1</span><span class="p">))</span>
         <span class="n">mu2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns2</span><span class="p">))</span>
@@ -479,7 +479,7 @@
 <span class="sd">        a standard normal multivariate conditioned on the given condition values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">conditions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span>
+            <span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
             <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -536,11 +536,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="n">univariates</span> <span class="o">=</span> <span class="p">[</span><span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">univariate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span><span class="p">]</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`covariance` will be renamed to `correlation` in v0.4.0&#39;</span><span class="p">,</span>
-                      <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;covariance&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s1">&#39;correlation&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s1">&#39;univariates&#39;</span><span class="p">:</span> <span class="n">univariates</span><span class="p">,</span>
             <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
@@ -567,11 +565,9 @@
         <span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;univariates&#39;</span><span class="p">]:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">univariates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Univariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
 
-        <span class="n">covariance</span> <span class="o">=</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;covariance&#39;</span><span class="p">]</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">correlation</span> <span class="o">=</span> <span class="n">copula_dict</span><span class="p">[</span><span class="s1">&#39;correlation&#39;</span><span class="p">]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;`covariance` will be renamed to `correlation` in v0.4.0&#39;</span><span class="p">,</span>
-                      <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">instance</span></div></div>
 </pre></div>

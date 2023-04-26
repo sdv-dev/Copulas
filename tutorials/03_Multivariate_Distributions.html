@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Multivariate Distributions &mdash; Copulas 0.8.0 documentation</title>
+  <title>Multivariate Distributions &mdash; Copulas 0.9.0 documentation</title>
   
 
   
@@ -620,7 +620,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.axes._subplots.Axes3DSubplot at 0x7f87020dae80&gt;
+&lt;Axes3D: &gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -701,33 +701,33 @@ div.rendered_html tbody tr:hover {
   <tbody>
     <tr>
       <th>0</th>
-      <td>9.984556e-01</td>
-      <td>0.212656</td>
-      <td>0.875782</td>
+      <td>4.645109e-07</td>
+      <td>6.978184e-01</td>
+      <td>5.685210</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>8.414227e-01</td>
-      <td>0.000015</td>
-      <td>-1.411570</td>
+      <td>8.576548e-01</td>
+      <td>5.471492e-04</td>
+      <td>1.222925</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>9.982610e-01</td>
-      <td>0.006686</td>
-      <td>1.241149</td>
+      <td>7.158921e-18</td>
+      <td>9.926583e-01</td>
+      <td>8.710366</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>4.866114e-08</td>
-      <td>0.001802</td>
-      <td>0.368214</td>
+      <td>3.350572e-02</td>
+      <td>7.238915e-05</td>
+      <td>-0.978137</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>9.988603e-01</td>
-      <td>0.000052</td>
-      <td>-1.636037</td>
+      <td>1.395064e-13</td>
+      <td>5.042386e-09</td>
+      <td>-1.521806</td>
     </tr>
   </tbody>
 </table>
@@ -861,7 +861,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([0.0213685 , 0.00413791, 0.04042124, 0.01112983, 0.05605053])
+array([1.42939918e-02, 8.07747559e-05, 2.49998876e-02, 9.51945678e-03,
+       2.97103458e-02])
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -888,7 +889,7 @@ array([0.0213685 , 0.00413791, 0.04042124, 0.01112983, 0.05605053])
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([0.53349268, 0.04770614, 0.06094783, 0.02386392, 0.05983219])
+array([0.01790582, 0.00566969, 0.19175434, 0.15688468, 0.23180056])
 </pre></div></div>
 </div>
 </div>
@@ -911,16 +912,16 @@ array([0.53349268, 0.04770614, 0.06094783, 0.02386392, 0.05983219])
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;type&#39;])
+dict_keys([&#39;correlation&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;type&#39;])
 </pre></div></div>
 </div>
-<p>In the case of <code class="docutils literal notranslate"><span class="pre">GaussianMultivariate</span></code>, this contains information about the covariance that defines the join distribution:</p>
+<p>In the case of <code class="docutils literal notranslate"><span class="pre">GaussianMultivariate</span></code>, this contains information about the correlation that defines the join distribution:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;covariance&#39;</span><span class="p">]</span>
+<span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;correlation&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -930,9 +931,9 @@ dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[[1.176416273113689, -0.0131241353112839, -0.035952800794624915],
- [-0.0131241353112839, 1.1876505410168434, 0.7848841841198994],
- [-0.035952800794624915, 0.7848841841198994, 0.9987042681259015]]
+[[1.0, -0.02150819956064483, -0.03904683794009118],
+ [-0.02150819956064483, 1.0, 0.7098648029301189],
+ [-0.03904683794009118, 0.7098648029301189, 1.0]]
 </pre></div></div>
 </div>
 <p>And the parameters of the univariates used for each column:</p>
@@ -951,20 +952,20 @@ dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[{&#39;loc&#39;: 1.4182145876906928e-23,
-  &#39;scale&#39;: 1.0,
-  &#39;a&#39;: 0.09657613485947575,
-  &#39;b&#39;: 0.10226371906555584,
+[{&#39;loc&#39;: 1.3765984634140217e-23,
+  &#39;scale&#39;: 1.0000000000000002,
+  &#39;a&#39;: 0.09657613485947786,
+  &#39;b&#39;: 0.10226371906556,
   &#39;type&#39;: &#39;copulas.univariate.beta.BetaUnivariate&#39;},
- {&#39;loc&#39;: 2.6194208457773113e-49,
-  &#39;scale&#39;: 0.9999824369833827,
-  &#39;a&#39;: 0.1135364333509834,
-  &#39;b&#39;: 0.5621697120496403,
+ {&#39;loc&#39;: 2.619420845777311e-49,
+  &#39;scale&#39;: 0.999986655706105,
+  &#39;a&#39;: 0.11353643335098351,
+  &#39;b&#39;: 0.5621697120496405,
   &#39;type&#39;: &#39;copulas.univariate.beta.BetaUnivariate&#39;},
- {&#39;a&#39;: 2.8033672876504028,
-  &#39;loc&#39;: -3.0705144444193007,
-  &#39;scale&#39;: 1.7086702500891828,
-  &#39;type&#39;: &#39;copulas.univariate.gamma.GammaUnivariate&#39;}]
+ {&#39;df&#39;: 1.4006628830710697,
+  &#39;loc&#39;: 0.4691588432897164,
+  &#39;scale&#39;: 1.247945331065269,
+  &#39;type&#39;: &#39;copulas.univariate.student_t.StudentTUnivariate&#39;}]
 </pre></div></div>
 </div>
 <p>Finally, this <code class="docutils literal notranslate"><span class="pre">parameters</span></code> dictionary can be later on passed to the <code class="docutils literal notranslate"><span class="pre">Multivariate.from_dict</span></code> class method, which will create an instance of our model with the same parameters as before.</p>
@@ -994,7 +995,7 @@ dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;copulas.multivariate.gaussian.GaussianMultivariate at 0x7f86fda9c5c0&gt;
+GaussianMultivariate()
 </pre></div></div>
 </div>
 </div>
@@ -1004,7 +1005,7 @@ dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;
 <p>In addition, <strong>Copulas</strong> also implements Vine Copulas. The Vine copulas work by building a <a class="reference external" href="https://en.wikipedia.org/wiki/Vine_copula">vine</a> (a set of trees) over the different columns in the dataset and estimating the pairwise (i.e. bivariate) relationship between the nodes on every edge.</p>
 <p>There are three types of Vine copulas: <em>direct</em>, <em>regular</em>, and <em>center</em>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1025,7 +1026,7 @@ dict_keys([&#39;covariance&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39;
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>

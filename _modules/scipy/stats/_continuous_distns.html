@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._continuous_distns &mdash; Copulas 0.8.0 documentation</title>
+  <title>scipy.stats._continuous_distns &mdash; Copulas 0.9.0 documentation</title>
   
 
   
@@ -7561,46 +7561,49 @@
         <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_support_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">super</span><span class="p">(</span><span class="n">powerlaw_gen</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_support_mask</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">powerlaw_gen</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_support_mask</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">powerlaw_gen</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_support_mask</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">((</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)))</span>
 
+    <span class="nd">@_call_super_mom</span>
+    <span class="nd">@extend_notes_in_docstring</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        Notes specifically for ``powerlaw.fit``: If the location is a free</span>
+<span class="s2">        parameter and the value returned for the shape parameter is less than</span>
+<span class="s2">        one, the true maximum likelihood approaches infinity. This causes</span>
+<span class="s2">        numerical difficulties, and the resulting estimates are approximate.</span>
+<span class="s2">        </span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Summary of the strategy:</span>
-
-<span class="sd">        1) If the scale and location are fixed, return the shape according</span>
-<span class="sd">           to a formula.</span>
-
-<span class="sd">        2) If the scale is fixed, there are two possibilities for the other</span>
-<span class="sd">           parameters - one corresponding with shape less than one, and another</span>
-<span class="sd">           with shape greater than one. Calculate both, and return whichever</span>
-<span class="sd">           has the better log-likelihood.</span>
-
-<span class="sd">        At this point, the scale is known to be free.</span>
-
-<span class="sd">        3) If the location is fixed, return the scale and shape according to</span>
-<span class="sd">           formulas (or, if the shape is fixed, the fixed shape).</span>
-
-<span class="sd">        At this point, the location and scale are both free. There are separate</span>
-<span class="sd">        equations depending on whether the shape is less than one or greater</span>
-<span class="sd">        than one.</span>
-
-<span class="sd">        4a) If the shape is less than one, there are formulas for shape,</span>
-<span class="sd">            location, and scale.</span>
-<span class="sd">        4b) If the shape is greater than one, there are formulas for shape</span>
-<span class="sd">            and scale, but there is a condition for location to be solved</span>
-<span class="sd">            numerically.</span>
-
-<span class="sd">        If the shape is fixed and less than one, we use 4a.</span>
-<span class="sd">        If the shape is fixed and greater than one, we use 4b.</span>
-<span class="sd">        If the shape is also free, we calculate fits using both 4a and 4b</span>
-<span class="sd">        and choose the one that results a better log-likelihood.</span>
-
-<span class="sd">        In many cases, the use of `np.nextafter` is used to avoid numerical</span>
-<span class="sd">        issues.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Summary of the strategy:</span>
+        <span class="c1">#</span>
+        <span class="c1"># 1) If the scale and location are fixed, return the shape according</span>
+        <span class="c1">#    to a formula.</span>
+        <span class="c1">#</span>
+        <span class="c1"># 2) If the scale is fixed, there are two possibilities for the other</span>
+        <span class="c1">#    parameters - one corresponding with shape less than one, and</span>
+        <span class="c1">#    another with shape greater than one. Calculate both, and return</span>
+        <span class="c1">#    whichever has the better log-likelihood.</span>
+        <span class="c1">#</span>
+        <span class="c1"># At this point, the scale is known to be free.</span>
+        <span class="c1">#</span>
+        <span class="c1"># 3) If the location is fixed, return the scale and shape according to</span>
+        <span class="c1">#    formulas (or, if the shape is fixed, the fixed shape).</span>
+        <span class="c1">#</span>
+        <span class="c1"># At this point, the location and scale are both free. There are</span>
+        <span class="c1"># separate equations depending on whether the shape is less than one or</span>
+        <span class="c1"># greater than one.</span>
+        <span class="c1">#</span>
+        <span class="c1"># 4a) If the shape is less than one, there are formulas for shape,</span>
+        <span class="c1">#     location, and scale.</span>
+        <span class="c1"># 4b) If the shape is greater than one, there are formulas for shape</span>
+        <span class="c1">#     and scale, but there is a condition for location to be solved</span>
+        <span class="c1">#     numerically.</span>
+        <span class="c1">#</span>
+        <span class="c1"># If the shape is fixed and less than one, we use 4a.</span>
+        <span class="c1"># If the shape is fixed and greater than one, we use 4b.</span>
+        <span class="c1"># If the shape is also free, we calculate fits using both 4a and 4b</span>
+        <span class="c1"># and choose the one that results a better log-likelihood.</span>
+        <span class="c1">#</span>
+        <span class="c1"># In many cases, the use of `np.nextafter` is used to avoid numerical</span>
+        <span class="c1"># issues.</span>
         <span class="k">if</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;superfit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
@@ -7633,7 +7636,8 @@
             <span class="c1"># The first-order necessary condition on `shape` can be solved in</span>
             <span class="c1"># closed form. It can be used no matter the assumption of the</span>
             <span class="c1"># value of the shape.</span>
-            <span class="k">return</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">data</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span><span class="o">/</span><span class="n">scale</span><span class="p">))</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span> <span class="n">N</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">loc</span><span class="p">))</span> <span class="o">-</span> <span class="n">N</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">scale</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">get_scale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
             <span class="c1"># analytical solution for `scale` based on the location.</span>
@@ -7676,6 +7680,8 @@
 
         <span class="k">def</span> <span class="nf">fit_loc_scale_w_shape_lt_1</span><span class="p">():</span>
             <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span>
             <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">get_scale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loc</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="n">fshape</span> <span class="ow">or</span> <span class="n">get_shape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">shape</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
@@ -7719,11 +7725,10 @@
 
             <span class="c1"># if the sign of `dL_dLocation_star` is positive at rbrack,</span>
             <span class="c1"># we&#39;re not going to find the root we&#39;re looking for</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">rbrack</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">dL_dLocation_star</span><span class="p">(</span><span class="n">rbrack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">rbrack</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">i</span> <span class="o">*</span> <span class="n">delta</span>
-                <span class="n">i</span> <span class="o">*=</span> <span class="mi">2</span>
+                <span class="n">rbrack</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">delta</span>
+                <span class="n">delta</span> <span class="o">*=</span> <span class="mi">2</span>
 
             <span class="k">def</span> <span class="nf">interval_contains_root</span><span class="p">(</span><span class="n">lbrack</span><span class="p">,</span> <span class="n">rbrack</span><span class="p">):</span>
                 <span class="c1"># Check if the interval (lbrack, rbrack) contains the root.</span>
@@ -7756,10 +7761,10 @@
 
         <span class="c1"># Shape is free</span>
         <span class="n">fit_shape_lt1</span> <span class="o">=</span> <span class="n">fit_loc_scale_w_shape_lt_1</span><span class="p">()</span>
-        <span class="n">ll_lt1</span> <span class="o">=</span> <span class="n">penalized_nllf</span><span class="p">(</span><span class="n">fit_shape_lt1</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">ll_lt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nnlf</span><span class="p">(</span><span class="n">fit_shape_lt1</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
         <span class="n">fit_shape_gt1</span> <span class="o">=</span> <span class="n">fit_loc_scale_w_shape_gt_1</span><span class="p">()</span>
-        <span class="n">ll_gt1</span> <span class="o">=</span> <span class="n">penalized_nllf</span><span class="p">(</span><span class="n">fit_shape_gt1</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">ll_gt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nnlf</span><span class="p">(</span><span class="n">fit_shape_gt1</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ll_lt1</span> <span class="o">&lt;=</span> <span class="n">ll_gt1</span> <span class="ow">and</span> <span class="n">fit_shape_lt1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fit_shape_lt1</span>
