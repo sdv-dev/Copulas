@@ -11,7 +11,6 @@ version add-ons and renames ``covariance`` to ``correlation``.
 * Rename covariance to correlation - PR[#346](https://github.com/sdv-dev/Copulas/pull/346) by @frances-h
 * Add functionality to find version add-on - Issue[#349](https://github.com/sdv-dev/Copulas/issues/349) by @frances-h
 
-
 ## v0.8.0 - 2023-01-06
 
 This release adds support for python 3.10 and 3.11. Additionally, it drops support for python 3.6.
