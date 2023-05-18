@@ -10,7 +10,7 @@
 [![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
 
 <br/>
-<p style="text-align:center">
+<p align="center" style="text-align:center">
 <a href="https://github.com/sdv-dev/Copulas">
 <img width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png?raw=true"></img>
 </a>
