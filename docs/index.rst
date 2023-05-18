@@ -1,5 +1,5 @@
 .. mdinclude:: ../README.md
-   :end-line: 42
+   :end-line: 48
 
 .. toctree::
    :hidden:
