@@ -12,7 +12,7 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    "matplotlib>=3.4.0,<4;python_version>='3.7' and python_version<'3.10'",
+    "matplotlib>=3.4.0,<4;python_version<'3.10'",
     "matplotlib>=3.6.0,<4;python_version>='3.10'",
     "numpy>=1.20.0,<2;python_version<'3.10'",
     "numpy>=1.23.3,<2;python_version>='3.10'",
