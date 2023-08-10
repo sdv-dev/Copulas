@@ -1,6 +1,4 @@
-<div align="center">
-<br/>
-<p align="center">
+<p style="text-align:center">
     <i>This repository is part of <a href="https://sdv.dev">The Synthetic Data Vault Project</a>, a project from <a href="https://datacebo.com">DataCebo</a>.</i>
 </p>
 
@@ -11,16 +9,12 @@
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 [![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
 
-<div align="left">
 <br/>
-<p align="center">
+<p align="center" style="text-align:center">
 <a href="https://github.com/sdv-dev/Copulas">
-<img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png"></img>
+<img width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png?raw=true"></img>
 </a>
 </p>
-</div>
-
-</div>
 
 # Overview
 

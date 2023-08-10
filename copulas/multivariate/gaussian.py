@@ -28,7 +28,7 @@ class GaussianMultivariate(Multivariate):
             distribution names.
     """
 
-    covariance = None
+    correlation = None
     columns = None
     univariates = None
 
@@ -65,29 +65,29 @@ class GaussianMultivariate(Multivariate):
 
         return stats.norm.ppf(np.column_stack(U))
 
-    def _get_covariance(self, X):
-        """Compute covariance matrix with transformed data.
+    def _get_correlation(self, X):
+        """Compute correlation matrix with transformed data.
 
         Args:
             X (numpy.ndarray):
-                Data for which the covariance needs to be computed.
+                Data for which the correlation needs to be computed.
 
         Returns:
             numpy.ndarray:
-                computed covariance matrix.
+                computed correlation matrix.
         """
         result = self._transform_to_normal(X)
-        covariance = pd.DataFrame(data=result).corr().to_numpy()
-        covariance = np.nan_to_num(covariance, nan=0.0)
+        correlation = pd.DataFrame(data=result).corr().to_numpy()
+        correlation = np.nan_to_num(correlation, nan=0.0)
         # If singular, add some noise to the diagonal
-        if np.linalg.cond(covariance) > 1.0 / sys.float_info.epsilon:
-            covariance = covariance + np.identity(covariance.shape[0]) * EPSILON
+        if np.linalg.cond(correlation) > 1.0 / sys.float_info.epsilon:
+            correlation = correlation + np.identity(correlation.shape[0]) * EPSILON
 
-        return pd.DataFrame(covariance, index=self.columns, columns=self.columns)
+        return pd.DataFrame(correlation, index=self.columns, columns=self.columns)
 
     @check_valid_values
     def fit(self, X):
-        """Compute the distribution for each variable and then its covariance matrix.
+        """Compute the distribution for each variable and then its correlation matrix.
 
         Arguments:
             X (pandas.DataFrame):
@@ -126,8 +126,8 @@ class GaussianMultivariate(Multivariate):
         self.columns = columns
         self.univariates = univariates
 
-        LOGGER.debug('Computing covariance')
-        self.covariance = self._get_covariance(X)
+        LOGGER.debug('Computing correlation')
+        self.correlation = self._get_correlation(X)
         self.fitted = True
 
         LOGGER.debug('GaussianMultivariate fitted successfully')
@@ -149,7 +149,7 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
         transformed = self._transform_to_normal(X)
-        return stats.multivariate_normal.pdf(transformed, cov=self.covariance)
+        return stats.multivariate_normal.pdf(transformed, cov=self.correlation)
 
     def cumulative_distribution(self, X):
         """Compute the cumulative distribution value for each point in X.
@@ -168,7 +168,7 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
         transformed = self._transform_to_normal(X)
-        return stats.multivariate_normal.cdf(transformed, cov=self.covariance)
+        return stats.multivariate_normal.cdf(transformed, cov=self.correlation)
 
     def _get_conditional_distribution(self, conditions):
         """Compute the parameters of a conditional multivariate normal distribution.
@@ -192,12 +192,12 @@ class GaussianMultivariate(Multivariate):
                     names of the columns that will be sampled conditionally.
         """
         columns2 = conditions.index
-        columns1 = self.covariance.columns.difference(columns2)
+        columns1 = self.correlation.columns.difference(columns2)
 
-        sigma11 = self.covariance.loc[columns1, columns1].to_numpy()
-        sigma12 = self.covariance.loc[columns1, columns2].to_numpy()
-        sigma21 = self.covariance.loc[columns2, columns1].to_numpy()
-        sigma22 = self.covariance.loc[columns2, columns2].to_numpy()
+        sigma11 = self.correlation.loc[columns1, columns1].to_numpy()
+        sigma12 = self.correlation.loc[columns1, columns2].to_numpy()
+        sigma21 = self.correlation.loc[columns2, columns1].to_numpy()
+        sigma22 = self.correlation.loc[columns2, columns2].to_numpy()
 
         mu1 = np.zeros(len(columns1))
         mu2 = np.zeros(len(columns2))
@@ -220,7 +220,7 @@ class GaussianMultivariate(Multivariate):
         a standard normal multivariate conditioned on the given condition values.
         """
         if conditions is None:
-            covariance = self.covariance
+            covariance = self.correlation
             columns = self.columns
             means = np.zeros(len(columns))
         else:
@@ -277,11 +277,9 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
         univariates = [univariate.to_dict() for univariate in self.univariates]
-        warnings.warn('`covariance` will be renamed to `correlation` in v0.4.0',
-                      DeprecationWarning)
 
         return {
-            'covariance': self.covariance.to_numpy().tolist(),
+            'correlation': self.correlation.to_numpy().tolist(),
             'univariates': univariates,
             'columns': self.columns,
             'type': get_qualified_name(self),
@@ -308,10 +306,8 @@ class GaussianMultivariate(Multivariate):
         for parameters in copula_dict['univariates']:
             instance.univariates.append(Univariate.from_dict(parameters))
 
-        covariance = copula_dict['covariance']
-        instance.covariance = pd.DataFrame(covariance, index=columns, columns=columns)
+        correlation = copula_dict['correlation']
+        instance.correlation = pd.DataFrame(correlation, index=columns, columns=columns)
         instance.fitted = True
-        warnings.warn('`covariance` will be renamed to `correlation` in v0.4.0',
-                      DeprecationWarning)
 
         return instance
