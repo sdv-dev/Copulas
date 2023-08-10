@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.9.0 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.9.1 documentation</title>
   
 
   
@@ -192,6 +192,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
 </ul>
 
             
@@ -330,8 +331,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s1">&#39;Vines have not been fully tested on Python 3.8 and might &#39;</span>
-                <span class="s1">&#39;produce wrong results. Please use Python 3.5, 3.6 or 3.7&#39;</span>
+                <span class="s1">&#39;Vines have not been fully tested on Python &gt;= 3.8 and might &#39;</span>
+                <span class="s1">&#39;produce wrong results.&#39;</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._kde &mdash; Copulas 0.9.0 documentation</title>
+  <title>scipy.stats._kde &mdash; Copulas 0.9.1 documentation</title>
   
 
   
@@ -192,6 +192,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
 </ul>
 
             
@@ -517,8 +518,8 @@
                 <span class="n">points</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                 <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;points have dimension </span><span class="si">%s</span><span class="s2">, dataset has dimension </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;points have dimension </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">, &quot;</span>
+                       <span class="sa">f</span><span class="s2">&quot;dataset has dimension </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">output_dtype</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">_get_output_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span>
@@ -642,8 +643,8 @@
             <span class="n">extra_kwds</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">value</span><span class="p">,</span> <span class="n">inform</span> <span class="o">=</span> <span class="n">_mvn</span><span class="o">.</span><span class="n">mvnun_weighted</span><span class="p">(</span><span class="n">low_bounds</span><span class="p">,</span> <span class="n">high_bounds</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
-                                           <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_kwds</span><span class="p">)</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_kwds</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">inform</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;An integral in _mvn.mvnun requires more points than </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
