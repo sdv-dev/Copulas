@@ -1,5 +1,17 @@
 # History
 
+## v0.9.1 - 2023-08-10
+
+This release fixes problems with the documentation site and drops support for Python 3.7.
+
+### Maintenance
+
+* Drop support for Python 3.7 - Issue [#355](https://github.com/sdv-dev/Copulas/issues/355) by @amontanez24
+
+### Documentation
+
+* Formatting is broken on the main docs page - Issue [#341](https://github.com/sdv-dev/Copulas/issues/341) by @amontanez24
+
 ## v0.9.0 - 2023-04-26
 
 This release adds support for pandas 2.0 and above. Additionally adds a functionality to find
