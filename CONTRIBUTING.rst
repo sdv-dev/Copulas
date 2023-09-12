@@ -166,16 +166,16 @@ Release Workflow
 The process of releasing a new version involves several steps combining both ``git`` and
 ``bumpversion`` which, briefly:
 
-1. Merge what is in ``master`` branch into ``stable`` branch.
+1. Merge what is in ``main`` branch into ``stable`` branch.
 2. Update the version in ``setup.cfg``, ``copulas/__init__.py`` and ``HISTORY.md`` files.
 3. Create a new TAG pointing at the correspoding commit in ``stable`` branch.
-4. Merge the new commit from ``stable`` into ``master``.
+4. Merge the new commit from ``stable`` into ``main``.
 5. Update the version in ``setup.cfg`` and ``copulas/__init__.py`` to open the next
    development interation.
 
 **Note:** Before starting the process, make sure that ``HISTORY.md`` has a section titled
 **Unreleased** with the list of changes that will be included in the new version, and that
-these changes are committed and available in ``master`` branch.
+these changes are committed and available in ``main`` branch.
 Normally this is just a list of the Pull Requests that have been merged since the latest version.
 
 Once this is done, run of the following commands:

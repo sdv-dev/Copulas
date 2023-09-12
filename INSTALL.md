@@ -47,12 +47,12 @@ make install
 
 If you intend to modify the source code or contribute to the project you will need to
 install it from the source using the `make install-develop` command. In this case, we
-recommend you to branch from `master` first:
+recommend you to branch from `main` first:
 
 ```bash
 git clone git@github.com:sdv-dev/Copulas
 cd Copulas
-git checkout master
+git checkout main
 git checkout -b <your-branch-name>
 make install-develp
 ```
