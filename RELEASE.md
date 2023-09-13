@@ -36,7 +36,7 @@ Clone the project and install the development requirements before start the rele
 ```bash
 git clone https://github.com/sdv-dev/Copulas.git
 cd Copulas
-git checkout master
+git checkout main
 make install-develop
 ```
 
@@ -183,7 +183,7 @@ Clone the project and install the development requirements. Alternatively, with 
 ```bash
 git clone https://github.com/sdv-dev/SDV
 cd SDV
-git checkout master
+git checkout main
 make install-develop
 ```
 
