@@ -2,7 +2,6 @@
 
 import logging
 import sys
-import warnings
 
 import numpy as np
 import pandas as pd
@@ -112,11 +111,11 @@ class GaussianMultivariate(Multivariate):
             try:
                 univariate.fit(column)
             except BaseException:
-                warning_message = (
+                log_message = (
                     f'Unable to fit to a {distribution} distribution for column {column_name}. '
                     'Using a Gaussian distribution instead.'
                 )
-                warnings.warn(warning_message)
+                LOGGER.info(log_message)
                 univariate = GaussianUnivariate()
                 univariate.fit(column)
 
