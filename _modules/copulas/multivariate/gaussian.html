@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.9.1 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.9.2 documentation</title>
   
 
   
@@ -262,7 +262,6 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -372,11 +371,11 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-                <span class="n">warning_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">log_message</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="sa">f</span><span class="s1">&#39;Unable to fit to a </span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s1"> distribution for column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">. &#39;</span>
                     <span class="s1">&#39;Using a Gaussian distribution instead.&#39;</span>
                 <span class="p">)</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">log_message</span><span class="p">)</span>
                 <span class="n">univariate</span> <span class="o">=</span> <span class="n">GaussianUnivariate</span><span class="p">()</span>
                 <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
 

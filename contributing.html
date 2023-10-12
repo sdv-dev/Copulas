@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; Copulas 0.9.1 documentation</title>
+  <title>Contributing &mdash; Copulas 0.9.2 documentation</title>
   
 
   
@@ -247,7 +247,7 @@
         
             
             
-              <a href="https://github.com/sdv-dev/Copulas/blob/master/docs/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -442,16 +442,16 @@ mocked.</p></li>
 <p>The process of releasing a new version involves several steps combining both <code class="docutils literal notranslate"><span class="pre">git</span></code> and
 <code class="docutils literal notranslate"><span class="pre">bumpversion</span></code> which, briefly:</p>
 <ol class="arabic simple">
-<li><p>Merge what is in <code class="docutils literal notranslate"><span class="pre">master</span></code> branch into <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch.</p></li>
+<li><p>Merge what is in <code class="docutils literal notranslate"><span class="pre">main</span></code> branch into <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch.</p></li>
 <li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, <code class="docutils literal notranslate"><span class="pre">copulas/__init__.py</span></code> and <code class="docutils literal notranslate"><span class="pre">HISTORY.md</span></code> files.</p></li>
 <li><p>Create a new TAG pointing at the correspoding commit in <code class="docutils literal notranslate"><span class="pre">stable</span></code> branch.</p></li>
-<li><p>Merge the new commit from <code class="docutils literal notranslate"><span class="pre">stable</span></code> into <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
+<li><p>Merge the new commit from <code class="docutils literal notranslate"><span class="pre">stable</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
 <li><p>Update the version in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">copulas/__init__.py</span></code> to open the next
 development interation.</p></li>
 </ol>
 <p><strong>Note:</strong> Before starting the process, make sure that <code class="docutils literal notranslate"><span class="pre">HISTORY.md</span></code> has a section titled
 <strong>Unreleased</strong> with the list of changes that will be included in the new version, and that
-these changes are committed and available in <code class="docutils literal notranslate"><span class="pre">master</span></code> branch.
+these changes are committed and available in <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.
 Normally this is just a list of the Pull Requests that have been merged since the latest version.</p>
 <p>Once this is done, run of the following commands:</p>
 <ol class="arabic">
