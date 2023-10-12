@@ -179,8 +179,8 @@ class TestGaussian(TestCase):
 
 
 @patch('copulas.univariate.truncated_gaussian.TruncatedGaussian._fit')
-@patch('copulas.multivariate.gaussian.warnings')
-def test_broken_distribution(warnings_mock, truncated_mock):
+@patch('copulas.multivariate.gaussian.LOGGER')
+def test_broken_distribution(logger_mock, truncated_mock):
     """Fit should use a gaussian if the passed distribution crashes."""
     # Setup
     truncated_mock.side_effect = ValueError()
@@ -194,11 +194,14 @@ def test_broken_distribution(warnings_mock, truncated_mock):
     samples = model.sample()
 
     # Asserts
-    expected_warnings_msg = (
+    expected_logging_msg = (
         'Unable to fit to a copulas.univariate.truncated_gaussian.TruncatedGaussian '
         'distribution for column y. Using a Gaussian distribution instead.'
     )
-    warnings_mock.warn.assert_called_once_with(expected_warnings_msg)
+    calls = logger_mock.info.call_args_list
+    assert calls[0].args[0] == 'Fitting %s'
+    assert calls[1].args[0] == expected_logging_msg
+    assert len(calls) == 2
 
     expected_model = GaussianMultivariate(
         distribution={'y': 'copulas.univariate.truncated_gaussian.TruncatedGaussian'}

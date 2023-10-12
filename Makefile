@@ -177,14 +177,14 @@ publish-test: dist publish-confirm ## package and upload a release on TestPyPI
 publish: dist publish-confirm ## package and upload a release
 	twine upload dist/*
 
-.PHONY: git-merge-master-stable
-git-merge-master-stable: ## Merge master into stable
+.PHONY: git-merge-main-stable
+git-merge-main-stable: ## Merge main into stable
 	git checkout stable || git checkout -b stable
-	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
+	git merge --no-ff main -m"make release-tag: Merge branch 'main' into stable"
 
-.PHONY: git-merge-stable-master
-git-merge-stable-master: ## Merge stable into master
-	git checkout master
+.PHONY: git-merge-stable-main
+git-merge-stable-main: ## Merge stable into main
+	git checkout main
 	git merge stable
 
 .PHONY: git-push
@@ -218,7 +218,7 @@ bumpversion-major: ## Bump the version the next major skipping the release
 .PHONY: bumpversion-revert
 bumpversion-revert: ## Undo a previous bumpversion-release
 	git tag --delete $(shell git tag --points-at HEAD)
-	git checkout master
+	git checkout main
 	git branch -D stable
 
 CLEAN_DIR := $(shell git status --short | grep -v ??)
@@ -232,10 +232,10 @@ ifneq ($(CLEAN_DIR),)
 	$(error There are uncommitted changes)
 endif
 
-.PHONY: check-master
-check-master: ## Check if we are in master branch
-ifneq ($(CURRENT_BRANCH),master)
-	$(error Please make the release from master branch\n)
+.PHONY: check-main
+check-main: ## Check if we are in main branch
+ifneq ($(CURRENT_BRANCH),main)
+	$(error Please make the release from main branch\n)
 endif
 
 .PHONY: check-candidate
@@ -251,18 +251,18 @@ ifeq ($(CHANGELOG_LINES),0)
 endif
 
 .PHONY: check-release
-check-release: check-clean check-candidate check-master check-history ## Check if the release can be made
+check-release: check-clean check-candidate check-main check-history ## Check if the release can be made
 	@echo "A new release can be made"
 
 .PHONY: release
-release: check-release git-merge-master-stable bumpversion-release git-push-tags-stable \
-	publish git-merge-stable-master bumpversion-patch git-push
+release: check-release git-merge-main-stable bumpversion-release git-push-tags-stable \
+	publish git-merge-stable-main bumpversion-patch git-push
 
 .PHONY: release-test
-release-test: check-release git-merge-master-stable bumpversion-release bumpversion-revert
+release-test: check-release git-merge-main-stable bumpversion-release bumpversion-revert
 
 .PHONY: release-candidate
-release-candidate: check-master publish bumpversion-candidate git-push
+release-candidate: check-main publish bumpversion-candidate git-push
 
 .PHONY: release-candidate-test
-release-candidate-test: check-clean check-master publish-test
+release-candidate-test: check-clean check-main publish-test

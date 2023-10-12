@@ -6,13 +6,13 @@
 [![PyPi Shield](https://img.shields.io/pypi/v/copulas.svg)](https://pypi.python.org/pypi/copulas)
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
-[![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/master/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
+[![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/main/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
 [![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
 
 <br/>
 <p align="center" style="text-align:center">
 <a href="https://github.com/sdv-dev/Copulas">
-<img width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/Copulas-DataCebo.png?raw=true"></img>
+<img width=40% src="https://github.com/sdv-dev/SDV/blob/stable/docs/images/Copulas-DataCebo.png?raw=true"></img>
 </a>
 </p>
 
@@ -110,7 +110,7 @@ Thank you to our team of contributors who have built and maintained the library 
 
 
 <div align="center">
-<a href="https://datacebo.com"><img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/master/docs/images/DataCebo.png"></img></a>
+<a href="https://datacebo.com"><img align="center" width=40% src="https://github.com/sdv-dev/SDV/blob/stable/docs/images/DataCebo.png"></img></a>
 </div>
 <br/>
 <br/>
