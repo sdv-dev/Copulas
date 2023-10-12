@@ -1,5 +1,18 @@
 # History
 
+## v0.9.2 - 2023-10-12
+
+This release removes a warning that was being raised when univariate distributions failed to fit and logs the message instead.
+
+### New Features
+
+* When Copulas univariate fit fails, produce a log instead of a warning - Issue [#359](https://github.com/sdv-dev/Copulas/issues/359) by @R-Palazzo
+
+### Maintenance
+
+* Switch default branch from master to main - Issue [#360](https://github.com/sdv-dev/Copulas/issues/360) by @amontanez24
+* Update add-on detection for Copulas - Issue [#362](https://github.com/sdv-dev/Copulas/issues/362) by @pvk-developer
+
 ## v0.9.1 - 2023-08-10
 
 This release fixes problems with the documentation site and drops support for Python 3.7.
