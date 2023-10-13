@@ -7,6 +7,18 @@ from pandas.api.types import is_datetime64_dtype
 from copulas.utils2 import PlotConfig
 
 
+class PlotConfig:
+    """Custom plot settings for visualizations."""
+
+    GREEN = '#36B37E'
+    RED = '#FF0000'
+    ORANGE = '#F16141'
+    DATACEBO_DARK = '#000036'
+    DATACEBO_GREEN = '#01E0C9'
+    DATACEBO_BLUE = '#03AFF1'
+    BACKGROUND_COLOR = '#F5F5F8'
+    FONT_SIZE = 18
+
 def _generate_column_bar_plot(real_data, synthetic_data, plot_kwargs={}):
     """Generate a bar plot of the real and synthetic data.
 
