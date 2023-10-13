@@ -12,8 +12,6 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    "matplotlib>=3.4.0,<4;python_version<'3.10'",
-    "matplotlib>=3.6.0,<4;python_version>='3.10'",
     "numpy>=1.20.0,<2;python_version<'3.10'",
     "numpy>=1.23.3,<2;python_version>='3.10'",
     "pandas>=1.1.3;python_version<'3.10'",
@@ -21,6 +19,7 @@ install_requires = [
     "pandas>=1.5.0;python_version>='3.11'",
     "scipy>=1.5.4,<2;python_version<'3.10'",
     "scipy>=1.9.2,<2;python_version>='3.10'",
+    'plotly>=5.10.0,<6',
 ]
 
 development_requires = [
