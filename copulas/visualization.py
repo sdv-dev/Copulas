@@ -127,6 +127,8 @@ def compare_2d(real, synth, columns=None, figsize=None):
     ax = real.plot.scatter(x, y, color='blue', alpha=0.5, figsize=figsize)
     ax = synth.plot.scatter(x, y, ax=ax, color='orange', alpha=0.5, figsize=figsize)
     ax.legend(['Real', 'Synthetic'])
+    
+    return ax
 
 
 def compare_1d(real, synth, columns=None, figsize=None):
