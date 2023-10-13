@@ -1,10 +1,10 @@
 """Visualization utilities for the Copulas library."""
 
 import pandas as pd
-
-from copulas.utils2 import PlotConfig
 import plotly.express as px
 from pandas.api.types import is_datetime64_dtype
+
+from copulas.utils2 import PlotConfig
 
 
 def _generate_column_bar_plot(real_data, synthetic_data, plot_kwargs={}):
@@ -39,6 +39,7 @@ def _generate_column_bar_plot(real_data, synthetic_data, plot_kwargs={}):
 
     return fig
 
+
 def _generate_scatter_plot(all_data, columns):
     """Generate a scatter plot for column pair plot.
 
@@ -71,6 +72,7 @@ def _generate_scatter_plot(all_data, columns):
     )
 
     return fig
+
 
 def _generate_column_plot(real_column,
                           synthetic_column,
@@ -136,9 +138,10 @@ def _generate_column_plot(real_column,
     )
     return fig
 
+
 def hist_1d(data, title=None, bins=20, label=None):
     """Plot 1 dimensional data in a histogram.
-    
+
     Args:
         data (pd.DataFrame):
             The table data.
@@ -148,7 +151,7 @@ def hist_1d(data, title=None, bins=20, label=None):
             The number of bins to use for the histogram.
         label (str):
             The label of the plot.
-    
+
     Returns:
         plotly.graph_objects._figure.Figure
     """
@@ -174,6 +177,7 @@ def hist_1d(data, title=None, bins=20, label=None):
 
     return fig
 
+
 def compare_1d(real, synth):
     """Return a plot of the real and synthetic data for a given column.
 
@@ -193,6 +197,7 @@ def compare_1d(real, synth):
 
     return _generate_column_plot(real, synth, plot_type='bar')
 
+
 def scatter_2d(data, columns=None):
     """Plot 2 dimensional data in a scatter plot.
 
@@ -210,6 +215,7 @@ def scatter_2d(data, columns=None):
     data['Data'] = 'Real'
 
     return _generate_scatter_plot(data, columns)
+
 
 def compare_2d_(real, synth, columns=None):
     """Return a plot of the real and synthetic data for a given column pair.
@@ -233,6 +239,7 @@ def compare_2d_(real, synth, columns=None):
     all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
 
     return _generate_scatter_plot(all_data, columns)
+
 
 def scatter_3d_plotly(data, columns=None):
     """Return a 3D scatter plot of the data.
@@ -267,6 +274,7 @@ def scatter_3d_plotly(data, columns=None):
     )
 
     return fig
+
 
 def compare_3d(real, synth, columns=None):
     """Generate a 3d scatter plot comparing real/synthetic data.
