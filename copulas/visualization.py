@@ -15,6 +15,21 @@ class PlotConfig:
 
 
 def _generate_1d_plot(data, title, labels, colors):
+    """Generate a density plot of an array-like structure.
+
+    Args:
+        data (array-like structure):
+            The data to plot.
+        title (str):
+            The title of the plot.
+        labels (list[str]):
+            The labels of the data.
+        colors (list[str]):
+            The colors of the data.
+
+    Returns:
+        plotly.graph_objects._figure.Figure
+    """
     fig = ff.create_distplot(
         hist_data=data,
         group_labels=labels,
@@ -62,7 +77,7 @@ def hist_1d(data, title=None, label=None):
     )
 
 
-def compare_1d(real, synth):
+def compare_1d(real, synth, title=None):
     """Plot the comparison between real and synthetic data.
 
     Args:
@@ -70,27 +85,34 @@ def compare_1d(real, synth):
             The real data.
         synth (array_like):
             The synthetic data.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
     """
     return _generate_1d_plot(
         data=[real, synth],
-        title='Real vs Synthetic Data',
+        title=title,
         labels=['Real', 'Synthetic'],
         colors=[PlotConfig.DATACEBO_DARK, PlotConfig.DATACEBO_GREEN]
     )
 
 
-def _generate_scatter_2d_plot(data, columns, color_discrete_map):
+def _generate_scatter_2d_plot(data, columns, color_discrete_map, title):
     """Generate a scatter plot for a pair of columns
 
     Args:
         data (pandas.DataFrame):
-            The real and/or synthetic data for the desired column pair containing a
-            ``Data`` column that indicates whether is real and/or synthetic.
+            The data for the desired column pair containing a
+            ``Data`` column indicating whether it is real or synthetic.
         columns (list):
             A list of the columns being plotted.
+        color_discrete_map (dict):
+            A dictionary mapping the values of the ``Data`` column to the colors
+            used to plot them.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
@@ -113,7 +135,7 @@ def _generate_scatter_2d_plot(data, columns, color_discrete_map):
     )
 
     fig.update_layout(
-        title=f"Real vs. Synthetic Data for columns '{columns[0]}' and '{columns[1]}'",
+        title=title,
         plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
         font={'size': PlotConfig.FONT_SIZE},
     )
@@ -121,7 +143,7 @@ def _generate_scatter_2d_plot(data, columns, color_discrete_map):
     return fig
 
 
-def scatter_2d(data, columns=None):
+def scatter_2d(data, columns=None, title=None):
     """Plot 2 dimensional data in a scatter plot.
 
     Args:
@@ -129,6 +151,8 @@ def scatter_2d(data, columns=None):
             The table data.
         columns (list[string]):
             The names of the two columns to plot.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
@@ -140,10 +164,11 @@ def scatter_2d(data, columns=None):
         data=data,
         columns=columns,
         color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
+        title=title
     )
 
 
-def compare_2d(real, synth, columns=None):
+def compare_2d(real, synth, columns=None, title=None):
     """Plot the comparison between real and synthetic data for a given column pair.
 
     Args:
@@ -153,6 +178,8 @@ def compare_2d(real, synth, columns=None):
             The synthetic table data.
         columns (list[string]):
             The names of the two columns to plot.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
@@ -169,18 +196,24 @@ def compare_2d(real, synth, columns=None):
             'Real': PlotConfig.DATACEBO_DARK,
             'Synthetic': PlotConfig.DATACEBO_GREEN
         },
+        title=title
     )
 
 
-def _generate_scatter_3d_plot(data, columns, color_discrete_map):
+def _generate_scatter_3d_plot(data, columns, color_discrete_map, title):
     """Generate a scatter plot for column pair plot.
 
     Args:
         data (pandas.DataFrame):
-            The real and/or synthetic data for the desired column pair containing a
-            ``Data`` column that indicates whether is real or synthetic.
+            The data for the desired three columns containing a
+            ``Data`` column that indicates whether it is real or synthetic.
         columns (list):
             A list of the columns being plotted.
+        color_discrete_map (dict):
+            A dictionary mapping the values of the ``Data`` column to the colors
+            used to plot them.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
@@ -204,7 +237,7 @@ def _generate_scatter_3d_plot(data, columns, color_discrete_map):
     )
 
     fig.update_layout(
-        title=f"Real vs. Synthetic Data for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'",
+        title=title,
         plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
         font={'size': PlotConfig.FONT_SIZE},
     )
@@ -212,15 +245,16 @@ def _generate_scatter_3d_plot(data, columns, color_discrete_map):
     return fig
 
 
-def scatter_3d(data, columns=None):
-    """Plot 2 dimensional data in a scatter plot.
+def scatter_3d(data, columns=None, title=None):
+    """Plot 3 dimensional data in a scatter plot.
 
     Args:
         data (pandas.DataFrame):
             The table data. Must have at least 3 columns.
         column_names (list[string]):
-            The names of the three columns to plot. If not passed,
-            the first three columns of the data will be used.
+            The names of the three columns to plot.
+        title (str):
+            The title of the plot.
 
     Returns:
         plotly.graph_objects._figure.Figure
@@ -232,10 +266,11 @@ def scatter_3d(data, columns=None):
         data=data,
         columns=columns,
         color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
+        title=title
     )
 
 
-def compare_3d(real, synth, columns=None):
+def compare_3d(real, synth, columns=None, title=None):
     """Plot the comparison between real and synthetic data for a given column triplet.
 
     Args:
@@ -245,6 +280,8 @@ def compare_3d(real, synth, columns=None):
             The synthetic data.
         columns (list):
             The name of the columns to plot.
+        title (str):
+            The title of the plot.
     """
     real, synth = real.copy(), synth.copy()
     real['Data'] = 'Real'
@@ -258,4 +295,5 @@ def compare_3d(real, synth, columns=None):
             'Real': PlotConfig.DATACEBO_DARK,
             'Synthetic': PlotConfig.DATACEBO_GREEN
         },
+        title=title
     )
