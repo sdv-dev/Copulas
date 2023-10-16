@@ -86,6 +86,41 @@ def _generate_scatter_plot(all_data, columns):
     return fig
 
 
+def _generate_scatter_3d_plot(all_data, columns):
+    """Generate a scatter plot for column pair plot.
+
+    Args:
+        all_data (pandas.DataFrame):
+            The real and synthetic data for the desired column pair containing a
+            ``Data`` column that indicates whether is real or synthetic.
+        columns (list):
+            A list of the columns being plotted.
+
+    Returns:
+        plotly.graph_objects._figure.Figure
+    """
+    fig = px.scatter_3d(
+        all_data,
+        x=columns[0],
+        y=columns[1],
+        z=columns[2],
+        color='Data',
+        color_discrete_map={
+            'Real': PlotConfig.DATACEBO_DARK,
+            'Synthetic': PlotConfig.DATACEBO_GREEN
+        },
+        symbol='Data'
+    )
+
+    fig.update_layout(
+        title=f"Real vs. Synthetic Data for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'",
+        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
+        font={'size': PlotConfig.FONT_SIZE},
+    )
+
+    return fig
+
+
 def _generate_column_plot(real_column, synthetic_column):
     """Generate a plot of the real and synthetic data.
 
@@ -206,8 +241,11 @@ def scatter_2d(data, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
+    columns = columns or data.columns
+    if len(columns) != 2:
+        raise ValueError('Only 2 columns can be plotted')
+
     data = data[columns]
-    columns = list(data.columns)
     data['Data'] = 'Real'
 
     return _generate_scatter_plot(data, columns)
@@ -227,9 +265,12 @@ def compare_2d(real, synth, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
+    columns = columns or real.columns
+    if len(columns) != 2:
+        raise ValueError('Only 2 columns can be plotted')
+
     real_data = real[columns]
     synthetic_data = synth[columns]
-    columns = list(real_data.columns)
     real_data['Data'] = 'Real'
     synthetic_data['Data'] = 'Synthetic'
     all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
@@ -250,26 +291,14 @@ def scatter_3d(data, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
-    fig = px.scatter(
-        data,
-        x=columns[0],
-        y=columns[1],
-        z=columns[2],
-        color='Data',
-        color_discrete_map={
-            'Real': PlotConfig.DATACEBO_DARK,
-            'Synthetic': PlotConfig.DATACEBO_GREEN
-        },
-        symbol='Data'
-    )
+    columns = columns or data.columns
+    if len(columns) != 3:
+        raise ValueError('Only 3 columns can be plotted')
 
-    fig.update_layout(
-        title=f"Data for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'",
-        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
-        font={'size': PlotConfig.FONT_SIZE},
-    )
+    data = data[columns]
+    data['Data'] = 'Real'
 
-    return fig
+    return _generate_scatter_3d_plot(data, columns)
 
 
 def compare_3d(real, synth, columns=None):
@@ -284,8 +313,13 @@ def compare_3d(real, synth, columns=None):
             The name of the columns to plot.
     """
     columns = columns or real.columns
+    if len(columns) != 3:
+        raise ValueError('Only 3 columns can be plotted')
 
-    fig = scatter_3d(real[columns])
-    fig = scatter_3d(synth[columns], fig=fig)
+    real_data = real[columns]
+    synthetic_data = synth[columns]
+    real_data['Data'] = 'Real'
+    synthetic_data['Data'] = 'Synthetic'
+    all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
 
-    return fig
+    return _generate_scatter_3d_plot(all_data, columns)
