@@ -100,7 +100,7 @@ def compare_1d(real, synth, title=None):
 
 
 def _generate_scatter_2d_plot(data, columns, color_discrete_map, title):
-    """Generate a scatter plot for a pair of columns
+    """Generate a scatter plot for a pair of columns.
 
     Args:
         data (pandas.DataFrame):
