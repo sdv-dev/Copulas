@@ -2,78 +2,113 @@
 
 import pandas as pd
 import plotly.express as px
-from pandas.api.types import is_datetime64_dtype
-
-from copulas.utils2 import PlotConfig
+import plotly.figure_factory as ff
 
 
 class PlotConfig:
     """Custom plot settings for visualizations."""
 
-    GREEN = '#36B37E'
-    RED = '#FF0000'
-    ORANGE = '#F16141'
     DATACEBO_DARK = '#000036'
     DATACEBO_GREEN = '#01E0C9'
-    DATACEBO_BLUE = '#03AFF1'
     BACKGROUND_COLOR = '#F5F5F8'
     FONT_SIZE = 18
 
-def _generate_column_bar_plot(real_data, synthetic_data, plot_kwargs={}):
-    """Generate a bar plot of the real and synthetic data.
 
-    Args:
-        real_column (pandas.Series):
-            The real data for the desired column.
-        synthetic_column (pandas.Series):
-            The synthetic data for the desired column.
-        plot_kwargs (dict, optional):
-            Dictionary of keyword arguments to pass to px.histogram. Keyword arguments
-            provided this way will overwrite defaults.
+def _generate_1d_plot(data, title, labels, colors):
+    fig = ff.create_distplot(
+        hist_data=data,
+        group_labels=labels,
+        show_hist=False,
+        show_rug=False,
+        colors=colors
+    )
 
-    Returns:
-        plotly.graph_objects._figure.Figure
-    """
-    all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
-    histogram_kwargs = {
-        'x': 'values',
-        'barmode': 'group',
-        'color_discrete_sequence': [PlotConfig.DATACEBO_DARK, PlotConfig.DATACEBO_GREEN],
-        'pattern_shape': 'Data',
-        'pattern_shape_sequence': ['', '/'],
-        'histnorm': 'probability density',
-    }
-    histogram_kwargs.update(plot_kwargs)
-    fig = px.histogram(
-        all_data,
-        **histogram_kwargs
+    for i, name in enumerate(labels):
+        fig.update_traces(
+            x=fig.data[i].x,
+            hovertemplate=f'<b>{name}</b><br>Frequency: %{{y}}<extra></extra>',
+            selector={'name': name},
+            fill='tozeroy',
+        )
+
+    fig.update_layout(
+        title=title,
+        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
+        font={'size': PlotConfig.FONT_SIZE},
     )
 
     return fig
 
 
-def _generate_scatter_plot(all_data, columns):
-    """Generate a scatter plot for column pair plot.
+def hist_1d(data, title=None, label=None):
+    """Plot the 1 dimensional data.
 
     Args:
-        all_data (pandas.DataFrame):
-            The real and synthetic data for the desired column pair containing a
-            ``Data`` column that indicates whether is real or synthetic.
+        data (array_like structure):
+            The table data.
+        title (str):
+            The title of the plot.
+        label (str):
+            The label of the plot.
+
+    Returns:
+        plotly.graph_objects._figure.Figure
+    """
+    return _generate_1d_plot(
+        data=[data],
+        title=title,
+        labels=[label or 'Data'],
+        colors=[PlotConfig.DATACEBO_DARK]
+    )
+
+
+def compare_1d(real, synth):
+    """Plot the comparison between real and synthetic data.
+
+    Args:
+        real (array_like):
+            The real data.
+        synth (array_like):
+            The synthetic data.
+
+    Returns:
+        plotly.graph_objects._figure.Figure
+    """
+    return _generate_1d_plot(
+        data=[real, synth],
+        title='Real vs Synthetic Data',
+        labels=['Real', 'Synthetic'],
+        colors=[PlotConfig.DATACEBO_DARK, PlotConfig.DATACEBO_GREEN]
+    )
+
+
+def _generate_scatter_2d_plot(data, columns, color_discrete_map):
+    """Generate a scatter plot for a pair of columns
+
+    Args:
+        data (pandas.DataFrame):
+            The real and/or synthetic data for the desired column pair containing a
+            ``Data`` column that indicates whether is real and/or synthetic.
         columns (list):
             A list of the columns being plotted.
 
     Returns:
         plotly.graph_objects._figure.Figure
     """
+    if columns:
+        columns.append('Data')
+    else:
+        columns = data.columns
+
+    if len(columns) != 3:  # includes the 'Data' column
+        raise ValueError('Only 2 columns can be plotted')
+
     fig = px.scatter(
-        all_data,
+        data,
         x=columns[0],
         y=columns[1],
         color='Data',
-        color_discrete_map={
-            'Real': PlotConfig.DATACEBO_DARK,
-            'Synthetic': PlotConfig.DATACEBO_GREEN
-        },
+        color_discrete_map=color_discrete_map,
         symbol='Data'
     )
 
@@ -84,149 +119,6 @@ def _generate_scatter_plot(all_data, columns):
     )
 
     return fig
-
-
-def _generate_scatter_3d_plot(all_data, columns):
-    """Generate a scatter plot for column pair plot.
-
-    Args:
-        all_data (pandas.DataFrame):
-            The real and synthetic data for the desired column pair containing a
-            ``Data`` column that indicates whether is real or synthetic.
-        columns (list):
-            A list of the columns being plotted.
-
-    Returns:
-        plotly.graph_objects._figure.Figure
-    """
-    fig = px.scatter_3d(
-        all_data,
-        x=columns[0],
-        y=columns[1],
-        z=columns[2],
-        color='Data',
-        color_discrete_map={
-            'Real': PlotConfig.DATACEBO_DARK,
-            'Synthetic': PlotConfig.DATACEBO_GREEN
-        },
-        symbol='Data'
-    )
-
-    fig.update_layout(
-        title=f"Real vs. Synthetic Data for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'",
-        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
-        font={'size': PlotConfig.FONT_SIZE},
-    )
-
-    return fig
-
-
-def _generate_column_plot(real_column, synthetic_column):
-    """Generate a plot of the real and synthetic data.
-
-    Args:
-        real_column (pandas.Series):
-            The real data for the desired column.
-        synthetic_column (pandas.Series):
-            The synthetic data for the desired column.
-
-    Returns:
-        plotly.graph_objects._figure.Figure
-    """
-    column_name = real_column.name if hasattr(real_column, 'name') else ''
-
-    real_data = pd.DataFrame({'values': real_column.copy().dropna()})
-    real_data['Data'] = 'Real'
-    synthetic_data = pd.DataFrame({'values': synthetic_column.copy().dropna()})
-    synthetic_data['Data'] = 'Synthetic'
-
-    is_datetime_sdtype = False
-    if is_datetime64_dtype(real_column.dtype):
-        is_datetime_sdtype = True
-        real_data['values'] = real_data['values'].astype('int64')
-        synthetic_data['values'] = synthetic_data['values'].astype('int64')
-
-    trace_args = {}
-
-    fig = _generate_column_bar_plot(real_data, synthetic_data)
-
-    for i, name in enumerate(['Real', 'Synthetic']):
-        fig.update_traces(
-            x=pd.to_datetime(fig.data[i].x) if is_datetime_sdtype else fig.data[i].x,
-            hovertemplate=f'<b>{name}</b><br>Frequency: %{{y}}<extra></extra>',
-            selector={'name': name},
-            **trace_args
-        )
-
-    plot_title = f"Real vs. Synthetic Data for column '{column_name}'"
-    fig.update_layout(
-        title=plot_title,
-        xaxis_title='Category',
-        yaxis_title='Frequency',
-        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
-        annotations=[],
-        font={'size': PlotConfig.FONT_SIZE},
-    )
-    return fig
-
-
-def hist_1d(data, title=None, bins=20, label=None):
-    """Plot 1 dimensional data in a histogram.
-
-    Args:
-        data (pd.DataFrame):
-            The table data.
-        title (str):
-            The title of the plot.
-        bins (int):
-            The number of bins to use for the histogram.
-        label (str):
-            The label of the plot.
-
-    Returns:
-        plotly.graph_objects._figure.Figure
-    """
-    if not isinstance(data, pd.DataFrame):
-        data = pd.DataFrame(data)
-    if len(data.columns) > 1:
-        raise ValueError('Only 1 column can be plotted')
-
-    fig = px.histogram(
-        data_frame=data,
-        barmode='group',
-        color_discrete_sequence=[PlotConfig.DATACEBO_DARK],
-        histnorm='probability density',
-        title=title,
-        nbins=bins,
-    )
-    fig.update_layout(
-        xaxis_title='',
-        yaxis_title='',
-        legend_title=label,
-        showlegend=True if label else False
-    )
-
-    return fig
-
-
-def compare_1d(real, synth):
-    """Return a plot of the real and synthetic data for a given column.
-
-    Args:
-        real (pandas.DataFrame):
-            The real table data.
-        synth (pandas.DataFrame):
-            The synthetic table data.
-
-    Returns:
-        plotly.graph_objects._figure.Figure
-    """
-    if not isinstance(real, pd.Series):
-        real = pd.Series(real)
-    if not isinstance(synth, pd.Series):
-        synth = pd.Series(synth)
-
-    return _generate_column_plot(real, synth)
 
 
 def scatter_2d(data, columns=None):
@@ -241,18 +133,18 @@ def scatter_2d(data, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
-    columns = columns or data.columns
-    if len(columns) != 2:
-        raise ValueError('Only 2 columns can be plotted')
-
-    data = data[columns]
+    data = data.copy()
     data['Data'] = 'Real'
 
-    return _generate_scatter_plot(data, columns)
+    return _generate_scatter_2d_plot(
+        data=data,
+        columns=columns,
+        color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
+    )
 
 
 def compare_2d(real, synth, columns=None):
-    """Return a plot of the real and synthetic data for a given column pair.
+    """Plot the comparison between real and synthetic data for a given column pair.
 
     Args:
         real (pandas.DataFrame):
@@ -265,21 +157,63 @@ def compare_2d(real, synth, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
-    columns = columns or real.columns
-    if len(columns) != 2:
-        raise ValueError('Only 2 columns can be plotted')
+    real, synth = real.copy(), synth.copy()
+    real['Data'] = 'Real'
+    synth['Data'] = 'Synthetic'
+    data = pd.concat([real, synth], axis=0, ignore_index=True)
 
-    real_data = real[columns]
-    synthetic_data = synth[columns]
-    real_data['Data'] = 'Real'
-    synthetic_data['Data'] = 'Synthetic'
-    all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
+    return _generate_scatter_2d_plot(
+        data=data,
+        columns=columns,
+        color_discrete_map={
+            'Real': PlotConfig.DATACEBO_DARK,
+            'Synthetic': PlotConfig.DATACEBO_GREEN
+        },
+    )
 
-    return _generate_scatter_plot(all_data, columns)
+
+def _generate_scatter_3d_plot(data, columns, color_discrete_map):
+    """Generate a scatter plot for column pair plot.
+
+    Args:
+        data (pandas.DataFrame):
+            The real and/or synthetic data for the desired column pair containing a
+            ``Data`` column that indicates whether is real or synthetic.
+        columns (list):
+            A list of the columns being plotted.
+
+    Returns:
+        plotly.graph_objects._figure.Figure
+    """
+    if columns:
+        columns.append('Data')
+    else:
+        columns = data.columns
+
+    if len(columns) != 4:  # includes the 'Data' column
+        raise ValueError('Only 3 columns can be plotted')
+
+    fig = px.scatter_3d(
+        data,
+        x=columns[0],
+        y=columns[1],
+        z=columns[2],
+        color='Data',
+        color_discrete_map=color_discrete_map,
+        symbol='Data'
+    )
+
+    fig.update_layout(
+        title=f"Real vs. Synthetic Data for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'",
+        plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
+        font={'size': PlotConfig.FONT_SIZE},
+    )
+
+    return fig
 
 
 def scatter_3d(data, columns=None):
-    """Return a 3D scatter plot of the data.
+    """Plot 2 dimensional data in a scatter plot.
 
     Args:
         data (pandas.DataFrame):
@@ -291,18 +225,18 @@ def scatter_3d(data, columns=None):
     Returns:
         plotly.graph_objects._figure.Figure
     """
-    columns = columns or data.columns
-    if len(columns) != 3:
-        raise ValueError('Only 3 columns can be plotted')
-
-    data = data[columns]
+    data = data.copy()
     data['Data'] = 'Real'
 
-    return _generate_scatter_3d_plot(data, columns)
+    return _generate_scatter_3d_plot(
+        data=data,
+        columns=columns,
+        color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
+    )
 
 
 def compare_3d(real, synth, columns=None):
-    """Generate a 3d scatter plot comparing real/synthetic data.
+    """Plot the comparison between real and synthetic data for a given column triplet.
 
     Args:
         real (pd.DataFrame):
@@ -312,14 +246,16 @@ def compare_3d(real, synth, columns=None):
         columns (list):
             The name of the columns to plot.
     """
-    columns = columns or real.columns
-    if len(columns) != 3:
-        raise ValueError('Only 3 columns can be plotted')
+    real, synth = real.copy(), synth.copy()
+    real['Data'] = 'Real'
+    synth['Data'] = 'Synthetic'
+    data = pd.concat([real, synth], axis=0, ignore_index=True)
 
-    real_data = real[columns]
-    synthetic_data = synth[columns]
-    real_data['Data'] = 'Real'
-    synthetic_data['Data'] = 'Synthetic'
-    all_data = pd.concat([real_data, synthetic_data], axis=0, ignore_index=True)
-
-    return _generate_scatter_3d_plot(all_data, columns)
+    return _generate_scatter_3d_plot(
+        data=data,
+        columns=columns,
+        color_discrete_map={
+            'Real': PlotConfig.DATACEBO_DARK,
+            'Synthetic': PlotConfig.DATACEBO_GREEN
+        },
+    )
