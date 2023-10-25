@@ -17,9 +17,9 @@ install_requires = [
     "pandas>=1.1.3;python_version<'3.10'",
     "pandas>=1.3.4;python_version>='3.10' and python_version<'3.11'",
     "pandas>=1.5.0;python_version>='3.11'",
+    'plotly>=5.10.0,<6',
     "scipy>=1.5.4,<2;python_version<'3.10'",
     "scipy>=1.9.2,<2;python_version>='3.10'",
-    'plotly>=5.10.0,<6',
 ]
 
 development_requires = [
