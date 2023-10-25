@@ -50,12 +50,13 @@ def _generate_1d_plot(data, title, labels, colors):
         title=title,
         plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
         font={'size': PlotConfig.FONT_SIZE},
+        showlegend=True if labels[0] else False,
     )
 
     return fig
 
 
-def hist_1d(data, title=None, label=None):
+def dist_1d(data, title=None, label=None):
     """Plot the 1 dimensional data.
 
     Args:
@@ -72,7 +73,7 @@ def hist_1d(data, title=None, label=None):
     return _generate_1d_plot(
         data=[data],
         title=title,
-        labels=[label or 'Data'],
+        labels=[label],
         colors=[PlotConfig.DATACEBO_DARK]
     )
 
@@ -138,6 +139,7 @@ def _generate_scatter_2d_plot(data, columns, color_discrete_map, title):
         title=title,
         plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
         font={'size': PlotConfig.FONT_SIZE},
+        showlegend=False if len(color_discrete_map) == 1 else True,
     )
 
     return fig
@@ -233,13 +235,16 @@ def _generate_scatter_3d_plot(data, columns, color_discrete_map, title):
         z=columns[2],
         color='Data',
         color_discrete_map=color_discrete_map,
-        symbol='Data'
+        symbol='Data',
     )
+
+    fig.update_traces(marker={'size': 5})
 
     fig.update_layout(
         title=title,
         plot_bgcolor=PlotConfig.BACKGROUND_COLOR,
         font={'size': PlotConfig.FONT_SIZE},
+        showlegend=False if len(color_discrete_map) == 1 else True,
     )
 
     return fig
