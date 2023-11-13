@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization module &mdash; Copulas 0.9.2 documentation</title>
+  <title>copulas.visualization module &mdash; Copulas 0.10.0 documentation</title>
   
 
   
@@ -290,82 +290,136 @@
 <div class="section" id="module-copulas.visualization">
 <span id="copulas-visualization-module"></span><h1>copulas.visualization module<a class="headerlink" href="#module-copulas.visualization" title="Permalink to this headline">¶</a></h1>
 <p>Visualization utilities for the Copulas library.</p>
+<dl class="class">
+<dt id="copulas.visualization.PlotConfig">
+<em class="property">class </em><code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">PlotConfig</code><a class="reference internal" href="../_modules/copulas/visualization.html#PlotConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.PlotConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Custom plot settings for visualizations.</p>
+<dl class="attribute">
+<dt id="copulas.visualization.PlotConfig.BACKGROUND_COLOR">
+<code class="sig-name descname">BACKGROUND_COLOR</code><em class="property"> = '#F5F5F8'</em><a class="headerlink" href="#copulas.visualization.PlotConfig.BACKGROUND_COLOR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.visualization.PlotConfig.DATACEBO_DARK">
+<code class="sig-name descname">DATACEBO_DARK</code><em class="property"> = '#000036'</em><a class="headerlink" href="#copulas.visualization.PlotConfig.DATACEBO_DARK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.visualization.PlotConfig.DATACEBO_GREEN">
+<code class="sig-name descname">DATACEBO_GREEN</code><em class="property"> = '#01E0C9'</em><a class="headerlink" href="#copulas.visualization.PlotConfig.DATACEBO_GREEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="copulas.visualization.PlotConfig.FONT_SIZE">
+<code class="sig-name descname">FONT_SIZE</code><em class="property"> = 18</em><a class="headerlink" href="#copulas.visualization.PlotConfig.FONT_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="copulas.visualization.compare_1d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_1d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_1d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a 1d scatter plot comparing real/synthetic data.</p>
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_1d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the comparison between real and synthetic data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
-<li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
-<li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
-<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+<li><p><strong>real</strong> (<em>array_like</em>) – The real data.</p></li>
+<li><p><strong>synth</strong> (<em>array_like</em>) – The synthetic data.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>plotly.graph_objects._figure.Figure</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.compare_2d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_2d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a 2d scatter plot comparing real/synthetic data.</p>
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_2d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the comparison between real and synthetic data for a given column pair.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
-<li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
-<li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
-<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+<li><p><strong>real</strong> (<em>pandas.DataFrame</em>) – The real table data.</p></li>
+<li><p><strong>synth</strong> (<em>pandas.Dataframe</em>) – The synthetic table data.</p></li>
+<li><p><strong>columns</strong> (<em>list</em><em>[</em><em>string</em><em>]</em>) – The names of the two columns to plot.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>plotly.graph_objects._figure.Figure</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.compare_3d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_3d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">figsize=(10</em>, <em class="sig-param">4)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a 3d scatter plot comparing real/synthetic data.</p>
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">compare_3d</code><span class="sig-paren">(</span><em class="sig-param">real</em>, <em class="sig-param">synth</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#compare_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.compare_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the comparison between real and synthetic data for a given column triplet.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>real</strong> (<em>pd.DataFrame</em>) – The real data.</p></li>
 <li><p><strong>synth</strong> (<em>pd.DataFrame</em>) – The synthetic data.</p></li>
 <li><p><strong>columns</strong> (<em>list</em>) – The name of the columns to plot.</p></li>
-<li><p><strong>figsize</strong> – Figure size, passed to matplotlib.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="copulas.visualization.hist_1d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">hist_1d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em>, <em class="sig-param">bins=20</em>, <em class="sig-param">label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#hist_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.hist_1d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot 1 dimensional data in a histogram.</p>
+<dt id="copulas.visualization.dist_1d">
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">dist_1d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">title=None</em>, <em class="sig-param">label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#dist_1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.dist_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the 1 dimensional data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array_like structure</em>) – The table data.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – The label of the plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>plotly.graph_objects._figure.Figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.scatter_2d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_2d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_2d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot 2 dimensional data in a scatter plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas.DataFrame</em>) – The table data.</p></li>
+<li><p><strong>columns</strong> (<em>list</em><em>[</em><em>string</em><em>]</em>) – The names of the two columns to plot.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>plotly.graph_objects._figure.Figure</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="copulas.visualization.scatter_3d">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_3d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">fig=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">position=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_3d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">scatter_3d</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.scatter_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot 3 dimensional data in a scatter plot.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="copulas.visualization.side_by_side">
-<code class="sig-prename descclassname">copulas.visualization.</code><code class="sig-name descname">side_by_side</code><span class="sig-paren">(</span><em class="sig-param">plotting_func</em>, <em class="sig-param">arrays</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/visualization.html#side_by_side"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.visualization.side_by_side" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot side-by-side figures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>plotting_func</strong> (<em>callable</em>) – A matplotlib function which takes in the standard plot kwargs.</p></li>
-<li><p><strong>arrays</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em>) – A mapping from the name of the subplot to the values.</p></li>
+<li><p><strong>data</strong> (<em>pandas.DataFrame</em>) – The table data. Must have at least 3 columns.</p></li>
+<li><p><strong>columns</strong> (<em>list</em><em>[</em><em>string</em><em>]</em>) – The names of the three columns to plot.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the plot.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>plotly.graph_objects._figure.Figure</p>
 </dd>
 </dl>
 </dd></dl>

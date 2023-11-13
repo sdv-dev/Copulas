@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization &mdash; Copulas 0.9.2 documentation</title>
+  <title>copulas.visualization &mdash; Copulas 0.10.0 documentation</title>
   
 
   
@@ -261,95 +261,320 @@
 <span></span><span class="sd">&quot;&quot;&quot;Visualization utilities for the Copulas library.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="k">if</span> <span class="s1">&#39;Python is not installed as a framework.&#39;</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">matplotlib</span>
-        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;PS&#39;</span><span class="p">)</span>   <span class="c1"># Avoid crash on macos</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.figure_factory</span> <span class="k">as</span> <span class="nn">ff</span>
 
 
-<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 3 dimensional data in a scatter plot.&quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">fig</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="ow">or</span> <span class="mi">111</span>
+<div class="viewcode-block" id="PlotConfig"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.PlotConfig">[docs]</a><span class="k">class</span> <span class="nc">PlotConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom plot settings for visualizations.&quot;&quot;&quot;</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="p">(</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
-    <span class="p">))</span>
-    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">ax</span></div>
+    <span class="n">DATACEBO_DARK</span> <span class="o">=</span> <span class="s1">&#39;#000036&#39;</span>
+    <span class="n">DATACEBO_GREEN</span> <span class="o">=</span> <span class="s1">&#39;#01E0C9&#39;</span>
+    <span class="n">BACKGROUND_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#F5F5F8&#39;</span>
+    <span class="n">FONT_SIZE</span> <span class="o">=</span> <span class="mi">18</span></div>
 
 
-<div class="viewcode-block" id="scatter_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_2d">[docs]</a><span class="k">def</span> <span class="nf">scatter_2d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 2 dimensional data in a scatter plot.&quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">fig</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="ow">or</span> <span class="mi">111</span>
+<span class="k">def</span> <span class="nf">_generate_1d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a density plot of an array-like structure.</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-    <span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+<span class="sd">    Args:</span>
+<span class="sd">        data (array-like structure):</span>
+<span class="sd">            The data to plot.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+<span class="sd">        labels (list[str]):</span>
+<span class="sd">            The labels of the data.</span>
+<span class="sd">        colors (list[str]):</span>
+<span class="sd">            The colors of the data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">create_distplot</span><span class="p">(</span>
+        <span class="n">hist_data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">group_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="n">show_hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_rug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&lt;b&gt;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&lt;/b&gt;&lt;br&gt;Frequency: %</span><span class="se">{{</span><span class="s1">y</span><span class="se">}}</span><span class="s1">&lt;extra&gt;&lt;/extra&gt;&#39;</span><span class="p">,</span>
+            <span class="n">selector</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
+            <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;tozeroy&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span>
+
+
+<div class="viewcode-block" id="dist_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.dist_1d">[docs]</a><span class="k">def</span> <span class="nf">dist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 1 dimensional data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (array_like structure):</span>
+<span class="sd">            The table data.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+<span class="sd">        label (str):</span>
+<span class="sd">            The label of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="n">_generate_1d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+        <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="compare_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_1d">[docs]</a><span class="k">def</span> <span class="nf">compare_1d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        real (array_like):</span>
+<span class="sd">            The real data.</span>
+<span class="sd">        synth (array_like):</span>
+<span class="sd">            The synthetic data.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="n">real</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="n">_generate_1d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Real&#39;</span><span class="p">,</span> <span class="s1">&#39;Synthetic&#39;</span><span class="p">],</span>
+        <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_generate_scatter_2d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for a pair of columns.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (pandas.DataFrame):</span>
+<span class="sd">            The data for the desired column pair containing a</span>
+<span class="sd">            ``Data`` column indicating whether it is real or synthetic.</span>
+<span class="sd">        columns (list):</span>
+<span class="sd">            A list of the columns being plotted.</span>
+<span class="sd">        color_discrete_map (dict):</span>
+<span class="sd">            A dictionary mapping the values of the ``Data`` column to the colors</span>
+<span class="sd">            used to plot them.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># includes the &#39;Data&#39; column</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 2 columns can be plotted&#39;</span><span class="p">)</span>
 
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">columns</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="n">color_discrete_map</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span>
+    <span class="p">)</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">color_discrete_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">ax</span></div>
-
-
-<div class="viewcode-block" id="hist_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.hist_1d">[docs]</a><span class="k">def</span> <span class="nf">hist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 1 dimensional data in a histogram.&quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">fig</span> <span class="ow">or</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="ow">or</span> <span class="mi">111</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="n">ax</span></div>
+    <span class="k">return</span> <span class="n">fig</span>
 
 
-<div class="viewcode-block" id="side_by_side"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.side_by_side">[docs]</a><span class="k">def</span> <span class="nf">side_by_side</span><span class="p">(</span><span class="n">plotting_func</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot side-by-side figures.</span>
+<div class="viewcode-block" id="scatter_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_2d">[docs]</a><span class="k">def</span> <span class="nf">scatter_2d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 2 dimensional data in a scatter plot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        plotting_func (callable):</span>
-<span class="sd">            A matplotlib function which takes in the standard plot kwargs.</span>
-<span class="sd">        arrays (dict[str, np.ndarray]):</span>
-<span class="sd">            A mapping from the name of the subplot to the values.</span>
+<span class="sd">        data (pandas.DataFrame):</span>
+<span class="sd">            The table data.</span>
+<span class="sd">        columns (list[string]):</span>
+<span class="sd">            The names of the two columns to plot.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
 
-    <span class="n">position_base</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;1</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">array</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arrays</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-        <span class="n">position</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">position_base</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">plotting_func</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">_generate_scatter_2d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+    <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compare_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_3d">[docs]</a><span class="k">def</span> <span class="nf">compare_3d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a 3d scatter plot comparing real/synthetic data.</span>
+<div class="viewcode-block" id="compare_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_2d">[docs]</a><span class="k">def</span> <span class="nf">compare_2d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column pair.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        real (pandas.DataFrame):</span>
+<span class="sd">            The real table data.</span>
+<span class="sd">        synth (pandas.Dataframe):</span>
+<span class="sd">            The synthetic table data.</span>
+<span class="sd">        columns (list[string]):</span>
+<span class="sd">            The names of the two columns to plot.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">real</span><span class="p">,</span> <span class="n">synth</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">synth</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">real</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
+    <span class="n">synth</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Synthetic&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="n">_generate_scatter_2d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
+            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span>
+        <span class="p">},</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+    <span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_generate_scatter_3d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for column pair plot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (pandas.DataFrame):</span>
+<span class="sd">            The data for the desired three columns containing a</span>
+<span class="sd">            ``Data`` column that indicates whether it is real or synthetic.</span>
+<span class="sd">        columns (list):</span>
+<span class="sd">            A list of the columns being plotted.</span>
+<span class="sd">        color_discrete_map (dict):</span>
+<span class="sd">            A dictionary mapping the values of the ``Data`` column to the colors</span>
+<span class="sd">            used to plot them.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># includes the &#39;Data&#39; column</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 3 columns can be plotted&#39;</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter_3d</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="n">color_discrete_map</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">color_discrete_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span>
+
+
+<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 3 dimensional data in a scatter plot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (pandas.DataFrame):</span>
+<span class="sd">            The table data. Must have at least 3 columns.</span>
+<span class="sd">        columns (list[string]):</span>
+<span class="sd">            The names of the three columns to plot.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        plotly.graph_objects._figure.Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> \
+                <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="compare_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_3d">[docs]</a><span class="k">def</span> <span class="nf">compare_3d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column triplet.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        real (pd.DataFrame):</span>
@@ -358,70 +583,31 @@
 <span class="sd">            The synthetic data.</span>
 <span class="sd">        columns (list):</span>
 <span class="sd">            The name of the columns to plot.</span>
-<span class="sd">        figsize:</span>
-<span class="sd">            Figure size, passed to matplotlib.</span>
+<span class="sd">        title (str):</span>
+<span class="sd">            The title of the plot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">real</span><span class="o">.</span><span class="n">columns</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">real</span><span class="p">,</span> <span class="n">synth</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">synth</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">real</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
+    <span class="n">synth</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Synthetic&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">scatter_3d</span><span class="p">(</span><span class="n">real</span><span class="p">[</span><span class="n">columns</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">121</span><span class="p">)</span>
-    <span class="n">scatter_3d</span><span class="p">(</span><span class="n">synth</span><span class="p">[</span><span class="n">columns</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Synthetic Data&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">122</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">+=</span> \
+                <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="compare_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_2d">[docs]</a><span class="k">def</span> <span class="nf">compare_2d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a 2d scatter plot comparing real/synthetic data.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        real (pd.DataFrame):</span>
-<span class="sd">            The real data.</span>
-<span class="sd">        synth (pd.DataFrame):</span>
-<span class="sd">            The synthetic data.</span>
-<span class="sd">        columns (list):</span>
-<span class="sd">            The name of the columns to plot.</span>
-<span class="sd">        figsize:</span>
-<span class="sd">            Figure size, passed to matplotlib.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">real</span><span class="o">.</span><span class="n">columns</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">synth</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Real&#39;</span><span class="p">,</span> <span class="s1">&#39;Synthetic&#39;</span><span class="p">])</span></div>
-
-
-<div class="viewcode-block" id="compare_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_1d">[docs]</a><span class="k">def</span> <span class="nf">compare_1d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a 1d scatter plot comparing real/synthetic data.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        real (pd.DataFrame):</span>
-<span class="sd">            The real data.</span>
-<span class="sd">        synth (pd.DataFrame):</span>
-<span class="sd">            The synthetic data.</span>
-<span class="sd">        columns (list):</span>
-<span class="sd">            The name of the columns to plot.</span>
-<span class="sd">        figsize:</span>
-<span class="sd">            Figure size, passed to matplotlib.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">real</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="n">real</span><span class="p">})</span>
-        <span class="n">synth</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="n">synth</span><span class="p">})</span>
-
-    <span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">real</span><span class="o">.</span><span class="n">columns</span>
-
-    <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
-    <span class="n">fig_cols</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">)</span>
-    <span class="n">fig_rows</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_cols</span> <span class="o">//</span> <span class="n">fig_cols</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fig_rows</span><span class="si">}{</span><span class="n">fig_cols</span><span class="si">}</span><span class="s1">&#39;</span>
-
-    <span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">fig_cols</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">fig_rows</span><span class="p">)</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
-        <span class="n">position</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">hist_1d</span><span class="p">(</span><span class="n">real</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">column</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real&#39;</span><span class="p">)</span>
-        <span class="n">hist_1d</span><span class="p">(</span><span class="n">synth</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">column</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Synthetic&#39;</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
+            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span>
+        <span class="p">},</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+    <span class="p">)</span></div>
 </pre></div>
 
            </div>
