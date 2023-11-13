@@ -1,5 +1,13 @@
 # History
 
+## v0.10.0 - 2023-11-13
+
+This release updates all visualizations to use plotly, and removes the matplotlib dependency.
+
+### New Features
+
+*  Move visualization functions to plotly and get rid of matplotlib dependency - Issue [#348](https://github.com/sdv-dev/Copulas/issues/348) by @fealho
+
 ## v0.9.2 - 2023-10-12
 
 This release removes a warning that was being raised when univariate distributions failed to fit and logs the message instead.
