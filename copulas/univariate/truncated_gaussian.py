@@ -1,5 +1,7 @@
 """TruncatedGaussian module."""
 
+import warnings
+
 import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
@@ -47,10 +49,12 @@ class TruncatedGaussian(ScipyModel):
             return truncnorm.nnlf((a, b, loc, scale), X)
 
         initial_params = X.mean(), X.std()
-        optimal = fmin_slsqp(nnlf, initial_params, iprint=False, bounds=[
-            (self.min, self.max),
-            (0.0, (self.max - self.min)**2)
-        ])
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', category=RuntimeWarning)
+            optimal = fmin_slsqp(nnlf, initial_params, iprint=False, bounds=[
+                (self.min, self.max),
+                (0.0, (self.max - self.min)**2)
+            ])
 
         loc, scale = optimal
         a = (self.min - loc) / scale
