@@ -158,13 +158,6 @@ values = [
 	'release'
 ]
 
-[tool.bumpversion.parts.candidate]
-
-[[tool.bumpversion.files]]
-filename = 'pyproject.toml'
-search = 'current_version = "{current_version}"'
-replace = 'current_version = "{new_version}"'
-
 [[tool.bumpversion.files]]
 filename = 'copulas/__init__.py'
 search = "__version__ = '{current_version}'"
