@@ -196,23 +196,23 @@ git-push-tags-stable: ## Push tags and stable to github
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Bump the version to the next release
-	bumpversion release
+	bump-my-version bump release
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Bump the version to the next patch
-	bumpversion --no-tag patch
+	bump-my-version bump patch --no-tag
 
 .PHONY: bumpversion-candidate
 bumpversion-candidate: ## Bump the version to the next candidate
-	bumpversion candidate --no-tag
+	bump-my-version bump candidate --no-tag
 
 .PHONY: bumpversion-minor
 bumpversion-minor: ## Bump the version the next minor skipping the release
-	bumpversion --no-tag minor
+	bump-my-version bump minor --no-tag
 
 .PHONY: bumpversion-major
 bumpversion-major: ## Bump the version the next major skipping the release
-	bumpversion --no-tag major
+	bump-my-version bump major --no-tag
 
 .PHONY: bumpversion-revert
 bumpversion-revert: ## Undo a previous bumpversion-release

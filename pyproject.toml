@@ -15,7 +15,7 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Artificial Intelligence',
 ]
 keywords = [ 'copulas' ]
-version = '0.10.1.dev0'
+dynamic = ["version"]
 license = { text = 'BSL-1.1' }
 requires-python = '>=3.8,<3.12'
 readme = 'README.md'
@@ -41,6 +41,9 @@ dependencies = [
 requires = ['setuptools', 'wheel']
 build-backend = 'setuptools.build_meta'
 
+[tool.setuptools.dynamic]
+version = {attr = 'copulas.__version__'}
+
 [project.optional-dependencies]
 tutorials = [
     'markupsafe<=2.0.1',
@@ -60,7 +63,7 @@ dev = [
 
     # general
     'pip>=9.0.1',
-    'bumpversion>=0.5.3,<0.6',
+    'bump-my-version>=0.18.3,<1',
     'watchdog>=0.8.3,<0.11',
 
     # docs
@@ -136,3 +139,33 @@ include-package-data = true
 [tool.setuptools.packages.find]
 include = ['copulas', 'copulas.*']
 namespaces = false
+
+[tool.bumpversion]
+current_version = "0.10.1.dev0"
+commit = true
+tag = true
+parse = '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<release>[a-z]+)(?P<candidate>\d+))?'
+serialize = [
+	'{major}.{minor}.{patch}.{release}{candidate}',
+	'{major}.{minor}.{patch}'
+]
+
+[tool.bumpversion.parts.release]
+optional_value = 'release'
+values = [
+	'dev',
+	'release'
+]
+
+[tool.bumpversion.parts.candidate]
+
+[[tool.bumpversion.files]]
+filename = 'pyproject.toml'
+search = 'current_version = "{current_version}"'
+replace = 'current_version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = 'copulas/__init__.py'
+search = "__version__ = '{current_version}'"
+replace = "__version__ = '{new_version}'"
+
