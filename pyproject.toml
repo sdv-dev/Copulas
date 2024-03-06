@@ -141,6 +141,30 @@ license-files = ['LICENSE']
 include = ['copulas', 'copulas.*']
 namespaces = false
 
+[tool.setuptools.package-data]
+'*' = [
+    'AUTHORS.rst',
+    'CONTRIBUTING.rst',
+    'HISTORY.md',
+    'README.md',
+    'RELEASE.md',
+    '*.md',
+    '*.rst',
+    'conf.py',
+    'Makefile',
+    'make.bat',
+    '*.jpg',
+    '*.png',
+    '*.gif'
+]
+'tests' = ['*']
+
+[tool.setuptools.exclude-package-data]
+'*' = [
+    '* __pycache__',
+    '*.py[co]',
+]
+
 [tool.bumpversion]
 current_version = "0.10.1.dev0"
 commit = true
