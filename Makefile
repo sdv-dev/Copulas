@@ -222,7 +222,7 @@ bumpversion-revert: ## Undo a previous bumpversion-release
 
 CLEAN_DIR := $(shell git status --short | grep -v ??)
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
-CURRENT_VERSION := $(shell grep "^current_version" setup.cfg | grep -o "dev[0-9]*")
+CURRENT_VERSION := $(shell grep "^current_version" pyproject.toml | grep -o "dev[0-9]*")
 CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-clean
