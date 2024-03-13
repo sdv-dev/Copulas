@@ -2,6 +2,8 @@
 
 ## v0.10.1 - 2024-03-13
 
+This release fixes a bug that occurred when calculating probability density in a gaussian copula.
+
 ### Bugs Fixed
 
 * Warning printed too many times (`RuntimeWarning: invalid value encountered in scalar divide  ....`) - Issue [#364](https://github.com/sdv-dev/Copulas/issues/364) by @frances-h
