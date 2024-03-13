@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._continuous_distns &mdash; Copulas 0.10.0 documentation</title>
+  <title>scipy.stats._continuous_distns &mdash; Copulas 0.10.2.dev0 documentation</title>
   
 
   
@@ -859,9 +859,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distr</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;Invalid values in `data`.  Maximum likelihood &quot;</span>
-            <span class="s2">&quot;estimation with </span><span class="si">{distr!r}</span><span class="s2"> requires that </span><span class="si">{lower!r}</span><span class="s2"> &lt; &quot;</span>
-            <span class="s2">&quot;(x - loc)/scale  &lt; </span><span class="si">{upper!r}</span><span class="s2"> for each x in `data`.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">distr</span><span class="o">=</span><span class="n">distr</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">upper</span><span class="p">),</span>
+            <span class="sa">f</span><span class="s2">&quot;estimation with </span><span class="si">{</span><span class="n">distr</span><span class="si">!r}</span><span class="s2"> requires that </span><span class="si">{</span><span class="n">lower</span><span class="si">!r}</span><span class="s2"> &lt; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(x - loc)/scale  &lt; </span><span class="si">{</span><span class="n">upper</span><span class="si">!r}</span><span class="s2"> for each x in `data`.&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
 
@@ -1090,8 +1089,49 @@
         <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span>
 
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">betaln</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span>
-                <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+        <span class="k">def</span> <span class="nf">regular</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">betaln</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span>
+                    <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">asymptotic_ab_large</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="n">sum_ab</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+            <span class="n">log_term</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sum_ab</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">)</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="mi">110</span><span class="o">/</span><span class="n">sum_ab</span> <span class="o">+</span> <span class="mi">20</span><span class="o">*</span><span class="n">sum_ab</span><span class="o">**-</span><span class="mf">2.0</span> <span class="o">+</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">3.0</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">sum_ab</span><span class="o">**-</span><span class="mf">4.0</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="o">/</span><span class="n">a</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">a</span><span class="o">**-</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">a</span><span class="o">**-</span><span class="mf">3.0</span> <span class="o">+</span> <span class="n">a</span><span class="o">**-</span><span class="mf">4.0</span>
+            <span class="n">t3</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="o">/</span><span class="n">b</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">b</span><span class="o">**-</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">b</span><span class="o">**-</span><span class="mf">3.0</span> <span class="o">+</span> <span class="n">b</span><span class="o">**-</span><span class="mf">4.0</span>
+            <span class="k">return</span> <span class="n">log_term</span> <span class="o">+</span> <span class="p">(</span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">t3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">120</span>
+
+        <span class="k">def</span> <span class="nf">asymptotic_b_large</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="n">sum_ab</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">psi</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="o">**-</span><span class="mf">2.0</span><span class="o">/</span><span class="mi">12</span> <span class="o">-</span> <span class="n">b</span><span class="o">**-</span><span class="mf">3.0</span><span class="o">/</span><span class="mi">120</span> <span class="o">+</span> <span class="n">b</span><span class="o">**-</span><span class="mf">4.0</span><span class="o">/</span><span class="mi">120</span>
+                <span class="o">+</span> <span class="n">b</span><span class="o">**-</span><span class="mf">5.0</span><span class="o">/</span><span class="mi">252</span> <span class="o">-</span> <span class="n">b</span><span class="o">**-</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">252</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">sum_ab</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">sum_ab</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">2.0</span><span class="o">/</span><span class="mi">6</span> <span class="o">+</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">3.0</span><span class="o">/</span><span class="mi">120</span> <span class="o">-</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">4.0</span><span class="o">/</span><span class="mi">60</span>
+                <span class="o">-</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">5.0</span><span class="o">/</span><span class="mi">252</span> <span class="o">+</span> <span class="n">sum_ab</span><span class="o">**-</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">126</span>
+            <span class="p">)</span>
+            <span class="n">log_term</span> <span class="o">=</span> <span class="n">sum_ab</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sum_ab</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">log_term</span>
+
+        <span class="k">def</span> <span class="nf">threshold_large</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">1000</span>
+
+            <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">digits</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+            <span class="k">return</span> <span class="n">d</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">7</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">4.96e6</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mf">4.96e6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">asymptotic_ab_large</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="mf">4.9e6</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">1e6</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="n">threshold_large</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">asymptotic_b_large</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mf">4.9e6</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mf">1e6</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">threshold_large</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">asymptotic_b_large</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">regular</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 
 
 <span class="n">beta</span> <span class="o">=</span> <span class="n">beta_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;beta&#39;</span><span class="p">)</span>
@@ -1358,6 +1398,10 @@
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">q</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="n">_q</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">xlog1py</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">d</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">_q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="n">nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">c</span>
         <span class="c1"># ek is the kth raw moment, e1 is the mean e2-e1**2 variance etc.</span>
@@ -1368,7 +1412,8 @@
         <span class="n">g1</span> <span class="o">=</span> <span class="n">_lazywhere</span><span class="p">(</span>
             <span class="n">c</span> <span class="o">&gt;</span> <span class="mf">3.0</span><span class="p">,</span>
             <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">mu2_if_c</span><span class="p">),</span>
-            <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">mu2_if_c</span><span class="p">:</span> <span class="p">(</span><span class="n">e3</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">e2</span><span class="o">*</span><span class="n">e1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">e1</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">mu2_if_c</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">),</span>
+            <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">mu2_if_c</span><span class="p">:</span> <span class="p">((</span><span class="n">e3</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">e2</span><span class="o">*</span><span class="n">e1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">e1</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+                                             <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">mu2_if_c</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)),</span>
             <span class="n">fillvalue</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">g2</span> <span class="o">=</span> <span class="n">_lazywhere</span><span class="p">(</span>
             <span class="n">c</span> <span class="o">&gt;</span> <span class="mf">4.0</span><span class="p">,</span>
@@ -1469,8 +1514,12 @@
         <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">d</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">q</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-        <span class="n">nc</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">c</span>
-        <span class="k">return</span> <span class="n">d</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nc</span><span class="p">,</span> <span class="n">d</span> <span class="o">-</span> <span class="n">nc</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">moment_if_exists</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+            <span class="n">nc</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">c</span>
+            <span class="k">return</span> <span class="n">d</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nc</span><span class="p">,</span> <span class="n">d</span> <span class="o">-</span> <span class="n">nc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">),</span> <span class="n">moment_if_exists</span><span class="p">,</span>
+                          <span class="n">fillvalue</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
 
 <span class="n">burr12</span> <span class="o">=</span> <span class="n">burr12_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;burr12&#39;</span><span class="p">)</span>
@@ -1510,6 +1559,10 @@
 
 <span class="sd">    `fisk` is a special case of `burr` or `burr12` with ``d=1``.</span>
 
+<span class="sd">    Suppose ``X`` is a logistic random variable with location ``l``</span>
+<span class="sd">    and scale ``s``. Then ``Y = exp(X)`` is a Fisk (log-logistic)</span>
+<span class="sd">    random variable with ``scale = exp(l)`` and shape ``c = 1/s``.</span>
+
 <span class="sd">    %(after_notes)s</span>
 
 <span class="sd">    %(example)s</span>
@@ -1540,6 +1593,9 @@
 
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">burr</span><span class="o">.</span><span class="n">_ppf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">burr</span><span class="o">.</span><span class="n">_isf</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">burr</span><span class="o">.</span><span class="n">_munp</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -1670,7 +1726,8 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sc</span><span class="o">.</span><span class="n">gammainccinv</span><span class="p">(</span><span class="mf">.5</span><span class="o">*</span><span class="n">df</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">df</span><span class="o">/</span><span class="mf">2.0</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">-</span><span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">df</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
+        <span class="c1"># poch(df/2, 1/2) = gamma(df/2 + 1/2) / gamma(df/2)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">poch</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">df</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
         <span class="n">mu2</span> <span class="o">=</span> <span class="n">df</span> <span class="o">-</span> <span class="n">mu</span><span class="o">*</span><span class="n">mu</span>
         <span class="n">g1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mu</span><span class="o">**</span><span class="mf">3.0</span> <span class="o">+</span> <span class="n">mu</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">df</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
         <span class="n">g2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">df</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">df</span><span class="p">)</span><span class="o">-</span><span class="mi">6</span><span class="o">*</span><span class="n">mu</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">df</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -1833,7 +1890,9 @@
         <span class="k">return</span> <span class="o">-</span><span class="n">scu</span><span class="o">.</span><span class="n">_cosine_invcdf</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">3.0</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.0</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">4</span><span class="o">-</span><span class="mi">90</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">5.0</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mf">6.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">90</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">5.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mi">6</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">k</span>
 
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="mf">1.0</span>
@@ -2134,7 +2193,7 @@
 <span class="sd">    %(after_notes)s</span>
 
 <span class="sd">    An alternative parameterization of this distribution (for example, in</span>
-<span class="sd">    the Wikpedia article [1]_) involves three parameters, :math:`\mu`,</span>
+<span class="sd">    the Wikipedia article [1]_) involves three parameters, :math:`\mu`,</span>
 <span class="sd">    :math:`\lambda` and :math:`\sigma`.</span>
 
 <span class="sd">    In the present parameterization this corresponds to having ``loc`` and</span>
@@ -2484,6 +2543,11 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
+<span class="sd">    The F distribution with :math:`df_1 &gt; 0` and :math:`df_2 &gt; 0` degrees of freedom is</span>
+<span class="sd">    the distribution of the ratio of two independent chi-squared distributions with</span>
+<span class="sd">    :math:`df_1` and :math:`df_2` degrees of freedom, after rescaling by</span>
+<span class="sd">    :math:`df_2 / df_1`.</span>
+<span class="sd">    </span>
 <span class="sd">    The probability density function for `f` is:</span>
 
 <span class="sd">    .. math::</span>
@@ -2492,9 +2556,11 @@
 <span class="sd">                                {(df_2+df_1 x)^{(df_1+df_2)/2}</span>
 <span class="sd">                                 B(df_1/2, df_2/2)}</span>
 
-<span class="sd">    for :math:`x &gt; 0` and parameters :math:`df_1, df_2 &gt; 0` .</span>
+<span class="sd">    for :math:`x &gt; 0`.</span>
 
-<span class="sd">    `f` takes ``dfn`` and ``dfd`` as shape parameters.</span>
+<span class="sd">    `f` accepts shape parameters ``dfn`` and ``dfd`` for :math:`df_1`, the degrees of</span>
+<span class="sd">    freedom of the chi-squared distribution in the numerator, and :math:`df_2`, the</span>
+<span class="sd">    degrees of freedom of the chi-squared distribution in the denominator, respectively.</span>
 
 <span class="sd">    %(after_notes)s</span>
 
@@ -2679,6 +2745,10 @@
 <span class="sd">    ``numpy.random.weibull``).  Special shape values are :math:`c=1` and</span>
 <span class="sd">    :math:`c=2` where Weibull distribution reduces to the `expon` and</span>
 <span class="sd">    `rayleigh` distributions respectively.</span>
+
+<span class="sd">    Suppose ``X`` is an exponentially distributed random variable with</span>
+<span class="sd">    scale ``s``. Then ``Y = X**k`` is `weibull_min` distributed with shape</span>
+<span class="sd">    ``c = 1/k`` and scale ``s**k``.</span>
 
 <span class="sd">    %(after_notes)s</span>
 
@@ -3008,11 +3078,21 @@
 <span class="sd">        f(x, c) = c \frac{\exp(-x)}</span>
 <span class="sd">                         {(1 + \exp(-x))^{c+1}}</span>
 
-<span class="sd">    for real :math:`x` and :math:`c &gt; 0`.</span>
+<span class="sd">    for real :math:`x` and :math:`c &gt; 0`. In literature, different</span>
+<span class="sd">    generalizations of the logistic distribution can be found. This is the type 1</span>
+<span class="sd">    generalized logistic distribution according to [1]_. It is also referred to</span>
+<span class="sd">    as the skew-logistic distribution [2]_.</span>
 
 <span class="sd">    `genlogistic` takes ``c`` as a shape parameter for :math:`c`.</span>
 
 <span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Johnson et al. &quot;Continuous Univariate Distributions&quot;, Volume 2,</span>
+<span class="sd">           Wiley. 1995.</span>
+<span class="sd">    .. [2] &quot;Generalized Logistic Distribution&quot;, Wikipedia,</span>
+<span class="sd">           https://en.wikipedia.org/wiki/Generalized_logistic_distribution</span>
 
 <span class="sd">    %(example)s</span>
 
@@ -3493,7 +3573,8 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        f(x, \alpha, \beta) = \frac{\beta^\alpha x^{\alpha - 1} e^{-\beta x }}{\Gamma(\alpha)}</span>
+<span class="sd">        f(x, \alpha, \beta) =</span>
+<span class="sd">        \frac{\beta^\alpha x^{\alpha - 1} e^{-\beta x }}{\Gamma(\alpha)}</span>
 
 <span class="sd">    Note that this parameterization is equivalent to the above, with</span>
 <span class="sd">    ``scale = 1 / beta``.</span>
@@ -3672,10 +3753,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">allint</span><span class="p">:</span>
             <span class="c1"># An Erlang distribution shouldn&#39;t really have a non-integer</span>
             <span class="c1"># shape parameter, so warn the user.</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s1">&#39;The shape parameter of the erlang distribution &#39;</span>
-                <span class="s1">&#39;has been given a non-integer value </span><span class="si">{!r}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">),</span>
-                <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;The shape parameter of the erlang distribution &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;has been given a non-integer value </span><span class="si">{</span><span class="n">a</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">_shape_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -4019,7 +4099,7 @@
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">intgrl</span><span class="p">):</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Infinite values encountered in scipy.special.kve. &quot;</span>
                    <span class="s2">&quot;Values replaced by NaN to avoid incorrect results.&quot;</span><span class="p">)</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">intgrl</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -4410,6 +4490,47 @@
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
+    <span class="nd">@_call_super_mom</span>
+    <span class="nd">@inherit_docstring_from</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;superfit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span> <span class="o">=</span> <span class="n">_check_fit_input_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                                         <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># location is independent from the scale</span>
+        <span class="n">data_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data_min</span> <span class="o">&lt;</span> <span class="n">floc</span><span class="p">:</span>
+                <span class="c1"># There are values that are less than the specified loc.</span>
+                <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;halfcauchy&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">floc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">floc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># if not provided, location MLE is the minimal data point</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">data_min</span>
+
+        <span class="c1"># find scale</span>
+        <span class="k">def</span> <span class="nf">find_scale</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+            <span class="n">shifted_data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">loc</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">shifted_data_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">shifted_data</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">fun_to_solve</span><span class="p">(</span><span class="n">scale</span><span class="p">):</span>
+                <span class="n">denominator</span> <span class="o">=</span> <span class="n">scale</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">shifted_data_squared</span>
+                <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">shifted_data_squared</span><span class="o">/</span><span class="n">denominator</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span>
+
+            <span class="n">small</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="o">**</span><span class="mf">0.5</span>  <span class="c1"># avoid underflow</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">fun_to_solve</span><span class="p">,</span> <span class="n">bracket</span><span class="o">=</span><span class="p">(</span><span class="n">small</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">shifted_data</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">root</span>
+
+        <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">fscale</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">find_scale</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
+
 
 <span class="n">halfcauchy</span> <span class="o">=</span> <span class="n">halfcauchy_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;halfcauchy&#39;</span><span class="p">)</span>
 
@@ -4431,6 +4552,11 @@
 <span class="sd">    for :math:`x \ge 0`.</span>
 
 <span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Asgharzadeh et al (2011). &quot;Comparisons of Methods of Estimation for the</span>
+<span class="sd">           Half-Logistic Distribution&quot;. Selcuk J. Appl. Math. 93-108.</span>
 
 <span class="sd">    %(example)s</span>
 
@@ -4473,6 +4599,64 @@
 
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">2</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@_call_super_mom</span>
+    <span class="nd">@inherit_docstring_from</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;superfit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span> <span class="o">=</span> <span class="n">_check_fit_input_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                                         <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">find_scale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+            <span class="c1"># scale is solution to a fix point problem ([1] 2.6)</span>
+            <span class="c1"># use approximate MLE as starting point ([1] 3.1)</span>
+            <span class="n">n_observations</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_observations</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_observations</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span>
+            <span class="n">pp1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">p</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">pp1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">pp1</span> <span class="o">/</span> <span class="n">q</span><span class="p">)</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">q</span> <span class="o">*</span> <span class="n">pp1</span>
+            <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">sorted_data</span> <span class="o">-</span> <span class="n">loc</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">sorted_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">sorted_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="c1"># starting guess</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="p">((</span><span class="n">B</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">B</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">n_observations</span> <span class="o">*</span> <span class="n">C</span><span class="p">))</span>
+                    <span class="o">/</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n_observations</span><span class="p">))</span>
+
+            <span class="c1"># relative tolerance of fix point iterator</span>
+            <span class="n">rtol</span> <span class="o">=</span> <span class="mf">1e-8</span>
+            <span class="n">relative_residual</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">shifted_mean</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>  <span class="c1"># y_mean - y_min</span>
+
+            <span class="c1"># find fix point by repeated application of eq. (2.6)</span>
+            <span class="c1"># simplify as</span>
+            <span class="c1"># exp(-x) / (1 + exp(-x)) = 1 / (1 + exp(x))</span>
+            <span class="c1">#                         = expit(-x))</span>
+            <span class="k">while</span> <span class="n">relative_residual</span> <span class="o">&gt;</span> <span class="n">rtol</span><span class="p">:</span>
+                <span class="n">sum_term</span> <span class="o">=</span> <span class="n">sorted_data</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">expit</span><span class="p">(</span><span class="o">-</span><span class="n">sorted_data</span><span class="o">/</span><span class="n">scale</span><span class="p">)</span>
+                <span class="n">scale_new</span> <span class="o">=</span> <span class="n">shifted_mean</span> <span class="o">-</span> <span class="mi">2</span><span class="o">/</span><span class="n">n_observations</span> <span class="o">*</span> <span class="n">sum_term</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">relative_residual</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">scale</span> <span class="o">-</span> <span class="n">scale_new</span><span class="p">)</span><span class="o">/</span><span class="n">scale</span><span class="p">)</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">scale_new</span>
+            <span class="k">return</span> <span class="n">scale</span>
+
+        <span class="c1"># location is independent from the scale</span>
+        <span class="n">data_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data_min</span> <span class="o">&lt;</span> <span class="n">floc</span><span class="p">:</span>
+                <span class="c1"># There are values that are less than the specified loc.</span>
+                <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;halflogistic&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">floc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">floc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># if not provided, location MLE is the minimal data point</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">data_min</span>
+
+        <span class="c1"># scale depends on location</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">fscale</span> <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">find_scale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
 
 
 <span class="n">halflogistic</span> <span class="o">=</span> <span class="n">halflogistic_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;halflogistic&#39;</span><span class="p">)</span>
@@ -4534,6 +4718,32 @@
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5</span>
 
+    <span class="nd">@_call_super_mom</span>
+    <span class="nd">@inherit_docstring_from</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;superfit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span> <span class="o">=</span> <span class="n">_check_fit_input_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                                         <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">data_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data_min</span> <span class="o">&lt;</span> <span class="n">floc</span><span class="p">:</span>
+                <span class="c1"># There are values that are less than the specified loc.</span>
+                <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;halfnorm&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">floc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">floc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">data_min</span>
+
+        <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">fscale</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">moment</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+
+        <span class="k">return</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
+
 
 <span class="n">halfnorm</span> <span class="o">=</span> <span class="n">halfnorm_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;halfnorm&#39;</span><span class="p">)</span>
 
@@ -4570,6 +4780,12 @@
 
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">q</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">2.0</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">q</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span>
@@ -4626,10 +4842,9 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">,</span> <span class="n">ic</span><span class="p">,</span> <span class="n">iz</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
-        <span class="c1"># gausshyper.pdf(x, a, b, c, z) =</span>
-        <span class="c1">#   C * x**(a-1) * (1-x)**(b-1) * (1+z*x)**(-c)</span>
-        <span class="n">Cinv</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="n">sc</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">sc</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">sc</span><span class="o">.</span><span class="n">hyp2f1</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="n">z</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Cinv</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">z</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="n">c</span>
+        <span class="n">normalization_constant</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">hyp2f1</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">normalization_constant</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+                <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">z</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="n">c</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
         <span class="n">fac</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -4720,7 +4935,7 @@
             <span class="c1"># gammaln(a) ~ a * ln(a) - a - 0.5 * ln(a) + 0.5 * ln(2 * pi)</span>
             <span class="c1"># psi(a) ~ ln(a) - 1 / (2 * a)</span>
             <span class="n">h</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
-                 <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">a</span><span class="o">**-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">a</span><span class="o">**-</span><span class="mi">2</span><span class="o">/</span><span class="mi">12</span> <span class="o">-</span> <span class="n">a</span><span class="o">**-</span><span class="mi">3</span><span class="o">/</span><span class="mi">90</span> <span class="o">-</span> <span class="n">a</span><span class="o">**-</span><span class="mi">4</span><span class="o">/</span><span class="mi">120</span><span class="p">)</span>
+                 <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">a</span><span class="o">**-</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">a</span><span class="o">**-</span><span class="mf">2.</span><span class="o">/</span><span class="mi">12</span> <span class="o">-</span> <span class="n">a</span><span class="o">**-</span><span class="mf">3.</span><span class="o">/</span><span class="mi">90</span> <span class="o">-</span> <span class="n">a</span><span class="o">**-</span><span class="mf">4.</span><span class="o">/</span><span class="mi">120</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">h</span>
 
         <span class="n">h</span> <span class="o">=</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">2e2</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,),</span> <span class="n">f</span><span class="o">=</span><span class="n">asymptotic</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">regular</span><span class="p">)</span>
@@ -4826,10 +5041,10 @@
                                                                    <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Source: Statistical Distributions, 3rd Edition. Evans, Hastings,</span>
-<span class="sd">        and Peacock (2000), Page 121. Their shape parameter is equivilent to</span>
+<span class="sd">        and Peacock (2000), Page 121. Their shape parameter is equivalent to</span>
 <span class="sd">        SciPy&#39;s with the conversion `fshape_s = fshape / scale`.</span>
 
-<span class="sd">        MLE formulas are not used in 3 condtions:</span>
+<span class="sd">        MLE formulas are not used in 3 conditions:</span>
 <span class="sd">        - `loc` is not fixed</span>
 <span class="sd">        - `mu` is fixed</span>
 <span class="sd">        These cases fall back on the superclass fit method.</span>
@@ -4878,7 +5093,7 @@
 
 <span class="sd">        f(x, p, b) = x^{p-1} \exp(-b (x + 1/x) / 2) / (2 K_p(b))</span>
 
-<span class="sd">    where `x &gt; 0`, `p` is a real number and `b &gt; 0`([1]_).</span>
+<span class="sd">    where `x &gt; 0`, `p` is a real number and `b &gt; 0`\([1]_).</span>
 <span class="sd">    :math:`K_p` is the modified Bessel function of second kind of order `p`</span>
 <span class="sd">    (`scipy.special.kv`).</span>
 
@@ -4923,7 +5138,7 @@
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Infinite values encountered in scipy.special.kve(p, b). &quot;</span>
                    <span class="s2">&quot;Values replaced by NaN to avoid incorrect results.&quot;</span><span class="p">)</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">z</span>
 
     <span class="k">def</span> <span class="nf">_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -4969,7 +5184,7 @@
             <span class="c1"># `shp` is the shape of the blocks of random variates that are</span>
             <span class="c1"># generated for each combination of parameters associated with</span>
             <span class="c1"># broadcasting p and b.</span>
-            <span class="c1"># bc is a tuple the same lenth as size.  The values</span>
+            <span class="c1"># bc is a tuple the same length as size.  The values</span>
             <span class="c1"># in bc are bools.  If bc[j] is True, it means that</span>
             <span class="c1"># entire axis is filled in for a given combination of the</span>
             <span class="c1"># broadcast arguments.</span>
@@ -5102,8 +5317,8 @@
 
                 <span class="k">if</span> <span class="p">(</span><span class="n">simulated</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">N</span> <span class="o">&gt;=</span> <span class="mi">50000</span><span class="p">):</span>
                     <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Not a single random variate could be generated &quot;</span>
-                           <span class="s2">&quot;in </span><span class="si">{}</span><span class="s2"> attempts. Sampling does not appear to &quot;</span>
-                           <span class="s2">&quot;work for the provided parameters.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">N</span><span class="p">))</span>
+                           <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">i</span><span class="o">*</span><span class="n">N</span><span class="si">}</span><span class="s2"> attempts. Sampling does not appear to &quot;</span>
+                           <span class="s2">&quot;work for the provided parameters.&quot;</span><span class="p">)</span>
                     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
@@ -5174,8 +5389,8 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Infinite values encountered in the moment calculation &quot;</span>
                    <span class="s2">&quot;involving scipy.special.kve. Values replaced by NaN to &quot;</span>
                    <span class="s2">&quot;avoid incorrect results.&quot;</span><span class="p">)</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
             <span class="n">m</span><span class="p">[</span><span class="o">~</span><span class="n">inf_vals</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="p">[</span><span class="o">~</span><span class="n">inf_vals</span><span class="p">]</span> <span class="o">/</span> <span class="n">denom</span><span class="p">[</span><span class="o">~</span><span class="n">inf_vals</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span>
@@ -5256,9 +5471,9 @@
 
     <span class="k">def</span> <span class="nf">_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">fac1</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">gamma</span><span class="p">)</span>
+        <span class="n">fac1</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
         <span class="n">sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># reduce overflows</span>
-        <span class="k">return</span> <span class="n">fac1</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">k1e</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="o">*</span><span class="n">sq</span><span class="p">)</span> <span class="o">/</span> <span class="n">sq</span>
+        <span class="k">return</span> <span class="n">fac1</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">k1e</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="n">a</span><span class="o">*</span><span class="n">sq</span> <span class="o">+</span> <span class="n">gamma</span><span class="p">)</span> <span class="o">/</span> <span class="n">sq</span>
 
     <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -5403,6 +5618,105 @@
 
 
 <span class="n">invweibull</span> <span class="o">=</span> <span class="n">invweibull_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invweibull&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">jf_skew_t_gen</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Jones and Faddy skew-t distribution.</span>
+
+<span class="sd">    %(before_notes)s</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The probability density function for `jf_skew_t` is:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x; a, b) = C_{a,b}^{-1}</span>
+<span class="sd">                    \left(1+\frac{x}{\left(a+b+x^2\right)^{1/2}}\right)^{a+1/2}</span>
+<span class="sd">                    \left(1-\frac{x}{\left(a+b+x^2\right)^{1/2}}\right)^{b+1/2}</span>
+
+<span class="sd">    for real numbers :math:`a&gt;0` and :math:`b&gt;0`, where</span>
+<span class="sd">    :math:`C_{a,b} = 2^{a+b-1}B(a,b)(a+b)^{1/2}`, and :math:`B` denotes the</span>
+<span class="sd">    beta function (`scipy.special.beta`).</span>
+
+<span class="sd">    When :math:`a&lt;b`, the distribution is negatively skewed, and when</span>
+<span class="sd">    :math:`a&gt;b`, the distribution is positively skewed. If :math:`a=b`, then</span>
+<span class="sd">    we recover the `t` distribution with :math:`2a` degrees of freedom.</span>
+
+<span class="sd">    `jf_skew_t` takes :math:`a` and :math:`b` as shape parameters.</span>
+
+<span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] M.C. Jones and M.J. Faddy. &quot;A skew extension of the t distribution,</span>
+<span class="sd">           with applications&quot; *Journal of the Royal Statistical Society*.</span>
+<span class="sd">           Series B (Statistical Methodology) 65, no. 1 (2003): 159-174.</span>
+<span class="sd">           :doi:`10.1111/1467-9868.00378`</span>
+
+<span class="sd">    %(example)s</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_shape_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="n">_ShapeInfo</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="n">ib</span> <span class="o">=</span> <span class="n">_ShapeInfo</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d1</span> <span class="o">*</span> <span class="n">d2</span> <span class="o">/</span> <span class="n">c</span>
+
+    <span class="k">def</span> <span class="nf">_rvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">random_state</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">d3</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">d1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">d2</span> <span class="o">/</span> <span class="n">d3</span>
+
+    <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">betainc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">d3</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">d1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">d2</span> <span class="o">/</span> <span class="n">d3</span>
+
+    <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the n-th moment(s) where all the following hold:</span>
+
+<span class="sd">        - n &gt;= 0</span>
+<span class="sd">        - a &gt; n / 2</span>
+<span class="sd">        - b &gt; n / 2</span>
+
+<span class="sd">        The result is np.nan in all other cases.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">nth_moment</span><span class="p">(</span><span class="n">n_k</span><span class="p">,</span> <span class="n">a_k</span><span class="p">,</span> <span class="n">b_k</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Computes E[T^(n_k)] where T is skew-t distributed with</span>
+<span class="sd">            parameters a_k and b_k.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_k</span> <span class="o">+</span> <span class="n">b_k</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">n_k</span><span class="p">)</span>
+            <span class="n">denom</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n_k</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a_k</span><span class="p">,</span> <span class="n">b_k</span><span class="p">)</span>
+
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">sgn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">indices</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">a_k</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">n_k</span> <span class="o">-</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b_k</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">n_k</span> <span class="o">+</span> <span class="n">indices</span><span class="p">)</span>
+            <span class="n">sum_terms</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">comb</span><span class="p">(</span><span class="n">n_k</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span> <span class="o">*</span> <span class="n">sgn</span> <span class="o">*</span> <span class="n">d</span>
+
+            <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span> <span class="o">*</span> <span class="n">sum_terms</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">nth_moment_valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">b</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_lazywhere</span><span class="p">(</span>
+            <span class="n">nth_moment_valid</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">nth_moment</span><span class="p">,</span> <span class="n">otypes</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="n">jf_skew_t</span> <span class="o">=</span> <span class="n">jf_skew_t_gen</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;jf_skew_t&#39;</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">johnsonsb_gen</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">):</span>
@@ -5660,6 +5974,11 @@
 <span class="sd">    Laplace distribution.</span>
 
 <span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    Note that the scale parameter of some references is the reciprocal of</span>
+<span class="sd">    SciPy&#39;s ``scale``. For example, :math:`\lambda = 1/2` in the</span>
+<span class="sd">    parameterization of [1]_ is equivalent to ``scale = 2`` with</span>
+<span class="sd">    `laplace_asymmetric`.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -6204,6 +6523,20 @@
         <span class="n">excess_kurtosis</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">polygamma</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">var</span><span class="o">*</span><span class="n">var</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">skewness</span><span class="p">,</span> <span class="n">excess_kurtosis</span>
 
+    <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">regular</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">digamma</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+            <span class="k">return</span> <span class="n">h</span>
+
+        <span class="k">def</span> <span class="nf">asymptotic</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+            <span class="c1"># using asymptotic expansions for gammaln and psi (see gh-18093)</span>
+            <span class="n">term</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="o">**-</span><span class="mf">1.</span><span class="o">/</span><span class="mi">6</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="mf">3.</span><span class="o">/</span><span class="mi">90</span> <span class="o">+</span> <span class="n">c</span><span class="o">**-</span><span class="mf">5.</span><span class="o">/</span><span class="mi">210</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">_entropy</span><span class="p">()</span> <span class="o">+</span> <span class="n">term</span>
+            <span class="k">return</span> <span class="n">h</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="mi">45</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">),</span> <span class="n">f</span><span class="o">=</span><span class="n">asymptotic</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">regular</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+
 
 <span class="n">loggamma</span> <span class="o">=</span> <span class="n">loggamma_gen</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;loggamma&#39;</span><span class="p">)</span>
 
@@ -6250,8 +6583,14 @@
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">c</span><span class="p">))</span>
 
+    <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">c</span><span class="p">))</span>
+
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">q</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">q</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">q</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">q</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -6265,7 +6604,8 @@
 
 <span class="k">def</span> <span class="nf">_lognorm_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span>
-                      <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)),</span>
+                      <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                                    <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))),</span>
                       <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
 
@@ -6294,6 +6634,23 @@
 <span class="sd">    distributed with ``s = sigma`` and ``scale = exp(mu)``.</span>
 
 <span class="sd">    %(example)s</span>
+
+<span class="sd">    The logarithm of a log-normally distributed random variable is</span>
+<span class="sd">    normally distributed:</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; from scipy import stats</span>
+<span class="sd">    &gt;&gt;&gt; fig, ax = plt.subplots(1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; mu, sigma = 2, 0.5</span>
+<span class="sd">    &gt;&gt;&gt; X = stats.norm(loc=mu, scale=sigma)</span>
+<span class="sd">    &gt;&gt;&gt; Y = stats.lognorm(s=sigma, scale=np.exp(mu))</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(*X.interval(0.999))</span>
+<span class="sd">    &gt;&gt;&gt; y = Y.rvs(size=10000)</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(x, X.pdf(x), label=&#39;X (pdf)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.hist(np.log(y), density=True, bins=x, label=&#39;log(Y) (histogram)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.legend()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_support_mask</span> <span class="o">=</span> <span class="n">rv_continuous</span><span class="o">.</span><span class="n">_open_support_mask</span>
@@ -6325,6 +6682,9 @@
 
     <span class="k">def</span> <span class="nf">_logsf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_norm_logsf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">_norm_isf</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
@@ -6962,8 +7322,29 @@
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="n">a</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_arrays</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>  <span class="c1"># some code paths pass scalars</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_sf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+        <span class="c1"># When the SF is small, another formulation is typically more accurate.</span>
+        <span class="c1"># However, it blows up for large `a`, so use it only if it also returns</span>
+        <span class="c1"># a small value of the SF.</span>
+        <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">sf</span> <span class="o">&lt;</span> <span class="n">cutoff</span>
+        <span class="n">sf2</span> <span class="o">=</span> <span class="o">-</span><span class="n">sc</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">xlog1py</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**-</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">i2</span> <span class="o">=</span> <span class="n">sf2</span> <span class="o">&gt;</span> <span class="n">cutoff</span>
+        <span class="n">sf2</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i2</span><span class="p">]</span>  <span class="c1"># replace bad values with original values</span>
+
+        <span class="n">sf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf2</span>
+        <span class="k">return</span> <span class="n">sf</span>
+
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">q</span><span class="o">**-</span><span class="n">a</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="n">lg</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">xlog1py</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
+        <span class="n">denom</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">lg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
@@ -7133,7 +7514,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">nu</span> <span class="o">*</span> <span class="n">sc</span><span class="o">.</span><span class="n">gammainccinv</span><span class="p">(</span><span class="n">nu</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="p">):</span>
-        <span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">nu</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">/</span><span class="n">sc</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">nu</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nu</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">poch</span><span class="p">(</span><span class="n">nu</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nu</span><span class="p">)</span>
         <span class="n">mu2</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">-</span><span class="n">mu</span><span class="o">*</span><span class="n">mu</span>
         <span class="n">g1</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">nu</span><span class="o">*</span><span class="n">mu2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">nu</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
         <span class="n">g2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="o">*</span><span class="n">mu</span><span class="o">**</span><span class="mi">4</span><span class="o">*</span><span class="n">nu</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">nu</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">nu</span> <span class="o">+</span> <span class="mi">1</span>
@@ -7631,6 +8012,9 @@
     <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">moments</span><span class="o">=</span><span class="s1">&#39;mv&#39;</span><span class="p">):</span>
         <span class="n">mu</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="s1">&#39;m&#39;</span> <span class="ow">in</span> <span class="n">moments</span><span class="p">:</span>
@@ -7797,6 +8181,9 @@
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">sc</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">q</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">q</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="n">mu</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span> <span class="o">=</span> <span class="n">pareto</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">loc</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">moments</span><span class="o">=</span><span class="s1">&#39;mvsk&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span>
@@ -7948,6 +8335,23 @@
         <span class="n">invmask2b</span> <span class="o">=</span> <span class="n">skew</span><span class="p">[</span><span class="n">invmask</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
         <span class="c1"># gamma._sf produces NaNs when transx &lt; 0, so use gamma.sf</span>
         <span class="n">ans</span><span class="p">[</span><span class="n">invmask2a</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">transx</span><span class="p">[</span><span class="n">invmask2b</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="n">invmask2b</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">ans</span>
+
+    <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">skew</span><span class="p">):</span>
+        <span class="n">ans</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">transx</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">invmask</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">skew</span><span class="p">))</span>
+
+        <span class="n">ans</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">_norm_sf</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+
+        <span class="n">skew</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">skew</span><span class="p">,</span> <span class="n">invmask</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">invmask1a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">invmask</span><span class="p">,</span> <span class="n">skew</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">invmask1b</span> <span class="o">=</span> <span class="n">skew</span><span class="p">[</span><span class="n">invmask</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">ans</span><span class="p">[</span><span class="n">invmask1a</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">transx</span><span class="p">[</span><span class="n">invmask1b</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="n">invmask1b</span><span class="p">])</span>
+
+        <span class="n">invmask2a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">invmask</span><span class="p">,</span> <span class="n">skew</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">invmask2b</span> <span class="o">=</span> <span class="n">skew</span><span class="p">[</span><span class="n">invmask</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="n">ans</span><span class="p">[</span><span class="n">invmask2a</span><span class="p">]</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transx</span><span class="p">[</span><span class="n">invmask2b</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="n">invmask2b</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">ans</span>
 
@@ -8122,7 +8526,7 @@
             <span class="k">if</span> <span class="n">fscale</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Negative or zero `fscale` is outside the &quot;</span>
                                  <span class="s2">&quot;range allowed by the distribution.&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">fscale</span> <span class="o">&lt;=</span> <span class="n">data</span><span class="o">.</span><span class="n">ptp</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">fscale</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;`fscale` must be greater than the range of data.&quot;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
@@ -8433,6 +8837,9 @@
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">beta</span><span class="o">.</span><span class="n">_cdf</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">beta</span><span class="o">.</span><span class="n">_sf</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">beta</span><span class="o">.</span><span class="n">_ppf</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
@@ -8595,6 +9002,7 @@
 <span class="sd">    ``1``. This is best when the x-axis is log-scaled:</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; fig, ax = plt.subplots(1, 1)</span>
 <span class="sd">    &gt;&gt;&gt; ax.hist(np.log10(r))</span>
 <span class="sd">    &gt;&gt;&gt; ax.set_ylabel(&quot;Frequency&quot;)</span>
@@ -8668,6 +9076,10 @@
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="n">fscale</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;fscale&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">fscale</span><span class="o">=</span><span class="n">fscale</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="c1"># Details related to the decision of not defining</span>
+    <span class="c1"># the survival function for this distribution can be</span>
+    <span class="c1"># found in the PR: https://github.com/scipy/scipy/pull/18614</span>
 
 
 <span class="n">loguniform</span> <span class="o">=</span> <span class="n">reciprocal_gen</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;loguniform&quot;</span><span class="p">)</span>
@@ -8967,6 +9379,12 @@
             <span class="n">f2</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="mf">2.</span><span class="o">*</span><span class="n">_norm_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">_norm_cdf</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_logpdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_lazywhere</span><span class="p">(</span>
+            <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">_norm_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="n">f2</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">_norm_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="n">_norm_logcdf</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">),</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
         <span class="n">cdf</span> <span class="o">=</span> <span class="n">_boost</span><span class="o">.</span><span class="n">_skewnorm_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
@@ -9071,6 +9489,8 @@
 <span class="s2">        shape parameter ``a`` will be infinite.</span>
 <span class="s2">        </span><span class="se">\n\n</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;superfit&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">CensoredData</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">num_censored</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_uncensor</span><span class="p">()</span>
@@ -9088,13 +9508,11 @@
         <span class="k">def</span> <span class="nf">skew_d</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>  <span class="c1"># skewness in terms of delta</span>
             <span class="k">return</span> <span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">((</span><span class="n">d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span><span class="o">**</span><span class="mi">3</span>
                                   <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
-
-        <span class="c1"># If skewness of data is greater than max possible population skewness,</span>
-        <span class="c1"># MoM won&#39;t provide a good guess. Get out early.</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">s_max</span> <span class="o">=</span> <span class="n">skew_d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">s_max</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;mm&quot;</span> <span class="ow">and</span> <span class="n">fa</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">d_skew</span><span class="p">(</span><span class="n">skew</span><span class="p">):</span>  <span class="c1"># delta in terms of skewness</span>
+            <span class="n">s_23</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">skew</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">skew</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">s_23</span> <span class="o">/</span> <span class="p">(</span><span class="n">s_23</span> <span class="o">+</span> <span class="p">((</span><span class="mi">4</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+            <span class="p">)</span>
 
         <span class="c1"># If method is method of moments, we don&#39;t need the user&#39;s guesses.</span>
         <span class="c1"># Otherwise, extract the guesses from args and kwds.</span>
@@ -9108,8 +9526,15 @@
         <span class="k">if</span> <span class="n">fa</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># not fixed and no guess: use MoM</span>
             <span class="c1"># Solve for a that matches sample distribution skewness to sample</span>
             <span class="c1"># skewness.</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">-</span><span class="n">s_max</span><span class="p">,</span> <span class="n">s_max</span><span class="p">)</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">skew_d</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="n">bracket</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">root</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;mle&#39;</span><span class="p">:</span>
+                <span class="c1"># For MLE initial conditions, clip skewness to a large but</span>
+                <span class="c1"># reasonable value in case the data skewness is out-of-range.</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s_max</span> <span class="o">=</span> <span class="n">skew_d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">-</span><span class="n">s_max</span><span class="p">,</span> <span class="n">s_max</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">d_skew</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
                 <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">d</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -9453,16 +9878,61 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This distribution is the normal distribution centered on ``loc`` (default</span>
-<span class="sd">    0), with standard deviation ``scale`` (default 1), and clipped at ``a``,</span>
-<span class="sd">    ``b`` standard deviations to the left, right (respectively) from ``loc``.</span>
-<span class="sd">    If ``myclip_a`` and ``myclip_b`` are clip values in the sample space (as</span>
-<span class="sd">    opposed to the number of standard deviations) then they can be converted</span>
-<span class="sd">    to the required form according to::</span>
+<span class="sd">    0), with standard deviation ``scale`` (default 1), and truncated at ``a``</span>
+<span class="sd">    and ``b`` *standard deviations* from ``loc``. For arbitrary ``loc`` and</span>
+<span class="sd">    ``scale``, ``a`` and ``b`` are *not* the abscissae at which the shifted</span>
+<span class="sd">    and scaled distribution is truncated.</span>
 
-<span class="sd">        a, b = (myclip_a - loc) / scale, (myclip_b - loc) / scale</span>
+<span class="sd">    .. note::</span>
+<span class="sd">        If ``a_trunc`` and ``b_trunc`` are the abscissae at which we wish</span>
+<span class="sd">        to truncate the distribution (as opposed to the number of standard</span>
+<span class="sd">        deviations from ``loc``), then we can calculate the distribution</span>
+<span class="sd">        parameters ``a`` and ``b`` as follows::</span>
+
+<span class="sd">            a, b = (a_trunc - loc) / scale, (b_trunc - loc) / scale</span>
+
+<span class="sd">        This is a common point of confusion. For additional clarification,</span>
+<span class="sd">        please see the example below.</span>
 
 <span class="sd">    %(example)s</span>
 
+<span class="sd">    In the examples above, ``loc=0`` and ``scale=1``, so the plot is truncated</span>
+<span class="sd">    at ``a`` on the left and ``b`` on the right. However, suppose we were to</span>
+<span class="sd">    produce the same histogram with ``loc = 1`` and ``scale=0.5``.</span>
+
+<span class="sd">    &gt;&gt;&gt; loc, scale = 1, 0.5</span>
+<span class="sd">    &gt;&gt;&gt; rv = truncnorm(a, b, loc=loc, scale=scale)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(truncnorm.ppf(0.01, a, b),</span>
+<span class="sd">    ...                 truncnorm.ppf(0.99, a, b), 100)</span>
+<span class="sd">    &gt;&gt;&gt; r = rv.rvs(size=1000)</span>
+
+<span class="sd">    &gt;&gt;&gt; fig, ax = plt.subplots(1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(x, rv.pdf(x), &#39;k-&#39;, lw=2, label=&#39;frozen pdf&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.hist(r, density=True, bins=&#39;auto&#39;, histtype=&#39;stepfilled&#39;, alpha=0.2)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_xlim(a, b)</span>
+<span class="sd">    &gt;&gt;&gt; ax.legend(loc=&#39;best&#39;, frameon=False)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    Note that the distribution is no longer appears to be truncated at</span>
+<span class="sd">    abscissae ``a`` and ``b``. That is because the *standard* normal</span>
+<span class="sd">    distribution is first truncated at ``a`` and ``b``, *then* the resulting</span>
+<span class="sd">    distribution is scaled by ``scale`` and shifted by ``loc``. If we instead</span>
+<span class="sd">    want the shifted and scaled distribution to be truncated at ``a`` and</span>
+<span class="sd">    ``b``, we need to transform these values before passing them as the</span>
+<span class="sd">    distribution parameters.</span>
+
+<span class="sd">    &gt;&gt;&gt; a_transformed, b_transformed = (a - loc) / scale, (b - loc) / scale</span>
+<span class="sd">    &gt;&gt;&gt; rv = truncnorm(a_transformed, b_transformed, loc=loc, scale=scale)</span>
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(truncnorm.ppf(0.01, a, b),</span>
+<span class="sd">    ...                 truncnorm.ppf(0.99, a, b), 100)</span>
+<span class="sd">    &gt;&gt;&gt; r = rv.rvs(size=10000)</span>
+
+<span class="sd">    &gt;&gt;&gt; fig, ax = plt.subplots(1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(x, rv.pdf(x), &#39;k-&#39;, lw=2, label=&#39;frozen pdf&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.hist(r, density=True, bins=&#39;auto&#39;, histtype=&#39;stepfilled&#39;, alpha=0.2)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_xlim(a-0.1, b+0.1)</span>
+<span class="sd">    &gt;&gt;&gt; ax.legend(loc=&#39;best&#39;, frameon=False)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_argcheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -9691,37 +10161,36 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span>
 
     <span class="k">def</span> <span class="nf">_pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="o">**-</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="o">**-</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_logpdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="c1"># return np.log(b) - np.log1p(-c**-b) - (b+1)*np.log(x)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_logcdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_logsf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_isf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">pow</span><span class="p">(</span><span class="n">c</span><span class="o">**-</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">b</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">))</span>
+        <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">b</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">))</span>
                  <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">b</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="o">**-</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">b</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="n">b</span> <span class="o">-</span> <span class="n">c</span><span class="o">**</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -9889,7 +10358,7 @@
 
             <span class="c1"># Standardised values should be within the distribution support</span>
             <span class="c1"># when all parameters controlling it are fixed. If it not the case,</span>
-            <span class="c1"># `fc` is overidden by `c` determined from `floc` and `fscale` when</span>
+            <span class="c1"># `fc` is overridden by `c` determined from `floc` and `fscale` when</span>
             <span class="c1"># raising the exception.</span>
             <span class="k">if</span> <span class="n">fc</span> <span class="ow">and</span> <span class="p">(</span><span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">fscale</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">fc</span><span class="o">*</span><span class="n">fscale</span> <span class="o">+</span> <span class="n">floc</span><span class="p">:</span>
@@ -10016,7 +10485,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;Invalid values in `data`.  Maximum likelihood estimation with &quot;</span>
             <span class="s2">&quot;the uniform distribution and fixed scale requires that &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;data.ptp() &lt;= fscale, but data.ptp() = </span><span class="si">{</span><span class="n">ptp</span><span class="si">}</span><span class="s2"> and &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;np.ptp(data) &lt;= fscale, but np.ptp(data) = </span><span class="si">{</span><span class="n">ptp</span><span class="si">}</span><span class="s2"> and &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;fscale = </span><span class="si">{</span><span class="n">fscale</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
 
@@ -10163,25 +10632,25 @@
         <span class="c1"># while keeping loc &lt;= x &lt;= loc + scale.   So if neither loc nor scale</span>
         <span class="c1"># are fixed, the log-likelihood is maximized by choosing</span>
         <span class="c1">#     loc = x.min()</span>
-        <span class="c1">#     scale = x.ptp()</span>
+        <span class="c1">#     scale = np.ptp(x)</span>
         <span class="c1"># If loc is fixed, it must be less than or equal to x.min(), and then</span>
         <span class="c1"># the scale is</span>
         <span class="c1">#     scale = x.max() - loc</span>
-        <span class="c1"># If scale is fixed, it must not be less than x.ptp().  If scale is</span>
-        <span class="c1"># greater than x.ptp(), the solution is not unique.  Note that the</span>
+        <span class="c1"># If scale is fixed, it must not be less than np.ptp(x).  If scale is</span>
+        <span class="c1"># greater than np.ptp(x), the solution is not unique.  Note that the</span>
         <span class="c1"># likelihood does not depend on loc, except for the requirement that</span>
         <span class="c1"># loc &lt;= x &lt;= loc + scale.  All choices of loc for which</span>
         <span class="c1">#     x.max() - scale &lt;= loc &lt;= x.min()</span>
         <span class="c1"># have the same log-likelihood.  In this case, we choose loc such that</span>
         <span class="c1"># the support is centered over the interval [data.min(), data.max()]:</span>
-        <span class="c1">#     loc = x.min() = 0.5*(scale - x.ptp())</span>
+        <span class="c1">#     loc = x.min() = 0.5*(scale - np.ptp(x))</span>
 
         <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># scale is not fixed.</span>
             <span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># loc is not fixed, scale is not fixed.</span>
                 <span class="n">loc</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
-                <span class="n">scale</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># loc is fixed, scale is not fixed.</span>
                 <span class="n">loc</span> <span class="o">=</span> <span class="n">floc</span>
@@ -10190,7 +10659,7 @@
                     <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">loc</span> <span class="o">+</span> <span class="n">scale</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># loc is not fixed, scale is fixed.</span>
-            <span class="n">ptp</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span>
+            <span class="n">ptp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ptp</span> <span class="o">&gt;</span> <span class="n">fscale</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">FitUniformFixedScaleDataError</span><span class="p">(</span><span class="n">ptp</span><span class="o">=</span><span class="n">ptp</span><span class="p">,</span> <span class="n">fscale</span><span class="o">=</span><span class="n">fscale</span><span class="p">)</span>
             <span class="c1"># If ptp &lt; fscale, the ML estimate is not unique; see the comments</span>
@@ -11002,7 +11471,7 @@
         <span class="c1"># only samples on [0, chi**2 / 2], and apply the inverse</span>
         <span class="c1"># transformation X = (1 - 2*Y/chi**2)**(1/2). Since we only</span>
         <span class="c1"># look at chi &gt; 1.8, gamma(1.5).cdf(chi**2/2) is large enough such</span>
-        <span class="c1"># Y falls in the inteval [0, chi**2 / 2] with a high probability:</span>
+        <span class="c1"># Y falls in the interval [0, chi**2 / 2] with a high probability:</span>
         <span class="c1"># stats.gamma(1.5).cdf(1.8**2/2) = 0.644...</span>
         <span class="c1">#</span>
         <span class="c1"># The points to switch between the different methods are determined</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._kde &mdash; Copulas 0.10.0 documentation</title>
+  <title>scipy.stats._kde &mdash; Copulas 0.10.2.dev0 documentation</title>
   
 
   
@@ -290,6 +290,9 @@
 <span class="c1"># Local imports.</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_mvn</span>
 <span class="kn">from</span> <span class="nn">._stats</span> <span class="kn">import</span> <span class="n">gaussian_kernel_estimate</span><span class="p">,</span> <span class="n">gaussian_kernel_estimate_log</span>
+
+<span class="c1"># deprecated import to be removed in SciPy 1.13.0</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logsumexp</span>  <span class="c1"># noqa: F401</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gaussian_kde&#39;</span><span class="p">]</span>
@@ -648,7 +651,7 @@
         <span class="k">if</span> <span class="n">inform</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;An integral in _mvn.mvnun requires more points than </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">value</span>
 
@@ -724,7 +727,7 @@
 <span class="sd">        resample : (self.d, `size`) ndarray</span>
 <span class="sd">            The sampled dataset.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span> <span class="c1"># numpy/numpydoc#87  # noqa: E501</span>
         <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neff</span><span class="p">)</span>
 
