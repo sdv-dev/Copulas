@@ -1,5 +1,20 @@
 # History
 
+## v0.10.1 - 2024-03-13
+
+This release fixes a bug that occurred when calculating probability density in a gaussian copula.
+
+### Bugs Fixed
+
+* Warning printed too many times (`RuntimeWarning: invalid value encountered in scalar divide  ....`) - Issue [#364](https://github.com/sdv-dev/Copulas/issues/364) by @frances-h
+* Set `allow_singular=True` when calculating probability_density - Issue [#374](https://github.com/sdv-dev/Copulas/issues/374) by @fealho
+
+### Maintenance
+
+* Transition from using setup.py to pyroject.toml to specify project metadata - Issue [#376](https://github.com/sdv-dev/Copulas/issues/376) by @frances-h
+* Remove bumpversion and use bump-my-version - Issue [#377](https://github.com/sdv-dev/Copulas/issues/377) by @frances-h
+* Add build to dev requirements - Issue [#382](https://github.com/sdv-dev/Copulas/pull/382) by @amontanez24
+
 ## v0.10.0 - 2023-11-13
 
 This release updates all visualizations to use plotly, and removes the matplotlib dependency.
