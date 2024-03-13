@@ -1,4 +1,6 @@
+import warnings
 from unittest import TestCase
+from unittest.mock import patch
 
 import numpy as np
 from scipy.stats import truncnorm
@@ -34,6 +36,27 @@ class TestTruncatedGaussian(TestCase):
         }
         for key, value in distribution._params.items():
             np.testing.assert_allclose(value, expected[key], atol=0.3)
+
+    @patch('copulas.univariate.truncated_gaussian.fmin_slsqp')
+    def test__fit_silences_warnings(self, mocked_wrapper):
+        """Test the ``_fit`` method does not emit RuntimeWarnings."""
+        # Setup
+        def mock_fmin_sqlsqp(*args, **kwargs):
+            warnings.warn(
+                message='Runtime Warning occured!',
+                category=RuntimeWarning
+            )
+            return 0, 1
+
+        mocked_wrapper.side_effect = mock_fmin_sqlsqp
+        distribution = TruncatedGaussian()
+
+        data = truncnorm.rvs(size=10000, a=0, b=3, loc=3, scale=1)
+
+        # Run and assert
+        with warnings.catch_warnings():
+            warnings.simplefilter('error')
+            distribution._fit(data)
 
     def test__is_constant_true(self):
         distribution = TruncatedGaussian()

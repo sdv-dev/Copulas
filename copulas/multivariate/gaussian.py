@@ -148,7 +148,9 @@ class GaussianMultivariate(Multivariate):
         """
         self.check_fit()
         transformed = self._transform_to_normal(X)
-        return stats.multivariate_normal.pdf(transformed, cov=self.correlation)
+
+        return stats.multivariate_normal.pdf(
+            transformed, cov=self.correlation, allow_singular=True)
 
     def cumulative_distribution(self, X):
         """Compute the cumulative distribution value for each point in X.

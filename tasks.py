@@ -2,9 +2,10 @@ import glob
 import inspect
 import operator
 import os
-import re
-import pkg_resources
-import platform
+import tomli
+import sys
+from packaging.requirements import Requirement
+from packaging.version import Version
 import shutil
 import stat
 from pathlib import Path
@@ -60,33 +61,48 @@ def _validate_python_version(line):
     return is_valid
 
 
+def _get_minimum_versions(dependencies, python_version):
+    min_versions = {}
+    for dependency in dependencies:
+        if '@' in dependency:
+            name, url = dependency.split(' @ ')
+            min_versions[name] = f'{name} @ {url}'
+            continue
+
+        req = Requirement(dependency)
+        if ';' in dependency:
+            marker = req.marker
+            if marker and not marker.evaluate({'python_version': python_version}):
+                continue  # Skip this dependency if the marker does not apply to the current Python version
+
+        if req.name not in min_versions:
+            min_version = next(
+                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), None)
+            if min_version:
+                min_versions[req.name] = f'{req.name}=={min_version}'
+
+        elif '@' not in min_versions[req.name]:
+            existing_version = Version(min_versions[req.name].split('==')[1])
+            new_version = next(
+                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), existing_version)
+            if new_version > existing_version:
+                # Change when a valid newer version is found
+                min_versions[req.name] = f'{req.name}=={new_version}'
+
+    return list(min_versions.values())
+
+
 @task
 def install_minimum(c):
-    with open('setup.py', 'r') as setup_py:
-        lines = setup_py.read().splitlines()
+    with open('pyproject.toml', 'rb') as pyproject_file:
+        pyproject_data = tomli.load(pyproject_file)
 
-    versions = []
-    started = False
-    for line in lines:
-        if started:
-            if line == ']':
-                break
+    dependencies = pyproject_data.get('project', {}).get('dependencies', [])
+    python_version = '.'.join(map(str, sys.version_info[:2]))
+    minimum_versions = _get_minimum_versions(dependencies, python_version)
 
-            line = line.strip()
-            if _validate_python_version(line):
-                requirement = re.match(r'[^>]*', line).group(0)
-                requirement = re.sub(r"""['",]""", '', requirement)
-                version = re.search(r'>=?(\d\.?)+', line).group(0)
-                if version:
-                    version = re.sub(r'>=?', '==', version)
-                    version = re.sub(r"""['",]""", '', version)
-                    requirement += version
-                versions.append(requirement)
-
-        elif line.startswith('install_requires = ['):
-            started = True
-
-    c.run(f'python -m pip install {" ".join(versions)}')
+    if minimum_versions:
+        c.run(f'python -m pip install {" ".join(minimum_versions)}')
 
 
 @task
