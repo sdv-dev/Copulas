@@ -8,6 +8,7 @@ from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.bivariate.clayton import Clayton
 from copulas.bivariate.frank import Frank
 from copulas.bivariate.gumbel import Gumbel
+from copulas.bivariate.joe import Joe
 from copulas.bivariate.utils import split_matrix
 
 __all__ = (
@@ -16,6 +17,7 @@ __all__ = (
     'CopulaTypes',
     'Frank',
     'Gumbel',
+    'Joe'
 )
 
 
@@ -96,8 +98,13 @@ def _compute_candidates(copulas, left_tail, right_tail):
     X_right = np.column_stack((right_tail, right_tail))
 
     for copula in copulas:
-        left.append(copula.cumulative_distribution(X_left) / np.power(left_tail, 2))
-        right.append(_compute_tail(copula.cumulative_distribution(X_right), right_tail))
+        if isinstance(copula, Joe):
+            # Compute dependencies for Joe copula
+            left.append(...)
+            right.append(...)
+        else:
+            left.append(copula.cumulative_distribution(X_left) / np.power(left_tail, 2))
+            right.append(_compute_tail(copula.cumulative_distribution(X_right), right_tail))
 
     return left, right
 
@@ -140,7 +147,7 @@ def select_copula(X):
     copula_candidates = [frank]
 
     # append copulas into the candidate list
-    for copula_class in [Clayton, Gumbel]:
+    for copula_class in [Clayton, Gumbel, Joe]:
         try:
             copula = copula_class()
             copula.tau = frank.tau
