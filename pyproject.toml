@@ -31,7 +31,7 @@ dependencies = [
     "scipy>=1.5.4,<2;python_version<'3.10'",
     "scipy>=1.9.2,<2;python_version>='3.10' and python_version<'3.12'",
     "scipy>=1.12.0,<2;python_version>='3.12'",
-    'setuptools>=69',
+    'setuptools<70',
 ]
 
 [project.urls]
@@ -71,7 +71,6 @@ dev = [
     'build>=1.0.0,<2',
     'bump-my-version>=0.18.3,<1',
     'watchdog>=1.0.1,<5',
-    'pyzmq>=25.1.2',
 
     # docs
     'm2r>=0.2.0,<0.3',
@@ -170,7 +169,6 @@ namespaces = false
     '*.png',
     '*.gif'
 ]
-'tests' = ['*']
 
 [tool.setuptools.exclude-package-data]
 '*' = [
