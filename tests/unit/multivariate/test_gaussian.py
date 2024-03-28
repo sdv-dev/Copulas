@@ -392,11 +392,15 @@ class TestGaussianMultivariate(TestCase):
         # Check
         assert result.equals(expected_result)
 
-        assert normal_mock.called_once_with(
-            np.zeros(instance.correlation.shape[0]),
-            instance.correlation,
-            5
+        np.testing.assert_array_equal(
+            normal_mock.call_args[0][0],
+            np.zeros(instance.correlation.shape[0])
         )
+        np.testing.assert_array_equal(
+            normal_mock.call_args[0][1],
+            instance.correlation
+        )
+        assert normal_mock.call_args[1] == {'size': 5}
 
     def test_sample_random_state(self):
         """When random_state is set the samples are the same."""

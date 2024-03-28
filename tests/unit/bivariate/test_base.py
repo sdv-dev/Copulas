@@ -80,7 +80,7 @@ class TestBivariate(TestCase):
         instance.save('test.json')
 
         # Check
-        assert open_mock.called_once_with('test.json', 'w')
+        open_mock.assert_called_once_with('test.json', 'w')
         assert json_mock.called
         compare_nested_dicts(json_mock.call_args[0][0], expected_content)
 
@@ -99,10 +99,10 @@ class TestBivariate(TestCase):
         instance = Bivariate.load('somefile.json')
 
         # Check
-        assert open_mock.called_once_with('test.json', 'r')
-        instance.copula_type == CopulaTypes.FRANK
-        instance.tau == -0.33333333333333337
-        instance.theta == -3.305771759329249
+        open_mock.assert_called_once_with('somefile.json')
+        assert instance.copula_type == CopulaTypes.FRANK
+        assert instance.tau == -0.33333333333333337
+        assert instance.theta == -3.305771759329249
 
     @mock.patch('copulas.bivariate.clayton.Clayton.partial_derivative')
     def test_partial_derivative_scalar(self, derivative_mock):
