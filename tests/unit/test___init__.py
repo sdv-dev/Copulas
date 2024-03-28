@@ -435,7 +435,7 @@ def mock_copulas():
     sys.modules['copulas'] = copulas_module
 
 
-@patch.object(copulas, 'iter_entry_points')
+@patch.object(copulas, 'entry_points')
 def test__find_addons_module(entry_points_mock, mock_copulas):
     """Test loading an add-on."""
     # Setup
@@ -452,7 +452,7 @@ def test__find_addons_module(entry_points_mock, mock_copulas):
     assert mock_copulas.submodule.entry_name == 'entry_point'
 
 
-@patch.object(copulas, 'iter_entry_points')
+@patch.object(copulas, 'entry_points')
 def test__find_addons_object(entry_points_mock, mock_copulas):
     """Test loading an add-on."""
     # Setup
@@ -470,7 +470,7 @@ def test__find_addons_object(entry_points_mock, mock_copulas):
 
 
 @patch('warnings.warn')
-@patch('copulas.iter_entry_points')
+@patch('copulas.entry_points')
 def test__find_addons_bad_addon(entry_points_mock, warning_mock):
     """Test failing to load an add-on generates a warning."""
     # Setup
@@ -493,7 +493,7 @@ def test__find_addons_bad_addon(entry_points_mock, warning_mock):
 
 
 @patch('warnings.warn')
-@patch('copulas.iter_entry_points')
+@patch('copulas.entry_points')
 def test__find_addons_wrong_base(entry_points_mock, warning_mock):
     """Test incorrect add-on name generates a warning."""
     # Setup
@@ -514,7 +514,7 @@ def test__find_addons_wrong_base(entry_points_mock, warning_mock):
 
 
 @patch('warnings.warn')
-@patch('copulas.iter_entry_points')
+@patch('copulas.entry_points')
 def test__find_addons_missing_submodule(entry_points_mock, warning_mock):
     """Test incorrect add-on name generates a warning."""
     # Setup
@@ -535,7 +535,7 @@ def test__find_addons_missing_submodule(entry_points_mock, warning_mock):
 
 
 @patch('warnings.warn')
-@patch('copulas.iter_entry_points')
+@patch('copulas.entry_points')
 def test__find_addons_module_and_object(entry_points_mock, warning_mock):
     """Test incorrect add-on name generates a warning."""
     # Setup
@@ -556,7 +556,7 @@ def test__find_addons_module_and_object(entry_points_mock, warning_mock):
 
 
 @patch('warnings.warn')
-@patch.object(copulas, 'iter_entry_points')
+@patch.object(copulas, 'entry_points')
 def test__find_addons_missing_object(entry_points_mock, warning_mock, mock_copulas):
     """Test incorrect add-on name generates a warning."""
     # Setup

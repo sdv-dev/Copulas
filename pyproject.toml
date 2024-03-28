@@ -31,7 +31,6 @@ dependencies = [
     "scipy>=1.5.4,<2;python_version<'3.10'",
     "scipy>=1.9.2,<2;python_version>='3.10' and python_version<'3.12'",
     "scipy>=1.12.0,<2;python_version>='3.12'",
-    'setuptools<70',
 ]
 
 [project.urls]
