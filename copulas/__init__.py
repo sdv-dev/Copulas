@@ -311,13 +311,7 @@ def _get_addon_target(addon_path_name):
 def _find_addons():
     """Find and load all copulas add-ons."""
     group = 'copulas_modules'
-    try:
-        eps = entry_points(group=group)
-    except TypeError:
-        # Load-time selection requires Python >= 3.10 or importlib_metadata >= 3.6.
-        eps = entry_points().get(group, [])
-
-    for entry_point in eps:
+    for entry_point in entry_points().select(group=group):
         try:
             addon = entry_point.load()
         except Exception:  # pylint: disable=broad-exception-caught
