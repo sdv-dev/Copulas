@@ -249,6 +249,11 @@ ifeq ($(CHANGELOG_LINES),0)
 	$(error Please insert the release notes in HISTORY.md before releasing)
 endif
 
+.PHONY: check-deps
+check-deps: # Dependency targets
+	$(eval allow_list='numpy=|pandas=|scipy=|plotly=')
+	pip freeze | grep -v "Copulas.git" | grep -E $(allow_list) | sort > $(OUTPUT_FILEPATH)
+
 .PHONY: check-release
 check-release: check-clean check-candidate check-main check-history ## Check if the release can be made
 	@echo "A new release can be made"

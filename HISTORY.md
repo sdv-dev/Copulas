@@ -1,5 +1,19 @@
 # History
 
+## v0.11.0 - 2024-04-10
+
+This release adds support for Python 3.12!
+
+### Bugs Fixed
+
+* Fix minimum version workflow when pointing to github branch - Issue [#392](https://github.com/sdv-dev/Copulas/issues/392) by @R-Palazzo
+
+### Maintenance
+
+* Support Python 3.12 - Issue [#372](https://github.com/sdv-dev/Copulas/issues/372) by @fealho
+* Add dependency checker - Issue [#388](https://github.com/sdv-dev/Copulas/issues/388) by @lajohn4747
+* Add bandit workflow - Issue [#391](https://github.com/sdv-dev/Copulas/issues/391) by @R-Palazzo
+
 ## v0.10.1 - 2024-03-13
 
 This release fixes a bug that occurred when calculating probability density in a gaussian copula.

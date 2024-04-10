@@ -12,22 +12,25 @@ classifiers = [
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
     'Topic :: Scientific/Engineering :: Artificial Intelligence',
 ]
 keywords = [ 'copulas' ]
 dynamic = ["version"]
 license = { text = 'BSL-1.1' }
-requires-python = '>=3.8,<3.12'
+requires-python = '>=3.8,<3.13'
 readme = 'README.md'
 dependencies = [
-    "numpy>=1.20.0,<2;python_version<'3.10'",
-    "numpy>=1.23.3,<2;python_version>='3.10'",
+    "numpy>=1.20.0;python_version<'3.10'",
+    "numpy>=1.23.3;python_version>='3.10' and python_version<'3.12'",
+    "numpy>=1.26.0;python_version>='3.12'",
     "pandas>=1.1.3;python_version<'3.10'",
     "pandas>=1.3.4;python_version>='3.10' and python_version<'3.11'",
     "pandas>=1.5.0;python_version>='3.11'",
-    'plotly>=5.10.0,<6',
-    "scipy>=1.5.4,<2;python_version<'3.10'",
-    "scipy>=1.9.2,<2;python_version>='3.10'",
+    'plotly>=5.10.0',
+    "scipy>=1.5.4;python_version<'3.10'",
+    "scipy>=1.9.2;python_version>='3.10' and python_version<'3.12'",
+    "scipy>=1.12.0;python_version>='3.12'",
 ]
 
 [project.urls]
@@ -47,14 +50,15 @@ version = {attr = 'copulas.__version__'}
 [project.optional-dependencies]
 tutorials = [
     'markupsafe<=2.0.1',
-    'scikit-learn>=0.24,<1.2',
+    "scikit-learn>=0.24,<1.2;python_version<'3.10'",
+    "scikit-learn>=0.24,<1.5;python_version>='3.10'",
     'jupyter>=1.0.0,<2',
 ]
 test = [
     'copulas[tutorials]',
     'pytest>=6.2.5,<7',
     'pytest-cov>=2.6.0,<3',
-    'pytest-rerunfailures>=9.0.0,<10',
+    'pytest-rerunfailures>=10.3,<15',
     'rundoc>=0.4.3,<0.5',
     'tomli>=2.0.0,<3',
 ]
@@ -65,13 +69,19 @@ dev = [
     'pip>=9.0.1',
     'build>=1.0.0,<2',
     'bump-my-version>=0.18.3,<1',
-    'watchdog>=0.8.3,<0.11',
+    'watchdog>=1.0.1,<5',
 
     # docs
     'm2r>=0.2.0,<0.3',
     'nbsphinx>=0.5.0,<0.7',
     'Sphinx>=1.7.1,<3',
     'sphinx_rtd_theme>=0.2.4,<0.5',
+    'sphinxcontrib_applehelp<1.0.8',
+    'sphinxcontrib-devhelp<1.0.6',
+    'sphinxcontrib-htmlhelp<2.0.5',
+    'sphinxcontrib_serializinghtml<1.1.10',
+    'sphinxcontrib_qthelp<1.0.7',
+    'alabaster<0.7.13',
 
     # Jinja2>=3 makes the sphinx theme fail
     'Jinja2>=2,<3',
@@ -158,16 +168,16 @@ namespaces = false
     '*.png',
     '*.gif'
 ]
-'tests' = ['*']
 
 [tool.setuptools.exclude-package-data]
 '*' = [
     '* __pycache__',
     '*.py[co]',
+    'static_code_analysis.txt',
 ]
 
 [tool.bumpversion]
-current_version = "0.10.1"
+current_version = "0.11.0.dev1"
 commit = true
 tag = true
 parse = '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<release>[a-z]+)(?P<candidate>\d+))?'

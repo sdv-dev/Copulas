@@ -4,18 +4,18 @@
 
 __author__ = 'DataCebo, Inc.'
 __email__ = 'info@sdv.dev'
-__version__ = '0.10.1'
+__version__ = '0.11.0.dev1'
 
 import contextlib
 import importlib
 import sys
 import warnings
 from copy import deepcopy
+from importlib.metadata import entry_points
 from operator import attrgetter
 
 import numpy as np
 import pandas as pd
-from pkg_resources import iter_entry_points
 
 EPSILON = np.finfo(np.float32).eps
 
@@ -311,7 +311,13 @@ def _get_addon_target(addon_path_name):
 def _find_addons():
     """Find and load all copulas add-ons."""
     group = 'copulas_modules'
-    for entry_point in iter_entry_points(group=group):
+    try:
+        eps = entry_points(group=group)
+    except TypeError:
+        # Load-time selection requires Python >= 3.10 or importlib_metadata >= 3.6
+        eps = entry_points().get(group, [])
+
+    for entry_point in eps:
         try:
             addon = entry_point.load()
         except Exception:  # pylint: disable=broad-exception-caught
