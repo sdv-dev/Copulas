@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.stats._continuous_distns &mdash; Copulas 0.10.2.dev0 documentation</title>
+  <title>scipy.stats._continuous_distns &mdash; Copulas 0.11.0 documentation</title>
   
 
   
@@ -3454,7 +3454,7 @@
         <span class="c1"># skewness</span>
         <span class="n">sk1</span> <span class="o">=</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
                          <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">g3</span><span class="p">,</span> <span class="n">g2mg12</span><span class="p">),</span>
-                         <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">g3</span><span class="p">,</span> <span class="n">g2gm12</span><span class="p">:</span>
+                         <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">g3</span><span class="p">,</span> <span class="n">g2mg12</span><span class="p">:</span>
                              <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">g3</span> <span class="o">+</span> <span class="p">(</span><span class="n">g2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">g2mg12</span><span class="p">)</span><span class="o">*</span><span class="n">g1</span><span class="p">)</span><span class="o">/</span><span class="n">g2mg12</span><span class="o">**</span><span class="mf">1.5</span><span class="p">,</span>
                          <span class="n">fillvalue</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">sk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="o">**</span><span class="mf">0.29</span><span class="p">,</span> <span class="mi">12</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">_ZETA3</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">sk1</span><span class="p">)</span>
@@ -3651,8 +3651,8 @@
         <span class="n">floc</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;floc&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">method</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;mle&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">CensoredData</span><span class="p">)</span> <span class="ow">or</span> <span class="n">floc</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">or</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;mm&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">CensoredData</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="n">floc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;mm&#39;</span><span class="p">):</span>
             <span class="c1"># loc is not fixed or we&#39;re not doing standard MLE.</span>
             <span class="c1"># Use the default fit method.</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
@@ -3665,9 +3665,7 @@
 
         <span class="n">_remove_optimizer_parameters</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
 
-        <span class="c1"># Special case: loc is fixed.</span>
-
-        <span class="k">if</span> <span class="n">f0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">f0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># This check is for consistency with `rv_continuous.fit`.</span>
             <span class="c1"># Without this check, this function would just return the</span>
             <span class="c1"># parameters that were given.</span>
@@ -3680,6 +3678,34 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The data contains non-finite values.&quot;</span><span class="p">)</span>
 
+        <span class="c1"># Use explicit formulas for mm (gh-19884)</span>
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;mm&#39;</span><span class="p">:</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">m3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">data</span> <span class="o">-</span> <span class="n">m1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">f0</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span>
+            <span class="c1"># Three unknowns</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">m3</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span>
+            <span class="c1"># Two unknowns</span>
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m2</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">m2</span> <span class="o">/</span> <span class="p">(</span><span class="n">m1</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">m2</span> <span class="o">/</span> <span class="p">(</span><span class="n">scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="c1"># One unknown</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">m1</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">m1</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">scale</span>
+            <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">m1</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+            <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
+
+        <span class="c1"># Special case: loc is fixed.</span>
+
+        <span class="c1"># NB: data == loc is ok if a &gt;= 1; the below check is more strict.</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">floc</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">floc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
@@ -4740,7 +4766,7 @@
         <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">scale</span> <span class="o">=</span> <span class="n">fscale</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">scale</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">moment</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">moment</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
 
         <span class="k">return</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
 
@@ -4956,14 +4982,26 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        f(x, \mu) = \frac{1}{\sqrt{2 \pi x^3}}</span>
-<span class="sd">                    \exp(-\frac{(x-\mu)^2}{2 x \mu^2})</span>
+<span class="sd">        f(x; \mu) = \frac{1}{\sqrt{2 \pi x^3}}</span>
+<span class="sd">                    \exp\left(-\frac{(x-\mu)^2}{2 \mu^2 x}\right)</span>
 
-<span class="sd">    for :math:`x &gt;= 0` and :math:`\mu &gt; 0`.</span>
+<span class="sd">    for :math:`x \ge 0` and :math:`\mu &gt; 0`.</span>
 
 <span class="sd">    `invgauss` takes ``mu`` as a shape parameter for :math:`\mu`.</span>
 
 <span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    A common shape-scale parameterization of the inverse Gaussian distribution</span>
+<span class="sd">    has density</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(x; \nu, \lambda) = \sqrt{\frac{\lambda}{2 \pi x^3}}</span>
+<span class="sd">                    \exp\left( -\frac{\lambda(x-\nu)^2}{2 \nu^2 x}\right)</span>
+
+<span class="sd">    Using ``nu`` for :math:`\nu` and ``lam`` for :math:`\lambda`, this</span>
+<span class="sd">    parameterization is equivalent to the one above with ``mu = nu/lam``,</span>
+<span class="sd">    ``loc = 0``, and ``scale = lam``.</span>
 
 <span class="sd">    %(example)s</span>
 
@@ -6562,6 +6600,10 @@
 
 <span class="sd">    %(after_notes)s</span>
 
+<span class="sd">    Suppose a random variable ``X`` follows the Laplace distribution with</span>
+<span class="sd">    location ``a`` and scale ``b``.  Then ``Y = exp(X)`` follows the</span>
+<span class="sd">    log-Laplace distribution with ``c = 1 / b`` and ``scale = exp(a)``.</span>
+
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    T.J. Kozubowski and K. Podgorski, &quot;A log-Laplace growth rate model&quot;,</span>
@@ -6593,11 +6635,45 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">q</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">q</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="n">c</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+            <span class="n">c2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">n2</span> <span class="o">&lt;</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c2</span> <span class="o">/</span> <span class="p">(</span><span class="n">c2</span> <span class="o">-</span> <span class="n">n2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span>
 
+    <span class="nd">@_call_super_mom</span>
+    <span class="nd">@inherit_docstring_from</span><span class="p">(</span><span class="n">rv_continuous</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">floc</span><span class="p">,</span> <span class="n">fscale</span> <span class="o">=</span> <span class="n">_check_fit_input_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                                                             <span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># Specialize MLE only when location is known.</span>
+        <span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="c1"># Raise an error if any observation has zero likelihood.</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">data</span> <span class="o">&lt;=</span> <span class="n">floc</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">FitDataError</span><span class="p">(</span><span class="s2">&quot;loglaplace&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="n">floc</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+
+        <span class="c1"># Remove location from data.</span>
+        <span class="k">if</span> <span class="n">floc</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">floc</span>
+
+        <span class="c1"># When location is zero, the log-Laplace distribution is related to</span>
+        <span class="c1"># the Laplace distribution in that if X ~ Laplace(loc=a, scale=b),</span>
+        <span class="c1"># then Y = exp(X) ~ LogLaplace(c=1/b, loc=0, scale=exp(a)).  It can</span>
+        <span class="c1"># be shown that the MLE for Y is the same as the MLE for X = ln(Y).</span>
+        <span class="c1"># Therefore, we reuse the formulas from laplace.fit() and transform</span>
+        <span class="c1"># the result back into log-laplace&#39;s parameter space.</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">laplace</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+                           <span class="n">floc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">fscale</span><span class="p">)</span> <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">fscale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">fc</span> <span class="k">if</span> <span class="n">fc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">method</span><span class="o">=</span><span class="s1">&#39;mle&#39;</span><span class="p">)</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">floc</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">if</span> <span class="n">fscale</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">fscale</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">b</span> <span class="k">if</span> <span class="n">fc</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">fc</span>
+        <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span>
 
 <span class="n">loglaplace</span> <span class="o">=</span> <span class="n">loglaplace_gen</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loglaplace&#39;</span><span class="p">)</span>
 
@@ -7803,29 +7879,15 @@
 
     <span class="k">def</span> <span class="nf">_logpdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
 
-        <span class="k">def</span> <span class="nf">regular_formula</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">((</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">sc</span><span class="o">.</span><span class="n">gammaln</span><span class="p">(</span><span class="n">df</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-                    <span class="o">-</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+        <span class="k">def</span> <span class="nf">t_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">poch</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">df</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+                    <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
                     <span class="o">-</span> <span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="n">df</span><span class="p">))</span>
-
-        <span class="k">def</span> <span class="nf">asymptotic_formula</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">+</span> <span class="n">df</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">df</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">**-</span><span class="mf">1.</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">45</span><span class="o">*</span><span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">**-</span><span class="mf">3.</span>
-                    <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span> <span class="o">*</span> <span class="n">df</span><span class="o">**-</span><span class="mf">1.</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">45</span><span class="o">*</span><span class="n">df</span><span class="o">**-</span><span class="mf">3.</span>
-                    <span class="o">-</span> <span class="p">(</span><span class="n">df</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">df</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">norm_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">_logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">_lazyselect</span><span class="p">(</span>
-            <span class="p">((</span><span class="n">df</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
-             <span class="p">(</span><span class="n">df</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
-             <span class="p">(</span><span class="n">df</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">)),</span>
-            <span class="p">(</span><span class="n">norm_logpdf</span><span class="p">,</span>
-             <span class="n">asymptotic_formula</span><span class="p">,</span>
-             <span class="n">regular_formula</span><span class="p">),</span>
-            <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_lazywhere</span><span class="p">(</span><span class="n">df</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="p">),</span> <span class="n">f</span><span class="o">=</span><span class="n">norm_logpdf</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">t_logpdf</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">stdtr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
@@ -8448,6 +8510,10 @@
 
     <span class="k">def</span> <span class="nf">_sf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">sc</span><span class="o">.</span><span class="n">powm1</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_munp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+        <span class="c1"># The following expression is correct for all real n (provided a &gt; 0).</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">),</span>
@@ -10694,7 +10760,7 @@
 
 <span class="sd">        f(x, \kappa) = \frac{ \exp(\kappa \cos(x)) }{ 2 \pi I_0(\kappa) }</span>
 
-<span class="sd">    for :math:`-\pi \le x \le \pi`, :math:`\kappa &gt; 0`. :math:`I_0` is the</span>
+<span class="sd">    for :math:`-\pi \le x \le \pi`, :math:`\kappa \ge 0`. :math:`I_0` is the</span>
 <span class="sd">    modified Bessel function of order zero (`scipy.special.i0`).</span>
 
 <span class="sd">    `vonmises` is a circular distribution which does not restrict the</span>
@@ -10725,39 +10791,39 @@
 
 <span class="sd">    Compute the probability density at ``x=0`` via the ``pdf`` method.</span>
 
-<span class="sd">    &gt;&gt;&gt; vonmises.pdf(loc, kappa, 0)</span>
+<span class="sd">    &gt;&gt;&gt; vonmises.pdf(0, loc=loc, kappa=kappa)</span>
 <span class="sd">    0.12570826359722018</span>
 
 <span class="sd">    Verify that the percentile function ``ppf`` inverts the cumulative</span>
 <span class="sd">    distribution function ``cdf`` up to floating point accuracy.</span>
 
 <span class="sd">    &gt;&gt;&gt; x = 1</span>
-<span class="sd">    &gt;&gt;&gt; cdf_value = vonmises.cdf(loc=loc, kappa=kappa, x=x)</span>
+<span class="sd">    &gt;&gt;&gt; cdf_value = vonmises.cdf(x, loc=loc, kappa=kappa)</span>
 <span class="sd">    &gt;&gt;&gt; ppf_value = vonmises.ppf(cdf_value, loc=loc, kappa=kappa)</span>
 <span class="sd">    &gt;&gt;&gt; x, cdf_value, ppf_value</span>
 <span class="sd">    (1, 0.31489339900904967, 1.0000000000000004)</span>
 
 <span class="sd">    Draw 1000 random variates by calling the ``rvs`` method.</span>
 
-<span class="sd">    &gt;&gt;&gt; number_of_samples = 1000</span>
-<span class="sd">    &gt;&gt;&gt; samples = vonmises(loc=loc, kappa=kappa).rvs(number_of_samples)</span>
+<span class="sd">    &gt;&gt;&gt; sample_size = 1000</span>
+<span class="sd">    &gt;&gt;&gt; sample = vonmises(loc=loc, kappa=kappa).rvs(sample_size)</span>
 
 <span class="sd">    Plot the von Mises density on a Cartesian and polar grid to emphasize</span>
-<span class="sd">    that is is a circular distribution.</span>
+<span class="sd">    that it is a circular distribution.</span>
 
 <span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(12, 6))</span>
 <span class="sd">    &gt;&gt;&gt; left = plt.subplot(121)</span>
 <span class="sd">    &gt;&gt;&gt; right = plt.subplot(122, projection=&#39;polar&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; x = np.linspace(-np.pi, np.pi, 500)</span>
-<span class="sd">    &gt;&gt;&gt; vonmises_pdf = vonmises.pdf(loc, kappa, x)</span>
+<span class="sd">    &gt;&gt;&gt; vonmises_pdf = vonmises.pdf(x, loc=loc, kappa=kappa)</span>
 <span class="sd">    &gt;&gt;&gt; ticks = [0, 0.15, 0.3]</span>
 
 <span class="sd">    The left image contains the Cartesian plot.</span>
 
 <span class="sd">    &gt;&gt;&gt; left.plot(x, vonmises_pdf)</span>
 <span class="sd">    &gt;&gt;&gt; left.set_yticks(ticks)</span>
-<span class="sd">    &gt;&gt;&gt; number_of_bins = int(np.sqrt(number_of_samples))</span>
-<span class="sd">    &gt;&gt;&gt; left.hist(samples, density=True, bins=number_of_bins)</span>
+<span class="sd">    &gt;&gt;&gt; number_of_bins = int(np.sqrt(sample_size))</span>
+<span class="sd">    &gt;&gt;&gt; left.hist(sample, density=True, bins=number_of_bins)</span>
 <span class="sd">    &gt;&gt;&gt; left.set_title(&quot;Cartesian plot&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; left.set_xlim(-np.pi, np.pi)</span>
 <span class="sd">    &gt;&gt;&gt; left.grid(True)</span>
@@ -10766,14 +10832,17 @@
 
 <span class="sd">    &gt;&gt;&gt; right.plot(x, vonmises_pdf, label=&quot;PDF&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; right.set_yticks(ticks)</span>
-<span class="sd">    &gt;&gt;&gt; right.hist(samples, density=True, bins=number_of_bins,</span>
+<span class="sd">    &gt;&gt;&gt; right.hist(sample, density=True, bins=number_of_bins,</span>
 <span class="sd">    ...            label=&quot;Histogram&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; right.set_title(&quot;Polar plot&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; right.legend(bbox_to_anchor=(0.15, 1.06))</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">_shape_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">_ShapeInfo</span><span class="p">(</span><span class="s2">&quot;kappa&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_ShapeInfo</span><span class="p">(</span><span class="s2">&quot;kappa&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))]</span>
+
+    <span class="k">def</span> <span class="nf">_argcheck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kappa</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">_rvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">random_state</span><span class="o">.</span><span class="n">vonmises</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
@@ -10860,13 +10929,40 @@
             <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">loc</span> <span class="o">-</span> <span class="n">data</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="c1"># See gh-18128 for more information.</span>
 
-            <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># The function r[0](kappa) := I[1](kappa)/I[0](kappa) is monotonic</span>
+            <span class="c1"># increasing from r[0](0) = 0 to r[0](+inf) = 1.  The partial</span>
+            <span class="c1"># derivative of the log likelihood function with respect to kappa</span>
+            <span class="c1"># is monotonic decreasing in kappa.</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># All observations are (almost) equal to the mean.  Return</span>
+                <span class="c1"># some large kappa such that r[0](kappa) = 1.0 numerically.</span>
+                <span class="k">return</span> <span class="mf">1e16</span>
+            <span class="k">elif</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">def</span> <span class="nf">solve_for_kappa</span><span class="p">(</span><span class="n">kappa</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">sc</span><span class="o">.</span><span class="n">i1e</span><span class="p">(</span><span class="n">kappa</span><span class="p">)</span><span class="o">/</span><span class="n">sc</span><span class="o">.</span><span class="n">i0e</span><span class="p">(</span><span class="n">kappa</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span>
 
-                <span class="n">root_res</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">solve_for_kappa</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;brentq&quot;</span><span class="p">,</span>
-                                       <span class="n">bracket</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="p">,</span> <span class="mf">1e16</span><span class="p">))</span>
-                <span class="k">return</span> <span class="n">root_res</span><span class="o">.</span><span class="n">root</span>
+                <span class="c1"># The bounds of the root of r[0](kappa) = r are derived from</span>
+                <span class="c1"># selected bounds of r[0](x) given in [1, Eq. 11 &amp; 16].  See</span>
+                <span class="c1"># gh-20102 for details.</span>
+                <span class="c1">#</span>
+                <span class="c1"># [1] Amos, D. E. (1973).  Computation of Modified Bessel</span>
+                <span class="c1">#     Functions and Their Ratios.  Mathematics of Computation,</span>
+                <span class="c1">#     28(125): 239-251.</span>
+                <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">r</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">r</span><span class="p">)</span>
+                <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">lower_bound</span>
+
+                <span class="c1"># The bounds are violated numerically for certain values of r,</span>
+                <span class="c1"># where solve_for_kappa evaluated at the bounds have the same</span>
+                <span class="c1"># sign.  This indicates numerical imprecision of i1e()/i0e().</span>
+                <span class="c1"># Return the violated bound in this case as it&#39;s more accurate.</span>
+                <span class="k">if</span> <span class="n">solve_for_kappa</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">lower_bound</span>
+                <span class="k">elif</span> <span class="n">solve_for_kappa</span><span class="p">(</span><span class="n">upper_bound</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">upper_bound</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">root_res</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">solve_for_kappa</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;brentq&quot;</span><span class="p">,</span>
+                                           <span class="n">bracket</span><span class="o">=</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="n">root_res</span><span class="o">.</span><span class="n">root</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># if the provided floc is very far from the circular mean,</span>
                 <span class="c1"># the mean resultant length r can become negative.</span>
@@ -11204,14 +11300,14 @@
 <span class="sd">    from a power-law to a Gaussian distribution.  :math:`m` is the power</span>
 <span class="sd">    of the power-law tail.</span>
 
+<span class="sd">    %(after_notes)s</span>
+
+<span class="sd">    .. versionadded:: 0.19.0</span>
+
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] &quot;Crystal Ball Function&quot;,</span>
 <span class="sd">           https://en.wikipedia.org/wiki/Crystal_Ball_function</span>
-
-<span class="sd">    %(after_notes)s</span>
-
-<span class="sd">    .. versionadded:: 0.19.0</span>
 
 <span class="sd">    %(example)s</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -11372,7 +11468,8 @@
 <span class="sd">    with :math:`\Phi` and :math:`\phi` being the CDF and PDF of a standard</span>
 <span class="sd">    normal distribution, respectively.</span>
 
-<span class="sd">    `argus` takes :math:`\chi` as shape a parameter.</span>
+<span class="sd">    `argus` takes :math:`\chi` as shape a parameter. Details about sampling</span>
+<span class="sd">    from the ARGUS distribution can be found in [2]_.</span>
 
 <span class="sd">    %(after_notes)s</span>
 
@@ -11380,6 +11477,9 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] &quot;ARGUS distribution&quot;,</span>
 <span class="sd">           https://en.wikipedia.org/wiki/ARGUS_distribution</span>
+<span class="sd">    .. [2] Christoph Baumgarten &quot;Random variate generation by fast numerical</span>
+<span class="sd">           inversion in the varying parameter case.&quot; Research in Statistics,</span>
+<span class="sd">           vol. 1, 2023, doi:10.1080/27684520.2023.2279060.</span>
 
 <span class="sd">    .. versionadded:: 0.19.0</span>
 
