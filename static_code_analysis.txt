@@ -1,0 +1,113 @@
+Run started:2024-04-10 07:28:27.016244
+
+Test results:
+>> Issue: [B403:blacklist] Consider possible security implications associated with pickle module.
+   Severity: Low   Confidence: High
+   CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_imports.html#b403-import-pickle
+   Location: ./copulas/multivariate/base.py:3:0
+2	
+3	import pickle
+4	
+
+--------------------------------------------------
+>> Issue: [B301:blacklist] Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.
+   Severity: Medium   Confidence: High
+   CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_calls.html#b301-pickle
+   Location: ./copulas/multivariate/base.py:177:19
+176	        with open(path, 'rb') as pickle_file:
+177	            return pickle.load(pickle_file)
+178	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b101_assert_used.html
+   Location: ./copulas/optimize/__init__.py:26:4
+25	    """
+26	    assert (f(xmin) <= 0.0).all()
+27	    assert (f(xmax) >= 0.0).all()
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b101_assert_used.html
+   Location: ./copulas/optimize/__init__.py:27:4
+26	    assert (f(xmin) <= 0.0).all()
+27	    assert (f(xmax) >= 0.0).all()
+28	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b101_assert_used.html
+   Location: ./copulas/optimize/__init__.py:71:4
+70	    shape = np.shape(fa)
+71	    assert shape == np.shape(fb)
+72	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b101_assert_used.html
+   Location: ./copulas/optimize/__init__.py:77:4
+76	    # Make sure we are bracketing a root in each case
+77	    assert (np.sign(fa) * np.sign(fb) <= 0).all()
+78	    t = 0.5
+
+--------------------------------------------------
+>> Issue: [B403:blacklist] Consider possible security implications associated with pickle module.
+   Severity: Low   Confidence: High
+   CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_imports.html#b403-import-pickle
+   Location: ./copulas/univariate/base.py:3:0
+2	
+3	import pickle
+4	from abc import ABC
+
+--------------------------------------------------
+>> Issue: [B301:blacklist] Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.
+   Severity: Medium   Confidence: High
+   CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_calls.html#b301-pickle
+   Location: ./copulas/univariate/base.py:477:19
+476	        with open(path, 'rb') as pickle_file:
+477	            return pickle.load(pickle_file)
+478	
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b110_try_except_pass.html
+   Location: ./copulas/univariate/selection.py:32:8
+31	                best_model = model
+32	        except Exception:
+33	            # Distribution not supported
+34	            pass
+35	
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 3973
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 7
+		Medium: 2
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 9
+Files skipped (0):
