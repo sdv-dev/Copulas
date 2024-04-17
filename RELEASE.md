@@ -73,7 +73,7 @@ And you will see something like this:
 ```
 ============================ 169 passed, 1 skipped, 3 warnings in 7.10s ============================
 flake8 copulas tests examples
-isort -c --recursive copulas tests examples
+isort -c copulas tests examples
 ```
 
 The execution has finished with no errors, 1 test skipped and 3 warnings.

@@ -321,7 +321,7 @@ def _find_addons():
         try:
             addon = entry_point.load()
         except Exception:  # pylint: disable=broad-exception-caught
-            msg = f'Failed to load "{entry_point.name}" from "{entry_point.module_name}".'
+            msg = f'Failed to load "{entry_point.name}" from "{entry_point.version}".'
             warnings.warn(msg)
             continue
 

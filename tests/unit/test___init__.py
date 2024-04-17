@@ -426,7 +426,7 @@ class TestGetInstance(TestCase):
         assert instance.distribution == 'copulas.univariate.truncnorm.TruncNorm'
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_copulas():
     copulas_module = sys.modules['copulas']
     copulas_mock = MagicMock()
@@ -479,7 +479,7 @@ def test__find_addons_bad_addon(entry_points_mock, warning_mock):
 
     bad_entry_point = MagicMock()
     bad_entry_point.name = 'bad_entry_point'
-    bad_entry_point.module_name = 'bad_module'
+    bad_entry_point.version = 'bad_module'
     bad_entry_point.load.side_effect = entry_point_error
     entry_points_mock.return_value = [bad_entry_point]
     msg = 'Failed to load "bad_entry_point" from "bad_module".'
