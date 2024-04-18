@@ -97,7 +97,7 @@ lint-docs: ## check docs formatting with doc8 and pydocstyle
 fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 	find copulas tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
 	autopep8 --in-place --recursive --aggressive copulas tests
-	isort --apply --atomic --recursive copulas tests
+	isort --apply --atomic copulas tests
 
 
 # TEST TARGETS

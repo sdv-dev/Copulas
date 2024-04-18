@@ -146,7 +146,7 @@ def lint(c):
     c.run('pydocstyle copulas')
     c.run('flake8 tests --ignore=D,SFS2')
     c.run('pydocstyle tests')
-    c.run('isort -c --recursive copulas tests')
+    c.run('isort -c copulas tests')
 
 
 def remove_readonly(func, path, _):
