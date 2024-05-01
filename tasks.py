@@ -79,7 +79,8 @@ def _get_minimum_versions(dependencies, python_version):
 
         if req.name not in min_versions:
             min_version = next(
-                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), None
+                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')),
+                None,
             )
             if min_version:
                 min_versions[req.name] = f'{req.name}=={min_version}'
@@ -91,8 +92,9 @@ def _get_minimum_versions(dependencies, python_version):
                 existing_version,
             )
             if new_version > existing_version:
-                # Change when a valid newer version is found
-                min_versions[req.name] = f'{req.name}=={new_version}'
+                min_versions[req.name] = (
+                    f'{req.name}=={new_version}'  # Change when a valid newer version is found
+                )
 
     return list(min_versions.values())
 
