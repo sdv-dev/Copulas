@@ -1,8 +1,9 @@
 from unittest import TestCase
 
 import numpy as np
-from copulas.univariate.student_t import StudentTUnivariate
 from scipy.stats import t
+
+from copulas.univariate.student_t import StudentTUnivariate
 
 
 class TestStudentTUnivariate(TestCase):

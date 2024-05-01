@@ -1,8 +1,8 @@
 from unittest import TestCase, mock
 
 import numpy as np
-from copulas.bivariate.base import Bivariate, CopulaTypes
 
+from copulas.bivariate.base import Bivariate, CopulaTypes
 from tests import compare_nested_dicts
 
 

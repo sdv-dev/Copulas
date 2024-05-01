@@ -2,8 +2,9 @@ from unittest import TestCase
 from unittest.mock import patch
 
 import numpy as np
-from copulas.univariate import BetaUnivariate
 from scipy.stats import beta
+
+from copulas.univariate import BetaUnivariate
 
 
 class TestBetaUnivariate(TestCase):

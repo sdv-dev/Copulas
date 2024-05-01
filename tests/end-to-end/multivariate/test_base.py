@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import GaussianMultivariate, VineCopula
 

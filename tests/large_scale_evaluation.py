@@ -43,10 +43,11 @@ import pandas as pd
 import tabulate
 from botocore import UNSIGNED
 from botocore.client import Config
+from scipy.stats import ks_2samp
+
 from copulas import get_instance
 from copulas.multivariate import GaussianMultivariate, VineCopula
 from copulas.univariate import GaussianUnivariate
-from scipy.stats import ks_2samp
 
 LOGGER = logging.getLogger(__name__)
 

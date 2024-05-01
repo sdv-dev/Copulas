@@ -1,8 +1,9 @@
 from unittest import TestCase
 
 import numpy as np
-from copulas.univariate.uniform import UniformUnivariate
 from scipy.stats import uniform
+
+from copulas.univariate.uniform import UniformUnivariate
 
 
 class TestUniformUnivariate(TestCase):

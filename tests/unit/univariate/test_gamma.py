@@ -1,8 +1,9 @@
 from unittest import TestCase
 
 import numpy as np
-from copulas.univariate import GammaUnivariate
 from scipy.stats import gamma
+
+from copulas.univariate import GammaUnivariate
 
 
 class TestGammaUnivariate(TestCase):

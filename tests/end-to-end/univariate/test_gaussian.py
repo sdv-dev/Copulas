@@ -3,8 +3,9 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from copulas.univariate import GaussianUnivariate
 from scipy.stats import norm
+
+from copulas.univariate import GaussianUnivariate
 
 
 class TestGaussian(TestCase):

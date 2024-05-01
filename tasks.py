@@ -9,7 +9,6 @@ import stat
 import sys
 from pathlib import Path
 
-from packaging.version import Version
 import tomli
 from invoke import task
 from packaging.requirements import Requirement

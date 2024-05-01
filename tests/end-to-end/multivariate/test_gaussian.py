@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
+
 from copulas.datasets import sample_trivariate_xyz
 from copulas.multivariate import GaussianMultivariate
 from copulas.univariate import BetaUnivariate, GaussianKDE, ParametricType, Univariate

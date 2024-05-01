@@ -3,8 +3,9 @@ from unittest import TestCase
 from unittest.mock import patch
 
 import numpy as np
-from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from scipy.stats import truncnorm
+
+from copulas.univariate.truncated_gaussian import TruncatedGaussian
 
 
 class TestTruncatedGaussian(TestCase):

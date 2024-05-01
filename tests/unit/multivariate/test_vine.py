@@ -5,9 +5,9 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 import pytest
+
 from copulas.multivariate.tree import TreeTypes
 from copulas.multivariate.vine import VineCopula
-
 from tests import compare_nested_dicts, compare_nested_iterables
 
 

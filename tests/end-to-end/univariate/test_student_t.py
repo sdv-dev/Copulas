@@ -3,8 +3,9 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from copulas.univariate import StudentTUnivariate
 from scipy.stats import t
+
+from copulas.univariate import StudentTUnivariate
 
 
 class TestStudentT(TestCase):

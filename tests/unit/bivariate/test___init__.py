@@ -1,7 +1,8 @@
 import numpy as np
+from scipy import stats
+
 from copulas.bivariate import select_copula
 from copulas.bivariate.frank import Frank
-from scipy import stats
 
 
 def test_select_copula_negative_tau():

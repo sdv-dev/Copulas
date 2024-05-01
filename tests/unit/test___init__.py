@@ -2,10 +2,12 @@ import sys
 from unittest import TestCase
 from unittest.mock import MagicMock, call, patch
 
-import copulas
 import numpy as np
 import pandas as pd
 import pytest
+from numpy.testing import assert_array_equal
+
+import copulas
 from copulas import (
     _find_addons,
     check_valid_values,
@@ -16,7 +18,6 @@ from copulas import (
     vectorize,
 )
 from copulas.multivariate import GaussianMultivariate
-from numpy.testing import assert_array_equal
 
 
 class TestVectorize(TestCase):
