@@ -11,7 +11,6 @@ from copulas.univariate.gaussian_kde import GaussianKDE
 
 
 class TestGaussian(TestCase):
-
     def setUp(self):
         self.data = sample_univariate_bimodal()
         self.constant = np.full(100, fill_value=5)
@@ -27,7 +26,7 @@ class TestGaussian(TestCase):
         sampled_data = model.sample(50)
 
         assert isinstance(sampled_data, np.ndarray)
-        assert sampled_data.shape == (50, )
+        assert sampled_data.shape == (50,)
 
     def test_fit_sample_constant(self):
         model = GaussianKDE()
@@ -36,7 +35,7 @@ class TestGaussian(TestCase):
         sampled_data = model.sample(50)
 
         assert isinstance(sampled_data, np.ndarray)
-        assert sampled_data.shape == (50, )
+        assert sampled_data.shape == (50,)
 
         assert model._constant_value == 5
         np.testing.assert_equal(np.full(50, 5), model.sample(50))
@@ -101,7 +100,7 @@ class TestGaussian(TestCase):
 
         assert params == {
             'type': 'copulas.univariate.gaussian_kde.GaussianKDE',
-            'dataset': [5] * 100
+            'dataset': [5] * 100,
         }
 
     def test_to_dict_from_dict_constant(self):
@@ -148,7 +147,7 @@ class TestGaussian(TestCase):
         dist = GaussianMultivariate(distribution=GaussianKDE(bw_method=0.01))
         dist.fit(data)
         samples = dist.sample(size).to_numpy()[0]
-        d, p = ks_2samp(data, samples)
+        _d, p = ks_2samp(data, samples)
         assert p >= 0.05
 
     def test_fixed_random_state(self):

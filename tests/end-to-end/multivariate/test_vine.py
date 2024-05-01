@@ -7,7 +7,6 @@ from copulas.multivariate import VineCopula
 
 
 class TestGaussian(TestCase):
-
     def setUp(self):
         self.test_dir = tempfile.TemporaryDirectory()
 

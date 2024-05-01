@@ -8,7 +8,6 @@ from tests import compare_nested_iterables, copula_single_arg_not_one, copula_ze
 
 
 class TestGumbel(TestCase):
-
     def setUp(self):
         self.copula = Gumbel()
         self.X = np.array([
@@ -33,10 +32,7 @@ class TestGumbel(TestCase):
         expected_result = np.array([3.8870, 3.7559])
 
         # Run
-        result = self.copula.probability_density(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.probability_density(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -49,10 +45,7 @@ class TestGumbel(TestCase):
         expected_result = np.array([0.1549, 0.5584])
 
         # Run
-        result = self.copula.cumulative_distribution(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.cumulative_distribution(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -73,13 +66,10 @@ class TestGumbel(TestCase):
             [0.1142629649994753, 0.2],
             [0.3446610994349153, 0.4],
             [0.6171955667476859, 0.6],
-            [0.8636748995382857, 0.8]
+            [0.8636748995382857, 0.8],
         ])
 
-        expected_uniform_call_args_list = [
-            ((0, 1, 5), {}),
-            ((0, 1, 5), {})
-        ]
+        expected_uniform_call_args_list = [((0, 1, 5), {}), ((0, 1, 5), {})]
 
         # Run
         result = instance.sample(5)
@@ -93,7 +83,7 @@ class TestGumbel(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Gumbel()
-        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(0.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:
@@ -105,7 +95,7 @@ class TestGumbel(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Gumbel()
-        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(0.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:

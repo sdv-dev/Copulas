@@ -15,16 +15,10 @@ class UniformUnivariate(ScipyModel):
     MODEL_CLASS = uniform
 
     def _fit_constant(self, X):
-        self._params = {
-            'loc': np.min(X),
-            'scale': np.max(X) - np.min(X)
-        }
+        self._params = {'loc': np.min(X), 'scale': np.max(X) - np.min(X)}
 
     def _fit(self, X):
-        self._params = {
-            'loc': np.min(X),
-            'scale': np.max(X) - np.min(X)
-        }
+        self._params = {'loc': np.min(X), 'scale': np.max(X) - np.min(X)}
 
     def _is_constant(self):
         return self._params['scale'] == 0

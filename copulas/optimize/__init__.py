@@ -127,7 +127,7 @@ def chandrupatla(f, xmin, xmax, eps_m=None, eps_a=None, maxiter=50):
         # to determine which method we should use next
         xi = (a - b) / (c - b)
         phi = (fa - fb) / (fc - fb)
-        iqi = np.logical_and(phi**2 < xi, (1 - phi)**2 < 1 - xi)
+        iqi = np.logical_and(phi**2 < xi, (1 - phi) ** 2 < 1 - xi)
 
         if not shape:
             # scalar case
@@ -143,8 +143,9 @@ def chandrupatla(f, xmin, xmax, eps_m=None, eps_a=None, maxiter=50):
             # array case
             t = np.full(shape, 0.5)
             a2, b2, c2, fa2, fb2, fc2 = a[iqi], b[iqi], c[iqi], fa[iqi], fb[iqi], fc[iqi]
-            t[iqi] = fa2 / (fb2 - fa2) * fc2 / (fb2 - fc2) + (c2 - a2) / \
-                (b2 - a2) * fa2 / (fc2 - fa2) * fb2 / (fc2 - fb2)
+            t[iqi] = fa2 / (fb2 - fa2) * fc2 / (fb2 - fc2) + (c2 - a2) / (b2 - a2) * fa2 / (
+                fc2 - fa2
+            ) * fb2 / (fc2 - fb2)
 
         # limit to the range (tlim, 1-tlim)
         t = np.minimum(1 - tlim, np.maximum(tlim, t))

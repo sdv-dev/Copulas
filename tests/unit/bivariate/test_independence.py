@@ -6,7 +6,6 @@ from copulas.bivariate.independence import Independence
 
 
 class TestIndependence(TestCase):
-
     def test___init__(self):
         """Independence copula can be instantiated directly."""
         # Setup / Run
@@ -21,10 +20,7 @@ class TestIndependence(TestCase):
         """Fit checks that the given values are independent."""
         # Setup
         instance = Independence()
-        data = np.array([
-            [1, 2],
-            [4, 3]
-        ])
+        data = np.array([[1, 2], [4, 3]])
 
         # Run
         instance.fit(data)
@@ -37,14 +33,7 @@ class TestIndependence(TestCase):
         """cumulative_distribution is the product of both probabilities."""
         # Setup
         instance = Independence()
-        data = np.array([
-            [0.0, 0.0],
-            [0.1, 0.1],
-            [0.2, 0.2],
-            [0.5, 0.5],
-            [0.9, 0.9],
-            [1.0, 1.0]
-        ])
+        data = np.array([[0.0, 0.0], [0.1, 0.1], [0.2, 0.2], [0.5, 0.5], [0.9, 0.9], [1.0, 1.0]])
 
         expected_result = np.array([
             0.00,

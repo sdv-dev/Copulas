@@ -9,7 +9,6 @@ from copulas.univariate import GammaUnivariate
 
 
 class TestGaussian(TestCase):
-
     def setUp(self):
         self.data = gamma.rvs(a=1.0, loc=1.0, scale=1.0, size=50000)
         self.constant = np.full(100, fill_value=5)
@@ -29,7 +28,7 @@ class TestGaussian(TestCase):
         sampled_data = model.sample(50)
 
         assert isinstance(sampled_data, np.ndarray)
-        assert sampled_data.shape == (50, )
+        assert sampled_data.shape == (50,)
 
     def test_fit_sample_constant(self):
         model = GammaUnivariate()
@@ -38,7 +37,7 @@ class TestGaussian(TestCase):
         sampled_data = model.sample(50)
 
         assert isinstance(sampled_data, np.ndarray)
-        assert sampled_data.shape == (50, )
+        assert sampled_data.shape == (50,)
 
         assert model._constant_value == 5
         np.testing.assert_equal(np.full(50, 5), model.sample(50))

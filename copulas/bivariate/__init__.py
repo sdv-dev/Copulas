@@ -47,7 +47,6 @@ def _compute_empirical(X):
         right = sum(np.logical_and(U >= base[k], V >= base[k])) / N
 
         if left > 0:
-
             z_left.append(base[k])
             L.append(left / base[k] ** 2)
 
@@ -151,7 +150,8 @@ def select_copula(X):
 
     left_tail, empirical_left_aut, right_tail, empirical_right_aut = _compute_empirical(X)
     candidate_left_auts, candidate_right_auts = _compute_candidates(
-        copula_candidates, left_tail, right_tail)
+        copula_candidates, left_tail, right_tail
+    )
 
     empirical_aut = np.concatenate((empirical_left_aut, empirical_right_aut))
     candidate_auts = [

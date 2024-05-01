@@ -8,7 +8,6 @@ from tests import compare_nested_iterables, copula_single_arg_not_one, copula_ze
 
 
 class TestFrank(TestCase):
-
     def setUp(self):
         self.X = np.array([
             [0.2, 0.1],
@@ -33,10 +32,7 @@ class TestFrank(TestCase):
         expected_result = np.array([4.4006, 4.2302])
 
         # Run
-        result = self.copula.probability_density(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.probability_density(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -49,10 +45,7 @@ class TestFrank(TestCase):
         expected_result = np.array([0.1602, 0.5641])
 
         # Run
-        result = self.copula.cumulative_distribution(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.cumulative_distribution(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -73,13 +66,10 @@ class TestFrank(TestCase):
             [0.1007998170183327, 0.2],
             [0.3501836319841291, 0.4],
             [0.6498163680158703, 0.6],
-            [0.8992001829816683, 0.8]
+            [0.8992001829816683, 0.8],
         ])
 
-        expected_uniform_call_args_list = [
-            ((0, 1, 5), {}),
-            ((0, 1, 5), {})
-        ]
+        expected_uniform_call_args_list = [((0, 1, 5), {}), ((0, 1, 5), {})]
 
         # Run
         result = instance.sample(5)
@@ -94,7 +84,7 @@ class TestFrank(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Frank()
-        tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(-1.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:
@@ -106,10 +96,10 @@ class TestFrank(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Frank()
-        tau_values = np.linspace(-1.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(-1.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:
             instance.tau = tau
             instance.theta = instance.compute_theta()
-            copula_single_arg_not_one(instance, tolerance=1E-03)
+            copula_single_arg_not_one(instance, tolerance=1e-03)

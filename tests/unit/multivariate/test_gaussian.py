@@ -10,34 +10,88 @@ from copulas.univariate import GaussianUnivariate
 
 
 class TestGaussianMultivariate(TestCase):
-
     def setUp(self):
-        """Defines random variable to use on tests. """
+        """Defines random variable to use on tests."""
 
         self.data = pd.DataFrame({
             'column1': np.array([
-                2641.16233666, 921.14476418, -651.32239137, 1223.63536668,
-                3233.37342355, 1373.22400821, 1959.28188858, 1076.99295365,
-                2029.25100261, 1835.52188141, 1170.03850556, 739.42628394,
-                1866.65810627, 3703.49786503, 1719.45232017, 258.90206528,
-                219.42363944, 609.90212377, 1618.44207239, 2323.2775272,
-                3251.78732274, 1430.63989981, -180.57028875, -592.84497457,
+                2641.16233666,
+                921.14476418,
+                -651.32239137,
+                1223.63536668,
+                3233.37342355,
+                1373.22400821,
+                1959.28188858,
+                1076.99295365,
+                2029.25100261,
+                1835.52188141,
+                1170.03850556,
+                739.42628394,
+                1866.65810627,
+                3703.49786503,
+                1719.45232017,
+                258.90206528,
+                219.42363944,
+                609.90212377,
+                1618.44207239,
+                2323.2775272,
+                3251.78732274,
+                1430.63989981,
+                -180.57028875,
+                -592.84497457,
             ]),
             'column2': np.array([
-                180.2425623, 192.35609972, 150.24830291, 156.62123653,
-                173.80311908, 191.0922843, 163.22252158, 190.73280428,
-                158.52982435, 163.0101334, 205.24904026, 175.42916046,
-                208.31821984, 178.98351969, 160.50981075, 163.19294974,
-                173.30395132, 215.18996298, 164.71141696, 178.84973821,
-                182.99902513, 217.5796917, 201.56983421, 174.92272693
+                180.2425623,
+                192.35609972,
+                150.24830291,
+                156.62123653,
+                173.80311908,
+                191.0922843,
+                163.22252158,
+                190.73280428,
+                158.52982435,
+                163.0101334,
+                205.24904026,
+                175.42916046,
+                208.31821984,
+                178.98351969,
+                160.50981075,
+                163.19294974,
+                173.30395132,
+                215.18996298,
+                164.71141696,
+                178.84973821,
+                182.99902513,
+                217.5796917,
+                201.56983421,
+                174.92272693,
             ]),
             'column3': np.array([
-                -1.42432446, -0.14759864, 0.66476302, -0.04061445, 0.64305762,
-                1.79615407, 0.70450457, -0.05886671, -0.36794788, 1.39331262,
-                0.39792831, 0.0676313, -0.96761759, 0.67286132, -0.55013279,
-                -0.53118328, 1.23969655, -0.35985016, -0.03568531, 0.91456357,
-                0.49077378, -0.27428204, 0.45857406, 2.29614033
-            ])
+                -1.42432446,
+                -0.14759864,
+                0.66476302,
+                -0.04061445,
+                0.64305762,
+                1.79615407,
+                0.70450457,
+                -0.05886671,
+                -0.36794788,
+                1.39331262,
+                0.39792831,
+                0.0676313,
+                -0.96761759,
+                0.67286132,
+                -0.55013279,
+                -0.53118328,
+                1.23969655,
+                -0.35985016,
+                -0.03568531,
+                0.91456357,
+                0.49077378,
+                -0.27428204,
+                0.45857406,
+                2.29614033,
+            ]),
         })
 
     def test__transform_to_normal_numpy_1d(self):
@@ -97,11 +151,7 @@ class TestGaussianMultivariate(TestCase):
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
-        expected = np.array([
-            [-5.166579, -0.524401],
-            [0.0, 0.0],
-            [5.166579, 0.524401]
-        ])
+        expected = np.array([[-5.166579, -0.524401], [0.0, 0.0], [5.166579, 0.524401]])
         np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
@@ -158,21 +208,14 @@ class TestGaussianMultivariate(TestCase):
         gm.univariates = [dist_a, dist_b]
 
         # Run
-        data = pd.DataFrame({
-            'a': [3, 4, 5],
-            'b': [5, 6, 7]
-        })
+        data = pd.DataFrame({'a': [3, 4, 5], 'b': [5, 6, 7]})
         returned = gm._transform_to_normal(data)
 
         # Check
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
-        expected = np.array([
-            [-5.166579, -0.524401],
-            [0.0, 0.0],
-            [5.166579, 0.524401]
-        ])
+        expected = np.array([[-5.166579, -0.524401], [0.0, 0.0], [5.166579, 0.524401]])
         np.testing.assert_allclose(returned, expected, atol=1e-6)
 
         assert dist_a.cdf.call_count == 1
@@ -192,9 +235,9 @@ class TestGaussianMultivariate(TestCase):
         copula.fit(self.data)
 
         expected_correlation = np.array([
-            [1., -0.01261819, -0.19821644],
-            [-0.01261819, 1., -0.16896087],
-            [-0.19821644, -0.16896087, 1.]
+            [1.0, -0.01261819, -0.19821644],
+            [-0.01261819, 1.0, -0.16896087],
+            [-0.19821644, -0.16896087, 1.0],
         ])
 
         # Run
@@ -242,24 +285,33 @@ class TestGaussianMultivariate(TestCase):
         On fit, it should use the correct distributions for those that are
         specified and default to using the base class otherwise.
         """
-        copula = GaussianMultivariate(distribution={
-            'column1': 'copulas.univariate.beta.BetaUnivariate',
-            'column2': 'copulas.univariate.gaussian_kde.GaussianKDE',
-        })
+        copula = GaussianMultivariate(
+            distribution={
+                'column1': 'copulas.univariate.beta.BetaUnivariate',
+                'column2': 'copulas.univariate.gaussian_kde.GaussianKDE',
+            }
+        )
         copula.fit(self.data)
 
-        assert get_qualified_name(
-            copula.univariates[0].__class__) == 'copulas.univariate.beta.BetaUnivariate'
-        assert get_qualified_name(
-            copula.univariates[1].__class__) == 'copulas.univariate.gaussian_kde.GaussianKDE'
-        assert get_qualified_name(
-            copula.univariates[2].__class__) == 'copulas.univariate.base.Univariate'
+        assert (
+            get_qualified_name(copula.univariates[0].__class__)
+            == 'copulas.univariate.beta.BetaUnivariate'
+        )
+        assert (
+            get_qualified_name(copula.univariates[1].__class__)
+            == 'copulas.univariate.gaussian_kde.GaussianKDE'
+        )
+        assert (
+            get_qualified_name(copula.univariates[2].__class__)
+            == 'copulas.univariate.base.Univariate'
+        )
 
     def test_fit_numpy_array(self):
-        """Fit should work indistinctly with numpy arrays and pandas dataframes """
+        """Fit should work indistinctly with numpy arrays and pandas dataframes"""
         # Setup
         copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate')
+            distribution='copulas.univariate.gaussian.GaussianUnivariate'
+        )
 
         # Run
         copula.fit(self.data.to_numpy())
@@ -305,7 +357,7 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
-        X = np.array([2000., 200., 0.])
+        X = np.array([2000.0, 200.0, 0.0])
         expected_result = 0.032245296420409846
 
         # Run
@@ -319,7 +371,7 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data)
-        X = np.array([2000., 200., 1.])
+        X = np.array([2000.0, 200.0, 1.0])
         expected_result = 0.4550595153746892
 
         # Run
@@ -333,7 +385,7 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.to_numpy())
-        X = np.array([2000., 200., 1.])
+        X = np.array([2000.0, 200.0, 1.0])
         expected_result = 0.4550595153746892
 
         # Run
@@ -347,7 +399,7 @@ class TestGaussianMultivariate(TestCase):
         # Setup
         copula = GaussianMultivariate(GaussianUnivariate)
         copula.fit(self.data.to_numpy())
-        X = np.array([2000., 200., 1.])
+        X = np.array([2000.0, 200.0, 1.0])
         expected_result = 0.4550595153746892
 
         # Run
@@ -366,7 +418,7 @@ class TestGaussianMultivariate(TestCase):
             {'A': 30, 'B': 60, 'C': 250},
             {'A': 10, 'B': 65, 'C': 350},
             {'A': 20, 'B': 80, 'C': 150},
-            {'A': 25, 'B': 70, 'C': 500}
+            {'A': 25, 'B': 70, 'C': 500},
         ])
         instance.fit(data)
 
@@ -375,7 +427,7 @@ class TestGaussianMultivariate(TestCase):
             [0.2, 0.2, 0.2],
             [0.4, 0.4, 0.4],
             [0.6, 0.6, 0.6],
-            [0.8, 0.8, 0.8]
+            [0.8, 0.8, 0.8],
         ])
 
         expected_result = pd.DataFrame([
@@ -383,7 +435,7 @@ class TestGaussianMultivariate(TestCase):
             {'A': 23.356465996625055, 'B': 71.41421356237309, 'C': 298.7054001888146},
             {'A': 24.712931993250110, 'B': 72.82842712474618, 'C': 327.4108003776293},
             {'A': 26.069397989875164, 'B': 74.24264068711929, 'C': 356.116200566444},
-            {'A': 27.425863986500215, 'B': 75.65685424949238, 'C': 384.8216007552586}
+            {'A': 27.425863986500215, 'B': 75.65685424949238, 'C': 384.8216007552586},
         ])
 
         # Run
@@ -393,13 +445,9 @@ class TestGaussianMultivariate(TestCase):
         assert result.equals(expected_result)
 
         np.testing.assert_array_equal(
-            normal_mock.call_args[0][0],
-            np.zeros(instance.correlation.shape[0])
+            normal_mock.call_args[0][0], np.zeros(instance.correlation.shape[0])
         )
-        np.testing.assert_array_equal(
-            normal_mock.call_args[0][1],
-            instance.correlation
-        )
+        np.testing.assert_array_equal(normal_mock.call_args[0][1], instance.correlation)
         assert normal_mock.call_args[1] == {'size': 5}
 
     def test_sample_random_state(self):
@@ -411,7 +459,7 @@ class TestGaussianMultivariate(TestCase):
             {'A': 30, 'B': 60, 'C': 250},
             {'A': 10, 'B': 65, 'C': 350},
             {'A': 20, 'B': 80, 'C': 150},
-            {'A': 25, 'B': 70, 'C': 500}
+            {'A': 25, 'B': 70, 'C': 500},
         ])
         instance.fit(data)
 
@@ -421,9 +469,9 @@ class TestGaussianMultivariate(TestCase):
                 [31.50262306, 49.70971698, 429.06537124],
                 [20.31636799, 64.3492326, 384.27561823],
                 [25.00302427, 72.06019812, 415.85215123],
-                [23.07525773, 66.70901743, 390.8226672]
+                [23.07525773, 66.70901743, 390.8226672],
             ]),
-            columns=['A', 'B', 'C']
+            columns=['A', 'B', 'C'],
         )
 
         # Run
@@ -477,12 +525,7 @@ class TestGaussianMultivariate(TestCase):
         """
         # Setup
         instance = GaussianMultivariate()
-        X = np.array([
-            [1.0, 2.0],
-            [1.0, 3.0],
-            [1.0, 4.0],
-            [1.0, 5.0]
-        ])
+        X = np.array([[1.0, 2.0], [1.0, 3.0], [1.0, 4.0], [1.0, 5.0]])
         instance.fit(X)
 
         # Run
@@ -502,20 +545,18 @@ class TestGaussianMultivariate(TestCase):
 
     def test__get_conditional_distribution(self):
         gm = GaussianMultivariate()
-        gm.correlation = pd.DataFrame({
-            'a': [1, 0.2, 0.3],
-            'b': [0.2, 1, 0.4],
-            'c': [0.3, 0.4, 1],
-        }, index=['a', 'b', 'c'])
+        gm.correlation = pd.DataFrame(
+            {
+                'a': [1, 0.2, 0.3],
+                'b': [0.2, 1, 0.4],
+                'c': [0.3, 0.4, 1],
+            },
+            index=['a', 'b', 'c'],
+        )
 
-        conditions = pd.Series({
-            'b': 1
-        })
+        conditions = pd.Series({'b': 1})
         means, covariance, columns = gm._get_conditional_distribution(conditions)
 
         np.testing.assert_allclose(means, [0.2, 0.4])
-        np.testing.assert_allclose(covariance, [
-            [0.96, 0.22],
-            [0.22, 0.84]
-        ])
+        np.testing.assert_allclose(covariance, [[0.96, 0.22], [0.22, 0.84]])
         assert columns.tolist() == ['a', 'c']

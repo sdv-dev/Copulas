@@ -15,13 +15,10 @@ from copulas.univariate.gaussian_kde import GaussianKDE
 
 
 class TestGaussianKDE(TestCase):
-
     def test__get_model_no_sample_size(self):
         self = MagicMock()
         self._sample_size = None
-        self._params = {
-            'dataset': np.array([1, 2, 3, 4, 5])
-        }
+        self._params = {'dataset': np.array([1, 2, 3, 4, 5])}
         self.bw_method = None
         self.weights = None
         model = GaussianKDE._get_model(self)
@@ -33,9 +30,7 @@ class TestGaussianKDE(TestCase):
     def test__get_model_sample_size(self):
         self = MagicMock()
         self._sample_size = 3
-        self._params = {
-            'dataset': np.array([1, 2, 3, 4, 5])
-        }
+        self._params = {'dataset': np.array([1, 2, 3, 4, 5])}
         self.bw_method = None
         self.weights = None
         model = GaussianKDE._get_model(self)
@@ -46,9 +41,7 @@ class TestGaussianKDE(TestCase):
 
     def test__get_bounds(self):
         self = MagicMock()
-        self._params = {
-            'dataset': np.array([1, 2, 3, 4, 5])
-        }
+        self._params = {'dataset': np.array([1, 2, 3, 4, 5])}
 
         lower, upper = GaussianKDE._get_bounds(self)
 
@@ -110,12 +103,14 @@ class TestGaussianKDE(TestCase):
         instance = GaussianKDE()
         instance.fit(np.array([0.9, 1.0, 1.1]))
 
-        cdf = instance.cumulative_distribution(np.array([
-            0.0,  # There is no data below this (cdf = 0.0).
-            1.0,  # Half the data is below this (cdf = 0.5).
-            2.0,  # All the data is below this (cdf = 1.0).
-            -1.0  # There is no data below this (cdf = 0).
-        ]))
+        cdf = instance.cumulative_distribution(
+            np.array([
+                0.0,  # There is no data below this (cdf = 0.0).
+                1.0,  # Half the data is below this (cdf = 0.5).
+                2.0,  # All the data is below this (cdf = 1.0).
+                -1.0,  # There is no data below this (cdf = 0).
+            ])
+        )
 
         assert np.all(np.isclose(cdf, np.array([0.0, 0.5, 1.0, 0.0]), atol=1e-3))
 
@@ -149,7 +144,7 @@ class TestGaussianKDE(TestCase):
 
         error_msg = r'Expected values in range \[0.0, 1.0\].'
         with pytest.raises(ValueError, match=error_msg):
-            instance.percent_point(np.array([2.]))
+            instance.percent_point(np.array([2.0]))
 
     def test_percent_point_invertibility(self):
         instance = GaussianKDE()

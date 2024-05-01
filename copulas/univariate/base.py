@@ -7,8 +7,13 @@ from enum import Enum
 import numpy as np
 
 from copulas import (
-    NotFittedError, get_instance, get_qualified_name, random_state, store_args,
-    validate_random_state)
+    NotFittedError,
+    get_instance,
+    get_qualified_name,
+    random_state,
+    store_args,
+    validate_random_state,
+)
 from copulas.univariate.selection import select_univariate
 
 
@@ -84,8 +89,14 @@ class Univariate(object):
         return candidates
 
     @store_args
-    def __init__(self, candidates=None, parametric=None, bounded=None, random_state=None,
-                 selection_sample_size=None):
+    def __init__(
+        self,
+        candidates=None,
+        parametric=None,
+        bounded=None,
+        random_state=None,
+        selection_sample_size=None,
+    ):
         self.candidates = candidates or self._select_candidates(parametric, bounded)
         self.random_state = validate_random_state(random_state)
         self.selection_sample_size = selection_sample_size

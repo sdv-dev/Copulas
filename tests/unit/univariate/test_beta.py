@@ -8,18 +8,12 @@ from copulas.univariate import BetaUnivariate
 
 
 class TestBetaUnivariate(TestCase):
-
     def test__fit_constant(self):
         distribution = BetaUnivariate()
 
         distribution._fit_constant(np.array([1, 1, 1, 1]))
 
-        assert distribution._params == {
-            'a': 1,
-            'b': 1,
-            'loc': 1,
-            'scale': 0
-        }
+        assert distribution._params == {'a': 1, 'b': 1, 'loc': 1, 'scale': 0}
 
     def test__fit(self):
         distribution = BetaUnivariate()
@@ -27,12 +21,7 @@ class TestBetaUnivariate(TestCase):
         data = beta.rvs(size=10000, a=1, b=1, loc=1, scale=1)
         distribution._fit(data)
 
-        expected = {
-            'loc': 1,
-            'scale': 1,
-            'a': 1,
-            'b': 1
-        }
+        expected = {'loc': 1, 'scale': 1, 'a': 1, 'b': 1}
         for key, value in distribution._params.items():
             np.testing.assert_allclose(value, expected[key], atol=0.3)
 
@@ -52,12 +41,7 @@ class TestBetaUnivariate(TestCase):
 
     def test__extract_constant(self):
         distribution = BetaUnivariate()
-        distribution._params = {
-            'loc': 1,
-            'scale': 1,
-            'a': 1,
-            'b': 1
-        }
+        distribution._params = {'loc': 1, 'scale': 1, 'a': 1, 'b': 1}
 
         constant = distribution._extract_constant()
 

@@ -9,13 +9,18 @@ from numpy.testing import assert_array_equal
 
 import copulas
 from copulas import (
-    _find_addons, check_valid_values, get_instance, random_state, scalarize, validate_random_state,
-    vectorize)
+    _find_addons,
+    check_valid_values,
+    get_instance,
+    random_state,
+    scalarize,
+    validate_random_state,
+    vectorize,
+)
 from copulas.multivariate import GaussianMultivariate
 
 
 class TestVectorize(TestCase):
-
     def test_1d_array(self):
         """When applied to a function it allows it to work with 1-d vectors."""
         # Setup
@@ -27,15 +32,13 @@ class TestVectorize(TestCase):
 
         vector = np.array([1, 2, 3])
         args = ['positional', 'arguments']
-        kwargs = {
-            'keyword': 'arguments'
-        }
+        kwargs = {'keyword': 'arguments'}
 
         expected_result = np.ones(3)
         expected_function_call_args_list = [
             ((instance, 1, 'positional', 'arguments'), {'keyword': 'arguments'}),
             ((instance, 2, 'positional', 'arguments'), {'keyword': 'arguments'}),
-            ((instance, 3, 'positional', 'arguments'), {'keyword': 'arguments'})
+            ((instance, 3, 'positional', 'arguments'), {'keyword': 'arguments'}),
         ]
 
         # Run Decorator
@@ -72,15 +75,13 @@ class TestVectorize(TestCase):
             [7, 8, 9],
         ])
         args = ['positional', 'arguments']
-        kwargs = {
-            'keyword': 'arguments'
-        }
+        kwargs = {'keyword': 'arguments'}
 
         expected_result = np.ones(3)
         expected_function_call_args_list = [
             ((instance, 1, 2, 3, 'positional', 'arguments'), {'keyword': 'arguments'}),
             ((instance, 4, 5, 6, 'positional', 'arguments'), {'keyword': 'arguments'}),
-            ((instance, 7, 8, 9, 'positional', 'arguments'), {'keyword': 'arguments'})
+            ((instance, 7, 8, 9, 'positional', 'arguments'), {'keyword': 'arguments'}),
         ]
 
         # Run Decorator
@@ -106,9 +107,7 @@ class TestVectorize(TestCase):
         """If given an array of dimensionality higher than 2 a ValueError is raised."""
         # Setup
         function = MagicMock()
-        X = np.array([
-            [[1, 2, 3]]
-        ])
+        X = np.array([[[1, 2, 3]]])
         instance = MagicMock()
         args = ()
         kwargs = {}
@@ -123,7 +122,6 @@ class TestVectorize(TestCase):
 
 
 class TestScalarize(TestCase):
-
     def test_decorator(self):
         """When applied to a function it allows it to work with scalars."""
         # Setup
@@ -133,9 +131,7 @@ class TestScalarize(TestCase):
 
         instance = MagicMock()
         args = ['positional', 'arguments']
-        kwargs = {
-            'keyword': 'arguments'
-        }
+        kwargs = {'keyword': 'arguments'}
 
         expected_result = 'return_value'
 
@@ -159,14 +155,10 @@ class TestScalarize(TestCase):
 
 
 class TestCheckValidValues(TestCase):
-
     def test_check_valid_values_raises_valuerror_if_nans(self):
         """check_valid_values raises a ValueError if is given data with nans."""
         # Setup
-        X = np.array([
-            [1.0, np.nan],
-            [0.0, 1.0]
-        ])
+        X = np.array([[1.0, np.nan], [0.0, 1.0]])
 
         instance_mock = MagicMock()
         function_mock = MagicMock()
@@ -185,10 +177,7 @@ class TestCheckValidValues(TestCase):
     def test_check_valid_values_raises_valueerror_if_not_numeric(self):
         """check_valid_values raises a ValueError if is given data with non numeric values."""
         # Setup
-        X = np.array([
-            [1.0, 'A'],
-            [0.0, 1.0]
-        ])
+        X = np.array([[1.0, 'A'], [0.0, 1.0]])
 
         instance_mock = MagicMock()
         function_mock = MagicMock()
@@ -225,7 +214,6 @@ class TestCheckValidValues(TestCase):
 
 
 class TestRandomStateDecorator(TestCase):
-
     @patch('copulas.np.random')
     def test_valid_random_state(self, random_mock):
         """The decorated function use the random_state attribute if present."""
@@ -251,10 +239,11 @@ class TestRandomStateDecorator(TestCase):
         instance.assert_not_called
         random_mock.get_state.assert_has_calls([call(), call()])
         random_mock.get_state.call_count == 2
-        random_mock.RandomState.assert_has_calls(
-            [call(), call().set_state('random state')])
-        random_mock.set_state.assert_has_calls(
-            [call('desired random state'), call('random state')])
+        random_mock.RandomState.assert_has_calls([call(), call().set_state('random state')])
+        random_mock.set_state.assert_has_calls([
+            call('desired random state'),
+            call('random state'),
+        ])
         assert random_mock.set_state.call_count == 2
 
     @patch('copulas.np.random')
@@ -354,14 +343,14 @@ class TestRandomStateDecorator(TestCase):
 
         # Run
         with pytest.raises(
-                TypeError,
-                match=f'`random_state` {state} expected to be an int or '
-                '`np.random.RandomState` object.'):
+            TypeError,
+            match=f'`random_state` {state} expected to be an int or '
+            '`np.random.RandomState` object.',
+        ):
             validate_random_state(state)
 
 
 class TestGetInstance(TestCase):
-
     def test_get_instance_str(self):
         """Try to get a new instance from a str"""
         # Run
@@ -416,8 +405,7 @@ class TestGetInstance(TestCase):
         """Try to get a new instance with kwargs"""
         # Run
         instance = get_instance(
-            GaussianMultivariate,
-            distribution='copulas.univariate.truncnorm.TruncNorm'
+            GaussianMultivariate, distribution='copulas.univariate.truncnorm.TruncNorm'
         )
 
         # Asserts
@@ -473,6 +461,7 @@ def test__find_addons_object(entry_points_mock, mock_copulas):
 @patch('copulas.entry_points')
 def test__find_addons_bad_addon(entry_points_mock, warning_mock):
     """Test failing to load an add-on generates a warning."""
+
     # Setup
     def entry_point_error():
         raise ValueError()
@@ -563,7 +552,7 @@ def test__find_addons_missing_object(entry_points_mock, warning_mock, mock_copul
     bad_entry_point = MagicMock()
     bad_entry_point.name = 'copulas.submodule:missing_object.new_method'
     entry_points_mock.return_value = [bad_entry_point]
-    msg = ("Failed to set 'copulas.submodule:missing_object.new_method': missing_object.")
+    msg = "Failed to set 'copulas.submodule:missing_object.new_method': missing_object."
 
     del mock_copulas.submodule.missing_object
 

@@ -162,6 +162,7 @@ class Frank(Bivariate):
 
     def _tau_to_theta(self, alpha):
         """Relationship between tau and theta as a solvable equation."""
+
         def debye(t):
             return t / (np.exp(t) - 1)
 

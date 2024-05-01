@@ -2,16 +2,18 @@ import glob
 import inspect
 import operator
 import os
-import tomli
-import sys
-from packaging.requirements import Requirement
-from packaging.version import Version
+import platform
+import re
 import shutil
 import stat
+import sys
 from pathlib import Path
 
+import pkg_resources
+import tomli
 from invoke import task
-
+from packaging.requirements import Requirement
+from packaging.version import Version
 
 COMPARISONS = {
     '>=': operator.ge,
@@ -48,10 +50,10 @@ def numerical(c):
 
 def _validate_python_version(line):
     is_valid = True
-    for python_version_match in re.finditer(r"python_version(<=?|>=?|==)\'(\d\.?)+\'", line):
+    for python_version_match in re.finditer(r'python_version(<=?|>=?|==)\'(\d\.?)+\'', line):
         python_version = python_version_match.group(0)
         comparison = re.search(r'(>=?|<=?|==)', python_version).group(0)
-        version_number = python_version.split(comparison)[-1].replace("'", "")
+        version_number = python_version.split(comparison)[-1].replace("'", '')
         comparison_function = COMPARISONS[comparison]
         is_valid = is_valid and comparison_function(
             pkg_resources.parse_version(platform.python_version()),
@@ -77,14 +79,17 @@ def _get_minimum_versions(dependencies, python_version):
 
         if req.name not in min_versions:
             min_version = next(
-                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), None)
+                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), None
+            )
             if min_version:
                 min_versions[req.name] = f'{req.name}=={min_version}'
 
         elif '@' not in min_versions[req.name]:
             existing_version = Version(min_versions[req.name].split('==')[1])
             new_version = next(
-                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')), existing_version)
+                (spec.version for spec in req.specifier if spec.operator in ('>=', '==')),
+                existing_version,
+            )
             if new_version > existing_version:
                 # Change when a valid newer version is found
                 min_versions[req.name] = f'{req.name}=={new_version}'
@@ -102,7 +107,7 @@ def install_minimum(c):
     minimum_versions = _get_minimum_versions(dependencies, python_version)
 
     if minimum_versions:
-        c.run(f'python -m pip install {" ".join(minimum_versions)}')
+        c.run(f'python -m pip install {' '.join(minimum_versions)}')
 
 
 @task
@@ -133,20 +138,20 @@ def readme(c):
 def tutorials(c):
     for ipynb_file in glob.glob('tutorials/*.ipynb') + glob.glob('tutorials/**/*.ipynb'):
         if '.ipynb_checkpoints' not in ipynb_file:
-            c.run((
-                'jupyter nbconvert --execute --ExecutePreprocessor.timeout=3600 '
-                f'--to=html --stdout "{ipynb_file}"'
-            ), hide='out')
+            c.run(
+                (
+                    'jupyter nbconvert --execute --ExecutePreprocessor.timeout=3600 '
+                    f'--to=html --stdout "{ipynb_file}"'
+                ),
+                hide='out',
+            )
 
 
 @task
 def lint(c):
     check_dependencies(c)
-    c.run('flake8 copulas')
-    c.run('pydocstyle copulas')
-    c.run('flake8 tests --ignore=D,SFS2')
-    c.run('pydocstyle tests')
-    c.run('isort -c copulas tests')
+    c.run('ruff check .')
+    c.run('ruff format .  --check')
 
 
 def remove_readonly(func, path, _):

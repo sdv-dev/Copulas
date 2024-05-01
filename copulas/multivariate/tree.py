@@ -131,7 +131,7 @@ class Tree(Multivariate):
                     left_parent, right_parent = edge.parents
                     left_u, right_u = Edge.get_conditional_uni(left_parent, right_parent)
 
-                tau[i, j], pvalue = scipy.stats.kendalltau(left_u, right_u)
+                tau[i, j], _pvalue = scipy.stats.kendalltau(left_u, right_u)
 
         return tau
 
@@ -212,8 +212,7 @@ class Tree(Multivariate):
         """Produce printable representation of the class."""
         template = 'L:{} R:{} D:{} Copula:{} Theta:{}'
         return '\n'.join([
-            template.format(edge.L, edge.R, edge.D, edge.name, edge.theta)
-            for edge in self.edges
+            template.format(edge.L, edge.R, edge.D, edge.name, edge.theta) for edge in self.edges
         ])
 
     def _serialize_previous_tree(self):
@@ -237,11 +236,7 @@ class Tree(Multivariate):
                 Parameters of this Tree.
         """
         fitted = self.fitted
-        result = {
-            'tree_type': self.tree_type,
-            'type': get_qualified_name(self),
-            'fitted': fitted
-        }
+        result = {'tree_type': self.tree_type, 'type': get_qualified_name(self), 'fitted': fitted}
 
         if not fitted:
             return result
@@ -451,7 +446,7 @@ def get_tree(tree_type):
             Instance of a Tree of the specified type.
     """
     if not isinstance(tree_type, TreeTypes):
-        if (isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__):
+        if isinstance(tree_type, str) and tree_type.upper() in TreeTypes.__members__:
             tree_type = TreeTypes[tree_type.upper()]
         else:
             raise ValueError(f'Invalid tree type {tree_type}')
@@ -657,7 +652,7 @@ class Edge(object):
             'theta': self.theta,
             'tau': self.tau,
             'U': U,
-            'likelihood': self.likelihood
+            'likelihood': self.likelihood,
         }
 
     @classmethod
@@ -674,8 +669,11 @@ class Edge(object):
                 Instance of the edge defined on the parameters.
         """
         instance = cls(
-            edge_dict['index'], edge_dict['L'], edge_dict['R'],
-            edge_dict['name'], edge_dict['theta']
+            edge_dict['index'],
+            edge_dict['L'],
+            edge_dict['R'],
+            edge_dict['name'],
+            edge_dict['theta'],
         )
         instance.U = np.array(edge_dict['U'])
         parents = edge_dict['parents']

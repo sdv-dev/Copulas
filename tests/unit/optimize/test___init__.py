@@ -6,7 +6,6 @@ from copulas.optimize import bisect, chandrupatla
 
 
 class TestOptimize(TestCase):
-
     def test_uniform(self):
         """Find the zero of a line."""
         N = 100
@@ -14,6 +13,7 @@ class TestOptimize(TestCase):
 
         def _f(x):
             return x - target
+
         for optimizer in [bisect, chandrupatla]:
             with self.subTest(optimizer=optimizer):
                 x = optimizer(_f, np.zeros(shape=N), np.ones(shape=N))
@@ -21,8 +21,10 @@ class TestOptimize(TestCase):
 
     def test_polynomial(self):
         """Find the zero of a polynomial."""
+
         def _f(x):
             return np.power(x - 10.0, 3.0)
+
         for optimizer in [bisect, chandrupatla]:
             with self.subTest(optimizer=optimizer):
                 x = optimizer(_f, np.array([0.0]), np.array([100.0]))

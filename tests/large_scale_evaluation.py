@@ -30,6 +30,7 @@ Usage:
                             Name of the model to test. Can be passed multiple
                             times to evaluate more than one model.
 """
+
 import argparse
 import logging
 import random
@@ -58,7 +59,7 @@ AVAILABLE_MODELS = {
     'GaussianMultivariate()': GaussianMultivariate(),
     'VineCopula("center")': VineCopula('center'),
     'VineCopula("direct")': VineCopula('direct'),
-    'VineCopula("regular")': VineCopula('regular')
+    'VineCopula("regular")': VineCopula('regular'),
 }
 OUTPUT_COLUMNS = [
     'model_name',
@@ -101,8 +102,9 @@ def get_dataset_url(name):
 
 def load_data(dataset_name, max_rows, max_columns):
     """Load the data."""
-    LOGGER.debug('Loading dataset %s (max_rows: %s, max_columns: %s)',
-                 dataset_name, max_rows, max_columns)
+    LOGGER.debug(
+        'Loading dataset %s (max_rows: %s, max_columns: %s)', dataset_name, max_rows, max_columns
+    )
     dataset_url = get_dataset_url(dataset_name)
     data = pd.read_csv(dataset_url, nrows=max_rows)
     if max_columns:
@@ -164,7 +166,7 @@ def evaluate_model_dataset(model_name, dataset_name, max_rows, max_columns):
         'error_message': error_message,
         'score': score,
         'num_columns': len(data.columns),
-        'num_rows': len(data)
+        'num_rows': len(data),
     }
 
 
@@ -192,12 +194,14 @@ def run_evaluation(model_names, dataset_names, max_rows, max_columns):
             results.append(result)
 
         elapsed_time = datetime.utcnow() - start
-        LOGGER.info('%s datasets tested using model %s in %s',
-                    len(dataset_names), model_name, elapsed_time)
+        LOGGER.info(
+            '%s datasets tested using model %s in %s', len(dataset_names), model_name, elapsed_time
+        )
 
     elapsed_time = datetime.utcnow() - start
-    LOGGER.info('%s datasets tested %s models in %s',
-                len(dataset_names), len(model_names), elapsed_time)
+    LOGGER.info(
+        '%s datasets tested %s models in %s', len(dataset_names), len(model_names), elapsed_time
+    )
 
     return pd.DataFrame(results, columns=OUTPUT_COLUMNS)
 
@@ -214,29 +218,48 @@ def _get_parser():
     # Parser
     parser = argparse.ArgumentParser(description='Large scale Copulas evaluation')
 
-    parser.add_argument('-v', '--verbose', action='count', default=0,
-                        help='Be verbose. Use -vv for increased verbosity.')
-    parser.add_argument('-o', '--output-path', type=str, required=False,
-                        help='Path to the CSV file where the report will be dumped')
-    parser.add_argument('-s', '--sample', type=int,
-                        help=(
-                            'Limit the test to a number of datasets (sampled randomly)'
-                            ' specified by SAMPLE.'
-                        ))
-    parser.add_argument('-r', '--max-rows', type=int,
-                        help='Limit the number of rows per dataset.')
-    parser.add_argument('-c', '--max-columns', type=int,
-                        help='Limit the number of columns per dataset.')
-    parser.add_argument('-m', '--model', nargs='+', type=_valid_model,
-                        help=(
-                            'Name of the model to test. Can be passed multiple '
-                            'times to evaluate more than one model.'
-                        ))
-    parser.add_argument('datasets', nargs='*',
-                        help=(
-                            'Name of the datasets/s to test. If no names are given '
-                            'all the available datasets are tested.'
-                        ))
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        action='count',
+        default=0,
+        help='Be verbose. Use -vv for increased verbosity.',
+    )
+    parser.add_argument(
+        '-o',
+        '--output-path',
+        type=str,
+        required=False,
+        help='Path to the CSV file where the report will be dumped',
+    )
+    parser.add_argument(
+        '-s',
+        '--sample',
+        type=int,
+        help=('Limit the test to a number of datasets (sampled randomly)' ' specified by SAMPLE.'),
+    )
+    parser.add_argument('-r', '--max-rows', type=int, help='Limit the number of rows per dataset.')
+    parser.add_argument(
+        '-c', '--max-columns', type=int, help='Limit the number of columns per dataset.'
+    )
+    parser.add_argument(
+        '-m',
+        '--model',
+        nargs='+',
+        type=_valid_model,
+        help=(
+            'Name of the model to test. Can be passed multiple '
+            'times to evaluate more than one model.'
+        ),
+    )
+    parser.add_argument(
+        'datasets',
+        nargs='*',
+        help=(
+            'Name of the datasets/s to test. If no names are given '
+            'all the available datasets are tested.'
+        ),
+    )
 
     return parser
 
@@ -262,12 +285,7 @@ def main():
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
 
-    print(tabulate.tabulate(
-        results,
-        tablefmt='github',
-        headers=results.columns,
-        showindex=False
-    ))
+    print(tabulate.tabulate(results, tablefmt='github', headers=results.columns, showindex=False))
 
     if args.output_path:
         LOGGER.info('Saving report to %s', args.output_path)
