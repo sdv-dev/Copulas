@@ -85,8 +85,7 @@ install-develop: clean-build clean-pyc ## install the package in editable mode a
 
 .PHONY: lint
 lint:
-	ruff check .
-	ruff format .  --check
+	invoke lint
 
 .PHONY: fix-lint
 fix-lint:

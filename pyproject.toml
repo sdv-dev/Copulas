@@ -175,7 +175,7 @@ replace = "__version__ = '{new_version}'"
 preview = true
 line-length = 100
 indent-width = 4
-src = ["rdt"]
+src = ["copulas"]
 target-version = "py312"
 exclude = [
     "docs",
@@ -212,7 +212,7 @@ docstring-code-line-length = "dynamic"
 extend-ignore-names = ["X", "C", "X_padded", "Y", "Y_padded"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["rdt"]
+known-first-party = ["copulas"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401", "E402", "F403", "F405", "E501", "I001"]
