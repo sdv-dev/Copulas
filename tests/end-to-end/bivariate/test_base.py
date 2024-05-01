@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-
 from copulas.bivariate import Bivariate
 
 

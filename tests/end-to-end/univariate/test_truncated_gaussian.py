@@ -3,9 +3,8 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import truncnorm
-
 from copulas.univariate import TruncatedGaussian
+from scipy.stats import truncnorm
 
 
 class TestGaussian(TestCase):

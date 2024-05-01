@@ -8,10 +8,9 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
-from scipy.stats import gaussian_kde
-
 from copulas.datasets import sample_univariate_bimodal
 from copulas.univariate.gaussian_kde import GaussianKDE
+from scipy.stats import gaussian_kde
 
 
 class TestGaussianKDE(TestCase):

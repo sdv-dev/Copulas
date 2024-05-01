@@ -171,11 +171,11 @@ filename = 'copulas/__init__.py'
 search = "__version__ = '{current_version}'"
 replace = "__version__ = '{new_version}'"
 
-
 [tool.ruff]
 preview = true
-line-length = 99
-src = ["copulas"]
+line-length = 100
+indent-width = 4
+src = ["rdt"]
 target-version = "py312"
 exclude = [
     "docs",
@@ -201,19 +201,21 @@ ignore = [
     "D417",   # Missing argument descriptions in the docstring, this is a bug from pydocstyle: https://github.com/PyCQA/pydocstyle/issues/449
 ]
 
-[tool.ruff.lint.pep8-naming]
-extend-ignore-names = ["X", "C", "X_padded", "Y", "Y_padded"]
-
-[tool.ruff.lint.isort]
-known-first-party = ["copulas"]
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401", "E402", "F403", "F405", "E501", "I001"]
-
 [tool.ruff.format]
 quote-style = "single"
 indent-style = "space"
 preview = true
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.pep8-naming]
+extend-ignore-names = ["X", "C", "X_padded", "Y", "Y_padded"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rdt"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "E402", "F403", "F405", "E501", "I001"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

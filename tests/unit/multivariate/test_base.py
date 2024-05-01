@@ -1,5 +1,4 @@
 import numpy as np
-
 from copulas.multivariate.base import Multivariate
 
 

@@ -2,8 +2,8 @@ from unittest import TestCase
 from unittest.mock import patch
 
 import numpy as np
-
 from copulas.bivariate.frank import Frank
+
 from tests import compare_nested_iterables, copula_single_arg_not_one, copula_zero_if_arg_zero
 
 

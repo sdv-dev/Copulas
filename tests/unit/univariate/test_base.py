@@ -1,7 +1,6 @@
 from unittest.mock import patch
 
 import numpy as np
-
 from copulas.univariate.base import BoundedType, ParametricType, Univariate
 from copulas.univariate.beta import BetaUnivariate
 from copulas.univariate.gamma import GammaUnivariate
@@ -11,6 +10,7 @@ from copulas.univariate.log_laplace import LogLaplace
 from copulas.univariate.student_t import StudentTUnivariate
 from copulas.univariate.truncated_gaussian import TruncatedGaussian
 from copulas.univariate.uniform import UniformUnivariate
+
 from tests import compare_nested_iterables
 
 

@@ -5,7 +5,6 @@ import os
 import numpy as np
 import pandas as pd
 import pytest
-
 from copulas import get_instance
 
 BASE = os.path.dirname(__file__)

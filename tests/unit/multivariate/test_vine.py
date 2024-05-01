@@ -5,9 +5,9 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 import pytest
-
 from copulas.multivariate.tree import TreeTypes
 from copulas.multivariate.vine import VineCopula
+
 from tests import compare_nested_dicts, compare_nested_iterables
 
 
@@ -203,9 +203,7 @@ class TestVine(TestCase):
         X = pd.DataFrame([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
         vine.fit(X)
 
-        expected_result = pd.DataFrame(
-            [[0.101933, 0.527734, 0.080266, 0.078328]], columns=range(4)
-        )
+        expected_result = pd.DataFrame([[0.101933, 0.527734, 0.080266, 0.078328]], columns=range(4))
 
         # Run
         result = vine.sample(1)

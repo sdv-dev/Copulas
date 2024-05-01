@@ -3,9 +3,8 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import beta
-
 from copulas.univariate import BetaUnivariate
+from scipy.stats import beta
 
 
 class TestGaussian(TestCase):

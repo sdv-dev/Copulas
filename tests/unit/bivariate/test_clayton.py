@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 import numpy as np
-
 from copulas.bivariate.clayton import Clayton
+
 from tests import copula_single_arg_not_one, copula_zero_if_arg_zero
 
 

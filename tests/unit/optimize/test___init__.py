@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 import numpy as np
-
 from copulas.optimize import bisect, chandrupatla
 
 

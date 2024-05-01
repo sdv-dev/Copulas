@@ -1,10 +1,9 @@
 from unittest.mock import Mock, patch
 
 import numpy as np
-from scipy.stats import truncnorm
-
 from copulas.univariate import BetaUnivariate, GaussianKDE, GaussianUnivariate, TruncatedGaussian
 from copulas.univariate.selection import select_univariate
+from scipy.stats import truncnorm
 
 
 def test_select_univariate_bimodal():

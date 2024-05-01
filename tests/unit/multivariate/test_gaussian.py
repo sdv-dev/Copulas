@@ -3,7 +3,6 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 import pandas as pd
-
 from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from copulas.univariate import GaussianUnivariate
@@ -309,9 +308,7 @@ class TestGaussianMultivariate(TestCase):
     def test_fit_numpy_array(self):
         """Fit should work indistinctly with numpy arrays and pandas dataframes"""
         # Setup
-        copula = GaussianMultivariate(
-            distribution='copulas.univariate.gaussian.GaussianUnivariate'
-        )
+        copula = GaussianMultivariate(distribution='copulas.univariate.gaussian.GaussianUnivariate')
 
         # Run
         copula.fit(self.data.to_numpy())

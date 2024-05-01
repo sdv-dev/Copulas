@@ -3,9 +3,8 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import gamma
-
 from copulas.univariate import GammaUnivariate
+from scipy.stats import gamma
 
 
 class TestGaussian(TestCase):

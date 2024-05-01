@@ -3,11 +3,10 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import ks_2samp, norm, randint
-
 from copulas.datasets import sample_univariate_bimodal
 from copulas.multivariate import GaussianMultivariate
 from copulas.univariate.gaussian_kde import GaussianKDE
+from scipy.stats import ks_2samp, norm, randint
 
 
 class TestGaussian(TestCase):

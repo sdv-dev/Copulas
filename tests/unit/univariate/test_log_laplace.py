@@ -1,9 +1,8 @@
 from unittest import TestCase
 
 import numpy as np
-from scipy.stats import loglaplace
-
 from copulas.univariate import LogLaplace
+from scipy.stats import loglaplace
 
 
 class TestLogLaplaceUnivariate(TestCase):
