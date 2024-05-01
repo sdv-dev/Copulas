@@ -109,7 +109,8 @@ def install_minimum(c):
     minimum_versions = _get_minimum_versions(dependencies, python_version)
 
     if minimum_versions:
-        c.run(f'python -m pip install {' '.join(minimum_versions)}')
+        install_deps = ' '.join(minimum_versions)
+        c.run(f'python -m pip install {install_deps}')
 
 
 @task
