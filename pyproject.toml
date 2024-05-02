@@ -192,8 +192,9 @@ select = [
     # Pycodestyle
     "E",
     "W",
+    "D200",
     # isort
-    "I001"
+    "I001",
 ]
 ignore = [
     "E501",
