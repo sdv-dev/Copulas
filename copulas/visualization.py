@@ -31,11 +31,7 @@ def _generate_1d_plot(data, title, labels, colors):
         plotly.graph_objects._figure.Figure
     """
     fig = ff.create_distplot(
-        hist_data=data,
-        group_labels=labels,
-        show_hist=False,
-        show_rug=False,
-        colors=colors
+        hist_data=data, group_labels=labels, show_hist=False, show_rug=False, colors=colors
     )
 
     for i, name in enumerate(labels):
@@ -52,7 +48,7 @@ def _generate_1d_plot(data, title, labels, colors):
         font={'size': PlotConfig.FONT_SIZE},
         showlegend=True if labels[0] else False,
         xaxis_title='value',
-        yaxis_title='frequency'
+        yaxis_title='frequency',
     )
 
     return fig
@@ -80,10 +76,7 @@ def dist_1d(data, title=None, label=None):
             title += f" for column '{data.name}'"
 
     return _generate_1d_plot(
-        data=[data],
-        title=title,
-        labels=[label],
-        colors=[PlotConfig.DATACEBO_DARK]
+        data=[data], title=title, labels=[label], colors=[PlotConfig.DATACEBO_DARK]
     )
 
 
@@ -112,7 +105,7 @@ def compare_1d(real, synth, title=None):
         data=[real, synth],
         title=title,
         labels=['Real', 'Synthetic'],
-        colors=[PlotConfig.DATACEBO_DARK, PlotConfig.DATACEBO_GREEN]
+        colors=[PlotConfig.DATACEBO_DARK, PlotConfig.DATACEBO_GREEN],
     )
 
 
@@ -148,7 +141,7 @@ def _generate_scatter_2d_plot(data, columns, color_discrete_map, title):
         y=columns[1],
         color='Data',
         color_discrete_map=color_discrete_map,
-        symbol='Data'
+        symbol='Data',
     )
 
     fig.update_layout(
@@ -189,7 +182,7 @@ def scatter_2d(data, columns=None, title=None):
         data=data,
         columns=columns,
         color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
-        title=title
+        title=title,
     )
 
 
@@ -226,9 +219,9 @@ def compare_2d(real, synth, columns=None, title=None):
         columns=columns,
         color_discrete_map={
             'Real': PlotConfig.DATACEBO_DARK,
-            'Synthetic': PlotConfig.DATACEBO_GREEN
+            'Synthetic': PlotConfig.DATACEBO_GREEN,
         },
-        title=title
+        title=title,
     )
 
 
@@ -302,14 +295,15 @@ def scatter_3d(data, columns=None, title=None):
         if columns:
             title += f" for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'"
         elif isinstance(data, pd.DataFrame):
-            title += \
+            title += (
                 f" for columns '{data.columns[0]}', '{data.columns[1]}' and '{data.columns[2]}'"
+            )
 
     return _generate_scatter_3d_plot(
         data=data,
         columns=columns,
         color_discrete_map={'Real': PlotConfig.DATACEBO_DARK},
-        title=title
+        title=title,
     )
 
 
@@ -336,15 +330,16 @@ def compare_3d(real, synth, columns=None, title=None):
         if columns:
             title += f" for columns '{columns[0]}', '{columns[1]}' and '{columns[2]}'"
         elif isinstance(data, pd.DataFrame):
-            title += \
+            title += (
                 f" for columns '{data.columns[0]}', '{data.columns[1]}' and '{data.columns[2]}'"
+            )
 
     return _generate_scatter_3d_plot(
         data=data,
         columns=columns,
         color_discrete_map={
             'Real': PlotConfig.DATACEBO_DARK,
-            'Synthetic': PlotConfig.DATACEBO_GREEN
+            'Synthetic': PlotConfig.DATACEBO_GREEN,
         },
-        title=title
+        title=title,
     )

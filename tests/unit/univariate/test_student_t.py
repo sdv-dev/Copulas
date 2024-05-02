@@ -7,7 +7,6 @@ from copulas.univariate.student_t import StudentTUnivariate
 
 
 class TestStudentTUnivariate(TestCase):
-
     def test__fit(self):
         distribution = StudentTUnivariate()
 
@@ -38,11 +37,7 @@ class TestStudentTUnivariate(TestCase):
 
     def test__extract_constant(self):
         distribution = StudentTUnivariate()
-        distribution._params = {
-            'df': 1,
-            'loc': 1,
-            'scale': 0
-        }
+        distribution._params = {'df': 1, 'loc': 1, 'scale': 0}
 
         constant = distribution._extract_constant()
 

@@ -33,10 +33,7 @@ def sample_bivariate_age_income(size=1000, seed=42):
         income += np.random.normal(loc=np.log(age) / 100, scale=10, size=size)
         income[np.random.randint(0, 10, size=size) == 0] /= 1000
 
-    return pd.DataFrame({
-        'age': age,
-        'income': income
-    })
+    return pd.DataFrame({'age': age, 'income': income})
 
 
 def sample_trivariate_xyz(size=1000, seed=42):
@@ -61,11 +58,7 @@ def sample_trivariate_xyz(size=1000, seed=42):
     with set_random_state(validate_random_state(seed), _dummy_fn):
         x = stats.beta.rvs(a=0.1, b=0.1, size=size)
         y = stats.beta.rvs(a=0.1, b=0.5, size=size)
-        return pd.DataFrame({
-            'x': x,
-            'y': y,
-            'z': np.random.normal(size=size) + y * 10
-        })
+        return pd.DataFrame({'x': x, 'y': y, 'z': np.random.normal(size=size) + y * 10})
 
 
 def sample_univariate_bernoulli(size=1000, seed=42):

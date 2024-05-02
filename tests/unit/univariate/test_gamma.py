@@ -7,17 +7,12 @@ from copulas.univariate import GammaUnivariate
 
 
 class TestGammaUnivariate(TestCase):
-
     def test__fit_constant(self):
         distribution = GammaUnivariate()
 
         distribution._fit_constant(np.array([1, 1, 1, 1]))
 
-        assert distribution._params == {
-            'a': 0,
-            'loc': 1,
-            'scale': 0
-        }
+        assert distribution._params == {'a': 0, 'loc': 1, 'scale': 0}
 
     def test__fit(self):
         distribution = GammaUnivariate()

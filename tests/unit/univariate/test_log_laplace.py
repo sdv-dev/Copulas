@@ -7,17 +7,12 @@ from copulas.univariate import LogLaplace
 
 
 class TestLogLaplaceUnivariate(TestCase):
-
     def test__fit_constant(self):
         distribution = LogLaplace()
 
         distribution._fit_constant(np.array([1, 1, 1, 1]))
 
-        assert distribution._params == {
-            'c': 2,
-            'loc': 1,
-            'scale': 0
-        }
+        assert distribution._params == {'c': 2, 'loc': 1, 'scale': 0}
 
     def test__fit(self):
         distribution = LogLaplace()
@@ -49,11 +44,7 @@ class TestLogLaplaceUnivariate(TestCase):
 
     def test__extract_constant(self):
         distribution = LogLaplace()
-        distribution._params = {
-            'c': 2,
-            'loc': 1,
-            'scale': 0
-        }
+        distribution._params = {'c': 2, 'loc': 1, 'scale': 0}
 
         constant = distribution._extract_constant()
 

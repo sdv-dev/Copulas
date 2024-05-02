@@ -129,7 +129,7 @@ class GaussianKDE(ScipyModel):
         self.check_fit()
 
         if len(U.shape) > 1:
-            raise ValueError(f'Expected 1d array, got {(U, )}.')
+            raise ValueError(f'Expected 1d array, got {(U,)}.')
 
         if np.any(U > 1.0) or np.any(U < 0.0):
             raise ValueError('Expected values in range [0.0, 1.0].')
@@ -165,11 +165,10 @@ class GaussianKDE(ScipyModel):
 
     def _fit(self, X):
         if self._sample_size:
-            X = gaussian_kde(X, bw_method=self.bw_method,
-                             weights=self.weights).resample(self._sample_size)
-        self._params = {
-            'dataset': X.tolist()
-        }
+            X = gaussian_kde(X, bw_method=self.bw_method, weights=self.weights).resample(
+                self._sample_size
+            )
+        self._params = {'dataset': X.tolist()}
         self._model = self._get_model()
 
     def _is_constant(self):

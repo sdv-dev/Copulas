@@ -86,7 +86,8 @@ def validate_random_state(random_state):
     else:
         raise TypeError(
             f'`random_state` {random_state} expected to be an int '
-            'or `np.random.RandomState` object.')
+            'or `np.random.RandomState` object.'
+        )
 
 
 def get_instance(obj, **kwargs):
@@ -192,8 +193,7 @@ def vectorize(function):
 
         if len(X.shape) == 2:
             return np.fromiter(
-                (function(self, *x, *args, **kwargs) for x in X),
-                np.dtype('float64')
+                (function(self, *x, *args, **kwargs) for x in X), np.dtype('float64')
             )
 
         else:
@@ -243,7 +243,6 @@ def check_valid_values(function):
     """
 
     def decorated(self, X, *args, **kwargs):
-
         if isinstance(X, pd.DataFrame):
             W = X.to_numpy()
 

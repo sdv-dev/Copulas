@@ -8,8 +8,14 @@ import pandas as pd
 from scipy import stats
 
 from copulas import (
-    EPSILON, check_valid_values, get_instance, get_qualified_name, random_state, store_args,
-    validate_random_state)
+    EPSILON,
+    check_valid_values,
+    get_instance,
+    get_qualified_name,
+    random_state,
+    store_args,
+    validate_random_state,
+)
 from copulas.multivariate.base import Multivariate
 from copulas.univariate import GaussianUnivariate, Univariate
 
@@ -149,8 +155,7 @@ class GaussianMultivariate(Multivariate):
         self.check_fit()
         transformed = self._transform_to_normal(X)
 
-        return stats.multivariate_normal.pdf(
-            transformed, cov=self.correlation, allow_singular=True)
+        return stats.multivariate_normal.pdf(transformed, cov=self.correlation, allow_singular=True)
 
     def cumulative_distribution(self, X):
         """Compute the cumulative distribution value for each point in X.

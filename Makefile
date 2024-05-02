@@ -67,7 +67,6 @@ clean-test: ## remove test artifacts
 .PHONY: clean
 clean: clean-build clean-pyc clean-test clean-coverage clean-docs ## remove all build, test, coverage, docs and Python artifacts
 
-
 # INSTALL TARGETS
 
 .PHONY: install
@@ -82,23 +81,16 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
 	pip install -e .[dev]
 
-
 # LINT TARGETS
 
 .PHONY: lint
-lint: ## check style with flake8 and isort
+lint:
 	invoke lint
 
-lint-docs: ## check docs formatting with doc8 and pydocstyle
-	doc8 . docs/
-	pydocstyle copulas/
-
 .PHONY: fix-lint
-fix-lint: ## fix lint issues using autoflake, autopep8, and isort
-	find copulas tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive copulas tests
-	isort --apply --atomic copulas tests
-
+fix-lint:
+	ruff check --fix .
+	ruff format .
 
 # TEST TARGETS
 

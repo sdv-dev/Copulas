@@ -77,11 +77,7 @@ def test_select_univariate_failures(get_instance_mock):
     """
     gaussian_mock = Mock()
     gaussian_mock.fit.side_effect = Exception()
-    get_instance_mock.side_effect = [
-        gaussian_mock,
-        BetaUnivariate(),
-        BetaUnivariate()
-    ]
+    get_instance_mock.side_effect = [gaussian_mock, BetaUnivariate(), BetaUnivariate()]
     normal_data = np.random.normal(size=1000)
 
     candidates = [GaussianUnivariate, BetaUnivariate]

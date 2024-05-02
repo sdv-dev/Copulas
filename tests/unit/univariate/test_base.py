@@ -15,7 +15,6 @@ from tests import compare_nested_iterables
 
 
 class TestUnivariate:
-
     def test__select_candidates(self):
         # Run
         candidates = Univariate._select_candidates()
@@ -29,7 +28,7 @@ class TestUnivariate:
             GammaUnivariate,
             StudentTUnivariate,
             UniformUnivariate,
-            LogLaplace
+            LogLaplace,
         }
 
     def test__select_candidates_parametric(self):
@@ -44,7 +43,7 @@ class TestUnivariate:
             GammaUnivariate,
             StudentTUnivariate,
             UniformUnivariate,
-            LogLaplace
+            LogLaplace,
         }
 
     def test__select_candidates_non_parametric(self):
@@ -59,32 +58,21 @@ class TestUnivariate:
         candidates = Univariate._select_candidates(bounded=BoundedType.BOUNDED)
 
         # Assert
-        assert set(candidates) == {
-            TruncatedGaussian,
-            BetaUnivariate,
-            UniformUnivariate
-        }
+        assert set(candidates) == {TruncatedGaussian, BetaUnivariate, UniformUnivariate}
 
     def test__select_candidates_unbounded(self):
         # Run
         candidates = Univariate._select_candidates(bounded=BoundedType.UNBOUNDED)
 
         # Assert
-        assert set(candidates) == {
-            GaussianKDE,
-            GaussianUnivariate,
-            StudentTUnivariate
-        }
+        assert set(candidates) == {GaussianKDE, GaussianUnivariate, StudentTUnivariate}
 
     def test__select_candidates_semibounded(self):
         # Run
         candidates = Univariate._select_candidates(bounded=BoundedType.SEMI_BOUNDED)
 
         # Assert
-        assert set(candidates) == {
-            GammaUnivariate,
-            LogLaplace
-        }
+        assert set(candidates) == {GammaUnivariate, LogLaplace}
 
     def test_fit_constant(self):
         """If constant values, replace methods."""

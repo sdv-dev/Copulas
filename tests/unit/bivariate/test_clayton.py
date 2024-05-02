@@ -7,7 +7,6 @@ from tests import copula_single_arg_not_one, copula_zero_if_arg_zero
 
 
 class TestClayton(TestCase):
-
     def setUp(self):
         self.copula = Clayton()
         self.X = np.array([
@@ -32,10 +31,7 @@ class TestClayton(TestCase):
         expected_result = np.array([9.5886, 3.2394])
 
         # Run
-        result = self.copula.probability_density(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.probability_density(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -48,10 +44,7 @@ class TestClayton(TestCase):
         expected_result = np.array([0.1821, 0.5517])
 
         # Run
-        result = self.copula.cumulative_distribution(np.array([
-            [0.2, 0.2],
-            [0.6, 0.61]
-        ]))
+        result = self.copula.cumulative_distribution(np.array([[0.2, 0.2], [0.6, 0.61]]))
 
         # Check
         assert isinstance(result, np.ndarray)
@@ -86,7 +79,7 @@ class TestClayton(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Clayton()
-        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(0.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:
@@ -98,7 +91,7 @@ class TestClayton(TestCase):
         """Test of the analytical properties of copulas on a range of values of theta."""
         # Setup
         instance = Clayton()
-        tau_values = np.linspace(0.0, 1.0, 20)[1: -1]
+        tau_values = np.linspace(0.0, 1.0, 20)[1:-1]
 
         # Run/Check
         for tau in tau_values:

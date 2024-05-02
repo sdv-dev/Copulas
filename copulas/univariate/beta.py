@@ -28,12 +28,7 @@ class BetaUnivariate(ScipyModel):
         loc = np.min(X)
         scale = np.max(X) - loc
         a, b, loc, scale = beta.fit(X, loc=loc, scale=scale)
-        self._params = {
-            'loc': loc,
-            'scale': scale,
-            'a': a,
-            'b': b
-        }
+        self._params = {'loc': loc, 'scale': scale, 'a': a, 'b': b}
 
     def _is_constant(self):
         return self._params['scale'] == 0
