@@ -98,7 +98,7 @@ class Tree(Multivariate):
         """
         # first column is the variable of interest
         tau_y = self.tau_matrix[:, y]
-        tau_y[y] = np.NaN
+        tau_y[y] = np.nan
 
         temp = np.empty([self.n_nodes, 3])
         temp[:, 0] = np.arange(self.n_nodes)
