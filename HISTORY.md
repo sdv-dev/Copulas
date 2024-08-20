@@ -1,5 +1,19 @@
 # History
 
+## v0.11.1 - 2024-08-21
+
+### Maintenance
+
+* Add support for scikit-learn 1.5.0 - Issue [#415](https://github.com/sdv-dev/Copulas/issues/415) by @R-Palazzo
+* Add support for numpy 2.0.0 - Issue [#412](https://github.com/sdv-dev/Copulas/issues/412) by @R-Palazzo
+* Only run unit and integration tests on oldest and latest python versions for macos - Issue [#405](https://github.com/sdv-dev/Copulas/issues/405) by @R-Palazzo
+* Cleanup automated PR workflows - Issue [#402](https://github.com/sdv-dev/Copulas/issues/402) by @R-Palazzo
+* Switch to using ruff for Python linting and code formatting - Issue [#378](https://github.com/sdv-dev/Copulas/issues/378) by @gsheni
+
+### Bugs Fixed
+
+* Cap numpy to less than 2.0.0 until Copulas supports - Issue [#411](https://github.com/sdv-dev/Copulas/issues/411) by @gsheni
+
 ## v0.11.0 - 2024-04-10
 
 This release adds support for Python 3.12!
