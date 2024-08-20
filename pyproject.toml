@@ -181,7 +181,8 @@ exclude = [
     ".tox",
     ".git",
     "__pycache__",
-    ".ipynb_checkpoints"
+    ".ipynb_checkpoints",
+    "*.ipynb"
 ]
 
 [tool.ruff.lint]
