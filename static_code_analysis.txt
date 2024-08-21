@@ -1,4 +1,4 @@
-Run started:2024-04-10 18:50:16.910112
+Run started:2024-08-21 17:50:53.695155
 
 Test results:
 >> Issue: [B403:blacklist] Consider possible security implications associated with pickle module.
@@ -75,10 +75,10 @@ Test results:
    Severity: Medium   Confidence: High
    CWE: CWE-502 (https://cwe.mitre.org/data/definitions/502.html)
    More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_calls.html#b301-pickle
-   Location: ./copulas/univariate/base.py:477:19
-476	        with open(path, 'rb') as pickle_file:
-477	            return pickle.load(pickle_file)
-478	
+   Location: ./copulas/univariate/base.py:488:19
+487	        with open(path, 'rb') as pickle_file:
+488	            return pickle.load(pickle_file)
+489	
 
 --------------------------------------------------
 >> Issue: [B110:try_except_pass] Try, Except, Pass detected.
@@ -95,7 +95,7 @@ Test results:
 --------------------------------------------------
 
 Code scanned:
-	Total lines of code: 3973
+	Total lines of code: 3953
 	Total lines skipped (#nosec): 0
 	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
 
