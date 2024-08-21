@@ -8,8 +8,13 @@ import numpy as np
 import pandas as pd
 
 from copulas import (
-    EPSILON, check_valid_values, get_qualified_name, random_state, store_args,
-    validate_random_state)
+    EPSILON,
+    check_valid_values,
+    get_qualified_name,
+    random_state,
+    store_args,
+    validate_random_state,
+)
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.multivariate.base import Multivariate
 from copulas.multivariate.tree import Tree, get_tree
@@ -103,7 +108,7 @@ class VineCopula(Multivariate):
         result = {
             'type': get_qualified_name(self),
             'vine_type': self.vine_type,
-            'fitted': self.fitted
+            'fitted': self.fitted,
         }
 
         if not self.fitted:
@@ -118,7 +123,7 @@ class VineCopula(Multivariate):
             'tau_mat': self.tau_mat.tolist(),
             'u_matrix': self.u_matrix.tolist(),
             'unis': [distribution.to_dict() for distribution in self.unis],
-            'columns': self.columns
+            'columns': self.columns,
         })
         return result
 
@@ -293,8 +298,9 @@ class VineCopula(Multivariate):
                     # get index of edge to retrieve
                     for edge in current_tree:
                         if i == 0:
-                            if (edge.L == current and edge.R == visited[0]) or\
-                               (edge.R == current and edge.L == visited[0]):
+                            if (edge.L == current and edge.R == visited[0]) or (
+                                edge.R == current and edge.L == visited[0]
+                            ):
                                 current_ind = edge.index
                                 break
                         else:

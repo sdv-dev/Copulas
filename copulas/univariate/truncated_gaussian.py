@@ -28,12 +28,7 @@ class TruncatedGaussian(ScipyModel):
 
     def _fit_constant(self, X):
         constant = np.unique(X)[0]
-        self._params = {
-            'a': constant,
-            'b': constant,
-            'loc': constant,
-            'scale': 0.0
-        }
+        self._params = {'a': constant, 'b': constant, 'loc': constant, 'scale': 0.0}
 
     def _fit(self, X):
         if self.min is None:
@@ -51,21 +46,18 @@ class TruncatedGaussian(ScipyModel):
         initial_params = X.mean(), X.std()
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', category=RuntimeWarning)
-            optimal = fmin_slsqp(nnlf, initial_params, iprint=False, bounds=[
-                (self.min, self.max),
-                (0.0, (self.max - self.min)**2)
-            ])
+            optimal = fmin_slsqp(
+                nnlf,
+                initial_params,
+                iprint=False,
+                bounds=[(self.min, self.max), (0.0, (self.max - self.min) ** 2)],
+            )
 
         loc, scale = optimal
         a = (self.min - loc) / scale
         b = (self.max - loc) / scale
 
-        self._params = {
-            'a': a,
-            'b': b,
-            'loc': loc,
-            'scale': scale
-        }
+        self._params = {'a': a, 'b': b, 'loc': loc, 'scale': scale}
 
     def _is_constant(self):
         return self._params['a'] == self._params['b']

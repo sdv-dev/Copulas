@@ -7,7 +7,6 @@ from tests import compare_nested_dicts
 
 
 class TestBivariate(TestCase):
-
     def setUp(self):
         self.X = np.array([
             [0.2, 0.3],
@@ -30,11 +29,7 @@ class TestBivariate(TestCase):
     def test_from_dict(self):
         """From_dict sets the values of a dictionary as attributes of the instance."""
         # Setup
-        parameters = {
-            'copula_type': 'FRANK',
-            'tau': 0.15,
-            'theta': 0.8
-        }
+        parameters = {'copula_type': 'FRANK', 'tau': 0.15, 'theta': 0.8}
 
         # Run
         instance = Bivariate.from_dict(parameters)
@@ -53,7 +48,7 @@ class TestBivariate(TestCase):
         expected_result = {
             'copula_type': 'FRANK',
             'tau': 0.9128709291752769,
-            'theta': 44.2003852484162
+            'theta': 44.2003852484162,
         }
 
         # Run
@@ -73,7 +68,7 @@ class TestBivariate(TestCase):
         expected_content = {
             'copula_type': 'FRANK',
             'tau': 0.9128709291752769,
-            'theta': 44.2003852484162
+            'theta': 44.2003852484162,
         }
 
         # Run
@@ -92,7 +87,7 @@ class TestBivariate(TestCase):
         json_mock.return_value = {
             'copula_type': 'FRANK',
             'tau': -0.33333333333333337,
-            'theta': -3.305771759329249
+            'theta': -3.305771759329249,
         }
 
         # Run

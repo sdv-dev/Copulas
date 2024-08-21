@@ -25,19 +25,18 @@ def test_conditional_sampling():
 
     sampled = gm.sample(3000, conditions={'b': 1})
 
-    np.testing.assert_allclose(sampled['a'].mean(), 1, atol=.5)
-    np.testing.assert_allclose(sampled['b'].mean(), 1, atol=.5)
-    np.testing.assert_allclose(sampled['c'].mean(), 1, atol=.5)
+    np.testing.assert_allclose(sampled['a'].mean(), 1, atol=0.5)
+    np.testing.assert_allclose(sampled['b'].mean(), 1, atol=0.5)
+    np.testing.assert_allclose(sampled['c'].mean(), 1, atol=0.5)
 
     sampled = gm.sample(3000, conditions={'a': 3, 'b': 3})
 
-    np.testing.assert_allclose(sampled['a'].mean(), 3, atol=.5)
-    np.testing.assert_allclose(sampled['b'].mean(), 3, atol=.5)
-    np.testing.assert_allclose(sampled['c'].mean(), 3, atol=.5)
+    np.testing.assert_allclose(sampled['a'].mean(), 3, atol=0.5)
+    np.testing.assert_allclose(sampled['b'].mean(), 3, atol=0.5)
+    np.testing.assert_allclose(sampled['c'].mean(), 3, atol=0.5)
 
 
 class TestGaussian(TestCase):
-
     def setUp(self):
         self.test_dir = tempfile.TemporaryDirectory()
 
@@ -84,9 +83,7 @@ class TestGaussian(TestCase):
 
     def test_fit_sample_distribution_dict(self):
         data = sample_trivariate_xyz()
-        model = GaussianMultivariate(distribution={
-            'x': GaussianKDE()
-        })
+        model = GaussianMultivariate(distribution={'x': GaussianKDE()})
         model.fit(data)
 
         sampled_data = model.sample(10)
@@ -94,11 +91,13 @@ class TestGaussian(TestCase):
 
     def test_fit_sample_distribution_dict_multiple(self):
         data = sample_trivariate_xyz()
-        model = GaussianMultivariate(distribution={
-            'x': Univariate(parametric=ParametricType.PARAMETRIC),
-            'y': BetaUnivariate(),
-            'z': GaussianKDE()
-        })
+        model = GaussianMultivariate(
+            distribution={
+                'x': Univariate(parametric=ParametricType.PARAMETRIC),
+                'y': BetaUnivariate(),
+                'z': GaussianKDE(),
+            }
+        )
         model.fit(data)
 
         sampled_data = model.sample(10)

@@ -7,15 +7,11 @@ from copulas.univariate.uniform import UniformUnivariate
 
 
 class TestUniformUnivariate(TestCase):
-
     def test__fit_constant(self):
         distribution = UniformUnivariate()
         distribution._fit_constant(np.array([1, 1, 1, 1]))
 
-        assert distribution._params == {
-            'loc': 1,
-            'scale': 0
-        }
+        assert distribution._params == {'loc': 1, 'scale': 0}
 
     def test__fit(self):
         distribution = UniformUnivariate()
@@ -47,10 +43,7 @@ class TestUniformUnivariate(TestCase):
 
     def test__extract_constant(self):
         distribution = UniformUnivariate()
-        distribution._params = {
-            'loc': 1,
-            'scale': 0
-        }
+        distribution._params = {'loc': 1, 'scale': 0}
 
         constant = distribution._extract_constant()
 

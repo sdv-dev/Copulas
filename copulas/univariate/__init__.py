@@ -21,5 +21,5 @@ __all__ = (
     'ParametricType',
     'BoundedType',
     'UniformUnivariate',
-    'LogLaplace'
+    'LogLaplace',
 )

@@ -96,7 +96,7 @@ class Bivariate(object):
             return super(Bivariate, cls).__new__(cls)
 
         if not isinstance(copula_type, CopulaTypes):
-            if (isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__):
+            if isinstance(copula_type, str) and copula_type.upper() in CopulaTypes.__members__:
                 copula_type = CopulaTypes[copula_type.upper()]
             else:
                 raise ValueError(f'Invalid copula type {copula_type}')
@@ -192,11 +192,7 @@ class Bivariate(object):
             dict: Parameters of the copula.
 
         """
-        return {
-            'copula_type': self.copula_type.name,
-            'theta': self.theta,
-            'tau': self.tau
-        }
+        return {'copula_type': self.copula_type.name, 'theta': self.theta, 'tau': self.tau}
 
     @classmethod
     def from_dict(cls, copula_dict):
@@ -297,6 +293,7 @@ class Bivariate(object):
         self.check_fit()
         result = []
         for _y, _v in zip(y, V):
+
             def f(u):
                 return self.partial_derivative_scalar(u, _v) - _y
 
@@ -330,7 +327,7 @@ class Bivariate(object):
             np.ndarray
 
         """
-        delta = (-2 * (X[:, 1] > 0.5) + 1)
+        delta = -2 * (X[:, 1] > 0.5) + 1
         delta = 0.0001 * delta
         X_prime = X.copy()
         X_prime[:, 1] += delta
@@ -411,10 +408,11 @@ class Bivariate(object):
 
         """
         from copulas.bivariate import select_copula  # noqa
+
         warnings.warn(
             '`Bivariate.select_copula` has been deprecated and will be removed in a later '
             'release. Please use `copulas.bivariate.select_copula` instead',
-            DeprecationWarning
+            DeprecationWarning,
         )
         return select_copula(X)
 

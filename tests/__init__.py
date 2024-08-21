@@ -7,7 +7,7 @@ COMPARE_VALUES_ERROR = "Values don't match at index {}\n {} != {}"
 NUMPY_NUMERICAL_DTYPES = set('buifc')
 
 
-def compare_nested_dicts(first, second, epsilon=10E-6):
+def compare_nested_dicts(first, second, epsilon=10e-6):
     """Compare two dictionaries. Raises an assertion error when a difference is found."""
     assert first.keys() == second.keys()
 
@@ -30,7 +30,11 @@ def compare_nested_dicts(first, second, epsilon=10E-6):
             assert _first == _second, "{}: {} doesn't equal {}".format(key, _first, _second)
 
 
-def compare_values_epsilon(first, second, epsilon=10E-6,):
+def compare_values_epsilon(
+    first,
+    second,
+    epsilon=10e-6,
+):
     """Compare epsilons."""
     if pd.isna(first) and pd.isna(second):
         return True
@@ -38,12 +42,11 @@ def compare_values_epsilon(first, second, epsilon=10E-6,):
     return abs(first - second) < epsilon
 
 
-def compare_nested_iterables(first, second, epsilon=10E-6):
+def compare_nested_iterables(first, second, epsilon=10e-6):
     """Compare iterables."""
     assert len(first) == len(second), 'Iterables should have the same length to be compared.'
 
     for index, (_first, _second) in enumerate(zip(first, second)):
-
         message = COMPARE_VALUES_ERROR.format(index, _first, _second)
 
         if isinstance(_first, (list, tuple)):
@@ -65,7 +68,7 @@ def compare_nested_iterables(first, second, epsilon=10E-6):
             assert _first == _second, message
 
 
-def copula_zero_if_arg_zero(copula, dimensions=2, steps=10, tolerance=1E-05):
+def copula_zero_if_arg_zero(copula, dimensions=2, steps=10, tolerance=1e-05):
     """Assert that any call with an argument equal to 0, will return 0.
 
     This function helps to test the following analytical property of copulas:
@@ -102,7 +105,7 @@ def copula_zero_if_arg_zero(copula, dimensions=2, steps=10, tolerance=1E-05):
     compare_nested_iterables(result, expected_result, tolerance)
 
 
-def copula_single_arg_not_one(copula, dimensions=2, steps=10, tolerance=1E-05):
+def copula_single_arg_not_one(copula, dimensions=2, steps=10, tolerance=1e-05):
     """Assert that any call where all arguments minus one are 1, will return the non-1 value.
 
     This functions helps to test the following analytic property of copulas:
@@ -120,7 +123,7 @@ def copula_single_arg_not_one(copula, dimensions=2, steps=10, tolerance=1E-05):
         AssertionError: If any value doesn't comply with the expected behavior.
     """
     # Setup
-    step_values = np.linspace(0.0, 1.0, steps + 1)[1: -1]
+    step_values = np.linspace(0.0, 1.0, steps + 1)[1:-1]
     values = []
 
     for index in range(dimensions):

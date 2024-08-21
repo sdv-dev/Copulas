@@ -21,14 +21,14 @@ license = { text = 'BSL-1.1' }
 requires-python = '>=3.8,<3.13'
 readme = 'README.md'
 dependencies = [
-    "numpy>=1.20.0;python_version<'3.10'",
+    "numpy>=1.21.0;python_version<'3.10'",
     "numpy>=1.23.3;python_version>='3.10' and python_version<'3.12'",
     "numpy>=1.26.0;python_version>='3.12'",
-    "pandas>=1.1.3;python_version<'3.10'",
-    "pandas>=1.3.4;python_version>='3.10' and python_version<'3.11'",
-    "pandas>=1.5.0;python_version>='3.11'",
+    "pandas>=1.4.0;python_version<'3.11'",
+    "pandas>=1.5.0;python_version>='3.11' and python_version<'3.12'",
+    "pandas>=2.1.1;python_version>='3.12'",
     'plotly>=5.10.0',
-    "scipy>=1.5.4;python_version<'3.10'",
+    "scipy>=1.7.3;python_version<'3.10'",
     "scipy>=1.9.2;python_version>='3.10' and python_version<'3.12'",
     "scipy>=1.12.0;python_version>='3.12'",
 ]
@@ -50,8 +50,8 @@ version = {attr = 'copulas.__version__'}
 [project.optional-dependencies]
 tutorials = [
     'markupsafe<=2.0.1',
-    "scikit-learn>=0.24,<1.2;python_version<'3.10'",
-    "scikit-learn>=0.24,<1.5;python_version>='3.10'",
+    "scikit-learn>=0.24;python_version<'3.12'",
+    "scikit-learn>=1.3.1;python_version>='3.12'",
     'jupyter>=1.0.0,<2',
 ]
 test = [
@@ -84,35 +84,11 @@ dev = [
     'alabaster<0.7.13',
 
     # Jinja2>=3 makes the sphinx theme fail
-    'Jinja2>=2,<3',
+    "Jinja2>=2,<3;python_version<'3.12'",
+    "Jinja2>=2,<4;python_version>='3.12'",
 
     # style check
-    'flake8>=3.7.7,<4',
-    'isort>=4.3.4,<5',
-    'flake8-debugger>=4.0.0,<4.1',
-    'flake8-mock>=0.3,<0.4',
-    'flake8-mutable>=1.2.0,<1.3',
-    'flake8-fixme>=1.1.1,<1.2',
-    'pep8-naming>=0.12.1,<0.13',
-    'dlint>=0.11.0,<0.12',
-    'flake8-docstrings>=1.5.0,<2',
-    'pydocstyle>=6.1.1,<6.2',
-    'flake8-pytest-style>=1.5.0,<2',
-    'flake8-comprehensions>=3.6.1,<3.7',
-    'flake8-print>=4.0.0,<4.1',
-    'flake8-expression-complexity>=0.0.9,<0.1',
-    'flake8-multiline-containers>=0.0.18,<0.1',
-    'pandas-vet>=0.2.2,<0.3',
-    'flake8-builtins>=1.5.3,<1.6',
-    'flake8-eradicate>=1.1.0,<1.2',
-    'flake8-quotes>=3.3.0,<4',
-    'flake8-variables-names>=0.0.4,<0.1',
-    'flake8-sfs>=0.0.3,<0.1',
-    'flake8-absolute-import>=1.0,<2',
-
-    # fix style issues
-    'autoflake>=1.1,<2',
-    'autopep8>=1.4.3,<1.6',
+    'ruff>=0.3.2,<1',
 
     # distribute on PyPI
     'twine>=1.10.0,<4',
@@ -122,9 +98,6 @@ dev = [
     'coverage>=4.5.1,<6',
     'tox>=2.9.1,<4',
     'invoke',
-
-    # Documentation style
-    'doc8>=0.8.0,<0.9',
 
     # Large scale evaluation
     'urllib3>=1.20,<1.26',
@@ -138,7 +111,6 @@ line_length = 99
 lines_between_types = 0
 multi_line_output = 4
 use_parentheses = true
-not_skip = ['__init__.py']
 
 [tool.pydocstyle]
 convention = 'google'
@@ -177,7 +149,7 @@ namespaces = false
 ]
 
 [tool.bumpversion]
-current_version = "0.11.0"
+current_version = "0.11.1.dev1"
 commit = true
 tag = true
 parse = '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<release>[a-z]+)(?P<candidate>\d+))?'
@@ -198,3 +170,53 @@ filename = 'copulas/__init__.py'
 search = "__version__ = '{current_version}'"
 replace = "__version__ = '{new_version}'"
 
+[tool.ruff]
+preview = true
+line-length = 100
+indent-width = 4
+src = ["copulas"]
+target-version = "py312"
+exclude = [
+    "docs",
+    ".tox",
+    ".git",
+    "__pycache__",
+    ".ipynb_checkpoints",
+    "*.ipynb"
+]
+
+[tool.ruff.lint]
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    "W",
+    "D200",
+    # isort
+    "I001",
+]
+ignore = [
+    "E501",
+    "D107",  # Missing docstring in __init__
+    "D417",   # Missing argument descriptions in the docstring, this is a bug from pydocstyle: https://github.com/PyCQA/pydocstyle/issues/449
+]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+preview = true
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.pep8-naming]
+extend-ignore-names = ["X", "C", "X_padded", "Y", "Y_padded"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["copulas"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "E402", "F403", "F405", "E501", "I001"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

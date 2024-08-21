@@ -22,11 +22,7 @@ class StudentTUnivariate(ScipyModel):
 
     def _fit(self, X):
         dataframe, loc, scale = t.fit(X)
-        self._params = {
-            'df': dataframe,
-            'loc': loc,
-            'scale': scale
-        }
+        self._params = {'df': dataframe, 'loc': loc, 'scale': scale}
 
     def _is_constant(self):
         return self._params['scale'] == 0

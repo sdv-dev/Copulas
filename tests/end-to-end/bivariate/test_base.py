@@ -4,8 +4,7 @@ import pytest
 from copulas.bivariate import Bivariate
 
 
-class TestBivariate():
-
+class TestBivariate:
     @pytest.mark.parametrize('model', Bivariate.subclasses())
     def test_fixed_random_state(self, model):
         """Test that the bivariate models work with a fixed seed.
