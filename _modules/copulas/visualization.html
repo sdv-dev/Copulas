@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization &mdash; Copulas 0.11.0 documentation</title>
+  <title>copulas.visualization &mdash; Copulas 0.11.1 documentation</title>
   
 
   
@@ -291,11 +291,7 @@
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">create_distplot</span><span class="p">(</span>
-        <span class="n">hist_data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-        <span class="n">group_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-        <span class="n">show_hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">show_rug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">colors</span><span class="o">=</span><span class="n">colors</span>
+        <span class="n">hist_data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">group_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">show_hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_rug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span>
     <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
@@ -312,7 +308,7 @@
         <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-        <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span>
@@ -340,10 +336,7 @@
             <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
 
     <span class="k">return</span> <span class="n">_generate_1d_plot</span><span class="p">(</span>
-        <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
-        <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">]</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">]</span>
     <span class="p">)</span></div>
 
 
@@ -372,7 +365,7 @@
         <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Real&#39;</span><span class="p">,</span> <span class="s1">&#39;Synthetic&#39;</span><span class="p">],</span>
-        <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">]</span>
+        <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">],</span>
     <span class="p">)</span></div>
 
 
@@ -408,7 +401,7 @@
         <span class="n">y</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="n">color_discrete_map</span><span class="p">,</span>
-        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
@@ -449,7 +442,7 @@
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -486,9 +479,9 @@
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
             <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
-            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span>
+            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -562,14 +555,15 @@
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
             <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> \
+            <span class="n">title</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -596,17 +590,18 @@
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
             <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> \
+            <span class="n">title</span> <span class="o">+=</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
             <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
-            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span>
+            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 </pre></div>
 

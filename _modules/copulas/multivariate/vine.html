@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.11.0 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.11.1 documentation</title>
   
 
   
@@ -268,8 +268,13 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">EPSILON</span><span class="p">,</span> <span class="n">check_valid_values</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span>
-    <span class="n">validate_random_state</span><span class="p">)</span>
+    <span class="n">EPSILON</span><span class="p">,</span>
+    <span class="n">check_valid_values</span><span class="p">,</span>
+    <span class="n">get_qualified_name</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="p">,</span>
+    <span class="n">store_args</span><span class="p">,</span>
+    <span class="n">validate_random_state</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
 <span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
@@ -363,7 +368,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="s1">&#39;vine_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">,</span>
-            <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span>
+            <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
@@ -378,7 +383,7 @@
             <span class="s1">&#39;tau_mat&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s1">&#39;u_matrix&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="s1">&#39;unis&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unis</span><span class="p">],</span>
-            <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+            <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
         <span class="p">})</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
@@ -553,8 +558,9 @@
                     <span class="c1"># get index of edge to retrieve</span>
                     <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">current_tree</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">current</span> <span class="ow">and</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span>\
-                               <span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">current</span> <span class="ow">and</span> <span class="n">edge</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">current</span> <span class="ow">and</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span>
+                                <span class="n">edge</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">current</span> <span class="ow">and</span> <span class="n">edge</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="n">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="p">):</span>
                                 <span class="n">current_ind</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">index</span>
                                 <span class="k">break</span>
                         <span class="k">else</span><span class="p">:</span>

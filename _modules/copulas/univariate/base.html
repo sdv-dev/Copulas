@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.base &mdash; Copulas 0.11.0 documentation</title>
+  <title>copulas.univariate.base &mdash; Copulas 0.11.1 documentation</title>
   
 
   
@@ -267,8 +267,13 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">NotFittedError</span><span class="p">,</span> <span class="n">get_instance</span><span class="p">,</span> <span class="n">get_qualified_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span>
-    <span class="n">validate_random_state</span><span class="p">)</span>
+    <span class="n">NotFittedError</span><span class="p">,</span>
+    <span class="n">get_instance</span><span class="p">,</span>
+    <span class="n">get_qualified_name</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="p">,</span>
+    <span class="n">store_args</span><span class="p">,</span>
+    <span class="n">validate_random_state</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copulas.univariate.selection</span> <span class="kn">import</span> <span class="n">select_univariate</span>
 
 
@@ -344,8 +349,14 @@
         <span class="k">return</span> <span class="n">candidates</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parametric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bounded</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">selection_sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">candidates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parametric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">bounded</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">selection_sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">candidates</span> <span class="o">=</span> <span class="n">candidates</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_candidates</span><span class="p">(</span><span class="n">parametric</span><span class="p">,</span> <span class="n">bounded</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selection_sample_size</span> <span class="o">=</span> <span class="n">selection_sample_size</span>

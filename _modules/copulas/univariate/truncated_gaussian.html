@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.truncated_gaussian &mdash; Copulas 0.11.0 documentation</title>
+  <title>copulas.univariate.truncated_gaussian &mdash; Copulas 0.11.1 documentation</title>
   
 
   
@@ -288,12 +288,7 @@
 
     <span class="k">def</span> <span class="nf">_fit_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="n">constant</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span>
-            <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span>
-            <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span>
-            <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mf">0.0</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">constant</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -311,21 +306,18 @@
         <span class="n">initial_params</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
-            <span class="n">optimal</span> <span class="o">=</span> <span class="n">fmin_slsqp</span><span class="p">(</span><span class="n">nnlf</span><span class="p">,</span> <span class="n">initial_params</span><span class="p">,</span> <span class="n">iprint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
-                <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-            <span class="p">])</span>
+            <span class="n">optimal</span> <span class="o">=</span> <span class="n">fmin_slsqp</span><span class="p">(</span>
+                <span class="n">nnlf</span><span class="p">,</span>
+                <span class="n">initial_params</span><span class="p">,</span>
+                <span class="n">iprint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)],</span>
+            <span class="p">)</span>
 
         <span class="n">loc</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">optimal</span>
         <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
         <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">loc</span><span class="p">)</span> <span class="o">/</span> <span class="n">scale</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
-            <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span>
-            <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">loc</span><span class="p">,</span>
-            <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">scale</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">loc</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">scale</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>

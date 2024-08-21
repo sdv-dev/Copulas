@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.tree &mdash; Copulas 0.11.0 documentation</title>
+  <title>copulas.multivariate.tree &mdash; Copulas 0.11.1 documentation</title>
   
 
   
@@ -358,7 +358,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># first column is the variable of interest</span>
         <span class="n">tau_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_matrix</span><span class="p">[:,</span> <span class="n">y</span><span class="p">]</span>
-        <span class="n">tau_y</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">tau_y</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
         <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
         <span class="n">temp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nodes</span><span class="p">)</span>
@@ -391,7 +391,7 @@
                     <span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">parents</span>
                     <span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span> <span class="o">=</span> <span class="n">Edge</span><span class="o">.</span><span class="n">get_conditional_uni</span><span class="p">(</span><span class="n">left_parent</span><span class="p">,</span> <span class="n">right_parent</span><span class="p">)</span>
 
-                <span class="n">tau</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">pvalue</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">kendalltau</span><span class="p">(</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">)</span>
+                <span class="n">tau</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">_pvalue</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">kendalltau</span><span class="p">(</span><span class="n">left_u</span><span class="p">,</span> <span class="n">right_u</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">tau</span></div>
 
@@ -472,8 +472,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce printable representation of the class.&quot;&quot;&quot;</span>
         <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;L:</span><span class="si">{}</span><span class="s1"> R:</span><span class="si">{}</span><span class="s1"> D:</span><span class="si">{}</span><span class="s1"> Copula:</span><span class="si">{}</span><span class="s1"> Theta:</span><span class="si">{}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-            <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span>
+            <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">edge</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span>
         <span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_serialize_previous_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -497,11 +496,7 @@
 <span class="sd">                Parameters of this Tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fitted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;tree_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_type</span><span class="p">,</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
-            <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">fitted</span>
-        <span class="p">}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tree_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_type</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="n">fitted</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">fitted</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">result</span>
@@ -711,7 +706,7 @@
 <span class="sd">            Instance of a Tree of the specified type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="n">TreeTypes</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">TreeTypes</span><span class="o">.</span><span class="n">__members__</span><span class="p">:</span>
             <span class="n">tree_type</span> <span class="o">=</span> <span class="n">TreeTypes</span><span class="p">[</span><span class="n">tree_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid tree type </span><span class="si">{</span><span class="n">tree_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -917,7 +912,7 @@
             <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span>
             <span class="s1">&#39;tau&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span>
             <span class="s1">&#39;U&#39;</span><span class="p">:</span> <span class="n">U</span><span class="p">,</span>
-            <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">likelihood</span>
+            <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">likelihood</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="Edge.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.tree.html#copulas.multivariate.Edge.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
@@ -934,8 +929,11 @@
 <span class="sd">                Instance of the edge defined on the parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">],</span>
-            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">]</span>
+            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span>
+            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">],</span>
+            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">],</span>
+            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+            <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;theta&#39;</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">])</span>
         <span class="n">parents</span> <span class="o">=</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]</span>
