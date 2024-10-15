@@ -319,8 +319,11 @@ def _find_addons():
     for entry_point in eps:
         try:
             addon = entry_point.load()
-        except Exception:  # pylint: disable=broad-exception-caught
-            msg = f'Failed to load "{entry_point.name}" from "{entry_point.value}".'
+        except Exception as e:  # pylint: disable=broad-exception-caught
+            msg = (
+                f'Failed to load "{entry_point.name}" from "{entry_point.value}" '
+                f'with error:\n{e}'
+            )
             warnings.warn(msg)
             continue
 
@@ -330,6 +333,11 @@ def _find_addons():
             msg = f"Failed to set '{entry_point.name}': {error}."
             warnings.warn(msg)
             continue
+
+        if isinstance(addon, ModuleType):
+            addon_module_name = f'{addon_target.__name__}.{addon_name}'
+            if addon_module_name not in sys.modules:
+                sys.modules[addon_module_name] = addon
 
         setattr(addon_target, addon_name, addon)
 
