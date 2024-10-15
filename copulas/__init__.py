@@ -13,6 +13,7 @@ import warnings
 from copy import deepcopy
 from importlib.metadata import entry_points
 from operator import attrgetter
+from types import ModuleType
 
 import numpy as np
 import pandas as pd

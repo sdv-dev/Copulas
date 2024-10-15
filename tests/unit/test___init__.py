@@ -1,6 +1,6 @@
 import sys
 from unittest import TestCase
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, Mock, call, patch
 
 import numpy as np
 import pandas as pd
@@ -464,14 +464,14 @@ def test__find_addons_bad_addon(entry_points_mock, warning_mock):
 
     # Setup
     def entry_point_error():
-        raise ValueError()
+        raise ValueError('bad value')
 
-    bad_entry_point = MagicMock()
+    bad_entry_point = Mock()
     bad_entry_point.name = 'bad_entry_point'
     bad_entry_point.value = 'bad_module'
     bad_entry_point.load.side_effect = entry_point_error
     entry_points_mock.return_value = [bad_entry_point]
-    msg = 'Failed to load "bad_entry_point" from "bad_module".'
+    msg = 'Failed to load "bad_entry_point" from "bad_module" with error:\nbad value'
 
     # Run
     _find_addons()
