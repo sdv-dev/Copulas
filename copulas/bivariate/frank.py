@@ -6,9 +6,9 @@ import numpy as np
 import scipy.integrate as integrate
 from scipy.optimize import least_squares
 
-from copulas import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.bivariate.utils import split_matrix
+from copulas.utils import EPSILON
 
 MIN_FLOAT_LOG = np.log(sys.float_info.min)
 MAX_FLOAT_LOG = np.log(sys.float_info.max)

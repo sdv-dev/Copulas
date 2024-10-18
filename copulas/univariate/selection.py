@@ -3,7 +3,7 @@
 import numpy as np
 from scipy.stats import kstest
 
-from copulas import get_instance
+from copulas.utils import get_instance
 
 
 def select_univariate(X, candidates):

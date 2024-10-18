@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from copulas import get_instance
+from copulas.utils import get_instance
 
 BASE = os.path.dirname(__file__)
 TESTS = glob.glob(BASE + '/test_cases/*/*.json')

@@ -4,9 +4,9 @@ import numpy as np
 from scipy.special import ndtr
 from scipy.stats import gaussian_kde
 
-from copulas import EPSILON, random_state, store_args, validate_random_state
 from copulas.optimize import bisect, chandrupatla
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
+from copulas.utils import EPSILON, random_state, store_args, validate_random_state
 
 
 class GaussianKDE(ScipyModel):

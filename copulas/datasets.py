@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from copulas import set_random_state, validate_random_state
+from copulas.utils import set_random_state, validate_random_state
 
 
 def _dummy_fn(state):

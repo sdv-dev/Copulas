@@ -6,8 +6,8 @@ import numpy as np
 from scipy.optimize import fmin_slsqp
 from scipy.stats import truncnorm
 
-from copulas import EPSILON, store_args, validate_random_state
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
+from copulas.utils import EPSILON, store_args, validate_random_state
 
 
 class TruncatedGaussian(ScipyModel):

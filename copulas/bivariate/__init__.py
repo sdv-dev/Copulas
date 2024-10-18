@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from copulas import EPSILON
+from copulas.utils import EPSILON
 from copulas.bivariate.base import Bivariate, CopulaTypes
 from copulas.bivariate.clayton import Clayton
 from copulas.bivariate.frank import Frank
