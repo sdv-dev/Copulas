@@ -4,9 +4,9 @@ from unittest.mock import Mock, patch
 import numpy as np
 import pandas as pd
 
-from copulas import get_qualified_name
 from copulas.multivariate.gaussian import GaussianMultivariate
 from copulas.univariate import GaussianUnivariate
+from copulas.utils import get_qualified_name
 
 
 class TestGaussianMultivariate(TestCase):
