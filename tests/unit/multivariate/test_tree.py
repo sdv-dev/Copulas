@@ -6,10 +6,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from copulas import EPSILON
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes, get_tree
 from copulas.univariate.gaussian_kde import GaussianKDE
+from copulas.utils import EPSILON
 from tests import compare_nested_dicts, compare_nested_iterables, compare_values_epsilon
 
 

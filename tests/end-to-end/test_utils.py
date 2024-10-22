@@ -1,6 +1,6 @@
 import numpy as np
 
-from copulas import random_state
+from copulas.utils import random_state
 
 
 class TestRandomState:
