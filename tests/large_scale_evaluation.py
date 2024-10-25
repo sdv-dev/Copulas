@@ -236,7 +236,7 @@ def _get_parser():
         '-s',
         '--sample',
         type=int,
-        help=('Limit the test to a number of datasets (sampled randomly)' ' specified by SAMPLE.'),
+        help=('Limit the test to a number of datasets (sampled randomly) specified by SAMPLE.'),
     )
     parser.add_argument('-r', '--max-rows', type=int, help='Limit the number of rows per dataset.')
     parser.add_argument(
