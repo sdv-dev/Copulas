@@ -285,7 +285,7 @@ def main():
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
 
-    print(tabulate.tabulate(results, tablefmt='github', headers=results.columns, showindex=False))
+    print(tabulate.tabulate(results, tablefmt='github', headers=results.columns, showindex=False))  # noqa
 
     if args.output_path:
         LOGGER.info('Saving report to %s', args.output_path)
