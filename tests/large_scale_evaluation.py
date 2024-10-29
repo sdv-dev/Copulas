@@ -236,7 +236,7 @@ def _get_parser():
         '-s',
         '--sample',
         type=int,
-        help=('Limit the test to a number of datasets (sampled randomly)' ' specified by SAMPLE.'),
+        help=('Limit the test to a number of datasets (sampled randomly) specified by SAMPLE.'),
     )
     parser.add_argument('-r', '--max-rows', type=int, help='Limit the number of rows per dataset.')
     parser.add_argument(
@@ -285,7 +285,7 @@ def main():
 
     results = run_evaluation(model_names, dataset_names, args.max_rows, args.max_columns)
 
-    print(tabulate.tabulate(results, tablefmt='github', headers=results.columns, showindex=False))
+    print(tabulate.tabulate(results, tablefmt='github', headers=results.columns, showindex=False))  # noqa
 
     if args.output_path:
         LOGGER.info('Saving report to %s', args.output_path)
