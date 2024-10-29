@@ -88,7 +88,7 @@ dev = [
     "Jinja2>=2,<4;python_version>='3.12'",
 
     # style check
-    'ruff>=0.3.2,<0.7.2',
+    'ruff>=0.3.2,<1',
 
     # distribute on PyPI
     'twine>=1.10.0,<4',
