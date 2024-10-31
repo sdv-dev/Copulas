@@ -70,6 +70,79 @@ class GaussianMultivariate(Multivariate):
 
         return stats.norm.ppf(np.column_stack(U))
 
+    @check_valid_values
+    def fit(self, X):
+        """Compute the distribution for each variable and then its correlation matrix.
+
+        Arguments:
+            X (pandas.DataFrame):
+                Values of the random variables.
+        """
+        LOGGER.info('Fitting %s', self)
+
+        # Validate the input data
+        X = self._validate_input(X)
+        columns, univariates = self._fit_individual_columns(X)
+
+        self.columns = columns
+        self.univariates = univariates
+
+        LOGGER.debug('Computing correlation.')
+        self.correlation = self._get_correlation(X)
+        self.fitted = True
+        LOGGER.debug('GaussianMultivariate fitted successfully')
+
+    def _validate_input(self, X):
+        """Validate the input data."""
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X)
+
+        return X
+
+    def _fit_individual_columns(self, X):
+        """Fit each column to its distribution."""
+        columns = []
+        univariates = []
+        for column_name, column in X.items():
+            distribution = self._get_distribution_for_column(column_name)
+            LOGGER.debug('Fitting column %s to %s', column_name, distribution)
+
+            univariate = self._fit_column(column, distribution, column_name)
+            columns.append(column_name)
+            univariates.append(univariate)
+
+        return columns, univariates
+
+    def _get_distribution_for_column(self, column_name):
+        """Retrieve the distribution for a given column name."""
+        if isinstance(self.distribution, dict):
+            return self.distribution.get(column_name, DEFAULT_DISTRIBUTION)
+
+        return self.distribution
+
+    def _fit_column(self, column, distribution, column_name):
+        """Fit a single column to its distribution with exception handling."""
+        univariate = get_instance(distribution)
+        try:
+            univariate.fit(column)
+        except Exception as error:
+            univariate = self._fit_with_fallback_distribution(
+                column, distribution, column_name, error
+            )
+
+        return univariate
+
+    def _fit_with_fallback_distribution(self, column, distribution, column_name, error):
+        """Fall back to fitting a Gaussian distribution and log the error."""
+        log_message = (
+            f'Unable to fit to a {distribution} distribution for column {column_name}. '
+            'Using a Gaussian distribution instead.'
+        )
+        LOGGER.info(log_message)
+        univariate = GaussianUnivariate()
+        univariate.fit(column)
+        return univariate
+
     def _get_correlation(self, X):
         """Compute correlation matrix with transformed data.
 
@@ -89,53 +162,6 @@ class GaussianMultivariate(Multivariate):
             correlation = correlation + np.identity(correlation.shape[0]) * EPSILON
 
         return pd.DataFrame(correlation, index=self.columns, columns=self.columns)
-
-    @check_valid_values
-    def fit(self, X):
-        """Compute the distribution for each variable and then its correlation matrix.
-
-        Arguments:
-            X (pandas.DataFrame):
-                Values of the random variables.
-        """
-        LOGGER.info('Fitting %s', self)
-
-        if not isinstance(X, pd.DataFrame):
-            X = pd.DataFrame(X)
-
-        columns = []
-        univariates = []
-        for column_name, column in X.items():
-            if isinstance(self.distribution, dict):
-                distribution = self.distribution.get(column_name, DEFAULT_DISTRIBUTION)
-            else:
-                distribution = self.distribution
-
-            LOGGER.debug('Fitting column %s to %s', column_name, distribution)
-
-            univariate = get_instance(distribution)
-            try:
-                univariate.fit(column)
-            except BaseException:
-                log_message = (
-                    f'Unable to fit to a {distribution} distribution for column {column_name}. '
-                    'Using a Gaussian distribution instead.'
-                )
-                LOGGER.info(log_message)
-                univariate = GaussianUnivariate()
-                univariate.fit(column)
-
-            columns.append(column_name)
-            univariates.append(univariate)
-
-        self.columns = columns
-        self.univariates = univariates
-
-        LOGGER.debug('Computing correlation')
-        self.correlation = self._get_correlation(X)
-        self.fitted = True
-
-        LOGGER.debug('GaussianMultivariate fitted successfully')
 
     def probability_density(self, X):
         """Compute the probability density for each point in X.

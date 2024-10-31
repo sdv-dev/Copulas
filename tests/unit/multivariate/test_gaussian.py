@@ -350,6 +350,111 @@ class TestGaussianMultivariate(TestCase):
         assert isinstance(copula.univariates[0], GaussianUnivariate)
         assert copula.univariates[0]._params == {'loc': np.mean(data), 'scale': np.std(data)}
 
+    def test__validate_input_with_dataframe(self):
+        """Test that `_validate_input` returns the same DataFrame."""
+        # Setup
+        instance = GaussianMultivariate()
+        input_df = pd.DataFrame({'A': [1, 2, 3]})
+
+        # Run
+        result = instance._validate_input(input_df)
+
+        # Assert
+        pd.testing.assert_frame_equal(result, input_df)
+
+    def test__validate_input_with_non_dataframe(self):
+        """Test that `_validate_input` converts non-DataFrame input into a DataFrame."""
+        # Setup
+        instance = GaussianMultivariate()
+        input_data = [[1, 2, 3], [4, 5, 6]]
+
+        # Run
+        result = instance._validate_input(input_data)
+
+        # Assert
+        expected_df = pd.DataFrame(input_data)
+        pd.testing.assert_frame_equal(result, expected_df)
+
+    @patch('copulas.multivariate.gaussian.LOGGER')
+    def test__fit_individual_columns(self, mock_logger):
+        """Test that `_fit_individual_columns` fits each column to its distribution."""
+        # Setup
+        instance = GaussianMultivariate()
+        instance._get_distribution_for_column = Mock(return_value='normal')
+        instance._fit_column = Mock(return_value='fitted_univariate')
+
+        X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+        # Run
+        columns, univariates = instance._fit_individual_columns(X)
+
+        # Assert
+        assert columns == ['A', 'B']
+        assert univariates == ['fitted_univariate', 'fitted_univariate']
+        instance._get_distribution_for_column.assert_any_call('A')
+        instance._get_distribution_for_column.assert_any_call('B')
+        mock_logger.debug.assert_any_call('Fitting column %s to %s', 'A', 'normal')
+        mock_logger.debug.assert_any_call('Fitting column %s to %s', 'B', 'normal')
+
+    @patch('copulas.multivariate.gaussian.DEFAULT_DISTRIBUTION', new='default_distribution')
+    def test__get_distribution_for_column_with_dict(self):
+        """Test that `_get_distribution_for_column` retrieves correct distribution from dict."""
+        # Setup
+        instance = GaussianMultivariate()
+        instance.distribution = {'A': 'normal', 'B': 'uniform'}
+
+        # Run
+        result_A = instance._get_distribution_for_column('A')
+        result_B = instance._get_distribution_for_column('B')
+        result_C = instance._get_distribution_for_column('C')
+
+        # Assert
+        assert result_A == 'normal'
+        assert result_B == 'uniform'
+        assert result_C == 'default_distribution'
+
+    @patch('copulas.multivariate.gaussian.get_instance')
+    @patch('copulas.multivariate.gaussian.GaussianUnivariate')
+    def test__fit_column_with_exception(self, mock_gaussian_univariate, mock_get_instance):
+        """Test that `_fit_column` falls back to a Gaussian distribution on exception."""
+        # Setup
+        instance = GaussianMultivariate()
+        column = pd.Series([1, 2, 3])
+        distribution = 'normal'
+        column_name = 'A'
+        instance._fit_with_fallback_distribution = Mock(return_value='fallback_univariate')
+
+        mock_univariate = Mock()
+        mock_univariate.fit.side_effect = Exception('Fit error')
+        mock_get_instance.return_value = mock_univariate
+
+        # Run
+        result = instance._fit_column(column, distribution, column_name)
+
+        # Assert
+        instance._fit_with_fallback_distribution.assert_called_once_with(
+            column, distribution, column_name, mock_univariate.fit.side_effect
+        )
+        assert result == 'fallback_univariate'
+
+    @patch('copulas.multivariate.gaussian.GaussianUnivariate')
+    def test__fit_with_fallback_distribution(self, mock_gaussian_univariate):
+        """Test that `_fit_with_fallback_distribution` fits a Gaussian distribution."""
+        # Setup
+        instance = GaussianMultivariate()
+        column = pd.Series([1, 2, 3])
+        distribution = 'normal'
+        column_name = 'A'
+        error = Exception('Test error')
+        mock_gaussian_univariate.return_value = Mock(fit=Mock())
+
+        # Run
+        result = instance._fit_with_fallback_distribution(column, distribution, column_name, error)
+
+        # Assert
+        mock_gaussian_univariate.return_value.fit.assert_called_once_with(column)
+        assert result == mock_gaussian_univariate.return_value
+
     def test_probability_density(self):
         """Probability_density computes probability for the given values."""
         # Setup
