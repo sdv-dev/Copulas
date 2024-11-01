@@ -376,8 +376,8 @@ class TestGaussianMultivariate(TestCase):
         pd.testing.assert_frame_equal(result, expected_df)
 
     @patch('copulas.multivariate.gaussian.LOGGER')
-    def test__fit_individual_columns(self, mock_logger):
-        """Test that `_fit_individual_columns` fits each column to its distribution."""
+    def test__fit_columns(self, mock_logger):
+        """Test that `_fit_columns` fits each column to its distribution."""
         # Setup
         instance = GaussianMultivariate()
         instance._get_distribution_for_column = Mock(return_value='normal')
@@ -386,7 +386,7 @@ class TestGaussianMultivariate(TestCase):
         X = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
 
         # Run
-        columns, univariates = instance._fit_individual_columns(X)
+        columns, univariates = instance._fit_columns(X)
 
         # Assert
         assert columns == ['A', 'B']

@@ -82,7 +82,7 @@ class GaussianMultivariate(Multivariate):
 
         # Validate the input data
         X = self._validate_input(X)
-        columns, univariates = self._fit_individual_columns(X)
+        columns, univariates = self._fit_columns(X)
 
         self.columns = columns
         self.univariates = univariates
@@ -99,7 +99,7 @@ class GaussianMultivariate(Multivariate):
 
         return X
 
-    def _fit_individual_columns(self, X):
+    def _fit_columns(self, X):
         """Fit each column to its distribution."""
         columns = []
         univariates = []
