@@ -1,5 +1,13 @@
 # History
 
+## v0.12.0 - 2024-11-12
+
+### Maintenance
+
+* Modularize `fit` Method of GaussianMultivariate to Improve Exception Handling - Issue [#431](https://github.com/sdv-dev/Copulas/issues/431) by @pvk-developer
+* Move `__init__.py` utility functions to a `utils.py` module. - Issue [#428](https://github.com/sdv-dev/Copulas/issues/428) by @pvk-developer
+* AttributeError raised when an entry point fails to load - Issue [#427](https://github.com/sdv-dev/Copulas/issues/427) by @pvk-developer
+
 ## v0.11.1 - 2024-08-21
 
 ### Maintenance
