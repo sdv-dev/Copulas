@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine module &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.multivariate.vine module &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -189,6 +189,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -294,7 +296,7 @@
 <p>VineCopula module.</p>
 <dl class="class">
 <dt id="copulas.multivariate.vine.VineCopula">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.vine.</code><code class="sig-name descname">VineCopula</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.vine.</code><code class="sig-name descname">VineCopula</code><span class="sig-paren">(</span><em class="sig-param">vine_type</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
 <p>Vine copula model.</p>
 <p>A <span class="math notranslate nohighlight">\(vine\)</span> is a graphical representation of one factorization of the n-variate probability
@@ -429,8 +431,22 @@ of all the nodes.</p>
 
 <dl class="method">
 <dt id="copulas.multivariate.vine.VineCopula.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">truncated=3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a vine model to the data.</p>
+<p>1. Transform all the variables by means of their marginals.
+In other words, compute</p>
+<div class="math notranslate nohighlight">
+\[u_i = F_i(x_i), i = 1, ..., n\]</div>
+<p>and compose the matrix <span class="math notranslate nohighlight">\(u = u_1, ..., u_n,\)</span> where <span class="math notranslate nohighlight">\(u_i\)</span> are their columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>numpy.ndarray</em>) – Data to be fitted to.</p></li>
+<li><p><strong>truncated</strong> (<em>int</em>) – Max level to build the vine.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.vine.VineCopula.from_dict">
@@ -458,8 +474,20 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 
 <dl class="method">
 <dt id="copulas.multivariate.vine.VineCopula.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.sample" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">num_rows</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/vine.html#VineCopula.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.vine.VineCopula.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample new rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_rows</strong> (<em>int</em>) – Number of rows to sample</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sampled rows.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.vine.VineCopula.to_dict">

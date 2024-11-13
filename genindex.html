@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Copulas 0.11.1 documentation</title>
+  <title>Index &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -188,6 +188,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -420,7 +422,7 @@
         <li><a href="api/copulas.bivariate.html#copulas.bivariate.Bivariate.check_theta">(copulas.bivariate.Bivariate method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.html#copulas.check_valid_values">check_valid_values() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.check_valid_values">check_valid_values() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.bivariate.html#copulas.bivariate.Clayton">Clayton (class in copulas.bivariate)</a>
 
@@ -488,10 +490,10 @@
         <li><a href="api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.copula_type">(copulas.bivariate.independence.Independence attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.html#module-copulas">copulas (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/copulas.bivariate.html#module-copulas.bivariate">copulas.bivariate (module)</a>
 </li>
       <li><a href="api/copulas.bivariate.base.html#module-copulas.bivariate.base">copulas.bivariate.base (module)</a>
@@ -507,6 +509,8 @@
       <li><a href="api/copulas.bivariate.utils.html#module-copulas.bivariate.utils">copulas.bivariate.utils (module)</a>
 </li>
       <li><a href="api/copulas.datasets.html#module-copulas.datasets">copulas.datasets (module)</a>
+</li>
+      <li><a href="api/copulas.errors.html#module-copulas.errors">copulas.errors (module)</a>
 </li>
       <li><a href="api/copulas.multivariate.html#module-copulas.multivariate">copulas.multivariate (module)</a>
 </li>
@@ -541,6 +545,8 @@
       <li><a href="api/copulas.univariate.truncated_gaussian.html#module-copulas.univariate.truncated_gaussian">copulas.univariate.truncated_gaussian (module)</a>
 </li>
       <li><a href="api/copulas.univariate.uniform.html#module-copulas.univariate.uniform">copulas.univariate.uniform (module)</a>
+</li>
+      <li><a href="api/copulas.utils.html#module-copulas.utils">copulas.utils (module)</a>
 </li>
       <li><a href="api/copulas.visualization.html#module-copulas.visualization">copulas.visualization (module)</a>
 </li>
@@ -788,7 +794,7 @@
 </li>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Edge.get_conditional_uni">get_conditional_uni() (copulas.multivariate.tree.Edge class method)</a>
 </li>
-      <li><a href="api/copulas.html#copulas.get_instance">get_instance() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.get_instance">get_instance() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.get_likelihood">get_likelihood() (copulas.multivariate.Tree method)</a>
 
@@ -802,7 +808,7 @@
         <li><a href="api/copulas.multivariate.html#copulas.multivariate.VineCopula.get_likelihood">(copulas.multivariate.VineCopula method)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.html#copulas.get_qualified_name">get_qualified_name() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.get_qualified_name">get_qualified_name() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.multivariate.html#copulas.multivariate.Tree.get_tau_matrix">get_tau_matrix() (copulas.multivariate.Tree method)</a>
 
@@ -992,7 +998,7 @@
         <li><a href="api/copulas.univariate.html#copulas.univariate.ParametricType.NON_PARAMETRIC">(copulas.univariate.ParametricType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/copulas.html#copulas.NotFittedError">NotFittedError</a>
+      <li><a href="api/copulas.errors.html#copulas.errors.NotFittedError">NotFittedError</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1188,7 +1194,7 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.html#copulas.random_state">random_state() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.random_state">random_state() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.TreeTypes.REGULAR">REGULAR (copulas.multivariate.tree.TreeTypes attribute)</a>
 
@@ -1270,7 +1276,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.html#copulas.scalarize">scalarize() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.scalarize">scalarize() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.visualization.html#copulas.visualization.scatter_2d">scatter_2d() (in module copulas.visualization)</a>
 </li>
@@ -1305,14 +1311,14 @@
 </li>
         <li><a href="api/copulas.univariate.html#copulas.univariate.Univariate.set_random_state">(copulas.univariate.Univariate method)</a>
 </li>
-        <li><a href="api/copulas.html#copulas.set_random_state">(in module copulas)</a>
+        <li><a href="api/copulas.utils.html#copulas.utils.set_random_state">(in module copulas.utils)</a>
 </li>
       </ul></li>
       <li><a href="api/copulas.multivariate.tree.html#copulas.multivariate.tree.Edge.sort_edge">sort_edge() (copulas.multivariate.tree.Edge static method)</a>
 </li>
       <li><a href="api/copulas.bivariate.utils.html#copulas.bivariate.utils.split_matrix">split_matrix() (in module copulas.bivariate.utils)</a>
 </li>
-      <li><a href="api/copulas.html#copulas.store_args">store_args() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.store_args">store_args() (in module copulas.utils)</a>
 </li>
       <li><a href="api/copulas.univariate.html#copulas.univariate.StudentTUnivariate">StudentTUnivariate (class in copulas.univariate)</a>
 
@@ -1490,9 +1496,9 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/copulas.html#copulas.validate_random_state">validate_random_state() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.validate_random_state">validate_random_state() (in module copulas.utils)</a>
 </li>
-      <li><a href="api/copulas.html#copulas.vectorize">vectorize() (in module copulas)</a>
+      <li><a href="api/copulas.utils.html#copulas.utils.vectorize">vectorize() (in module copulas.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

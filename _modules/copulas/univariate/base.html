@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.base &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.univariate.base &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -187,6 +187,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -240,8 +242,6 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../copulas.html">copulas</a> &raquo;</li>
-        
       <li>copulas.univariate.base</li>
     
     
@@ -266,15 +266,15 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">NotFittedError</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">copulas.errors</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate.selection</span> <span class="kn">import</span> <span class="n">select_univariate</span>
+<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_instance</span><span class="p">,</span>
     <span class="n">get_qualified_name</span><span class="p">,</span>
     <span class="n">random_state</span><span class="p">,</span>
     <span class="n">store_args</span><span class="p">,</span>
     <span class="n">validate_random_state</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.selection</span> <span class="kn">import</span> <span class="n">select_univariate</span>
 
 
 <div class="viewcode-block" id="ParametricType"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ParametricType">[docs]</a><span class="k">class</span> <span class="nc">ParametricType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -852,7 +852,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
-    <span class="nd">@random_state</span>
+<div class="viewcode-block" id="ScipyModel.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.sample">[docs]</a>    <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
@@ -870,7 +870,7 @@
 <span class="sd">                if the model is not fitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the model to a non-constant random variable.</span>

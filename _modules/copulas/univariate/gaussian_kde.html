@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.univariate.gaussian_kde &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -187,6 +187,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -240,8 +242,6 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../copulas.html">copulas</a> &raquo;</li>
-        
       <li>copulas.univariate.gaussian_kde</li>
     
     
@@ -264,9 +264,9 @@
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">ndtr</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span> <span class="n">validate_random_state</span>
 <span class="kn">from</span> <span class="nn">copulas.optimize</span> <span class="kn">import</span> <span class="n">bisect</span><span class="p">,</span> <span class="n">chandrupatla</span>
 <span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
+<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="n">EPSILON</span><span class="p">,</span> <span class="n">random_state</span><span class="p">,</span> <span class="n">store_args</span><span class="p">,</span> <span class="n">validate_random_state</span>
 
 
 <div class="viewcode-block" id="GaussianKDE"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE">[docs]</a><span class="k">class</span> <span class="nc">GaussianKDE</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
@@ -325,7 +325,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-    <span class="nd">@random_state</span>
+<div class="viewcode-block" id="GaussianKDE.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.sample">[docs]</a>    <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
@@ -343,7 +343,7 @@
 <span class="sd">                if the model is not fitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="GaussianKDE.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.univariate.gaussian_kde.html#copulas.univariate.GaussianKDE.cumulative_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>

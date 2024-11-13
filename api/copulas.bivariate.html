@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.bivariate package &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.bivariate package &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -189,6 +189,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -409,7 +411,7 @@ for the random generator.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is  not fitted.</p></li>
+<li><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is  not fitted.</p></li>
 <li><p><strong>ValueError</strong> – if the computed theta is invalid.</p></li>
 </ul>
 </dd>
@@ -637,8 +639,21 @@ partial derivative of the CDF with respect to u.</p>
 
 <dl class="method">
 <dt id="copulas.bivariate.Bivariate.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.bivariate.Bivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">n_samples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.Bivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate specified <cite>n_samples</cite> of new data from model.</p>
+<p>The sampled are generated using the inverse transform method <cite>v~U[0,1],v~C^-1(u|v)</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_samples</strong> (<em>int</em>) – amount of samples to create.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of length <cite>n_samples</cite> with generated data from the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.bivariate.Bivariate.save">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian module &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.multivariate.gaussian module &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -189,6 +189,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -294,7 +296,7 @@
 <p>GaussianMultivariate module.</p>
 <dl class="class">
 <dt id="copulas.multivariate.gaussian.GaussianMultivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.gaussian.</code><code class="sig-name descname">GaussianMultivariate</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">copulas.multivariate.gaussian.</code><code class="sig-name descname">GaussianMultivariate</code><span class="sig-paren">(</span><em class="sig-param">distribution=&lt;class 'copulas.univariate.base.Univariate'&gt;</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate" title="copulas.multivariate.base.Multivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.multivariate.base.Multivariate</span></code></a></p>
 <p>Class for a multivariate distribution that uses the Gaussian copula.</p>
 <dl class="field-list simple">
@@ -329,15 +331,21 @@ distribution names.</p>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+<dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.gaussian.GaussianMultivariate.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the distribution for each variable and then its correlation matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Values of the random variables.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.gaussian.GaussianMultivariate.from_dict">
@@ -372,15 +380,39 @@ returned by the <code class="docutils literal notranslate"><span class="pre">to_
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="copulas.html#copulas.NotFittedError" title="copulas.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+<dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.gaussian.GaussianMultivariate.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.sample" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">num_rows=1</em>, <em class="sig-param">conditions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/multivariate/gaussian.html#GaussianMultivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.multivariate.gaussian.GaussianMultivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample values from this model.</p>
+<dl class="simple">
+<dt>Argument:</dt><dd><dl class="simple">
+<dt>num_rows (int):</dt><dd><p>Number of rows to sample.</p>
+</dd>
+<dt>conditions (dict or pd.Series):</dt><dd><p>Mapping of the column names and column values to condition on.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array of shape (n_samples, <a href="#id1"><span class="problematic" id="id2">*</span></a>) with values randomly
+sampled from this model distribution. If conditions have been
+given, the output array also contains the corresponding columns
+populated with the given values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="copulas.multivariate.gaussian.GaussianMultivariate.to_dict">

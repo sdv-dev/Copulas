@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -187,6 +187,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -240,8 +242,6 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../copulas.html">copulas</a> &raquo;</li>
-        
       <li>copulas.multivariate.gaussian</li>
     
     
@@ -267,7 +267,9 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">Univariate</span>
+<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">check_valid_values</span><span class="p">,</span>
     <span class="n">get_instance</span><span class="p">,</span>
@@ -276,8 +278,6 @@
     <span class="n">store_args</span><span class="p">,</span>
     <span class="n">validate_random_state</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate</span> <span class="kn">import</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">Univariate</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">DEFAULT_DISTRIBUTION</span> <span class="o">=</span> <span class="n">Univariate</span>
@@ -330,6 +330,79 @@
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
+<div class="viewcode-block" id="GaussianMultivariate.fit"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.fit">[docs]</a>    <span class="nd">@check_valid_values</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its correlation matrix.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            X (pandas.DataFrame):</span>
+<span class="sd">                Values of the random variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Fitting </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Validate the input data</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">columns</span><span class="p">,</span> <span class="n">univariates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_columns</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span> <span class="o">=</span> <span class="n">univariates</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computing correlation.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_correlation</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;GaussianMultivariate fitted successfully&#39;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the input data.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">X</span>
+
+    <span class="k">def</span> <span class="nf">_fit_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit each column to its distribution.&quot;&quot;&quot;</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">univariates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_distribution_for_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting column </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
+
+            <span class="n">univariate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_column</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span>
+            <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+            <span class="n">univariates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">columns</span><span class="p">,</span> <span class="n">univariates</span>
+
+    <span class="k">def</span> <span class="nf">_get_distribution_for_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the distribution for a given column name.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">DEFAULT_DISTRIBUTION</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span>
+
+    <span class="k">def</span> <span class="nf">_fit_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">column_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a single column to its distribution with exception handling.&quot;&quot;&quot;</span>
+        <span class="n">univariate</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">univariate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_with_fallback_distribution</span><span class="p">(</span>
+                <span class="n">column</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">error</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">univariate</span>
+
+    <span class="k">def</span> <span class="nf">_fit_with_fallback_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fall back to fitting a Gaussian distribution and log the error.&quot;&quot;&quot;</span>
+        <span class="n">log_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Unable to fit to a </span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s1"> distribution for column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">. &#39;</span>
+            <span class="s1">&#39;Using a Gaussian distribution instead.&#39;</span>
+        <span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">log_message</span><span class="p">)</span>
+        <span class="n">univariate</span> <span class="o">=</span> <span class="n">GaussianUnivariate</span><span class="p">()</span>
+        <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">univariate</span>
+
     <span class="k">def</span> <span class="nf">_get_correlation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute correlation matrix with transformed data.</span>
 
@@ -349,53 +422,6 @@
             <span class="n">correlation</span> <span class="o">=</span> <span class="n">correlation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">correlation</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">EPSILON</span>
 
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-
-    <span class="nd">@check_valid_values</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its correlation matrix.</span>
-
-<span class="sd">        Arguments:</span>
-<span class="sd">            X (pandas.DataFrame):</span>
-<span class="sd">                Values of the random variables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Fitting </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-
-        <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">univariates</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">DEFAULT_DISTRIBUTION</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span>
-
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fitting column </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
-
-            <span class="n">univariate</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-                <span class="n">log_message</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;Unable to fit to a </span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s1"> distribution for column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s1">. &#39;</span>
-                    <span class="s1">&#39;Using a Gaussian distribution instead.&#39;</span>
-                <span class="p">)</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">log_message</span><span class="p">)</span>
-                <span class="n">univariate</span> <span class="o">=</span> <span class="n">GaussianUnivariate</span><span class="p">()</span>
-                <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
-
-            <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
-            <span class="n">univariates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">univariates</span> <span class="o">=</span> <span class="n">univariates</span>
-
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Computing correlation&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_correlation</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;GaussianMultivariate fitted successfully&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GaussianMultivariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.probability_density">[docs]</a>    <span class="k">def</span> <span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
@@ -498,7 +524,7 @@
         <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rows</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
-    <span class="nd">@random_state</span>
+<div class="viewcode-block" id="GaussianMultivariate.sample"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.sample">[docs]</a>    <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
@@ -532,7 +558,7 @@
                 <span class="n">cdf</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
                 <span class="n">output</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">cdf</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GaussianMultivariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>

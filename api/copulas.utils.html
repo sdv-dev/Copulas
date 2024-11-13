@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>copulas.utils module &mdash; Copulas 0.12.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/copulas.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="copulas.visualization module" href="copulas.visualization.html" />
+    <link rel="prev" title="copulas.errors module" href="copulas.errors.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Copulas
+          
+
+          
+            
+            <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#install-with-pip">Install with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#install-with-conda">Install with conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#install-from-source">Install from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install.html#install-for-development">Install for development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_Quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#1.-Load-the-data">1. Load the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#2.-Create-a-Copula-instance">2. Create a Copula instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#3.-Fit-the-model">3. Fit the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#4.-Sample-new-data">4. Sample new data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#5.-Load-and-save-a-model">5. Load and save a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/00_Quickstart.html#6.-Extract-and-set-parameters">6. Extract and set parameters</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">User Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Density-Function">Probability Density Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Cumulative-Distribution-Function">Cumulative Distribution Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Integral-Transform">Probability Integral Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Copulas">Copulas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html">Univariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Usage-Example">Univariate Usage Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-the-model">Fitting the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Sampling-new-data">Sampling new data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Probability-Density">Probability Density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Cumulative-Distribution">Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Selecting-the-best-Univariate">Selecting the best Univariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Fitting-a-generic-Univariate">Fitting a generic Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Recreating-the-Univariate">Recreating the Univariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/02_Univariate_Distributions.html#Univariate-Families">Univariate Families</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html">Multivariate Distributions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Gaussian-Multivariate">Gaussian Multivariate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Fitting-a-Model-and-Generating-Synthetic-Data">Fitting a Model and Generating Synthetic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Specifying-column-distributions">Specifying column distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Probability-Density-and-Cumulative-Distribution">Probability Density and Cumulative Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#to_dict-and-from_dict">to_dict and from_dict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/03_Multivariate_Distributions.html#Vine-Copulas">Vine Copulas</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.optimize.html">copulas.optimize package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">copulas.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Copulas</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="copulas.html">copulas package</a> &raquo;</li>
+        
+      <li>copulas.utils module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/api/copulas.utils.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-copulas.utils">
+<span id="copulas-utils-module"></span><h1>copulas.utils module<a class="headerlink" href="#module-copulas.utils" title="Permalink to this headline">¶</a></h1>
+<p>Utils module.</p>
+<dl class="function">
+<dt id="copulas.utils.check_valid_values">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">check_valid_values</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#check_valid_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.check_valid_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise an exception if the given values are not supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>callable</em>) – Method whose unique argument is a numpy.array-like object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorated function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If there are missing or invalid values or if the dataset is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_instance">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">get_instance</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#get_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance of the <code class="docutils literal notranslate"><span class="pre">obj</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>str</em><em>, </em><em>type</em><em>, </em><em>instance</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.get_qualified_name">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">get_qualified_name</code><span class="sig-paren">(</span><em class="sig-param">_object</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#get_qualified_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.get_qualified_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Fully Qualified Name from an instance or class.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.random_state">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">random_state</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the random state before calling the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>Callable</em>) – The function to wrap around.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.scalarize">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">scalarize</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#scalarize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.scalarize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow methods that only accepts 1-d vectors to work with scalars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>callable</em>) – Function that accepts and returns vectors.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorated function that accepts and returns scalars.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.set_random_state">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em>, <em class="sig-param">set_model_random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager for managing the random state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>np.random.RandomState</em>) – The random seed or RandomState.</p></li>
+<li><p><strong>set_model_random_state</strong> (<em>function</em>) – Function to set the random state on the model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.store_args">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">store_args</code><span class="sig-paren">(</span><em class="sig-param">__init__</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#store_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.store_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save <code class="docutils literal notranslate"><span class="pre">*args</span></code> and <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> used in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> of a copula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>__init__</strong> (<em>callable</em>) – <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function to store their arguments.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorated <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.validate_random_state">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">validate_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#validate_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.validate_random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate random state argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>numpy.random.RandomState</em><em>, </em><em>tuple</em><em>, or </em><em>None</em>) – Seed or RandomState for the random generator.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Output:</dt><dd><p>numpy.random.RandomState</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="copulas.utils.vectorize">
+<code class="sig-prename descclassname">copulas.utils.</code><code class="sig-name descname">vectorize</code><span class="sig-paren">(</span><em class="sig-param">function</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/utils.html#vectorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.utils.vectorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow a method that only accepts scalars to accept vectors too.</p>
+<p>This decorator has two different behaviors depending on the dimensionality of the
+array passed as an argument:</p>
+<p><strong>1-d array</strong></p>
+<p>It will work under the assumption that the <cite>function</cite> argument is a callable
+with signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where X is an scalar magnitude.</p>
+<p>In this case the arguments of the input array will be given one at a time, and
+both the input and output of the decorated function will have shape (n,).</p>
+<p><strong>2-d array</strong></p>
+<p>It will work under the assumption that the <cite>function</cite> argument is a callable with signature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">Xj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <cite>Xi</cite> are scalar magnitudes.</p>
+<p>It will pass the contents of each row unpacked on each call. The input is espected to have
+shape (n, j), the output a shape of (n,)</p>
+<p>It will return a function that is guaranteed to return a <cite>numpy.array</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function</strong> (<em>callable</em>) – Function that only accept and return scalars.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Decorated function that can accept and return <code class="xref py py-attr docutils literal notranslate"><span class="pre">numpy.array</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="copulas.visualization.html" class="btn btn-neutral float-right" title="copulas.visualization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="copulas.errors.html" class="btn btn-neutral float-left" title="copulas.errors module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, DataCebo, Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

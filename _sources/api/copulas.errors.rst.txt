@@ -1,0 +1,7 @@
+copulas.errors module
+=====================
+
+.. automodule:: copulas.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:

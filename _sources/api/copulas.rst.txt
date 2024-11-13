@@ -17,6 +17,8 @@ Submodules
 .. toctree::
 
    copulas.datasets
+   copulas.errors
+   copulas.utils
    copulas.visualization
 
 Module contents

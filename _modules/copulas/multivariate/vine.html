@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.11.1 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.12.0 documentation</title>
   
 
   
@@ -187,6 +187,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.datasets.html">copulas.datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.errors.html">copulas.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.utils.html">copulas.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.visualization.html">copulas.visualization module</a></li>
 </ul>
 </li>
@@ -240,8 +242,6 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../copulas.html">copulas</a> &raquo;</li>
-        
       <li>copulas.multivariate.vine</li>
     
     
@@ -267,7 +267,11 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">copulas</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
+<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian_kde</span> <span class="kn">import</span> <span class="n">GaussianKDE</span>
+<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">check_valid_values</span><span class="p">,</span>
     <span class="n">get_qualified_name</span><span class="p">,</span>
@@ -275,10 +279,6 @@
     <span class="n">store_args</span><span class="p">,</span>
     <span class="n">validate_random_state</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian_kde</span> <span class="kn">import</span> <span class="n">GaussianKDE</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -336,8 +336,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s1">&#39;Vines have not been fully tested on Python &gt;= 3.8 and might &#39;</span>
-                <span class="s1">&#39;produce wrong results.&#39;</span>
+                <span class="s1">&#39;Vines have not been fully tested on Python &gt;= 3.8 and might produce wrong results.&#39;</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
@@ -417,7 +416,7 @@
 
         <span class="k">return</span> <span class="n">instance</span></div>
 
-    <span class="nd">@check_valid_values</span>
+<div class="viewcode-block" id="VineCopula.fit"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.fit">[docs]</a>    <span class="nd">@check_valid_values</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">truncated</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a vine model to the data.</span>
 
@@ -453,7 +452,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ppfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uni</span><span class="o">.</span><span class="n">percent_point</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="VineCopula.train_vine"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.train_vine">[docs]</a>    <span class="k">def</span> <span class="nf">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build the vine.</span>
@@ -603,7 +602,7 @@
 
         <span class="k">return</span> <span class="n">sampled</span>
 
-    <span class="nd">@random_state</span>
+<div class="viewcode-block" id="VineCopula.sample"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.sample">[docs]</a>    <span class="nd">@random_state</span>
     <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample new rows.</span>
 
@@ -619,7 +618,7 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
             <span class="n">sampled_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_row</span><span class="p">())</span>
 
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sampled_values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sampled_values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
