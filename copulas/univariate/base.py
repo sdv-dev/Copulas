@@ -6,15 +6,15 @@ from enum import Enum
 
 import numpy as np
 
-from copulas import (
-    NotFittedError,
+from copulas.errors import NotFittedError
+from copulas.univariate.selection import select_univariate
+from copulas.utils import (
     get_instance,
     get_qualified_name,
     random_state,
     store_args,
     validate_random_state,
 )
-from copulas.univariate.selection import select_univariate
 
 
 class ParametricType(Enum):

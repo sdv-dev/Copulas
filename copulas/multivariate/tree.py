@@ -6,9 +6,9 @@ from enum import Enum
 import numpy as np
 import scipy
 
-from copulas import EPSILON, get_qualified_name
 from copulas.bivariate.base import Bivariate
 from copulas.multivariate.base import Multivariate
+from copulas.utils import EPSILON, get_qualified_name
 
 LOGGER = logging.getLogger(__name__)
 
