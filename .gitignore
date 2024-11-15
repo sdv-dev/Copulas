@@ -114,3 +114,6 @@ ENV/
 
 # tutorials
 tutorials/mymodel.pkl
+
+# Codecov
+*_cov.xml

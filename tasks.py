@@ -34,12 +34,12 @@ def check_dependencies(c):
 
 @task
 def unit(c):
-    c.run('python -m pytest ./tests/unit --cov=copulas --cov-report=xml')
+    c.run('python -m pytest ./tests/unit --cov=copulas --cov-report=xml:./unit_cov.xml')
 
 
 @task
 def end_to_end(c):
-    c.run('python -m pytest ./tests/end-to-end --reruns 3')
+    c.run('python -m pytest ./tests/end-to-end --reruns 3 --cov=copulas --cov-report=xml:./integration_cov.xml')
 
 
 @task
