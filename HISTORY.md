@@ -1,6 +1,12 @@
 # History
 
-## v0.12.0 - 2024-11-12
+### v0.12.1 - 2025-01-09
+
+### Maintenance
+
+* Create Prepare Release workflow - Issue [#442](https://github.com/sdv-dev/Copulas/issues/442) by @R-Palazzo
+
+# v0.12.0 - 2024-11-12
 
 ### Maintenance
 
