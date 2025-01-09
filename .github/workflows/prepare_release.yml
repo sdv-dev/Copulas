@@ -1,9 +1,6 @@
 name: Release Prep
 
 on:
-  push:
-    branches:
-      - issue-442-prepare-release
   workflow_dispatch:
     inputs:
       branch:
