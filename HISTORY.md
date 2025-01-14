@@ -1,6 +1,14 @@
 # History
 
-## v0.12.0 - 2024-11-12
+### v0.12.1 - 2025-01-14
+
+### Maintenance
+
+* Create Prepare Release workflow - Issue [#442](https://github.com/sdv-dev/Copulas/issues/442) by @R-Palazzo
+* Support Python 3.13 - Issue [#434](https://github.com/sdv-dev/Copulas/issues/434) by @rwedge
+* Update codecov and add flag for integration tests - Issue [#433](https://github.com/sdv-dev/Copulas/issues/433) by @pvk-developer
+
+# v0.12.0 - 2024-11-12
 
 ### Maintenance
 
