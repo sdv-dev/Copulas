@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.multivariate.vine &mdash; Copulas 0.12.0 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.12.1 documentation</title>
   
 
   
@@ -260,18 +260,18 @@
   <h1>Source code for copulas.multivariate.vine</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;VineCopula module.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">copulas.bivariate.base</span> <span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.base</span> <span class="kn">import</span> <span class="n">Multivariate</span>
-<span class="kn">from</span> <span class="nn">copulas.multivariate.tree</span> <span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
-<span class="kn">from</span> <span class="nn">copulas.univariate.gaussian_kde</span> <span class="kn">import</span> <span class="n">GaussianKDE</span>
-<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.bivariate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bivariate</span><span class="p">,</span> <span class="n">CopulaTypes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.multivariate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Multivariate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.multivariate.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">get_tree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.univariate.gaussian_kde</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianKDE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">EPSILON</span><span class="p">,</span>
     <span class="n">check_valid_values</span><span class="p">,</span>
     <span class="n">get_qualified_name</span><span class="p">,</span>
@@ -283,7 +283,7 @@
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="VineCopula"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula">[docs]</a><span class="k">class</span> <span class="nc">VineCopula</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
+<div class="viewcode-block" id="VineCopula"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">VineCopula</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vine copula model.</span>
 
 <span class="sd">    A :math:`vine` is a graphical representation of one factorization of the n-variate probability</span>
@@ -333,7 +333,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@store_args</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s1">&#39;Vines have not been fully tested on Python &gt;= 3.8 and might produce wrong results.&#39;</span>
@@ -346,7 +346,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">GaussianKDE</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_deserialize_trees</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_list</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_deserialize_trees</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tree_list</span><span class="p">):</span>
         <span class="n">previous</span> <span class="o">=</span> <span class="n">Tree</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">tree_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">trees</span> <span class="o">=</span> <span class="p">[</span><span class="n">previous</span><span class="p">]</span>
 
@@ -357,7 +357,7 @@
 
         <span class="k">return</span> <span class="n">trees</span>
 
-<div class="viewcode-block" id="VineCopula.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="VineCopula.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.to_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Vine.</span>
 
 <span class="sd">        Returns:</span>
@@ -387,7 +387,7 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="VineCopula.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vine_dict</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vine_dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
 
 <span class="sd">        Args:</span>
@@ -417,7 +417,7 @@
         <span class="k">return</span> <span class="n">instance</span></div>
 
 <div class="viewcode-block" id="VineCopula.fit"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.fit">[docs]</a>    <span class="nd">@check_valid_values</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">truncated</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">truncated</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a vine model to the data.</span>
 
 <span class="sd">        1. Transform all the variables by means of their marginals.</span>
@@ -454,7 +454,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="VineCopula.train_vine"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.train_vine">[docs]</a>    <span class="k">def</span> <span class="nf">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="p">):</span>
+<div class="viewcode-block" id="VineCopula.train_vine"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.train_vine">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build the vine.</span>
 
 <span class="sd">        1. For the construction of the first tree :math:`T_1`, assign one node to each variable</span>
@@ -512,7 +512,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_k</span><span class="p">)</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;finish building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="VineCopula.get_likelihood"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.get_likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">get_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uni_matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="VineCopula.get_likelihood"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.get_likelihood">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uni_matrix</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute likelihood of the vine.&quot;&quot;&quot;</span>
         <span class="n">num_tree</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">)</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_tree</span><span class="p">])</span>
@@ -524,7 +524,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_sample_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a single sampled row from vine model.</span>
 
 <span class="sd">        Returns:</span>
@@ -603,7 +603,7 @@
         <span class="k">return</span> <span class="n">sampled</span>
 
 <div class="viewcode-block" id="VineCopula.sample"><a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.sample">[docs]</a>    <span class="nd">@random_state</span>
-    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample new rows.</span>
 
 <span class="sd">        Args:</span>

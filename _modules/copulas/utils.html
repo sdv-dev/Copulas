@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.utils &mdash; Copulas 0.12.0 documentation</title>
+  <title>copulas.utils &mdash; Copulas 0.12.1 documentation</title>
   
 
   
@@ -260,19 +260,19 @@
   <h1>Source code for copulas.utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utils module.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">EPSILON</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
 
 
 <div class="viewcode-block" id="set_random_state"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.set_random_state">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">set_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">set_model_random_state</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">set_model_random_state</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for managing the random state.</span>
 
 <span class="sd">    Args:</span>
@@ -293,7 +293,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">original_state</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="random_state"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.random_state">[docs]</a><span class="k">def</span> <span class="nf">random_state</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<div class="viewcode-block" id="random_state"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.random_state">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">random_state</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the random state before calling the function.</span>
 
 <span class="sd">    Args:</span>
@@ -302,7 +302,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -312,7 +312,7 @@
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<div class="viewcode-block" id="validate_random_state"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.validate_random_state">[docs]</a><span class="k">def</span> <span class="nf">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">):</span>
+<div class="viewcode-block" id="validate_random_state"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.validate_random_state">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate random state argument.</span>
 
 <span class="sd">    Args:</span>
@@ -336,7 +336,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_instance"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_instance">[docs]</a><span class="k">def</span> <span class="nf">get_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="get_instance"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_instance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new instance of the ``obj`` argument.</span>
 
 <span class="sd">    Args:</span>
@@ -359,7 +359,7 @@
     <span class="k">return</span> <span class="n">instance</span></div>
 
 
-<div class="viewcode-block" id="store_args"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.store_args">[docs]</a><span class="k">def</span> <span class="nf">store_args</span><span class="p">(</span><span class="fm">__init__</span><span class="p">):</span>
+<div class="viewcode-block" id="store_args"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.store_args">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">store_args</span><span class="p">(</span><span class="fm">__init__</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.</span>
 
 <span class="sd">    Args:</span>
@@ -370,7 +370,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="fm">__init__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">new__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">args_copy</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="n">kwargs_copy</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -380,7 +380,7 @@
     <span class="k">return</span> <span class="n">new__init__</span></div>
 
 
-<div class="viewcode-block" id="get_qualified_name"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_qualified_name">[docs]</a><span class="k">def</span> <span class="nf">get_qualified_name</span><span class="p">(</span><span class="n">_object</span><span class="p">):</span>
+<div class="viewcode-block" id="get_qualified_name"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_qualified_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_qualified_name</span><span class="p">(</span><span class="n">_object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the Fully Qualified Name from an instance or class.&quot;&quot;&quot;</span>
     <span class="n">module</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__module__</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_object</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
@@ -391,7 +391,7 @@
     <span class="k">return</span> <span class="n">module</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">_class</span></div>
 
 
-<div class="viewcode-block" id="vectorize"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.vectorize">[docs]</a><span class="k">def</span> <span class="nf">vectorize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<div class="viewcode-block" id="vectorize"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.vectorize">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">vectorize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow a method that only accepts scalars to accept vectors too.</span>
 
 <span class="sd">    This decorator has two different behaviors depending on the dimensionality of the</span>
@@ -431,7 +431,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -448,7 +448,7 @@
     <span class="k">return</span> <span class="n">decorated</span></div>
 
 
-<div class="viewcode-block" id="scalarize"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.scalarize">[docs]</a><span class="k">def</span> <span class="nf">scalarize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<div class="viewcode-block" id="scalarize"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.scalarize">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">scalarize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow methods that only accepts 1-d vectors to work with scalars.</span>
 
 <span class="sd">    Args:</span>
@@ -459,7 +459,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">scalar</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">scalar</span><span class="p">:</span>
@@ -474,7 +474,7 @@
     <span class="k">return</span> <span class="n">decorated</span></div>
 
 
-<div class="viewcode-block" id="check_valid_values"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.check_valid_values">[docs]</a><span class="k">def</span> <span class="nf">check_valid_values</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<div class="viewcode-block" id="check_valid_values"><a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.check_valid_values">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_valid_values</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise an exception if the given values are not supported.</span>
 
 <span class="sd">    Args:</span>
@@ -488,7 +488,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="n">W</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>

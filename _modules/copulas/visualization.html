@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.visualization &mdash; Copulas 0.12.0 documentation</title>
+  <title>copulas.visualization &mdash; Copulas 0.12.1 documentation</title>
   
 
   
@@ -260,12 +260,12 @@
   <h1>Source code for copulas.visualization</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Visualization utilities for the Copulas library.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
-<span class="kn">import</span> <span class="nn">plotly.figure_factory</span> <span class="k">as</span> <span class="nn">ff</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.figure_factory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ff</span>
 
 
-<div class="viewcode-block" id="PlotConfig"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.PlotConfig">[docs]</a><span class="k">class</span> <span class="nc">PlotConfig</span><span class="p">:</span>
+<div class="viewcode-block" id="PlotConfig"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.PlotConfig">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PlotConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom plot settings for visualizations.&quot;&quot;&quot;</span>
 
     <span class="n">DATACEBO_DARK</span> <span class="o">=</span> <span class="s1">&#39;#000036&#39;</span>
@@ -274,7 +274,7 @@
     <span class="n">FONT_SIZE</span> <span class="o">=</span> <span class="mi">18</span></div>
 
 
-<span class="k">def</span> <span class="nf">_generate_1d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_1d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a density plot of an array-like structure.</span>
 
 <span class="sd">    Args:</span>
@@ -314,7 +314,7 @@
     <span class="k">return</span> <span class="n">fig</span>
 
 
-<div class="viewcode-block" id="dist_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.dist_1d">[docs]</a><span class="k">def</span> <span class="nf">dist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="dist_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.dist_1d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 1 dimensional data.</span>
 
 <span class="sd">    Args:</span>
@@ -340,7 +340,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compare_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_1d">[docs]</a><span class="k">def</span> <span class="nf">compare_1d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="compare_1d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_1d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compare_1d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data.</span>
 
 <span class="sd">    Args:</span>
@@ -369,7 +369,7 @@
     <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_generate_scatter_2d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_scatter_2d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for a pair of columns.</span>
 
 <span class="sd">    Args:</span>
@@ -414,7 +414,7 @@
     <span class="k">return</span> <span class="n">fig</span>
 
 
-<div class="viewcode-block" id="scatter_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_2d">[docs]</a><span class="k">def</span> <span class="nf">scatter_2d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="scatter_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_2d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">scatter_2d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 2 dimensional data in a scatter plot.</span>
 
 <span class="sd">    Args:</span>
@@ -446,7 +446,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compare_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_2d">[docs]</a><span class="k">def</span> <span class="nf">compare_2d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="compare_2d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_2d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compare_2d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column pair.</span>
 
 <span class="sd">    Args:</span>
@@ -485,7 +485,7 @@
     <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_generate_scatter_3d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_scatter_3d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for column pair plot.</span>
 
 <span class="sd">    Args:</span>
@@ -533,7 +533,7 @@
     <span class="k">return</span> <span class="n">fig</span>
 
 
-<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 3 dimensional data in a scatter plot.</span>
 
 <span class="sd">    Args:</span>
@@ -567,7 +567,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compare_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_3d">[docs]</a><span class="k">def</span> <span class="nf">compare_3d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="compare_3d"><a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_3d">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compare_3d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column triplet.</span>
 
 <span class="sd">    Args:</span>

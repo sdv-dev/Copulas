@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.uniform &mdash; Copulas 0.12.0 documentation</title>
+  <title>copulas.univariate.uniform &mdash; Copulas 0.12.1 documentation</title>
   
 
   
@@ -260,13 +260,13 @@
   <h1>Source code for copulas.univariate.uniform</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;UniformUnivariate module.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">uniform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">uniform</span>
 
-<span class="kn">from</span> <span class="nn">copulas.univariate.base</span> <span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.univariate.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoundedType</span><span class="p">,</span> <span class="n">ParametricType</span><span class="p">,</span> <span class="n">ScipyModel</span>
 
 
-<div class="viewcode-block" id="UniformUnivariate"><a class="viewcode-back" href="../../../api/copulas.univariate.uniform.html#copulas.univariate.UniformUnivariate">[docs]</a><span class="k">class</span> <span class="nc">UniformUnivariate</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
+<div class="viewcode-block" id="UniformUnivariate"><a class="viewcode-back" href="../../../api/copulas.univariate.uniform.html#copulas.univariate.UniformUnivariate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">UniformUnivariate</span><span class="p">(</span><span class="n">ScipyModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Uniform univariate model.&quot;&quot;&quot;</span>
 
     <span class="n">PARAMETRIC</span> <span class="o">=</span> <span class="n">ParametricType</span><span class="o">.</span><span class="n">PARAMETRIC</span>
@@ -274,16 +274,16 @@
 
     <span class="n">MODEL_CLASS</span> <span class="o">=</span> <span class="n">uniform</span>
 
-    <span class="k">def</span> <span class="nf">_fit_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fit_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">)}</span>
 
-    <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">)}</span>
 
-    <span class="k">def</span> <span class="nf">_is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">_extract_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s1">&#39;loc&#39;</span><span class="p">]</span></div>
 </pre></div>
 

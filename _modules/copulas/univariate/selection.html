@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>copulas.univariate.selection &mdash; Copulas 0.12.0 documentation</title>
+  <title>copulas.univariate.selection &mdash; Copulas 0.12.1 documentation</title>
   
 
   
@@ -260,13 +260,13 @@
   <h1>Source code for copulas.univariate.selection</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Univariate selection function.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kstest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">kstest</span>
 
-<span class="kn">from</span> <span class="nn">copulas.utils</span> <span class="kn">import</span> <span class="n">get_instance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_instance</span>
 
 
-<div class="viewcode-block" id="select_univariate"><a class="viewcode-back" href="../../../api/copulas.univariate.selection.html#copulas.univariate.selection.select_univariate">[docs]</a><span class="k">def</span> <span class="nf">select_univariate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">candidates</span><span class="p">):</span>
+<div class="viewcode-block" id="select_univariate"><a class="viewcode-back" href="../../../api/copulas.univariate.selection.html#copulas.univariate.selection.select_univariate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">select_univariate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">candidates</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Select the best univariate class for this data.</span>
 
 <span class="sd">    Args:</span>
