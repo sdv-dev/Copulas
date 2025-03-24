@@ -97,7 +97,6 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-# html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Readthedocs additions
 html_context = {
