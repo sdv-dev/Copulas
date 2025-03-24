@@ -31,7 +31,6 @@ import copulas
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'sphinx_mdinclude',
     'nbsphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.githubpages',
@@ -39,7 +38,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -113,7 +113,7 @@ html_context = {
 # documentation.
 html_theme_options = {
     'collapse_navigation': False,
-    'display_version': False,
+    'version_selector': False,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
