@@ -1,4 +1,5 @@
-.. mdinclude:: ../README.md
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
    :end-line: 48
 
 .. toctree::
@@ -21,7 +22,7 @@
    :caption: Advanced Usage
    :maxdepth: 2
 
-   tutorials/04_Syntehtic_Data_for_Machine_Learning
+   tutorials/04_Synthetic_Data_for_Machine_Learning
 
 .. toctree::
    :caption: Resources

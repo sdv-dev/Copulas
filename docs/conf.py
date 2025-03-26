@@ -31,7 +31,6 @@ import copulas
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'm2r',
     'nbsphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.githubpages',
@@ -39,7 +38,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -78,7 +78,7 @@ release = copulas.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -97,7 +97,6 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Readthedocs additions
 html_context = {
@@ -113,7 +112,7 @@ html_context = {
 # documentation.
 html_theme_options = {
     'collapse_navigation': False,
-    'display_version': False,
+    'version_selector': False,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

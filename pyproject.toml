@@ -54,61 +54,59 @@ version = {attr = 'copulas.__version__'}
 
 [project.optional-dependencies]
 tutorials = [
-    'markupsafe<=2.0.1',
-    "scikit-learn>=0.24;python_version<'3.12'",
-    "scikit-learn>=1.3.1;python_version>='3.12'",
-    'jupyter>=1.0.0,<2',
+    'markupsafe >= 2.0.1',
+    "scikit-learn >= 0.24;python_version<'3.12'",
+    "scikit-learn >= 1.3.1;python_version >= '3.12'",
+    'jupyter >= 1.0.0',
 ]
 test = [
     'copulas[tutorials]',
-    'pytest>=6.2.5,<7',
-    'pytest-cov>=2.6.0,<3',
-    'pytest-rerunfailures>=10.3,<15',
-    'rundoc>=0.4.3,<0.5',
-    'tomli>=2.0.0,<3',
+    'pytest >= 6.2.5',
+    'pytest-cov >= 2.6.0',
+    'pytest-rerunfailures >= 10.3',
+    'rundoc >= 0.4.3',
+    'tomli >= 2.0.0',
 ]
 dev = [
     'copulas[tutorials, test]',
 
     # general
-    'pip>=9.0.1',
-    'build>=1.0.0,<2',
-    'bump-my-version>=0.18.3,<1',
-    'watchdog>=1.0.1,<5',
+    'pip >= 9.0.1',
+    'build >= 1.0.0',
+    'bump-my-version >= 0.18.3',
+    'watchdog >= 1.0.1',
 
     # docs
-    'm2r>=0.2.0,<0.3',
-    'nbsphinx>=0.5.0,<0.7',
-    'Sphinx>=1.7.1,<3',
-    'sphinx_rtd_theme>=0.2.4,<0.5',
-    'sphinxcontrib_applehelp<1.0.8',
-    'sphinxcontrib-devhelp<1.0.6',
-    'sphinxcontrib-htmlhelp<2.0.5',
-    'sphinxcontrib_serializinghtml<1.1.10',
-    'sphinxcontrib_qthelp<1.0.7',
-    'alabaster<0.7.13',
-
-    # Jinja2>=3 makes the sphinx theme fail
-    "Jinja2>=2,<3;python_version<'3.12'",
-    "Jinja2>=2,<4;python_version>='3.12'",
+    'nbsphinx >= 0.9.7, <0.10',
+    'Sphinx >= 7.4.7, <7.5',
+    'sphinx_rtd_theme >= 3.0.2, <3.1',
+    'sphinxcontrib_applehelp >= 2.0.0, <2.1',
+    'sphinxcontrib-devhelp >= 2.0.0, <2.1',
+    'sphinxcontrib-htmlhelp >= 2.1.0, <2.2',
+    'sphinxcontrib_serializinghtml >= 2.0.0, <2.1',
+    'sphinxcontrib_qthelp >= 2.0.0, <2.1',
+    'alabaster >= 0.7.16, <0.8',
+    'lxml-html-clean >= 0.4.1, <0.5',
+    'Jinja2 >= 3.1.6, <3.2',
+    'myst_parser >= 3.0.1, <4.1',
 
     # style check
-    'ruff>=0.3.2,<1',
+    'ruff >= 0.3.2, <1',
 
     # distribute on PyPI
-    'twine>=1.10.0,<4',
-    'wheel>=0.30.0',
+    'twine >= 1.10.0, <4',
+    'wheel >= 0.30.0',
 
     # Advanced testing
-    'coverage>=4.5.1,<6',
-    'tox>=2.9.1,<4',
+    'coverage >= 7.7.1, <7.8',
+    'tox >= 2.9.1,<4',
     'invoke',
 
     # Large scale evaluation
-    'urllib3>=1.20,<1.26',
-    'tabulate>=0.8.3,<0.9',
-    'boto3>=1.7.47,<1.10',
-    'docutils>=0.10,<0.15'
+    'urllib3 >= 1.26.20, <2.4',
+    'tabulate >= 0.9.0, <0.10',
+    'boto3 >= 1.37.18, <1.38',
+    'docutils >= 0.21.2, <0.22'
 ]
 
 [tool.isort]
