@@ -1,5 +1,12 @@
 # History
 
+## v0.12.2 - 2025-04-01
+
+### Documentation
+
+* No graphs are displayed - Issue [#443](https://github.com/sdv-dev/Copulas/issues/443) by @gsheni
+* Update README graphs - Issue [#426](https://github.com/sdv-dev/Copulas/issues/426) by @rwedge
+
 ## v0.12.1 - 2025-01-15
 
 ### Maintenance

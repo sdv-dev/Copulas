@@ -1,4 +1,4 @@
-Run started:2025-01-14 22:05:29.296181
+Run started:2025-04-01 18:57:43.405931
 
 Test results:
 >> Issue: [B403:blacklist] Consider possible security implications associated with pickle module.
@@ -95,7 +95,7 @@ Test results:
 --------------------------------------------------
 
 Code scanned:
-	Total lines of code: 3986
+	Total lines of code: 3985
 	Total lines skipped (#nosec): 0
 	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
 

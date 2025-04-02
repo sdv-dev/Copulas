@@ -57,5 +57,4 @@ git checkout -b <your-branch-name>
 make install-develp
 ```
 
-For more details about how to contribute to the project please visit the [Contributing Guide](
-CONTRIBUTING.rst).
+For more details about how to contribute to the project please visit the [Contributing Guide](https://github.com/sdv-dev/copulas/blob/main/CONTRIBUTING.rst).
