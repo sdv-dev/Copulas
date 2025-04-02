@@ -1,90 +1,52 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas.bivariate.clayton module &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas.bivariate.clayton module &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="copulas.bivariate.frank module" href="copulas.bivariate.frank.html" />
     <link rel="prev" title="copulas.bivariate.base module" href="copulas.bivariate.base.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../index.html" class="icon icon-home">
+            Copulas
+              <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Copulas</a><ul>
@@ -105,7 +67,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -146,16 +108,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul class="current">
@@ -199,109 +161,43 @@
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="copulas.html">copulas package</a> &raquo;</li>
-        
-          <li><a href="copulas.bivariate.html">copulas.bivariate package</a> &raquo;</li>
-        
-      <li>copulas.bivariate.clayton module</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="copulas.html">copulas package</a></li>
+          <li class="breadcrumb-item"><a href="copulas.bivariate.html">copulas.bivariate package</a></li>
+      <li class="breadcrumb-item active">copulas.bivariate.clayton module</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
               <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/api/copulas.bivariate.clayton.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="module-copulas.bivariate.clayton">
-<span id="copulas-bivariate-clayton-module"></span><h1>copulas.bivariate.clayton module<a class="headerlink" href="#module-copulas.bivariate.clayton" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-copulas.bivariate.clayton">
+<span id="copulas-bivariate-clayton-module"></span><h1>copulas.bivariate.clayton module<a class="headerlink" href="#module-copulas.bivariate.clayton" title="Link to this heading"></a></h1>
 <p>Clayton module.</p>
-<dl class="class">
-<dt id="copulas.bivariate.clayton.Clayton">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.clayton.</code><code class="sig-name descname">Clayton</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.bivariate.base.Bivariate</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.bivariate.clayton.</span></span><span class="sig-name descname"><span class="pre">Clayton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bivariate</span></code></a></p>
 <p>Class for clayton copula model.</p>
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.compute_theta">
-<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.compute_theta">
+<span class="sig-name descname"><span class="pre">compute_theta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.compute_theta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.compute_theta" title="Link to this definition"></a></dt>
 <dd><p>Compute theta parameter using Kendall’s tau.</p>
 <p>On Clayton copula this is</p>
 <div class="math notranslate nohighlight">
@@ -311,85 +207,85 @@
 <p>On the corner case of <span class="math notranslate nohighlight">\(τ = 1\)</span>, return infinite.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.clayton.Clayton.copula_type">
-<code class="sig-name descname">copula_type</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.copula_type" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.copula_type">
+<span class="sig-name descname"><span class="pre">copula_type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.copula_type" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.cumulative_distribution">
+<span class="sig-name descname"><span class="pre">cumulative_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.cumulative_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.cumulative_distribution" title="Link to this definition"></a></dt>
 <dd><p>Compute the cumulative distribution function for the clayton copula.</p>
 <p>The cumulative density(cdf), or distribution function for the Clayton family of copulas
 correspond to the formula:</p>
 <div class="math notranslate nohighlight">
 \[C(u,v) = (u^{-θ} + v^{-θ} - 1)^{-1/θ}\]</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>cumulative probability.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.generator">
-<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.generator" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.generator">
+<span class="sig-name descname"><span class="pre">generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.generator" title="Link to this definition"></a></dt>
 <dd><p>Compute the generator function for Clayton copula family.</p>
 <p>The generator is a function
 <span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>  # noqa: JS101</p>
 <p>that given an Archimedian copula fulfills:
 .. math:: C(u,v) = psi^{-1}(psi(u) + psi(v))</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>t</strong> (<em>numpy.ndarray</em>) – </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.clayton.Clayton.invalid_thetas">
-<code class="sig-name descname">invalid_thetas</code><em class="property"> = []</em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.invalid_thetas">
+<span class="sig-name descname"><span class="pre">invalid_thetas</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.invalid_thetas" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.partial_derivative">
-<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.partial_derivative">
+<span class="sig-name descname"><span class="pre">partial_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.partial_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.partial_derivative" title="Link to this definition"></a></dt>
 <dd><p>Compute partial derivative of cumulative distribution.</p>
 <p>The partial derivative of the copula(CDF) is the conditional CDF.</p>
 <div class="math notranslate nohighlight">
 \[F(v|u) = \frac{\partial C(u,v)}{\partial u} =
 u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}\]</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
-<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>)</p></li>
+<li><p><strong>y</strong> (<em>float</em>)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Derivatives</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.percent_point">
-<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.percent_point" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.percent_point">
+<span class="sig-name descname"><span class="pre">percent_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.percent_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.percent_point" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>numpy.ndarray</em>) – Value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
 <li><p><strong>v</strong> (<em>numpy.ndarray</em>) – given value of v.</p></li>
@@ -398,9 +294,9 @@ u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}\]</di
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.clayton.Clayton.probability_density">
-<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.probability_density">
+<span class="sig-name descname"><span class="pre">probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/clayton.html#Clayton.probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.probability_density" title="Link to this definition"></a></dt>
 <dd><p>Compute probability density function for given copula family.</p>
 <p>The probability density(PDF) for the Clayton family of copulas correspond to the formula:</p>
 <div class="math notranslate nohighlight">
@@ -408,74 +304,56 @@ u^{- \theta - 1}(u^{-\theta} + v^{-\theta} - 1)^{-\frac{\theta+1}{\theta}}\]</di
 (\theta + 1)(uv)^{-\theta-1}(u^{-\theta} +
 v^{-\theta} - 1)^{-\frac{2\theta + 1}{\theta}}\]</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>)</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Probability density for the input values.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.clayton.Clayton.theta_interval">
-<code class="sig-name descname">theta_interval</code><em class="property"> = [0, inf]</em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.clayton.Clayton.theta_interval">
+<span class="sig-name descname"><span class="pre">theta_interval</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0,</span> <span class="pre">inf]</span></em><a class="headerlink" href="#copulas.bivariate.clayton.Clayton.theta_interval" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="copulas.bivariate.frank.html" class="btn btn-neutral float-right" title="copulas.bivariate.frank module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="copulas.bivariate.base.html" class="btn btn-neutral float-left" title="copulas.bivariate.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="copulas.bivariate.base.html" class="btn btn-neutral float-left" title="copulas.bivariate.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="copulas.bivariate.frank.html" class="btn btn-neutral float-right" title="copulas.bivariate.frank module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

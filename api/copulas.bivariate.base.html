@@ -1,90 +1,52 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas.bivariate.base module &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas.bivariate.base module &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="copulas.bivariate.clayton module" href="copulas.bivariate.clayton.html" />
     <link rel="prev" title="copulas.bivariate package" href="copulas.bivariate.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../index.html" class="icon icon-home">
+            Copulas
+              <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Copulas</a><ul>
@@ -105,7 +67,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -146,16 +108,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul class="current">
@@ -199,104 +161,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="copulas.html">copulas package</a> &raquo;</li>
-        
-          <li><a href="copulas.bivariate.html">copulas.bivariate package</a> &raquo;</li>
-        
-      <li>copulas.bivariate.base module</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="copulas.html">copulas package</a></li>
+          <li class="breadcrumb-item"><a href="copulas.bivariate.html">copulas.bivariate package</a></li>
+      <li class="breadcrumb-item active">copulas.bivariate.base module</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
               <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/api/copulas.bivariate.base.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="module-copulas.bivariate.base">
-<span id="copulas-bivariate-base-module"></span><h1>copulas.bivariate.base module<a class="headerlink" href="#module-copulas.bivariate.base" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-copulas.bivariate.base">
+<span id="copulas-bivariate-base-module"></span><h1>copulas.bivariate.base module<a class="headerlink" href="#module-copulas.bivariate.base" title="Link to this heading"></a></h1>
 <p>This module contains a base class for bivariate copulas.</p>
-<dl class="class">
-<dt id="copulas.bivariate.base.Bivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.base.</code><code class="sig-name descname">Bivariate</code><span class="sig-paren">(</span><em class="sig-param">copula_type=None</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.bivariate.base.</span></span><span class="sig-name descname"><span class="pre">Bivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for bivariate copulas.</p>
 <p>This class allows to instantiate all its subclasses and serves as a unique entry point for
@@ -310,7 +206,7 @@ the bivariate copulas classes.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>copula_type</strong> (<em>Union</em><em>[</em><em>CopulaType</em><em>, </em><em>str</em><em>]</em>) – Subtype of the copula.</p></li>
 <li><p><strong>random_state</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>np.random.RandomState</em><em>, </em><em>None</em><em>]</em>) – Seed or RandomState
@@ -318,85 +214,85 @@ for the random generator.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate.copula_type">
-<code class="sig-name descname">copula_type</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate.copula_type" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.copula_type">
+<span class="sig-name descname"><span class="pre">copula_type</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate.copula_type" title="Link to this definition"></a></dt>
 <dd><p>Family of the copula a subclass belongs to.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes" title="copulas.bivariate.CopulaTypes">CopulaTypes</a></p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.base.CopulaTypes" title="copulas.bivariate.base.CopulaTypes">CopulaTypes</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate._subclasses">
-<code class="sig-name descname">_subclasses</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate._subclasses" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate._subclasses">
+<span class="sig-name descname"><span class="pre">_subclasses</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate._subclasses" title="Link to this definition"></a></dt>
 <dd><p>List of declared subclasses.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[type]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate.theta_interval">
-<code class="sig-name descname">theta_interval</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate.theta_interval" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.theta_interval">
+<span class="sig-name descname"><span class="pre">theta_interval</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate.theta_interval" title="Link to this definition"></a></dt>
 <dd><p>Interval of valid thetas for the given copula family.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[float]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate.invalid_thetas">
-<code class="sig-name descname">invalid_thetas</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate.invalid_thetas" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.invalid_thetas">
+<span class="sig-name descname"><span class="pre">invalid_thetas</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate.invalid_thetas" title="Link to this definition"></a></dt>
 <dd><p>Values that, even though they belong to
-<a class="reference internal" href="#copulas.bivariate.base.Bivariate.theta_interval" title="copulas.bivariate.base.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a>, shouldn’t be considered valid.</p>
+<a class="reference internal" href="#id4" title="copulas.bivariate.base.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a>, shouldn’t be considered valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[float]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate.tau">
-<code class="sig-name descname">tau</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate.tau" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.tau">
+<span class="sig-name descname"><span class="pre">tau</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate.tau" title="Link to this definition"></a></dt>
 <dd><p>Kendall’s tau for the data given at <a class="reference internal" href="#copulas.bivariate.base.Bivariate.fit" title="copulas.bivariate.base.Bivariate.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.Bivariate.theta">
-<code class="sig-name descname">theta</code><a class="headerlink" href="#copulas.bivariate.base.Bivariate.theta" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.theta">
+<span class="sig-name descname"><span class="pre">theta</span></span><a class="headerlink" href="#copulas.bivariate.base.Bivariate.theta" title="Link to this definition"></a></dt>
 <dd><p>Parameter for the copula.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.cdf">
-<code class="sig-name descname">cdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.cdf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.cdf">
+<span class="sig-name descname"><span class="pre">cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.cdf" title="Link to this definition"></a></dt>
 <dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.base.Bivariate.cumulative_distribution" title="copulas.bivariate.base.Bivariate.cumulative_distribution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cumulative_distribution()</span></code></a>.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.check_fit">
-<code class="sig-name descname">check_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_fit" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.check_fit">
+<span class="sig-name descname"><span class="pre">check_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_fit" title="Link to this definition"></a></dt>
 <dd><p>Assert that the model is fit and the computed <cite>theta</cite> is valid.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is  not fitted.</p></li>
 <li><p><strong>ValueError</strong> – if the computed theta is invalid.</p></li>
@@ -405,95 +301,95 @@ for the random generator.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.check_marginal">
-<code class="sig-name descname">check_marginal</code><span class="sig-paren">(</span><em class="sig-param">u</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_marginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_marginal" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.check_marginal">
+<span class="sig-name descname"><span class="pre">check_marginal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_marginal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_marginal" title="Link to this definition"></a></dt>
 <dd><p>Check that the marginals are uniformly distributed.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>u</strong> (<em>np.ndarray</em>) – Array of datapoints with shape (n,).</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If the data does not appear uniformly distributed.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.check_theta">
-<code class="sig-name descname">check_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_theta" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.check_theta">
+<span class="sig-name descname"><span class="pre">check_theta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.check_theta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.check_theta" title="Link to this definition"></a></dt>
 <dd><p>Validate the computed theta against the copula specification.</p>
 <p>This method is used to assert the computed theta is in the valid range for the copula.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – If theta is not in <a class="reference internal" href="#copulas.bivariate.base.Bivariate.theta_interval" title="copulas.bivariate.base.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a> or is in <a class="reference internal" href="#copulas.bivariate.base.Bivariate.invalid_thetas" title="copulas.bivariate.base.Bivariate.invalid_thetas"><code class="xref py py-attr docutils literal notranslate"><span class="pre">invalid_thetas</span></code></a>,</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If theta is not in <a class="reference internal" href="#id4" title="copulas.bivariate.base.Bivariate.theta_interval"><code class="xref py py-attr docutils literal notranslate"><span class="pre">theta_interval</span></code></a> or is in <a class="reference internal" href="#id1" title="copulas.bivariate.base.Bivariate.invalid_thetas"><code class="xref py py-attr docutils literal notranslate"><span class="pre">invalid_thetas</span></code></a>,</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.compute_theta">
-<code class="sig-name descname">compute_theta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_theta" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.compute_theta">
+<span class="sig-name descname"><span class="pre">compute_theta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.compute_theta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.compute_theta" title="Link to this definition"></a></dt>
 <dd><p>Compute theta parameter using Kendall’s tau.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">copula_type</code><em class="property"> = None</em></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">copula_type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.cumulative_distribution">
+<span class="sig-name descname"><span class="pre">cumulative_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.cumulative_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.cumulative_distribution" title="Link to this definition"></a></dt>
 <dd><p>Compute the cumulative distribution function for the copula, <span class="math notranslate nohighlight">\(C(u, v)\)</span>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>)</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>cumulative probability</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.array</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.fit" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.fit" title="Link to this definition"></a></dt>
 <dd><p>Fit a model to the data updating the parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Array of datapoints with shape (n,2).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">copula_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copula_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.from_dict" title="Link to this definition"></a></dt>
 <dd><p>Create a new instance from the given parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>copula_dict</strong> – <cite>dict</cite> with the parameters to replicate the copula.
 Like the output of <cite>Bivariate.to_dict</cite></p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Instance of the copula defined on the parameters.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate">Bivariate</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.generator">
-<code class="sig-name descname">generator</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.generator" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.generator">
+<span class="sig-name descname"><span class="pre">generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.generator" title="Link to this definition"></a></dt>
 <dd><p>Compute the generator function for Archimedian copulas.</p>
 <p>The generator is a function
 <span class="math notranslate nohighlight">\(\psi: [0,1]\times\Theta \rightarrow [0, \infty)\)</span>  # noqa: JS101</p>
@@ -504,53 +400,53 @@ Like the output of <cite>Bivariate.to_dict</cite></p>
 \[C(u_1, u_2, ..., u_n;\theta) = \psi^-1(\sum_0^n{\psi(u_i;\theta)}; \theta)\]</div>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.infer">
-<code class="sig-name descname">infer</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.infer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.infer" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.infer">
+<span class="sig-name descname"><span class="pre">infer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.infer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.infer" title="Link to this definition"></a></dt>
 <dd><p>Take in subset of values and predicts the rest.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">invalid_thetas</code><em class="property"> = []</em></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">invalid_thetas</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">copula_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.load" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copula_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.load" title="Link to this definition"></a></dt>
 <dd><p>Create a new instance from a file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>copula_path</strong> (<em>str</em>) – Path to file with the serialized copula.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Instance with the parameters stored in the file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate">Bivariate</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.log_probability_density">
-<code class="sig-name descname">log_probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.log_probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.log_probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.log_probability_density">
+<span class="sig-name descname"><span class="pre">log_probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.log_probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.log_probability_density" title="Link to this definition"></a></dt>
 <dd><p>Return log probability density of model.</p>
 <p>The log probability should be overridden with numerically stable
 variants whenever possible.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> – <cite>np.ndarray</cite> of shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.partial_derivative">
-<code class="sig-name descname">partial_derivative</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.partial_derivative" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.partial_derivative">
+<span class="sig-name descname"><span class="pre">partial_derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.partial_derivative" title="Link to this definition"></a></dt>
 <dd><p>Compute partial derivative of cumulative distribution.</p>
 <p>The partial derivative of the copula(CDF) is the conditional CDF.</p>
 <blockquote>
@@ -560,36 +456,36 @@ variants whenever possible.</p>
 <p>The base class provides a finite difference approximation of the
 partial derivative of the CDF with respect to u.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – </p></li>
-<li><p><strong>y</strong> (<em>float</em>) – </p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>)</p></li>
+<li><p><strong>y</strong> (<em>float</em>)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.partial_derivative_scalar">
-<code class="sig-name descname">partial_derivative_scalar</code><span class="sig-paren">(</span><em class="sig-param">U</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.partial_derivative_scalar" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.partial_derivative_scalar">
+<span class="sig-name descname"><span class="pre">partial_derivative_scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.partial_derivative_scalar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.partial_derivative_scalar" title="Link to this definition"></a></dt>
 <dd><p>Compute partial derivative <span class="math notranslate nohighlight">\(C(u|v)\)</span> of cumulative density of single values.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.pdf">
-<code class="sig-name descname">pdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.pdf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.pdf">
+<span class="sig-name descname"><span class="pre">pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.pdf" title="Link to this definition"></a></dt>
 <dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.base.Bivariate.probability_density" title="copulas.bivariate.base.Bivariate.probability_density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">probability_density()</span></code></a>.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.percent_point">
-<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.percent_point">
+<span class="sig-name descname"><span class="pre">percent_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.percent_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.percent_point" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse of conditional cumulative distribution <span class="math notranslate nohighlight">\(C(u|v)^{-1}\)</span>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> – <cite>np.ndarray</cite> value of <span class="math notranslate nohighlight">\(C(u|v)\)</span>.</p></li>
 <li><p><strong>v</strong> – <cite>np.ndarray</cite> given value of v.</p></li>
@@ -598,67 +494,67 @@ partial derivative of the CDF with respect to u.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.ppf">
-<code class="sig-name descname">ppf</code><span class="sig-paren">(</span><em class="sig-param">y</em>, <em class="sig-param">V</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.ppf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.ppf">
+<span class="sig-name descname"><span class="pre">ppf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.ppf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.ppf" title="Link to this definition"></a></dt>
 <dd><p>Shortcut to <a class="reference internal" href="#copulas.bivariate.base.Bivariate.percent_point" title="copulas.bivariate.base.Bivariate.percent_point"><code class="xref py py-meth docutils literal notranslate"><span class="pre">percent_point()</span></code></a>.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.probability_density">
-<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.probability_density">
+<span class="sig-name descname"><span class="pre">probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.probability_density" title="Link to this definition"></a></dt>
 <dd><p>Compute probability density function for given copula family.</p>
 <p>The probability density(pdf) for a given copula is defined as:</p>
 <div class="math notranslate nohighlight">
 \[c(U,V) = \frac{\partial^2 C(u,v)}{\partial v \partial u}\]</div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Shape (n, 2).Datapoints to compute pdf.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Probability density for the input values.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.array</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">n_samples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.sample" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.sample" title="Link to this definition"></a></dt>
 <dd><p>Generate specified <cite>n_samples</cite> of new data from model.</p>
 <p>The sampled are generated using the inverse transform method <cite>v~U[0,1],v~C^-1(u|v)</cite></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>n_samples</strong> (<em>int</em>) – amount of samples to create.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Array of length <cite>n_samples</cite> with generated data from the model.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.save" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.save" title="Link to this definition"></a></dt>
 <dd><p>Save the internal state of a copula in the specified filename.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Path to save.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.select_copula">
-<em class="property">classmethod </em><code class="sig-name descname">select_copula</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.select_copula"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.select_copula" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.select_copula">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select_copula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.select_copula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.select_copula" title="Link to this definition"></a></dt>
 <dd><p>Select best copula function based on likelihood.</p>
 <p>Given out candidate copulas the procedure proposed for selecting the one
 that best fit to a dataset of pairs <span class="math notranslate nohighlight">\(\{(u_j, v_j )\}, j=1,2,...n\)</span> , is as follows:</p>
@@ -676,68 +572,68 @@ down to 1 (worst).</p></li>
 highest value is selected.</p></li>
 </ol>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Matrix of shape (n,2).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Best copula that fits for it.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>copula</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.set_random_state">
-<code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.set_random_state">
+<span class="sig-name descname"><span class="pre">set_random_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.set_random_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.set_random_state" title="Link to this definition"></a></dt>
 <dd><p>Set the random state.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>np.random.RandomState</em><em>, or </em><em>None</em>) – Seed or RandomState
 for the random generator.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.subclasses">
-<em class="property">classmethod </em><code class="sig-name descname">subclasses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.subclasses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.subclasses" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.subclasses">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subclasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.subclasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.subclasses" title="Link to this definition"></a></dt>
 <dd><p>Return a list of subclasses for the current class object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Subclasses for given class.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>list[<a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate" title="copulas.bivariate.Bivariate">Bivariate</a>]</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="#copulas.bivariate.base.Bivariate" title="copulas.bivariate.base.Bivariate">Bivariate</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">tau</code><em class="property"> = None</em></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">tau</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">theta</code><em class="property"> = None</em></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">theta</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="sig-name descname">theta_interval</code><em class="property"> = []</em></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">theta_interval</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.bivariate.base.Bivariate.to_dict">
-<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.bivariate.base.Bivariate.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#Bivariate.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.Bivariate.to_dict" title="Link to this definition"></a></dt>
 <dd><p>Return a <cite>dict</cite> with the parameters to replicate this object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Parameters of the copula.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
@@ -745,82 +641,64 @@ for the random generator.</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.bivariate.base.CopulaTypes">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.bivariate.base.</code><code class="sig-name descname">CopulaTypes</code><a class="reference internal" href="../_modules/copulas/bivariate/base.html#CopulaTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.bivariate.base.CopulaTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.bivariate.base.</span></span><span class="sig-name descname"><span class="pre">CopulaTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/bivariate/base.html#CopulaTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>Available copula families.</p>
-<dl class="attribute">
-<dt id="copulas.bivariate.base.CopulaTypes.CLAYTON">
-<code class="sig-name descname">CLAYTON</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.CLAYTON" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.CopulaTypes.CLAYTON">
+<span class="sig-name descname"><span class="pre">CLAYTON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.CLAYTON" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.CopulaTypes.FRANK">
-<code class="sig-name descname">FRANK</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.FRANK" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.CopulaTypes.FRANK">
+<span class="sig-name descname"><span class="pre">FRANK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.FRANK" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.CopulaTypes.GUMBEL">
-<code class="sig-name descname">GUMBEL</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.GUMBEL" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.CopulaTypes.GUMBEL">
+<span class="sig-name descname"><span class="pre">GUMBEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.GUMBEL" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.bivariate.base.CopulaTypes.INDEPENDENCE">
-<code class="sig-name descname">INDEPENDENCE</code><em class="property"> = 3</em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.INDEPENDENCE" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.bivariate.base.CopulaTypes.INDEPENDENCE">
+<span class="sig-name descname"><span class="pre">INDEPENDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#copulas.bivariate.base.CopulaTypes.INDEPENDENCE" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="copulas.bivariate.clayton.html" class="btn btn-neutral float-right" title="copulas.bivariate.clayton module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="copulas.bivariate.html" class="btn btn-neutral float-left" title="copulas.bivariate package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="copulas.bivariate.html" class="btn btn-neutral float-left" title="copulas.bivariate package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="copulas.bivariate.clayton.html" class="btn btn-neutral float-right" title="copulas.bivariate.clayton module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

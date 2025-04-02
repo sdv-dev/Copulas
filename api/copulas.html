@@ -1,90 +1,52 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas package &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas package &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="copulas.bivariate package" href="copulas.bivariate.html" />
-    <link rel="prev" title="Synthetic Data for Machine Learning" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html" /> 
+    <link rel="prev" title="Synthetic Data for Machine Learning" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../index.html" class="icon icon-home">
+            Copulas
+              <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Copulas</a><ul>
@@ -105,7 +67,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -146,16 +108,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
@@ -199,212 +161,482 @@
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-      <li>copulas package</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">copulas package</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
               <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/api/copulas.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="copulas-package">
-<h1>copulas package<a class="headerlink" href="#copulas-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="copulas-package">
+<h1>copulas package<a class="headerlink" href="#copulas-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.utils.html">copulas.bivariate.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.base.html">copulas.bivariate.base module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.Bivariate"><code class="docutils literal notranslate"><span class="pre">Bivariate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.base.html#copulas.bivariate.base.CopulaTypes"><code class="docutils literal notranslate"><span class="pre">CopulaTypes</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.clayton.html">copulas.bivariate.clayton module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.clayton.html#copulas.bivariate.clayton.Clayton"><code class="docutils literal notranslate"><span class="pre">Clayton</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.frank.html">copulas.bivariate.frank module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.frank.html#copulas.bivariate.frank.Frank"><code class="docutils literal notranslate"><span class="pre">Frank</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.gumbel.html">copulas.bivariate.gumbel module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.gumbel.html#copulas.bivariate.gumbel.Gumbel"><code class="docutils literal notranslate"><span class="pre">Gumbel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.independence.html">copulas.bivariate.independence module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.independence.html#copulas.bivariate.independence.Independence"><code class="docutils literal notranslate"><span class="pre">Independence</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.utils.html">copulas.bivariate.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.utils.html#copulas.bivariate.utils.split_matrix"><code class="docutils literal notranslate"><span class="pre">split_matrix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html#module-copulas.bivariate">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate"><code class="docutils literal notranslate"><span class="pre">Bivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.copula_type"><code class="docutils literal notranslate"><span class="pre">Bivariate.copula_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate._subclasses"><code class="docutils literal notranslate"><span class="pre">Bivariate._subclasses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.theta_interval"><code class="docutils literal notranslate"><span class="pre">Bivariate.theta_interval</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.invalid_thetas"><code class="docutils literal notranslate"><span class="pre">Bivariate.invalid_thetas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.tau"><code class="docutils literal notranslate"><span class="pre">Bivariate.tau</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.theta"><code class="docutils literal notranslate"><span class="pre">Bivariate.theta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.cdf"><code class="docutils literal notranslate"><span class="pre">Bivariate.cdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.check_fit"><code class="docutils literal notranslate"><span class="pre">Bivariate.check_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.check_marginal"><code class="docutils literal notranslate"><span class="pre">Bivariate.check_marginal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.check_theta"><code class="docutils literal notranslate"><span class="pre">Bivariate.check_theta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.compute_theta"><code class="docutils literal notranslate"><span class="pre">Bivariate.compute_theta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#id0"><code class="docutils literal notranslate"><span class="pre">Bivariate.copula_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Bivariate.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.fit"><code class="docutils literal notranslate"><span class="pre">Bivariate.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.from_dict"><code class="docutils literal notranslate"><span class="pre">Bivariate.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.generator"><code class="docutils literal notranslate"><span class="pre">Bivariate.generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.infer"><code class="docutils literal notranslate"><span class="pre">Bivariate.infer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#id1"><code class="docutils literal notranslate"><span class="pre">Bivariate.invalid_thetas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.load"><code class="docutils literal notranslate"><span class="pre">Bivariate.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.log_probability_density"><code class="docutils literal notranslate"><span class="pre">Bivariate.log_probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.partial_derivative"><code class="docutils literal notranslate"><span class="pre">Bivariate.partial_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.partial_derivative_scalar"><code class="docutils literal notranslate"><span class="pre">Bivariate.partial_derivative_scalar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.pdf"><code class="docutils literal notranslate"><span class="pre">Bivariate.pdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.percent_point"><code class="docutils literal notranslate"><span class="pre">Bivariate.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.ppf"><code class="docutils literal notranslate"><span class="pre">Bivariate.ppf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.probability_density"><code class="docutils literal notranslate"><span class="pre">Bivariate.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.sample"><code class="docutils literal notranslate"><span class="pre">Bivariate.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.save"><code class="docutils literal notranslate"><span class="pre">Bivariate.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.select_copula"><code class="docutils literal notranslate"><span class="pre">Bivariate.select_copula()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.set_random_state"><code class="docutils literal notranslate"><span class="pre">Bivariate.set_random_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.subclasses"><code class="docutils literal notranslate"><span class="pre">Bivariate.subclasses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#id2"><code class="docutils literal notranslate"><span class="pre">Bivariate.tau</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#id3"><code class="docutils literal notranslate"><span class="pre">Bivariate.theta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#id4"><code class="docutils literal notranslate"><span class="pre">Bivariate.theta_interval</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Bivariate.to_dict"><code class="docutils literal notranslate"><span class="pre">Bivariate.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton"><code class="docutils literal notranslate"><span class="pre">Clayton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.compute_theta"><code class="docutils literal notranslate"><span class="pre">Clayton.compute_theta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.copula_type"><code class="docutils literal notranslate"><span class="pre">Clayton.copula_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Clayton.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.generator"><code class="docutils literal notranslate"><span class="pre">Clayton.generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.invalid_thetas"><code class="docutils literal notranslate"><span class="pre">Clayton.invalid_thetas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.partial_derivative"><code class="docutils literal notranslate"><span class="pre">Clayton.partial_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.percent_point"><code class="docutils literal notranslate"><span class="pre">Clayton.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.probability_density"><code class="docutils literal notranslate"><span class="pre">Clayton.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Clayton.theta_interval"><code class="docutils literal notranslate"><span class="pre">Clayton.theta_interval</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes"><code class="docutils literal notranslate"><span class="pre">CopulaTypes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes.CLAYTON"><code class="docutils literal notranslate"><span class="pre">CopulaTypes.CLAYTON</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes.FRANK"><code class="docutils literal notranslate"><span class="pre">CopulaTypes.FRANK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes.GUMBEL"><code class="docutils literal notranslate"><span class="pre">CopulaTypes.GUMBEL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.CopulaTypes.INDEPENDENCE"><code class="docutils literal notranslate"><span class="pre">CopulaTypes.INDEPENDENCE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank"><code class="docutils literal notranslate"><span class="pre">Frank</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.compute_theta"><code class="docutils literal notranslate"><span class="pre">Frank.compute_theta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.copula_type"><code class="docutils literal notranslate"><span class="pre">Frank.copula_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Frank.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.generator"><code class="docutils literal notranslate"><span class="pre">Frank.generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.invalid_thetas"><code class="docutils literal notranslate"><span class="pre">Frank.invalid_thetas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.partial_derivative"><code class="docutils literal notranslate"><span class="pre">Frank.partial_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.percent_point"><code class="docutils literal notranslate"><span class="pre">Frank.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.probability_density"><code class="docutils literal notranslate"><span class="pre">Frank.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Frank.theta_interval"><code class="docutils literal notranslate"><span class="pre">Frank.theta_interval</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel"><code class="docutils literal notranslate"><span class="pre">Gumbel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.compute_theta"><code class="docutils literal notranslate"><span class="pre">Gumbel.compute_theta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.copula_type"><code class="docutils literal notranslate"><span class="pre">Gumbel.copula_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Gumbel.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.generator"><code class="docutils literal notranslate"><span class="pre">Gumbel.generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.invalid_thetas"><code class="docutils literal notranslate"><span class="pre">Gumbel.invalid_thetas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.partial_derivative"><code class="docutils literal notranslate"><span class="pre">Gumbel.partial_derivative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.percent_point"><code class="docutils literal notranslate"><span class="pre">Gumbel.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.probability_density"><code class="docutils literal notranslate"><span class="pre">Gumbel.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.bivariate.html#copulas.bivariate.Gumbel.theta_interval"><code class="docutils literal notranslate"><span class="pre">Gumbel.theta_interval</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="copulas.multivariate.html">copulas.multivariate package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.base.html">copulas.multivariate.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.tree.html">copulas.multivariate.tree module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.base.html">copulas.multivariate.base module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.base.html#copulas.multivariate.base.Multivariate"><code class="docutils literal notranslate"><span class="pre">Multivariate</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.gaussian.html">copulas.multivariate.gaussian module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.gaussian.html#copulas.multivariate.gaussian.GaussianMultivariate"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.tree.html">copulas.multivariate.tree module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.CenterTree"><code class="docutils literal notranslate"><span class="pre">CenterTree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.DirectTree"><code class="docutils literal notranslate"><span class="pre">DirectTree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.Edge"><code class="docutils literal notranslate"><span class="pre">Edge</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.RegularTree"><code class="docutils literal notranslate"><span class="pre">RegularTree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.Tree"><code class="docutils literal notranslate"><span class="pre">Tree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.TreeTypes"><code class="docutils literal notranslate"><span class="pre">TreeTypes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.tree.html#copulas.multivariate.tree.get_tree"><code class="docutils literal notranslate"><span class="pre">get_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.vine.html">copulas.multivariate.vine module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.vine.html#copulas.multivariate.vine.VineCopula"><code class="docutils literal notranslate"><span class="pre">VineCopula</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.multivariate.html#module-copulas.multivariate">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.columns"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.columns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.correlation"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.correlation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.fit"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.from_dict"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.probability_density"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.sample"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.to_dict"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.GaussianMultivariate.univariates"><code class="docutils literal notranslate"><span class="pre">GaussianMultivariate.univariates</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate"><code class="docutils literal notranslate"><span class="pre">Multivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.cdf"><code class="docutils literal notranslate"><span class="pre">Multivariate.cdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.check_fit"><code class="docutils literal notranslate"><span class="pre">Multivariate.check_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Multivariate.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.fit"><code class="docutils literal notranslate"><span class="pre">Multivariate.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.fitted"><code class="docutils literal notranslate"><span class="pre">Multivariate.fitted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.from_dict"><code class="docutils literal notranslate"><span class="pre">Multivariate.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.load"><code class="docutils literal notranslate"><span class="pre">Multivariate.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.log_probability_density"><code class="docutils literal notranslate"><span class="pre">Multivariate.log_probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.pdf"><code class="docutils literal notranslate"><span class="pre">Multivariate.pdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.probability_density"><code class="docutils literal notranslate"><span class="pre">Multivariate.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.sample"><code class="docutils literal notranslate"><span class="pre">Multivariate.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.save"><code class="docutils literal notranslate"><span class="pre">Multivariate.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.set_random_state"><code class="docutils literal notranslate"><span class="pre">Multivariate.set_random_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Multivariate.to_dict"><code class="docutils literal notranslate"><span class="pre">Multivariate.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree"><code class="docutils literal notranslate"><span class="pre">Tree</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.fit"><code class="docutils literal notranslate"><span class="pre">Tree.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.fitted"><code class="docutils literal notranslate"><span class="pre">Tree.fitted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.from_dict"><code class="docutils literal notranslate"><span class="pre">Tree.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.get_adjacent_matrix"><code class="docutils literal notranslate"><span class="pre">Tree.get_adjacent_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.get_likelihood"><code class="docutils literal notranslate"><span class="pre">Tree.get_likelihood()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.get_tau_matrix"><code class="docutils literal notranslate"><span class="pre">Tree.get_tau_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.prepare_next_tree"><code class="docutils literal notranslate"><span class="pre">Tree.prepare_next_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.to_dict"><code class="docutils literal notranslate"><span class="pre">Tree.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.Tree.tree_type"><code class="docutils literal notranslate"><span class="pre">Tree.tree_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.TreeTypes"><code class="docutils literal notranslate"><span class="pre">TreeTypes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.TreeTypes.CENTER"><code class="docutils literal notranslate"><span class="pre">TreeTypes.CENTER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.TreeTypes.DIRECT"><code class="docutils literal notranslate"><span class="pre">TreeTypes.DIRECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.TreeTypes.REGULAR"><code class="docutils literal notranslate"><span class="pre">TreeTypes.REGULAR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula"><code class="docutils literal notranslate"><span class="pre">VineCopula</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.model"><code class="docutils literal notranslate"><span class="pre">VineCopula.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.u_matrix"><code class="docutils literal notranslate"><span class="pre">VineCopula.u_matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.n_sample"><code class="docutils literal notranslate"><span class="pre">VineCopula.n_sample</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.n_var"><code class="docutils literal notranslate"><span class="pre">VineCopula.n_var</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.columns"><code class="docutils literal notranslate"><span class="pre">VineCopula.columns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.tau_mat"><code class="docutils literal notranslate"><span class="pre">VineCopula.tau_mat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.truncated"><code class="docutils literal notranslate"><span class="pre">VineCopula.truncated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.depth"><code class="docutils literal notranslate"><span class="pre">VineCopula.depth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.trees"><code class="docutils literal notranslate"><span class="pre">VineCopula.trees</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.ppfs"><code class="docutils literal notranslate"><span class="pre">VineCopula.ppfs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.fit"><code class="docutils literal notranslate"><span class="pre">VineCopula.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.from_dict"><code class="docutils literal notranslate"><span class="pre">VineCopula.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.get_likelihood"><code class="docutils literal notranslate"><span class="pre">VineCopula.get_likelihood()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.sample"><code class="docutils literal notranslate"><span class="pre">VineCopula.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.to_dict"><code class="docutils literal notranslate"><span class="pre">VineCopula.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.multivariate.html#copulas.multivariate.VineCopula.train_vine"><code class="docutils literal notranslate"><span class="pre">VineCopula.train_vine()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="copulas.optimize.html">copulas.optimize package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="copulas.optimize.html#module-copulas.optimize">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.optimize.html#module-copulas.optimize">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.optimize.html#copulas.optimize.bisect"><code class="docutils literal notranslate"><span class="pre">bisect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.optimize.html#copulas.optimize.chandrupatla"><code class="docutils literal notranslate"><span class="pre">chandrupatla()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="copulas.univariate.html">copulas.univariate package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.BoundedType"><code class="docutils literal notranslate"><span class="pre">BoundedType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ParametricType"><code class="docutils literal notranslate"><span class="pre">ParametricType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel"><code class="docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate"><code class="docutils literal notranslate"><span class="pre">Univariate</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE"><code class="docutils literal notranslate"><span class="pre">GaussianKDE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.log_laplace.html#copulas.univariate.log_laplace.LogLaplace"><code class="docutils literal notranslate"><span class="pre">LogLaplace</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.selection.html#copulas.univariate.selection.select_univariate"><code class="docutils literal notranslate"><span class="pre">select_univariate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.uniform.html#copulas.univariate.uniform.UniformUnivariate"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.html#module-copulas.univariate">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BetaUnivariate"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BetaUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BetaUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BetaUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BoundedType"><code class="docutils literal notranslate"><span class="pre">BoundedType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BoundedType.BOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BoundedType.SEMI_BOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.SEMI_BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.BoundedType.UNBOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.UNBOUNDED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GammaUnivariate"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GammaUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GammaUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GammaUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE"><code class="docutils literal notranslate"><span class="pre">GaussianKDE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.PARAMETRIC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.percent_point"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.probability_density"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianKDE.sample"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.sample()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianUnivariate"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.GaussianUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.LogLaplace"><code class="docutils literal notranslate"><span class="pre">LogLaplace</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.LogLaplace.BOUNDED"><code class="docutils literal notranslate"><span class="pre">LogLaplace.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.LogLaplace.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">LogLaplace.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.LogLaplace.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">LogLaplace.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.ParametricType"><code class="docutils literal notranslate"><span class="pre">ParametricType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.ParametricType.NON_PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">ParametricType.NON_PARAMETRIC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.ParametricType.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">ParametricType.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.StudentTUnivariate"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.StudentTUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.StudentTUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.StudentTUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.TruncatedGaussian"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.TruncatedGaussian.BOUNDED"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.TruncatedGaussian.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.TruncatedGaussian.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.UniformUnivariate"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.UniformUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.UniformUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.UniformUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate"><code class="docutils literal notranslate"><span class="pre">Univariate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">Univariate.BOUNDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">Univariate.PARAMETRIC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.cdf"><code class="docutils literal notranslate"><span class="pre">Univariate.cdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.check_fit"><code class="docutils literal notranslate"><span class="pre">Univariate.check_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Univariate.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.fit"><code class="docutils literal notranslate"><span class="pre">Univariate.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.fitted"><code class="docutils literal notranslate"><span class="pre">Univariate.fitted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.from_dict"><code class="docutils literal notranslate"><span class="pre">Univariate.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.load"><code class="docutils literal notranslate"><span class="pre">Univariate.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.log_probability_density"><code class="docutils literal notranslate"><span class="pre">Univariate.log_probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.pdf"><code class="docutils literal notranslate"><span class="pre">Univariate.pdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.percent_point"><code class="docutils literal notranslate"><span class="pre">Univariate.percent_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.ppf"><code class="docutils literal notranslate"><span class="pre">Univariate.ppf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.probability_density"><code class="docutils literal notranslate"><span class="pre">Univariate.probability_density()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.sample"><code class="docutils literal notranslate"><span class="pre">Univariate.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.save"><code class="docutils literal notranslate"><span class="pre">Univariate.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.set_random_state"><code class="docutils literal notranslate"><span class="pre">Univariate.set_random_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="copulas.univariate.html#copulas.univariate.Univariate.to_dict"><code class="docutils literal notranslate"><span class="pre">Univariate.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.utils.html">copulas.utils module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.datasets.html">copulas.datasets module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_bivariate_age_income"><code class="docutils literal notranslate"><span class="pre">sample_bivariate_age_income()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_trivariate_xyz"><code class="docutils literal notranslate"><span class="pre">sample_trivariate_xyz()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_bernoulli"><code class="docutils literal notranslate"><span class="pre">sample_univariate_bernoulli()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_beta"><code class="docutils literal notranslate"><span class="pre">sample_univariate_beta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_bimodal"><code class="docutils literal notranslate"><span class="pre">sample_univariate_bimodal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_degenerate"><code class="docutils literal notranslate"><span class="pre">sample_univariate_degenerate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_exponential"><code class="docutils literal notranslate"><span class="pre">sample_univariate_exponential()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_normal"><code class="docutils literal notranslate"><span class="pre">sample_univariate_normal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariate_uniform"><code class="docutils literal notranslate"><span class="pre">sample_univariate_uniform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.datasets.html#copulas.datasets.sample_univariates"><code class="docutils literal notranslate"><span class="pre">sample_univariates()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.errors.html">copulas.errors module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError"><code class="docutils literal notranslate"><span class="pre">NotFittedError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.utils.html">copulas.utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.check_valid_values"><code class="docutils literal notranslate"><span class="pre">check_valid_values()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.get_instance"><code class="docutils literal notranslate"><span class="pre">get_instance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.get_qualified_name"><code class="docutils literal notranslate"><span class="pre">get_qualified_name()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.random_state"><code class="docutils literal notranslate"><span class="pre">random_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.scalarize"><code class="docutils literal notranslate"><span class="pre">scalarize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.set_random_state"><code class="docutils literal notranslate"><span class="pre">set_random_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.store_args"><code class="docutils literal notranslate"><span class="pre">store_args()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.validate_random_state"><code class="docutils literal notranslate"><span class="pre">validate_random_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.utils.html#copulas.utils.vectorize"><code class="docutils literal notranslate"><span class="pre">vectorize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.visualization.html">copulas.visualization module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.PlotConfig"><code class="docutils literal notranslate"><span class="pre">PlotConfig</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.PlotConfig.BACKGROUND_COLOR"><code class="docutils literal notranslate"><span class="pre">PlotConfig.BACKGROUND_COLOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.PlotConfig.DATACEBO_DARK"><code class="docutils literal notranslate"><span class="pre">PlotConfig.DATACEBO_DARK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.PlotConfig.DATACEBO_GREEN"><code class="docutils literal notranslate"><span class="pre">PlotConfig.DATACEBO_GREEN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.PlotConfig.FONT_SIZE"><code class="docutils literal notranslate"><span class="pre">PlotConfig.FONT_SIZE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.compare_1d"><code class="docutils literal notranslate"><span class="pre">compare_1d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.compare_2d"><code class="docutils literal notranslate"><span class="pre">compare_2d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.compare_3d"><code class="docutils literal notranslate"><span class="pre">compare_3d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.dist_1d"><code class="docutils literal notranslate"><span class="pre">dist_1d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.scatter_2d"><code class="docutils literal notranslate"><span class="pre">scatter_2d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.visualization.html#copulas.visualization.scatter_3d"><code class="docutils literal notranslate"><span class="pre">scatter_3d()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="module-copulas">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-copulas">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas" title="Link to this heading"></a></h2>
 <p>Top-level package for Copulas.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="copulas.bivariate.html" class="btn btn-neutral float-right" title="copulas.bivariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html" class="btn btn-neutral float-left" title="Synthetic Data for Machine Learning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html" class="btn btn-neutral float-left" title="Synthetic Data for Machine Learning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="copulas.bivariate.html" class="btn btn-neutral float-right" title="copulas.bivariate package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

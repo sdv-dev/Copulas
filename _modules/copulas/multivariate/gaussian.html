@@ -1,88 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas.multivariate.gaussian &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas.multivariate.gaussian &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
-  
   
     <link rel="shortcut icon" href="../../../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../../../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../../../index.html" class="icon icon-home">
+            Copulas
+              <img src="../../../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Copulas</a><ul>
@@ -103,7 +62,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -144,16 +103,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/copulas.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
@@ -197,66 +156,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>copulas.multivariate.gaussian</li>
-    
-    
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">copulas.multivariate.gaussian</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for copulas.multivariate.gaussian</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;GaussianMultivariate module.&quot;&quot;&quot;</span>
 
@@ -283,7 +206,9 @@
 <span class="n">DEFAULT_DISTRIBUTION</span> <span class="o">=</span> <span class="n">Univariate</span>
 
 
-<div class="viewcode-block" id="GaussianMultivariate"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GaussianMultivariate</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianMultivariate</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for a multivariate distribution that uses the Gaussian copula.</span>
 
 <span class="sd">    Args:</span>
@@ -330,7 +255,9 @@
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
-<div class="viewcode-block" id="GaussianMultivariate.fit"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.fit">[docs]</a>    <span class="nd">@check_valid_values</span>
+<div class="viewcode-block" id="GaussianMultivariate.fit">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.fit">[docs]</a>
+    <span class="nd">@check_valid_values</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the distribution for each variable and then its correlation matrix.</span>
 
@@ -351,6 +278,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_correlation</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;GaussianMultivariate fitted successfully&#39;</span><span class="p">)</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the input data.&quot;&quot;&quot;</span>
@@ -423,7 +351,9 @@
 
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GaussianMultivariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.probability_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="GaussianMultivariate.probability_density">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.probability_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -443,7 +373,10 @@
 
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="p">,</span> <span class="n">allow_singular</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianMultivariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.cumulative_distribution">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GaussianMultivariate.cumulative_distribution">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.cumulative_distribution">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -461,6 +394,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="n">transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_to_normal</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation</span><span class="p">)</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_conditional_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conditions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the parameters of a conditional multivariate normal distribution.</span>
@@ -524,7 +458,9 @@
         <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covariance</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_rows</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GaussianMultivariate.sample"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.sample">[docs]</a>    <span class="nd">@random_state</span>
+<div class="viewcode-block" id="GaussianMultivariate.sample">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.sample">[docs]</a>
+    <span class="nd">@random_state</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">conditions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
@@ -560,7 +496,10 @@
 
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GaussianMultivariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.to_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GaussianMultivariate.to_dict">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
 
 <span class="sd">        Returns:</span>
@@ -577,7 +516,10 @@
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="GaussianMultivariate.from_dict"><a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="GaussianMultivariate.from_dict">
+<a class="viewcode-back" href="../../../api/copulas.multivariate.gaussian.html#copulas.multivariate.GaussianMultivariate.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">copula_dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
 
@@ -602,46 +544,36 @@
         <span class="n">instance</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">correlation</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">return</span> <span class="n">instance</span></div></div>
+        <span class="k">return</span> <span class="n">instance</span></div>
+</div>
+
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

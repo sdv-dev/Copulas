@@ -1,88 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas.univariate.base &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas.univariate.base &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
-  
   
     <link rel="shortcut icon" href="../../../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../../../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../../../index.html" class="icon icon-home">
+            Copulas
+              <img src="../../../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installing Copulas</a><ul>
@@ -103,7 +62,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -144,16 +103,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/copulas.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/copulas.bivariate.html">copulas.bivariate package</a><ul>
@@ -197,66 +156,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>copulas.univariate.base</li>
-    
-    
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">copulas.univariate.base</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for copulas.univariate.base</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Base Univariate class.&quot;&quot;&quot;</span>
 
@@ -277,14 +200,19 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="ParametricType"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ParametricType">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ParametricType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="ParametricType">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ParametricType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParametricType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parametric Enum.&quot;&quot;&quot;</span>
 
     <span class="n">NON_PARAMETRIC</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">PARAMETRIC</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="BoundedType"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.BoundedType">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BoundedType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoundedType">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.BoundedType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoundedType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Bounded Enum.&quot;&quot;&quot;</span>
 
     <span class="n">UNBOUNDED</span> <span class="o">=</span> <span class="mi">0</span>
@@ -292,7 +220,10 @@
     <span class="n">BOUNDED</span> <span class="o">=</span> <span class="mi">2</span></div>
 
 
-<div class="viewcode-block" id="Univariate"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Univariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Univariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Univariate Distribution.</span>
 
 <span class="sd">    Args:</span>
@@ -366,7 +297,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return class name.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 
-<div class="viewcode-block" id="Univariate.check_fit"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.check_fit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Univariate.check_fit">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.check_fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether this model has already been fit to a random variable.</span>
 
 <span class="sd">        Raise a ``NotFittedError`` if it has not.</span>
@@ -377,6 +310,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s1">&#39;This model is not fitted.&#39;</span><span class="p">)</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_constant_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values for a constant distribution.</span>
@@ -490,7 +424,9 @@
 
         <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="Univariate.fit"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.fit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="Univariate.fit">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the model to a random variable.</span>
 
 <span class="sd">        Arguments:</span>
@@ -507,7 +443,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Univariate.probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.probability_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.probability_density">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.probability_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -526,7 +465,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.log_probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.log_probability_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.log_probability_density">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.log_probability_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the log of the probability density for each point in X.</span>
 
 <span class="sd">        It should be overridden with numerically stable variants whenever possible.</span>
@@ -550,7 +492,10 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Univariate.pdf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.pdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.pdf">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.pdf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -564,7 +509,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cumulative_distribution">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.cumulative_distribution">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cumulative_distribution">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -583,7 +531,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.cdf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.cdf">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.cdf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -597,7 +548,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.percent_point"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.percent_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.percent_point">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.percent_point">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse cumulative distribution value for each point in U.</span>
 
 <span class="sd">        Arguments:</span>
@@ -616,7 +570,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">U</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.ppf"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.ppf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.ppf">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.ppf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ppf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse cumulative distribution value for each point in U.</span>
 
 <span class="sd">        Arguments:</span>
@@ -630,7 +587,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">percent_point</span><span class="p">(</span><span class="n">U</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.set_random_state"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.set_random_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.set_random_state">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.set_random_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the random state.</span>
 
 <span class="sd">        Args:</span>
@@ -639,7 +599,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.sample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.sample">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
 <span class="sd">        Argument:</span>
@@ -657,6 +620,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return attributes from self.model to serialize.</span>
@@ -678,7 +642,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Univariate.to_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.to_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Univariate.to_dict">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the parameters of this model in a dict.</span>
 
 <span class="sd">        Returns:</span>
@@ -700,7 +666,10 @@
 
         <span class="k">return</span> <span class="n">params</span></div>
 
-<div class="viewcode-block" id="Univariate.from_dict"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="Univariate.from_dict">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a distribution from its params dict.</span>
 
@@ -722,7 +691,10 @@
 
         <span class="k">return</span> <span class="n">distribution</span></div>
 
-<div class="viewcode-block" id="Univariate.save"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.save">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Univariate.save">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize this univariate instance using pickle.</span>
 
 <span class="sd">        Args:</span>
@@ -732,7 +704,10 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickle_file</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Univariate.load"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.load">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="Univariate.load">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.Univariate.load">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a Univariate instance from a pickle file.</span>
 
@@ -745,10 +720,14 @@
 <span class="sd">                Loaded instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)</span></div></div>
+            <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScipyModel"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ScipyModel</span><span class="p">(</span><span class="n">Univariate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScipyModel">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScipyModel</span><span class="p">(</span><span class="n">Univariate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for scipy models.</span>
 
 <span class="sd">    This class makes the probability_density, cumulative_distribution,</span>
@@ -773,7 +752,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ScipyModel.probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.probability_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="ScipyModel.probability_density">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.probability_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -792,7 +773,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ScipyModel.log_probability_density"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.log_probability_density">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScipyModel.log_probability_density">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.log_probability_density">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the log of the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -814,7 +798,10 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ScipyModel.cumulative_distribution"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.cumulative_distribution">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScipyModel.cumulative_distribution">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.cumulative_distribution">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
@@ -833,7 +820,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ScipyModel.percent_point"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.percent_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScipyModel.percent_point">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.percent_point">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse cumulative distribution value for each point in U.</span>
 
 <span class="sd">        Arguments:</span>
@@ -852,7 +842,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ScipyModel.sample"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.sample">[docs]</a>    <span class="nd">@random_state</span>
+
+<div class="viewcode-block" id="ScipyModel.sample">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.sample">[docs]</a>
+    <span class="nd">@random_state</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
 
@@ -872,6 +865,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MODEL_CLASS</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">)</span></div>
 
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the model to a non-constant random variable.</span>
 
@@ -883,7 +877,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ScipyModel.fit"><a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.fit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="ScipyModel.fit">
+<a class="viewcode-back" href="../../../api/copulas.univariate.base.html#copulas.univariate.ScipyModel.fit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the model to a random variable.</span>
 
 <span class="sd">        Arguments:</span>
@@ -896,6 +892,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="kc">True</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return attributes from self._model to serialize.</span>
@@ -919,45 +916,34 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_constant</span><span class="p">():</span>
             <span class="n">constant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_constant</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_constant_value</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,90 +1,50 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>copulas.univariate package &mdash; Copulas 0.12.1 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>copulas.univariate package &mdash; Copulas 0.12.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
   
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="copulas.univariate.base module" href="copulas.univariate.base.html" />
     <link rel="prev" title="copulas.optimize package" href="copulas.optimize.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> Copulas
           
-
-          
-            
-            <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
-          
+          <a href="../index.html" class="icon icon-home">
+            Copulas
+              <img src="../_static/copulas-200.png" class="logo" alt="Logo"/>
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing Copulas</a><ul>
@@ -105,7 +65,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">User Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">User Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html">Introduction to Copulas</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/01_Introduction_to_Copulas.html#Probability-Review">Probability Review</a><ul>
@@ -146,16 +106,16 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Advanced Usage</span></p>
+<p class="caption" role="heading"><span class="caption-text">Advanced Usage</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Syntehtic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html">Synthetic Data for Machine Learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Generating-synthetic-data">Generating synthetic data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/04_Synthetic_Data_for_Machine_Learning.html#Training-a-linear-model">Training a linear model</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Resources</span></p>
+<p class="caption" role="heading"><span class="caption-text">Resources</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="copulas.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="copulas.bivariate.html">copulas.bivariate package</a><ul>
@@ -199,168 +159,240 @@
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">Copulas</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="copulas.html">copulas package</a> &raquo;</li>
-        
-      <li>copulas.univariate package</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="copulas.html">copulas package</a></li>
+      <li class="breadcrumb-item active">copulas.univariate package</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-            
               <a href="https://github.com/sdv-dev/Copulas/blob/main/docs/api/copulas.univariate.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="copulas-univariate-package">
-<h1>copulas.univariate package<a class="headerlink" href="#copulas-univariate-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="copulas-univariate-package">
+<h1>copulas.univariate package<a class="headerlink" href="#copulas-univariate-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.base.html">copulas.univariate.base module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.BoundedType"><code class="docutils literal notranslate"><span class="pre">BoundedType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.BoundedType.BOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.BoundedType.SEMI_BOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.SEMI_BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.BoundedType.UNBOUNDED"><code class="docutils literal notranslate"><span class="pre">BoundedType.UNBOUNDED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ParametricType"><code class="docutils literal notranslate"><span class="pre">ParametricType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ParametricType.NON_PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">ParametricType.NON_PARAMETRIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ParametricType.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">ParametricType.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel"><code class="docutils literal notranslate"><span class="pre">ScipyModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">ScipyModel.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">ScipyModel.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.fit"><code class="docutils literal notranslate"><span class="pre">ScipyModel.fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.log_probability_density"><code class="docutils literal notranslate"><span class="pre">ScipyModel.log_probability_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.percent_point"><code class="docutils literal notranslate"><span class="pre">ScipyModel.percent_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.probability_density"><code class="docutils literal notranslate"><span class="pre">ScipyModel.probability_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel.sample"><code class="docutils literal notranslate"><span class="pre">ScipyModel.sample()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate"><code class="docutils literal notranslate"><span class="pre">Univariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">Univariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">Univariate.PARAMETRIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.cdf"><code class="docutils literal notranslate"><span class="pre">Univariate.cdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.check_fit"><code class="docutils literal notranslate"><span class="pre">Univariate.check_fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">Univariate.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.fit"><code class="docutils literal notranslate"><span class="pre">Univariate.fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.fitted"><code class="docutils literal notranslate"><span class="pre">Univariate.fitted</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.from_dict"><code class="docutils literal notranslate"><span class="pre">Univariate.from_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.load"><code class="docutils literal notranslate"><span class="pre">Univariate.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.log_probability_density"><code class="docutils literal notranslate"><span class="pre">Univariate.log_probability_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.pdf"><code class="docutils literal notranslate"><span class="pre">Univariate.pdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.percent_point"><code class="docutils literal notranslate"><span class="pre">Univariate.percent_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.ppf"><code class="docutils literal notranslate"><span class="pre">Univariate.ppf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.probability_density"><code class="docutils literal notranslate"><span class="pre">Univariate.probability_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.sample"><code class="docutils literal notranslate"><span class="pre">Univariate.sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.save"><code class="docutils literal notranslate"><span class="pre">Univariate.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.set_random_state"><code class="docutils literal notranslate"><span class="pre">Univariate.set_random_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.Univariate.to_dict"><code class="docutils literal notranslate"><span class="pre">Univariate.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.beta.html">copulas.univariate.beta module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.beta.html#copulas.univariate.beta.BetaUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">BetaUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gamma.html">copulas.univariate.gamma module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gamma.html#copulas.univariate.gamma.GammaUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GammaUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian.html">copulas.univariate.gaussian module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian.html#copulas.univariate.gaussian.GaussianUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GaussianUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.gaussian_kde.html">copulas.univariate.gaussian_kde module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE"><code class="docutils literal notranslate"><span class="pre">GaussianKDE</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.BOUNDED"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.PARAMETRIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.cumulative_distribution"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.cumulative_distribution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.percent_point"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.percent_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.probability_density"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.probability_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.gaussian_kde.html#copulas.univariate.gaussian_kde.GaussianKDE.sample"><code class="docutils literal notranslate"><span class="pre">GaussianKDE.sample()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.log_laplace.html">copulas.univariate.log_laplace module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.log_laplace.html#copulas.univariate.log_laplace.LogLaplace"><code class="docutils literal notranslate"><span class="pre">LogLaplace</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html#copulas.univariate.log_laplace.LogLaplace.BOUNDED"><code class="docutils literal notranslate"><span class="pre">LogLaplace.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html#copulas.univariate.log_laplace.LogLaplace.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">LogLaplace.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.log_laplace.html#copulas.univariate.log_laplace.LogLaplace.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">LogLaplace.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.selection.html">copulas.univariate.selection module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.selection.html#copulas.univariate.selection.select_univariate"><code class="docutils literal notranslate"><span class="pre">select_univariate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.student_t.html">copulas.univariate.student_t module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.student_t.html#copulas.univariate.student_t.StudentTUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">StudentTUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html">copulas.univariate.truncated_gaussian module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.BOUNDED"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.truncated_gaussian.html#copulas.univariate.truncated_gaussian.TruncatedGaussian.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">TruncatedGaussian.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copulas.univariate.uniform.html">copulas.univariate.uniform module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="copulas.univariate.uniform.html#copulas.univariate.uniform.UniformUnivariate"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html#copulas.univariate.uniform.UniformUnivariate.BOUNDED"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.BOUNDED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html#copulas.univariate.uniform.UniformUnivariate.MODEL_CLASS"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.MODEL_CLASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="copulas.univariate.uniform.html#copulas.univariate.uniform.UniformUnivariate.PARAMETRIC"><code class="docutils literal notranslate"><span class="pre">UniformUnivariate.PARAMETRIC</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="module-copulas.univariate">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.univariate" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-copulas.univariate">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-copulas.univariate" title="Link to this heading"></a></h2>
 <p>Univariate copulas module.</p>
-<dl class="class">
-<dt id="copulas.univariate.BetaUnivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">BetaUnivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/beta.html#BetaUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.BetaUnivariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.BetaUnivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">BetaUnivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/beta.html#BetaUnivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.BetaUnivariate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
 <p>Wrapper around scipy.stats.beta.</p>
 <p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.beta.html</a></p>
-<dl class="attribute">
-<dt id="copulas.univariate.BetaUnivariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BetaUnivariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.BetaUnivariate.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.beta_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BetaUnivariate.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.beta_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.MODEL_CLASS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.BetaUnivariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BetaUnivariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.BetaUnivariate.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.GammaUnivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">GammaUnivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gamma.html#GammaUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GammaUnivariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.BoundedType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">BoundedType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#BoundedType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.BoundedType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Bounded Enum.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BoundedType.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#copulas.univariate.BoundedType.BOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BoundedType.SEMI_BOUNDED">
+<span class="sig-name descname"><span class="pre">SEMI_BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.BoundedType.SEMI_BOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.BoundedType.UNBOUNDED">
+<span class="sig-name descname"><span class="pre">UNBOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.BoundedType.UNBOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.GammaUnivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">GammaUnivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gamma.html#GammaUnivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GammaUnivariate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
 <p>Wrapper around scipy.stats.gamma.</p>
 <p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gamma.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gamma.html</a></p>
-<dl class="attribute">
-<dt id="copulas.univariate.GammaUnivariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GammaUnivariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GammaUnivariate.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.gamma_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GammaUnivariate.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.gamma_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.MODEL_CLASS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GammaUnivariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GammaUnivariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.GammaUnivariate.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.GaussianKDE">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">GaussianKDE</code><span class="sig-paren">(</span><em class="sig-param">sample_size=None</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">bw_method=None</em>, <em class="sig-param">weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">GaussianKDE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bw_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
 <p>A wrapper for gaussian Kernel density estimation.</p>
 <p>It was implemented in scipy.stats toolbox. gaussian_kde is slower than statsmodels
 but allows more flexibility.</p>
@@ -368,95 +400,95 @@ but allows more flexibility.</p>
 data, and mask the real information. Also, ensure the number of
 entries will be always the value of sample_size.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sample_size</strong> (<em>int</em>) – amount of parameters to sample</p>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianKDE.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.GaussianKDE.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.GaussianKDE.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianKDE.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><a class="headerlink" href="#copulas.univariate.GaussianKDE.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.stats._kde.gaussian_kde</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><a class="headerlink" href="#copulas.univariate.GaussianKDE.MODEL_CLASS" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">gaussian_kde</span></code></p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianKDE.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.GaussianKDE.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.GaussianKDE.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.GaussianKDE.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.cumulative_distribution">
+<span class="sig-name descname"><span class="pre">cumulative_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.cumulative_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.cumulative_distribution" title="Link to this definition"></a></dt>
 <dd><p>Compute the cumulative distribution value for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Cumulative distribution values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.GaussianKDE.percent_point">
-<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">U</em>, <em class="sig-param">method='chandrupatla'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.percent_point" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.percent_point">
+<span class="sig-name descname"><span class="pre">percent_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chandrupatla'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.percent_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.percent_point" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse cumulative distribution value for each point in U.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>U</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1) and values must be in [0,1].</p></li>
 <li><p><strong>method</strong> (<em>str</em>) – Whether to use the <cite>chandrupatla</cite> or <cite>bisect</cite> solver.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Inverse cumulative distribution values for points in U.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.GaussianKDE.probability_density">
-<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.probability_density">
+<span class="sig-name descname"><span class="pre">probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.probability_density" title="Link to this definition"></a></dt>
 <dd><p>Compute the probability density for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the probability density will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Probability density values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.GaussianKDE.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">n_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.sample" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianKDE.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian_kde.html#GaussianKDE.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianKDE.sample" title="Link to this definition"></a></dt>
 <dd><p>Sample values from this model.</p>
 <dl class="simple">
 <dt>Argument:</dt><dd><dl class="simple">
@@ -466,14 +498,14 @@ It must have shape (n, 1).</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array of shape (n_samples, 1) with values randomly
 sampled from this model distribution.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
@@ -481,81 +513,143 @@ sampled from this model distribution.</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.GaussianUnivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">GaussianUnivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian.html#GaussianUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianUnivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">GaussianUnivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/gaussian.html#GaussianUnivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.GaussianUnivariate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
 <p>Gaussian univariate model.</p>
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianUnivariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianUnivariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianUnivariate.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.norm_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianUnivariate.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.norm_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.MODEL_CLASS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.GaussianUnivariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.univariate.TruncatedGaussian">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">TruncatedGaussian</code><span class="sig-paren">(</span><em class="sig-param">minimum=None</em>, <em class="sig-param">maximum=None</em>, <em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncated_gaussian.html#TruncatedGaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.TruncatedGaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
-<p>Wrapper around scipy.stats.truncnorm.</p>
-<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html</a></p>
-<dl class="attribute">
-<dt id="copulas.univariate.TruncatedGaussian.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.BOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.TruncatedGaussian.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.truncnorm_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.TruncatedGaussian.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.GaussianUnivariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.GaussianUnivariate.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.StudentTUnivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">StudentTUnivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/student_t.html#StudentTUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.StudentTUnivariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.LogLaplace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">LogLaplace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/log_laplace.html#LogLaplace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.LogLaplace" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
+<p>Wrapper around scipy.stats.loglaplace.</p>
+<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.loglaplace.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.loglaplace.html</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.LogLaplace.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.LogLaplace.BOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.LogLaplace.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.loglaplace_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.LogLaplace.MODEL_CLASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.LogLaplace.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.LogLaplace.PARAMETRIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.ParametricType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">ParametricType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#ParametricType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.ParametricType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Parametric Enum.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.ParametricType.NON_PARAMETRIC">
+<span class="sig-name descname"><span class="pre">NON_PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.ParametricType.NON_PARAMETRIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.ParametricType.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.ParametricType.PARAMETRIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.StudentTUnivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">StudentTUnivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/student_t.html#StudentTUnivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.StudentTUnivariate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
 <p>Wrapper around scipy.stats.t.</p>
 <p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.t.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.t.html</a></p>
-<dl class="attribute">
-<dt id="copulas.univariate.StudentTUnivariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.StudentTUnivariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.StudentTUnivariate.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.t_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.StudentTUnivariate.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.t_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.MODEL_CLASS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.StudentTUnivariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.StudentTUnivariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.StudentTUnivariate.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.Univariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">Univariate</code><span class="sig-paren">(</span><em class="sig-param">candidates=None</em>, <em class="sig-param">parametric=None</em>, <em class="sig-param">bounded=None</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">selection_sample_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.TruncatedGaussian">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">TruncatedGaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/truncated_gaussian.html#TruncatedGaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.TruncatedGaussian" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
+<p>Wrapper around scipy.stats.truncnorm.</p>
+<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncnorm.html</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.TruncatedGaussian.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.BOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.TruncatedGaussian.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.truncnorm_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.MODEL_CLASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.TruncatedGaussian.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.TruncatedGaussian.PARAMETRIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.UniformUnivariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">UniformUnivariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/uniform.html#UniformUnivariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.UniformUnivariate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScipyModel</span></code></a></p>
+<p>Uniform univariate model.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.UniformUnivariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.BOUNDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.UniformUnivariate.MODEL_CLASS">
+<span class="sig-name descname"><span class="pre">MODEL_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;scipy.stats._continuous_distns.uniform_gen</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.MODEL_CLASS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.UniformUnivariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.PARAMETRIC" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">copulas.univariate.</span></span><span class="sig-name descname"><span class="pre">Univariate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parametric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection_sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Univariate Distribution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>candidates</strong> (<em>list</em><em>[</em><em>str</em><em> or </em><em>type</em><em> or </em><a class="reference internal" href="#copulas.univariate.Univariate" title="copulas.univariate.Univariate"><em>Univariate</em></a><em>]</em>) – List of candidates to select the best univariate from.
 It can be a list of strings representing Univariate FQNs,
@@ -570,223 +664,223 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="copulas.univariate.Univariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.Univariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.BOUNDED">
+<span class="sig-name descname"><span class="pre">BOUNDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.Univariate.BOUNDED" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.Univariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.Univariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.PARAMETRIC">
+<span class="sig-name descname"><span class="pre">PARAMETRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#copulas.univariate.Univariate.PARAMETRIC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.cdf">
-<code class="sig-name descname">cdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.cdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.cdf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.cdf">
+<span class="sig-name descname"><span class="pre">cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.cdf" title="Link to this definition"></a></dt>
 <dd><p>Compute the cumulative distribution value for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Cumulative distribution values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.check_fit">
-<code class="sig-name descname">check_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.check_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.check_fit" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.check_fit">
+<span class="sig-name descname"><span class="pre">check_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.check_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.check_fit" title="Link to this definition"></a></dt>
 <dd><p>Check whether this model has already been fit to a random variable.</p>
 <p>Raise a <code class="docutils literal notranslate"><span class="pre">NotFittedError</span></code> if it has not.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.cumulative_distribution">
-<code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.cumulative_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.cumulative_distribution">
+<span class="sig-name descname"><span class="pre">cumulative_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.cumulative_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.cumulative_distribution" title="Link to this definition"></a></dt>
 <dd><p>Compute the cumulative distribution value for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Cumulative distribution values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.fit" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.fit" title="Link to this definition"></a></dt>
 <dd><p>Fit the model to a random variable.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values of the random variable. It must have shape (n, 1).</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="copulas.univariate.Univariate.fitted">
-<code class="sig-name descname">fitted</code><em class="property"> = False</em><a class="headerlink" href="#copulas.univariate.Univariate.fitted" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.fitted">
+<span class="sig-name descname"><span class="pre">fitted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#copulas.univariate.Univariate.fitted" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.from_dict" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.from_dict" title="Link to this definition"></a></dt>
 <dd><p>Build a distribution from its params dict.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Dictionary containing the FQN of the distribution and the
 necessary parameters to rebuild it.
 The input format is exactly the same that is outputted by
 the distribution class <code class="docutils literal notranslate"><span class="pre">to_dict</span></code> method.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Distribution instance.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#copulas.univariate.Univariate" title="copulas.univariate.Univariate">Univariate</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.load">
-<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.load" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.load" title="Link to this definition"></a></dt>
 <dd><p>Load a Univariate instance from a pickle file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the pickle file where the distribution has been serialized.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Loaded instance.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#copulas.univariate.Univariate" title="copulas.univariate.Univariate">Univariate</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.log_probability_density">
-<code class="sig-name descname">log_probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.log_probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.log_probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.log_probability_density">
+<span class="sig-name descname"><span class="pre">log_probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.log_probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.log_probability_density" title="Link to this definition"></a></dt>
 <dd><p>Compute the log of the probability density for each point in X.</p>
 <p>It should be overridden with numerically stable variants whenever possible.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the log probability density will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Log probability density values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.pdf">
-<code class="sig-name descname">pdf</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.pdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.pdf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.pdf">
+<span class="sig-name descname"><span class="pre">pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.pdf" title="Link to this definition"></a></dt>
 <dd><p>Compute the probability density for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the probability density will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Probability density values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.percent_point">
-<code class="sig-name descname">percent_point</code><span class="sig-paren">(</span><em class="sig-param">U</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.percent_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.percent_point" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.percent_point">
+<span class="sig-name descname"><span class="pre">percent_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.percent_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.percent_point" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse cumulative distribution value for each point in U.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>U</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1) and values must be in [0,1].</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Inverse cumulative distribution values for points in U.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.ppf">
-<code class="sig-name descname">ppf</code><span class="sig-paren">(</span><em class="sig-param">U</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.ppf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.ppf" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.ppf">
+<span class="sig-name descname"><span class="pre">ppf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.ppf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.ppf" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse cumulative distribution value for each point in U.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>U</strong> (<em>numpy.ndarray</em>) – Values for which the cumulative distribution will be computed.
 It must have shape (n, 1) and values must be in [0,1].</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Inverse cumulative distribution values for points in U.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.probability_density">
-<code class="sig-name descname">probability_density</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.probability_density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.probability_density" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.probability_density">
+<span class="sig-name descname"><span class="pre">probability_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.probability_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.probability_density" title="Link to this definition"></a></dt>
 <dd><p>Compute the probability density for each point in X.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – Values for which the probability density will be computed.
 It must have shape (n, 1).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Probability density values for points in X.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">n_samples=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.sample" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.sample" title="Link to this definition"></a></dt>
 <dd><p>Sample values from this model.</p>
 <dl class="simple">
 <dt>Argument:</dt><dd><dl class="simple">
@@ -796,54 +890,54 @@ It must have shape (n, 1).</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Array of shape (n_samples, 1) with values randomly
 sampled from this model distribution.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.save" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.save" title="Link to this definition"></a></dt>
 <dd><p>Serialize this univariate instance using pickle.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to where this distribution will be serialized.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.set_random_state">
-<code class="sig-name descname">set_random_state</code><span class="sig-paren">(</span><em class="sig-param">random_state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.set_random_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.set_random_state" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.set_random_state">
+<span class="sig-name descname"><span class="pre">set_random_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.set_random_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.set_random_state" title="Link to this definition"></a></dt>
 <dd><p>Set the random state.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>random_state</strong> (<em>int</em><em>, </em><em>np.random.RandomState</em><em>, or </em><em>None</em>) – Seed or RandomState for the random generator.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="copulas.univariate.Univariate.to_dict">
-<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.Univariate.to_dict" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="copulas.univariate.Univariate.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/base.html#Univariate.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#copulas.univariate.Univariate.to_dict" title="Link to this definition"></a></dt>
 <dd><p>Return the parameters of this model in a dict.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dictionary containing the distribution type and all
 the parameters that define the distribution.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="copulas.errors.html#copulas.errors.NotFittedError" title="copulas.errors.NotFittedError"><strong>NotFittedError</strong></a> – if the model is not fitted.</p>
 </dd>
 </dl>
@@ -851,140 +945,38 @@ the parameters that define the distribution.</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="copulas.univariate.ParametricType">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">ParametricType</code><a class="reference internal" href="../_modules/copulas/univariate/base.html#ParametricType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.ParametricType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Parametric Enum.</p>
-<dl class="attribute">
-<dt id="copulas.univariate.ParametricType.NON_PARAMETRIC">
-<code class="sig-name descname">NON_PARAMETRIC</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.ParametricType.NON_PARAMETRIC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.ParametricType.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.ParametricType.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.univariate.BoundedType">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">BoundedType</code><a class="reference internal" href="../_modules/copulas/univariate/base.html#BoundedType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.BoundedType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Bounded Enum.</p>
-<dl class="attribute">
-<dt id="copulas.univariate.BoundedType.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.BoundedType.BOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.BoundedType.SEMI_BOUNDED">
-<code class="sig-name descname">SEMI_BOUNDED</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.BoundedType.SEMI_BOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.BoundedType.UNBOUNDED">
-<code class="sig-name descname">UNBOUNDED</code><em class="property"> = 0</em><a class="headerlink" href="#copulas.univariate.BoundedType.UNBOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.univariate.UniformUnivariate">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">UniformUnivariate</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/uniform.html#UniformUnivariate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.UniformUnivariate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
-<p>Uniform univariate model.</p>
-<dl class="attribute">
-<dt id="copulas.univariate.UniformUnivariate.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 2</em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.BOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.UniformUnivariate.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.uniform_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.UniformUnivariate.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.UniformUnivariate.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="copulas.univariate.LogLaplace">
-<em class="property">class </em><code class="sig-prename descclassname">copulas.univariate.</code><code class="sig-name descname">LogLaplace</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/copulas/univariate/log_laplace.html#LogLaplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#copulas.univariate.LogLaplace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="copulas.univariate.base.html#copulas.univariate.base.ScipyModel" title="copulas.univariate.base.ScipyModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">copulas.univariate.base.ScipyModel</span></code></a></p>
-<p>Wrapper around scipy.stats.loglaplace.</p>
-<p>Documentation: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.loglaplace.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.loglaplace.html</a></p>
-<dl class="attribute">
-<dt id="copulas.univariate.LogLaplace.BOUNDED">
-<code class="sig-name descname">BOUNDED</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.LogLaplace.BOUNDED" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.LogLaplace.MODEL_CLASS">
-<code class="sig-name descname">MODEL_CLASS</code><em class="property"> = &lt;scipy.stats._continuous_distns.loglaplace_gen object&gt;</em><a class="headerlink" href="#copulas.univariate.LogLaplace.MODEL_CLASS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="copulas.univariate.LogLaplace.PARAMETRIC">
-<code class="sig-name descname">PARAMETRIC</code><em class="property"> = 1</em><a class="headerlink" href="#copulas.univariate.LogLaplace.PARAMETRIC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="copulas.univariate.base.html" class="btn btn-neutral float-right" title="copulas.univariate.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="copulas.optimize.html" class="btn btn-neutral float-left" title="copulas.optimize package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="copulas.optimize.html" class="btn btn-neutral float-left" title="copulas.optimize package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="copulas.univariate.base.html" class="btn btn-neutral float-right" title="copulas.univariate.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, DataCebo, Inc.
-
-    </p>
+    <p>&#169; Copyright 2022, DataCebo, Inc..</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

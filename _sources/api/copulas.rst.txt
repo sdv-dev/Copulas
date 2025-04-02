@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    copulas.bivariate
    copulas.multivariate
@@ -15,6 +16,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    copulas.datasets
    copulas.errors

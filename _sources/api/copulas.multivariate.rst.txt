@@ -5,6 +5,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    copulas.multivariate.base
    copulas.multivariate.gaussian
