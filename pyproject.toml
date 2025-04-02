@@ -64,7 +64,6 @@ test = [
     'pytest >= 6.2.5',
     'pytest-cov >= 2.6.0',
     'pytest-rerunfailures >= 10.3',
-    'rundoc >= 0.4.3',
     'tomli >= 2.0.0',
 ]
 dev = [
@@ -94,7 +93,7 @@ dev = [
     'ruff >= 0.3.2, <1',
 
     # distribute on PyPI
-    'twine >= 1.10.0, <4',
+    'twine>=1.10.0',
     'wheel >= 0.30.0',
 
     # Advanced testing
@@ -108,6 +107,7 @@ dev = [
     'boto3 >= 1.37.18, <1.38',
     'docutils >= 0.21.2, <0.22'
 ]
+readme = ['rundoc>=0.4.3,<0.5',]
 
 [tool.isort]
 line_length = 99
