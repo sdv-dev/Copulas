@@ -93,7 +93,7 @@ dev = [
     'ruff >= 0.3.2, <1',
 
     # distribute on PyPI
-    'twine>=1.10.0',
+    'twine >= 1.10.0',
     'wheel >= 0.30.0',
 
     # Advanced testing
