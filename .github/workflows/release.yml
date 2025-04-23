@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: 'If true, this creates a release candidate.'
+        required: true
+        type: boolean
+        default: true
+      test_pypi:
+        description: 'If true, this will push to the test pypi instead of regular.'
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip
+            python -m pip install .[dev]
+
+      - name: Configure Git user
+        run: |
+          git config user.name "SDV Team"
+          git config user.email "dataceboteam@gmail.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_ACCESS_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Merge main to stable and push tags
+        if: ${{ !inputs.candidate }}
+        run: |
+          make check-release
+          make git-merge-main-stable
+          make bumpversion-release
+          make git-push-tags-stable
+
+      - name: Create wheel
+        run: |
+          make check-main
+          make dist
+
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ inputs.test_pypi && secrets.TEST_PYPI_API_TOKEN || secrets.PYPI_API_TOKEN }}
+          repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://pypi.org' }}
+    
+      - name: Bump to next candidate
+        if: ${{ inputs.candidate }}
+        run: |
+          make bumpversion-candidate
+          make git-push
+    
+      - name: Merge to main and bump to next patch
+        if: ${{ !inputs.candidate }}
+        run: |
+          make git-merge-stable-main
+          make bumpversion-patch
+          make git-push

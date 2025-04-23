@@ -170,13 +170,13 @@ publish: dist publish-confirm ## package and upload a release
 
 .PHONY: git-merge-main-stable
 git-merge-main-stable: ## Merge main into stable
-	git checkout stable || git checkout -b stable
-	git merge --no-ff main -m"make release-tag: Merge branch 'main' into stable"
+	git checkout stable-clone || git checkout -b stable-clone
+	git merge --no-ff main-clone -m"make release-tag: Merge branch 'main' into stable"
 
 .PHONY: git-merge-stable-main
 git-merge-stable-main: ## Merge stable into main
-	git checkout main
-	git merge stable
+	git checkout main-clone
+	git merge stable-clone
 
 .PHONY: git-push
 git-push: ## Simply push the repository to github
@@ -184,7 +184,7 @@ git-push: ## Simply push the repository to github
 
 .PHONY: git-push-tags-stable
 git-push-tags-stable: ## Push tags and stable to github
-	git push --tags origin stable
+	git push --tags origin stable-clone
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Bump the version to the next release
@@ -225,7 +225,7 @@ endif
 
 .PHONY: check-main
 check-main: ## Check if we are in main branch
-ifneq ($(CURRENT_BRANCH),main)
+ifneq ($(CURRENT_BRANCH),main-clone)
 	$(error Please make the release from main branch\n)
 endif
 
