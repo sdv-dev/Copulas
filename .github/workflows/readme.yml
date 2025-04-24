@@ -61,7 +61,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GH_ACCESS_TOKEN }}@github.com/${{ github.repository }}
 
       - name: Merge main to stable and push tags
-        if: ${{ !inputs.candidate }}
+        if: ${{ !inputs.candidate && !inputs.test_pypi }}
         run: |
           make check-release
           make git-merge-main-stable
@@ -80,13 +80,13 @@ jobs:
           repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://pypi.org' }}
     
       - name: Bump to next candidate
-        if: ${{ inputs.candidate }}
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
         run: |
           make bumpversion-candidate
           make git-push
     
       - name: Merge to main and bump to next patch
-        if: ${{ !inputs.candidate }}
+        if: ${{ !inputs.candidate && !inputs.test_pypi}}
         run: |
           make git-merge-stable-main
           make bumpversion-patch
