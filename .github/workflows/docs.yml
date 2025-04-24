@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: main-clone
 
       - name: Set up Python
         uses: actions/setup-python@v5
