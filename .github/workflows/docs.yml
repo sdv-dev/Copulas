@@ -71,6 +71,7 @@ jobs:
 
       - name: Create wheel
         run: |
+          git checkout main
           make check-main
           make dist
 
