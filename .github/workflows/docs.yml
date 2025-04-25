@@ -65,7 +65,8 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GH_ACCESS_TOKEN }}@github.com/${{ github.repository }}
 
       - name: Merge main to stable and push tags
-        if: ${{ !inputs.candidate && !inputs.test_pypi }}
+        # if: ${{ !inputs.candidate && !inputs.test_pypi }}
+        if: ${{ !inputs.candidate }}
         run: |
           make check-clean
           make check-candidate
@@ -93,7 +94,8 @@ jobs:
           make git-push
     
       - name: Merge to main and bump to next patch
-        if: ${{ !inputs.candidate && !inputs.test_pypi}}
+        # if: ${{ !inputs.candidate && !inputs.test_pypi }}
+        if: ${{ !inputs.candidate }}
         run: |
           git checkout main-clone
           git merge stable-clone
