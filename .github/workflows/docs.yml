@@ -67,15 +67,17 @@ jobs:
       - name: Merge main to stable and push tags
         if: ${{ !inputs.candidate && !inputs.test_pypi }}
         run: |
-          make check-release
-          make git-merge-main-stable
+          make check-clean
+          make check-candidate
+          make check-history
+          git checkout stable-clone || git checkout -b stable-clone
+          git merge --no-ff main-clone -m"make release-tag: Merge branch 'main' into stable"
           make bumpversion-release
-          make git-push-tags-stable
+          git push --tags origin stable-clone
 
       - name: Create wheel
         run: |
-          make check-branch
-          make check-main
+          git checkout main-clone
           make dist
 
       - name: Publish a Python distribution to PyPI
@@ -93,6 +95,7 @@ jobs:
       - name: Merge to main and bump to next patch
         if: ${{ !inputs.candidate && !inputs.test_pypi}}
         run: |
-          make git-merge-stable-main
+          git checkout main-clone
+          git merge stable-clone
           make bumpversion-patch
           make git-push
