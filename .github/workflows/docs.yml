@@ -78,7 +78,6 @@ jobs:
 
       - name: Create wheel
         run: |
-          git checkout main-clone
           make dist
 
       - name: Publish a Python distribution to PyPI
