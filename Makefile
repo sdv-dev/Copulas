@@ -262,3 +262,7 @@ release-candidate: check-main publish bumpversion-candidate git-push
 
 .PHONY: release-candidate-test
 release-candidate-test: check-clean check-main publish-test
+
+.PHONY: check-branch
+check-branch:
+	@echo $(CURRENT_BRANCH)

@@ -74,6 +74,7 @@ jobs:
 
       - name: Create wheel
         run: |
+          make check-branch
           make check-main
           make dist
 
