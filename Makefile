@@ -219,9 +219,9 @@ CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-clean
 check-clean: ## Check if the directory has uncommitted changes
-	ifneq ($(CLEAN_DIR),)
-		$(error There are uncommitted changes)
-	endif
+ifneq ($(CLEAN_DIR),)
+	$(error There are uncommitted changes)
+endif
 
 .PHONY: check-main
 check-main: ## Check if we are in main branch
