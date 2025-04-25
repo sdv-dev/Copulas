@@ -219,27 +219,27 @@ CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
 
 .PHONY: check-clean
 check-clean: ## Check if the directory has uncommitted changes
-ifneq ($(CLEAN_DIR),)
-	$(error There are uncommitted changes)
-endif
+	ifneq ($(CLEAN_DIR),)
+		$(error There are uncommitted changes)
+	endif
 
 .PHONY: check-main
 check-main: ## Check if we are in main branch
-ifneq ($(CURRENT_BRANCH),main-clone)
-	$(error Please make the release from main branch\n)
-endif
+	ifneq ($(CURRENT_BRANCH),main-clone)
+		$(error Please make the release from main branch\n)
+	endif
 
 .PHONY: check-candidate
 check-candidate: ## Check if a release candidate has been made
-ifeq ($(CURRENT_VERSION),dev0)
-	$(error Please make a release candidate and test it before atempting a release)
-endif
+	ifeq ($(CURRENT_VERSION),dev0)
+		$(error Please make a release candidate and test it before atempting a release)
+	endif
 
 .PHONY: check-history
 check-history: ## Check if HISTORY.md has been modified
-ifeq ($(CHANGELOG_LINES),0)
-	$(error Please insert the release notes in HISTORY.md before releasing)
-endif
+	ifeq ($(CHANGELOG_LINES),0)
+		$(error Please insert the release notes in HISTORY.md before releasing)
+	endif
 
 .PHONY: check-deps
 check-deps: # Dependency targets
