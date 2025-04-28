@@ -70,14 +70,25 @@ jobs:
         with:
           password: ${{ inputs.test_pypi && secrets.TEST_PYPI_API_TOKEN || secrets.PYPI_API_TOKEN }}
           repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://upload.pypi.org/legacy/' }}
-    
+  
+  bump-candidate:
+    if: ${{ inputs.candidate }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'main-clone'
+
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Bump to next candidate
-        if: ${{ inputs.candidate && !inputs.test_pypi }}
         run: |
           make bumpversion-candidate
 
       - name: Get last commit message
-        if: ${{ inputs.candidate && !inputs.test_pypi }}
         id: get_message
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
@@ -86,7 +97,6 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Create PR for candidate
-        if: ${{ inputs.candidate && !inputs.test_pypi }}
         id: bump-candidate-pr
         uses: peter-evans/create-pull-request@v4
         with:
