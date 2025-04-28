@@ -28,6 +28,9 @@
 name: Release
 
 on:
+  release:
+    types: [published]
+
   workflow_dispatch:
     inputs:
       candidate:
@@ -38,7 +41,7 @@ on:
       test_pypi:
         description: 'If true, this will push to the test pypi instead of regular.'
         type: boolean
-        default: false
+        default: true
 
 jobs:
   release:
@@ -46,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main-clone
+          ref: ${{ inputs.candidate && 'main-clone' || 'stable' }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -57,24 +60,6 @@ jobs:
         run: |
             python -m pip install --upgrade pip
             python -m pip install .[dev]
-
-      - name: Configure Git user
-        run: |
-          git config user.name "SDV Team"
-          git config user.email "dataceboteam@gmail.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_ACCESS_TOKEN }}@github.com/${{ github.repository }}
-
-      - name: Merge main to stable and push tags
-        # if: ${{ !inputs.candidate && !inputs.test_pypi }}
-        if: ${{ !inputs.candidate }}
-        run: |
-          make check-clean
-          make check-candidate
-          make check-history
-          git checkout stable-clone || git checkout -b stable-clone
-          git merge --no-ff main-clone -m"make release-tag: Merge branch 'main' into stable"
-          make bumpversion-release
-          git push --tags origin stable-clone
 
       - name: Create wheel
         run: |
@@ -90,13 +75,35 @@ jobs:
         if: ${{ inputs.candidate && !inputs.test_pypi }}
         run: |
           make bumpversion-candidate
-          make git-push
-    
-      - name: Merge to main and bump to next patch
-        # if: ${{ !inputs.candidate && !inputs.test_pypi }}
-        if: ${{ !inputs.candidate }}
+
+      - name: Get last commit message
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
+        id: get_message
         run: |
-          git checkout main-clone
-          git merge stable-clone
-          make bumpversion-patch
-          make git-push
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "commit_message<<EOF" >> $GITHUB_ENV
+          echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create PR for candidate
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
+        id: bump-candidate-pr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          commit-message: ${{ env.commit_message }}
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          title: ${{ env.commit_message }}
+          body: "This is an auto-generated PR to bump the version to the next release candidate."
+          branch: bump-release-candidate
+          branch-suffix: short-commit-hash
+          base: main
+
+      - name: Enable Pull Request Automerge
+        if: steps.bump-candidate-pr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          pull-request-number: ${{ steps.bump-candidate-pr.outputs.pull-request-number }}
+          merge-method: squash
