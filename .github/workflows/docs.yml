@@ -72,7 +72,7 @@ jobs:
           repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://upload.pypi.org/legacy/' }}
 
       - name: Bump version to next candidate
-        if: ${{ inputs.candidate && !inputs.test_pypi }}
+        if: ${{ inputs.candidate && inputs.test_pypi }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
