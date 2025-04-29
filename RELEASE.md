@@ -8,25 +8,21 @@ The process of releasing a new version involves several steps:
 
 3. [Documentation](#documentation)
 
-4. [Milestone](#milestone)
+4. [Make a release candidate](#make-a-release-candidate)
 
-5. [HISTORY.md](#history.md)
+5. [Integration with SDV](#integration-with-sdv)
 
-6. [Distribution](#distribution)
+6. [Milestone](#milestone)
 
-7. [Integration with SDV](#integration-with-sdv)
+7. [HISTORY.md](#history.md)
 
-7.1. [Install SDV from source](#install-sdv-from-source)
+8. [Distribution](#distribution)
 
-7.2. [Install from distribution](#install-from-distribution)
+9. [Making the release](#making-the-release)
 
-7.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+9.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
 
-8. [Making the release](#making-the-release)
-
-8.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
-
-8.2. [Update the release on GitHub](#update-the-release-on-github)
+9.2. [Update the release on GitHub](#update-the-release-on-github)
 
 
 ## Install Copulas from source
@@ -128,7 +124,7 @@ git checkout -b test-copulas-X.Y.Z
 git push --set-upstream origin test-copulas-X.Y.Z
 ```
 
-4. Check the [actions][sdv-actions] tab on SDV to make sure all the tests pass.
+4. Check the [Actions][sdv-actions] tab on SDV to make sure all the tests pass.
 
 [sdv-actions]: https://github.com/sdv-dev/SDV/actions
 
