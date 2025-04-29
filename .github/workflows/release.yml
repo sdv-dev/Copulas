@@ -7,14 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       candidate:
-        description: 'If true, this creates a release candidate.'
+        description: 'Release candidate.'
         required: true
         type: boolean
         default: true
       test_pypi:
-        description: 'If true, this will push to the test pypi instead of regular.'
+        description: 'Test PyPi.'
         type: boolean
-        default: true
+        default: false
 
 jobs:
   release:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.candidate && 'main-clone' || 'stable' }}
+          ref: ${{ inputs.candidate && 'main' || 'stable' }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,55 +43,11 @@ jobs:
         with:
           password: ${{ inputs.test_pypi && secrets.TEST_PYPI_API_TOKEN || secrets.PYPI_API_TOKEN }}
           repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://upload.pypi.org/legacy/' }}
-  
-  bump-candidate:
-    if: ${{ inputs.candidate }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: 'main-clone'
 
-      - name: Configure Git user
+      - name: Bump version to next candidate
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install .[dev]
-
-      - name: Bump to next candidate
-        run: |
           make bumpversion-candidate
-
-      - name: Get last commit message
-        id: get_message
-        run: |
-          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          echo "commit_message<<EOF" >> $GITHUB_ENV
-          echo "$COMMIT_MESSAGE" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Create PR for candidate
-        id: bump-candidate-pr
-        uses: peter-evans/create-pull-request@v4
-        with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
-          commit-message: ${{ env.commit_message }}
-          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
-          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
-          title: ${{ env.commit_message }}
-          body: "This is an auto-generated PR to bump the version to the next release candidate."
-          branch: bump-release-candidate
-          branch-suffix: short-commit-hash
-          base: main
-
-      - name: Enable Pull Request Automerge
-        if: steps.bump-candidate-pr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
-          pull-request-number: ${{ steps.bump-candidate-pr.outputs.pull-request-number }}
-          merge-method: squash
+          make git-push

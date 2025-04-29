@@ -252,7 +252,7 @@ check-release: check-clean check-candidate check-main check-history ## Check if 
 
 .PHONY: release
 release: check-release git-merge-main-stable bumpversion-release git-push-tags-stable \
-	publish git-merge-stable-main bumpversion-patch git-push
+	git-merge-stable-main bumpversion-patch git-push
 
 .PHONY: release-test
 release-test: check-release git-merge-main-stable bumpversion-release bumpversion-revert
