@@ -8,25 +8,21 @@ The process of releasing a new version involves several steps:
 
 3. [Documentation](#documentation)
 
-4. [Milestone](#milestone)
+4. [Make a release candidate](#make-a-release-candidate)
 
-5. [HISTORY.md](#history.md)
+5. [Integration with SDV](#integration-with-sdv)
 
-6. [Distribution](#distribution)
+6. [Milestone](#milestone)
 
-7. [Integration with SDV](#integration-with-sdv)
+7. [HISTORY.md](#history.md)
 
-7.1. [Install SDV from source](#install-sdv-from-source)
+8. [Distribution](#distribution)
 
-7.2. [Install from distribution](#install-from-distribution)
+9. [Making the release](#making-the-release)
 
-7.3. [Run SDV tests and README.md examples](#run-sdv-tests-and-readme.md-examples)
+9.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
 
-8. [Making the release](#making-the-release)
-
-8.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
-
-8.2. [Update the release on GitHub](#update-the-release-on-github)
+9.2. [Update the release on GitHub](#update-the-release-on-github)
 
 
 ## Install Copulas from source
@@ -93,6 +89,44 @@ Alternatively, you can simply generate the documentation using the command:
 ```bash
 make docs
 ```
+
+## Make a release candidate
+
+1. On the Copulas GitHub page, navigate to the [Actions][actions] tab.
+2. Select the `Release` action.
+3. Run it on the main branch. Make sure `Release candidate` is checked and `Test PyPi` is not.
+4. Check on [PyPi][copulas-pypi] to assure the release candidate was successfully uploaded.
+
+[actions]: https://github.com/sdv-dev/Copulas/actions
+[copulas-pypi]: https://pypi.org/project/copulas/#history
+
+## Integration with SDV
+
+### Create a branch on SDV to test the candidate
+
+Before doing the actual release, we need to test that the candidate works with SDV. To do this, we can create a branch on SDV that points to the release candidate we just created using the following steps:
+
+1. Create a new branch on the SDV repository.
+
+```bash
+git checkout -b test-copulas-X.Y.Z
+```
+
+2. Update the pyproject.toml to set the minimum version of Copulas to be the same as the version of the release. For example, 
+
+```toml
+'copulas>=X.Y.Z.dev0'
+```
+
+3. Push this branch. This should trigger all the tests to run.
+
+```bash
+git push --set-upstream origin test-copulas-X.Y.Z
+```
+
+4. Check the [Actions][sdv-actions] tab on SDV to make sure all the tests pass.
+
+[sdv-actions]: https://github.com/sdv-dev/SDV/actions
 
 ## Milestone
 
@@ -173,37 +207,6 @@ pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
 ```
 
 4. Now you are ready to execute the README.md examples.
-
-## Integration with SDV
-
-### Install SDV from source
-
-Clone the project and install the development requirements. Alternatively, with your virtualenv activated.
-
-```bash
-git clone https://github.com/sdv-dev/SDV
-cd SDV
-git checkout main
-make install-develop
-```
-
-### Install from distribution
-
-Install the Copulas version from the generated distribution file.
-
-```bash
-pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
-```
-
-### Run SDV tests and README.md examples
-
-Execute the SDV tests to ensure that the new distribution version works.
-
-```bash
-make test
-```
-
-Also, execute the SDV README.md examples.
 
 ## Making the release
 
