@@ -4,6 +4,7 @@ import numpy as np
 from scipy.stats import beta
 
 from copulas.univariate.base import BoundedType, ParametricType, ScipyModel
+from copulas.utils import EPSILON
 
 
 class BetaUnivariate(ScipyModel):
@@ -25,9 +26,19 @@ class BetaUnivariate(ScipyModel):
         }
 
     def _fit(self, X):
-        loc = np.min(X)
-        scale = np.max(X) - loc
-        a, b, loc, scale = beta.fit(X, loc=loc, scale=scale)
+        min_x = np.min(X)
+        max_x = np.max(X)
+        a, b, loc, scale = beta.fit(X, loc=min_x, scale=max_x - min_x)
+
+        if loc > max_x or scale + loc < min_x:
+            raise ValueError(
+                'Converged parameters for beta distribution are '
+                'outside the min/max range of the data.'
+            )
+
+        if scale < EPSILON:
+            raise ValueError('Converged parameters for beta distribution have a near-zero range.')
+
         self._params = {'loc': loc, 'scale': scale, 'a': a, 'b': b}
 
     def _is_constant(self):

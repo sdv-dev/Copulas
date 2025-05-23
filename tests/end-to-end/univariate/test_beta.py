@@ -3,6 +3,7 @@ import tempfile
 from unittest import TestCase
 
 import numpy as np
+import pytest
 from scipy.stats import beta
 
 from copulas.univariate import BetaUnivariate
@@ -42,6 +43,67 @@ class TestGaussian(TestCase):
 
         assert model._constant_value == 5
         np.testing.assert_equal(np.full(50, 5), model.sample(50))
+
+    def test_fit_raises(self):
+        """Test it for dataset that fails."""
+        model = BetaUnivariate()
+        data = np.array([  # From GH #472
+            3.337169,
+            6.461266,
+            4.871053,
+            4.206772,
+            5.157541,
+            3.437069,
+            6.712143,
+            5.135402,
+            6.453203,
+            4.623059,
+            5.827161,
+            5.291858,
+            5.571134,
+            5.441359,
+            4.816826,
+            3.277817,
+            4.215228,
+            4.48338,
+            4.345968,
+            6.125759,
+            4.860464,
+            6.511877,
+            3.959057,
+            4.882996,
+            6.058503,
+            3.337436,
+            5.06921,
+            4.414371,
+            4.564768,
+            5.1014,
+            4.161663,
+            5.757317,
+            4.032375,
+            3.907653,
+            4.269559,
+            4.08505,
+            6.811531,
+            5.02597,
+            5.438358,
+            3.44442,
+            3.462209,
+            4.871354,
+            5.947369,
+            4.167546,
+            4.692054,
+            5.542011,
+            4.926634,
+            4.491286,
+            5.344663,
+            4.526089,
+            1.645776,
+        ])
+
+        err_msg = 'Converged parameters for beta distribution have a near-zero range.'
+        with pytest.raises(ValueError, match=err_msg):
+            model.fit(data)
 
     def test_pdf(self):
         model = BetaUnivariate()
