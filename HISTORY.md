@@ -1,5 +1,20 @@
 # History
 
+## v0.12.3 - 2025-06-13
+
+### New Features
+
+* `BetaUnivariate` should reject fitted parameters that obviously don’t match the data - Issue [#472](https://github.com/sdv-dev/Copulas/issues/472) by @fealho
+
+### Internal
+
+* Add workflow to release Copulas on PyPI - Issue [#462](https://github.com/sdv-dev/Copulas/issues/462) by @amontanez24
+
+### Maintenance
+
+* All bump-version commands are failing - Issue [#465](https://github.com/sdv-dev/Copulas/issues/465) by @gsheni
+* Update python set up step in workflows to use latest python version - Issue [#438](https://github.com/sdv-dev/Copulas/issues/438) by @frances-h
+
 ## v0.12.2 - 2025-04-01
 
 ### Documentation
