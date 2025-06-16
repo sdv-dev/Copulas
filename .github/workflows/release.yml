@@ -50,4 +50,23 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           make bumpversion-candidate
-          make git-push
+
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          commit-message: bumpversion-candidate
+          title: Automated Bump Version Candidate
+          body: "This is an auto-generated PR that bumps the version to the next candidate."
+          branch: bumpversion-candidate-update
+          branch-suffix: short-commit-hash
+          base: main
+          
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
