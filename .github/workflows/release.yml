@@ -65,6 +65,6 @@ jobs:
           
       - name: Enable Pull Request Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr merge --merge --auto --squash "${{ steps.cpr.outputs.pull-request-number }}"
+        run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --squash --auto
         env:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
