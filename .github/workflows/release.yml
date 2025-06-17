@@ -74,7 +74,7 @@ jobs:
             copulas/__init__.py
             pyproject.toml
           draft: false
-          base: ${{ inputs.candidate && 'main' || 'stable' }}
+          base: 'main'
           
       - name: Enable Pull Request Automerge
         if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
