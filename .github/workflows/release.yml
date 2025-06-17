@@ -64,10 +64,11 @@ jobs:
           body: "This is an auto-generated PR that bumps the version to the next candidate."
           branch: bumpversion-candidate-update
           branch-suffix: short-commit-hash
-          base: '478-copulas-release-workflow-errors-with-failed-to-push-some-refs-to-httpsgithubcomsdv-devcopulas'
           add-paths: |
             copulas/__init__.py
             pyproject.toml
+          # base: '478-copulas-release-workflow-errors-with-failed-to-push-some-refs-to-httpsgithubcomsdv-devcopulas'
+
       - name: Enable Pull Request Automerge
         if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
         run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --squash --admin
