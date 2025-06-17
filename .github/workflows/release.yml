@@ -27,7 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.candidate && 'main' || 'stable' }}
+          ref: '478-copulas-release-workflow-errors-with-failed-to-push-some-refs-to-httpsgithubcomsdv-devcopulas'
+          # ref: ${{ inputs.candidate && 'main' || 'stable' }}
 
       - name: Set up latest Python
         uses: actions/setup-python@v5
@@ -53,7 +54,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          make bumpversion-candidate
+          # make bumpversion-candidate
 
       - name: Create pull request
         if: ${{ inputs.candidate && !inputs.test_pypi }}
