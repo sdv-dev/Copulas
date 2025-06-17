@@ -121,7 +121,6 @@ add-ignore = ['D107', 'D407', 'D417']
 
 [tool.setuptools]
 include-package-data = true
-license-files = ['LICENSE']
 
 [tool.setuptools.packages.find]
 include = ['copulas', 'copulas.*']
