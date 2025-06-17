@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.candidate && 'stable' || 'main' }}
+          ref: ${{ inputs.candidate && 'main' || 'stable' }}
 
       - name: Set up latest Python
         uses: actions/setup-python@v5
@@ -74,7 +74,7 @@ jobs:
             copulas/__init__.py
             pyproject.toml
           draft: false
-          base: main
+          base: ${{ inputs.candidate && 'main' || 'stable' }}
           
       - name: Enable Pull Request Automerge
         if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
