@@ -5,7 +5,6 @@ authors = [{name = 'DataCebo, Inc.', email = 'info@sdv.dev' }]
 classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
-    'License :: Free for non-commercial use',
     'Natural Language :: English',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.8',
@@ -18,7 +17,8 @@ classifiers = [
 ]
 keywords = [ 'copulas' ]
 dynamic = ["version"]
-license = { text = 'BSL-1.1' }
+license = "BUSL-1.1"
+license-files = ["LICENSE"]
 requires-python = '>=3.8,<3.14'
 readme = 'README.md'
 dependencies = [
