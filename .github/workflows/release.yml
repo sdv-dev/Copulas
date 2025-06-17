@@ -64,7 +64,7 @@ jobs:
           body: "This is an auto-generated PR that bumps the version to the next candidate."
           branch: bumpversion-candidate-update
           branch-suffix: short-commit-hash
-          base: main
+          base: '478-copulas-release-workflow-errors-with-failed-to-push-some-refs-to-httpsgithubcomsdv-devcopulas'
           add-paths: |
             copulas/__init__.py
             pyproject.toml
