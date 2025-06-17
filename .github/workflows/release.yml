@@ -49,10 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          bump-my-version bump patch --no-tag
-          # git add copulas/__init__.py
-          # git add pyproject.toml
-          # git commit -m "bump version candidate"
+          bump-my-version bump patch --no-tag --no-commit
         #   make bumpversion-candidate
         # if: ${{ inputs.candidate && !inputs.test_pypi }}
 
@@ -74,7 +71,8 @@ jobs:
             copulas/__init__.py
             pyproject.toml
           draft: false
-
+          base: main
+          
       - name: Enable Pull Request Automerge
         if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
         run: gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --squash --admin
