@@ -12,7 +12,7 @@ on:
         type: boolean
         default: true
       test_pypi:
-        description: 'Test PyPi.'
+        description: 'Test PyPI.'
         type: boolean
         default: false
 
