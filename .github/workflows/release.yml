@@ -42,7 +42,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository-url: 'https://test.pypi.org/legacy/' }}
+          repository-url: 'https://test.pypi.org/legacy/'
 
       - name: Bump version to next candidate
         run: |
