@@ -19,7 +19,6 @@ classifiers = [
 keywords = [ 'copulas' ]
 dynamic = ["version"]
 license = { text = 'BSL-1.1' }
-license-files = ["LICENSE"]
 requires-python = '>=3.8,<3.14'
 readme = 'README.md'
 dependencies = [
