@@ -22,8 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: '478-copulas-release-workflow-errors-with-failed-to-push-some-refs-to-httpsgithubcomsdv-devcopulas'
-          # ref: ${{ inputs.candidate && 'main' || 'stable' }}
+          ref: ${{ inputs.candidate && 'main' || 'stable' }}
 
       - name: Set up latest Python
         uses: actions/setup-python@v5
@@ -42,18 +41,18 @@ jobs:
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository-url: 'https://test.pypi.org/legacy/'
+          password: ${{ inputs.test_pypi && secrets.TEST_PYPI_API_TOKEN || secrets.PYPI_API_TOKEN }}
+          repository-url: ${{ inputs.test_pypi && 'https://test.pypi.org/legacy/' || 'https://upload.pypi.org/legacy/' }}
 
       - name: Bump version to next candidate
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          bump-my-version bump patch --no-tag --no-commit
-        #   make bumpversion-candidate
-        # if: ${{ inputs.candidate && !inputs.test_pypi }}
+          make bumpversion-candidate
 
       - name: Create pull request
+        if: ${{ inputs.candidate && !inputs.test_pypi }}
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
