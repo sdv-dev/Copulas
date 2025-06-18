@@ -53,7 +53,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          make bumpversion-candidate
+          bump-my-version bump candidate --no-tag --no-commit
 
       - name: Create pull request
         if: ${{ inputs.candidate && !inputs.test_pypi }}
