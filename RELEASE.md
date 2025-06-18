@@ -20,7 +20,7 @@ The process of releasing a new version involves several steps:
 
 9. [Making the release](#making-the-release)
 
-9.1. [Tag and release to PyPi](#tag-and-release-to-pypi)
+9.1. [Tag and release to PyPI](#tag-and-release-to-pypi)
 
 9.2. [Update the release on GitHub](#update-the-release-on-github)
 
@@ -94,8 +94,8 @@ make docs
 
 1. On the Copulas GitHub page, navigate to the [Actions][actions] tab.
 2. Select the `Release` action.
-3. Run it on the main branch. Make sure `Release candidate` is checked and `Test PyPi` is not.
-4. Check on [PyPi][copulas-pypi] to assure the release candidate was successfully uploaded.
+3. Run it on the main branch. Make sure `Release candidate` is checked and `Test PyPI` is not.
+4. Check on [PyPI][copulas-pypi] to assure the release candidate was successfully uploaded.
 
 [actions]: https://github.com/sdv-dev/Copulas/actions
 [copulas-pypi]: https://pypi.org/project/copulas/#history
@@ -216,7 +216,7 @@ At the end, we need to make the release. First, check if the release can be made
 make check-release
 ```
 
-### Tag and release to PyPi
+### Tag and release to PyPI
 
 Once we are sure that the release can be made we can use different commands depending on
 the type of release that we want to make:
@@ -236,7 +236,7 @@ the type of release that we want to make:
 
 ### Update the release on GitHub
 
-Once the tag and the release to PyPi has been made, go to GitHub and edit the freshly created "tag" to
+Once the tag and the release to PyPI has been made, go to GitHub and edit the freshly created "tag" to
 add the title and release notes, which should be exactly the same that we added to the HISTORY.md file.
 
 Finaly, close the milestone and, if it does not exit, create the next one.
