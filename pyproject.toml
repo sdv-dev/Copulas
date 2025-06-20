@@ -180,7 +180,6 @@ src = ["copulas"]
 target-version = "py312"
 exclude = [
     "docs",
-    ".tox",
     ".git",
     "__pycache__",
     ".ipynb_checkpoints",
