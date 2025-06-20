@@ -164,7 +164,7 @@ make check-release
 ```
 
 ## Update stable branch and bump version
-The `stable` branch needs to updated with the changes from `main` and the verison needs to be bumped.
+The `stable` branch needs to be updated with the changes from `main` and the version needs to be bumped.
 Depending on the type of release, run one of the following:
 
 * `make release`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
