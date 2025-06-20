@@ -14,16 +14,15 @@ The process of releasing a new version involves several steps:
 
 6. [Milestone](#milestone)
 
-7. [HISTORY.md](#history.md)
+7. [Update HISTORY](#update-history)
 
-8. [Distribution](#distribution)
+8. [Check the release](#check-the-release)
 
-9. [Making the release](#making-the-release)
+8. [Bump Version](#bump-version)
 
-9.1. [Tag and release to PyPI](#tag-and-release-to-pypi)
+10. [Create the Release on GitHub](#create-the-release-on-github)
 
-9.2. [Update the release on GitHub](#update-the-release-on-github)
-
+11. [Close milestone and create new milestone](#close-milestone-and-create-new-milestone)
 
 ## Install Copulas from source
 
@@ -73,7 +72,7 @@ isort -c copulas tests examples
 ```
 
 The execution has finished with no errors, 1 test skipped and 3 warnings.
-		
+
 ## Documentation
 
 The documentation must be up to date and generated with:
@@ -112,7 +111,7 @@ Before doing the actual release, we need to test that the candidate works with S
 git checkout -b test-copulas-X.Y.Z
 ```
 
-2. Update the pyproject.toml to set the minimum version of Copulas to be the same as the version of the release. For example, 
+2. Update the pyproject.toml to set the minimum version of Copulas to be the same as the version of the release. For example,
 
 ```toml
 'copulas>=X.Y.Z.dev0'
@@ -130,7 +129,7 @@ git push --set-upstream origin test-copulas-X.Y.Z
 
 ## Milestone
 
-It's important check that the git hub and milestone issues are up to date with the release.
+It's important check that the GitHub and milestone issues are up to date with the release.
 
 You neet to check that:
 
@@ -142,25 +141,26 @@ You neet to check that:
 - All the pull requests closed since the latest release are associated to an issue. If necessary, create issues
   and assign them to the milestone. Also assigne the person who opened the issue to them.
 
-## HISTORY.md
+## Update HISTORY
+Run the [Release Prep](https://github.com/sdv-dev/Copulas/actions/workflows/prepare_release.yml) workflow. This workflow will create a pull request with updates to HISTORY.md
 
 Make sure HISTORY.md is updated with the issues of the milestone:
 
 ```
 # History
-	
+
 ## X.Y.Z (YYYY-MM-DD)
-	
+
 ### New Features
-	
+
 * <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
-	
+
 ### General Improvements
-	
+
 * <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
-	
+
 ### Bug Fixed
-	
+
 * <ISSUE TITLE> - [Issue #<issue>](https://github.com/sdv-dev/Copulas/issues/<issue>) by @resolver
 ```
 
@@ -168,75 +168,44 @@ The issue list per milestone can be found [here][milestones].
 
 [milestones]: https://github.com/sdv-dev/Copulas/milestones
 
-## Distribution
+Put the pull request up for review and get 2 approvals to merge into `main`.
 
-Generate the distribution executing:
-
-```bash
-make dist
-```
-
-This will create a `dist` and `build` directories. The `dist` directory contains the library installer.
-
-```
-dist/
-├── copulas-<version>-py2.py3-none-any.whl
-└── copulas-<version>.tar.gz
-```
-
-Now, create a new virtualenv with the distributed file generated and run the README.md examples:
-
-1. Create the copulas-test directory (out of the Copulas directory):
-
-```bash
-mkdir copulas-test
-cd copulas-test
-```
-
-2. Create a new virtuelenv and activate it:
-
-```bash
-virtualenv -p $(which python3.6) .venv
-source .venv/bin/activate
-```
-
-3. Install the wheel distribution:
-
-```bash
-pip install /path/to/copulas/dist/<copulas-distribution-version-any>.whl
-```
-
-4. Now you are ready to execute the README.md examples.
-
-## Making the release
-
-At the end, we need to make the release. First, check if the release can be made:
+## Check the release
+Check if the release can be made:
 
 ```bash
 make check-release
 ```
 
-### Tag and release to PyPI
+## Bump Version
+The `stable` branch needs to updated with the changes from `main`. Run the following:
+```shell
+git checkout main
+git pull origin main
+make git-merge-main-stable
+```
 
-Once we are sure that the release can be made we can use different commands depending on
-the type of release that we want to make:
+Depending on the type of release, you will need to one of these different commands to bump the version:
 
-* `make release`: This will relase a patch, which is the most common type of release. Use this
-  when the changes are bugfixes or enhancements that do not modify the existing user API. Changes
-  that modify the user API to add new features but that do not modify the usage of the previous
-  features can also be released as a patch.
-* `make release-minor`: This will release the next minor version. Use this if the changes modify
-  the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible
-  changes can also be released as minor versions while the library is still in beta state.
-  After the major version 1 has been released, minor version can only be used to add backwards
-  compatible API changes.
-* `make release-major`: This will release the next major version. Use this to if the changes modify
-  the user API in a backwards incompatible way after the major version 1 has been released.
+**Note**: Run `git pull origin main && git checkout main` first.
 
+* `bumpversion-patch`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
+* `bumpversion-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
+* `bumpversion-major`: This will release the next major version. Use this to if the changes modify the user API in a backwards incompatible way after the major version 1 has been released.
 
-### Update the release on GitHub
+## Create the Release on GitHub
 
-Once the tag and the release to PyPI has been made, go to GitHub and edit the freshly created "tag" to
-add the title and release notes, which should be exactly the same that we added to the HISTORY.md file.
+After the update to HISTORY.md is merged into `main` and the version is bumped, it is time to [create the release GitHub](https://github.com/sdv-dev/Copulas/releases/new).
+- Create a new tag with the version number with a v prefix (e.g. v0.3.1)
+- The target should be the `main` branch
+- Release title is the same as the tag (e.g. v0.3.1)
+- This is not a pre-release (`Set as a pre-release` should be unchecked)
 
-Finaly, close the milestone and, if it does not exit, create the next one.
+Click `Publish release`, which will kickoff the release workflow and automatically upload the package to public PyPI.
+
+The release workflow will create a pull request and auto-merge it into `main` that bumps to the next development release (e.g. 0.12.3 → 0.12.4.dev0).
+
+## Close milestone and create new milestone
+
+Finaly, **close the milestone** and, if it does not exist, **create the next milestone**.
+
