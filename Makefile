@@ -188,7 +188,7 @@ git-push-tags-stable: ## Push tags and stable to github
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Bump the version to the next release
-	bump-my-version bump release
+	bump-my-version bump release --no-tag
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Bump the version to the next patch
