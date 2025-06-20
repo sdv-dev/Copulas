@@ -181,7 +181,8 @@ After the update to HISTORY.md is merged into `main` and the version is bumped, 
 
 Click `Publish release`, which will kickoff the release workflow and automatically upload the package to public PyPI.
 
-The release workflow will create a pull request and auto-merge it into `main` that bumps to the next development release (e.g. 0.12.3 → 0.12.4.dev0).
+The release workflow will create a pull request and auto-merge it into `main` that bumps to the next development release. You should see 1 commit on main on:
+- `Bump version: X.Y.Z → X.Y.Z.dev0`
 
 ## Close milestone and create new milestone
 
