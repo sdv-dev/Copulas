@@ -33,6 +33,7 @@ git clone https://github.com/sdv-dev/Copulas.git
 cd Copulas
 git checkout main
 make install-develop
+make install-readme
 ```
 
 ## Linting and tests
@@ -46,12 +47,16 @@ make test && make lint
 And you will see something like this:
 
 ```
-============================ 169 passed, 1 skipped, 3 warnings in 7.10s ============================
-flake8 copulas tests examples
-isort -c copulas tests examples
+Coverage XML written to file ./integration_cov.xml
+====================== 81 passed, 7820 warnings in 23.54s ======================
+...
+invoke lint
+No broken requirements found.
+All checks passed!
+86 files already formatted
 ```
 
-The execution has finished with no errors, 1 test skipped and 3 warnings.
+The execution has finished with no errors, 0 test skipped and 7820 warnings.
 
 ## Documentation
 

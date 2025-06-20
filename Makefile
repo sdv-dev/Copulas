@@ -61,6 +61,7 @@ clean-coverage: ## remove coverage artifacts
 
 .PHONY: clean-test
 clean-test: ## remove test artifacts
+	rm -fr .tox/
 	rm -fr .pytest_cache
 
 .PHONY: clean
@@ -79,6 +80,10 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 .PHONY: install-develop
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
 	pip install -e .[dev]
+
+.PHONY: install-readme
+install-readme: clean-build clean-pyc ## install the package in editable mode and readme dependencies for developement
+	pip install -e .[readme]
 
 # LINT TARGETS
 
