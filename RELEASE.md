@@ -95,6 +95,7 @@ make docs
 2. Select the `Release` action.
 3. Run it on the main branch. Make sure `Release candidate` is checked and `Test PyPI` is not.
 4. Check on [PyPI][copulas-pypi] to assure the release candidate was successfully uploaded.
+  - You should see X.Y.ZdevN PRE-RELEASE
 
 [actions]: https://github.com/sdv-dev/Copulas/actions
 [copulas-pypi]: https://pypi.org/project/copulas/#history
@@ -180,6 +181,8 @@ make check-release
 ## Bump Version
 The `stable` branch needs to updated with the changes from `main`. Run the following:
 ```shell
+git checkout stable
+git pull origin stable
 git checkout main
 git pull origin main
 make git-merge-main-stable
@@ -187,11 +190,16 @@ make git-merge-main-stable
 
 Depending on the type of release, you will need to one of these different commands to bump the version:
 
-**Note**: Run `git pull origin main && git checkout main` first.
+**Note**: Run `git checkout main && git pull origin main` first. Then run one of the following:
 
 * `bumpversion-patch`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
 * `bumpversion-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
 * `bumpversion-major`: This will release the next major version. Use this to if the changes modify the user API in a backwards incompatible way after the major version 1 has been released.
+
+Running one of these will **push commits directly** to `main`.
+At the end, you should see the 2 commits on `main` on (from oldest to newest):
+- `make release-tag: Merge branch 'main' into stable`
+- `Bump version: X.Y.Z.devN → X.Y.Z`
 
 ## Create the Release on GitHub
 
