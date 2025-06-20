@@ -18,7 +18,7 @@ The process of releasing a new version involves several steps:
 
 8. [Check the release](#check-the-release)
 
-8. [Bump Version](#bump-version)
+8. [Update stable branch and bump version](#update-stable-branch-and-bump-version)
 
 10. [Create the Release on GitHub](#create-the-release-on-github)
 
@@ -158,7 +158,7 @@ Check if the release can be made:
 make check-release
 ```
 
-## Bump Version
+## Update stable branch and bump version
 The `stable` branch needs to updated with the changes from `main` and the verison needs to be bumped.
 Depending on the type of release, you will need to one of these different commands to bump the version:
 
