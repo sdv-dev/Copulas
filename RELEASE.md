@@ -37,27 +37,7 @@ make install-develop
 
 ## Linting and tests
 
-Execute ALL the tests and linting, tests must end with no errors:
-
-```bash
-make test-all
-```
-
-This command will use tox to execute the unittests with different environments, see tox.ini configuration.
-
-To be able to run this you will need the different python versions used in the tox.ini file.
-
-At the end, you will see an output like this:
-
-```
-_____________________________________________ summary ______________________________________________
-  py35: commands succeeded
-  py36: commands succeeded
-  lint: commands succeeded
-  docs: commands succeeded
-```
-
-To run the tests over your python version:
+Execute the tests and linting. The tests must end with no errors:
 
 ```bash
 make test && make lint
@@ -179,22 +159,12 @@ make check-release
 ```
 
 ## Bump Version
-The `stable` branch needs to updated with the changes from `main`. Run the following:
-```shell
-git checkout stable
-git pull origin stable
-git checkout main
-git pull origin main
-make git-merge-main-stable
-```
-
+The `stable` branch needs to updated with the changes from `main` and the verison needs to be bumped.
 Depending on the type of release, you will need to one of these different commands to bump the version:
 
-**Note**: Run `git checkout main && git pull origin main` first. Then run one of the following:
-
-* `bumpversion-patch`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
-* `bumpversion-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
-* `bumpversion-major`: This will release the next major version. Use this to if the changes modify the user API in a backwards incompatible way after the major version 1 has been released.
+* `make release`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
+* `make release-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
+* `make release-major`: This will release the next major version. Use this to if the changes modify the user API in a backwards incompatible way after the major version 1 has been released.
 
 Running one of these will **push commits directly** to `main`.
 At the end, you should see the 2 commits on `main` on (from oldest to newest):
