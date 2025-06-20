@@ -160,7 +160,7 @@ make check-release
 
 ## Update stable branch and bump version
 The `stable` branch needs to updated with the changes from `main` and the verison needs to be bumped.
-Depending on the type of release, you will need to one of these different commands to bump the version:
+Depending on the type of release, run one of the following:
 
 * `make release`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
 * `make release-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
