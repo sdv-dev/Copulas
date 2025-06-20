@@ -152,7 +152,7 @@ The issue list per milestone can be found [here][milestones].
 Put the pull request up for review and get 2 approvals to merge into `main`.
 
 ## Check the release
-Check if the release can be made:
+Once HISTORY.md has been updated on `main`, check if the release can be made:
 
 ```bash
 make check-release
