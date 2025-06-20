@@ -98,7 +98,6 @@ dev = [
 
     # Advanced testing
     'coverage >= 7.7.1, <7.8',
-    'tox >= 2.9.1,<4',
     'invoke',
 
     # Large scale evaluation
