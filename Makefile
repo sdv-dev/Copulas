@@ -81,6 +81,10 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
 	pip install -e .[dev]
 
+.PHONY: install-readme
+install-readme: clean-build clean-pyc ## install the package in editable mode and readme dependencies for developement
+	pip install -e .[readme]
+
 # LINT TARGETS
 
 .PHONY: lint
@@ -116,10 +120,6 @@ test-tutorials: ## run the tutorials notebooks
 
 .PHONY: test
 test: test-unit test-numerical test-end-to-end test-tutorials test-readme ## run all the tests
-
-.PHONY: test-all
-test-all: ## test everything using tox
-	tox -r
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
@@ -188,7 +188,7 @@ git-push-tags-stable: ## Push tags and stable to github
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Bump the version to the next release
-	bump-my-version bump release
+	bump-my-version bump release --no-tag
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Bump the version to the next patch
