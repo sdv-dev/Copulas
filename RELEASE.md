@@ -6,21 +6,23 @@ The process of releasing a new version involves several steps:
 
 2. [Linting and tests](#linting-and-tests)
 
-3. [Make a release candidate](#make-a-release-candidate)
+3. [Documentation](#documentation)
 
-4. [Integration with SDV](#integration-with-sdv)
+4. [Make a release candidate](#make-a-release-candidate)
 
-5. [Milestone](#milestone)
+5. [Integration with SDV](#integration-with-sdv)
 
-6. [Update HISTORY](#update-history)
+6. [Milestone](#milestone)
 
-7. [Check the release](#check-the-release)
+7. [Update HISTORY](#update-history)
 
-8. [Update stable branch and bump version](#update-stable-branch-and-bump-version)
+8. [Check the release](#check-the-release)
 
-9. [Create the Release on GitHub](#create-the-release-on-github)
+9. [Update stable branch and bump version](#update-stable-branch-and-bump-version)
 
-10. [Close milestone and create new milestone](#close-milestone-and-create-new-milestone)
+10. [Create the Release on GitHub](#create-the-release-on-github)
+
+11. [Close milestone and create new milestone](#close-milestone-and-create-new-milestone)
 
 ## Install Copulas from source
 
@@ -55,6 +57,22 @@ All checks passed!
 ```
 
 The execution has finished with no errors, 0 test skipped and 7820 warnings.
+
+## Documentation
+
+The documentation must be up to date and generated with:
+
+```bash
+make view-docs
+```
+
+Read the documentation to ensure all the changes are reflected in the documentation.
+
+Alternatively, you can simply generate the documentation using the command:
+
+```bash
+make docs
+```
 
 ## Make a release candidate
 
