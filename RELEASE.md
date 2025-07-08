@@ -82,8 +82,8 @@ make docs
 4. Check on [PyPI][copulas-pypi] to assure the release candidate was successfully uploaded.
   - You should see X.Y.ZdevN PRE-RELEASE
 
-[actions]: https://github.com/sdv-dev/Copulas/actions
-[copulas-pypi]: https://pypi.org/project/Copulas/#history
+[actions]: https://github.com/sdv-dev/copulas/actions
+[copulas-pypi]: https://pypi.org/project/copulas/#history
 
 ## Integration with SDV
 
