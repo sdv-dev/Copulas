@@ -18,7 +18,7 @@ The process of releasing a new version involves several steps:
 
 8. [Check the release](#check-the-release)
 
-8. [Update stable branch and bump version](#update-stable-branch-and-bump-version)
+9. [Update stable branch and bump version](#update-stable-branch-and-bump-version)
 
 10. [Create the Release on GitHub](#create-the-release-on-github)
 
@@ -82,7 +82,7 @@ make docs
 4. Check on [PyPI][copulas-pypi] to assure the release candidate was successfully uploaded.
   - You should see X.Y.ZdevN PRE-RELEASE
 
-[actions]: https://github.com/sdv-dev/Copulas/actions
+[actions]: https://github.com/sdv-dev/copulas/actions
 [copulas-pypi]: https://pypi.org/project/copulas/#history
 
 ## Integration with SDV
@@ -115,7 +115,7 @@ git push --set-upstream origin test-copulas-X.Y.Z
 
 ## Milestone
 
-It's important check that the GitHub and milestone issues are up to date with the release.
+It's important to check that the GitHub and milestone issues are up to date with the release.
 
 You neet to check that:
 
@@ -125,7 +125,7 @@ You neet to check that:
   be released anyway, move them to the next milestone.
 - All the issues in the milestone are assigned to at least one person.
 - All the pull requests closed since the latest release are associated to an issue. If necessary, create issues
-  and assign them to the milestone. Also assigne the person who opened the issue to them.
+  and assign them to the milestone. Also assign the person who opened the issue to them.
 
 ## Update HISTORY
 Run the [Release Prep](https://github.com/sdv-dev/Copulas/actions/workflows/prepare_release.yml) workflow. This workflow will create a pull request with updates to HISTORY.md
@@ -167,29 +167,26 @@ make check-release
 The `stable` branch needs to be updated with the changes from `main` and the version needs to be bumped.
 Depending on the type of release, run one of the following:
 
-* `make release`: This will release a patch, which is the most common type of release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
-* `make release-minor`: This will release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version 1 has been released, minor version can only be used to add backwards compatible API changes.
-* `make release-major`: This will release the next major version. Use this to if the changes modify the user API in a backwards incompatible way after the major version 1 has been released.
+* `make release`: This will release the version that has already been bumped (patch, minor, or major). By default, this is typically a patch release. Use this when the changes are bugfixes or enhancements that do not modify the existing user API. Changes that modify the user API to add new features but that do not modify the usage of the previous features can also be released as a patch.
+* `make release-minor`: This will bump and release the next minor version. Use this if the changes modify the existing user API in any way, even if it is backwards compatible. Minor backwards incompatible changes can also be released as minor versions while the library is still in beta state. After the major version v1.0.0 has been released, minor version can only be used to add backwards compatible API changes.
+* `make release-major`: This will bump and release the next major version. Use this if the changes modify the user API in a backwards incompatible way after the major version v1.0.0 has been released.
 
 Running one of these will **push commits directly** to `main`.
-At the end, you should see the 2 commits on `main` on (from oldest to newest):
+At the end, you should see the 3 commits on `main` (from oldest to newest):
 - `make release-tag: Merge branch 'main' into stable`
 - `Bump version: X.Y.Z.devN → X.Y.Z`
+- `Bump version: X.Y.Z -> X.Y.A.dev0`
 
 ## Create the Release on GitHub
 
 After the update to HISTORY.md is merged into `main` and the version is bumped, it is time to [create the release GitHub](https://github.com/sdv-dev/Copulas/releases/new).
 - Create a new tag with the version number with a v prefix (e.g. v0.3.1)
-- The target should be the `main` branch
+- The target should be the `stable` branch
 - Release title is the same as the tag (e.g. v0.3.1)
 - This is not a pre-release (`Set as a pre-release` should be unchecked)
 
-Click `Publish release`, which will kickoff the release workflow and automatically upload the package to public PyPI.
-
-The release workflow will create a pull request and auto-merge it into `main` that bumps to the next development release. You should see 1 commit on main on:
-- `Bump version: X.Y.Z → X.Y.Z.dev0`
+Click `Publish release`, which will kickoff the release workflow and automatically upload the package to [public PyPI](https://pypi.org/project/copulas/).
 
 ## Close milestone and create new milestone
 
 Finaly, **close the milestone** and, if it does not exist, **create the next milestone**.
-
