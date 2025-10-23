@@ -74,10 +74,9 @@ class VineCopula(Multivariate):
 
     @store_args
     def __init__(self, vine_type, random_state=None):
-        if sys.version_info > (3, 8):
-            warnings.warn(
-                'Vines have not been fully tested on Python >= 3.8 and might produce wrong results.'
-            )
+        warnings.warn(
+            'Vines have not been fully tested on Python >= 3.8 and might produce wrong results.'
+        )
 
         self.random_state = validate_random_state(random_state)
         self.vine_type = vine_type
