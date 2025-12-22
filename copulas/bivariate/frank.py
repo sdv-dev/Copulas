@@ -166,5 +166,5 @@ class Frank(Bivariate):
         def debye(t):
             return t / (np.exp(t) - 1)
 
-        debye_value = integrate.quad(debye, EPSILON, alpha)[0] / alpha
+        debye_value = integrate.quad(debye, EPSILON, alpha.item())[0] / alpha
         return 4 * (debye_value - 1) / alpha + 1 - self.tau

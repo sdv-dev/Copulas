@@ -329,7 +329,7 @@ class VineCopula(Multivariate):
 
                 new_x = self.ppfs[current](np.array([tmp]))
 
-            sampled[current] = new_x
+            sampled[current] = new_x.item()
 
             for s in neighbors:
                 if s not in visited:
