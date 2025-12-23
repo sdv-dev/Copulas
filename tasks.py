@@ -101,10 +101,9 @@ def _get_minimum_versions(dependencies, python_version):
 @task
 def install_minimum(c):
     with open('pyproject.toml', 'rb') as pyproject_file:
-        pyproject_data = tomli.load(pyproject_file).get('project', {})
+        pyproject_data = tomli.load(pyproject_file)
 
-    dependencies = pyproject_data.get('dependencies', [])
-    dependencies += pyproject_data.get('optional-dependencies', {}).get('tutorials', [])
+    dependencies = pyproject_data.get('project', {}).get('dependencies', [])
     python_version = '.'.join(map(str, sys.version_info[:2]))
     minimum_versions = _get_minimum_versions(dependencies, python_version)
 
