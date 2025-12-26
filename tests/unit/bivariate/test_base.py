@@ -105,12 +105,13 @@ class TestBivariate(TestCase):
         # Setup
         instance = Bivariate(copula_type=CopulaTypes.CLAYTON)
         instance.fit(self.X)
+        derivative_mock.return_value = np.array([1.0])
 
         # Run
         result = instance.partial_derivative_scalar(0.5, 0.1)
 
         # Check
-        assert result == derivative_mock.return_value
+        assert result == 1.0
 
         expected_args = ((np.array([[0.5, 0.1]]), 0), {})
         assert len(expected_args) == len(derivative_mock.call_args)

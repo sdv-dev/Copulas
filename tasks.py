@@ -21,6 +21,9 @@ COMPARISONS = {
     '<=': operator.le,
     '==': operator.eq,
 }
+EXTERNAL_DEPENDENCY_CAPS = {
+    'scikit-learn': '1.8.0'
+}
 
 
 if not hasattr(inspect, 'getargspec'):
@@ -110,6 +113,8 @@ def install_minimum(c):
     if minimum_versions:
         install_deps = ' '.join(minimum_versions)
         c.run(f'python -m pip install {install_deps}')
+        for dep, cap in EXTERNAL_DEPENDENCY_CAPS.items():
+            c.run(f'python -m pip install "{dep}<{cap}"')
 
 
 @task

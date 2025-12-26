@@ -341,7 +341,7 @@ class Bivariate(object):
         self.check_fit()
 
         X = np.column_stack((U, V))
-        return self.partial_derivative(X)
+        return self.partial_derivative(X).item()
 
     def set_random_state(self, random_state):
         """Set the random state.

@@ -202,8 +202,8 @@ class Tree(Multivariate):
         for i in range(num_edge):
             edge = self.edges[i]
             value, left_u, right_u = edge.get_likelihood(uni_matrix)
-            new_uni_matrix[edge.L, edge.R] = left_u
-            new_uni_matrix[edge.R, edge.L] = right_u
+            new_uni_matrix[edge.L, edge.R] = left_u.item()
+            new_uni_matrix[edge.R, edge.L] = right_u.item()
             values[0, i] = np.log(value)
 
         return np.sum(values), new_uni_matrix
