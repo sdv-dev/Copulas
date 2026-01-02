@@ -8,7 +8,6 @@ classifiers = [
     'License :: Free for non-commercial use',
     'Natural Language :: English',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
@@ -19,7 +18,7 @@ classifiers = [
 keywords = [ 'copulas' ]
 dynamic = ["version"]
 license = { text = 'BSL-1.1' }
-requires-python = '>=3.8,<3.14'
+requires-python = '>=3.9,<3.14'
 readme = 'README.md'
 dependencies = [
     "numpy>=1.21.0;python_version<'3.10'",
@@ -98,7 +97,6 @@ dev = [
 
     # Advanced testing
     'coverage >= 7.7.1, <7.8',
-    'tox >= 2.9.1,<4',
     'invoke',
 
     # Large scale evaluation
@@ -152,7 +150,7 @@ namespaces = false
 ]
 
 [tool.bumpversion]
-current_version = "0.12.3"
+current_version = "0.13.0.dev0"
 commit = true
 tag = true
 parse = '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<release>[a-z]+)(?P<candidate>\d+))?'
@@ -181,7 +179,6 @@ src = ["copulas"]
 target-version = "py312"
 exclude = [
     "docs",
-    ".tox",
     ".git",
     "__pycache__",
     ".ipynb_checkpoints",
