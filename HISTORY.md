@@ -1,5 +1,20 @@
 # History
 
+## v0.12.4 - 2026-01-02
+
+### Bugs Fixed
+
+* Add support for NumPy 2.4.0 - Issue [#497](https://github.com/sdv-dev/Copulas/issues/497) by @frances-h
+
+### Internal
+
+* Copulas release workflow errors with failed to push some refs to https://github.com/sdv-dev/Copulas - Issue [#478](https://github.com/sdv-dev/Copulas/issues/478) by @gsheni
+
+### Maintenance
+
+* Remove support for Python 3.8 - Issue [#493](https://github.com/sdv-dev/Copulas/issues/493) by @fealho
+* Update release documentation based on recent release - Issue [#484](https://github.com/sdv-dev/Copulas/issues/484) by @gsheni
+
 ## v0.12.3 - 2025-06-13
 
 ### New Features
