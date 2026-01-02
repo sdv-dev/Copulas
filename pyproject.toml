@@ -150,7 +150,7 @@ namespaces = false
 ]
 
 [tool.bumpversion]
-current_version = "0.12.4.dev4"
+current_version = "0.13.0.dev0"
 commit = true
 tag = true
 parse = '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<release>[a-z]+)(?P<candidate>\d+))?'
