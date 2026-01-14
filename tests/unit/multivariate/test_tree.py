@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pandas as pd
 import pytest
+import re
 
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes, get_tree
@@ -497,7 +498,7 @@ class TestEdge(TestCase):
         # As they are not adjacent, we can asure calling _identify_eds_ing will raise a ValueError.
         assert not first.is_adjacent(second)
 
-        error_msg = r'too many values to unpack \(expected 2\)'
+        error_msg = re.escape('too many values to unpack (expected 2')
         with pytest.raises(ValueError, match=error_msg):
             Edge._identify_eds_ing(first, second)
 
