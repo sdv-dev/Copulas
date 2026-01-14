@@ -1,3 +1,4 @@
+import re
 import sys
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
@@ -5,7 +6,6 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pandas as pd
 import pytest
-import re
 
 from copulas.bivariate import CopulaTypes
 from copulas.multivariate.tree import Edge, Tree, TreeTypes, get_tree
