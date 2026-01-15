@@ -13,28 +13,32 @@ classifiers = [
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     'Topic :: Scientific/Engineering :: Artificial Intelligence',
 ]
 keywords = [ 'copulas' ]
 dynamic = ["version"]
 license = { text = 'BSL-1.1' }
-requires-python = '>=3.9,<3.14'
+requires-python = '>=3.9,<3.15'
 readme = 'README.md'
 dependencies = [
     "numpy>=1.21.0;python_version<'3.10'",
     "numpy>=1.23.3;python_version>='3.10' and python_version<'3.12'",
     "numpy>=1.26.0;python_version>='3.12' and python_version<'3.13'",
-    "numpy>=2.1.0;python_version>='3.13'",
+    "numpy>=2.1.0;python_version>='3.13' and python_version<'3.14'",
+    "numpy>=2.3.2;python_version>='3.14'",
     "pandas>=1.4.0;python_version<'3.11'",
     "pandas>=1.5.0;python_version>='3.11' and python_version<'3.12'",
     "pandas>=2.1.1;python_version>='3.12' and python_version<'3.13'",
-    "pandas>=2.2.3;python_version>='3.13'",
+    "pandas>=2.2.3;python_version>='3.13' and python_version<'3.14'",
+    "pandas>=2.3.3;python_version>='3.14'",
     "plotly>=5.10.0;python_version<'3.13'",
     "plotly>=5.12.0;python_version>='3.13'",
     "scipy>=1.7.3;python_version<'3.10'",
     "scipy>=1.9.2;python_version>='3.10' and python_version<'3.12'",
     "scipy>=1.12.0;python_version>='3.12' and python_version<'3.13'",
-    "scipy>=1.14.1;python_version>='3.13'",
+    "scipy>=1.14.1;python_version>='3.13' and python_version<'3.14'",
+    "scipy>=1.16.1;python_version>='3.14'",
 ]
 
 [project.urls]
@@ -176,7 +180,7 @@ preview = true
 line-length = 100
 indent-width = 4
 src = ["copulas"]
-target-version = "py312"
+target-version = "py314"
 exclude = [
     "docs",
     ".git",
@@ -208,7 +212,6 @@ ignore = [
     # pydocstyle
     "D107",  # Missing docstring in __init__
     "D417",   # Missing argument descriptions in the docstring, this is a bug from pydocstyle: https://github.com/PyCQA/pydocstyle/issues/449
-    "PD901",
     "PD101",
 ]
 
