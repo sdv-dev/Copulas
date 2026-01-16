@@ -2,7 +2,7 @@
 
 __author__ = 'DataCebo, Inc.'
 __email__ = 'info@sdv.dev'
-__version__ = '0.14.0.dev0'
+__version__ = '0.14.0'
 
 import sys
 import warnings
