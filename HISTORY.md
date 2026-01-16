@@ -1,5 +1,11 @@
 # History
 
+## v0.14.0 - 2026-01-16
+
+### Maintenance
+
+* Support Python 3.14 - Issue [#503](https://github.com/sdv-dev/Copulas/issues/503) by @gsheni
+
 ## v0.13.0 - 2026-01-02
 
 ### Bugs Fixed
