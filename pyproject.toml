@@ -5,7 +5,6 @@ authors = [{name = 'DataCebo, Inc.', email = 'info@sdv.dev' }]
 classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
-    'License :: Free for non-commercial use',
     'Natural Language :: English',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.9',
@@ -18,7 +17,8 @@ classifiers = [
 ]
 keywords = [ 'copulas' ]
 dynamic = ["version"]
-license = { text = 'BSL-1.1' }
+license = 'BUSL-1.1'
+license-files = ['LICENSE']
 requires-python = '>=3.9,<3.15'
 readme = 'README.md'
 dependencies = [
@@ -123,7 +123,6 @@ add-ignore = ['D107', 'D407', 'D417']
 
 [tool.setuptools]
 include-package-data = true
-license-files = ['LICENSE']
 
 [tool.setuptools.packages.find]
 include = ['copulas', 'copulas.*']
