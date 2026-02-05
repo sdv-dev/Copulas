@@ -1,5 +1,11 @@
 # History
 
+## v0.14.1 - 2026-02-05
+
+### Maintenance
+
+* Update license information in pyproject.toml to use new format - Issue [#502](https://github.com/sdv-dev/Copulas/issues/502) by @pvk-developer
+
 ## v0.14.0 - 2026-01-16
 
 ### Maintenance
