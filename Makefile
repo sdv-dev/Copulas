@@ -81,6 +81,10 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
 	pip install -e .[dev]
 
+.PHONY: install-readme
+install-readme: clean-build clean-pyc ## install the package in editable mode and readme dependencies for developement
+	pip install -e .[readme]
+
 # LINT TARGETS
 
 .PHONY: lint
@@ -116,10 +120,6 @@ test-tutorials: ## run the tutorials notebooks
 
 .PHONY: test
 test: test-unit test-numerical test-end-to-end test-tutorials test-readme ## run all the tests
-
-.PHONY: test-all
-test-all: ## test everything using tox
-	tox -r
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
@@ -188,7 +188,7 @@ git-push-tags-stable: ## Push tags and stable to github
 
 .PHONY: bumpversion-release
 bumpversion-release: ## Bump the version to the next release
-	bump-my-version bump release
+	bump-my-version bump release --no-tag
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Bump the version to the next patch
@@ -252,7 +252,7 @@ check-release: check-clean check-candidate check-main check-history ## Check if 
 
 .PHONY: release
 release: check-release git-merge-main-stable bumpversion-release git-push-tags-stable \
-	publish git-merge-stable-main bumpversion-patch git-push
+	git-merge-stable-main bumpversion-patch git-push
 
 .PHONY: release-test
 release-test: check-release git-merge-main-stable bumpversion-release bumpversion-revert
@@ -262,3 +262,9 @@ release-candidate: check-main publish bumpversion-candidate git-push
 
 .PHONY: release-candidate-test
 release-candidate-test: check-clean check-main publish-test
+
+.PHONY: release-minor
+release-minor: check-release bumpversion-minor release
+
+.PHONY: release-major
+release-major: check-release bumpversion-major release

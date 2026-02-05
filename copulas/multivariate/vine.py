@@ -1,7 +1,6 @@
 """VineCopula module."""
 
 import logging
-import sys
 import warnings
 
 import numpy as np
@@ -74,10 +73,9 @@ class VineCopula(Multivariate):
 
     @store_args
     def __init__(self, vine_type, random_state=None):
-        if sys.version_info > (3, 8):
-            warnings.warn(
-                'Vines have not been fully tested on Python >= 3.8 and might produce wrong results.'
-            )
+        warnings.warn(
+            'Vines have not been fully tested on Python >= 3.8 and might produce wrong results.'
+        )
 
         self.random_state = validate_random_state(random_state)
         self.vine_type = vine_type
@@ -331,7 +329,7 @@ class VineCopula(Multivariate):
 
                 new_x = self.ppfs[current](np.array([tmp]))
 
-            sampled[current] = new_x
+            sampled[current] = new_x.item()
 
             for s in neighbors:
                 if s not in visited:

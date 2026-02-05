@@ -1,5 +1,49 @@
 # History
 
+## v0.14.1 - 2026-02-05
+
+### Maintenance
+
+* Pin Pandas dependency below 3.0 - Issue [#515](https://github.com/sdv-dev/Copulas/issues/515)
+* Update license information in pyproject.toml to use new format - Issue [#502](https://github.com/sdv-dev/Copulas/issues/502) by @pvk-developer
+
+## v0.14.0 - 2026-01-16
+
+### Maintenance
+
+* Resolve code scanning failure - Issue [#508](https://github.com/sdv-dev/Copulas/issues/508) by @rwedge
+* Support Python 3.14 - Issue [#503](https://github.com/sdv-dev/Copulas/issues/503) by @gsheni
+
+## v0.13.0 - 2026-01-02
+
+### Bugs Fixed
+
+* Add support for NumPy 2.4.0 - Issue [#497](https://github.com/sdv-dev/Copulas/issues/497) by @frances-h
+
+### Internal
+
+* Copulas release workflow errors with failed to push some refs to https://github.com/sdv-dev/Copulas - Issue [#478](https://github.com/sdv-dev/Copulas/issues/478) by @gsheni
+
+### Maintenance
+
+* Remove support for Python 3.8 - Issue [#493](https://github.com/sdv-dev/Copulas/issues/493) by @fealho
+* Update release documentation based on recent release - Issue [#484](https://github.com/sdv-dev/Copulas/issues/484) by @gsheni
+
+## v0.12.3 - 2025-06-13
+
+### New Features
+
+* `BetaUnivariate` should reject fitted parameters that obviously don’t match the data - Issue [#472](https://github.com/sdv-dev/Copulas/issues/472) by @fealho
+
+### Internal
+
+* Add workflow to release Copulas on PyPI - Issue [#462](https://github.com/sdv-dev/Copulas/issues/462) by @amontanez24
+
+### Maintenance
+
+* All bump-version commands are failing - Issue [#465](https://github.com/sdv-dev/Copulas/issues/465) by @gsheni
+* Update python set up step in workflows to use latest python version - Issue [#438](https://github.com/sdv-dev/Copulas/issues/438) by @frances-h
+
 ## v0.12.2 - 2025-04-01
 
 ### Documentation
