@@ -92,7 +92,7 @@ Click below to run the code yourself on a Colab Notebook and discover new featur
 Learn more about Copulas library from our [documentation](https://sdv.dev/Copulas/) site.
 
 **Questions or issues?** Join our [forum](https://forum.datacebo.com/)
-to discuss more about Copulas and synthetic data.
+to discuss Copulas features, ask questions, and receive help.
 If you find a bug or have a feature request, you can also
 [open an issue](https://forum.datacebo.com/) on our forum.
 
