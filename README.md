@@ -7,7 +7,7 @@
 [![Downloads](https://pepy.tech/badge/copulas)](https://pepy.tech/project/copulas)
 [![Unit Tests](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml/badge.svg)](https://github.com/sdv-dev/Copulas/actions/workflows/unit.yml)
 [![Coverage Status](https://codecov.io/gh/sdv-dev/Copulas/branch/main/graph/badge.svg)](https://codecov.io/gh/sdv-dev/Copulas)
-[![Slack](https://img.shields.io/badge/Community-Slack-blue?style=plastic&logo=slack)](https://bit.ly/sdv-slack-invite)
+[![Forum](https://img.shields.io/badge/Forum-Join%20now!-36C5F0)](https://forum.datacebo.com)
 
 <br/>
 <p align="center" style="text-align:center">
@@ -91,10 +91,10 @@ Click below to run the code yourself on a Colab Notebook and discover new featur
 
 Learn more about Copulas library from our [documentation](https://sdv.dev/Copulas/) site.
 
-**Questions or issues?** Join our [Slack channel](https://bit.ly/sdv-slack-invite)
+**Questions or issues?** Join our [forum](https://forum.datacebo.com/)
 to discuss more about Copulas and synthetic data.
 If you find a bug or have a feature request, you can also
-[open an issue](https://github.com/sdv-dev/Copulas/issues/new/choose) on our GitHub.
+[open an issue](https://forum.datacebo.com/) on our forum.
 
 **Interested in contributing to Copulas?** Read our
 [Contribution Guide](https://sdv.dev/Copulas/contributing.html) to get started.
