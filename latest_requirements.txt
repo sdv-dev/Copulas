@@ -1,4 +1,4 @@
-numpy==2.5.1
+numpy==2.5.3
 pandas==2.3.3
-plotly==6.9.0
-scipy==1.18.0
+plotly==7.0.0
+scipy==1.18.1
