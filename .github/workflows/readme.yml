@@ -24,7 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        make upgradepip
         python -m pip install invoke tomli rundoc .
     - name: Run the README.md
       run: invoke readme
