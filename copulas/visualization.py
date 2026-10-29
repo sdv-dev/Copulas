@@ -2,7 +2,8 @@
 
 import pandas as pd
 import plotly.express as px
-import plotly.figure_factory as ff
+import plotly.graph_objects as go
+import scipy
 
 
 class PlotConfig:
@@ -30,9 +31,25 @@ def _generate_1d_plot(data, title, labels, colors):
     Returns:
         plotly.graph_objects._figure.Figure
     """
-    fig = ff.create_distplot(
-        hist_data=data, group_labels=labels, show_hist=False, show_rug=False, colors=colors
-    )
+    traces = []
+    for index, _data in enumerate(data):
+        start = min(_data)
+        end = max(_data)
+
+        curve_x = [start + x * (end - start) / 500 for x in range(500)]
+        curve_y = scipy.stats.gaussian_kde(_data)(curve_x)
+
+        traces.append(
+            go.Scatter(
+                x=curve_x,
+                y=curve_y,
+                mode='lines',
+                name=labels[index],
+                line={'color': colors[index]},
+            )
+        )
+
+    fig = go.Figure(data=traces)
 
     for i, name in enumerate(labels):
         fig.update_traces(
