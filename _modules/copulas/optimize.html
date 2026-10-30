@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.optimize &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.optimize &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../_static/copulas.ico"/>
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,7 +181,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.optimize</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Copulas optimization functions.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Copulas optimization functions."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -189,7 +189,7 @@
 <div class="viewcode-block" id="bisect">
 <a class="viewcode-back" href="../../api/copulas.optimize.html#copulas.optimize.bisect">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bisect</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bisection method for finding roots.</span>
+<span class="w">    </span><span class="sd">"""Bisection method for finding roots.</span>
 
 <span class="sd">    This method implements a simple vectorized routine for identifying</span>
 <span class="sd">    the root (of a monotonically increasing function) given a bracketing</span>
@@ -207,7 +207,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        numpy.ndarray:</span>
 <span class="sd">            The value of x such that f(x) is close to 0.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">assert</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">xmin</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="k">assert</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">xmax</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
@@ -226,9 +226,9 @@
 <div class="viewcode-block" id="chandrupatla">
 <a class="viewcode-back" href="../../api/copulas.optimize.html#copulas.optimize.chandrupatla">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">chandrupatla</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">eps_m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps_a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chandrupatla&#39;s algorithm.</span>
+<span class="w">    </span><span class="sd">"""Chandrupatla's algorithm.</span>
 
-<span class="sd">    This is adapted from [1] which implements Chandrupatla&#39;s algorithm [2]</span>
+<span class="sd">    This is adapted from [1] which implements Chandrupatla's algorithm [2]</span>
 <span class="sd">    which starts from a bracketing interval and, conditionally, swaps between</span>
 <span class="sd">    bisection and inverse quadratic interpolation.</span>
 
@@ -247,7 +247,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        numpy.ndarray:</span>
 <span class="sd">            The value of x such that f(x) is close to 0.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Initialization</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">xmax</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">xmin</span>
@@ -287,7 +287,7 @@
         <span class="n">ft</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span>
 
         <span class="c1"># update our history of the last few points so that</span>
-        <span class="c1"># - a is the newest estimate (we&#39;re going to update it from xt)</span>
+        <span class="c1"># - a is the newest estimate (we're going to update it from xt)</span>
         <span class="c1"># - c and b get the preceding two estimates</span>
         <span class="c1"># - a and b maintain opposite signs for f(a) and f(b)</span>
         <span class="n">samesign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">fa</span><span class="p">)</span>

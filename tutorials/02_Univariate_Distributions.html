@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Univariate Distributions &mdash; Copulas 0.14.1 documentation</title>
+  <title>Univariate Distributions &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../_static/doctools.js?v=9a2dae69"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -441,11 +441,11 @@ array([0.16004588, 1.91978284, 4.11164914, 1.71024096, 1.68422981])
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;plotly&quot;</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="s2">"plotly"</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
-    <span class="s1">&#39;probability_density&#39;</span><span class="p">:</span> <span class="n">probability_density</span>
-<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="s1">'data'</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
+    <span class="s1">'probability_density'</span><span class="p">:</span> <span class="n">probability_density</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -519,9 +519,9 @@ array([0.01056842, 0.53982923, 0.99134482, 0.45793098, 0.44783936])
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
-    <span class="s1">&#39;cumulative distribution&#39;</span><span class="p">:</span> <span class="n">cumulative_distribution</span>
-<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="s1">'data'</span><span class="p">:</span> <span class="n">sampled</span><span class="p">,</span>
+    <span class="s1">'cumulative distribution'</span><span class="p">:</span> <span class="n">cumulative_distribution</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -809,7 +809,7 @@ if (outputEl) {{
     <span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">()</span>
     <span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
     <span class="n">synth_data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">univariate</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">real_data</span><span class="p">))</span>
-    <span class="n">distributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+    <span class="n">distributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">'type'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1160,7 +1160,7 @@ if (outputEl) {{
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">()</span>
-<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'beta'</span><span class="p">])</span>
 <span class="n">new_model</span> <span class="o">=</span> <span class="n">Univariate</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1198,7 +1198,7 @@ copulas.univariate.beta.BetaUnivariate
 <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">BetaUnivariate</span><span class="p">,</span> <span class="n">GaussianUnivariate</span><span class="p">,</span> <span class="n">GammaUnivariate</span><span class="p">]</span>
 
 <span class="n">univariate</span> <span class="o">=</span> <span class="n">Univariate</span><span class="p">(</span><span class="n">candidates</span><span class="o">=</span><span class="n">candidates</span><span class="p">)</span>
-<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bimodal&#39;</span><span class="p">])</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'bimodal'</span><span class="p">])</span>
 
 <span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 </pre></div>
@@ -1239,7 +1239,7 @@ copulas.univariate.beta.BetaUnivariate
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span>
     <span class="p">[</span><span class="n">uni</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">uni</span><span class="o">.</span><span class="n">PARAMETRIC</span><span class="p">,</span> <span class="n">uni</span><span class="o">.</span><span class="n">BOUNDED</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">univariates</span>
-<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Distribution&#39;</span><span class="p">,</span> <span class="s1">&#39;Parametric&#39;</span><span class="p">,</span> <span class="s1">&#39;Bounded&#39;</span><span class="p">])</span>
+<span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Distribution'</span><span class="p">,</span> <span class="s1">'Parametric'</span><span class="p">,</span> <span class="s1">'Bounded'</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1318,7 +1318,7 @@ copulas.univariate.beta.BetaUnivariate
     <span class="n">parametric</span><span class="o">=</span><span class="n">ParametricType</span><span class="o">.</span><span class="n">PARAMETRIC</span><span class="p">,</span>
     <span class="n">bounded</span><span class="o">=</span><span class="n">BoundedType</span><span class="o">.</span><span class="n">BOUNDED</span>
 <span class="p">)</span>
-<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;bimodal&#39;</span><span class="p">])</span>
+<span class="n">univariate</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'bimodal'</span><span class="p">])</span>
 
 <span class="n">univariate</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 </pre></div>

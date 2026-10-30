@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.multivariate.base &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.multivariate.base &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../../_static/copulas.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,7 +181,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.multivariate.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base Multivariate class.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Base Multivariate class."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 
@@ -194,7 +194,7 @@
 <div class="viewcode-block" id="Multivariate">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Multivariate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for a multi-variate copula object.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Abstract class for a multi-variate copula object."""</span>
 
     <span class="n">fitted</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -204,19 +204,19 @@
 <div class="viewcode-block" id="Multivariate.fit">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the model to table with values from multiple random variables.</span>
+<span class="w">        </span><span class="sd">"""Fit the model to table with values from multiple random variables.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
 <span class="sd">                Values of the random variables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.probability_density">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.probability_density">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
+<span class="w">        </span><span class="sd">"""Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -229,14 +229,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.log_probability_density">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.log_probability_density">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">log_probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the log of the probability density for each point in X.</span>
+<span class="w">        </span><span class="sd">"""Compute the log of the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -249,14 +249,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.pdf">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.pdf">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for each point in X.</span>
+<span class="w">        </span><span class="sd">"""Compute the probability density for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -269,14 +269,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">probability_density</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.cumulative_distribution">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.cumulative_distribution">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
+<span class="w">        </span><span class="sd">"""Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -289,14 +289,14 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.cdf">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.cdf">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution value for each point in X.</span>
+<span class="w">        </span><span class="sd">"""Compute the cumulative distribution value for each point in X.</span>
 
 <span class="sd">        Arguments:</span>
 <span class="sd">            X (pandas.DataFrame):</span>
@@ -309,26 +309,26 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">X</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.set_random_state">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.set_random_state">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_random_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the random state.</span>
+<span class="w">        </span><span class="sd">"""Set the random state.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            random_state (int, np.random.RandomState, or None):</span>
 <span class="sd">                Seed or RandomState for the random generator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.sample">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample values from this model.</span>
+<span class="w">        </span><span class="sd">"""Sample values from this model.</span>
 
 <span class="sd">        Argument:</span>
 <span class="sd">            num_rows (int):</span>
@@ -342,19 +342,19 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.to_dict">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this object.</span>
+<span class="w">        </span><span class="sd">"""Return a `dict` with the parameters to replicate this object.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
 <span class="sd">                Parameters of this distribution.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
@@ -362,7 +362,7 @@
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.from_dict">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+<span class="w">        </span><span class="sd">"""Create a new instance from a parameters dictionary.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params (dict):</span>
@@ -372,8 +372,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Multivariate:</span>
 <span class="sd">                Instance of the distribution defined on the parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">multivariate_class</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+<span class="sd">        """</span>
+        <span class="n">multivariate_class</span> <span class="o">=</span> <span class="n">get_instance</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'type'</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">multivariate_class</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
 
 
@@ -381,7 +381,7 @@
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.load">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a Multivariate instance from a pickle file.</span>
+<span class="w">        </span><span class="sd">"""Load a Multivariate instance from a pickle file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path (str):</span>
@@ -390,37 +390,37 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Multivariate:</span>
 <span class="sd">                Loaded instance.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.save">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.save">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize this multivariate instance using pickle.</span>
+<span class="w">        </span><span class="sd">"""Serialize this multivariate instance using pickle.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path (str):</span>
 <span class="sd">                Path to where this distribution will be serialized.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickle_file</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Multivariate.check_fit">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.base.html#copulas.multivariate.Multivariate.check_fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">check_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether this model has already been fit to a random variable.</span>
+<span class="w">        </span><span class="sd">"""Check whether this model has already been fit to a random variable.</span>
 
 <span class="sd">        Raise a ``NotFittedError`` if it has not.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError:</span>
 <span class="sd">                if the model is not fitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s1">&#39;This model is not fitted.&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s1">'This model is not fitted.'</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

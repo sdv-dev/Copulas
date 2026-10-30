@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.bivariate.independence &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.bivariate.independence &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../../_static/copulas.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,7 +181,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.bivariate.independence</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Independence module.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Independence module."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -192,14 +192,14 @@
 <div class="viewcode-block" id="Independence">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Independence</span><span class="p">(</span><span class="n">Bivariate</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This class represent the copula for two independent variables.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""This class represent the copula for two independent variables."""</span>
 
     <span class="n">copula_type</span> <span class="o">=</span> <span class="n">CopulaTypes</span><span class="o">.</span><span class="n">INDEPENDENCE</span>
 
 <div class="viewcode-block" id="Independence.fit">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.fit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit the copula to the given data.</span>
+<span class="w">        </span><span class="sd">"""Fit the copula to the given data.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (numpy.array): Probabilites in a matrix shaped (n, 2)</span>
@@ -207,13 +207,13 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        """</span></div>
 
 
 <div class="viewcode-block" id="Independence.generator">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.generator">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the generator function for the Copula.</span>
+<span class="w">        </span><span class="sd">"""Compute the generator function for the Copula.</span>
 
 <span class="sd">        The generator function is a function f(t), such that an archimedian copula can be</span>
 <span class="sd">        defined as</span>
@@ -226,21 +226,21 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.array</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Independence.probability_density">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.probability_density">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">probability_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the probability density for the independence copula.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Compute the probability density for the independence copula."""</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">X</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">X</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Independence.cumulative_distribution">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.cumulative_distribution">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cumulative_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cumulative distribution of the independence bivariate copula is the product.</span>
+<span class="w">        </span><span class="sd">"""Compute the cumulative distribution of the independence bivariate copula is the product.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X(numpy.array): Matrix of shape (n,2), whose values are in [0, 1]</span>
@@ -248,7 +248,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            numpy.array: Cumulative distribution values of given input.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">U</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">U</span> <span class="o">*</span> <span class="n">V</span></div>
 
@@ -256,7 +256,7 @@
 <div class="viewcode-block" id="Independence.partial_derivative">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.partial_derivative">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">partial_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the conditional probability of one event conditiones to the other.</span>
+<span class="w">        </span><span class="sd">"""Compute the conditional probability of one event conditiones to the other.</span>
 
 <span class="sd">        In the case of the independence copula, due to C(u,v) = u*v, we have that</span>
 <span class="sd">        F(u|v) = dC/du = v.</span>
@@ -264,7 +264,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            X()</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">split_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">V</span></div>
 
@@ -272,13 +272,13 @@
 <div class="viewcode-block" id="Independence.percent_point">
 <a class="viewcode-back" href="../../../api/copulas.bivariate.independence.html#copulas.bivariate.independence.Independence.percent_point">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">percent_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`.</span>
+<span class="w">        </span><span class="sd">"""Compute the inverse of conditional cumulative distribution :math:`F(u|v)^-1`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            y: `np.ndarray` value of :math:`F(u|v)`.</span>
 <span class="sd">            v: `np.ndarray` given value of v.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_fit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">y</span></div>
 </div>

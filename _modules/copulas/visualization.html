@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.visualization &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.visualization &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../_static/copulas.ico"/>
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,27 +181,28 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.visualization</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Visualization utilities for the Copulas library.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Visualization utilities for the Copulas library."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.figure_factory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ff</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
 
 
 <div class="viewcode-block" id="PlotConfig">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.PlotConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PlotConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom plot settings for visualizations.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Custom plot settings for visualizations."""</span>
 
-    <span class="n">DATACEBO_DARK</span> <span class="o">=</span> <span class="s1">&#39;#000036&#39;</span>
-    <span class="n">DATACEBO_GREEN</span> <span class="o">=</span> <span class="s1">&#39;#01E0C9&#39;</span>
-    <span class="n">BACKGROUND_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#F5F5F8&#39;</span>
+    <span class="n">DATACEBO_DARK</span> <span class="o">=</span> <span class="s1">'#000036'</span>
+    <span class="n">DATACEBO_GREEN</span> <span class="o">=</span> <span class="s1">'#01E0C9'</span>
+    <span class="n">BACKGROUND_COLOR</span> <span class="o">=</span> <span class="s1">'#F5F5F8'</span>
     <span class="n">FONT_SIZE</span> <span class="o">=</span> <span class="mi">18</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_1d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a density plot of an array-like structure.</span>
+<span class="w">    </span><span class="sd">"""Generate a density plot of an array-like structure.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (array-like structure):</span>
@@ -215,26 +216,42 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">create_distplot</span><span class="p">(</span>
-        <span class="n">hist_data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">group_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">show_hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_rug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span>
-    <span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">_data</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">_data</span><span class="p">)</span>
+
+        <span class="n">curve_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">500</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)]</span>
+        <span class="n">curve_y</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">gaussian_kde</span><span class="p">(</span><span class="n">_data</span><span class="p">)(</span><span class="n">curve_x</span><span class="p">)</span>
+
+        <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">curve_x</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">curve_y</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s1">'lines'</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+                <span class="n">line</span><span class="o">=</span><span class="p">{</span><span class="s1">'color'</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">index</span><span class="p">]},</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">traces</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span>
             <span class="n">x</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-            <span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&lt;b&gt;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&lt;/b&gt;&lt;br&gt;Frequency: %</span><span class="se">{{</span><span class="s1">y</span><span class="se">}}</span><span class="s1">&lt;extra&gt;&lt;/extra&gt;&#39;</span><span class="p">,</span>
-            <span class="n">selector</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
-            <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;tozeroy&#39;</span><span class="p">,</span>
+            <span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s1">'&lt;b&gt;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&lt;/b&gt;&lt;br&gt;Frequency: %</span><span class="se">{{</span><span class="s1">y</span><span class="se">}}</span><span class="s1">&lt;extra&gt;&lt;/extra&gt;'</span><span class="p">,</span>
+            <span class="n">selector</span><span class="o">=</span><span class="p">{</span><span class="s1">'name'</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
+            <span class="n">fill</span><span class="o">=</span><span class="s1">'tozeroy'</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
         <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
-        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-        <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">'value'</span><span class="p">,</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">'frequency'</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span>
@@ -243,7 +260,7 @@
 <div class="viewcode-block" id="dist_1d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.dist_1d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dist_1d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 1 dimensional data.</span>
+<span class="w">    </span><span class="sd">"""Plot the 1 dimensional data.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (array_like structure):</span>
@@ -255,13 +272,13 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Data'</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for column '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for column '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">'"</span>
 
     <span class="k">return</span> <span class="n">_generate_1d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">label</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">]</span>
@@ -272,7 +289,7 @@
 <div class="viewcode-block" id="compare_1d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_1d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compare_1d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data.</span>
+<span class="w">    </span><span class="sd">"""Plot the comparison between real and synthetic data.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        real (array_like):</span>
@@ -284,25 +301,25 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Real vs. Synthetic Data'</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for column '</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="n">real</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for column &#39;</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for column '</span><span class="si">{</span><span class="n">real</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">'"</span>
 
     <span class="k">return</span> <span class="n">_generate_1d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Real&#39;</span><span class="p">,</span> <span class="s1">&#39;Synthetic&#39;</span><span class="p">],</span>
+        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'Real'</span><span class="p">,</span> <span class="s1">'Synthetic'</span><span class="p">],</span>
         <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">],</span>
     <span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_scatter_2d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for a pair of columns.</span>
+<span class="w">    </span><span class="sd">"""Generate a scatter plot for a pair of columns.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pandas.DataFrame):</span>
@@ -318,28 +335,28 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Data'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># includes the &#39;Data&#39; column</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 2 columns can be plotted&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># includes the 'Data' column</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Only 2 columns can be plotted'</span><span class="p">)</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
         <span class="n">data</span><span class="p">,</span>
         <span class="n">x</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">y</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">'Data'</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="n">color_discrete_map</span><span class="p">,</span>
-        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">'Data'</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
         <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
-        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">color_discrete_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -349,7 +366,7 @@
 <div class="viewcode-block" id="scatter_2d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scatter_2d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 2 dimensional data in a scatter plot.</span>
+<span class="w">    </span><span class="sd">"""Plot 2 dimensional data in a scatter plot.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pandas.DataFrame):</span>
@@ -361,21 +378,21 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Real'</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Data'</span>
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_2d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
-        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">'Real'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -384,7 +401,7 @@
 <div class="viewcode-block" id="compare_2d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compare_2d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column pair.</span>
+<span class="w">    </span><span class="sd">"""Plot the comparison between real and synthetic data for a given column pair.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        real (pandas.DataFrame):</span>
@@ -398,25 +415,25 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">real</span><span class="p">,</span> <span class="n">synth</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">synth</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">real</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
-    <span class="n">synth</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Synthetic&#39;</span>
+    <span class="n">real</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Real'</span>
+    <span class="n">synth</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Synthetic'</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Real vs. Synthetic Data'</span>
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_2d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
-            <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
-            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
+            <span class="s1">'Real'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
+            <span class="s1">'Synthetic'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
@@ -424,7 +441,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_scatter_3d_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">color_discrete_map</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a scatter plot for column pair plot.</span>
+<span class="w">    </span><span class="sd">"""Generate a scatter plot for column pair plot.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pandas.DataFrame):</span>
@@ -440,31 +457,31 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Data'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># includes the &#39;Data&#39; column</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only 3 columns can be plotted&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># includes the 'Data' column</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Only 3 columns can be plotted'</span><span class="p">)</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter_3d</span><span class="p">(</span>
         <span class="n">data</span><span class="p">,</span>
         <span class="n">x</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">y</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="n">z</span><span class="o">=</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">'Data'</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="n">color_discrete_map</span><span class="p">,</span>
-        <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span>
+        <span class="n">symbol</span><span class="o">=</span><span class="s1">'Data'</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
         <span class="n">plot_bgcolor</span><span class="o">=</span><span class="n">PlotConfig</span><span class="o">.</span><span class="n">BACKGROUND_COLOR</span><span class="p">,</span>
-        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">'size'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">FONT_SIZE</span><span class="p">},</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">color_discrete_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -474,7 +491,7 @@
 <div class="viewcode-block" id="scatter_3d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.scatter_3d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot 3 dimensional data in a scatter plot.</span>
+<span class="w">    </span><span class="sd">"""Plot 3 dimensional data in a scatter plot.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pandas.DataFrame):</span>
@@ -486,23 +503,23 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        plotly.graph_objects._figure.Figure</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Real'</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Data'</span>
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="n">title</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
-        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
+        <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span><span class="s1">'Real'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">},</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -511,7 +528,7 @@
 <div class="viewcode-block" id="compare_3d">
 <a class="viewcode-back" href="../../api/copulas.visualization.html#copulas.visualization.compare_3d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compare_3d</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the comparison between real and synthetic data for a given column triplet.</span>
+<span class="w">    </span><span class="sd">"""Plot the comparison between real and synthetic data for a given column triplet.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        real (pd.DataFrame):</span>
@@ -522,27 +539,27 @@
 <span class="sd">            The name of the columns to plot.</span>
 <span class="sd">        title (str):</span>
 <span class="sd">            The title of the plot.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">real</span><span class="p">,</span> <span class="n">synth</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">synth</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">real</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Real&#39;</span>
-    <span class="n">synth</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Synthetic&#39;</span>
+    <span class="n">real</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Real'</span>
+    <span class="n">synth</span><span class="p">[</span><span class="s1">'Data'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Synthetic'</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">real</span><span class="p">,</span> <span class="n">synth</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Real vs. Synthetic Data&#39;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">'Real vs. Synthetic Data'</span>
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="n">title</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot; for columns &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">" for columns '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">', '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">' and '</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_generate_scatter_3d_plot</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
         <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
-            <span class="s1">&#39;Real&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
-            <span class="s1">&#39;Synthetic&#39;</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
+            <span class="s1">'Real'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_DARK</span><span class="p">,</span>
+            <span class="s1">'Synthetic'</span><span class="p">:</span> <span class="n">PlotConfig</span><span class="o">.</span><span class="n">DATACEBO_GREEN</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
     <span class="p">)</span></div>

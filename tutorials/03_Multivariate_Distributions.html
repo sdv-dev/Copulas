@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multivariate Distributions &mdash; Copulas 0.14.1 documentation</title>
+  <title>Multivariate Distributions &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="../_static/copulas.ico"/>
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../_static/doctools.js?v=9a2dae69"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -548,9 +548,9 @@ if (outputEl) {{
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">copulas.univariate</span><span class="w"> </span><span class="kn">import</span> <span class="n">BetaUnivariate</span><span class="p">,</span> <span class="n">GaussianKDE</span><span class="p">,</span> <span class="n">GaussianUnivariate</span>
 
 <span class="n">dist</span> <span class="o">=</span> <span class="n">GaussianMultivariate</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="p">{</span>
-    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">BetaUnivariate</span><span class="p">,</span>
-    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">GaussianKDE</span><span class="p">,</span>
-    <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">GaussianUnivariate</span><span class="p">,</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="n">BetaUnivariate</span><span class="p">,</span>
+    <span class="s2">"y"</span><span class="p">:</span> <span class="n">GaussianKDE</span><span class="p">,</span>
+    <span class="s2">"z"</span><span class="p">:</span> <span class="n">GaussianUnivariate</span><span class="p">,</span>
 <span class="p">})</span>
 <span class="n">dist</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">sampled</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
@@ -720,7 +720,7 @@ dict_keys([&#39;correlation&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;correlation&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">'correlation'</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -740,7 +740,7 @@ dict_keys([&#39;correlation&#39;, &#39;univariates&#39;, &#39;columns&#39;, &#39
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;univariates&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">'univariates'</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -806,9 +806,9 @@ GaussianMultivariate()
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">copulas.multivariate</span><span class="w"> </span><span class="kn">import</span> <span class="n">VineCopula</span>
 
-<span class="n">center</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
-<span class="n">regular</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">&#39;regular&#39;</span><span class="p">)</span>
-<span class="n">direct</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">&#39;direct&#39;</span><span class="p">)</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">'center'</span><span class="p">)</span>
+<span class="n">regular</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">'regular'</span><span class="p">)</span>
+<span class="n">direct</span> <span class="o">=</span> <span class="n">VineCopula</span><span class="p">(</span><span class="s1">'direct'</span><span class="p">)</span>
 
 <span class="n">center</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">regular</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -824,7 +824,7 @@ GaussianMultivariate()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Real Data'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -862,7 +862,7 @@ if (outputEl) {{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">center_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;C-Vine&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">center_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'C-Vine'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -900,7 +900,7 @@ if (outputEl) {{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">regular_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;R-Vine&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">regular_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'R-Vine'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -938,7 +938,7 @@ if (outputEl) {{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">direct_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;D-Vine&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">direct_samples</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'D-Vine'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

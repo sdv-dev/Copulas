@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.multivariate.vine &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.multivariate.vine &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../../_static/copulas.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,7 +181,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.multivariate.vine</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;VineCopula module.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""VineCopula module."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -208,7 +208,7 @@
 <div class="viewcode-block" id="VineCopula">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">VineCopula</span><span class="p">(</span><span class="n">Multivariate</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Vine copula model.</span>
+<span class="w">    </span><span class="sd">"""Vine copula model.</span>
 
 <span class="sd">    A :math:`vine` is a graphical representation of one factorization of the n-variate probability</span>
 <span class="sd">    distribution in terms of :math:`n(n − 1)/2` bivariate copulas by means of the chain rule.</span>
@@ -228,7 +228,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        vine_type (str):</span>
-<span class="sd">            type of the vine copula, could be &#39;center&#39;,&#39;direct&#39;,&#39;regular&#39;</span>
+<span class="sd">            type of the vine copula, could be 'center','direct','regular'</span>
 <span class="sd">        random_state (int or np.random.RandomState):</span>
 <span class="sd">            Random seed or RandomState to use.</span>
 
@@ -254,12 +254,12 @@
 <span class="sd">            List of trees used by this vine.</span>
 <span class="sd">        ppfs (list[callable]):</span>
 <span class="sd">            percent point functions from the univariates used by this vine.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@store_args</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vine_type</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s1">&#39;Vines have not been fully tested on Python &gt;= 3.8 and might produce wrong results.&#39;</span>
+            <span class="s1">'Vines have not been fully tested on Python &gt;= 3.8 and might produce wrong results.'</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
@@ -283,31 +283,31 @@
 <div class="viewcode-block" id="VineCopula.to_dict">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a `dict` with the parameters to replicate this Vine.</span>
+<span class="w">        </span><span class="sd">"""Return a `dict` with the parameters to replicate this Vine.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
 <span class="sd">                Parameters of this Vine.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
-            <span class="s1">&#39;vine_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">,</span>
-            <span class="s1">&#39;fitted&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span>
+            <span class="s1">'type'</span><span class="p">:</span> <span class="n">get_qualified_name</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="s1">'vine_type'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">,</span>
+            <span class="s1">'fitted'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">result</span>
 
         <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s1">&#39;n_sample&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span>
-            <span class="s1">&#39;n_var&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">,</span>
-            <span class="s1">&#39;depth&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span>
-            <span class="s1">&#39;truncated&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="p">,</span>
-            <span class="s1">&#39;trees&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">],</span>
-            <span class="s1">&#39;tau_mat&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s1">&#39;u_matrix&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s1">&#39;unis&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unis</span><span class="p">],</span>
-            <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+            <span class="s1">'n_sample'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span>
+            <span class="s1">'n_var'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">,</span>
+            <span class="s1">'depth'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span>
+            <span class="s1">'truncated'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="p">,</span>
+            <span class="s1">'trees'</span><span class="p">:</span> <span class="p">[</span><span class="n">tree</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">],</span>
+            <span class="s1">'tau_mat'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s1">'u_matrix'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+            <span class="s1">'unis'</span><span class="p">:</span> <span class="p">[</span><span class="n">distribution</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unis</span><span class="p">],</span>
+            <span class="s1">'columns'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
         <span class="p">})</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
@@ -316,7 +316,7 @@
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.from_dict">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vine_dict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance from a parameters dictionary.</span>
+<span class="w">        </span><span class="sd">"""Create a new instance from a parameters dictionary.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params (dict):</span>
@@ -326,21 +326,21 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Vine:</span>
 <span class="sd">                Instance of the Vine defined on the parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;vine_type&#39;</span><span class="p">])</span>
-        <span class="n">fitted</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;fitted&#39;</span><span class="p">]</span>
+<span class="sd">        """</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">'vine_type'</span><span class="p">])</span>
+        <span class="n">fitted</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'fitted'</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">fitted</span><span class="p">:</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">fitted</span> <span class="o">=</span> <span class="n">fitted</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">n_sample</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;n_sample&#39;</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">n_var</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;n_var&#39;</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;truncated&#39;</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">depth</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_deserialize_trees</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;trees&#39;</span><span class="p">])</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">unis</span> <span class="o">=</span> <span class="p">[</span><span class="n">GaussianKDE</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">uni</span><span class="p">)</span> <span class="k">for</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;unis&#39;</span><span class="p">]]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">n_sample</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'n_sample'</span><span class="p">]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">n_var</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'n_var'</span><span class="p">]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'truncated'</span><span class="p">]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">depth</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'depth'</span><span class="p">]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_deserialize_trees</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">'trees'</span><span class="p">])</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">unis</span> <span class="o">=</span> <span class="p">[</span><span class="n">GaussianKDE</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">uni</span><span class="p">)</span> <span class="k">for</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'unis'</span><span class="p">]]</span>
             <span class="n">instance</span><span class="o">.</span><span class="n">ppfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">uni</span><span class="o">.</span><span class="n">percent_point</span> <span class="k">for</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">unis</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">]</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;tau_mat&#39;</span><span class="p">])</span>
-            <span class="n">instance</span><span class="o">.</span><span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">&#39;u_matrix&#39;</span><span class="p">])</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">vine_dict</span><span class="p">[</span><span class="s1">'columns'</span><span class="p">]</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">'tau_mat'</span><span class="p">])</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vine_dict</span><span class="p">[</span><span class="s1">'u_matrix'</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">instance</span></div>
 
@@ -349,7 +349,7 @@
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.fit">[docs]</a>
     <span class="nd">@check_valid_values</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">truncated</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a vine model to the data.</span>
+<span class="w">        </span><span class="sd">"""Fit a vine model to the data.</span>
 
 <span class="sd">        1. Transform all the variables by means of their marginals.</span>
 <span class="sd">        In other words, compute</span>
@@ -363,11 +363,11 @@
 <span class="sd">                Data to be fitted to.</span>
 <span class="sd">            truncated (int):</span>
 <span class="sd">                Max level to build the vine.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Fitting VineCopula(&quot;</span><span class="si">%s</span><span class="s1">&quot;)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Fitting VineCopula("</span><span class="si">%s</span><span class="s1">")'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vine_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;kendall&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'kendall'</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">truncated</span>
@@ -389,7 +389,7 @@
 <div class="viewcode-block" id="VineCopula.train_vine">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.train_vine">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_vine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_type</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Build the vine.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""Build the vine.</span>
 
 <span class="sd">        1. For the construction of the first tree :math:`T_1`, assign one node to each variable</span>
 <span class="sd">           and then couple them by maximizing the measure of association considered.</span>
@@ -428,29 +428,29 @@
 <span class="sd">        Args:</span>
 <span class="sd">            tree_type (str or TreeTypes):</span>
 <span class="sd">                Type of trees to use.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;start building tree : 0&#39;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'start building tree : 0'</span><span class="p">)</span>
         <span class="c1"># 1</span>
         <span class="n">tree_1</span> <span class="o">=</span> <span class="n">get_tree</span><span class="p">(</span><span class="n">tree_type</span><span class="p">)</span>
         <span class="n">tree_1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_matrix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_1</span><span class="p">)</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;finish building tree : 0&#39;</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'finish building tree : 0'</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_var</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="p">)):</span>
             <span class="c1"># get constraints from previous tree</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_get_constraints</span><span class="p">()</span>
             <span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_tau_matrix</span><span class="p">()</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;start building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">'start building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
             <span class="n">tree_k</span> <span class="o">=</span> <span class="n">get_tree</span><span class="p">(</span><span class="n">tree_type</span><span class="p">)</span>
             <span class="n">tree_k</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree_k</span><span class="p">)</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;finish building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">'finish building tree: </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="VineCopula.get_likelihood">
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.get_likelihood">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uni_matrix</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute likelihood of the vine.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Compute likelihood of the vine."""</span>
         <span class="n">num_tree</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">)</span>
         <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_tree</span><span class="p">])</span>
 
@@ -463,11 +463,11 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_sample_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a single sampled row from vine model.</span>
+<span class="w">        </span><span class="sd">"""Generate a single sampled row from vine model.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            numpy.ndarray</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">unis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">)</span>
         <span class="c1"># randomly select a node to start with</span>
         <span class="n">first_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_var</span><span class="p">)</span>
@@ -544,7 +544,7 @@
 <a class="viewcode-back" href="../../../api/copulas.multivariate.vine.html#copulas.multivariate.VineCopula.sample">[docs]</a>
     <span class="nd">@random_state</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample new rows.</span>
+<span class="w">        </span><span class="sd">"""Sample new rows.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            num_rows (int):</span>
@@ -553,7 +553,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            pandas.DataFrame:</span>
 <span class="sd">                sampled rows.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sampled_values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rows</span><span class="p">):</span>
             <span class="n">sampled_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_row</span><span class="p">())</span>

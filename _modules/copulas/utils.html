@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>copulas.utils &mdash; Copulas 0.14.1 documentation</title>
+  <title>copulas.utils &mdash; Copulas 0.15.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="../../_static/copulas.ico"/>
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../_static/documentation_options.js?v=ef97403f"></script>
       <script src="../../_static/doctools.js?v=9a2dae69"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -181,7 +181,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for copulas.utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utils module.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Utils module."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
@@ -198,14 +198,14 @@
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.set_random_state">[docs]</a>
 <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">set_model_random_state</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager for managing the random state.</span>
+<span class="w">    </span><span class="sd">"""Context manager for managing the random state.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        random_state (int or np.random.RandomState):</span>
 <span class="sd">            The random seed or RandomState.</span>
 <span class="sd">        set_model_random_state (function):</span>
 <span class="sd">            Function to set the random state on the model.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">original_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">get_state</span><span class="p">())</span>
 
@@ -222,12 +222,12 @@
 <div class="viewcode-block" id="random_state">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.random_state">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">random_state</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the random state before calling the function.</span>
+<span class="w">    </span><span class="sd">"""Set the random state before calling the function.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function (Callable):</span>
 <span class="sd">            The function to wrap around.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -244,7 +244,7 @@
 <div class="viewcode-block" id="validate_random_state">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.validate_random_state">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">validate_random_state</span><span class="p">(</span><span class="n">random_state</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate random state argument.</span>
+<span class="w">    </span><span class="sd">"""Validate random state argument.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        random_state (int, numpy.random.RandomState, tuple, or None):</span>
@@ -252,7 +252,7 @@
 
 <span class="sd">    Output:</span>
 <span class="sd">        numpy.random.RandomState</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -262,8 +262,8 @@
         <span class="k">return</span> <span class="n">random_state</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;`random_state` </span><span class="si">{</span><span class="n">random_state</span><span class="si">}</span><span class="s1"> expected to be an int &#39;</span>
-            <span class="s1">&#39;or `np.random.RandomState` object.&#39;</span>
+            <span class="sa">f</span><span class="s1">'`random_state` </span><span class="si">{</span><span class="n">random_state</span><span class="si">}</span><span class="s1"> expected to be an int '</span>
+            <span class="s1">'or `np.random.RandomState` object.'</span>
         <span class="p">)</span></div>
 
 
@@ -271,14 +271,14 @@
 <div class="viewcode-block" id="get_instance">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_instance">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new instance of the ``obj`` argument.</span>
+<span class="w">    </span><span class="sd">"""Create new instance of the ``obj`` argument.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        obj (str, type, instance):</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">instance</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">package</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">package</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">package</span><span class="p">),</span> <span class="n">name</span><span class="p">)(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="n">obj</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -286,8 +286,8 @@
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__args__&#39;</span><span class="p">,</span> <span class="p">())</span>
-            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__kwargs__&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">'__args__'</span><span class="p">,</span> <span class="p">())</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">'__kwargs__'</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">instance</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">instance</span></div>
@@ -297,14 +297,14 @@
 <div class="viewcode-block" id="store_args">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.store_args">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">store_args</span><span class="p">(</span><span class="fm">__init__</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.</span>
+<span class="w">    </span><span class="sd">"""Save ``*args`` and ``**kwargs`` used in the ``__init__`` of a copula.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        __init__(callable): ``__init__`` function to store their arguments.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        callable: Decorated ``__init__`` function.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="fm">__init__</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">new__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -321,21 +321,21 @@
 <div class="viewcode-block" id="get_qualified_name">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.get_qualified_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_qualified_name</span><span class="p">(</span><span class="n">_object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the Fully Qualified Name from an instance or class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the Fully Qualified Name from an instance or class."""</span>
     <span class="n">module</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__module__</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_object</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_object</span><span class="p">,</span> <span class="s1">'__name__'</span><span class="p">):</span>
         <span class="n">_class</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">_class</span> <span class="o">=</span> <span class="n">_object</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
 
-    <span class="k">return</span> <span class="n">module</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">_class</span></div>
+    <span class="k">return</span> <span class="n">module</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="n">_class</span></div>
 
 
 
 <div class="viewcode-block" id="vectorize">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.vectorize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">vectorize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow a method that only accepts scalars to accept vectors too.</span>
+<span class="w">    </span><span class="sd">"""Allow a method that only accepts scalars to accept vectors too.</span>
 
 <span class="sd">    This decorator has two different behaviors depending on the dimensionality of the</span>
 <span class="sd">    array passed as an argument:</span>
@@ -371,7 +371,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        callable: Decorated function that can accept and return :attr:`numpy.array`.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -383,10 +383,10 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">'float64'</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Arrays of dimensionality higher than 2 are not supported.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Arrays of dimensionality higher than 2 are not supported.'</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">decorated</span></div>
 
@@ -395,14 +395,14 @@
 <div class="viewcode-block" id="scalarize">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.scalarize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scalarize</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow methods that only accepts 1-d vectors to work with scalars.</span>
+<span class="w">    </span><span class="sd">"""Allow methods that only accepts 1-d vectors to work with scalars.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function(callable): Function that accepts and returns vectors.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        callable: Decorated function that accepts and returns scalars.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -424,7 +424,7 @@
 <div class="viewcode-block" id="check_valid_values">
 <a class="viewcode-back" href="../../api/copulas.utils.html#copulas.utils.check_valid_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check_valid_values</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise an exception if the given values are not supported.</span>
+<span class="w">    </span><span class="sd">"""Raise an exception if the given values are not supported.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        function(callable): Method whose unique argument is a numpy.array-like object.</span>
@@ -434,7 +434,7 @@
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If there are missing or invalid values or if the dataset is empty.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">decorated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -444,13 +444,13 @@
             <span class="n">W</span> <span class="o">=</span> <span class="n">X</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Your dataset is empty.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Your dataset is empty.'</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There are non-numerical values in your data.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'There are non-numerical values in your data.'</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There are nan values in your data.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'There are nan values in your data.'</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
