@@ -1,5 +1,18 @@
 # History
 
+## v0.15.0 - 2026-10-30
+
+### Bugs Fixed
+
+* Fix flaky unit test - Issue [#512](https://github.com/sdv-dev/Copulas/issues/512) by @pvk-developer
+
+### Maintenance
+
+* Support Plotly 7.x - Issue [#540](https://github.com/sdv-dev/Copulas/issues/540)
+* Remove Python 3.9 support - Issue [#538](https://github.com/sdv-dev/Copulas/issues/538) by @rwedge
+* Use Node.js 24 compatible github actions - Issue [#532](https://github.com/sdv-dev/Copulas/issues/532) by @gsheni
+* Update README and other meta information to point to the DataCebo forum - Issue [#518](https://github.com/sdv-dev/Copulas/issues/518) by @pvk-developer
+
 ## v0.14.1 - 2026-02-05
 
 ### Maintenance
