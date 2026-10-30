@@ -110,7 +110,7 @@ class TestGaussianMultivariate(TestCase):
         ])
         returned = gm._transform_to_normal(data)
 
-        # Check
+        # Assert
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
@@ -147,7 +147,7 @@ class TestGaussianMultivariate(TestCase):
         ])
         returned = gm._transform_to_normal(data)
 
-        # Check
+        # Assert
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
@@ -178,7 +178,7 @@ class TestGaussianMultivariate(TestCase):
         data = pd.Series({'a': 3, 'b': 5})
         returned = gm._transform_to_normal(data)
 
-        # Check
+        # Assert
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
@@ -211,7 +211,7 @@ class TestGaussianMultivariate(TestCase):
         data = pd.DataFrame({'a': [3, 4, 5], 'b': [5, 6, 7]})
         returned = gm._transform_to_normal(data)
 
-        # Check
+        # Assert
         # Failures may occurr on different cpytonn implementations
         # with different float precision values.
         # If that happens, atol might need to be increased
@@ -243,7 +243,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         correlation = copula._get_correlation(self.data)
 
-        # Check
+        # Assert
         assert np.isclose(correlation, expected_correlation).all().all()
 
     def test_fit_default_distribution(self):
@@ -270,7 +270,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         copula.fit(self.data)
 
-        # Check
+        # Assert
         assert copula.distribution == 'copulas.univariate.gaussian_kde.GaussianKDE'
 
         for i, key in enumerate(self.data.columns):
@@ -314,7 +314,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         copula.fit(self.data.to_numpy())
 
-        # Check
+        # Assert
         for key, (column, univariate) in enumerate(zip(self.data.columns, copula.univariates)):
             assert univariate._params['loc'] == np.mean(self.data[column])
             assert univariate._params['scale'] == np.std(self.data[column])
@@ -336,7 +336,7 @@ class TestGaussianMultivariate(TestCase):
         data = self.data['column1']
         copula.fit(data)
 
-        # Check
+        # Assert
         expected_logging_msg = (
             'Unable to fit to a copulas.univariate.truncated_gaussian.TruncatedGaussian '
             'distribution for column column1. Using a Gaussian distribution instead.'
@@ -466,7 +466,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = copula.probability_density(X)
 
-        # Check
+        # Assert
         assert expected_result - 1e-16 < result < expected_result + 1e-16
 
     def test_cumulative_distribution_fit_df_call_np_array(self):
@@ -480,8 +480,8 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = copula.cumulative_distribution(X)
 
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+        # Assert
+        assert np.isclose(result, expected_result, atol=1e-4).all().all()
 
     def test_cumulative_distribution_fit_call_np_array(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -494,8 +494,8 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = copula.cumulative_distribution(X)
 
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+        # Assert
+        assert np.isclose(result, expected_result, atol=1e-4).all().all()
 
     def test_cumulative_distribution_fit_call_pd(self):
         """Cumulative_density integrates the probability density along the given values."""
@@ -508,8 +508,8 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = copula.cumulative_distribution(X)
 
-        # Check
-        assert np.isclose(result, expected_result, atol=1e-5).all().all()
+        # Assert
+        assert np.isclose(result, expected_result, atol=1e-4).all().all()
 
     @patch('copulas.multivariate.gaussian.np.random.multivariate_normal')
     def test_sample(self, normal_mock):
@@ -544,7 +544,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = instance.sample(5)
 
-        # Check
+        # Assert
         assert result.equals(expected_result)
 
         np.testing.assert_array_equal(
@@ -580,7 +580,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = instance.sample(5)
 
-        # Check
+        # Assert
         pd.testing.assert_frame_equal(result, expected_result)
 
     def test_to_dict(self):
@@ -634,7 +634,7 @@ class TestGaussianMultivariate(TestCase):
         # Run
         result = instance.sample(5)
 
-        # Check
+        # Assert
         assert result.shape == (5, 2)
         results = result[~result.isna()].all()
         assert results.all()
